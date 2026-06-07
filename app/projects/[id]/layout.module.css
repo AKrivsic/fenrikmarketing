@@ -1,0 +1,8 @@
+.page {
+  max-width: 960px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,16 @@
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,26 @@
+.page {
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.headerSkeleton {
+  height: 40px;
+  width: 240px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.tabsSkeleton {
+  height: 36px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.bodySkeleton {
+  height: 300px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}

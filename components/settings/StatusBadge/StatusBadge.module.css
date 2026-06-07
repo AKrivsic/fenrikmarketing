@@ -1,0 +1,19 @@
+.badge {
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.ok {
+  color: var(--color-text);
+}
+
+.missing {
+  color: var(--color-text-muted);
+  border-style: dashed;
+}

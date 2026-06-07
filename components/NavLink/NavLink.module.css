@@ -1,0 +1,21 @@
+.link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.link:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.active {
+  background-color: var(--color-surface-active);
+  color: var(--color-text);
+  font-weight: 600;
+}

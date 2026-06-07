@@ -1,0 +1,153 @@
+{
+  "name": "Generate Content Package — Bridge (minimal)",
+  "settings": { "executionOrder": "v1" },
+  "nodes": [
+    {
+      "id": "n1",
+      "name": "N1 — Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "generate-content-package",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-content-package",
+        "authentication": "headerAuth",
+        "responseMode": "onReceived",
+        "responseCode": 202,
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WEBHOOK_SECRET_CRED",
+          "name": "x-n8n-secret (N8N_WEBHOOK_SECRET)"
+        }
+      }
+    },
+    {
+      "id": "n2",
+      "name": "N2 — Read strategy item",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [480, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "content_strategy_items",
+        "returnAll": false,
+        "limit": 1,
+        "filterType": "string",
+        "filterString": "={{ 'project_id=eq.' + $json.body.project_id + ( ($json.body.payload && $json.body.payload.funnel_stage) ? ('&funnel_stage=eq.' + $json.body.payload.funnel_stage) : '' ) }}"
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "REPLACE_SUPABASE_CRED",
+          "name": "Supabase (service role)"
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "name": "N3 — Generate Content Package",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://fenrikmarketing.vercel.app/api/n8n/generate-content-package",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"project_id\": $('N1 — Webhook Trigger').first().json.body.project_id, \"strategy_item_id\": $('N2 — Read strategy item').first().json.id } }}",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_CALLBACK_SECRET_CRED",
+          "name": "x-n8n-secret (N8N_CALLBACK_SECRET)"
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "name": "N4 — Start Video Job",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://fenrikmarketing.vercel.app/api/n8n/start-video-job",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"project_id\": $('N1 — Webhook Trigger').first().json.body.project_id, \"content_package_id\": $('N3 — Generate Content Package').first().json.data.packageId, \"video_job_id\": $('N3 — Generate Content Package').first().json.data.videoJobId } }}",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_CALLBACK_SECRET_CRED",
+          "name": "x-n8n-secret (N8N_CALLBACK_SECRET)"
+        }
+      }
+    },
+    {
+      "id": "err1",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [480, 540],
+      "parameters": {}
+    },
+    {
+      "id": "err2",
+      "name": "Error — error-callback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 540],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://fenrikmarketing.vercel.app/api/n8n/error-callback",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"workflow\": \"generate_content_package\", \"step\": ($json.execution && $json.execution.lastNodeExecuted) ? $json.execution.lastNodeExecuted : \"unknown\", \"error_type\": \"workflow_error\", \"error_message\": ($json.execution && $json.execution.error && $json.execution.error.message) ? $json.execution.error.message : \"Unknown error\", \"project_id\": ($json.execution && $json.execution.data && $json.execution.data.resultData && $json.execution.data.resultData.runData && $json.execution.data.resultData.runData['N1 — Webhook Trigger']) ? $json.execution.data.resultData.runData['N1 — Webhook Trigger'][0].data.main[0][0].json.body.project_id : \"\" } }}",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_CALLBACK_SECRET_CRED",
+          "name": "x-n8n-secret (N8N_CALLBACK_SECRET)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "N1 — Webhook Trigger": {
+      "main": [ [ { "node": "N2 — Read strategy item", "type": "main", "index": 0 } ] ]
+    },
+    "N2 — Read strategy item": {
+      "main": [ [ { "node": "N3 — Generate Content Package", "type": "main", "index": 0 } ] ]
+    },
+    "N3 — Generate Content Package": {
+      "main": [ [ { "node": "N4 — Start Video Job", "type": "main", "index": 0 } ] ]
+    },
+    "Error Trigger": {
+      "main": [ [ { "node": "Error — error-callback", "type": "main", "index": 0 } ] ]
+    }
+  }
+}
