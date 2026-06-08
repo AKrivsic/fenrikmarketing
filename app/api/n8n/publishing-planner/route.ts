@@ -9,6 +9,11 @@ import {
 import { handlePublishingPlanCallback } from "@/lib/n8n/handlers";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
 import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
+import {
+  parseContentControls,
+  type ContentControls,
+} from "@/lib/projects/contentControls";
+import type { Json } from "@/lib/supabase/types";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -53,8 +58,9 @@ export async function POST(request: Request): Promise<Response> {
     const items = await buildPlanItems(supabase, {
       projectId,
       weekStart,
-      publishingRules:
-        (project.publishing_rules as Record<string, unknown> | null) ?? {},
+      controls: parseContentControls(
+        (project.publishing_rules as Json | null) ?? null,
+      ),
     });
 
     // Reuse the existing persistence (writes only to publishing_schedule).
@@ -89,16 +95,17 @@ interface PlanItem {
 
 // Builds the publishing plan for the week from existing rows. Each schedulable
 // content_package is mapped to its strategy item's platform and a publish time
-// derived from the strategy item's planned day (brief.day) + publishing_rules.
+// derived from the strategy item's planned day (brief.day) constrained to the
+// project's publishing weekdays + publishing time (Content Controls).
 async function buildPlanItems(
   supabase: SupabaseClient,
   args: {
     projectId: string;
     weekStart: string;
-    publishingRules: Record<string, unknown>;
+    controls: ContentControls;
   },
 ): Promise<PlanItem[]> {
-  const { projectId, weekStart, publishingRules } = args;
+  const { projectId, weekStart, controls } = args;
 
   // 1. Strategies that start this week.
   const { data: strategies, error: stratErr } = await supabase
@@ -135,17 +142,28 @@ async function buildPlanItems(
     .in("strategy_item_id", itemIds);
   if (pkgErr) throw pkgErr;
 
-  const baseHour = readHour(publishingRules);
+  const { hour, minute } = parseTime(controls.publishingTime);
+  // Constrain to the project's selected publishing weekdays (0=Mon..6=Sun).
+  const weekdays =
+    controls.publishingWeekdays.length > 0
+      ? [...controls.publishingWeekdays].sort((a, b) => a - b)
+      : [0, 1, 2, 3, 4];
+
   const plan: PlanItem[] = [];
   let index = 0;
   for (const pkg of packages ?? []) {
     const meta = itemMeta.get(pkg.strategy_item_id as string);
     if (!meta) continue;
-    const dayOffset = meta.day ?? index % 7;
+    // Use the planned day when it is an allowed weekday; otherwise distribute
+    // across the allowed weekdays in order.
+    const dayOffset =
+      meta.day !== null && weekdays.includes(meta.day)
+        ? meta.day
+        : weekdays[index % weekdays.length];
     plan.push({
       content_package_id: pkg.id as string,
       platform: meta.platform,
-      publish_at: computePublishAt(weekStart, dayOffset, baseHour),
+      publish_at: computePublishAt(weekStart, dayOffset, hour, minute),
     });
     index += 1;
   }
@@ -165,24 +183,21 @@ function readDay(brief: unknown): number | null {
   return null;
 }
 
-// Publish hour comes from publishing_rules when present, else a 09:00 default.
-function readHour(rules: Record<string, unknown>): number {
-  for (const key of ["default_hour", "post_hour", "publish_hour"]) {
-    const value = rules[key];
-    if (typeof value === "number" && value >= 0 && value <= 23) {
-      return Math.trunc(value);
-    }
-  }
-  return 9;
+// Parses an "HH:mm" publishing time into hour/minute, defaulting to 09:00.
+function parseTime(time: string): { hour: number; minute: number } {
+  const match = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(time);
+  if (!match) return { hour: 9, minute: 0 };
+  return { hour: Number(match[1]), minute: Number(match[2]) };
 }
 
 function computePublishAt(
   weekStart: string,
   dayOffset: number,
   hour: number,
+  minute: number,
 ): string {
   const date = new Date(`${weekStart}T00:00:00.000Z`);
   date.setUTCDate(date.getUTCDate() + dayOffset);
-  date.setUTCHours(hour, 0, 0, 0);
+  date.setUTCHours(hour, minute, 0, 0);
   return date.toISOString();
 }

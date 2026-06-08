@@ -7,7 +7,12 @@ import {
   scenarioBlock,
 } from "@/lib/ai/prompts/context";
 import type { AntiRepetitionMemory } from "@/lib/ai/types";
+import {
+  intensityLabel,
+  projectContentControls,
+} from "@/lib/projects/contentControls";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import { PLATFORM_OPTIONS } from "@/lib/projects/fieldOptions";
 
 export interface ScoredTrend {
   id: string;
@@ -138,6 +143,29 @@ export function buildWeeklyStrategyRetryAppend(
   ].join("\n");
 }
 
+// Allowed platforms for this project's plan: projects.platforms when set,
+// otherwise the full platform list (backwards compatibility with projects that
+// never configured platforms). Returned as the lowercase enum values.
+function allowedPlatforms(project: Project): string[] {
+  return project.platforms.length > 0
+    ? [...project.platforms]
+    : [...PLATFORM_OPTIONS];
+}
+
+// Content volume + funnel-mix guidance derived from the project's Content
+// Controls (stored in publishing_rules). Falls back to safe defaults.
+function controlsBlock(project: Project): string {
+  const controls = projectContentControls(project);
+  const platforms = allowedPlatforms(project);
+  const mix = controls.funnelMix;
+  return [
+    "CONTENT CONTROLS (respect these project settings):",
+    `- VOLUME: plan about ${controls.postsPerWeek} content_plan items this week (intensity: ${intensityLabel(controls.postsPerWeek)}).`,
+    `- PLATFORMS: use ONLY these platforms for every content_plan item: ${platforms.join(", ")}.`,
+    `- TARGET FUNNEL MIX (approximate %): Awareness ${mix.awareness}, Problem Aware ${mix.problem_aware}, Solution Aware ${mix.solution_aware}, Conversion ${mix.conversion}.`,
+  ].join("\n");
+}
+
 export function buildWeeklyStrategyPrompt(
   input: WeeklyStrategyPromptInput,
 ): string {
@@ -149,6 +177,7 @@ export function buildWeeklyStrategyPrompt(
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
+  const platforms = allowedPlatforms(project);
 
   return [
     projectBrainBlock(project),
@@ -157,6 +186,8 @@ export function buildWeeklyStrategyPrompt(
     ...(proof ? ["", proof] : []),
     ...(scenarios ? ["", scenarios] : []),
     ...(memory ? ["", memory] : []),
+    "",
+    controlsBlock(project),
     "",
     `WEEK: ${weekStart} -> ${weekEnd}`,
     "",
@@ -177,7 +208,7 @@ export function buildWeeklyStrategyPrompt(
   "content_plan": [
     {
       "day": "string",
-      "platform": "instagram|facebook|linkedin|tiktok|youtube|blog|email",
+      "platform": "${platforms.join("|")}",
       "format": "post|story|reel|short|carousel|article|email",
       "funnel_stage": "Awareness|Problem Aware|Solution Aware|Conversion",
       "topic": "string",
@@ -188,8 +219,10 @@ export function buildWeeklyStrategyPrompt(
     }
   ]
 }`,
-    "Rules: funnel_distribution must not be Conversion-only. Every content_plan " +
-      "item must set exactly one of trend_id or evergreen_topic_id using only " +
-      "IDs from the lists above.",
+    "Rules: funnel_distribution must not be Conversion-only. Use ONLY the " +
+      `allowed platforms (${platforms.join(", ")}). Aim for about ` +
+      `${projectContentControls(project).postsPerWeek} content_plan items. ` +
+      "Every content_plan item must set exactly one of trend_id or " +
+      "evergreen_topic_id using only IDs from the lists above.",
   ].join("\n");
 }

@@ -113,14 +113,18 @@ export function makePackageGuardrails(args: {
   project: Project;
   context: StrategyItemContext;
   classById: Map<string, AssetClass>;
+  // Platform surfaces the package must produce (project.platforms resolved to
+  // the package-capable subset). Defaults to the full required set.
+  requiredPlatforms?: readonly string[];
 }): (pkg: ContentPackageOutput) => ValidationIssue[] {
-  const { project, context, classById } = args;
+  const { project, context, classById, requiredPlatforms } = args;
   return (pkg) => {
     const issues = checkContentPackageGuardrails(pkg, {
       project,
       weeklyStrategyId: context.weeklyStrategyId,
       strategyItemId: context.strategyItemId,
       strategyItemFunnelStage: context.funnelStage,
+      requiredPlatforms,
     });
 
     for (const usage of pkg.asset_usage ?? []) {
@@ -228,14 +232,19 @@ export interface PersistableItem {
   hashtags: string[];
 }
 
-// Builds the content_item rows for the DB-enum-backed platforms. Google
-// Business is intentionally excluded (no platform_type enum value).
+// Builds the content_item rows for the persistable platforms. When
+// targetPlatforms is given, only those persistable platforms are produced (so a
+// project's selected platforms are respected); otherwise all persistable
+// platforms are attempted (existing behavior).
 export function buildPersistableItems(
   pkg: ContentPackageOutput,
   context: StrategyItemContext,
+  targetPlatforms?: readonly string[],
 ): PersistableItem[] {
   const items: PersistableItem[] = [];
+  const allowed = targetPlatforms ? new Set(targetPlatforms) : null;
   for (const platform of PERSISTABLE_PACKAGE_PLATFORMS) {
+    if (allowed && !allowed.has(platform)) continue;
     const output = pkg.platform_outputs[platform];
     if (!output) continue;
     items.push({

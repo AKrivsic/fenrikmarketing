@@ -3,13 +3,14 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Json, PackageStatus } from "@/lib/supabase/types";
 import { getCopywritingProvider } from "@/lib/ai/index";
 import { normalizeFunnelStage } from "@/lib/ai/types";
+import { resolvePackagePlatforms } from "@/lib/projects/contentControls";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
   GENERATE_PACKAGE_SYSTEM,
 } from "@/lib/ai/prompts/generateContentPackage";
 import {
-  contentPackageSchema,
+  buildContentPackageSchema,
   type ContentPackageOutput,
 } from "@/lib/ai/schemas/contentPackage";
 import {
@@ -82,6 +83,10 @@ export async function runGenerateContentPackage(
   // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
 
+  // Respect projects.platforms: only generate/require/persist the package
+  // surfaces the project selected (falls back to the full required set).
+  const targetPlatforms = resolvePackagePlatforms(project.platforms);
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: GENERATE_PACKAGE_SYSTEM,
@@ -94,12 +99,14 @@ export async function runGenerateContentPackage(
       format: context.format,
       availableAssets: assets.refs,
       memory,
+      targetPlatforms,
     }),
-    validator: contentPackageSchema,
+    validator: buildContentPackageSchema(targetPlatforms),
     guardrails: makePackageGuardrails({
       project,
       context,
       classById: assets.classById,
+      requiredPlatforms: targetPlatforms,
     }),
   });
 
@@ -127,6 +134,7 @@ export async function runGenerateContentPackage(
     input.projectId,
     context,
     generated.value,
+    targetPlatforms,
   );
 
   return { ok: true, data };
@@ -201,6 +209,7 @@ async function persistNewPackage(
   projectId: string,
   context: StrategyItemContext,
   pkg: ContentPackageOutput,
+  targetPlatforms?: readonly string[],
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -243,7 +252,7 @@ async function persistNewPackage(
   const packageId = packageRow.id as string;
 
   // Persistable platform outputs -> content_items.
-  const itemRows = buildPersistableItems(pkg, context).map((item) => ({
+  const itemRows = buildPersistableItems(pkg, context, targetPlatforms).map((item) => ({
     project_id: projectId,
     package_id: packageId,
     platform: item.platform,

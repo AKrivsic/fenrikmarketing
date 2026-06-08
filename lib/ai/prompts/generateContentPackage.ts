@@ -32,6 +32,10 @@ export interface GenerateContentPackagePromptInput {
   availableAssets: AssetRef[];
   // Phase 2E — recent hooks/topics/CTAs/scenarios to avoid repeating.
   memory?: AntiRepetitionMemory;
+  // Platform surfaces the package must produce. Defaults to the full required
+  // set; callers pass the project's resolved platforms to respect
+  // projects.platforms.
+  targetPlatforms?: readonly string[];
 }
 
 export const GENERATE_PACKAGE_SYSTEM =
@@ -47,6 +51,10 @@ export function buildGenerateContentPackagePrompt(
   const { project, funnelStage, topic, angle, availableAssets } = input;
   const allowedCtas = CTA_TYPES_BY_GOAL[project.goal_type] ?? [];
   const funnelLabel = FUNNEL_STAGE_LABELS[funnelStage];
+  const targetPlatforms =
+    input.targetPlatforms && input.targetPlatforms.length > 0
+      ? input.targetPlatforms
+      : REQUIRED_PACKAGE_PLATFORMS;
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
@@ -94,10 +102,12 @@ export function buildGenerateContentPackagePrompt(
   "cta": { "type": "one of allowed cta types", "text": "string" },
   "video": { "concept": "string", "script": "string", "duration_seconds": "string" },
   "platform_outputs": {
-${REQUIRED_PACKAGE_PLATFORMS.map(
-  (p) =>
-    `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`,
-).join(",\n")}
+${targetPlatforms
+  .map(
+    (p) =>
+      `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`,
+  )
+  .join(",\n")}
   },
   "hashtags": ["string"],
   "image_prompts": ["string"],
@@ -105,7 +115,8 @@ ${REQUIRED_PACKAGE_PLATFORMS.map(
   "scenario": "the SCENARIO POOL line you drew on (verbatim), or \"\" if none"
 }`,
     `Rules: funnel_stage MUST equal "${funnelLabel}". video is mandatory. ` +
-      "Provide outputs for ALL required platforms. Never modify a STATIC asset. " +
+      `Provide outputs for ALL of these platforms: ${targetPlatforms.join(", ")}. ` +
+      "Never modify a STATIC asset. " +
       "If you used a scenario, set \"scenario\" to that pool line verbatim; " +
       "otherwise set it to an empty string.",
   ].join("\n");

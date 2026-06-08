@@ -8,9 +8,10 @@ import {
   REGENERATE_PACKAGE_SYSTEM,
 } from "@/lib/ai/prompts/regenerateContentPackage";
 import {
-  contentPackageSchema,
+  buildContentPackageSchema,
   type ContentPackageOutput,
 } from "@/lib/ai/schemas/contentPackage";
+import { resolvePackagePlatforms } from "@/lib/projects/contentControls";
 import {
   loadProjectOrThrow,
   WorkflowError,
@@ -93,6 +94,9 @@ export async function runRegenerateContentPackage(
   // regenerated package avoids repeating prior content.
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
 
+  // Respect projects.platforms (falls back to the full required set).
+  const targetPlatforms = resolvePackagePlatforms(project.platforms);
+
   // Snapshot the current package (header + items) into content_versions as a
   // package-level snapshot (content_package_id) BEFORE regenerating.
   const existingItems = await loadPackageItems(supabase, packageId);
@@ -115,12 +119,14 @@ export async function runRegenerateContentPackage(
       previousTitle: existing.title as string,
       feedback: input.feedback ?? null,
       memory,
+      targetPlatforms,
     }),
-    validator: contentPackageSchema,
+    validator: buildContentPackageSchema(targetPlatforms),
     guardrails: makePackageGuardrails({
       project,
       context,
       classById: assets.classById,
+      requiredPlatforms: targetPlatforms,
     }),
   });
 
@@ -172,6 +178,7 @@ export async function runRegenerateContentPackage(
     context,
     pkg,
     existingItems,
+    targetPlatforms,
   );
   const primaryItemId = contentItemIds[0] ?? null;
 
@@ -266,11 +273,12 @@ async function upsertPackageItems(
   context: StrategyItemContext,
   pkg: ContentPackageOutput,
   existingItems: ContentItem[],
+  targetPlatforms?: readonly string[],
 ): Promise<string[]> {
   const existingByPlatform = new Map(existingItems.map((i) => [i.platform, i]));
   const resultIds: string[] = [];
 
-  for (const item of buildPersistableItems(pkg, context)) {
+  for (const item of buildPersistableItems(pkg, context, targetPlatforms)) {
     const existing = existingByPlatform.get(item.platform);
     const fields = {
       format: item.format,

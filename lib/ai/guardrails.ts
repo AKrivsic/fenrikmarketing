@@ -150,6 +150,11 @@ export interface PackageGuardrailContext {
   weeklyStrategyId: string | null;
   strategyItemId: string | null;
   strategyItemFunnelStage: FunnelStage | null;
+  // The platform surfaces this package must produce. Defaults to the full
+  // REQUIRED_PACKAGE_PLATFORMS set (existing behavior); callers that respect a
+  // project's selected platforms pass the resolved subset so guardrails validate
+  // the generated outputs against projects.platforms.
+  requiredPlatforms?: readonly string[];
 }
 
 export function checkContentPackageGuardrails(
@@ -173,9 +178,15 @@ export function checkContentPackageGuardrails(
   if (!pkg.voiceover_text) issues.push(issue("$.voiceover_text", "required"));
   if (!pkg.subtitles) issues.push(issue("$.subtitles", "required"));
 
-  // Required platform outputs.
-  for (const platform of REQUIRED_PACKAGE_PLATFORMS) {
-    const output = pkg.platform_outputs?.[platform];
+  // Required platform outputs. Validated against the project's selected
+  // platforms when provided, otherwise the full required set.
+  const requiredPlatforms = ctx.requiredPlatforms ?? REQUIRED_PACKAGE_PLATFORMS;
+  const platformOutputs = (pkg.platform_outputs ?? {}) as Record<
+    string,
+    { caption?: string } | undefined
+  >;
+  for (const platform of requiredPlatforms) {
+    const output = platformOutputs[platform];
     if (!output || !output.caption) {
       issues.push(
         issue(`$.platform_outputs.${platform}`, "platform output required"),
