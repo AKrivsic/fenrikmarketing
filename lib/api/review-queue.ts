@@ -1,9 +1,11 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { effectiveLanguage } from "@/lib/projects/language";
 import type {
   ApprovalStatus,
   ContentFormat,
   ContentItem,
   Json,
+  LanguageCode,
   PlatformType,
   VideoJob,
 } from "@/lib/supabase/types";
@@ -24,6 +26,10 @@ export interface ReviewQueueItem {
   caption: string | null;
   hashtags: string[];
   cta: string | null;
+  // Raw column (NULL = primary language). effectiveLanguage resolves NULL to the
+  // project's primary language. UI may stay unchanged; data is now readable.
+  language: LanguageCode | null;
+  effectiveLanguage: LanguageCode;
   videoUrl: string | null;
   thumbnailUrl: string | null;
   createdAt: string;
@@ -78,6 +84,24 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
 
   const items = (itemRows ?? []) as ContentItem[];
   if (items.length === 0) return [];
+
+  // Batched lookup of each item's project primary language so a NULL
+  // content_items.language can be resolved to effectiveLanguage. One query, no
+  // N+1; failure here must not change approve/reject/regenerate behaviour.
+  const projectIds = Array.from(new Set(items.map((item) => item.project_id)));
+  const { data: projectRows, error: projectsError } = await supabase
+    .from("projects")
+    .select("id, language")
+    .in("id", projectIds);
+
+  if (projectsError) throw projectsError;
+  const projectLanguageById = new Map<string, LanguageCode>();
+  for (const row of (projectRows ?? []) as {
+    id: string;
+    language: LanguageCode;
+  }[]) {
+    projectLanguageById.set(row.id, row.language);
+  }
 
   // --- Video lookup step 1: newest job directly on each content_item_id. ---
   const itemIds = items.map((item) => item.id);
@@ -166,6 +190,11 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
       }
     }
 
+    // project_id always resolves (ids derive from these items); fall back to the
+    // raw language, then "cs", purely defensively.
+    const projectLanguage =
+      projectLanguageById.get(item.project_id) ?? item.language ?? "cs";
+
     return {
       id: item.id,
       projectId: item.project_id,
@@ -177,6 +206,8 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
       caption: item.caption,
       hashtags: item.hashtags ?? [],
       cta: item.cta,
+      language: item.language,
+      effectiveLanguage: effectiveLanguage(item.language, projectLanguage),
       videoUrl: mp4Url,
       thumbnailUrl,
       createdAt: item.created_at,

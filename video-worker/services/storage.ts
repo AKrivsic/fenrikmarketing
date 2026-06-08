@@ -1,4 +1,5 @@
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   STORAGE_BUCKETS,
@@ -107,4 +108,36 @@ export async function uploadVideoArtifact(
     bucket,
     storagePath,
   };
+}
+
+export interface DownloadStorageObjectInput {
+  bucket: string;
+  storagePath: string;
+  localPath: string;
+}
+
+// Downloads an existing Storage object (private bucket, admin client) to a local
+// file. Used to reuse a previously rendered scene image instead of generating a
+// new one. Throws when the object is missing so the caller can fail the job.
+export async function downloadStorageObjectToFile(
+  input: DownloadStorageObjectInput,
+): Promise<{ localPath: string }> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase.storage
+    .from(input.bucket)
+    .download(input.storagePath);
+
+  if (error || !data) {
+    throw new Error(
+      `downloadStorageObjectToFile failed (${input.bucket}/${input.storagePath}): ${
+        error?.message ?? "missing object"
+      }`,
+    );
+  }
+
+  const bytes = Buffer.from(await data.arrayBuffer());
+  await mkdir(dirname(input.localPath), { recursive: true });
+  await writeFile(input.localPath, bytes);
+
+  return { localPath: input.localPath };
 }

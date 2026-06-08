@@ -2,7 +2,7 @@
 // Keep in sync with the migrations; do not change migrations to match these.
 
 export type ProjectType = "local_service" | "saas" | "community_service";
-export type LanguageCode = "cs" | "en" | "sk";
+export type LanguageCode = "cs" | "en" | "sk" | "de" | "fr" | "es" | "it";
 export type MarketScope = "local" | "national" | "global";
 export type GoalType =
   | "lead_generation"
@@ -80,6 +80,9 @@ export interface Project {
   name: string;
   type: ProjectType;
   language: LanguageCode;
+  // Additional (non-primary) variant languages. The primary language is
+  // `language`; this list never includes it. Defaults to an empty array.
+  enabled_languages: LanguageCode[];
   market_scope: MarketScope;
   target_audience: Json;
   goal_type: GoalType;
@@ -101,7 +104,7 @@ export type ProjectInsert = Omit<
   Project,
   "id" | "owner_id" | "created_at" | "updated_at"
 > &
-  Partial<Pick<Project, "language">>;
+  Partial<Pick<Project, "language" | "enabled_languages">>;
 
 export type ProjectUpdate = Partial<
   Omit<Project, "id" | "owner_id" | "created_at" | "updated_at">
@@ -145,6 +148,9 @@ export interface ContentItem {
   platform: PlatformType;
   format: ContentFormat;
   status: ApprovalStatus;
+  // NULL means the project's primary language (projects.language). Resolve via
+  // effectiveLanguage(item.language, project.language).
+  language: LanguageCode | null;
   title: string | null;
   body: string | null;
   caption: string | null;

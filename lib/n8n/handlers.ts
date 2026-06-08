@@ -233,6 +233,17 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
     ? requireString(body, "error_message")
     : optionalString(body, "error_message");
 
+  // Optional resolved visual spec. Additive: callbacks that omit it (older
+  // workers, failures) are unaffected. Stored verbatim under output.render_spec
+  // so a later render can reuse the same scene stills via their durable paths.
+  const renderSpecValue = body["render_spec"];
+  const renderSpec =
+    renderSpecValue &&
+    typeof renderSpecValue === "object" &&
+    !Array.isArray(renderSpecValue)
+      ? (renderSpecValue as Record<string, unknown>)
+      : undefined;
+
   const supabase = createSupabaseAdminClient();
   await requirePackageInProject(supabase, contentPackageId, projectId);
 
@@ -253,6 +264,7 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
   if (thumbnailUrl) output.thumbnail_url = thumbnailUrl;
   if (subtitleUrl) output.subtitle_url = subtitleUrl;
   if (errorMessage) output.error_message = errorMessage;
+  if (renderSpec) output.render_spec = renderSpec;
 
   const videoUpdate: Record<string, unknown> = { status, output };
   if (status === "completed") {

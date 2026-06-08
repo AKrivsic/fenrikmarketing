@@ -16,7 +16,15 @@ export const PROJECT_TYPE_OPTIONS: ProjectType[] = [
   "community_service",
 ];
 
-export const LANGUAGE_OPTIONS: LanguageCode[] = ["cs", "en", "sk"];
+export const LANGUAGE_OPTIONS: LanguageCode[] = [
+  "cs",
+  "en",
+  "sk",
+  "de",
+  "fr",
+  "es",
+  "it",
+];
 
 export const MARKET_SCOPE_OPTIONS: MarketScope[] = [
   "local",

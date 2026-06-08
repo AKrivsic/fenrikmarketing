@@ -1,12 +1,17 @@
 # n8n Node Specification — AI Content Manager MVP
 
-Detailed, node-by-node build specification for the **5 required n8n workflows**.
-This complements [`docs/n8n-workflow-contract.md`](./n8n-workflow-contract.md)
-(the payload/contract reference) by describing **how to wire each workflow in
-n8n, node by node**.
+Node-by-node build specification for the **5 n8n workflows**, aligned with the
+**QA-verified** code. It complements
+[`docs/n8n-workflow-contract.md`](./n8n-workflow-contract.md) (the
+payload/contract reference) by describing **how each thin bridge workflow is
+wired in n8n**.
 
-> Scope: specification only. No runtime code, **no JSON export**, no new modules,
-> no new workflows. Uses only the architecture already defined in the project.
+> Scope: specification only. No runtime code, no new modules, no new workflows.
+> **n8n is pure orchestration** — every node below either triggers, reads a
+> minimal guard, calls an existing `/api/n8n/*` endpoint, or reports an error.
+> n8n does **no** AI, no scoring, no content/version/job creation, no slot
+> planning. The reference export `n8n/generate-content-package-bridge.json`
+> matches Workflow 1 below.
 
 ---
 
@@ -14,468 +19,343 @@ n8n, node by node**.
 
 - ✅ **Implemented in Vercel** — call it, do not rebuild.
 - 🔧 **Build in n8n** — create this node.
-- 🚫 **Out of scope** — do not add (CRM, scheduler, analytics, custom workflows).
+- 🚫 **Out of scope** — do not add (CRM, scheduler, monitoring workflow, DLQ,
+  enterprise orchestration, analytics, custom workflows).
 
-Secrets / env (see contract §2): trigger auth header `x-n8n-secret` =
-`N8N_WEBHOOK_SECRET`; callback auth header `x-n8n-secret` = `N8N_CALLBACK_SECRET`;
-Supabase nodes use `SUPABASE_SERVICE_ROLE_KEY` and **must** scope every query by
+Secrets / env (contract §2): the Webhook node authenticates incoming triggers
+with `x-n8n-secret = N8N_WEBHOOK_SECRET`; every outbound call to a `/api/n8n/*`
+endpoint authenticates with `x-n8n-secret = N8N_CALLBACK_SECRET`. The minimal
+Supabase guard reads use `SUPABASE_SERVICE_ROLE_KEY` and **must** be scoped by
 `project_id`.
 
 ---
 
-## 0. Node-type catalog (8 types used)
+## 0. Node-type catalog (only 5 types used)
 
-These 8 n8n node types are the building blocks for all 5 workflows. Each workflow
-section below instantiates a subset of them.
+Bridge workflows are intentionally thin. The whole node vocabulary is:
 
-| # | Node type | Generic purpose in this project |
-|---|-----------|---------------------------------|
-| 1 | **Trigger node** (Webhook) | Receive the unified envelope from a Vercel `/api/automation/*` endpoint; authenticate. |
-| 2 | **HTTP Request node** | Call the AI provider and the Video Worker (and any external source). |
-| 3 | **Supabase node** | Read Project Brain / context; insert/update skeleton rows. |
-| 4 | **IF node** | Branch on conditions (eligibility, status, empty results, success/failure). |
-| 5 | **Merge node** | Combine parallel read branches into one context object. |
-| 6 | **Function node** | Pure transformation / assembly of payloads (no business rules hardcoded — only mapping). |
-| 7 | **Wait node** | Await async Video Worker completion (resume by webhook). |
-| 8 | **Callback node** (HTTP Request → Vercel) | POST results to `/api/n8n/*-callback`; POST `/api/n8n/error-callback` on failure. |
+| # | Node type | Only purpose in this project |
+|---|-----------|------------------------------|
+| 1 | **Webhook Trigger** | Receive the unified envelope from a Vercel `/api/automation/*` trigger; authenticate. |
+| 2 | **Supabase node** | **Minimal read-only guard** only where needed (Generate: pick `strategy_item_id`; Weekly Strategy: existence check; Trend Scan: read a few `projects` fields by `project_id` for the acquisition keyword set). Never writes; never reads `trends`. |
+| 3 | **HTTP Request node** | Call one `/api/n8n/*` execution endpoint; optionally `/api/n8n/start-video-job`. |
+| 4 | **IF node** | The few unavoidable branches (video needed? input data exists?). |
+| 5 | **Error Trigger + HTTP** | POST `/api/n8n/error-callback` with the real error. |
+
+There are deliberately **no** AI nodes, no Merge/Function transformation of
+business data, no Wait node and no Video-Worker node in n8n — the backend owns
+that work.
 
 ### Default retry profile (per node type)
 
-| Node type | Retry on failure | Backoff | Notes |
-|-----------|------------------|---------|-------|
-| Trigger | n/a | n/a | Reject `401` immediately if secret mismatches. |
-| HTTP (AI) | 3 | 2s → 4s → 8s | Retry on `429`/`5xx`/timeout only. |
-| HTTP (Video enqueue) | 2 | 2s → 5s | Rendering itself is awaited via Wait node. |
-| Supabase | 2 | 1s → 3s | Retry on network/`5xx` only. |
-| IF / Merge / Function | 0 | — | Pure logic; failures are bugs, route to error branch. |
-| Wait | n/a | — | Has its own timeout (see each workflow). |
-| Callback | 5 | 2s → 4s → 8s → 16s → 32s | Retry on network/`5xx`. **Never** retry `400`/`422`; `401` = stop+alert. |
+| Node type | Retry on failure | Notes |
+|-----------|------------------|-------|
+| Webhook Trigger | n/a | Reject `401` immediately if `N8N_WEBHOOK_SECRET` mismatches. |
+| Supabase guard read | up to 3 | Retry on network/`5xx` only. |
+| HTTP → execution endpoint | up to 3 (~2s) | Retry on network/`5xx`/timeout only. **Never** retry `400`/`404`/`422`; `401` = stop+alert. |
+| HTTP → start-video-job | up to 3 (~2s) | As above. |
+| IF | 0 | Pure logic; route failures to the error branch. |
+| Error HTTP (error-callback) | up to 5 (exp) | Retry on network/`5xx`. |
+
+### Error visibility rule (mandatory — contract §6)
+
+Every HTTP node keeps full response logging on and must expose, for debugging:
+**endpoint, payload, HTTP status, response body**. The real upstream error is
+forwarded verbatim into `error-callback` — never masked behind a generic
+message.
 
 ### Global error handling rule
 
-Every workflow has a single **Error Trigger / error branch** that builds and
-POSTs `/api/n8n/error-callback` (see contract §5) and then stops. No partial
-retries past the per-node policy. Callbacks are idempotent (carry row ids).
+Each workflow has a single **Error Trigger** branch that builds and POSTs
+`/api/n8n/error-callback` (contract §5) and then stops. No partial retries past
+the per-node policy.
 
 ---
 
 ## 1. Generate Content Package
 
 **Workflow value:** `generate_content_package`
-**Node count:** 1 Trigger, 3 Supabase, 1 Merge, 2 Function, 1 HTTP (AI), 1 HTTP
-(Video), 1 Wait, 2 IF, 2 Callback, 1 error branch.
+**Node count:** 1 Webhook, 1 Supabase (guard read), 2 HTTP (execution +
+start-video-job), 1 Error Trigger + 1 Error HTTP.
+**Reference export:** `n8n/generate-content-package-bridge.json`.
 
 ### Node-by-node
 
-#### N1 — Trigger node 🔧
-- **Name:** `Trigger: generate_content_package`
+#### N1 — Webhook Trigger 🔧
 - **Purpose:** Receive the Vercel envelope and authenticate.
-- **Input:** POST body `{ workflow, project_id, requested_at, payload:{package_count?, funnel_stage?} }`; header `x-n8n-secret`.
-- **Output:** Envelope JSON onto the workflow.
-- **Retry:** n/a.
-- **Error handling:** If `x-n8n-secret !== N8N_WEBHOOK_SECRET` → respond `401`, stop.
+- **Input:** POST body `{ workflow, project_id, requested_at, payload:{funnel_stage?} }`; header `x-n8n-secret`.
+- **Auth:** header auth = `N8N_WEBHOOK_SECRET`. Mismatch → `401`, stop.
+- **Output:** envelope JSON (read as `$json.body.*`).
 
-#### N2 — Supabase node (Project Brain) 🔧
-- **Name:** `Read: projects (brain)`
-- **Purpose:** Load tone, audience, goal_type, product_is / product_is_not, forbidden_claims, platforms, default_cta.
-- **Input:** `select * from projects where id = {{project_id}}`.
-- **Output:** `project` object.
-- **Retry:** 2 (1s→3s).
-- **Error handling:** 0 rows → route to error branch (`error_type: project_not_found`).
+#### N2 — Supabase node (minimal guard read) 🔧
+- **Name:** `Read strategy item`
+- **Purpose:** Get **one** `strategy_item_id` to pass to the backend. Read-only.
+- **Input:** `getAll` on `content_strategy_items`, `limit 1`, filter
+  `project_id=eq.{{project_id}}` (+ optional `funnel_stage=eq.{{payload.funnel_stage}}`).
+- **Output:** `{ id }` used as `strategy_item_id`.
+- **Retry:** up to 3 on network/5xx.
+- **Note:** This is the only Supabase touch; it does **not** decide strategy.
 
-#### N3 — Supabase node (strategy context) 🔧
-- **Name:** `Read: content_strategy_items`
-- **Purpose:** Pick the strategy item / funnel stage to realize.
-- **Input:** `select … from content_strategy_items (join content_strategies) where project_id = {{project_id}}` (optionally filter by `funnel_stage` from payload).
-- **Output:** `strategy_items[]`.
-- **Retry:** 2.
-- **Error handling:** Empty is allowed (generation can proceed brief-only).
+#### N3 — HTTP Request (execution endpoint) 🔧 → ✅
+- **Name:** `Generate Content Package`
+- **Endpoint:** `POST https://<app>/api/n8n/generate-content-package`
+- **Auth:** header `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "strategy_item_id": <N2.id> }`.
+- **Backend does (not n8n):** AI copy + video script, then inserts
+  `content_packages` (draft), `content_items`, `video_jobs` (queued),
+  `asset_usage`.
+- **Output:** `{ ok:true, data:{ packageId, videoJobId, contentItemIds, … } }`.
+- **Retry:** up to 3 on network/5xx/timeout. `400`/`404`/`422` → error branch.
+- **Error visibility:** log endpoint, payload, status, response body.
 
-#### N4 — Supabase node (assets + topics + trends) 🔧
-- **Name:** `Read: reuse context`
-- **Purpose:** Load `assets`, `evergreen_topics`, eligible `trends` (`metadata.relevance_score >= 60`) for `project_id`.
-- **Input:** three scoped selects (can be one node per table; shown merged for brevity).
-- **Output:** `assets[]`, `topics[]`, `trends[]`.
-- **Retry:** 2.
-- **Error handling:** Empty allowed.
-
-#### N5 — Merge node 🔧
-- **Name:** `Merge: generation context`
-- **Purpose:** Combine N2–N4 into a single `context` object for the AI prompt.
-- **Input:** outputs of N2, N3, N4.
-- **Output:** `{ project, strategy_items, assets, topics, trends }`.
-- **Retry:** 0.
-- **Error handling:** Missing `project` → error branch.
-
-#### N6 — Function node (prompt assembly) 🔧
-- **Name:** `Build: AI prompt`
-- **Purpose:** Map `context` → AI request (no hardcoded business rules; only mapping the brain into the prompt + target platforms).
-- **Input:** merged context + `payload.funnel_stage`, `payload.package_count`.
-- **Output:** `ai_request` (system + user prompt, target platforms ⊆ `project.platforms`).
-- **Retry:** 0.
-- **Error handling:** Throw → error branch (`error_type: prompt_build_failed`).
-
-#### N7 — HTTP Request node (AI) 🔧
-- **Name:** `AI: generate package`
-- **Purpose:** Call the text model to produce `title`, `platform_outputs`, `voiceover_text`, `subtitles`, `video` concept/script.
-- **Input:** `ai_request`.
-- **Output:** `ai_package` JSON.
-- **Retry:** 3 (2s→4s→8s) on `429`/`5xx`/timeout.
-- **Error handling:** Final failure → error branch (`error_type: ai_generation_failed`, `step: ai_generation`).
-
-#### N8 — Supabase node (skeleton insert) 🔧
-- **Name:** `Insert: package skeleton`
-- **Purpose:** Insert `content_packages` (status `draft`), `content_items` (per platform), `video_jobs` (status `queued`); optional `asset_usage`.
-- **Input:** `ai_package` + ids/context.
-- **Output:** `content_package_id`, `content_item_ids[]`, `video_job_id`.
-- **Retry:** 2.
-- **Error handling:** Insert error → error branch (`error_type: db_insert_failed`). Guardrails: platforms ⊆ project platforms; no `forbidden_claims`.
-
-#### N9 — Callback node (content package) ✅ endpoint / 🔧 node
-- **Name:** `Callback: content-package`
-- **Purpose:** Finalize package copy + status.
-- **Input:** `POST /api/n8n/content-package-callback` with `{ project_id, content_package_id, status:"ready", platform_outputs, message }`, header `x-n8n-secret = N8N_CALLBACK_SECRET`.
-- **Output:** `200 { ok:true }`.
-- **Retry:** 5 (exp). Never retry `400`/`422`.
-- **Error handling:** `400`/`422` → error branch; `401` → stop+alert.
-
-#### N10 — HTTP Request node (Video Worker enqueue) 🔧
-- **Name:** `Video: enqueue render`
-- **Purpose:** Send `video_job_id` + script/voiceover to the Video Worker.
-- **Input:** `{ video_job_id, project_id, script, voiceover_text, subtitles }`.
-- **Output:** acknowledgement (the render is async).
-- **Retry:** 2 (2s→5s).
-- **Error handling:** Enqueue failure → mark video failed via N12 + error branch.
-
-#### N11 — Wait node 🔧
-- **Name:** `Wait: video render`
-- **Purpose:** Suspend until the Video Worker calls back (resume-on-webhook).
-- **Input:** resume URL passed to the Worker.
-- **Output:** Worker result `{ status, mp4_url, thumbnail_url?, subtitle_url? }`.
-- **Retry:** n/a. **Timeout:** e.g. 30 min → on timeout treat as failed.
-- **Error handling:** Timeout → N12 with `status:"failed"` + error branch.
-
-#### N12 — IF node (video status) 🔧
-- **Name:** `IF: video completed?`
-- **Purpose:** Branch on Worker result.
-- **Input:** Worker result `status`.
-- **Output:** true → N13 (`completed`); false → N13 (`failed`) + error branch.
-- **Retry:** 0.
-
-#### N13 — Callback node (video) ✅ endpoint / 🔧 node
-- **Name:** `Callback: video`
-- **Purpose:** Persist video output + flip package to review-ready.
-- **Input:** `POST /api/n8n/video-callback` with `{ project_id, content_package_id, video_job_id, status, mp4_url, thumbnail_url?, subtitle_url? }`.
-- **Output:** `200 { ok:true }`. On `status:"completed"` the endpoint sets `content_packages.status = 'draft'`.
-- **Retry:** 5 (exp).
-- **Error handling:** as N9.
+#### N4 — HTTP Request (start video job) 🔧 → ✅
+- **Name:** `Start Video Job`
+- **Endpoint:** `POST https://<app>/api/n8n/start-video-job`
+- **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "content_package_id": <N3.data.packageId>, "video_job_id": <N3.data.videoJobId> }`.
+- **Backend does:** hands the existing `video_jobs` row to the external Video
+  Worker (DigitalOcean/Docker) and marks it `processing`. The Worker later calls
+  `/api/n8n/video-callback` itself — **n8n does not wait for the render**.
+- **Retry:** up to 3.
 
 #### Error branch 🔧
-`POST /api/n8n/error-callback` with `{ project_id, content_package_id?, workflow:"generate_content_package", step, error_type, error_message }`.
+- **Error Trigger** → **HTTP** `POST /api/n8n/error-callback` with
+  `{ workflow:"generate_content_package", step:<lastNodeExecuted>, error_type:"workflow_error", error_message:<real message>, project_id }`.
 
-**Expected final status:** `content_packages.status = 'draft'`, `video_jobs.status = 'completed'`.
+**Expected final status:** `content_packages.status = 'draft'`;
+`video_jobs.status` `queued → processing → completed` (Worker callback).
 
 ---
 
 ## 2. Regenerate Content Package
 
 **Workflow value:** `regenerate_content_package`
-**Node count:** 1 Trigger, 3 Supabase (read), 1 Supabase (versions), 1 Merge, 1 Function, 1 HTTP (AI), 1 Supabase (update), 1 IF (video?), [Video N10–N13 reused], 1 Callback, error branch.
+**Node count:** 1 Webhook, 1 HTTP (execution), 1 IF (videoJobId?), 1 HTTP
+(start-video-job), 1 Error Trigger + 1 Error HTTP. **No Supabase guard needed.**
 
 ### Node-by-node
 
-#### N1 — Trigger node 🔧
-- **Name:** `Trigger: regenerate_content_package`
-- **Purpose / Input:** envelope `payload:{ content_package_id, reason? }`.
-- **Output / Retry / Errors:** as Workflow 1 N1.
+#### N1 — Webhook Trigger 🔧
+- **Input:** envelope `payload:{ content_package_id, reason? }`. Auth as W1 N1.
 
-#### N2 — Supabase node (Project Brain) 🔧
-- Same as Workflow 1 N2.
+#### N2 — HTTP Request (execution endpoint) 🔧 → ✅
+- **Name:** `Regenerate Content Package`
+- **Endpoint:** `POST https://<app>/api/n8n/regenerate-content-package`
+- **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "content_package_id": <body.payload.content_package_id>, "reason": <body.payload.reason?> }`.
+- **Backend does (not n8n):** snapshot into `content_versions`, update
+  `content_items` in place, reset package to `draft`, insert a new `video_jobs`
+  row (queued).
+- **Output:** `{ ok:true, data:{ packageId, videoJobId, versionsCreated, … } }`.
+- **Retry / error visibility:** as W1 N3.
 
-#### N3 — Supabase node (current package) 🔧
-- **Name:** `Read: content_packages`
-- **Purpose:** Load the existing package.
-- **Input:** `where id = {{content_package_id}} AND project_id = {{project_id}}`.
-- **Output:** `package`.
-- **Retry:** 2.
-- **Error handling:** 0 rows → error branch (`error_type: package_not_found`). (The Vercel trigger already validates ownership, this is defense-in-depth.)
+#### N3 — IF node (new video?) 🔧
+- **Name:** `IF: response has videoJobId?`
+- **Condition:** `N2.data.videoJobId` is present/non-empty.
+- **Output:** true → N4; false → finish.
 
-#### N4 — Supabase node (current items) 🔧
-- **Name:** `Read: content_items`
-- **Purpose:** Load current items for snapshot + regeneration.
-- **Input:** `where package_id = {{content_package_id}} AND project_id`.
-- **Output:** `items[]`.
-- **Retry:** 2.
-
-#### N5 — Supabase node (history snapshot) 🔧
-- **Name:** `Insert: content_versions`
-- **Purpose:** Preserve current state before overwrite.
-- **Input:** insert `{ project_id, content_package_id, content_item_id?, version_no, snapshot, change_note: reason }`.
-- **Output:** version ids.
-- **Retry:** 2.
-- **Error handling:** Failure → error branch (`step: snapshot`).
-
-#### N6 — Merge node 🔧
-- **Name:** `Merge: regen context` — combine brain + package + items.
-
-#### N7 — Function node (prompt assembly) 🔧
-- **Name:** `Build: AI regen prompt` — map context + `reason` → `ai_request`.
-
-#### N8 — HTTP Request node (AI) 🔧
-- **Name:** `AI: regenerate package` — as Workflow 1 N7 (`error_type: ai_generation_failed`).
-
-#### N9 — Supabase node (update items) 🔧
-- **Name:** `Update: content_items`
-- **Purpose:** Overwrite item copy in place.
-- **Input:** update per `id` scoped by `project_id`.
-- **Output:** updated rows.
-- **Retry:** 2.
-- **Error handling:** → error branch (`step: db_update`).
-
-#### N10 — Callback node (content package) ✅/🔧
-- **Name:** `Callback: content-package` — `POST /api/n8n/content-package-callback` `{ project_id, content_package_id, status:"ready", platform_outputs, message:"Regenerated: {reason}" }`. Retry/errors as Workflow 1 N9.
-
-#### N11 — IF node (needs new video?) 🔧
-- **Name:** `IF: regenerate video?`
-- **Purpose:** Decide whether a new render is needed.
-- **Output:** true → reuse Video nodes (enqueue → Wait → IF → video-callback, identical to Workflow 1 N10–N13, inserting a fresh `video_jobs` row first); false → finish.
+#### N4 — HTTP Request (start video job) 🔧 → ✅
+- Identical to Workflow 1 N4, using `N2.data.packageId` /
+  `N2.data.videoJobId`.
 
 #### Error branch 🔧
-`workflow:"regenerate_content_package"`.
+- `workflow:"regenerate_content_package"`.
 
-**Expected final status:** `content_packages.status = 'draft'`; prior state in `content_versions`; new `video_jobs.status = 'completed'` if regenerated.
+**Expected final status:** `content_packages.status = 'draft'`; prior state in
+`content_versions`; new video renders via the Worker when `videoJobId` returned.
 
 ---
 
-## 3. Trend Scan
-
-**Workflow value:** `trend_scan`
-**Node count:** 1 Trigger, 2 Supabase (read), 1 HTTP (external/AI), 1 Function (score map), 1 IF (any accepted?), 1 Callback, error branch. No Video, no Wait, no Merge required.
-
-### Node-by-node
-
-#### N1 — Trigger node 🔧
-- **Name:** `Trigger: trend_scan`
-- **Input:** envelope `payload:{}` (only `project_id`).
-
-#### N2 — Supabase node (Project Brain) 🔧
-- **Name:** `Read: projects (brain)` — market, audience, goal for scoring context.
-
-#### N3 — Supabase node (existing trends + topics) 🔧
-- **Name:** `Read: trends + evergreen_topics`
-- **Purpose:** De-duplicate against existing `trends`; align with `evergreen_topics`.
-- **Input:** scoped selects by `project_id`.
-- **Output:** `existing_trends[]`, `topics[]`.
-- **Retry:** 2.
-
-#### N4 — HTTP Request node (discover + score) 🔧
-- **Name:** `AI: discover & score trends`
-- **Purpose:** Discover candidate trends and assign `relevance_score` (0–100).
-- **Input:** brain + existing trends (for dedup).
-- **Output:** `scored_trends[]` with `title`, `relevance_score`, `source`, `source_url?`, `signal_strength?`, `rationale?`, `angle?`.
-- **Retry:** 3 (2s→4s→8s).
-- **Error handling:** → error branch (`error_type: trend_scoring_failed`).
-
-#### N5 — Function node (split accepted/rejected) 🔧
-- **Name:** `Split: accepted vs rejected`
-- **Purpose:** Map scored trends into `accepted_trends` (have `relevance_score` ≥ threshold **and** `title`) and `rejected_trends`.
-- **Input:** `scored_trends[]`.
-- **Output:** `{ accepted_trends[], rejected_trends[] }`.
-- **Retry:** 0.
-- **Note:** `rejected_trends` are sent in the payload but **not persisted** by Vercel (no log table).
-
-#### N6 — IF node (any accepted?) 🔧
-- **Name:** `IF: has accepted trends?`
-- **Output:** true → N7; false → finish (no callback needed, or send empty accepted list).
-
-#### N7 — Callback node (trend scan) ✅/🔧
-- **Name:** `Callback: trend-scan`
-- **Input:** `POST /api/n8n/trend-scan-callback` `{ project_id, accepted_trends[], rejected_trends:[] }`.
-- **Output:** `200`. Endpoint inserts only entries with `relevance_score` + `title`; stores score in `trends.metadata`.
-- **Retry:** 5 (exp). Errors as standard callback.
-
-#### Error branch 🔧
-`workflow:"trend_scan"`.
-
-**Expected final status:** new `trends` rows for accepted, scorable trends.
-
----
-
-## 4. Weekly Strategy
+## 3. Weekly Strategy
 
 **Workflow value:** `weekly_strategy`
-**Node count:** 1 Trigger, 3 Supabase (read), 1 Merge, 1 Function, 1 HTTP (AI), 1 IF (valid plan?), 1 Callback, error branch. No Video, no Wait.
+**Node count:** 1 Webhook, 1–2 Supabase (input guard read), 1 IF (any input
+data?), 1 HTTP (execution), 1 Error Trigger + 1 Error HTTP.
 
 ### Node-by-node
 
-#### N1 — Trigger node 🔧
-- **Name:** `Trigger: weekly_strategy`
-- **Input:** envelope `payload:{ week_start }` (`YYYY-MM-DD`, already validated by Vercel).
+#### N1 — Webhook Trigger 🔧
+- **Input:** envelope `payload:{ week_start }` (`YYYY-MM-DD`).
 
-#### N2 — Supabase node (Project Brain) 🔧
-- **Name:** `Read: projects (brain)` — `goal_type` → strategy objective fallback.
+#### N2 — Supabase node (input guard read) 🔧
+- **Name:** `Guard: input data exists?`
+- **Purpose:** Read-only existence check — does the project have **at least**
+  `evergreen_topics` **OR** eligible `trends`
+  (`metadata->>relevance_score >= 60`)? Can be one node per source.
+- **Input:** scoped selects by `project_id`, `limit 1` each.
+- **Output:** counts/flags `has_topics`, `has_eligible_trends`.
+- **Retry:** up to 3.
+- **Note:** This is **not** scoring or strategy — only existence.
 
-#### N3 — Supabase node (eligible trends) 🔧
-- **Name:** `Read: trends (eligible)`
-- **Input:** `where project_id AND metadata->>relevance_score >= 60`.
-- **Output:** `eligible_trends[]`.
-- **Retry:** 2.
+#### N3 — IF node (any input data?) 🔧
+- **Name:** `IF: has evergreen_topics OR eligible trends?`
+- **Output:**
+  - **false (nothing exists)** → end the run as **`NO_INPUT_DATA`**: do **not**
+    call the backend/AI, do **not** retry/loop. (Optionally POST
+    `error-callback` with `error_type:"no_input_data"` for visibility, then
+    stop.)
+  - **true** → N4.
 
-#### N4 — Supabase node (evergreen) 🔧
-- **Name:** `Read: evergreen_topics` — pillars for `project_id`.
-
-#### N5 — Merge node 🔧
-- **Name:** `Merge: strategy context` — brain + trends + topics.
-
-#### N6 — Function node (prompt assembly) 🔧
-- **Name:** `Build: strategy prompt` — map context + `week_start` → `ai_request`.
-
-#### N7 — HTTP Request node (AI) 🔧
-- **Name:** `AI: weekly strategy`
-- **Output:** `strategy { theme, objective?, week_end?, items:[{platform, format, priority?, topic, …}] }`.
-- **Retry:** 3.
-- **Error handling:** → error branch (`error_type: strategy_generation_failed`).
-
-#### N8 — IF node (valid items?) 🔧
-- **Name:** `IF: has valid plan items?`
-- **Purpose:** Ensure at least one item has a valid `platform` + `format` (others are skipped by the endpoint).
-- **Output:** true → N9; false → still send header-only strategy or error branch.
-
-#### N9 — Callback node (weekly strategy) ✅/🔧
-- **Name:** `Callback: weekly-strategy`
-- **Input:** `POST /api/n8n/weekly-strategy-callback` `{ project_id, week_start, strategy:{…} }`.
-- **Output:** `200`. Endpoint inserts `content_strategies` (objective falls back to project `goal_type`) + `content_strategy_items`.
-- **Retry:** 5 (exp).
+#### N4 — HTTP Request (execution endpoint) 🔧 → ✅
+- **Name:** `Weekly Strategy`
+- **Endpoint:** `POST https://<app>/api/n8n/weekly-strategy`
+- **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "week_start": <body.payload.week_start> }`.
+- **Backend does (not n8n):** validate `week_start`, derive `week_end`, run the
+  AI strategy, persist `content_strategies` + `content_strategy_items`.
+- **Retry / error visibility:** as W1 N3 (`400` on bad `week_start`).
 
 #### Error branch 🔧
-`workflow:"weekly_strategy"`.
+- `workflow:"weekly_strategy"`.
 
-**Expected final status:** 1 `content_strategies` + N `content_strategy_items`.
+**Expected final status:** 1 `content_strategies` + N `content_strategy_items`,
+**or** a clean `NO_INPUT_DATA` termination with no backend call.
 
 ---
 
-## 5. Publishing Planner
+## 4. Publishing Planner
 
 **Workflow value:** `publishing_planner`
-**Node count:** 1 Trigger, 3 Supabase (read), 1 Function (slot mapping), 1 IF (any items?), 1 Callback, error branch. No AI required, no Video, no Wait.
+**Node count:** 1 Webhook, 1 HTTP (execution), 1 Error Trigger + 1 Error HTTP.
+**No Supabase, no AI, no IF.**
 
 ### Node-by-node
 
-#### N1 — Trigger node 🔧
-- **Name:** `Trigger: publishing_planner`
+#### N1 — Webhook Trigger 🔧
 - **Input:** envelope `payload:{ week_start }`.
 
-#### N2 — Supabase node (rules) 🔧
-- **Name:** `Read: projects (rules)`
-- **Purpose:** `publishing_rules`, `platforms` for slot calculation.
-- **Input:** `where id = project_id`.
-- **Output:** `project`.
-- **Retry:** 2.
-
-#### N3 — Supabase node (eligible packages) 🔧
-- **Name:** `Read: content_packages (schedulable)`
-- **Input:** `where project_id AND status in ('ready','approved')`.
-- **Output:** `packages[]`.
-- **Retry:** 2.
-
-#### N4 — Supabase node (items) 🔧
-- **Name:** `Read: content_items`
-- **Purpose:** Platform items per package (the endpoint resolves `content_item_id` by package+platform, so the planner should target real platforms).
-- **Input:** `where package_id in (…) AND project_id`.
-- **Output:** `items[]`.
-- **Retry:** 2.
-
-#### N5 — Function node (slot mapping) 🔧
-- **Name:** `Build: schedule items`
-- **Purpose:** Apply `publishing_rules` to spread items across the week → `items:[{ content_package_id, platform, publish_at }]`. **Rule data comes from Supabase, not hardcoded.**
-- **Input:** `project`, `packages[]`, `items[]`, `week_start`.
-- **Output:** `schedule_items[]`.
-- **Retry:** 0.
-- **Error handling:** Throw → error branch (`step: slot_mapping`).
-
-#### N6 — IF node (any items?) 🔧
-- **Name:** `IF: has schedule items?`
-- **Output:** true → N7; false → finish.
-
-#### N7 — Callback node (publishing plan) ✅/🔧
-- **Name:** `Callback: publishing-plan`
-- **Input:** `POST /api/n8n/publishing-plan-callback` `{ project_id, week_start, items:[{content_package_id, platform, publish_at}] }`.
-- **Output:** `200`. Endpoint resolves `content_item_id` (NOT NULL FK) by package+platform and inserts `publishing_schedule` (status `scheduled`).
-- **Retry:** 5 (exp).
+#### N2 — HTTP Request (execution endpoint) 🔧 → ✅
+- **Name:** `Publishing Planner`
+- **Endpoint:** `POST https://<app>/api/n8n/publishing-planner`
+- **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "week_start": <body.payload.week_start> }`.
+- **Backend does (not n8n):** read `publishing_rules` + the week's strategies /
+  strategy items / packages, compute publish times, write `publishing_schedule`.
+- **Retry / error visibility:** as W1 N3.
+- **⚠ Known MVP limitation:** the backend **can create duplicate
+  `publishing_schedule` rows** on repeated runs for the same week. **n8n must
+  not add deduplication.** Operational mitigation only: **do not re-run this
+  workflow without a reason**, and never auto-retry it on success/ambiguity.
 
 #### Error branch 🔧
-`workflow:"publishing_planner"`.
+- `workflow:"publishing_planner"`.
 
 **Expected final status:** new `publishing_schedule` rows (status `scheduled`).
 
 ---
 
-## 6. AI orchestration sequence
+## 5. Trend Scan
 
-Used by: Generate, Regenerate, Trend Scan, Weekly Strategy (Publishing Planner
-needs **no** AI).
+**Workflow value:** `trend_scan`
+**Node count:** 1 Webhook, 1 Supabase (read-only acquisition guard read),
+(raw candidate acquisition), 1 HTTP (execution), 1 Error Trigger + 1 Error HTTP.
+**No scoring node.**
 
-```
-Read Project Brain (Supabase)
-  → Read workflow context (Supabase: strategy/trends/topics/assets)
-  → Merge → Function (build prompt from brain, no hardcoded rules)
-  → HTTP AI call (retry 3x: 2s/4s/8s on 429/5xx/timeout)
-  → Validate output against guardrails (platforms ⊆ project, no forbidden_claims)
-  → on success: continue to persistence/callback
-  → on final failure: error branch → /api/n8n/error-callback (error_type: ai_*_failed)
-```
+Trend Scan is the **last** workflow. n8n only obtains **raw trend candidates /
+input trend data** and forwards them. **All scoring & relevance logic is in the
+backend** — n8n contains **no scoring logic**.
 
-Key rule: the **prompt is assembled from Supabase data at runtime**, so a new
-project changes nothing in n8n.
+### Node-by-node
+
+#### N1 — Webhook Trigger 🔧
+- **Input:** envelope `payload:{}` (only `project_id`).
+
+#### N2 — Supabase node (read-only acquisition guard read) 🔧
+- **Purpose:** read a few `projects` fields **only** to build better Google News
+  RSS keyword queries (acquisition quality). This is **not** scoring and **not**
+  the Project Brain the backend uses — the backend re-loads the full Project
+  Brain itself for scoring (see N4).
+- **Operation:** read-only `getAll` on `projects`, `limit 1`, scoped **only** by
+  `project_id` (`id=eq.<body.project_id>`). Auth: `SUPABASE_SERVICE_ROLE_KEY`.
+- **Select only:** `language`, `market_scope`, `product_is`, `pain_points`,
+  `target_audience`. No other column is read.
+- **Must NOT:** write to Supabase, read `trends`, score, rank, filter by
+  relevance, or modify the Project Brain.
+- **Retry:** up to 3 on network/`5xx` only.
+
+#### N3 — (keyword set + raw candidates) 🔧
+- Build a simple keyword set from N2 (`product_is` + `pain_points`, optionally
+  `market_scope`/`language`/`target_audience`) using **deterministic rules — no
+  AI, no LLM**. Use it to query **Google News RSS** for raw candidates.
+- Each candidate is normalized to a plain object `{ source, title, url? }` with
+  `source: "news"`. `title` must be non-empty; `url` is optional.
+- No scoring, no ranking, no relevance decisions happen here. Keyword generation
+  only improves acquisition coverage — it never decides relevance.
+
+#### N4 — HTTP Request (execution endpoint) 🔧 → ✅
+- **Name:** `Trend Scan`
+- **Endpoint:** `POST https://<app>/api/n8n/trend-scan`
+- **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.
+- **Payload:** `{ "project_id": <body.project_id>, "candidates": [ { "source", "title", "url?" } ] }`.
+  n8n sends **only** `{ project_id, candidates }` — it never sends the Project
+  Brain (the backend re-loads it).
+- **Backend does (not n8n):** load Project Brain, score each candidate with the
+  existing relevance scorer, persist **accepted** trends to `trends` (score in
+  `metadata`); rejected trends are returned in the body but **not stored**. The
+  execution route persists accepted trends itself, so n8n does **not** call any
+  trend-scan callback endpoint.
+- **Retry / error visibility:** as W1 N3 (`400` if `candidates` is not an array).
+
+#### Error branch 🔧
+- `workflow:"trend_scan"`.
+
+**Expected final status:** new `trends` rows for accepted, scorable candidates.
+
+**Allowed `source` values (existing `trend_source` enum):** `manual`,
+`google_trends`, `social`, `news`, `internal`. Google News acquisition uses
+`news`.
 
 ---
 
-## 7. Video orchestration sequence
-
-Used by: Generate (always), Regenerate (conditional).
+## 6. Bridge orchestration sequence (all workflows)
 
 ```
-Insert video_jobs (status='queued', linked via content_item_id)
-  → HTTP enqueue to Video Worker (retry 2x) with video_job_id + resume URL
-  → Wait node (resume-on-webhook, timeout ~30 min)
-  → IF video completed?
-       true  → Callback /api/n8n/video-callback (status='completed', mp4_url, …)
-               → endpoint sets content_packages.status='draft'
-       false → Callback /api/n8n/video-callback (status='failed')
-               → error branch (/api/n8n/error-callback, error_type: video_failed)
+Webhook trigger (auth: N8N_WEBHOOK_SECRET)
+  → [minimal Supabase guard/read — Generate, Weekly Strategy & Trend Scan
+     (Trend Scan: read-only `projects` lookup for the acquisition keyword set)]
+  → [IF guard — only Weekly Strategy (NO_INPUT_DATA) / Regenerate (videoJobId?)]
+  → HTTP POST /api/n8n/<workflow>            (auth: N8N_CALLBACK_SECRET)
+       → backend runs ALL business logic and persists
+  → [HTTP POST /api/n8n/start-video-job]     (Generate always; Regenerate if videoJobId)
+  → log status + response body
+  → on failure → Error Trigger → POST /api/n8n/error-callback (real error)
 ```
 
-Notes: `video_jobs` has **no** `content_package_id`; it links through
-`content_item_id`. The video-callback can resolve the latest job by package when
-`video_job_id` is omitted, but passing `video_job_id` is preferred for
-idempotency. `package_status` has **no** `failed` value, so a failed video does
-not change the package status.
+Key rule: n8n passes `project_id` and ids through; it never generates,
+scores, plans, or writes domain rows. A new project changes nothing in n8n.
 
 ---
 
-## 8. Callback sequence
+## 7. Video handling (outside n8n)
+
+n8n does **not** render, enqueue-and-wait, or poll video. The only
+video-related node is `start-video-job` (Generate always; Regenerate when the
+regenerate response contains a `videoJobId`):
 
 ```
-Build callback payload (Function) — include row ids for idempotency
-  → HTTP POST /api/n8n/<workflow>-callback
-       headers: x-n8n-secret = N8N_CALLBACK_SECRET
-  → Inspect response:
-       200 ok        → done
-       400 / 422     → DO NOT retry → error branch (payload bug)
-       401           → STOP + alert (secret misconfig)
-       5xx / network → retry (5x exponential) → then error branch
+HTTP POST /api/n8n/start-video-job { project_id, content_package_id, video_job_id }
+   → backend hands the existing video_jobs row to the external Video Worker
+     (DigitalOcean / Docker) and marks it 'processing'
+   → Video Worker renders asynchronously and calls /api/n8n/video-callback ITSELF
+   → on 'completed', the callback sets content_packages.status = 'draft'
 ```
 
-Callback endpoints per workflow:
+`package_status` has **no** `failed` value, so a failed video does not change
+the package status. The video/FFmpeg stack stays off Vercel and must not be
+moved back in (see contract §15).
 
-| Workflow | Primary callback | Secondary callback |
-|----------|------------------|--------------------|
-| generate_content_package | `content-package-callback` | `video-callback` |
-| regenerate_content_package | `content-package-callback` | `video-callback` (conditional) |
-| trend_scan | `trend-scan-callback` | — |
-| weekly_strategy | `weekly-strategy-callback` | — |
-| publishing_planner | `publishing-plan-callback` | — |
-| _any failure_ | `error-callback` | — |
+---
+
+## 8. Endpoint reference per workflow
+
+| Workflow | n8n guard read | n8n calls (execution) | Conditional follow-up |
+|----------|----------------|------------------------|------------------------|
+| generate_content_package | `content_strategy_items` (pick `strategy_item_id`) | `/api/n8n/generate-content-package` | `/api/n8n/start-video-job` (always) |
+| regenerate_content_package | — | `/api/n8n/regenerate-content-package` | `/api/n8n/start-video-job` (if `videoJobId`) |
+| weekly_strategy | `evergreen_topics` OR eligible `trends` (existence) | `/api/n8n/weekly-strategy` | — |
+| publishing_planner | — | `/api/n8n/publishing-planner` | — |
+| trend_scan | `projects` (read-only, by `project_id`; acquisition keyword set only — never `trends`) | `/api/n8n/trend-scan` | — |
+| _any failure_ | — | `/api/n8n/error-callback` | — |
 
 ---
 
@@ -483,25 +363,26 @@ Callback endpoints per workflow:
 
 ```
 Node fails
-  → Is it a logic node (IF/Merge/Function)? → no retry → error branch
-  → Is it AI HTTP? → retry 3x (2s/4s/8s) on 429/5xx/timeout → else error branch
-  → Is it Supabase? → retry 2x (1s/3s) on network/5xx → else error branch
-  → Is it Video enqueue? → retry 2x (2s/5s) → else mark failed + error branch
-  → Is it a Callback?
-        4xx (400/422) → no retry → error branch
-        401           → stop + alert
-        5xx/network   → retry 5x (2s/4s/8s/16s/32s) → else error branch
-  → Wait node timeout → treat as video failed → video-callback(failed) + error branch
+  → IF node?                  → no retry → error branch
+  → Supabase guard read?      → retry up to 3 (network/5xx) → else error branch
+  → HTTP to /api/n8n/*?
+        400 / 404 / 422       → no retry → error branch (input/logic bug)
+        401                   → stop + alert (secret misconfig)
+        5xx / network / timeout → retry up to 3 → else error branch
+  → error-callback POST       → retry up to 5 (exp) on network/5xx
 ```
 
-All retries are safe because callbacks carry `content_package_id` /
-`video_job_id` and Supabase upserts are scoped by `project_id`.
+Backend calls carry `project_id` + row ids and are safe to retry, **except**
+the Publishing Planner duplicate-row limitation (contract §11): do not retry it
+just to "make sure".
 
 ---
 
 ## 10. Out of scope (🚫)
 
-Not part of these workflows or this spec: CRM, scheduler / auto-triggering,
-analytics & performance-tracking execution, custom/no-code workflow builders, and
-any new workflow beyond the 5 above. A new project must run on these exact 5
-workflows with only `project_id` changing.
+Not part of these workflows or this spec: CRM, an extra scheduler /
+auto-triggering, a monitoring/health workflow, a dead letter queue, any
+enterprise orchestration layer, analytics & performance-tracking execution,
+custom/no-code workflow builders, and any new workflow beyond the 5 above. A new
+project must run on these exact 5 thin bridge workflows with only `project_id`
+changing.

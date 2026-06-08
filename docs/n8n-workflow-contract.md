@@ -1,35 +1,53 @@
 # n8n Workflow Contract — AI Content Manager MVP
 
-This document is the single source of truth for building the **5 required n8n
-workflows**. It is written so a workflow can be created in n8n **without guessing**:
-every trigger payload, Supabase table, callback URL and payload shape below
-matches the code already implemented in the Vercel app.
+This document is the single source of truth for the **5 n8n workflows**. It is
+aligned with the **real, QA-verified** state of the code: n8n is **pure
+orchestration**. Every piece of business logic (AI generation, strategy
+decisions, CTA/hashtags, content_items/content_versions/video_jobs writes,
+publishing slots) runs in the **existing Next.js `/api/n8n/*` endpoints**.
 
 > Scope of this document: **contract only**. No workflow is implemented in code
-> here, no AI API is called, no Video Worker is called, the database is not
-> changed.
+> here. The database, the endpoints and the app architecture are **not changed**
+> by this doc — it only describes what already exists after QA.
 
 ---
 
 ## Legend
 
 - ✅ **Implemented in Vercel** — already exists in this repository, do not rebuild.
-- 🔧 **Build in n8n** — must be created manually / by import in n8n.
+- 🔧 **Build in n8n** — the thin bridge workflow created in n8n.
 - 🚫 **Out of MVP scope** — do not build now.
 
 ---
 
 ## 1. Architecture principles (must hold for every workflow)
 
-1. **n8n orchestrates, it does not hardcode business logic.** All
-   project-specific data (tone, audience, goals, forbidden claims, platforms,
-   publishing rules) is **read at runtime** from Supabase — the "Project Brain".
-2. **Project Brain is not a separate table.** It is the `projects` row plus the
-   related `assets`, `evergreen_topics` and `trends` for that `project_id`.
-3. **One workflow set for all projects.** There is **no per-project workflow**.
-   A new project must work with the existing 5 workflows with **zero n8n
-   changes** — the only variable is `project_id`.
-4. **Unified webhook envelope** for every trigger (Vercel → n8n):
+1. **n8n orchestrates only — it never runs business logic.** All generation,
+   strategy, scoring, slot planning and persistence happen inside the existing
+   Next.js endpoints under `/api/n8n/*`.
+2. **Workflows are thin bridge workflows.** A workflow is at most:
+   - a Webhook trigger,
+   - a **minimal** Supabase guard/read **only when needed** (e.g. read a
+     `strategy_item_id`, check that input data exists),
+   - one HTTP call to the matching `/api/n8n/*` endpoint,
+   - optionally a second HTTP call to `/api/n8n/start-video-job`,
+   - an error callback,
+   - logging of the status + response body.
+3. **n8n MUST NOT** (the backend owns all of this):
+   - generate content,
+   - decide strategy,
+   - create CTAs,
+   - create hashtags,
+   - manipulate `content_items`,
+   - create `content_versions`,
+   - create `video_jobs`,
+   - plan publishing slots with business logic,
+   - score / rank trends.
+4. **One workflow set for all projects.** There is **no per-project workflow**.
+   The only variable passed through is `project_id`; a new project must work
+   with the existing 5 workflows with **zero n8n changes**.
+5. **Unified webhook envelope** for every trigger (Vercel → n8n). The bridge
+   reads fields off `body`:
 
 ```json
 {
@@ -40,9 +58,11 @@ matches the code already implemented in the Vercel app.
 }
 ```
 
-5. **Unified callbacks** (n8n → Vercel) use the existing endpoints listed below.
-6. **Idempotency:** callbacks carry the row id (`content_package_id`,
-   `video_job_id`) so retries never create duplicates.
+6. **The backend is synchronous and authoritative.** The `/api/n8n/*`
+   execution endpoints do the work and return the created/updated row ids in
+   their response body (`data.packageId`, `data.videoJobId`, …). n8n forwards
+   those ids to follow-up calls (e.g. `start-video-job`); it does not invent
+   them.
 
 ---
 
@@ -50,26 +70,33 @@ matches the code already implemented in the Vercel app.
 
 | Direction | Header | Secret (env) | Validated by |
 |-----------|--------|--------------|--------------|
-| Vercel → n8n (trigger) | `x-n8n-secret` | `N8N_WEBHOOK_SECRET` | 🔧 n8n workflow (first node) |
-| n8n → Vercel (callback) | `x-n8n-secret` | `N8N_CALLBACK_SECRET` | ✅ Vercel callback routes |
+| Vercel → n8n (trigger webhook) | `x-n8n-secret` | `N8N_WEBHOOK_SECRET` | 🔧 n8n Webhook node (header auth) |
+| n8n → Vercel (`/api/n8n/*` calls) | `x-n8n-secret` | `N8N_CALLBACK_SECRET` | ✅ Vercel `/api/n8n/*` routes (`verifyN8nSecret`) |
 
 > The header name is identical in both directions, but the **secret value and
-> direction differ**. n8n must send `N8N_CALLBACK_SECRET` on callbacks and must
-> require `N8N_WEBHOOK_SECRET` on incoming triggers.
+> direction differ**. Every outbound call from n8n to a `/api/n8n/*` endpoint
+> (execution endpoint, `start-video-job`, or `error-callback`) authenticates
+> with `N8N_CALLBACK_SECRET`. The incoming trigger webhook is protected by
+> `N8N_WEBHOOK_SECRET`.
 
 | Variable | Used by | Notes |
 |----------|---------|-------|
-| `N8N_BASE_URL` | ✅ Vercel trigger endpoints | Outbound webhook target (where n8n listens). |
-| `N8N_WEBHOOK_SECRET` | ✅ Vercel → 🔧 n8n | Sent in `x-n8n-secret` on triggers. |
-| `N8N_CALLBACK_SECRET` | 🔧 n8n → ✅ Vercel | Sent in `x-n8n-secret` on callbacks. |
+| `N8N_BASE_URL` | ✅ Vercel `/api/automation/*` triggers | Outbound webhook target (where n8n listens). |
+| `N8N_WEBHOOK_SECRET` | ✅ Vercel → 🔧 n8n | Sent in `x-n8n-secret` on triggers; required by the webhook node. |
+| `N8N_CALLBACK_SECRET` | 🔧 n8n → ✅ Vercel | Sent in `x-n8n-secret` on every `/api/n8n/*` call. |
 | `NEXT_PUBLIC_SUPABASE_URL` | both | Supabase project URL. |
-| `SUPABASE_SERVICE_ROLE_KEY` | 🔧 n8n Supabase nodes | Service role for server-side reads/writes (bypasses RLS — scope every query by `project_id`). |
+| `SUPABASE_SERVICE_ROLE_KEY` | 🔧 n8n Supabase guard nodes + ✅ backend | Service role for server-side reads (bypasses RLS — scope every n8n read by `project_id`). |
+| `VIDEO_WORKER_URL` | ✅ `/api/n8n/start-video-job` | External Video Worker (DigitalOcean / Docker). **Not** n8n's concern. |
+| `VIDEO_WORKER_SECRET` | ✅ `/api/n8n/start-video-job` | Auth for the Video Worker call. |
 
 ---
 
-## 3. Vercel endpoints already implemented (✅)
+## 3. Vercel endpoints (✅ already implemented)
 
-### Trigger endpoints (Vercel → n8n)
+### Trigger endpoints (UI/cron → Vercel → n8n)
+
+These validate the request, verify the project exists, and POST the unified
+envelope to `N8N_BASE_URL`. They return **`202 Accepted`**.
 
 | Endpoint | Workflow value | Extra `payload` fields |
 |----------|----------------|------------------------|
@@ -79,44 +106,47 @@ matches the code already implemented in the Vercel app.
 | `POST /api/automation/weekly-strategy` | `weekly_strategy` | `week_start` |
 | `POST /api/automation/publishing-planner` | `publishing_planner` | `week_start` |
 
-All trigger endpoints: validate the request, verify the project exists, send the
-unified envelope to `N8N_BASE_URL`, and return **`202 Accepted`**:
+### Execution endpoints (n8n → Vercel) — **this is where the business logic runs**
 
-```json
-{ "ok": true, "workflow": "generate_content_package", "status": "queued" }
-```
+The bridge workflow calls **one** of these. Each one authenticates with
+`N8N_CALLBACK_SECRET`, runs on the service-role admin client (no user session),
+executes the existing business logic, and **persists directly**.
 
-Trigger error codes: `400` validation, `404` project/package not found,
-`500` n8n communication / missing env.
+| Endpoint | Required body | Backend does / writes |
+|----------|---------------|------------------------|
+| `POST /api/n8n/weekly-strategy` | `project_id`, `week_start` | AI strategy → `content_strategies`, `content_strategy_items` |
+| `POST /api/n8n/generate-content-package` | `project_id`, `strategy_item_id` | AI copy + video script → `content_packages` (draft), `content_items`, `video_jobs` (queued), `asset_usage` |
+| `POST /api/n8n/regenerate-content-package` | `project_id`, `content_package_id`, `reason?` | snapshot → `content_versions`; update `content_items`; reset package to `draft`; new `video_jobs` (queued) |
+| `POST /api/n8n/publishing-planner` | `project_id`, `week_start` | rule-based slot mapping → `publishing_schedule` |
+| `POST /api/n8n/trend-scan` | `project_id`, `candidates[]` | AI relevance scoring → `trends` (accepted only) |
+| `POST /api/n8n/start-video-job` | `project_id`, `content_package_id`, `video_job_id?` | hands an existing `video_jobs` row to the external Video Worker; marks it `processing` |
 
-### Callback endpoints (n8n → Vercel)
+Execution-endpoint responses (✅):
+- Success of generate/regenerate/weekly-strategy: `200 { ok: true, data: { … } }`
+  where `data` carries `packageId`, `videoJobId`, `contentItemIds`, etc.
+- publishing-planner / trend-scan / start-video-job: `202 { ok: true, … }`.
+- `400` invalid input / `404` project or package not found / `401` bad secret /
+  `422` AI output failed validation / `500` server/DB or Video Worker config.
 
-| Endpoint | Writes to |
-|----------|-----------|
-| `POST /api/n8n/content-package-callback` | `content_packages` |
-| `POST /api/n8n/video-callback` | `video_jobs` (+ `content_packages.status`) |
-| `POST /api/n8n/trend-scan-callback` | `trends` |
-| `POST /api/n8n/weekly-strategy-callback` | `content_strategies`, `content_strategy_items` |
-| `POST /api/n8n/publishing-plan-callback` | `publishing_schedule` |
-| `POST /api/n8n/error-callback` | nothing (structured server log only) |
+### Callback endpoints used by the backend / Video Worker (n8n does **not** call these in the bridge flow)
 
-Callback response codes (✅ implemented): `200` ok, `401` bad/missing secret,
-`400` invalid JSON / invalid payload, `500` server/DB error. Success body:
+| Endpoint | Caller | Writes to |
+|----------|--------|-----------|
+| `POST /api/n8n/video-callback` | external **Video Worker** when a render finishes | `video_jobs` (+ `content_packages.status`) |
+| `POST /api/n8n/error-callback` | 🔧 n8n error branch | nothing (structured server log only) |
+| `content-package-callback`, `trend-scan-callback`, `weekly-strategy-callback`, `publishing-plan-callback` | reused **internally** by the execution endpoints | their respective tables |
 
-```json
-{ "ok": true }
-```
-
-> **Important — callbacks are UPDATE-oriented.** `content-package-callback` and
-> `video-callback` **update existing rows** (they look the row up by id +
-> `project_id`). Therefore n8n must **INSERT the skeleton rows first** (see each
-> workflow) using the existing tables. The insert/finalize split is intentional.
+> The execution endpoints persist results themselves, so n8n does **not** POST
+> the workflow callbacks. The only callbacks in the bridge picture are
+> `video-callback` (called by the Video Worker, not n8n) and `error-callback`
+> (called by n8n's error branch).
 
 ---
 
 ## 4. Tables in scope (real schema)
 
-Use **only** these tables (confirmed in `supabase/migrations` and the code):
+These are the tables the **backend** touches. n8n only reads a tiny subset for
+guards (see each workflow) and **never writes** them.
 
 `projects`, `content_packages`, `content_items`, `video_jobs`, `trends`,
 `content_strategies`, `content_strategy_items`, `publishing_schedule`, `assets`,
@@ -143,18 +173,18 @@ Use **only** these tables (confirmed in `supabase/migrations` and the code):
 
 ## 5. Generic error callback (all workflows)
 
-On any terminal failure, after retries are exhausted, n8n 🔧 must POST:
+On any terminal failure, after the per-node retries are exhausted, the n8n 🔧
+error branch must POST:
 
 `POST /api/n8n/error-callback`
 
 ```json
 {
   "project_id": "uuid (optional)",
-  "content_package_id": "uuid (optional)",
   "workflow": "generate_content_package",
-  "step": "ai_generation (optional)",
-  "error_type": "ai_timeout",
-  "error_message": "Model call timed out after 3 retries"
+  "step": "N3 — Generate Content Package (optional)",
+  "error_type": "workflow_error",
+  "error_message": "real error message — do not mask"
 }
 ```
 
@@ -165,29 +195,57 @@ not persist** this (no error table exists); it logs a structured line and return
 
 ---
 
-## 6. Generic retry rules (apply unless a workflow overrides)
+## 6. Error visibility (mandatory for every HTTP node)
 
-| Step | Retry policy |
-|------|--------------|
-| Supabase read/write (n8n node) | 2 retries, 1s → 3s backoff, on network / 5xx only. |
-| AI provider call | 3 retries, exponential backoff (2s, 4s, 8s), on `429` / `5xx` / timeout. |
-| Video Worker call | 2 retries to enqueue; rendering itself is async (await its own callback). |
-| Callback POST → Vercel | up to 5 retries, exponential backoff, on **network / 5xx only**. |
-| Callback `400`/`422` | **Do not retry** — payload bug. POST `error-callback` instead. |
-| Callback `401` | **Stop** — secret misconfigured. Alert; do not loop. |
+Each HTTP Request node must be configured so that, while debugging, the
+following are always visible and the **real error is never hidden**:
 
-Because callbacks are idempotent (row id in payload), retries are safe.
+- the **endpoint** called (full URL),
+- the **payload** that was sent,
+- the **HTTP status** code returned,
+- the **response body** returned.
+
+Concretely in n8n: keep "Full Response" / response logging on, do **not**
+swallow non-2xx into a generic message, and forward the upstream
+`error_message` verbatim into `error-callback`. A bridge that hides the
+backend's `422`/`500` body is a defect.
 
 ---
 
-## 7. Workflow 1 — Generate Content Package
+## 7. Generic retry rules
+
+| Step | Retry policy |
+|------|--------------|
+| Supabase guard/read (n8n node) | up to 3 tries, ~1s backoff, on network / 5xx only. |
+| HTTP call to `/api/n8n/*` execution endpoint | up to 3 tries, ~2s backoff, on network / 5xx / timeout only. |
+| HTTP call to `/api/n8n/start-video-job` | up to 3 tries, ~2s backoff. |
+| `400` / `404` / `422` from an endpoint | **Do not retry** — input/logic problem. POST `error-callback`. |
+| `401` | **Stop** — secret misconfigured. Alert; do not loop. |
+| `error-callback` POST | up to 5 tries, exponential backoff, on network / 5xx only. |
+
+Because the backend uses ids (`content_package_id`, `video_job_id`) and is
+scoped by `project_id`, safe retries do not create duplicates — **except** the
+known Publishing Planner limitation in §11.
+
+---
+
+## 8. Workflow 1 — Generate Content Package
 
 - **Workflow value:** `generate_content_package`
-- **Status:** workflow itself 🔧 (Vercel trigger + callbacks ✅)
+- **Status:** bridge workflow 🔧 (all logic in ✅ `/api/n8n/*`)
 
-**Purpose:** Produce a review-ready content package for a project: a
-`content_packages` row, its per-platform `content_items`, and a queued
-`video_jobs` row, with AI-generated copy and a video script.
+**Verified flow:**
+
+```
+Webhook trigger
+  → read strategy_item_id (minimal Supabase guard)
+  → POST /api/n8n/generate-content-package   (backend creates everything)
+  → POST /api/n8n/start-video-job            (using ids from the response)
+  → (error branch → /api/n8n/error-callback)
+```
+
+**Backend creates** (n8n does none of this): `content_packages` (status
+`draft`), `content_items`, `video_jobs` (status `queued`), `asset_usage`.
 
 **Trigger payload (Vercel → n8n):**
 
@@ -196,83 +254,81 @@ Because callbacks are idempotent (row id in payload), retries are safe.
   "workflow": "generate_content_package",
   "project_id": "11111111-1111-1111-1111-111111111111",
   "requested_at": "2026-06-04T11:00:00.000Z",
-  "payload": { "package_count": 1, "funnel_stage": "awareness" }
+  "payload": { "funnel_stage": "awareness" }
 }
 ```
 
-**Required input fields:** `project_id`. Optional: `payload.package_count`
-(default 1), `payload.funnel_stage`.
+**Step 1 — minimal guard read (🔧):** read **one** `content_strategy_items` row
+for `project_id` (optionally filtered by `payload.funnel_stage`) to obtain a
+`strategy_item_id`. This is the only Supabase touch and it is **read-only**.
 
-**Supabase read steps (🔧):**
-1. `projects` where `id = project_id` → Project Brain (tone, audience, goal_type,
-   product_is / product_is_not, forbidden_claims, platforms, default_cta).
-2. `content_strategy_items` (+ parent `content_strategies`) where `project_id` →
-   pick the strategy item / funnel stage to realize (optional driver).
-3. `evergreen_topics` where `project_id` → reusable angles.
-4. `trends` where `project_id` and `metadata.relevance_score >= 60` → topical hooks.
-5. `assets` where `project_id` → assets eligible for reuse.
+**Step 2 — execution call (🔧 → ✅):**
 
-**AI API steps (🔧):** call the text model with the Project Brain context to
-produce: package `title`, `platform_outputs` (one entry per target platform with
-caption / hashtags / cta), `voiceover_text`, `subtitles`, and a `video` concept +
-script. Apply guardrails (no `forbidden_claims`, platforms ⊆ project platforms).
+`POST /api/n8n/generate-content-package`
 
-**Skeleton inserts (🔧 Supabase, before callbacks):**
-- Insert `content_packages` (`project_id`, `title`, `status='draft'`,
-  `strategy_item_id?`, `weekly_strategy_id?`, `funnel_stage?`,
-  `package_brief={}`) → capture `content_package_id`.
-- Insert `content_items` (one per platform: `project_id`, `package_id`,
-  `platform`, `format`, `status='draft'`, `caption`, `hashtags`, `cta`).
-- Insert `video_jobs` (`project_id`, `content_item_id` = primary item,
-  `provider`, `status='queued'`, `input` = {concept, script, voiceover_text}).
-- Optionally insert `asset_usage` for reused assets.
+```json
+{
+  "project_id": "11111111-1111-1111-1111-111111111111",
+  "strategy_item_id": "33333333-3333-3333-3333-333333333333"
+}
+```
 
-**Video Worker steps (🔧):** send the script/voiceover to the Video Worker
-referencing `video_job_id`. The Worker renders asynchronously and triggers the
-**video-callback** (Workflow 2's callback) when done.
+Response (✅) on success:
 
-**Callback endpoint:** `POST /api/n8n/content-package-callback`
+```json
+{
+  "ok": true,
+  "data": {
+    "packageId": "22222222-2222-2222-2222-222222222222",
+    "videoJobId": "44444444-4444-4444-4444-444444444444",
+    "status": "draft",
+    "contentItemIds": ["…"]
+  }
+}
+```
 
-**Callback payload:**
+**Step 3 — start video (🔧 → ✅):**
+
+`POST /api/n8n/start-video-job`
 
 ```json
 {
   "project_id": "11111111-1111-1111-1111-111111111111",
   "content_package_id": "22222222-2222-2222-2222-222222222222",
-  "status": "ready",
-  "platform_outputs": {
-    "instagram": { "caption": "…", "hashtags": ["#…"], "cta": "…" },
-    "linkedin":  { "caption": "…", "hashtags": ["#…"], "cta": "…" }
-  },
-  "message": "Generated 2 platform outputs"
+  "video_job_id": "44444444-4444-4444-4444-444444444444"
 }
 ```
 
-> Handler behavior (✅): `status` must be a `package_status` value;
-> `platform_outputs` is stored inside the existing `package_brief` jsonb (there
-> is no `platform_outputs` column and no separate table); `updated_at` is set.
+The endpoint hands the existing `video_jobs` row to the external Video Worker
+(DigitalOcean/Docker) and marks it `processing`. The Worker renders
+asynchronously and later calls `POST /api/n8n/video-callback` itself (n8n is not
+involved in the render or its callback).
 
-**Error callback payload:** see §5 with `workflow: "generate_content_package"`,
-e.g. `error_type: "ai_generation_failed"`.
+**Error branch (🔧):** see §5 with `workflow: "generate_content_package"`.
 
-**Retry rules:** generic (§6). Use the inserted `content_package_id` on every
-callback so retries are idempotent.
-
-**Expected final status:**
-- `content_packages.status = 'draft'` once the video completes — **the
-  video-callback forces the package back to `draft` (review-ready) on
-  `completed`**, regardless of the `ready` sent here.
-- `video_jobs.status = 'completed'` after the Video Worker callback.
+**Expected final status:** `content_packages.status = 'draft'` (review-ready;
+the video-callback keeps it `draft` on `completed`); `video_jobs.status` moves
+`queued → processing → completed` once the Worker reports back.
 
 ---
 
-## 8. Workflow 2 — Regenerate Content Package
+## 9. Workflow 2 — Regenerate Content Package
 
 - **Workflow value:** `regenerate_content_package`
-- **Status:** workflow itself 🔧 (Vercel trigger + callbacks ✅)
+- **Status:** bridge workflow 🔧 (all logic in ✅ `/api/n8n/*`)
 
-**Purpose:** Re-create the copy (and optionally the video) of an existing
-content package, preserving history.
+**Verified flow:**
+
+```
+Webhook trigger
+  → POST /api/n8n/regenerate-content-package   (backend does everything)
+  → IF response.data.videoJobId present → POST /api/n8n/start-video-job
+  → (error branch → /api/n8n/error-callback)
+```
+
+**Backend does** (n8n does none of this): inserts a snapshot into
+`content_versions`, updates the existing `content_items` in place, resets the
+package to `draft`, and creates a new `video_jobs` row (status `queued`).
 
 **Trigger payload:**
 
@@ -288,131 +344,52 @@ content package, preserving history.
 }
 ```
 
-**Required input fields:** `project_id`, `payload.content_package_id`. Optional:
-`payload.reason`.
+**Step 1 — execution call (🔧 → ✅):**
 
-> The Vercel trigger verifies the package belongs to the project and **does not**
-> change its status: `package_status` has no `regenerate_requested` value.
-
-**Supabase read steps (🔧):**
-1. `projects` where `id = project_id` → Project Brain.
-2. `content_packages` where `id = content_package_id AND project_id` → current package.
-3. `content_items` where `package_id = content_package_id` → current items.
-4. `assets` / `asset_usage` where `project_id` → reuse context.
-
-**History (🔧, existing table):** before overwriting, insert a snapshot into
-`content_versions` (`project_id`, `content_package_id` and/or `content_item_id`,
-`version_no`, `snapshot` = current jsonb, `change_note` = reason).
-
-**AI API steps (🔧):** regenerate `platform_outputs` / item copy using the
-Project Brain + `reason`. Same guardrails as Workflow 1.
-
-**Updates (🔧 Supabase):** update the existing `content_items` rows in place
-(scoped by `project_id`). If a new video is required, insert a new `video_jobs`
-row and run the Video Worker → video-callback.
-
-**Callback endpoint:** `POST /api/n8n/content-package-callback`
-
-**Callback payload:** same shape as Workflow 1 (reuses the existing
-`content_package_id`):
+`POST /api/n8n/regenerate-content-package`
 
 ```json
 {
   "project_id": "11111111-1111-1111-1111-111111111111",
   "content_package_id": "22222222-2222-2222-2222-222222222222",
-  "status": "ready",
-  "platform_outputs": { "instagram": { "caption": "…" } },
-  "message": "Regenerated after: Tone too formal"
+  "reason": "Tone too formal"
 }
 ```
 
-**Error callback payload:** §5 with `workflow: "regenerate_content_package"`.
+Response (✅) on success includes `data.videoJobId` and `data.versionsCreated`.
 
-**Retry rules:** generic (§6).
+**Step 2 — start video, conditionally (🔧 → ✅):** only **if** the response
+contains a `videoJobId`, POST `/api/n8n/start-video-job` with
+`{ project_id, content_package_id, video_job_id }` (same shape as Workflow 1).
 
-**Expected final status:** `content_packages.status = 'draft'` (review-ready);
-prior state preserved in `content_versions`; new `video_jobs.status = 'completed'`
-if a video was regenerated.
+**Error branch (🔧):** §5 with `workflow: "regenerate_content_package"`.
+
+**Expected final status:** `content_packages.status = 'draft'`; prior state
+preserved in `content_versions`; new `video_jobs` renders via the Worker.
 
 ---
 
-## 9. Workflow 3 — Trend Scan
-
-- **Workflow value:** `trend_scan`
-- **Status:** workflow itself 🔧 (Vercel trigger + callback ✅)
-
-**Purpose:** Discover and score trends for a project and persist the relevant
-ones.
-
-**Trigger payload:**
-
-```json
-{
-  "workflow": "trend_scan",
-  "project_id": "11111111-1111-1111-1111-111111111111",
-  "requested_at": "2026-06-04T11:10:00.000Z",
-  "payload": {}
-}
-```
-
-**Required input fields:** `project_id` only.
-
-**Supabase read steps (🔧):**
-1. `projects` where `id = project_id` → Project Brain (market, audience, goal).
-2. `trends` where `project_id` → existing trends for de-duplication.
-3. `evergreen_topics` where `project_id` → known pillars to align with.
-
-**AI API steps (🔧):** discover candidate trends (external sources are the
-workflow's concern) and **score relevance** (0–100). Trends with
-`relevance_score` below threshold go to `rejected_trends`.
-
-**Video Worker steps:** none.
-
-**Callback endpoint:** `POST /api/n8n/trend-scan-callback`
-
-**Callback payload:**
-
-```json
-{
-  "project_id": "11111111-1111-1111-1111-111111111111",
-  "accepted_trends": [
-    {
-      "title": "AI agents for SMB marketing",
-      "relevance_score": 82,
-      "source": "news",
-      "source_url": "https://…",
-      "signal_strength": 7,
-      "rationale": "Matches lead_generation goal",
-      "angle": "How SMBs cut content cost"
-    }
-  ],
-  "rejected_trends": []
-}
-```
-
-> Handler behavior (✅): each accepted trend **must** have `relevance_score`
-> (number) and `title` (else it is skipped — `title` is NOT NULL).
-> `relevance_score` is stored in the `trends.metadata` jsonb (no
-> `relevance_score` column). `source` must be a `trend_source` value (defaults to
-> `internal`); `signal_strength` is used only if it is 1–10.
-> **`rejected_trends` are intentionally NOT stored** (no log table exists).
-
-**Error callback payload:** §5 with `workflow: "trend_scan"`.
-
-**Retry rules:** generic (§6).
-
-**Expected final status:** new rows in `trends` for every accepted, scorable
-trend; rejected trends discarded.
-
----
-
-## 10. Workflow 4 — Weekly Strategy
+## 10. Workflow 3 — Weekly Strategy
 
 - **Workflow value:** `weekly_strategy`
-- **Status:** workflow itself 🔧 (Vercel trigger + callback ✅)
+- **Status:** bridge workflow 🔧 (all logic in ✅ `/api/n8n/weekly-strategy`)
 
-**Purpose:** Produce a weekly content strategy (a `content_strategies` header
-plus `content_strategy_items`) for the requested week.
+**Verified flow (with input guard):**
+
+```
+Webhook trigger
+  → input guard: does the project have ANY input data?
+        read evergreen_topics  OR  eligible trends (metadata.relevance_score >= 60)
+        → if BOTH are empty: end the run as NO_INPUT_DATA (do NOT call AI/backend,
+          do NOT loop/retry)
+        → else: POST /api/n8n/weekly-strategy
+  → (error branch → /api/n8n/error-callback)
+```
+
+**Input guard rationale:** the strategy AI is expensive (~90s, see §15). If
+there is nothing to plan from, the workflow must **end deterministically** as
+`NO_INPUT_DATA` rather than repeatedly invoking the AI/backend. The guard is a
+read-only existence check — it does **not** score, rank, or decide strategy.
 
 **Trigger payload:**
 
@@ -425,64 +402,41 @@ plus `content_strategy_items`) for the requested week.
 }
 ```
 
-**Required input fields:** `project_id`, `payload.week_start` (`YYYY-MM-DD`,
-validated by the Vercel trigger).
+**Execution call (🔧 → ✅):**
 
-**Supabase read steps (🔧):**
-1. `projects` where `id = project_id` → Project Brain (goal_type → strategy objective).
-2. `trends` where `project_id` and `metadata.relevance_score >= 60` → eligible trends.
-3. `evergreen_topics` where `project_id` → evergreen pillars.
-
-**AI API steps (🔧):** build the weekly theme and a `content_plan` of items
-(platform + format + funnel stage + topic/trend reference) within the Project
-Brain constraints.
-
-**Video Worker steps:** none.
-
-**Callback endpoint:** `POST /api/n8n/weekly-strategy-callback`
-
-**Callback payload:**
+`POST /api/n8n/weekly-strategy`
 
 ```json
 {
   "project_id": "11111111-1111-1111-1111-111111111111",
-  "week_start": "2026-06-08",
-  "strategy": {
-    "theme": "Launch week",
-    "objective": "lead_generation",
-    "week_end": "2026-06-14",
-    "items": [
-      { "platform": "instagram", "format": "reel", "priority": 1, "topic": "…" },
-      { "platform": "linkedin",  "format": "article", "priority": 2, "topic": "…" }
-    ]
-  }
+  "week_start": "2026-06-08"
 }
 ```
 
-> Handler behavior (✅): inserts `content_strategies` (`name` = `strategy.theme`
-> or `Weekly {week_start}`; `objective` = valid `goal_type` from
-> `strategy.objective`, else falls back to the project's `goal_type`;
-> `period_start` = `week_start`; `period_end` = `strategy.week_end`;
-> `strategy_brief` = the whole `strategy`). Then inserts `content_strategy_items`
-> for each item that has **both** a valid `platform` and `format` (others are
-> skipped); `priority` is used only if 1–5. The full item is stored in `brief`.
+The backend validates `week_start` (`YYYY-MM-DD`), derives `week_end`
+(`week_start + 6` days), runs the AI strategy, and persists
+`content_strategies` + `content_strategy_items`. `week_start` invalid → `400`.
 
-**Error callback payload:** §5 with `workflow: "weekly_strategy"`.
-
-**Retry rules:** generic (§6).
+**Error branch (🔧):** §5 with `workflow: "weekly_strategy"`.
 
 **Expected final status:** one new `content_strategies` row + N
-`content_strategy_items` rows for the week.
+`content_strategy_items` rows for the week — **or** a clean `NO_INPUT_DATA`
+termination with no backend call.
 
 ---
 
-## 11. Workflow 5 — Publishing Planner
+## 11. Workflow 4 — Publishing Planner
 
 - **Workflow value:** `publishing_planner`
-- **Status:** workflow itself 🔧 (Vercel trigger + callback ✅)
+- **Status:** bridge workflow 🔧 (all logic in ✅ `/api/n8n/publishing-planner`)
 
-**Purpose:** Turn ready content into scheduled publishing slots
-(`publishing_schedule`) for the week.
+**Verified flow:**
+
+```
+Webhook trigger
+  → POST /api/n8n/publishing-planner   (backend does the slot mapping + persist)
+  → (error branch → /api/n8n/error-callback)
+```
 
 **Trigger payload:**
 
@@ -495,94 +449,174 @@ Brain constraints.
 }
 ```
 
-**Required input fields:** `project_id`, `payload.week_start` (`YYYY-MM-DD`).
+**Execution call (🔧 → ✅):**
 
-**Supabase read steps (🔧):**
-1. `projects` where `id = project_id` → `publishing_rules`, `platforms`.
-2. `content_packages` where `project_id` and `status in ('ready','approved')` →
-   packages eligible to schedule.
-3. `content_items` where `package_id in (…)` and `project_id` → platform items
-   that will be published.
-
-**AI API steps:** none required (scheduling is rule-based from
-`projects.publishing_rules`). AI is optional and out of the core contract.
-
-**Video Worker steps:** none.
-
-**Callback endpoint:** `POST /api/n8n/publishing-plan-callback`
-
-**Callback payload:**
+`POST /api/n8n/publishing-planner`
 
 ```json
 {
   "project_id": "11111111-1111-1111-1111-111111111111",
-  "week_start": "2026-06-08",
-  "items": [
-    {
-      "content_package_id": "22222222-2222-2222-2222-222222222222",
-      "platform": "instagram",
-      "publish_at": "2026-06-09T09:00:00.000Z"
-    }
-  ]
+  "week_start": "2026-06-08"
 }
 ```
 
-> Handler behavior (✅): each item is verified to belong to the project, then the
-> matching `content_items.id` is resolved by `package_id` + `project_id` +
-> `platform` (because `publishing_schedule.content_item_id` is NOT NULL — there
-> is **no** `content_package_id` column on `publishing_schedule`). It inserts
-> `publishing_schedule` (`scheduled_at` = `publish_at`, `status` defaults to
-> `scheduled`, `publishing_metadata` keeps the source `content_package_id`).
-> Items with no matching content item for that platform are skipped.
+The backend reads `publishing_rules` + the week's `content_strategies` /
+`content_strategy_items` / `content_packages`, computes publish times, and
+writes only to `publishing_schedule`.
 
-**Error callback payload:** §5 with `workflow: "publishing_planner"`.
+> **Known MVP limitation (documented, not fixed here):** the backend can create
+> **duplicate `publishing_schedule` rows** when run repeatedly for the same week
+> — it does not currently deduplicate. **n8n must not implement deduplication.**
+> The only mitigation in scope is operational: **do not re-run the Publishing
+> Planner workflow without a reason** (and never put it on an auto-retry loop).
 
-**Retry rules:** generic (§6).
+**Error branch (🔧):** §5 with `workflow: "publishing_planner"`.
 
 **Expected final status:** new `publishing_schedule` rows (status `scheduled`)
 for each schedulable item.
 
 ---
 
-## 12. What must be built in n8n (🔧 summary)
+## 12. Workflow 5 — Trend Scan
 
-For each of the 5 workflows:
-1. A webhook trigger node that validates `x-n8n-secret == N8N_WEBHOOK_SECRET`.
-2. Supabase read nodes (Project Brain + workflow-specific tables), scoped by `project_id`.
-3. Skeleton Supabase inserts where required (Workflow 1; Workflow 2 updates).
-4. AI provider node(s) where the workflow needs generation/scoring.
-5. Video Worker call where the workflow needs video (Workflows 1 & 2).
-6. Callback HTTP node(s) to the matching `/api/n8n/*` endpoint with
-   `x-n8n-secret == N8N_CALLBACK_SECRET`.
-7. An error branch that POSTs `/api/n8n/error-callback`.
-8. Retry configuration per §6.
+- **Workflow value:** `trend_scan`
+- **Status:** bridge workflow 🔧 (all scoring logic in ✅ `/api/n8n/trend-scan`)
 
-The **Video Worker** itself is an external renderer: this contract defines only
-the `video_jobs` row shape and the `video-callback` payload it must trigger; the
-Worker's internals are not built here.
+Trend Scan is the **last** workflow. n8n's only job is to obtain **raw trend
+candidates / input trend data** and hand them to the backend. **Scoring and
+relevance logic live entirely in the backend** — n8n must contain **no scoring
+logic**.
+
+**Verified flow:**
+
+```
+Webhook trigger
+  → [read-only `projects` lookup by project_id — acquisition keyword set only]
+  → obtain raw trend candidates (input trend data)
+  → POST /api/n8n/trend-scan   (backend scores + persists accepted trends)
+  → (error branch → /api/n8n/error-callback)
+```
+
+**Acquisition keyword lookup (🔧, optional read-only guard):** before
+acquisition, n8n MAY perform a single **read-only** `projects` lookup scoped
+**only** by `project_id`, reading just `language`, `market_scope`, `product_is`,
+`pain_points`, and `target_audience`. Its **sole** purpose is to build better
+raw RSS / Google News search queries. This lookup **must not** write to
+Supabase, read `trends`, score, rank, filter by relevance, or modify the Project
+Brain. The backend still **re-loads the full Project Brain itself** for scoring
+(below); n8n does **not** send the Project Brain to the backend — it sends
+**only** `{ project_id, candidates }`.
+
+**Trigger payload:**
+
+```json
+{
+  "workflow": "trend_scan",
+  "project_id": "11111111-1111-1111-1111-111111111111",
+  "requested_at": "2026-06-04T11:10:00.000Z",
+  "payload": {}
+}
+```
+
+**Execution call (🔧 → ✅):**
+
+`POST /api/n8n/trend-scan`
+
+```json
+{
+  "project_id": "11111111-1111-1111-1111-111111111111",
+  "candidates": [
+    { "source": "news", "title": "AI agents for SMB marketing", "url": "https://…" }
+  ]
+}
+```
+
+The backend loads the Project Brain, scores each candidate with the existing AI
+relevance scorer (`scoreTrendRelevance`, threshold `MIN_TREND_RELEVANCE`),
+persists only accepted trends to `trends` (score in `trends.metadata`), and
+returns the rejected list in the response body only (rejected trends are **not**
+stored). `candidates` must be an array → otherwise `400`. The execution route
+persists accepted trends itself, so n8n does **not** call any trend-scan
+callback endpoint.
+
+**Candidate shape:** each candidate is `{ source, title, url? }` — `title` must
+be non-empty, `url` is optional. **`source` must be one of the existing
+`trend_source` enum values:** `manual`, `google_trends`, `social`, `news`,
+`internal`. Google News acquisition uses `news`.
+
+**n8n must not:** score, rank, filter by relevance, write to Supabase, or read
+the `trends` table. Acquisition produces raw candidates only; scoring,
+thresholding and persistence stay entirely in `/api/n8n/trend-scan`.
+
+**Error branch (🔧):** §5 with `workflow: "trend_scan"`.
+
+**Expected final status:** new `trends` rows for accepted, scorable candidates.
 
 ---
 
-## 13. Out of MVP scope (🚫 do not build now)
+## 13. What must be built in n8n (🔧 summary)
+
+For each of the 5 workflows, the bridge is at most:
+1. A Webhook trigger node validating `x-n8n-secret == N8N_WEBHOOK_SECRET`.
+2. A **minimal** Supabase read **only where the flow needs it** (Generate reads
+   a `strategy_item_id`; Weekly Strategy reads an existence guard). No writes.
+3. One HTTP Request node to the matching `/api/n8n/*` execution endpoint
+   (`x-n8n-secret == N8N_CALLBACK_SECRET`), with full error visibility (§6).
+4. For Generate (always) and Regenerate (only if the response has a
+   `videoJobId`): an HTTP Request node to `/api/n8n/start-video-job`.
+5. An Error Trigger branch that POSTs `/api/n8n/error-callback` with the **real**
+   error message.
+6. Status + response-body logging on every HTTP node.
+
+The **Video Worker** is external (DigitalOcean/Docker) and calls
+`/api/n8n/video-callback` itself; it is not orchestrated step-by-step by n8n.
+
+---
+
+## 14. Out of MVP scope (🚫 do not build now)
 
 - CRM integration.
-- BI / analytics dashboards.
-- Scheduler integration (cron/auto-trigger of the trigger endpoints).
-- Performance tracking **execution** (`content_performance` exists in schema but
-  is not populated by these workflows in MVP).
-- Custom workflow builder / no-code editor.
-- **Per-project workflow duplication** — a new project must reuse these exact 5
-  workflows.
+- An extra scheduler (cron/auto-trigger) layered on top of these workflows.
+- A monitoring / health-check workflow.
+- A dead letter queue.
+- Any enterprise orchestration layer.
+- BI / analytics dashboards; performance-tracking execution.
+- **Per-project workflow duplication** — a new project reuses these exact 5
+  workflows; only `project_id` changes.
 
 ---
 
-## 14. Quick reference — workflow ↔ callback ↔ tables
+## 15. Known runtime risk
 
-| Workflow | Trigger endpoint | Callback endpoint | Tables written |
-|----------|------------------|-------------------|----------------|
-| `generate_content_package` | `/api/automation/generate-content-package` | `/api/n8n/content-package-callback` (+ `/api/n8n/video-callback`) | `content_packages`, `content_items`, `video_jobs`, `asset_usage` |
-| `regenerate_content_package` | `/api/automation/regenerate-content-package` | `/api/n8n/content-package-callback` (+ `/api/n8n/video-callback`) | `content_items`, `content_versions`, `video_jobs`, `content_packages` |
-| `trend_scan` | `/api/automation/trend-scan` | `/api/n8n/trend-scan-callback` | `trends` |
-| `weekly_strategy` | `/api/automation/weekly-strategy` | `/api/n8n/weekly-strategy-callback` | `content_strategies`, `content_strategy_items` |
-| `publishing_planner` | `/api/automation/publishing-planner` | `/api/n8n/publishing-plan-callback` | `publishing_schedule` |
+The AI execution endpoints run as **Next.js / Vercel routes**, so their wall
+time counts against the Vercel function timeout:
+
+| Endpoint | Approx. runtime |
+|----------|-----------------|
+| `/api/n8n/weekly-strategy` | ~90 s |
+| `/api/n8n/generate-content-package` | ~160 s |
+| `/api/n8n/regenerate-content-package` | ~60 s |
+
+On **Vercel Hobby** these can exceed the platform timeout, surfacing to n8n as a
+non-2xx / timeout on the execution call.
+
+- **Video / FFmpeg already runs off Vercel** on DigitalOcean / Docker (via
+  `/api/n8n/start-video-job` → external Video Worker). It must **not** be moved
+  back into Vercel.
+- If a timeout occurs, the fix is **not** to add logic or async machinery into
+  n8n. The correct resolution is to **move the long-running AI endpoints off
+  Vercel** (same direction as the video worker), keeping n8n a thin bridge.
+
+---
+
+## 16. Quick reference — workflow ↔ execution endpoint ↔ tables
+
+| Workflow | Trigger endpoint | n8n calls (execution) | Backend writes |
+|----------|------------------|------------------------|----------------|
+| `generate_content_package` | `/api/automation/generate-content-package` | `/api/n8n/generate-content-package` → `/api/n8n/start-video-job` | `content_packages`, `content_items`, `video_jobs`, `asset_usage` |
+| `regenerate_content_package` | `/api/automation/regenerate-content-package` | `/api/n8n/regenerate-content-package` → (cond.) `/api/n8n/start-video-job` | `content_versions`, `content_items`, `content_packages`, `video_jobs` |
+| `weekly_strategy` | `/api/automation/weekly-strategy` | input guard → `/api/n8n/weekly-strategy` | `content_strategies`, `content_strategy_items` |
+| `publishing_planner` | `/api/automation/publishing-planner` | `/api/n8n/publishing-planner` | `publishing_schedule` (⚠ may duplicate on re-run) |
+| `trend_scan` | `/api/automation/trend-scan` | `/api/n8n/trend-scan` | `trends` (accepted only) |
 | _any failure_ | — | `/api/n8n/error-callback` | _(none — logged)_ |
+| _video render done_ | — | `/api/n8n/video-callback` (called by Video Worker) | `video_jobs`, `content_packages.status` |

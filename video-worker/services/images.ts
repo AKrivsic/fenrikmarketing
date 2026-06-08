@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getImageProvider } from "@/lib/ai";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
+import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
 export interface GenerateSceneImagesInput {
   scenes: Scene[];
@@ -12,6 +13,11 @@ export interface GenerateSceneImagesInput {
 export interface SceneImage {
   sceneId: string;
   imagePath: string;
+  // Set only when the still was reused from an existing Storage object
+  // (input scene carried image_bucket + image_path). Freshly generated images
+  // leave these undefined; the caller uploads them and assigns durable paths.
+  reusedBucket?: string;
+  reusedPath?: string;
 }
 
 function workerTempDir(): string {
@@ -39,10 +45,17 @@ async function resolveImageBytes(
   throw new Error("image provider returned neither imageBase64 nor imageUrl");
 }
 
-// Generates one PNG per scene through the ImageProvider abstraction
-// (getImageProvider — no direct OpenAI import here). Writes each image to a temp
-// file for the FFmpeg step. Any provider/download failure throws so the
-// jobRunner can report a failed callback.
+// Resolves one still PNG per scene to a local temp file for the FFmpeg step.
+//
+// Reuse path: when a scene carries a durable Storage reference (image_bucket +
+// image_path) the image is downloaded from Storage and NO image provider is
+// called. This makes deterministic re-renders / language variants reuse the
+// exact same visuals.
+//
+// Generation path (default / first render): the image is created through the
+// ImageProvider abstraction (getImageProvider — no direct OpenAI import here)
+// exactly as before. Any provider/download failure throws so the jobRunner can
+// report a failed callback.
 export async function generateSceneImages(
   input: GenerateSceneImagesInput,
 ): Promise<SceneImage[]> {
@@ -57,6 +70,23 @@ export async function generateSceneImages(
 
   const results: SceneImage[] = [];
   for (const scene of scenes) {
+    const imagePath = join(dir, `scene-${input.videoJobId}-${scene.id}.png`);
+
+    if (scene.image_bucket && scene.image_path) {
+      await downloadStorageObjectToFile({
+        bucket: scene.image_bucket,
+        storagePath: scene.image_path,
+        localPath: imagePath,
+      });
+      results.push({
+        sceneId: scene.id,
+        imagePath,
+        reusedBucket: scene.image_bucket,
+        reusedPath: scene.image_path,
+      });
+      continue;
+    }
+
     const generated = await provider.generateImage({
       prompt: scene.image_prompt,
       size: "1024x1024",
@@ -64,10 +94,6 @@ export async function generateSceneImages(
     const bytes = await resolveImageBytes(
       generated.imageBase64,
       generated.imageUrl,
-    );
-    const imagePath = join(
-      dir,
-      `scene-${input.videoJobId}-${scene.id}.png`,
     );
     await writeFile(imagePath, bytes);
     results.push({ sceneId: scene.id, imagePath });

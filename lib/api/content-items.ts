@@ -5,6 +5,7 @@ import type {
   ContentFormat,
   ContentItem,
   Json,
+  LanguageCode,
   PlatformType,
 } from "@/lib/supabase/types";
 
@@ -17,6 +18,8 @@ export interface CreateContentItemInput {
   caption?: string | null;
   hashtags?: string[];
   cta?: string | null;
+  // Omit / null => primary-language item (resolved as project.language).
+  language?: LanguageCode | null;
   generationMetadata?: Json;
 }
 
@@ -67,6 +70,7 @@ export async function createContentItem(
       caption: input.caption ?? null,
       hashtags: input.hashtags ?? [],
       cta: input.cta ?? null,
+      language: input.language ?? null,
       generation_metadata: input.generationMetadata ?? {},
     })
     .select("*")

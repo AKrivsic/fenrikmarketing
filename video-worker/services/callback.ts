@@ -43,6 +43,7 @@ export async function sendVideoCallback(
             ? { thumbnail_url: parsed.thumbnail_url }
             : {}),
           ...(parsed.subtitle_url ? { subtitle_url: parsed.subtitle_url } : {}),
+          ...(parsed.render_spec ? { render_spec: parsed.render_spec } : {}),
         }
       : {
           project_id: transport.project_id,

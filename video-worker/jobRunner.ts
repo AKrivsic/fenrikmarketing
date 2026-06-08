@@ -1,5 +1,10 @@
 import { join } from "node:path";
-import { renderSchema, type RenderSpec } from "@/lib/video-engine/schemas/renderSchema";
+import {
+  renderSchema,
+  type RenderSpec,
+  type RenderSpecOutput,
+  type PersistedScene,
+} from "@/lib/video-engine/schemas/renderSchema";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import {
   workerPayloadSchema,
@@ -7,7 +12,10 @@ import {
 } from "@/lib/video-engine/schemas/workerPayloadSchema";
 import type { WorkerCallback } from "@/lib/video-engine/schemas/workerCallbackSchema";
 import { generateVoiceover } from "@/video-worker/services/tts";
-import { generateSceneImages } from "@/video-worker/services/images";
+import {
+  generateSceneImages,
+  type SceneImage,
+} from "@/video-worker/services/images";
 import { writeSrtFile } from "@/video-worker/services/subtitles";
 import { renderMp4, generateThumbnail } from "@/video-worker/services/ffmpeg";
 import { uploadVideoArtifact } from "@/video-worker/services/storage";
@@ -76,6 +84,62 @@ function totalDuration(spec: RenderSpec): number {
     return spec.duration_seconds;
   }
   return spec.scenes.reduce((sum, scene) => sum + scene.duration_seconds, 0);
+}
+
+// Persists every scene still to Storage (reused stills already have a durable
+// path and are not re-uploaded) and assembles the resolved render_spec that is
+// returned in the callback. The result lets a later render reuse the exact same
+// visuals by passing these scenes back as input.
+async function buildRenderSpecOutput(args: {
+  spec: RenderSpec;
+  images: SceneImage[];
+  projectId: string;
+  videoJobId: string;
+}): Promise<RenderSpecOutput> {
+  const { spec, images, projectId, videoJobId } = args;
+  const imageBySceneId = new Map(images.map((img) => [img.sceneId, img]));
+
+  const scenes: PersistedScene[] = [];
+  for (const scene of spec.scenes) {
+    const image = imageBySceneId.get(scene.id);
+    if (!image) {
+      throw new Error(`buildRenderSpecOutput: missing image for scene ${scene.id}`);
+    }
+
+    let bucket: string;
+    let path: string;
+    if (image.reusedBucket && image.reusedPath) {
+      // Reused still: keep the durable reference it already had.
+      bucket = image.reusedBucket;
+      path = image.reusedPath;
+    } else {
+      // Freshly generated still: upload it so the next render can reuse it.
+      const upload = await uploadVideoArtifact({
+        projectId,
+        videoJobId,
+        artifactType: "png",
+        localPath: image.imagePath,
+        filename: `scene-${scene.id}.png`,
+      });
+      bucket = upload.bucket;
+      path = upload.storagePath;
+    }
+
+    scenes.push({
+      id: scene.id,
+      image_prompt: scene.image_prompt,
+      image_bucket: bucket,
+      image_path: path,
+      duration_seconds: scene.duration_seconds,
+    });
+  }
+
+  return {
+    version: 1,
+    scenes,
+    ...(spec.duration_seconds ? { duration_seconds: spec.duration_seconds } : {}),
+    metadata: { rendered_at: new Date().toISOString() },
+  };
 }
 
 // Full MVP pipeline for one render job. Any failure is turned into a failed
@@ -150,12 +214,22 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       filename: "subtitles.srt",
     });
 
+    // Persist scene stills + assemble the resolved render_spec so a later render
+    // can reuse the exact same visuals without any new image generation.
+    const renderSpec = await buildRenderSpecOutput({
+      spec,
+      images,
+      projectId: payload.project_id,
+      videoJobId: payload.video_job_id,
+    });
+
     const callback: WorkerCallback = {
       video_job_id: payload.video_job_id,
       status: "completed",
       mp4_url: mp4Upload.signedUrl,
       thumbnail_url: thumbUpload.signedUrl,
       subtitle_url: srtUpload.signedUrl,
+      render_spec: renderSpec,
     };
     await sendVideoCallback(payload.callback_url, callback, transport);
 

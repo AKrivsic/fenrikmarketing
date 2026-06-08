@@ -29,6 +29,7 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
     name: project.name,
     type: project.type,
     language: project.language,
+    enabledLanguages: project.enabled_languages,
     marketScope: project.market_scope,
     goalType: project.goal_type,
     defaultCta: project.default_cta ?? "",
@@ -59,6 +60,25 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
       platforms: checked
         ? [...prev.platforms, platform]
         : prev.platforms.filter((p) => p !== platform),
+    }));
+  }
+
+  function toggleEnabledLanguage(language: string, checked: boolean) {
+    setValues((prev) => ({
+      ...prev,
+      enabledLanguages: checked
+        ? [...prev.enabledLanguages, language]
+        : prev.enabledLanguages.filter((l) => l !== language),
+    }));
+  }
+
+  // When the primary language changes, drop it from the additional variants so
+  // the primary is never also listed as a variant.
+  function setPrimaryLanguage(language: string) {
+    setValues((prev) => ({
+      ...prev,
+      language,
+      enabledLanguages: prev.enabledLanguages.filter((l) => l !== language),
     }));
   }
 
@@ -111,11 +131,11 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
         </label>
 
         <label className={styles.field}>
-          <span className={styles.label}>Jazyk</span>
+          <span className={styles.label}>Primary language</span>
           <select
             className={styles.select}
             value={values.language}
-            onChange={(e) => setField("language", e.target.value)}
+            onChange={(e) => setPrimaryLanguage(e.target.value)}
             disabled={isPending}
           >
             {LANGUAGE_OPTIONS.map((option) => (
@@ -158,6 +178,31 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
           </select>
         </label>
       </div>
+
+      <fieldset className={styles.fieldset} disabled={isPending}>
+        <legend className={styles.label}>Additional language variants</legend>
+        <div className={styles.checkboxes}>
+          {LANGUAGE_OPTIONS.filter((lang) => lang !== values.language).map(
+            (language) => (
+              <label key={language} className={styles.checkbox}>
+                <input
+                  type="checkbox"
+                  checked={values.enabledLanguages.includes(language)}
+                  onChange={(e) =>
+                    toggleEnabledLanguage(language, e.target.checked)
+                  }
+                />
+                {language}
+              </label>
+            ),
+          )}
+        </div>
+        {fieldErrors.enabledLanguages ? (
+          <span className={styles.fieldError}>
+            {fieldErrors.enabledLanguages}
+          </span>
+        ) : null}
+      </fieldset>
 
       <label className={styles.field}>
         <span className={styles.label}>Default CTA</span>

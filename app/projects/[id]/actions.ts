@@ -23,6 +23,7 @@ export interface ProjectBrainFormValues {
   name: string;
   type: string;
   language: string;
+  enabledLanguages: string[];
   marketScope: string;
   goalType: string;
   defaultCta: string;
@@ -90,6 +91,19 @@ export async function updateProjectBrain(
   if (!inOptions<LanguageCode>(values.language, LANGUAGE_OPTIONS)) {
     fieldErrors.language = "Neplatná hodnota.";
   }
+
+  // Additional variant languages: each must be a valid language_code and must
+  // NOT include the primary language. Deduplicated; the primary is filtered out
+  // defensively so it can never be persisted as a variant.
+  const enabledLanguages: LanguageCode[] = [];
+  for (const lang of values.enabledLanguages) {
+    if (!inOptions<LanguageCode>(lang, LANGUAGE_OPTIONS)) {
+      fieldErrors.enabledLanguages = "Neplatný jazyk.";
+      continue;
+    }
+    if (lang === values.language) continue;
+    if (!enabledLanguages.includes(lang)) enabledLanguages.push(lang);
+  }
   if (!inOptions<MarketScope>(values.marketScope, MARKET_SCOPE_OPTIONS)) {
     fieldErrors.marketScope = "Neplatná hodnota.";
   }
@@ -123,6 +137,7 @@ export async function updateProjectBrain(
     name,
     type: values.type as ProjectType,
     language: values.language as LanguageCode,
+    enabled_languages: enabledLanguages,
     market_scope: values.marketScope as MarketScope,
     goal_type: values.goalType as GoalType,
     default_cta: defaultCta.length > 0 ? defaultCta : null,

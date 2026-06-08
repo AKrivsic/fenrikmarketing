@@ -51,7 +51,11 @@ export function ProjectBrain({ project }: ProjectBrainProps) {
         <h2 className={styles.sectionTitle}>Základní</h2>
         <div className={styles.grid}>
           <TextField label="Typ" value={project.type} />
-          <TextField label="Jazyk" value={project.language} />
+          <TextField label="Primary language" value={project.language} />
+          <ListField
+            label="Language variants"
+            values={project.enabled_languages}
+          />
           <TextField label="Market scope" value={project.market_scope} />
           <TextField label="Goal" value={project.goal_type} />
           <TextField label="Default CTA" value={project.default_cta} />
