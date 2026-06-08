@@ -37,8 +37,21 @@ export function AssetCard({ asset }: AssetCardProps) {
 
         <div className={styles.meta}>
           <span className={styles.metaItem}>{asset.mediaType}</span>
-          <span className={styles.metaItem}>{asset.assetMode}</span>
+          <span className={styles.metaItem}>{asset.assetClass}</span>
+          {asset.trustSignal ? (
+            <span className={styles.metaItem}>proof</span>
+          ) : null}
         </div>
+
+        {asset.analysisStatus ? (
+          <div className={styles.field}>
+            <span className={styles.label}>AI analysis</span>
+            <p className={styles.value}>{asset.aiDescription ?? EMPTY}</p>
+            {asset.suggestedUsage ? (
+              <p className={styles.value}>{asset.suggestedUsage}</p>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className={styles.field}>
           <span className={styles.label}>Tags</span>

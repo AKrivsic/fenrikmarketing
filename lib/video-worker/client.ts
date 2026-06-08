@@ -1,3 +1,9 @@
+import {
+  fetchWithRetry,
+  HTTP_MAX_ATTEMPTS,
+  HTTP_TIMEOUT_MS,
+} from "@/lib/http/fetchWithRetry";
+
 // Outbound Video Worker client. Single place that knows how to send a render
 // job to the external Video Worker. Pure transport: it builds the HTTP request,
 // adds auth, and turns a non-2xx / network failure into an error. No business
@@ -43,14 +49,22 @@ export async function startVideoWorkerJob(
 
   let response: Response;
   try {
-    response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-video-worker-secret": secret,
+    response = await fetchWithRetry(
+      url,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-video-worker-secret": secret,
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload),
-    });
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.worker,
+        maxAttempts: HTTP_MAX_ATTEMPTS.worker,
+        label: "video-worker:start-job",
+      },
+    );
   } catch (err) {
     const detail = err instanceof Error ? err.message : "network error";
     throw new VideoWorkerRequestError(

@@ -6,6 +6,10 @@ import styles from "./page.module.css";
 // Read live data per request: the admin-client query must not run at build time.
 export const dynamic = "force-dynamic";
 
+// Task 1 — the language-variant Server Actions (generate / regenerate) run AI
+// localization inline; raise the page-level Server Action budget accordingly.
+export const maxDuration = 300;
+
 export default async function ReviewQueuePage() {
   const items = await listReviewQueueItems();
 

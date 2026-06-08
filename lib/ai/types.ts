@@ -170,3 +170,15 @@ export const CTA_TYPES_BY_GOAL: Record<GoalType, readonly string[]> = {
   activation: ["try", "start", "activate", "download", "sign_up"],
   retention: ["renew", "upgrade", "refer", "community", "feedback"],
 };
+
+// Phase 2E — Anti-Repetition Memory. A compact, deterministic snapshot of the
+// last N hooks/topics/CTAs/scenarios already produced for a project. Built from
+// existing data (no new AI layer) and embedded into the generation prompts so
+// the model avoids repeating itself. Each list is already deduplicated and
+// capped; empty lists are valid (a brand-new project has no history).
+export interface AntiRepetitionMemory {
+  hooks: string[];
+  topics: string[];
+  ctas: string[];
+  scenarios: string[];
+}

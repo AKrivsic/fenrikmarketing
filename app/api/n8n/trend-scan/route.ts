@@ -11,6 +11,10 @@ import { scoreTrendRelevance } from "@/lib/ai/workflows/scoreTrend";
 import { MIN_TREND_RELEVANCE } from "@/lib/ai/schemas/trendRelevanceScore";
 import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
 
+// Task 1 — scores each candidate with an AI call in a loop; a large batch can
+// run long. Request the platform's max function budget.
+export const maxDuration = 300;
+
 // n8n-invoked execution endpoint for the Trend Scan workflow.
 //
 // n8n supplies discovered candidates (it owns the external sources — no scraping
@@ -41,10 +45,40 @@ export async function POST(request: Request): Promise<Response> {
     // Project Brain is the scoring context (also validates existence -> 404).
     const project = await loadProjectOrThrow(supabase, projectId);
 
+    // Idempotence guard (C1). Candidates whose title already exists as a trend
+    // for this project are skipped BEFORE scoring. This makes a duplicate
+    // delivery (n8n retry, re-trigger) a no-op: no duplicate `trends` rows AND
+    // no repeated AI relevance scoring (no extra AI cost). The set also dedups
+    // repeated titles WITHIN one request.
+    const { data: existingTrendRows, error: trendErr } = await supabase
+      .from("trends")
+      .select("title")
+      .eq("project_id", projectId);
+    if (trendErr) throw trendErr;
+    const seenTitles = new Set<string>(
+      (existingTrendRows ?? [])
+        .map((row) => normalizeTrendTitle(row.title as string))
+        .filter((title) => title.length > 0),
+    );
+
     const acceptedTrends: Record<string, unknown>[] = [];
     const rejectedTrends: Record<string, unknown>[] = [];
+    const skippedTrends: Record<string, unknown>[] = [];
 
     for (const candidate of candidates) {
+      const titleKey = normalizeTrendTitle(candidate.title);
+      if (titleKey.length > 0 && seenTitles.has(titleKey)) {
+        skippedTrends.push({
+          title: candidate.title,
+          source: candidate.source,
+          reason: "duplicate",
+        });
+        continue;
+      }
+      // Reserve the title so identical candidates later in the same batch are
+      // also treated as duplicates (scored + stored once).
+      if (titleKey.length > 0) seenTitles.add(titleKey);
+
       const scored = await scoreTrendRelevance({
         project,
         title: candidate.title,
@@ -95,7 +129,9 @@ export async function POST(request: Request): Promise<Response> {
         workflow: "trend_scan",
         accepted: acceptedTrends.length,
         rejected: rejectedTrends.length,
+        skipped: skippedTrends.length,
         rejected_trends: rejectedTrends,
+        skipped_trends: skippedTrends,
       },
       { status: 202 },
     );
@@ -105,6 +141,12 @@ export async function POST(request: Request): Promise<Response> {
     }
     return errorResponse(err);
   }
+}
+
+// Case-insensitive, whitespace-normalized title key used for idempotent
+// trend deduplication (no relevance_score column exists to key on).
+function normalizeTrendTitle(title: string): string {
+  return title.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
 interface ParsedCandidate {

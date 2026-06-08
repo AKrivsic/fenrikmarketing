@@ -1,11 +1,27 @@
 import { spawn } from "node:child_process";
+import { buildZoompanExpr, xfadeTransitionName } from "@/lib/video-engine/motion";
+import { SHORT_PROFILE, type MotionType, type TransitionType } from "@/lib/video-engine/storyboard";
+
+// Video Quality V2 — a render beat: one still shown with motion for a short
+// duration, joined to the previous beat by a light transition.
+export interface RenderBeat {
+  sceneId: string;
+  motion: MotionType;
+  transition: TransitionType;
+  durationSeconds: number;
+}
 
 export interface RenderMp4Input {
   images: { sceneId: string; imagePath: string }[];
+  // V2 timeline. When omitted (or a single beat), a still-with-motion clip is
+  // produced from the first image so the pipeline stays functional.
+  beats?: RenderBeat[];
   audioPath: string;
   srtPath?: string;
   outputPath: string;
   durationSeconds?: number;
+  // Output geometry / pace. Defaults to the vertical Short profile.
+  profile?: { width: number; height: number; fps: number; transitionSeconds: number };
 }
 
 export interface RenderMp4Result {
@@ -22,15 +38,22 @@ export interface GenerateThumbnailResult {
 }
 
 const DEFAULT_TIMEOUT_MS = Number(
-  process.env.VIDEO_WORKER_FFMPEG_TIMEOUT_MS ?? 5 * 60 * 1000,
+  process.env.VIDEO_WORKER_FFMPEG_TIMEOUT_MS ?? 10 * 60 * 1000,
 );
+
+// Subtitle styling (Task 4): large, high-contrast, lifted off the bottom edge.
+// FontSize is in the libass script scale; Outline/Shadow keep it readable over
+// any still. Alignment=2 is bottom-center.
+const SUBTITLE_FORCE_STYLE =
+  "FontSize=16,Bold=1,Outline=2,Shadow=1,MarginV=120,Alignment=2";
+
+// Upscale factor for the still before zoompan, so the motion crop stays crisp.
+const SCALE_HEADROOM = 1.4;
 
 function ffmpegBin(): string {
   return process.env.FFMPEG_PATH ?? "ffmpeg";
 }
 
-// Runs ffmpeg once with a hard timeout. Rejects on non-zero exit, spawn error,
-// or timeout (killing the process) — captured stderr is included for debugging.
 function runFfmpeg(args: string[], timeoutMs = DEFAULT_TIMEOUT_MS): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn(ffmpegBin(), args, { stdio: ["ignore", "ignore", "pipe"] });
@@ -69,9 +92,8 @@ function runFfmpeg(args: string[], timeoutMs = DEFAULT_TIMEOUT_MS): Promise<void
   });
 }
 
-// Escapes a filesystem path for libavfilter option values (e.g. subtitles filename=).
-// See FFmpeg filtergraph escaping: \, :, ', ,, [, ] must be backslash-escaped when
-// the path is passed unquoted after `filename=`.
+// Escapes a filesystem path for libavfilter option values (e.g. subtitles
+// filename=). \, :, ', ,, [, ] must be backslash-escaped when passed unquoted.
 function escapeForSubtitlesFilter(path: string): string {
   return path
     .replace(/\\/g, "\\\\")
@@ -82,16 +104,64 @@ function escapeForSubtitlesFilter(path: string): string {
     .replace(/\]/g, "\\]");
 }
 
-// MVP render: a single still image looped over the voiceover audio, h264/aac.
-// With multiple scene images we fall back to the FIRST image (no multi-scene
-// editor in MVP). Subtitles are burned in when an srtPath is provided.
-export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result> {
-  if (input.images.length === 0) {
-    throw new Error("renderMp4: at least one image is required");
-  }
+function subtitlesFilter(srtPath: string): string {
+  return `subtitles=filename=${escapeForSubtitlesFilter(srtPath)}:force_style='${SUBTITLE_FORCE_STYLE}'`;
+}
 
+// Builds the per-beat motion chain: upscale the still, apply zoompan motion for
+// the beat's frames, trim to the exact duration and normalize for xfade.
+function beatVideoChain(
+  inputIndex: number,
+  motion: MotionType,
+  durationSeconds: number,
+  width: number,
+  height: number,
+  fps: number,
+  // When false, the clip is not trimmed (single-still fallback relies on
+  // -shortest to bound it to the audio so the voiceover is never cut).
+  trim = true,
+): { chain: string; label: string } {
+  const bigW = Math.round(width * SCALE_HEADROOM);
+  const bigH = Math.round(height * SCALE_HEADROOM);
+  const frames = Math.max(1, Math.round(durationSeconds * fps));
+  const { z, x, y } = buildZoompanExpr(motion, frames);
+  const label = `v${inputIndex}`;
+
+  const chain =
+    `[${inputIndex}:v]` +
+    `scale=${bigW}:${bigH}:force_original_aspect_ratio=increase,` +
+    `crop=${bigW}:${bigH},` +
+    `zoompan=z='${z}':x='${x}':y='${y}':d=1:s=${width}x${height}:fps=${fps},` +
+    (trim ? `trim=duration=${durationSeconds},` : "") +
+    `setpts=PTS-STARTPTS,` +
+    `setsar=1,format=yuv420p[${label}]`;
+
+  return { chain, label };
+}
+
+// MVP-compatible single still path (also used when there is just one beat). Adds
+// a gentle zoom-in so even a one-image video is never fully static.
+function buildSingleImageArgs(input: RenderMp4Input): string[] {
+  const profile = input.profile ?? SHORT_PROFILE;
   const primaryImage = input.images[0].imagePath;
+  // No trim: -shortest bounds the clip to the audio, so the voiceover is never
+  // cut. The slow zoom completes over ~maxDuration frames and then holds.
+  const { chain, label } = beatVideoChain(
+    0,
+    "zoom_in",
+    input.durationSeconds ?? 30,
+    profile.width,
+    profile.height,
+    profile.fps,
+    false,
+  );
 
+  const videoLabel = "vout";
+  const filter = input.srtPath
+    ? `${chain};[${label}]${subtitlesFilter(input.srtPath)}[${videoLabel}]`
+    : `${chain};[${label}]null[${videoLabel}]`;
+
+  const audioInputIndex = 1;
   const args: string[] = [
     "-y",
     "-loop",
@@ -100,36 +170,126 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
     primaryImage,
     "-i",
     input.audioPath,
-  ];
-
-  // Even dimensions are required by yuv420p; burn-in subtitles when present.
-  const scaleFilter = "scale=trunc(iw/2)*2:trunc(ih/2)*2";
-  const vf = input.srtPath
-    ? `${scaleFilter},subtitles=filename=${escapeForSubtitlesFilter(input.srtPath)}`
-    : scaleFilter;
-
-  args.push("-vf", vf);
-  args.push(
+    "-filter_complex",
+    filter,
+    "-map",
+    `[${videoLabel}]`,
+    "-map",
+    `${audioInputIndex}:a`,
     "-c:v",
     "libx264",
-    "-tune",
-    "stillimage",
     "-pix_fmt",
     "yuv420p",
+    "-r",
+    String(profile.fps),
     "-c:a",
     "aac",
     "-b:a",
     "192k",
-  );
+    "-shortest",
+    input.outputPath,
+  ];
+  return args;
+}
 
-  // Bound the clip: audio length by default; an explicit duration wins.
-  if (input.durationSeconds && input.durationSeconds > 0) {
-    args.push("-t", String(input.durationSeconds));
-  } else {
-    args.push("-shortest");
+// Multi-beat path (Task 2 + 3 + 7): each beat is a moving clip; consecutive
+// beats are joined with a light xfade transition; subtitles are burned onto the
+// final stream. A single ffmpeg invocation builds the whole filtergraph.
+function buildMultiBeatArgs(
+  input: RenderMp4Input,
+  beats: RenderBeat[],
+): string[] {
+  const profile = input.profile ?? SHORT_PROFILE;
+  const { width, height, fps, transitionSeconds } = profile;
+
+  const imageBySceneId = new Map(input.images.map((img) => [img.sceneId, img]));
+
+  const inputArgs: string[] = [];
+  const chains: string[] = [];
+  const beatLabels: string[] = [];
+
+  beats.forEach((beat, index) => {
+    const image = imageBySceneId.get(beat.sceneId) ?? input.images[0];
+    inputArgs.push("-loop", "1", "-t", String(beat.durationSeconds), "-i", image.imagePath);
+    const { chain, label } = beatVideoChain(
+      index,
+      beat.motion,
+      beat.durationSeconds,
+      width,
+      height,
+      fps,
+    );
+    chains.push(chain);
+    beatLabels.push(label);
+  });
+
+  // Chain the beats with xfade. Each transition overlaps the running timeline by
+  // transitionSeconds, so the cumulative offset subtracts the prior overlaps.
+  let currentLabel = beatLabels[0];
+  let cumulative = beats[0].durationSeconds;
+  const xfadeChains: string[] = [];
+  for (let i = 1; i < beats.length; i++) {
+    const td = Math.min(transitionSeconds, beats[i].durationSeconds / 2);
+    const offset = Math.max(0, cumulative - td);
+    const outLabel = i === beats.length - 1 ? "vjoined" : `x${i}`;
+    const name = xfadeTransitionName(beats[i].transition);
+    xfadeChains.push(
+      `[${currentLabel}][${beatLabels[i]}]xfade=transition=${name}:duration=${td.toFixed(3)}:offset=${offset.toFixed(3)}[${outLabel}]`,
+    );
+    currentLabel = outLabel;
+    cumulative = cumulative - td + beats[i].durationSeconds;
   }
 
-  args.push(input.outputPath);
+  // Burn subtitles onto the joined stream (or pass through).
+  const videoLabel = "vout";
+  const finalChain = input.srtPath
+    ? `[${currentLabel}]${subtitlesFilter(input.srtPath)}[${videoLabel}]`
+    : `[${currentLabel}]null[${videoLabel}]`;
+
+  const filter = [...chains, ...xfadeChains, finalChain].join(";");
+
+  // Audio is the last input.
+  const audioInputIndex = beats.length;
+
+  const args: string[] = [
+    "-y",
+    ...inputArgs,
+    "-i",
+    input.audioPath,
+    "-filter_complex",
+    filter,
+    "-map",
+    `[${videoLabel}]`,
+    "-map",
+    `${audioInputIndex}:a`,
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    "-r",
+    String(fps),
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    "-shortest",
+    input.outputPath,
+  ];
+  return args;
+}
+
+// Renders the final MP4. Uses the multi-beat motion+transition path when a beat
+// timeline with at least two beats is provided; otherwise renders a single
+// moving still (backward compatible, never static).
+export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result> {
+  if (input.images.length === 0) {
+    throw new Error("renderMp4: at least one image is required");
+  }
+
+  const args =
+    input.beats && input.beats.length >= 2
+      ? buildMultiBeatArgs(input, input.beats)
+      : buildSingleImageArgs(input);
 
   await runFfmpeg(args);
   return { mp4Path: input.outputPath };

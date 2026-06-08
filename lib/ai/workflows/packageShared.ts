@@ -157,7 +157,67 @@ export function buildPackageBrief(pkg: ContentPackageOutput): Json {
     hashtags: pkg.hashtags ?? [],
     image_prompts: pkg.image_prompts ?? [],
     asset_usage: pkg.asset_usage ?? [],
+    // Phase 2E — record the scenario used so anti-repetition memory can read it.
+    scenario: pkg.scenario ?? null,
   } as unknown as Json;
+}
+
+// Video Quality V2 — assembles the video_jobs.input. Beyond the narration it
+// now carries the hook, scenario and the image_prompts so the worker can build
+// a richer storyboard, plus asset_images: durable Storage refs of the image-type
+// assets the package referenced (Task 6). The worker reuses those stills (no new
+// image generation). `extra` lets callers add flags (e.g. { regenerated: true }).
+export async function buildVideoJobInput(
+  supabase: SupabaseClient,
+  projectId: string,
+  pkg: ContentPackageOutput,
+  extra: Record<string, unknown> = {},
+): Promise<Json> {
+  const assetImages = await loadAssetImages(supabase, projectId, pkg);
+  return {
+    concept: pkg.video.concept,
+    script: pkg.video.script,
+    voiceover_text: pkg.voiceover_text,
+    subtitles: pkg.subtitles,
+    hook: pkg.hook,
+    scenario: pkg.scenario ?? null,
+    cta: pkg.cta?.text ?? null,
+    image_prompts: pkg.image_prompts ?? [],
+    asset_images: assetImages,
+    ...extra,
+  } as unknown as Json;
+}
+
+// Resolves the image-type assets referenced in pkg.asset_usage to durable
+// Storage references. Best-effort: any failure yields an empty list so video
+// jobs are never blocked by asset resolution.
+async function loadAssetImages(
+  supabase: SupabaseClient,
+  projectId: string,
+  pkg: ContentPackageOutput,
+): Promise<{ bucket: string; path: string; title: string }[]> {
+  const usageIds = Array.from(
+    new Set((pkg.asset_usage ?? []).map((u) => u.asset_id).filter(Boolean)),
+  );
+  if (usageIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("assets")
+    .select("id, title, media_type, storage_bucket, storage_path")
+    .eq("project_id", projectId)
+    .in("id", usageIds)
+    .eq("media_type", "image");
+  if (error || !data) return [];
+
+  const result: { bucket: string; path: string; title: string }[] = [];
+  for (const row of data) {
+    const bucket = row.storage_bucket as string | null;
+    const path = row.storage_path as string | null;
+    if (bucket && path) {
+      result.push({ bucket, path, title: (row.title as string) ?? "" });
+    }
+  }
+  return result;
 }
 
 export interface PersistableItem {

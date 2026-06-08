@@ -1,5 +1,9 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { effectiveLanguage } from "@/lib/projects/language";
+import {
+  allItemsApproved,
+  resolveTargetLanguages,
+} from "@/lib/ai/workflows/languageVariantsHelpers";
 import type {
   ApprovalStatus,
   ContentFormat,
@@ -27,12 +31,49 @@ export interface ReviewQueueItem {
   hashtags: string[];
   cta: string | null;
   // Raw column (NULL = primary language). effectiveLanguage resolves NULL to the
-  // project's primary language. UI may stay unchanged; data is now readable.
+  // project's primary language.
   language: LanguageCode | null;
   effectiveLanguage: LanguageCode;
+  // True for language-variant items (language != null OR
+  // generation_metadata.kind === "language_variant").
+  isLanguageVariant: boolean;
+  // Read from generation_metadata for variants; null for primary items.
+  sourceLanguage: LanguageCode | null;
+  targetLanguage: LanguageCode | null;
+  // True only on a PRIMARY card whose package is ready for variant generation:
+  // all primary items approved, project has additional enabled_languages, and
+  // no variants exist yet. Drives the "Generate language variants" button.
+  canGenerateVariants: boolean;
   videoUrl: string | null;
   thumbnailUrl: string | null;
   createdAt: string;
+}
+
+// Extracts variant metadata from a content_items.generation_metadata blob.
+function readVariantMeta(metadata: Json | null): {
+  kind: string | null;
+  sourceLanguage: LanguageCode | null;
+  targetLanguage: LanguageCode | null;
+} {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return { kind: null, sourceLanguage: null, targetLanguage: null };
+  }
+  const record = metadata as Record<string, unknown>;
+  const kind = typeof record.kind === "string" ? record.kind : null;
+  const sourceLanguage =
+    typeof record.source_language === "string"
+      ? (record.source_language as LanguageCode)
+      : null;
+  const targetLanguage =
+    typeof record.target_language === "string"
+      ? (record.target_language as LanguageCode)
+      : null;
+  return { kind, sourceLanguage, targetLanguage };
+}
+
+function isVariantItem(item: ContentItem): boolean {
+  if (item.language !== null) return true;
+  return readVariantMeta(item.generation_metadata).kind === "language_variant";
 }
 
 // Pulls mp4_url / thumbnail_url out of a video_jobs.output jsonb blob.
@@ -74,34 +115,111 @@ function newestByContentItem(jobs: VideoLite[]): Map<string, VideoLite> {
 export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
   const supabase = createSupabaseAdminClient();
 
-  const { data: itemRows, error: itemsError } = await supabase
+  // Queue items: draft / in_review (always shown — unchanged behaviour).
+  const { data: queueRows, error: queueError } = await supabase
     .from("content_items")
     .select("*")
     .in("status", REVIEW_STATUSES)
     .order("created_at", { ascending: false });
+  if (queueError) throw queueError;
 
-  if (itemsError) throw itemsError;
+  // Approved PRIMARY items (language IS NULL) are surfaced ONLY so an approved
+  // package can offer "Generate language variants". They are filtered below to
+  // packages that actually qualify, so the queue is not flooded with approved
+  // content forever (once variants exist, the primary card drops out).
+  const { data: approvedPrimaryRows, error: approvedError } = await supabase
+    .from("content_items")
+    .select("*")
+    .eq("status", "approved")
+    .is("language", null)
+    .order("created_at", { ascending: false });
+  if (approvedError) throw approvedError;
 
-  const items = (itemRows ?? []) as ContentItem[];
-  if (items.length === 0) return [];
+  const queueItems = (queueRows ?? []) as ContentItem[];
+  const approvedPrimary = (approvedPrimaryRows ?? []) as ContentItem[];
+  if (queueItems.length === 0 && approvedPrimary.length === 0) return [];
 
-  // Batched lookup of each item's project primary language so a NULL
-  // content_items.language can be resolved to effectiveLanguage. One query, no
-  // N+1; failure here must not change approve/reject/regenerate behaviour.
-  const projectIds = Array.from(new Set(items.map((item) => item.project_id)));
+  // Package scan over every package referenced by the candidate items, to
+  // compute per-package: are all primary items approved, and do variants exist.
+  const candidatePackageIds = Array.from(
+    new Set(
+      [...queueItems, ...approvedPrimary]
+        .map((item) => item.package_id)
+        .filter((id): id is string => typeof id === "string"),
+    ),
+  );
+
+  const primaryStatusesByPackage = new Map<string, ApprovalStatus[]>();
+  const hasVariantsByPackage = new Map<string, boolean>();
+  if (candidatePackageIds.length > 0) {
+    const { data: pkgItemRows, error: pkgItemsError } = await supabase
+      .from("content_items")
+      .select("package_id, language, status")
+      .in("package_id", candidatePackageIds);
+    if (pkgItemsError) throw pkgItemsError;
+
+    for (const row of (pkgItemRows ?? []) as {
+      package_id: string | null;
+      language: LanguageCode | null;
+      status: ApprovalStatus;
+    }[]) {
+      if (!row.package_id) continue;
+      if (row.language === null) {
+        const list = primaryStatusesByPackage.get(row.package_id) ?? [];
+        list.push(row.status);
+        primaryStatusesByPackage.set(row.package_id, list);
+      } else {
+        hasVariantsByPackage.set(row.package_id, true);
+      }
+    }
+  }
+
+  // Project info: primary language + enabled_languages (for badge + gating).
+  const candidateProjectIds = Array.from(
+    new Set([...queueItems, ...approvedPrimary].map((item) => item.project_id)),
+  );
   const { data: projectRows, error: projectsError } = await supabase
     .from("projects")
-    .select("id, language")
-    .in("id", projectIds);
-
+    .select("id, language, enabled_languages")
+    .in("id", candidateProjectIds);
   if (projectsError) throw projectsError;
   const projectLanguageById = new Map<string, LanguageCode>();
+  const projectTargetsById = new Map<string, LanguageCode[]>();
   for (const row of (projectRows ?? []) as {
     id: string;
     language: LanguageCode;
+    enabled_languages: LanguageCode[] | null;
   }[]) {
     projectLanguageById.set(row.id, row.language);
+    projectTargetsById.set(
+      row.id,
+      resolveTargetLanguages(row.language, row.enabled_languages ?? []),
+    );
   }
+
+  // A package qualifies for variant generation when all its primary items are
+  // approved, it has no variants yet, and the project has target languages.
+  function packageQualifiesForVariants(
+    projectId: string,
+    packageId: string | null,
+  ): boolean {
+    if (!packageId) return false;
+    if (!allItemsApproved(primaryStatusesByPackage.get(packageId) ?? [])) {
+      return false;
+    }
+    if (hasVariantsByPackage.get(packageId)) return false;
+    return (projectTargetsById.get(projectId) ?? []).length > 0;
+  }
+
+  // Final listing: all queue items + approved primary items whose package
+  // qualifies (so the Generate trigger is reachable, without flooding).
+  const items: ContentItem[] = [
+    ...queueItems,
+    ...approvedPrimary.filter((item) =>
+      packageQualifiesForVariants(item.project_id, item.package_id),
+    ),
+  ];
+  if (items.length === 0) return [];
 
   // --- Video lookup step 1: newest job directly on each content_item_id. ---
   const itemIds = items.map((item) => item.id);
@@ -133,10 +251,14 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
   >();
 
   if (packageIdsNeedingVideo.length > 0) {
+    // Primary-only siblings (language IS NULL). A primary card must never borrow
+    // a language variant's video as a fallback, so variant rows are excluded
+    // from the sibling resolution entirely.
     const { data: siblingRows, error: siblingError } = await supabase
       .from("content_items")
       .select("id, package_id")
-      .in("package_id", packageIdsNeedingVideo);
+      .in("package_id", packageIdsNeedingVideo)
+      .is("language", null);
 
     if (siblingError) throw siblingError;
 
@@ -174,6 +296,7 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
   }
 
   return items.map((item) => {
+    const isVariant = isVariantItem(item);
     let mp4Url: string | null = null;
     let thumbnailUrl: string | null = null;
 
@@ -182,7 +305,9 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
       const parsed = readVideoOutput(directJob.output);
       mp4Url = parsed.mp4Url;
       thumbnailUrl = parsed.thumbnailUrl;
-    } else if (item.package_id) {
+    } else if (item.package_id && !isVariant) {
+      // Sibling/package fallback is for PRIMARY items only. A variant must never
+      // borrow the primary video: until its own job completes it shows no video.
       const viaPackage = packageVideo.get(item.package_id);
       if (viaPackage) {
         mp4Url = viaPackage.mp4Url;
@@ -194,6 +319,7 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
     // raw language, then "cs", purely defensively.
     const projectLanguage =
       projectLanguageById.get(item.project_id) ?? item.language ?? "cs";
+    const variantMeta = readVariantMeta(item.generation_metadata);
 
     return {
       id: item.id,
@@ -208,6 +334,12 @@ export async function listReviewQueueItems(): Promise<ReviewQueueItem[]> {
       cta: item.cta,
       language: item.language,
       effectiveLanguage: effectiveLanguage(item.language, projectLanguage),
+      isLanguageVariant: isVariant,
+      sourceLanguage: variantMeta.sourceLanguage,
+      targetLanguage: variantMeta.targetLanguage,
+      canGenerateVariants:
+        !isVariant &&
+        packageQualifiesForVariants(item.project_id, item.package_id),
       videoUrl: mp4Url,
       thumbnailUrl,
       createdAt: item.created_at,

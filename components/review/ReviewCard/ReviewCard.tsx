@@ -12,12 +12,15 @@ const EMPTY = "—";
 export function ReviewCard({ item }: ReviewCardProps) {
   const hasHashtags = item.hashtags.length > 0;
 
+  const languageBadge = `${item.isLanguageVariant ? "Variant" : "Primary"} · ${item.effectiveLanguage}`;
+
   return (
     <article className={styles.card}>
       <header className={styles.header}>
         <div className={styles.meta}>
           <span className={styles.platform}>{item.platform}</span>
           <span className={styles.format}>{item.format}</span>
+          <span className={styles.language}>{languageBadge}</span>
         </div>
         <span className={styles.status}>{item.status}</span>
       </header>
@@ -56,6 +59,9 @@ export function ReviewCard({ item }: ReviewCardProps) {
         caption={item.caption}
         hashtags={item.hashtags}
         cta={item.cta}
+        isLanguageVariant={item.isLanguageVariant}
+        canGenerateVariants={item.canGenerateVariants}
+        variantLanguage={item.language}
       />
     </article>
   );

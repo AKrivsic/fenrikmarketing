@@ -15,6 +15,7 @@ interface Tab {
 
 const TABS: Tab[] = [
   { label: "Project Brain", segment: "" },
+  { label: "Knowledge", segment: "knowledge" },
   { label: "Weekly Strategy", segment: "weekly-strategy" },
   { label: "Publishing Plan", segment: "publishing-plan" },
   { label: "Assets", segment: "assets" },

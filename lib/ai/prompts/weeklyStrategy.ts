@@ -1,5 +1,12 @@
 import type { Project } from "@/lib/supabase/types";
-import { constraintsBlock, projectBrainBlock } from "@/lib/ai/prompts/context";
+import {
+  antiRepetitionBlock,
+  constraintsBlock,
+  projectBrainBlock,
+  proofBlock,
+  scenarioBlock,
+} from "@/lib/ai/prompts/context";
+import type { AntiRepetitionMemory } from "@/lib/ai/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 
 export interface ScoredTrend {
@@ -21,6 +28,8 @@ export interface WeeklyStrategyPromptInput {
   // Only trends with relevance_score >= 60 should be passed in.
   eligibleTrends: ScoredTrend[];
   evergreenTopics: EvergreenRef[];
+  // Phase 2E — recent hooks/topics/CTAs/scenarios to avoid repeating.
+  memory?: AntiRepetitionMemory;
 }
 
 export const WEEKLY_STRATEGY_SYSTEM =
@@ -137,11 +146,17 @@ export function buildWeeklyStrategyPrompt(
     eligibleTrends,
     evergreenTopics,
   );
+  const proof = proofBlock(project);
+  const scenarios = scenarioBlock(project);
+  const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
 
   return [
     projectBrainBlock(project),
     "",
     constraintsBlock(project),
+    ...(proof ? ["", proof] : []),
+    ...(scenarios ? ["", scenarios] : []),
+    ...(memory ? ["", memory] : []),
     "",
     `WEEK: ${weekStart} -> ${weekEnd}`,
     "",

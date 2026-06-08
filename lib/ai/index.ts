@@ -3,6 +3,7 @@ import {
   OpenAIImageProvider,
   OpenAISpeechProvider,
   OpenAITextProvider,
+  OpenAIVisionProvider,
 } from "@/lib/ai/openai";
 import type {
   ImageProvider,
@@ -20,6 +21,7 @@ let claude: TextProvider | null = null;
 let openaiText: TextProvider | null = null;
 let openaiImage: ImageProvider | null = null;
 let openaiSpeech: SpeechProvider | null = null;
+let openaiVision: OpenAIVisionProvider | null = null;
 
 function claudeProvider(): TextProvider {
   if (!claude) claude = new ClaudeProvider();
@@ -66,6 +68,12 @@ export function getImageProvider(): ImageProvider {
 export function getSpeechProvider(): SpeechProvider {
   if (!openaiSpeech) openaiSpeech = new OpenAISpeechProvider();
   return openaiSpeech;
+}
+
+// Vision (image understanding) for asset analysis. OpenAI-backed, multimodal.
+export function getVisionProvider(): OpenAIVisionProvider {
+  if (!openaiVision) openaiVision = new OpenAIVisionProvider();
+  return openaiVision;
 }
 
 export * from "@/lib/ai/types";

@@ -9,6 +9,10 @@ import {
   workflowResponse,
 } from "@/lib/ai/apiResponse";
 
+// Task 1 — weekly strategy runs ~90s of AI inline. Request the platform's max
+// function budget so it is not cut at the lower default.
+export const maxDuration = 300;
+
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 // n8n-invoked execution endpoint for the Weekly Strategy workflow.

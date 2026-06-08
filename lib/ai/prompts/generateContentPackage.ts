@@ -1,6 +1,13 @@
 import type { Project } from "@/lib/supabase/types";
-import { constraintsBlock, projectBrainBlock } from "@/lib/ai/prompts/context";
 import {
+  antiRepetitionBlock,
+  constraintsBlock,
+  projectBrainBlock,
+  proofBlock,
+  scenarioBlock,
+} from "@/lib/ai/prompts/context";
+import {
+  type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
   FUNNEL_STAGE_LABELS,
   REQUIRED_PACKAGE_PLATFORMS,
@@ -23,12 +30,16 @@ export interface GenerateContentPackagePromptInput {
   platform?: string | null;
   format?: string | null;
   availableAssets: AssetRef[];
+  // Phase 2E — recent hooks/topics/CTAs/scenarios to avoid repeating.
+  memory?: AntiRepetitionMemory;
 }
 
 export const GENERATE_PACKAGE_SYSTEM =
   "You are the Creative Engine for an AI Content Manager. You generate a " +
   "complete content PACKAGE derived from a weekly strategy item. Video is " +
-  "MANDATORY for every package. Produce platform-specific outputs.";
+  "MANDATORY for every package and is a fast-paced vertical SHORT (TikTok / " +
+  "Instagram Reels / YouTube Shorts share ONE video). The first 3 seconds (the " +
+  "hook) decide everything. Produce platform-specific outputs.";
 
 export function buildGenerateContentPackagePrompt(
   input: GenerateContentPackagePromptInput,
@@ -36,14 +47,31 @@ export function buildGenerateContentPackagePrompt(
   const { project, funnelStage, topic, angle, availableAssets } = input;
   const allowedCtas = CTA_TYPES_BY_GOAL[project.goal_type] ?? [];
   const funnelLabel = FUNNEL_STAGE_LABELS[funnelStage];
+  const proof = proofBlock(project);
+  const scenarios = scenarioBlock(project);
+  const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
 
   return [
     projectBrainBlock(project),
     "",
     constraintsBlock(project),
+    ...(proof ? ["", proof] : []),
+    ...(scenarios ? ["", scenarios] : []),
+    ...(memory ? ["", memory] : []),
     "",
     `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,
     `CTA type MUST be one of (goal=${project.goal_type}): ${allowedCtas.join(", ")}`,
+    "",
+    "HOOK V2 (the first 3 seconds — make it dramatically stronger):",
+    "- Open on a concrete moment: pull from the SCENARIO POOL, a sharp PAIN",
+    "  POINT, or a striking PROOF point above. Avoid generic intros.",
+    "- The hook must create curiosity or tension in one short, punchy line.",
+    "- voiceover_text MUST start with that hook, then flow Problem -> Scenario",
+    "  -> Proof -> CTA so the narration maps onto fast visual beats.",
+    "",
+    "VISUAL BEATS: provide 5–8 image_prompts, one per distinct visual moment of",
+    "the arc (hook, problem, scenario, proof, CTA). They will be shown as short",
+    "moving beats, so make them visually distinct from each other.",
     "",
     "AVAILABLE ASSETS (asset_usage rules: STATIC must not be modified; " +
       "EDITABLE may have a variant; REFERENCE is inspiration only):",
@@ -73,9 +101,12 @@ ${REQUIRED_PACKAGE_PLATFORMS.map(
   },
   "hashtags": ["string"],
   "image_prompts": ["string"],
-  "asset_usage": [ { "asset_id": "uuid", "used_as": "string", "modify": "true|false" } ]
+  "asset_usage": [ { "asset_id": "uuid", "used_as": "string", "modify": "true|false" } ],
+  "scenario": "the SCENARIO POOL line you drew on (verbatim), or \"\" if none"
 }`,
     `Rules: funnel_stage MUST equal "${funnelLabel}". video is mandatory. ` +
-      "Provide outputs for ALL required platforms. Never modify a STATIC asset.",
+      "Provide outputs for ALL required platforms. Never modify a STATIC asset. " +
+      "If you used a scenario, set \"scenario\" to that pool line verbatim; " +
+      "otherwise set it to an empty string.",
   ].join("\n");
 }

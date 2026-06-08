@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { rm } from "node:fs/promises";
 import {
   renderSchema,
   type RenderSpec,
@@ -16,17 +17,54 @@ import {
   generateSceneImages,
   type SceneImage,
 } from "@/video-worker/services/images";
-import { writeSrtFile } from "@/video-worker/services/subtitles";
-import { renderMp4, generateThumbnail } from "@/video-worker/services/ffmpeg";
+import { writeSrtFile, type SubtitleCue } from "@/video-worker/services/subtitles";
+import {
+  renderMp4,
+  generateThumbnail,
+  type RenderBeat,
+} from "@/video-worker/services/ffmpeg";
 import { uploadVideoArtifact } from "@/video-worker/services/storage";
 import { sendVideoCallback } from "@/video-worker/services/callback";
+import {
+  buildStoryboard,
+  SHORT_PROFILE,
+  type StoryboardBeat,
+} from "@/lib/video-engine/storyboard";
 
-const DEFAULT_SCENE_DURATION_SECONDS = 10;
+const DEFAULT_SCENE_DURATION_SECONDS = 4;
+// Cap the generated/reused still pool so a richer storyboard never inflates
+// image-generation cost: many beats cycle through a handful of stills.
+const MAX_SCENE_POOL = 8;
 
 function workerTempDir(): string {
   return (
     process.env.VIDEO_WORKER_TEMP_DIR ?? join(process.cwd(), ".video-worker-tmp")
   );
+}
+
+// Task 3 — remove a job's temp files (voiceover MP3, scene PNGs, SRT, output
+// MP4, thumbnail). Best-effort and never throws: a cleanup failure must not
+// turn a successful render into a failure, nor mask the real error of a failed
+// one. Missing files are ignored; any other failure is logged as a warning.
+async function cleanupTempFiles(
+  videoJobId: string,
+  paths: Iterable<string>,
+): Promise<void> {
+  for (const path of new Set(paths)) {
+    if (!path) continue;
+    try {
+      await rm(path, { force: true });
+    } catch (err) {
+      console.warn(
+        "[video-worker] temp cleanup failed",
+        JSON.stringify({
+          video_job_id: videoJobId,
+          path,
+          error: err instanceof Error ? err.message : String(err),
+        }),
+      );
+    }
+  }
 }
 
 function asString(value: unknown): string | undefined {
@@ -35,10 +73,37 @@ function asString(value: unknown): string | undefined {
     : undefined;
 }
 
+// One reusable still already in Storage (an image-type asset the package used).
+interface AssetImageRef {
+  bucket: string;
+  path: string;
+  title?: string;
+}
+
+function parseAssetImages(input: Record<string, unknown>): AssetImageRef[] {
+  const raw = input["asset_images"];
+  if (!Array.isArray(raw)) return [];
+  const refs: AssetImageRef[] = [];
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+    const record = entry as Record<string, unknown>;
+    const bucket = asString(record["bucket"]);
+    const path = asString(record["path"]);
+    if (bucket && path) {
+      refs.push({ bucket, path, title: asString(record["title"]) });
+    }
+  }
+  return refs;
+}
+
 // Turns a job's free-form `input` into a RenderSpec. Prefers a payload that
 // already matches renderSchema; otherwise assembles a fallback spec from the
-// known content-package fields (voiceover_text, subtitles, image_prompts, or
-// concept/script).
+// known content-package fields (voiceover_text, subtitles, image_prompts,
+// asset_images, or concept/script).
+//
+// Task 6 — relevant image assets the package referenced are added to the still
+// pool as REUSED stills (image_bucket/image_path), so the storyboard can show
+// real screenshots/dashboards/references without any new image generation.
 function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
   const direct = renderSchema.safeParse(input);
   if (direct.success) return direct.data;
@@ -66,17 +131,55 @@ function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
       ? prompts
       : [asString(input["concept"]) ?? asString(input["script"]) ?? voiceoverText];
 
-  const scenes: Scene[] = scenePrompts.map((prompt, index) => ({
+  const generatedScenes: Scene[] = scenePrompts.map((prompt, index) => ({
     id: `scene-${index + 1}`,
     image_prompt: prompt,
     duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
   }));
+
+  const assetScenes: Scene[] = parseAssetImages(input).map((ref, index) => ({
+    id: `asset-${index + 1}`,
+    image_prompt: ref.title && ref.title.length > 0 ? ref.title : "asset image",
+    duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
+    image_bucket: ref.bucket,
+    image_path: ref.path,
+  }));
+
+  // Generated stills first (the hook usually opens on a branded generated
+  // image), assets appended. Pool is capped to control cost.
+  const scenes = [...generatedScenes, ...assetScenes].slice(0, MAX_SCENE_POOL);
 
   return {
     scenes,
     voiceover_text: voiceoverText,
     ...(subtitles ? { subtitles } : {}),
   };
+}
+
+// Replicates the renderer's xfade timing so each subtitle cue lines up with the
+// beat that is on screen. Returns one cue per beat plus the total timeline
+// length (after transition overlaps).
+function buildSubtitleTimeline(
+  beats: StoryboardBeat[],
+  transitionSeconds: number,
+): { cues: SubtitleCue[]; totalSeconds: number } {
+  if (beats.length === 0) return { cues: [], totalSeconds: 0 };
+
+  const starts: number[] = [0];
+  let cumulative = beats[0].durationSeconds;
+  for (let i = 1; i < beats.length; i++) {
+    const td = Math.min(transitionSeconds, beats[i].durationSeconds / 2);
+    starts.push(Math.max(0, cumulative - td));
+    cumulative = cumulative - td + beats[i].durationSeconds;
+  }
+
+  const cues: SubtitleCue[] = beats.map((beat, i) => ({
+    startSeconds: starts[i],
+    endSeconds: i + 1 < beats.length ? starts[i + 1] : cumulative,
+    text: beat.text,
+  }));
+
+  return { cues, totalSeconds: cumulative };
 }
 
 function totalDuration(spec: RenderSpec): number {
@@ -156,37 +259,76 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     JSON.stringify({ video_job_id: payload.video_job_id, ...transport }),
   );
 
+  // Every temp file this job writes is tracked here as it is produced, so the
+  // finally block can delete them on BOTH success and failure (Task 3). The
+  // voiceover MP3 and SRT use random names, so tracking the actual paths is the
+  // only reliable way to clean them up.
+  const tempFiles = new Set<string>();
+
   try {
     const spec = buildRenderSpec(payload.input);
     const dir = workerTempDir();
 
     const voiceover = await generateVoiceover({ text: spec.voiceover_text });
+    tempFiles.add(voiceover.audioPath);
 
     const images = await generateSceneImages({
       scenes: spec.scenes,
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
     });
+    for (const image of images) tempFiles.add(image.imagePath);
 
-    const { srtPath } = await writeSrtFile({
-      subtitles: spec.subtitles,
+    // Video Quality V2 — build the beat timeline (8–15 short moving beats) from
+    // the narration + the still pool, seeded by the package hook.
+    const storyboard = buildStoryboard({
       voiceoverText: spec.voiceover_text,
-      durationSeconds: totalDuration(spec),
+      sceneIds: spec.scenes.map((scene) => scene.id),
+      hook: asString(payload.input["hook"]) ?? null,
     });
 
+    const { cues, totalSeconds } = buildSubtitleTimeline(
+      storyboard,
+      SHORT_PROFILE.transitionSeconds,
+    );
+
+    const { srtPath } = await writeSrtFile({
+      cues,
+      subtitles: spec.subtitles,
+      voiceoverText: spec.voiceover_text,
+      durationSeconds: totalSeconds || totalDuration(spec),
+    });
+    tempFiles.add(srtPath);
+
+    const beats: RenderBeat[] = storyboard.map((beat) => ({
+      sceneId: beat.sceneId,
+      motion: beat.motion,
+      transition: beat.transition,
+      durationSeconds: beat.durationSeconds,
+    }));
+
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
+    tempFiles.add(mp4OutputPath);
     const { mp4Path } = await renderMp4({
       images,
+      beats,
       audioPath: voiceover.audioPath,
       srtPath,
       outputPath: mp4OutputPath,
       durationSeconds: spec.duration_seconds,
+      profile: {
+        width: SHORT_PROFILE.width,
+        height: SHORT_PROFILE.height,
+        fps: SHORT_PROFILE.fps,
+        transitionSeconds: SHORT_PROFILE.transitionSeconds,
+      },
     });
 
     const thumbnailOutputPath = join(
       dir,
       `thumbnail-${payload.video_job_id}.png`,
     );
+    tempFiles.add(thumbnailOutputPath);
     const { thumbnailPath } = await generateThumbnail({
       mp4Path,
       outputPath: thumbnailOutputPath,
@@ -266,5 +408,10 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         }),
       );
     }
+  } finally {
+    // Task 3 — always reclaim the job's temp files (success OR failure). The
+    // durable artifacts are already in Storage by this point; these are local
+    // scratch files. Cleanup is best-effort and never throws.
+    await cleanupTempFiles(payload.video_job_id, tempFiles);
   }
 }

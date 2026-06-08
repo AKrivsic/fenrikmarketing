@@ -6,6 +6,11 @@ import {
   workflowResponse,
 } from "@/lib/ai/apiResponse";
 
+// Task 1 — content package generation runs ~160s of AI inline; request the
+// platform's max function budget (see sprint report for the worker-offload
+// decision for runs beyond this ceiling).
+export const maxDuration = 300;
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJsonBody(request);

@@ -248,8 +248,8 @@ data?), 1 HTTP (execution), 1 Error Trigger + 1 Error HTTP.
 
 **Workflow value:** `trend_scan`
 **Node count:** 1 Webhook, 1 Supabase (read-only acquisition guard read),
-(raw candidate acquisition), 1 HTTP (execution), 1 Error Trigger + 1 Error HTTP.
-**No scoring node.**
+1 Build Search Query (deterministic), 1 Google News RSS, 1 Build Candidates,
+1 HTTP (execution), 1 Error Trigger + 1 Error HTTP. **No scoring node.**
 
 Trend Scan is the **last** workflow. n8n only obtains **raw trend candidates /
 input trend data** and forwards them. **All scoring & relevance logic is in the
@@ -260,7 +260,7 @@ backend** — n8n contains **no scoring logic**.
 #### N1 — Webhook Trigger 🔧
 - **Input:** envelope `payload:{}` (only `project_id`).
 
-#### N2 — Supabase node (read-only acquisition guard read) 🔧
+#### N2 — Supabase node `Read Project Context` (read-only acquisition guard read) 🔧
 - **Purpose:** read a few `projects` fields **only** to build better Google News
   RSS keyword queries (acquisition quality). This is **not** scoring and **not**
   the Project Brain the backend uses — the backend re-loads the full Project
@@ -273,16 +273,23 @@ backend** — n8n contains **no scoring logic**.
   relevance, or modify the Project Brain.
 - **Retry:** up to 3 on network/`5xx` only.
 
-#### N3 — (keyword set + raw candidates) 🔧
-- Build a simple keyword set from N2 (`product_is` + `pain_points`, optionally
-  `market_scope`/`language`/`target_audience`) using **deterministic rules — no
-  AI, no LLM**. Use it to query **Google News RSS** for raw candidates.
-- Each candidate is normalized to a plain object `{ source, title, url? }` with
-  `source: "news"`. `title` must be non-empty; `url` is optional.
-- No scoring, no ranking, no relevance decisions happen here. Keyword generation
-  only improves acquisition coverage — it never decides relevance.
+#### N3 — Build Search Query 🔧
+- Build a single `search_query` string from N2 (`product_is` + `pain_points`,
+  optionally `market_scope`/`language`/`target_audience`) using **deterministic
+  rules — no AI, no LLM**.
+- **Output:** `search_query`.
 
-#### N4 — HTTP Request (execution endpoint) 🔧 → ✅
+#### N4 — Google News RSS 🔧
+- Query **Google News RSS** with `query = search_query` (from N3) to obtain raw
+  candidates.
+
+#### N5 — Build Candidates 🔧
+- Transform the RSS XML into plain candidate objects `{ source, title, url? }`
+  with `source: "news"`. `title` must be non-empty; `url` is optional.
+- No scoring, no ranking, no relevance decisions happen here. Acquisition only
+  improves coverage — it never decides relevance.
+
+#### N6 — HTTP Request (execution endpoint) 🔧 → ✅
 - **Name:** `Trend Scan`
 - **Endpoint:** `POST https://<app>/api/n8n/trend-scan`
 - **Auth:** `x-n8n-secret = N8N_CALLBACK_SECRET`.

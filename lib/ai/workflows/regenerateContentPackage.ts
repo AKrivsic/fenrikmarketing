@@ -19,12 +19,15 @@ import {
 import {
   buildPackageBrief,
   buildPersistableItems,
+  buildVideoJobInput,
   loadAvailableAssets,
   loadStrategyItemContext,
   makePackageGuardrails,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
+import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { normalizeFunnelStage } from "@/lib/ai/types";
 
 export interface RegenerateContentPackageInput {
@@ -86,6 +89,9 @@ export async function runRegenerateContentPackage(
     existing.strategy_item_id as string,
   );
   const assets = await loadAvailableAssets(supabase, projectId);
+  // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
+  // regenerated package avoids repeating prior content.
+  const memory = await buildAntiRepetitionMemory(supabase, projectId);
 
   // Snapshot the current package (header + items) into content_versions as a
   // package-level snapshot (content_package_id) BEFORE regenerating.
@@ -108,6 +114,7 @@ export async function runRegenerateContentPackage(
       availableAssets: assets.refs,
       previousTitle: existing.title as string,
       feedback: input.feedback ?? null,
+      memory,
     }),
     validator: contentPackageSchema,
     guardrails: makePackageGuardrails({
@@ -125,6 +132,16 @@ export async function runRegenerateContentPackage(
       attempts: generated.attempts,
     };
   }
+
+  // Phase 2E — lightweight dedup: if the hook is identical to a recent one,
+  // regenerate ONLY the hook (never the whole package).
+  generated.value.hook = await ensureUniqueHook({
+    hook: generated.value.hook,
+    project,
+    topic: context.topic,
+    angle: context.angle,
+    memory,
+  });
 
   const pkg = generated.value;
   // Preserve the strategy item's canonical funnel stage across regeneration.
@@ -159,6 +176,9 @@ export async function runRegenerateContentPackage(
   const primaryItemId = contentItemIds[0] ?? null;
 
   // Regeneration produces a new video job (video remains mandatory).
+  const videoInput = await buildVideoJobInput(supabase, projectId, pkg, {
+    regenerated: true,
+  });
   const { data: videoRow, error: videoErr } = await supabase
     .from("video_jobs")
     .insert({
@@ -166,13 +186,7 @@ export async function runRegenerateContentPackage(
       content_item_id: primaryItemId,
       provider: "video_engine",
       status: "queued",
-      input: {
-        concept: pkg.video.concept,
-        script: pkg.video.script,
-        voiceover_text: pkg.voiceover_text,
-        subtitles: pkg.subtitles,
-        regenerated: true,
-      } as unknown as Json,
+      input: videoInput,
     })
     .select("id")
     .single();
@@ -196,6 +210,9 @@ export async function runRegenerateContentPackage(
   };
 }
 
+// Loads ONLY the primary-language content items (language IS NULL). Language
+// variants (language = de/fr/...) are deliberately excluded so package
+// regenerate can never read, snapshot, or overwrite them.
 async function loadPackageItems(
   supabase: SupabaseClient,
   packageId: string,
@@ -203,7 +220,8 @@ async function loadPackageItems(
   const { data, error } = await supabase
     .from("content_items")
     .select("*")
-    .eq("package_id", packageId);
+    .eq("package_id", packageId)
+    .is("language", null);
   if (error) throw error;
   return (data ?? []) as ContentItem[];
 }
@@ -270,19 +288,25 @@ async function upsertPackageItems(
     };
 
     if (existing) {
+      // Extra guard: only update the primary row. existingItems are already
+      // primary-only, and the language filter makes a variant overwrite
+      // impossible even if a stale id slipped through.
       const { error } = await supabase
         .from("content_items")
         .update(fields)
-        .eq("id", existing.id);
+        .eq("id", existing.id)
+        .is("language", null);
       if (error) throw error;
       resultIds.push(existing.id);
     } else {
+      // New primary items are persisted with language NULL (primary language).
       const { data, error } = await supabase
         .from("content_items")
         .insert({
           project_id: projectId,
           package_id: packageId,
           platform: item.platform,
+          language: null,
           ...fields,
         })
         .select("id")

@@ -3,16 +3,22 @@
 import { useState, useTransition } from "react";
 import {
   approveItem,
+  generateLanguageVariants,
+  regenerateLanguageVariant,
   regeneratePackage,
   rejectItem,
   type ActionResult,
 } from "@/app/review-queue/actions";
+import type { LanguageCode } from "@/lib/supabase/types";
 import styles from "./ReviewActions.module.css";
 
 interface ReviewActionsProps {
   itemId: string;
   projectId: string;
   packageId: string | null;
+  isLanguageVariant: boolean;
+  canGenerateVariants: boolean;
+  variantLanguage: LanguageCode | null;
   onEdit: () => void;
 }
 
@@ -20,6 +26,9 @@ export function ReviewActions({
   itemId,
   projectId,
   packageId,
+  isLanguageVariant,
+  canGenerateVariants,
+  variantLanguage,
   onEdit,
 }: ReviewActionsProps) {
   const [error, setError] = useState<string | null>(null);
@@ -50,19 +59,43 @@ export function ReviewActions({
         >
           Approve
         </button>
-        <button
-          type="button"
-          className={styles.regenerate}
-          disabled={isPending || !packageId}
-          onClick={() =>
-            run(
-              () => regeneratePackage(packageId, projectId),
-              "Regenerace byla spuštěna.",
-            )
-          }
-        >
-          Regenerate
-        </button>
+        {isLanguageVariant ? (
+          // Variant regenerate re-localizes ONLY this language and queues its
+          // own video job. It MUST NOT call the package-level regenerate (which
+          // would regenerate the primary package and every language).
+          <button
+            type="button"
+            className={styles.regenerate}
+            disabled={isPending || !packageId || !variantLanguage}
+            onClick={() =>
+              run(
+                () =>
+                  regenerateLanguageVariant(
+                    packageId,
+                    projectId,
+                    variantLanguage,
+                  ),
+                "Regenerace jazykové varianty byla spuštěna.",
+              )
+            }
+          >
+            Regenerate
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={styles.regenerate}
+            disabled={isPending || !packageId}
+            onClick={() =>
+              run(
+                () => regeneratePackage(packageId, projectId),
+                "Regenerace byla spuštěna.",
+              )
+            }
+          >
+            Regenerate
+          </button>
+        )}
         <button
           type="button"
           className={styles.reject}
@@ -79,6 +112,21 @@ export function ReviewActions({
         >
           Edit
         </button>
+        {canGenerateVariants ? (
+          <button
+            type="button"
+            className={styles.generate}
+            disabled={isPending || !packageId}
+            onClick={() =>
+              run(
+                () => generateLanguageVariants(packageId, projectId),
+                "Generování jazykových variant bylo spuštěno.",
+              )
+            }
+          >
+            Generate language variants
+          </button>
+        ) : null}
       </div>
 
       {error ? <p className={styles.error}>{error}</p> : null}

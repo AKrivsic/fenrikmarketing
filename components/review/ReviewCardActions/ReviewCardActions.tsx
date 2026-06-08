@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ReviewActions } from "@/components/review/ReviewActions/ReviewActions";
 import { EditItemForm } from "@/components/review/EditItemForm/EditItemForm";
+import type { LanguageCode } from "@/lib/supabase/types";
 import styles from "./ReviewCardActions.module.css";
 
 interface ReviewCardActionsProps {
@@ -12,6 +13,9 @@ interface ReviewCardActionsProps {
   caption: string | null;
   hashtags: string[];
   cta: string | null;
+  isLanguageVariant: boolean;
+  canGenerateVariants: boolean;
+  variantLanguage: LanguageCode | null;
 }
 
 export function ReviewCardActions({
@@ -21,6 +25,9 @@ export function ReviewCardActions({
   caption,
   hashtags,
   cta,
+  isLanguageVariant,
+  canGenerateVariants,
+  variantLanguage,
 }: ReviewCardActionsProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,6 +47,9 @@ export function ReviewCardActions({
           itemId={itemId}
           projectId={projectId}
           packageId={packageId}
+          isLanguageVariant={isLanguageVariant}
+          canGenerateVariants={canGenerateVariants}
+          variantLanguage={variantLanguage}
           onEdit={() => setIsEditing(true)}
         />
       )}

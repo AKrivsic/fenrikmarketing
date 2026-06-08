@@ -7,6 +7,9 @@ import {
   workflowResponse,
 } from "@/lib/ai/apiResponse";
 
+// Task 1 — regeneration runs ~60s of AI inline; request the max function budget.
+export const maxDuration = 300;
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJsonBody(request);

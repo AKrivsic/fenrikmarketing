@@ -1,3 +1,8 @@
+import {
+  fetchWithRetry,
+  HTTP_MAX_ATTEMPTS,
+  HTTP_TIMEOUT_MS,
+} from "@/lib/http/fetchWithRetry";
 import { N8N_SECRET_HEADER } from "@/lib/n8n/callback";
 import {
   workerCallbackSchema,
@@ -55,14 +60,22 @@ export async function sendVideoCallback(
 
   let response: Response;
   try {
-    response = await fetch(callbackUrl, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        [N8N_SECRET_HEADER]: secret,
+    response = await fetchWithRetry(
+      callbackUrl,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          [N8N_SECRET_HEADER]: secret,
+        },
+        body: JSON.stringify(body),
       },
-      body: JSON.stringify(body),
-    });
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.worker,
+        maxAttempts: HTTP_MAX_ATTEMPTS.worker,
+        label: "video-worker:callback",
+      },
+    );
   } catch (err) {
     const detail = err instanceof Error ? err.message : "network error";
     throw new VideoCallbackError(`video callback request failed: ${detail}`);

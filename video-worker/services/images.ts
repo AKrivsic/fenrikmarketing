@@ -1,6 +1,11 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getImageProvider } from "@/lib/ai";
+import {
+  fetchWithRetry,
+  HTTP_MAX_ATTEMPTS,
+  HTTP_TIMEOUT_MS,
+} from "@/lib/http/fetchWithRetry";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -36,7 +41,15 @@ async function resolveImageBytes(
     return Buffer.from(imageBase64, "base64");
   }
   if (imageUrl) {
-    const res = await fetch(imageUrl);
+    const res = await fetchWithRetry(
+      imageUrl,
+      { method: "GET" },
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.ai,
+        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
+        label: "image-download",
+      },
+    );
     if (!res.ok) {
       throw new Error(`failed to download generated image (${res.status})`);
     }
@@ -73,6 +86,15 @@ export async function generateSceneImages(
     const imagePath = join(dir, `scene-${input.videoJobId}-${scene.id}.png`);
 
     if (scene.image_bucket && scene.image_path) {
+      console.log(
+        "[video-worker] Reusing scene image from storage; skipping image generation",
+        JSON.stringify({
+          scene_id: scene.id,
+          bucket: scene.image_bucket,
+          image_path: scene.image_path,
+          local_path: imagePath,
+        }),
+      );
       await downloadStorageObjectToFile({
         bucket: scene.image_bucket,
         storagePath: scene.image_path,
@@ -87,6 +109,10 @@ export async function generateSceneImages(
       continue;
     }
 
+    console.log(
+      "[video-worker] Generating scene image",
+      JSON.stringify({ scene_id: scene.id }),
+    );
     const generated = await provider.generateImage({
       prompt: scene.image_prompt,
       size: "1024x1024",

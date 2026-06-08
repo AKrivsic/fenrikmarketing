@@ -9,6 +9,10 @@ import {
   workflowResponse,
 } from "@/lib/ai/apiResponse";
 
+// Task 1 — regeneration runs ~60s of AI inline. Request the platform's max
+// function budget so it is not cut at the lower default.
+export const maxDuration = 300;
+
 // n8n-invoked execution endpoint for the Regenerate Content Package workflow.
 //
 // Bridge that lets the sessionless n8n workflow run the EXISTING regenerate

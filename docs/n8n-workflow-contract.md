@@ -491,16 +491,19 @@ logic**.
 
 ```
 Webhook trigger
-  → [read-only `projects` lookup by project_id — acquisition keyword set only]
-  → obtain raw trend candidates (input trend data)
+  → read-only `projects` lookup by project_id (acquisition fields only)
+  → build deterministic search_query (no AI)
+  → query Google News RSS with search_query → raw candidates
+  → build candidates [{ source: "news", title, url? }]
   → POST /api/n8n/trend-scan   (backend scores + persists accepted trends)
   → (error branch → /api/n8n/error-callback)
 ```
 
-**Acquisition keyword lookup (🔧, optional read-only guard):** before
-acquisition, n8n MAY perform a single **read-only** `projects` lookup scoped
-**only** by `project_id`, reading just `language`, `market_scope`, `product_is`,
-`pain_points`, and `target_audience`. Its **sole** purpose is to build better
+**Acquisition keyword lookup (🔧, read-only guard):** before acquisition, n8n
+performs a single **read-only** `projects` lookup scoped **only** by
+`project_id`, reading just `language`, `market_scope`, `product_is`,
+`pain_points`, and `target_audience`, and builds a deterministic `search_query`
+from them. Its **sole** purpose is to build better
 raw RSS / Google News search queries. This lookup **must not** write to
 Supabase, read `trends`, score, rank, filter by relevance, or modify the Project
 Brain. The backend still **re-loads the full Project Brain itself** for scoring
@@ -532,7 +535,7 @@ Brain. The backend still **re-loads the full Project Brain itself** for scoring
 ```
 
 The backend loads the Project Brain, scores each candidate with the existing AI
-relevance scorer (`scoreTrendRelevance`, threshold `MIN_TREND_RELEVANCE`),
+relevance scorer (`scoreTrendRelevance`, threshold `MIN_TREND_RELEVANCE = 60`),
 persists only accepted trends to `trends` (score in `trends.metadata`), and
 returns the rejected list in the response body only (rejected trends are **not**
 stored). `candidates` must be an array → otherwise `400`. The execution route

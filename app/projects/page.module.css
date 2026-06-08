@@ -1,3 +1,19 @@
 .page {
   max-width: 960px;
 }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.newLink {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  font-size: 0.85rem;
+  text-decoration: none;
+}

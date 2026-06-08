@@ -1,9 +1,11 @@
 // Video Worker — HTTP entrypoint for /api/n8n/start-video-job.
 //
 // POST /render authenticates, validates the payload, returns 202 immediately, and
-// runs the full render pipeline asynchronously in jobRunner (TTS, images,
-// subtitles, FFmpeg, storage upload, callback). Pipeline failures are logged and
-// reported via failed callback; they do not crash this process.
+// hands the job to an in-process concurrency queue (see queue.ts). The queue runs
+// at most MAX_CONCURRENT_VIDEO_JOBS render pipelines (TTS, images, subtitles,
+// FFmpeg, storage upload, callback) at a time; jobs over the limit wait in line.
+// Pipeline failures are logged and reported via failed callback; they do not
+// crash this process or stall the queue.
 
 import {
   createServer,
@@ -12,7 +14,7 @@ import {
 } from "node:http";
 import { timingSafeEqual } from "node:crypto";
 import { workerPayloadSchema } from "@/lib/video-engine/schemas/workerPayloadSchema";
-import { runVideoJob } from "@/video-worker/jobRunner";
+import { enqueueVideoJob } from "@/video-worker/queue";
 
 // Auth header the Vercel client (lib/video-worker/client.ts) sends with every
 // render request. Single source of truth shared with that caller by convention.
@@ -50,7 +52,8 @@ function isAuthorized(req: IncomingMessage): boolean {
   return timingSafeEqual(providedBuf, expectedBuf);
 }
 
-// POST /render — authenticate, validate, enqueue jobRunner, return 202.
+// POST /render — authenticate, validate, enqueue into the concurrency queue,
+// return 202.
 async function handleRender(
   req: IncomingMessage,
   res: ServerResponse,
@@ -98,15 +101,9 @@ async function handleRender(
     }),
   );
 
-  void runVideoJob(payload).catch((err: unknown) => {
-    console.error(
-      "[video-worker] job failed",
-      JSON.stringify({
-        video_job_id: payload.video_job_id,
-        error: err instanceof Error ? err.message : String(err),
-      }),
-    );
-  });
+  // Hand off to the in-process concurrency queue: it starts the job now if there
+  // is free capacity (MAX_CONCURRENT_VIDEO_JOBS) or holds it until a slot opens.
+  enqueueVideoJob(payload);
 
   sendJson(res, 202, {
     ok: true,

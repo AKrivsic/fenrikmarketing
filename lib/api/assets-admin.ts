@@ -1,6 +1,11 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Asset, AssetMode, MediaType } from "@/lib/supabase/types";
+import type { Asset, AssetMode, Json, MediaType } from "@/lib/supabase/types";
+import { classifyAsset, type AssetClass } from "@/lib/ai/guardrails";
+import {
+  readAssetAnalysis,
+  type AssetAnalysisStatus,
+} from "@/lib/assets/analysis";
 
 // Read-only asset library for the internal admin UI. Uses the service-role
 // admin client (RLS bypassed); keep this module server-only. No upload / edit /
@@ -14,12 +19,20 @@ export interface AssetView {
   title: string;
   mediaType: MediaType;
   assetMode: AssetMode;
+  // The static/editable/reference classification (metadata.asset_class), derived
+  // via the same guardrails convention used by content generation.
+  assetClass: AssetClass;
   tags: string[];
   usageCount: number;
   reuseScore: number;
   lastUsedAt: string | null;
   createdAt: string;
   previewUrl: string | null;
+  // Phase 2B asset analysis (read from metadata; null when not yet analyzed).
+  aiDescription: string | null;
+  suggestedUsage: string | null;
+  trustSignal: boolean;
+  analysisStatus: AssetAnalysisStatus | null;
 }
 
 // Builds signed preview URLs for image assets only, batched per bucket so the
@@ -66,19 +79,30 @@ async function buildImagePreviewUrls(
   return urlByAssetId;
 }
 
+function toMetadataRecord(value: Json): Record<string, unknown> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  return value as Record<string, unknown>;
+}
+
 function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
+  const analysis = readAssetAnalysis(asset.metadata);
   return {
     id: asset.id,
     projectId: asset.project_id,
     title: asset.title,
     mediaType: asset.media_type,
     assetMode: asset.asset_mode,
+    assetClass: classifyAsset(asset.asset_mode, toMetadataRecord(asset.metadata)),
     tags: asset.tags ?? [],
     usageCount: asset.usage_count,
     reuseScore: asset.reuse_score,
     lastUsedAt: asset.last_used_at,
     createdAt: asset.created_at,
     previewUrl,
+    aiDescription: analysis?.aiDescription ?? null,
+    suggestedUsage: analysis?.suggestedUsage ?? null,
+    trustSignal: analysis?.trustSignal ?? false,
+    analysisStatus: analysis?.analysisStatus ?? null,
   };
 }
 

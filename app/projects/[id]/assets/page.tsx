@@ -1,4 +1,5 @@
 import { AssetGrid } from "@/components/assets/AssetGrid/AssetGrid";
+import { AssetUploadForm } from "@/components/assets/AssetUploadForm/AssetUploadForm";
 import { listProjectAssets } from "@/lib/api/assets-admin";
 import styles from "./page.module.css";
 
@@ -16,6 +17,7 @@ export default async function ProjectAssetsTabPage({
 
   return (
     <div className={styles.tab}>
+      <AssetUploadForm projectId={id} />
       <AssetGrid
         assets={assets}
         emptyText="Tento projekt zatím nemá žádné assety."

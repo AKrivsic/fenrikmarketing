@@ -1,3 +1,8 @@
+import {
+  fetchWithRetry,
+  HTTP_MAX_ATTEMPTS,
+  HTTP_TIMEOUT_MS,
+} from "@/lib/http/fetchWithRetry";
 import type {
   TextCompletionRequest,
   TextCompletionResult,
@@ -42,21 +47,29 @@ export class ClaudeProvider implements TextProvider {
       ? `${req.system ?? ""}\n\nRespond with a single valid JSON document and nothing else.`.trim()
       : req.system;
 
-    const res = await fetch(ANTHROPIC_URL, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": this.apiKey,
-        "anthropic-version": ANTHROPIC_VERSION,
+    const res = await fetchWithRetry(
+      ANTHROPIC_URL,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-api-key": this.apiKey,
+          "anthropic-version": ANTHROPIC_VERSION,
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: req.maxTokens ?? 4096,
+          temperature: req.temperature ?? 0.7,
+          ...(system ? { system } : {}),
+          messages: [{ role: "user", content: req.prompt }],
+        }),
       },
-      body: JSON.stringify({
-        model,
-        max_tokens: req.maxTokens ?? 4096,
-        temperature: req.temperature ?? 0.7,
-        ...(system ? { system } : {}),
-        messages: [{ role: "user", content: req.prompt }],
-      }),
-    });
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.ai,
+        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
+        label: "claude:messages",
+      },
+    );
 
     if (!res.ok) {
       const detail = await res.text().catch(() => "");

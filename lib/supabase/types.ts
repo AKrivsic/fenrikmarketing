@@ -95,16 +95,22 @@ export interface Project {
   platforms: PlatformType[];
   publishing_rules: Json;
   default_cta: string | null;
+  // Knowledge Model V2 block (migration 012). Free-form jsonb at the DB level;
+  // the typed shape lives in lib/knowledge/types.ts (ProjectKnowledge). Defaults
+  // to {} for existing rows, which is derived from the brain columns on access.
+  knowledge: Json;
   created_at: string;
   updated_at: string;
 }
 
 // owner_id is derived from the authenticated user, never passed by callers.
+// knowledge is optional on insert: the DB default {} applies and the proposal
+// is written later by the extraction step.
 export type ProjectInsert = Omit<
   Project,
-  "id" | "owner_id" | "created_at" | "updated_at"
+  "id" | "owner_id" | "created_at" | "updated_at" | "knowledge"
 > &
-  Partial<Pick<Project, "language" | "enabled_languages">>;
+  Partial<Pick<Project, "language" | "enabled_languages" | "knowledge">>;
 
 export type ProjectUpdate = Partial<
   Omit<Project, "id" | "owner_id" | "created_at" | "updated_at">
@@ -202,5 +208,6 @@ export interface VideoJob {
   output: Json;
   error_message: string | null;
   created_at: string;
+  updated_at: string;
   completed_at: string | null;
 }

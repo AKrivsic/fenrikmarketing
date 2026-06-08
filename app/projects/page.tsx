@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader/PageHeader";
 import { ProjectList } from "@/components/projects/ProjectList/ProjectList";
 import { listProjectsForAdmin } from "@/lib/api/projects-admin";
@@ -12,6 +13,11 @@ export default async function ProjectsPage() {
   return (
     <div className={styles.page}>
       <PageHeader title="Projects" description="Seznam projektů." />
+      <div className={styles.actions}>
+        <Link href="/projects/new" className={styles.newLink}>
+          Nový projekt
+        </Link>
+      </div>
       <ProjectList projects={projects} />
     </div>
   );

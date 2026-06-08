@@ -27,6 +27,8 @@ import {
   WorkflowError,
   type WorkflowResult,
 } from "@/lib/ai/workflows/shared";
+import { ensureScenarioPool } from "@/lib/ai/workflows/generateScenarios";
+import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 
 export interface RunWeeklyStrategyInput {
   projectId: string;
@@ -38,6 +40,9 @@ export interface WeeklyStrategyData {
   strategyId: string;
   strategy: WeeklyStrategyOutput;
   itemIds: string[];
+  // Set when the result is an EXISTING strategy returned by the idempotence
+  // guard instead of a freshly generated one (no AI was run).
+  reused?: boolean;
 }
 
 export async function runWeeklyStrategy(
@@ -53,6 +58,28 @@ export async function runWeeklyStrategy(
   }
 
   const supabase: SupabaseClient = client ?? (await createSupabaseServerClient());
+
+  // Idempotence guard (C1). At most ONE weekly strategy per (project, week).
+  // If a strategy already exists for this week_start, return it instead of
+  // running the (~90s) AI strategy + insert again. This runs BEFORE
+  // ensureScenarioPool and the AI call, so a duplicate webhook delivery / n8n
+  // retry / re-trigger is a safe no-op with no extra AI cost and no second
+  // content_strategies row.
+  const existingStrategy = await loadExistingStrategyData(
+    supabase,
+    projectId,
+    weekStart,
+  );
+  if (existingStrategy) {
+    return { ok: true, data: existingStrategy };
+  }
+
+  // Task 4 — top the Scenario Pool back up before planning if it has dropped
+  // below the minimum. Runs before the project is loaded so the strategy prompt
+  // (via scenarioBlock) sees the freshly persisted scenarios. Never throws and
+  // no-ops when the pool is already sufficient.
+  await ensureScenarioPool(projectId);
+
   const project = await loadProjectOrThrow(supabase, projectId);
 
   // Trend Engine: only trends scored >= 60 are eligible for the strategy.
@@ -92,12 +119,17 @@ export async function runWeeklyStrategy(
   }));
   const evergreenIds = new Set(evergreenTopics.map((t) => t.id));
 
+  // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the strategy prompt
+  // so the plan avoids repeating prior themes/angles.
+  const memory = await buildAntiRepetitionMemory(supabase, projectId);
+
   const strategyPrompt = buildWeeklyStrategyPrompt({
     project,
     weekStart,
     weekEnd,
     eligibleTrends,
     evergreenTopics,
+    memory,
   });
   const strategyExpectedShape = buildWeeklyStrategyExpectedShape(
     weekStart,
@@ -193,6 +225,42 @@ export async function runWeeklyStrategy(
       strategy,
       itemIds: (insertedItems ?? []).map((r) => r.id as string),
     },
+  };
+}
+
+// Idempotence lookup: the existing weekly strategy for (project, week_start),
+// if any. strategy_brief stores the full WeeklyStrategyOutput verbatim, so it
+// is read back as the `strategy` payload. When duplicate rows already exist
+// (legacy data), the OLDEST is treated as canonical for a deterministic result.
+async function loadExistingStrategyData(
+  supabase: SupabaseClient,
+  projectId: string,
+  weekStart: string,
+): Promise<WeeklyStrategyData | null> {
+  const { data: strategyRow, error } = await supabase
+    .from("content_strategies")
+    .select("id, strategy_brief")
+    .eq("project_id", projectId)
+    .eq("period_start", weekStart)
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  if (!strategyRow) return null;
+
+  const strategyId = strategyRow.id as string;
+  const { data: items, error: itemErr } = await supabase
+    .from("content_strategy_items")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("strategy_id", strategyId);
+  if (itemErr) throw itemErr;
+
+  return {
+    strategyId,
+    strategy: (strategyRow.strategy_brief ?? {}) as unknown as WeeklyStrategyOutput,
+    itemIds: (items ?? []).map((r) => r.id as string),
+    reused: true,
   };
 }
 

@@ -1,3 +1,8 @@
+import {
+  fetchWithRetry,
+  HTTP_MAX_ATTEMPTS,
+  HTTP_TIMEOUT_MS,
+} from "@/lib/http/fetchWithRetry";
 import { N8N_SECRET_HEADER } from "@/lib/n8n/callback";
 
 // Outbound n8n client. Single place that knows how to send a workflow-trigger
@@ -61,14 +66,22 @@ export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
 
   let response: Response;
   try {
-    response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        [N8N_SECRET_HEADER]: secret,
+    response = await fetchWithRetry(
+      baseUrl,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          [N8N_SECRET_HEADER]: secret,
+        },
+        body: JSON.stringify(envelope),
       },
-      body: JSON.stringify(envelope),
-    });
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.worker,
+        maxAttempts: HTTP_MAX_ATTEMPTS.worker,
+        label: "n8n:webhook",
+      },
+    );
   } catch (err) {
     const detail = err instanceof Error ? err.message : "network error";
     throw new N8nRequestError(`n8n webhook request failed: ${detail}`);

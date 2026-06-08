@@ -57,6 +57,10 @@ export const contentPackageSchema = vObject({
   hashtags: vOptional(vArray(vString())),
   image_prompts: vOptional(vArray(vString())),
   asset_usage: vOptional(vArray(assetUsageSchema)),
+  // Phase 2E — the SCENARIO POOL line the package drew on (verbatim), or empty
+  // when none was used. Captured so anti-repetition memory can avoid reusing the
+  // same scenario across content. Optional: legacy/scenario-less output omits it.
+  scenario: vOptional(vString()),
 });
 
 export type ContentPackageOutput = Infer<typeof contentPackageSchema>;
