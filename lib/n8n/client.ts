@@ -20,6 +20,26 @@ export const AUTOMATION_WORKFLOWS = {
 export type AutomationWorkflow =
   (typeof AUTOMATION_WORKFLOWS)[keyof typeof AUTOMATION_WORKFLOWS];
 
+// n8n publishes one production webhook per workflow. The path segment after
+// /webhook/ for each workflow discriminator.
+export const WORKFLOW_WEBHOOK_PATHS: Record<AutomationWorkflow, string> = {
+  trend_scan: "trend-scan",
+  weekly_strategy: "weekly-strategy",
+  generate_content_package: "generate-content-package",
+  regenerate_content_package: "regenerate-content-package",
+  publishing_planner: "publishing-planner",
+};
+
+// Optional per-workflow full URL overrides. When set, they win over anything
+// derived from N8N_BASE_URL (lets ops point a single workflow elsewhere).
+export const WORKFLOW_ENV_VARS: Record<AutomationWorkflow, string> = {
+  trend_scan: "N8N_TREND_SCAN_URL",
+  weekly_strategy: "N8N_WEEKLY_STRATEGY_URL",
+  generate_content_package: "N8N_GENERATE_CONTENT_PACKAGE_URL",
+  regenerate_content_package: "N8N_REGENERATE_CONTENT_PACKAGE_URL",
+  publishing_planner: "N8N_PUBLISHING_PLANNER_URL",
+};
+
 // Missing N8N_BASE_URL / N8N_WEBHOOK_SECRET -> mapped to HTTP 500.
 export class N8nConfigError extends Error {
   constructor(message: string) {
@@ -69,23 +89,56 @@ function safeEndpoint(rawUrl: string): string {
     const url = new URL(rawUrl);
     return `${url.origin}${url.pathname}`;
   } catch {
-    return "(invalid N8N_BASE_URL)";
+    return "(invalid url)";
   }
 }
 
+// Resolves the per-workflow n8n webhook URL.
+//
+// Priority:
+//   1. Per-workflow override env var (e.g. N8N_GENERATE_CONTENT_PACKAGE_URL).
+//   2. Derived from N8N_BASE_URL's ORIGIN + "/webhook/<path>".
+//
+// N8N_BASE_URL historically points at a single (non-existent) router path such
+// as "https://n8n.fenrik.chat/webhook/ai-content-manager". We deliberately use
+// only its origin ("https://n8n.fenrik.chat") and append the real published
+// path, so we never POST to /webhook/ai-content-manager.
+export function resolveWebhookUrl(workflow: AutomationWorkflow): string {
+  const override = process.env[WORKFLOW_ENV_VARS[workflow]]?.trim();
+  if (override) return override;
+
+  const baseUrl = process.env.N8N_BASE_URL?.trim();
+  if (!baseUrl) {
+    throw new N8nConfigError(
+      `Missing ${WORKFLOW_ENV_VARS[workflow]} and N8N_BASE_URL`,
+    );
+  }
+
+  let origin: string;
+  try {
+    origin = new URL(baseUrl).origin;
+  } catch {
+    throw new N8nConfigError(`Invalid N8N_BASE_URL: ${baseUrl}`);
+  }
+
+  return `${origin}/webhook/${WORKFLOW_WEBHOOK_PATHS[workflow]}`;
+}
+
 export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
-  const baseUrl = process.env.N8N_BASE_URL;
   const secret = process.env.N8N_WEBHOOK_SECRET;
-  if (!baseUrl || !secret) {
+  if (!secret) {
     // Logged so the missing-config case is visible in server logs. No secret
     // value is printed (there is none to print).
     console.error(
-      `[n8n] workflow=${args.workflow} not configured: missing ${!baseUrl ? "N8N_BASE_URL" : ""}${!baseUrl && !secret ? " + " : ""}${!secret ? "N8N_WEBHOOK_SECRET" : ""}`,
+      `[n8n] workflow=${args.workflow} not configured: missing N8N_WEBHOOK_SECRET`,
     );
-    throw new N8nConfigError("Missing N8N_BASE_URL or N8N_WEBHOOK_SECRET");
+    throw new N8nConfigError("Missing N8N_WEBHOOK_SECRET");
   }
 
-  const endpoint = safeEndpoint(baseUrl);
+  // Resolve the per-workflow URL first; a missing/invalid base config surfaces
+  // as N8nConfigError (HTTP 500) before any network call.
+  const webhookUrl = resolveWebhookUrl(args.workflow);
+  const endpoint = safeEndpoint(webhookUrl);
   const envelope: N8nWebhookEnvelope = {
     workflow: args.workflow,
     project_id: args.projectId,
@@ -96,7 +149,7 @@ export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
   let response: Response;
   try {
     response = await fetchWithRetry(
-      baseUrl,
+      webhookUrl,
       {
         method: "POST",
         headers: {
@@ -133,10 +186,18 @@ export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
     console.error(
       `[n8n] workflow=${args.workflow} endpoint=${endpoint} status=${response.status} body=${bodySnippet}`,
     );
-    throw new N8nRequestError(
-      `n8n webhook returned status ${response.status}`,
-      { status: response.status, bodySnippet },
-    );
+    // A 404 means n8n has no registered/active production webhook at this path.
+    // Surface the exact resolved path so the fix (activate the workflow / check
+    // the URL) is obvious from the message alone.
+    const pathname = new URL(webhookUrl).pathname;
+    const message =
+      response.status === 404
+        ? `n8n webhook not registered: ${pathname}`
+        : `n8n webhook returned status ${response.status}`;
+    throw new N8nRequestError(message, {
+      status: response.status,
+      bodySnippet,
+    });
   }
 
   // Success path — concise, secret-free confirmation for observability.
