@@ -116,8 +116,11 @@ export function makePackageGuardrails(args: {
   // Platform surfaces the package must produce (project.platforms resolved to
   // the package-capable subset). Defaults to the full required set.
   requiredPlatforms?: readonly string[];
+  // Whether a video block is mandatory (defaults to true). False for text-only
+  // packages where no selected platform requires video.
+  requireVideo?: boolean;
 }): (pkg: ContentPackageOutput) => ValidationIssue[] {
-  const { project, context, classById, requiredPlatforms } = args;
+  const { project, context, classById, requiredPlatforms, requireVideo } = args;
   return (pkg) => {
     const issues = checkContentPackageGuardrails(pkg, {
       project,
@@ -125,6 +128,7 @@ export function makePackageGuardrails(args: {
       strategyItemId: context.strategyItemId,
       strategyItemFunnelStage: context.funnelStage,
       requiredPlatforms,
+      requireVideo,
     });
 
     for (const usage of pkg.asset_usage ?? []) {

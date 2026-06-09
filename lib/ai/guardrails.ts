@@ -155,6 +155,10 @@ export interface PackageGuardrailContext {
   // project's selected platforms pass the resolved subset so guardrails validate
   // the generated outputs against projects.platforms.
   requiredPlatforms?: readonly string[];
+  // Whether a video block is mandatory. Defaults to true (existing behavior).
+  // Set to false for text-only packages (no selected platform requires video),
+  // so a package without a video block is still valid.
+  requireVideo?: boolean;
 }
 
 export function checkContentPackageGuardrails(
@@ -171,8 +175,12 @@ export function checkContentPackageGuardrails(
     issues.push(issue("$.strategy_item_id", "required"));
   }
 
-  // Mandatory media + narration fields.
-  if (!pkg.video || !pkg.video.concept || !pkg.video.script) {
+  // Mandatory media + narration fields. Video is required only when the package
+  // has at least one video platform (requireVideo defaults to true). voiceover_text
+  // / subtitles stay required: voiceover_text also backs content_items.body for
+  // text-only platforms.
+  const requireVideo = ctx.requireVideo ?? true;
+  if (requireVideo && (!pkg.video || !pkg.video.concept || !pkg.video.script)) {
     issues.push(issue("$.video", "video is mandatory for every package"));
   }
   if (!pkg.voiceover_text) issues.push(issue("$.voiceover_text", "required"));

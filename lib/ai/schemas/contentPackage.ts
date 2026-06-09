@@ -72,6 +72,13 @@ export const contentPackageSchema = vObject({
   scenario: vOptional(vString()),
 });
 
+export interface BuildContentPackageSchemaOptions {
+  // When false, the package is text-only (no platform requires video): the
+  // `video` block becomes optional so a valid package can omit it. Defaults to
+  // true (video required) — backwards compatible with all existing callers.
+  requireVideo?: boolean;
+}
+
 // Builds a content-package validator whose platform_outputs requires exactly
 // the given platform surfaces. Used by the generation workflows to validate AI
 // output against a project's selected platforms (instead of the hardcoded full
@@ -79,8 +86,10 @@ export const contentPackageSchema = vObject({
 // intentionally widened at runtime — extra/fewer keys are tolerated by callers).
 export function buildContentPackageSchema(
   platforms: readonly string[],
+  options: BuildContentPackageSchemaOptions = {},
 ): Validator<ContentPackageOutput> {
   const effective = platforms.length > 0 ? platforms : REQUIRED_PACKAGE_PLATFORMS;
+  const requireVideo = options.requireVideo ?? true;
   return vObject({
     title: vNonEmptyString(),
     funnel_stage: vFunnelStage(),
@@ -88,7 +97,9 @@ export function buildContentPackageSchema(
     voiceover_text: vNonEmptyString(),
     subtitles: vNonEmptyString(),
     cta: ctaSchema,
-    video: videoSchema,
+    // Text-only packages may omit video entirely; video packages still require
+    // a fully-formed video block.
+    video: requireVideo ? videoSchema : vOptional(videoSchema),
     platform_outputs: buildPlatformOutputsSchema(effective),
     hashtags: vOptional(vArray(vString())),
     image_prompts: vOptional(vArray(vString())),

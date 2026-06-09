@@ -1,4 +1,9 @@
-import type { Json, PlatformType, Project } from "@/lib/supabase/types";
+import type {
+  Json,
+  LanguageCode,
+  PlatformType,
+  Project,
+} from "@/lib/supabase/types";
 import {
   REQUIRED_PACKAGE_PLATFORMS,
   type FunnelStage,
@@ -25,6 +30,50 @@ export type FunnelMixPreset =
   | "conversion_light"
   | "custom";
 
+// Per-platform content type selection (P3). "video" = the platform's output
+// should be produced as a video; "text_only" = copy only, no video.
+//
+// NOTE: This is a SETTING + PERSISTENCE layer only. The generation pipeline
+// (weekly strategy / content package / video jobs) does not yet read this map
+// — see the TODO in serializeContentControls. "x" is included per product
+// spec even though it is NOT part of the platform_type DB enum, so it can only
+// ever live in this jsonb config (never as projects.platforms / content_items).
+export type PlatformContentType = "video" | "text_only";
+
+export const CONTENT_TYPE_PLATFORMS = [
+  "tiktok",
+  "instagram",
+  "facebook",
+  "linkedin",
+  "google_business",
+  "x",
+] as const;
+
+export type ContentTypePlatform = (typeof CONTENT_TYPE_PLATFORMS)[number];
+
+export const CONTENT_TYPE_PLATFORM_LABELS: Record<ContentTypePlatform, string> =
+  {
+    tiktok: "TikTok",
+    instagram: "Instagram",
+    facebook: "Facebook",
+    linkedin: "LinkedIn",
+    google_business: "Google Business",
+    x: "X",
+  };
+
+// Product-mandated defaults (P3).
+export const DEFAULT_PLATFORM_CONTENT_TYPES: Record<
+  ContentTypePlatform,
+  PlatformContentType
+> = {
+  tiktok: "video",
+  instagram: "video",
+  facebook: "video",
+  linkedin: "text_only",
+  google_business: "text_only",
+  x: "text_only",
+};
+
 // Funnel distribution percentages keyed by canonical funnel stage. Values are
 // whole percentages that should sum to ~100.
 export type FunnelMix = Record<FunnelStage, number>;
@@ -44,6 +93,9 @@ export interface ContentControls {
   // Resolved mix: for a non-custom preset this mirrors the preset table; for
   // "custom" it holds the user's values.
   funnelMix: FunnelMix;
+  // Per-platform content type (P3). Always a complete map (missing keys fall
+  // back to DEFAULT_PLATFORM_CONTENT_TYPES on read).
+  platformContentTypes: Record<ContentTypePlatform, PlatformContentType>;
 }
 
 // Built-in funnel mix presets. Conversion-light intentionally keeps a balanced
@@ -113,6 +165,7 @@ export const DEFAULT_CONTENT_CONTROLS: ContentControls = {
   publishingTime: "09:00",
   funnelMixPreset: "balanced",
   funnelMix: { ...FUNNEL_MIX_PRESETS.balanced },
+  platformContentTypes: { ...DEFAULT_PLATFORM_CONTENT_TYPES },
 };
 
 const HHMM_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
@@ -201,6 +254,10 @@ export function parseContentControls(
   };
   const funnelMix = funnelMixForPreset(funnelMixPreset, customMix);
 
+  const platformContentTypes = readPlatformContentTypes(
+    rules["platform_content_types"],
+  );
+
   return {
     postsPerWeek,
     videosPerWeek,
@@ -208,6 +265,7 @@ export function parseContentControls(
     publishingTime,
     funnelMixPreset,
     funnelMix,
+    platformContentTypes,
   };
 }
 
@@ -232,7 +290,39 @@ export function serializeContentControls(
   } else {
     delete next.funnel_mix;
   }
+  // P3 — persist the per-platform content type map. TODO(pipeline): the
+  // generation workflows (weekly strategy / content package / video jobs) do
+  // not yet read platform_content_types; this is settings + persistence only.
+  next.platform_content_types = { ...controls.platformContentTypes };
   return next as Json;
+}
+
+// Parses publishing_rules.platform_content_types into a complete map. Unknown
+// platforms are ignored; missing ones fall back to the product defaults.
+function readPlatformContentTypes(
+  value: unknown,
+): Record<ContentTypePlatform, PlatformContentType> {
+  const result: Record<ContentTypePlatform, PlatformContentType> = {
+    ...DEFAULT_PLATFORM_CONTENT_TYPES,
+  };
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return result;
+  }
+  const record = value as Record<string, unknown>;
+  for (const platform of CONTENT_TYPE_PLATFORMS) {
+    const raw = record[platform];
+    if (raw === "video" || raw === "text_only") {
+      result[platform] = raw;
+    }
+  }
+  return result;
+}
+
+// True when the value is a valid PlatformContentType.
+export function isPlatformContentType(
+  value: unknown,
+): value is PlatformContentType {
+  return value === "video" || value === "text_only";
 }
 
 export interface ContentControlsValidationResult {
@@ -307,6 +397,111 @@ export function resolvePackagePlatforms(
     platforms.includes(p as PlatformType),
   );
   return selected.length > 0 ? [...selected] : [...REQUIRED_PACKAGE_PLATFORMS];
+}
+
+// ---------------------------------------------------------------------------
+// Current Generation Plan (P2) — a read-only, derived preview of what the
+// system will produce for one weekly cycle, given the saved controls. This is
+// an ESTIMATE: actual counts depend on AI output. No generation happens here.
+// ---------------------------------------------------------------------------
+
+export interface GenerationPlanPlatformOutput {
+  platform: PackagePlatform;
+  count: number;
+  contentType: PlatformContentType;
+}
+
+export interface GenerationPlan {
+  // Package-capable platforms the project targets (intersection with project
+  // platforms, falling back to all required package platforms).
+  packagePlatforms: PackagePlatform[];
+  postsPerWeek: number;
+  publishingWeekdays: number[];
+  publishingTime: string;
+  languagesAvailable: LanguageCode[];
+  // One content package per weekly post (estimate).
+  expectedPackages: number;
+  // Per package-platform output count (= expectedPackages each).
+  perPlatformOutputs: GenerationPlanPlatformOutput[];
+  // "every_package" mirrors expectedPackages; otherwise the fixed weekly count.
+  expectedVideos: number;
+  videosMode: VideosPerWeek;
+  // Always true — the figures are realistic estimates, not guarantees.
+  isEstimate: boolean;
+}
+
+// Builds the Current Generation Plan from saved controls + project platforms +
+// enabled languages. Pure function (no IO).
+export function computeGenerationPlan(
+  controls: ContentControls,
+  platforms: PlatformType[],
+  enabledLanguages: LanguageCode[],
+): GenerationPlan {
+  const packagePlatforms = resolvePackagePlatforms(platforms);
+  const expectedPackages = controls.postsPerWeek;
+
+  const perPlatformOutputs: GenerationPlanPlatformOutput[] =
+    packagePlatforms.map((platform) => ({
+      platform,
+      count: expectedPackages,
+      // Every package platform is also a content-type platform.
+      contentType:
+        controls.platformContentTypes[platform as ContentTypePlatform] ??
+        DEFAULT_PLATFORM_CONTENT_TYPES[platform as ContentTypePlatform],
+    }));
+
+  // A package only produces a (single, shared) video when at least one of its
+  // platforms is video-typed. If every selected platform is text-only, no video
+  // job is created at runtime, so the plan must report 0 videos.
+  const anyVideoPlatform = perPlatformOutputs.some(
+    (output) => output.contentType === "video",
+  );
+  const expectedVideos = !anyVideoPlatform
+    ? 0
+    : controls.videosPerWeek === "every_package"
+      ? expectedPackages
+      : controls.videosPerWeek;
+
+  return {
+    packagePlatforms,
+    postsPerWeek: controls.postsPerWeek,
+    publishingWeekdays: controls.publishingWeekdays,
+    publishingTime: controls.publishingTime,
+    languagesAvailable: enabledLanguages,
+    expectedPackages,
+    perPlatformOutputs,
+    expectedVideos,
+    videosMode: controls.videosPerWeek,
+    isEstimate: true,
+  };
+}
+
+// Resolves which package-capable platforms should produce VIDEO, based on the
+// per-platform content type map (P3 → runtime). Only PackagePlatform values can
+// require video; "x" is never a package platform. A platform defaults to its
+// product default when missing from the map.
+export function resolveVideoPackagePlatforms(
+  platforms: PlatformType[],
+  platformContentTypes: Record<ContentTypePlatform, PlatformContentType>,
+): PackagePlatform[] {
+  return resolvePackagePlatforms(platforms).filter((platform) => {
+    const key = platform as ContentTypePlatform;
+    const type =
+      platformContentTypes[key] ?? DEFAULT_PLATFORM_CONTENT_TYPES[key];
+    return type === "video";
+  });
+}
+
+// True when at least one selected package platform requires video — i.e. a
+// shared package video should be produced. When false the package is text-only
+// and no video job is created.
+export function packageRequiresVideo(
+  platforms: PlatformType[],
+  platformContentTypes: Record<ContentTypePlatform, PlatformContentType>,
+): boolean {
+  return (
+    resolveVideoPackagePlatforms(platforms, platformContentTypes).length > 0
+  );
 }
 
 // Coarse intensity label derived from posts_per_week, fed into the weekly

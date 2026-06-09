@@ -5,13 +5,17 @@ import { getCopywritingProvider } from "@/lib/ai/index";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildRegenerateContentPackagePrompt,
-  REGENERATE_PACKAGE_SYSTEM,
+  buildRegeneratePackageSystem,
 } from "@/lib/ai/prompts/regenerateContentPackage";
 import {
   buildContentPackageSchema,
   type ContentPackageOutput,
 } from "@/lib/ai/schemas/contentPackage";
-import { resolvePackagePlatforms } from "@/lib/projects/contentControls";
+import {
+  parseContentControls,
+  resolvePackagePlatforms,
+  resolveVideoPackagePlatforms,
+} from "@/lib/projects/contentControls";
 import {
   loadProjectOrThrow,
   WorkflowError,
@@ -97,6 +101,15 @@ export async function runRegenerateContentPackage(
   // Respect projects.platforms (falls back to the full required set).
   const targetPlatforms = resolvePackagePlatforms(project.platforms);
 
+  // P3 runtime wiring — only require/create video when a selected platform is
+  // video-typed (same rule as generation).
+  const controls = parseContentControls(project.publishing_rules);
+  const videoPlatforms = resolveVideoPackagePlatforms(
+    project.platforms,
+    controls.platformContentTypes,
+  );
+  const requireVideo = videoPlatforms.length > 0;
+
   // Snapshot the current package (header + items) into content_versions as a
   // package-level snapshot (content_package_id) BEFORE regenerating.
   const existingItems = await loadPackageItems(supabase, packageId);
@@ -107,7 +120,7 @@ export async function runRegenerateContentPackage(
 
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
-    system: REGENERATE_PACKAGE_SYSTEM,
+    system: buildRegeneratePackageSystem(requireVideo),
     prompt: buildRegenerateContentPackagePrompt({
       project,
       funnelStage: context.funnelStage,
@@ -120,13 +133,16 @@ export async function runRegenerateContentPackage(
       feedback: input.feedback ?? null,
       memory,
       targetPlatforms,
+      requireVideo,
+      videoPlatforms,
     }),
-    validator: buildContentPackageSchema(targetPlatforms),
+    validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
       project,
       context,
       classById: assets.classById,
       requiredPlatforms: targetPlatforms,
+      requireVideo,
     }),
   });
 
@@ -171,7 +187,7 @@ export async function runRegenerateContentPackage(
 
   // Update existing content_items in place (keep ids so content_versions
   // history survives), insert any newly required platforms.
-  const contentItemIds = await upsertPackageItems(
+  const upserted = await upsertPackageItems(
     supabase,
     projectId,
     packageId,
@@ -180,24 +196,35 @@ export async function runRegenerateContentPackage(
     existingItems,
     targetPlatforms,
   );
+  const contentItemIds = upserted.map((r) => r.id);
   const primaryItemId = contentItemIds[0] ?? null;
 
-  // Regeneration produces a new video job (video remains mandatory).
-  const videoInput = await buildVideoJobInput(supabase, projectId, pkg, {
-    regenerated: true,
-  });
-  const { data: videoRow, error: videoErr } = await supabase
-    .from("video_jobs")
-    .insert({
-      project_id: projectId,
-      content_item_id: primaryItemId,
-      provider: "video_engine",
-      status: "queued",
-      input: videoInput,
-    })
-    .select("id")
-    .single();
-  if (videoErr) throw videoErr;
+  // Regeneration creates a fresh video job ONLY when a selected platform
+  // requires video; text-only packages skip it. The job links to the primary
+  // video platform's content item (one shared video per package).
+  const videoPlatformSet = new Set<string>(videoPlatforms);
+  let videoJobId = "";
+  if (requireVideo) {
+    const videoItemId =
+      upserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
+      primaryItemId;
+    const videoInput = await buildVideoJobInput(supabase, projectId, pkg, {
+      regenerated: true,
+    });
+    const { data: videoRow, error: videoErr } = await supabase
+      .from("video_jobs")
+      .insert({
+        project_id: projectId,
+        content_item_id: videoItemId,
+        provider: "video_engine",
+        status: "queued",
+        input: videoInput,
+      })
+      .select("id")
+      .single();
+    if (videoErr) throw videoErr;
+    videoJobId = videoRow.id as string;
+  }
 
   await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
 
@@ -211,7 +238,7 @@ export async function runRegenerateContentPackage(
       funnelStage,
       versionsCreated,
       contentItemIds,
-      videoJobId: videoRow.id as string,
+      videoJobId,
       package: pkg,
     },
   };
@@ -274,9 +301,9 @@ async function upsertPackageItems(
   pkg: ContentPackageOutput,
   existingItems: ContentItem[],
   targetPlatforms?: readonly string[],
-): Promise<string[]> {
+): Promise<{ id: string; platform: string }[]> {
   const existingByPlatform = new Map(existingItems.map((i) => [i.platform, i]));
-  const resultIds: string[] = [];
+  const result: { id: string; platform: string }[] = [];
 
   for (const item of buildPersistableItems(pkg, context, targetPlatforms)) {
     const existing = existingByPlatform.get(item.platform);
@@ -305,7 +332,7 @@ async function upsertPackageItems(
         .eq("id", existing.id)
         .is("language", null);
       if (error) throw error;
-      resultIds.push(existing.id);
+      result.push({ id: existing.id, platform: item.platform });
     } else {
       // New primary items are persisted with language NULL (primary language).
       const { data, error } = await supabase
@@ -320,9 +347,9 @@ async function upsertPackageItems(
         .select("id")
         .single();
       if (error) throw error;
-      resultIds.push(data.id as string);
+      result.push({ id: data.id as string, platform: item.platform });
     }
   }
 
-  return resultIds;
+  return result;
 }

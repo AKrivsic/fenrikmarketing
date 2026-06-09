@@ -7,14 +7,18 @@ import {
 } from "@/app/projects/[id]/actions";
 import { LANGUAGE_OPTIONS, PLATFORM_OPTIONS } from "@/lib/projects/fieldOptions";
 import {
+  CONTENT_TYPE_PLATFORMS,
+  CONTENT_TYPE_PLATFORM_LABELS,
   FUNNEL_MIX_PRESET_OPTIONS,
   POSTS_PER_WEEK_MAX,
   POSTS_PER_WEEK_MIN,
   WEEKDAY_OPTIONS,
   funnelMixForPreset,
   type ContentControls,
+  type ContentTypePlatform,
   type FunnelMix,
   type FunnelMixPreset,
+  type PlatformContentType,
 } from "@/lib/projects/contentControls";
 import type { FunnelStage } from "@/lib/ai/types";
 import type { LanguageCode, PlatformType } from "@/lib/supabase/types";
@@ -61,6 +65,9 @@ export function ContentControlsForm({
     controls.funnelMixPreset,
   );
   const [funnelMix, setFunnelMix] = useState<FunnelMix>(controls.funnelMix);
+  const [platformContentTypes, setPlatformContentTypes] = useState<
+    Record<ContentTypePlatform, PlatformContentType>
+  >(controls.platformContentTypes);
 
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -99,6 +106,13 @@ export function ContentControlsForm({
     setFunnelMix((prev) => ({ ...prev, [stage]: value }));
   }
 
+  function setPlatformContentType(
+    platform: ContentTypePlatform,
+    value: PlatformContentType,
+  ) {
+    setPlatformContentTypes((prev) => ({ ...prev, [platform]: value }));
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -115,6 +129,7 @@ export function ContentControlsForm({
       publishingTime,
       funnelMixPreset: preset,
       funnelMix,
+      platformContentTypes,
     };
 
     startTransition(async () => {
@@ -158,6 +173,49 @@ export function ContentControlsForm({
         {fieldErrors.platforms ? (
           <span className={styles.fieldError}>{fieldErrors.platforms}</span>
         ) : null}
+      </section>
+
+      {/* A2) Platform Content Type */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Platform Content Type</h2>
+        <p className={styles.help}>
+          Zvolte, zda se pro každou platformu generuje video, nebo pouze text.
+          Nastavení se ukládá; generační pipeline jej zatím plně nerespektuje
+          (TODO).
+        </p>
+        <div className={styles.contentTypeGrid}>
+          {CONTENT_TYPE_PLATFORMS.map((platform) => (
+            <div key={platform} className={styles.contentTypeRow}>
+              <span className={styles.contentTypeLabel}>
+                {CONTENT_TYPE_PLATFORM_LABELS[platform]}
+              </span>
+              <div className={styles.contentTypeOptions}>
+                <label className={styles.radio}>
+                  <input
+                    type="radio"
+                    name={`content-type-${platform}`}
+                    checked={platformContentTypes[platform] === "video"}
+                    onChange={() => setPlatformContentType(platform, "video")}
+                    disabled={isPending}
+                  />
+                  Video
+                </label>
+                <label className={styles.radio}>
+                  <input
+                    type="radio"
+                    name={`content-type-${platform}`}
+                    checked={platformContentTypes[platform] === "text_only"}
+                    onChange={() =>
+                      setPlatformContentType(platform, "text_only")
+                    }
+                    disabled={isPending}
+                  />
+                  Text Only
+                </label>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* B) Volume */}

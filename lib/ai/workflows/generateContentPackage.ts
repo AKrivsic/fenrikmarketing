@@ -2,12 +2,16 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Json, PackageStatus } from "@/lib/supabase/types";
 import { getCopywritingProvider } from "@/lib/ai/index";
-import { normalizeFunnelStage } from "@/lib/ai/types";
-import { resolvePackagePlatforms } from "@/lib/projects/contentControls";
+import { normalizeFunnelStage, type PackagePlatform } from "@/lib/ai/types";
+import {
+  parseContentControls,
+  resolvePackagePlatforms,
+  resolveVideoPackagePlatforms,
+} from "@/lib/projects/contentControls";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
-  GENERATE_PACKAGE_SYSTEM,
+  buildGeneratePackageSystem,
 } from "@/lib/ai/prompts/generateContentPackage";
 import {
   buildContentPackageSchema,
@@ -87,9 +91,20 @@ export async function runGenerateContentPackage(
   // surfaces the project selected (falls back to the full required set).
   const targetPlatforms = resolvePackagePlatforms(project.platforms);
 
+  // P3 runtime wiring — derive which selected platforms require video from
+  // publishing_rules.platform_content_types. A package gets ONE shared video
+  // only when at least one selected platform is video-typed; otherwise it is a
+  // text-only package and no video block / video job is required.
+  const controls = parseContentControls(project.publishing_rules);
+  const videoPlatforms = resolveVideoPackagePlatforms(
+    project.platforms,
+    controls.platformContentTypes,
+  );
+  const requireVideo = videoPlatforms.length > 0;
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
-    system: GENERATE_PACKAGE_SYSTEM,
+    system: buildGeneratePackageSystem(requireVideo),
     prompt: buildGenerateContentPackagePrompt({
       project,
       funnelStage: context.funnelStage,
@@ -100,13 +115,16 @@ export async function runGenerateContentPackage(
       availableAssets: assets.refs,
       memory,
       targetPlatforms,
+      requireVideo,
+      videoPlatforms,
     }),
-    validator: buildContentPackageSchema(targetPlatforms),
+    validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
       project,
       context,
       classById: assets.classById,
       requiredPlatforms: targetPlatforms,
+      requireVideo,
     }),
   });
 
@@ -135,6 +153,7 @@ export async function runGenerateContentPackage(
     context,
     generated.value,
     targetPlatforms,
+    videoPlatforms,
   );
 
   return { ok: true, data };
@@ -210,6 +229,9 @@ async function persistNewPackage(
   context: StrategyItemContext,
   pkg: ContentPackageOutput,
   targetPlatforms?: readonly string[],
+  // Package platforms that require video. Empty = text-only package: no video
+  // job is created. Defaults to undefined (treated as "no video platforms").
+  videoPlatforms?: readonly PackagePlatform[],
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -272,27 +294,41 @@ async function persistNewPackage(
   const { data: insertedItems, error: itemErr } = await supabase
     .from("content_items")
     .insert(itemRows)
-    .select("id");
+    .select("id, platform");
   if (itemErr) throw itemErr;
-  const contentItemIds = (insertedItems ?? []).map((r) => r.id as string);
+  const inserted = (insertedItems ?? []) as { id: string; platform: string }[];
+  const contentItemIds = inserted.map((r) => r.id);
   const primaryItemId = contentItemIds[0] ?? null;
 
-  // Video is mandatory -> queue a video job for the primary content item.
-  const videoInput = await buildVideoJobInput(supabase, projectId, pkg);
-  const { data: videoRow, error: videoErr } = await supabase
-    .from("video_jobs")
-    .insert({
-      project_id: projectId,
-      content_item_id: primaryItemId,
-      provider: "video_engine",
-      status: "queued",
-      input: videoInput,
-    })
-    .select("id")
-    .single();
-  if (videoErr) throw videoErr;
+  // Video job is created ONLY when at least one selected platform requires
+  // video. It is a single shared package video linked to the primary VIDEO
+  // platform's content item (MVP: one video per package, not per platform).
+  // Text-only packages skip video entirely and remain valid.
+  const videoPlatformSet = new Set<string>(videoPlatforms ?? []);
+  const requireVideo = videoPlatformSet.size > 0;
+  let videoJobId = "";
+  if (requireVideo) {
+    const videoItemId =
+      inserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
+      primaryItemId;
+    const videoInput = await buildVideoJobInput(supabase, projectId, pkg);
+    const { data: videoRow, error: videoErr } = await supabase
+      .from("video_jobs")
+      .insert({
+        project_id: projectId,
+        content_item_id: videoItemId,
+        provider: "video_engine",
+        status: "queued",
+        input: videoInput,
+      })
+      .select("id")
+      .single();
+    if (videoErr) throw videoErr;
+    videoJobId = videoRow.id as string;
+  }
 
-  // Record asset_usage for referenced assets.
+  // Record asset_usage for referenced assets (linked to the primary item; the
+  // primary item exists whether or not the package has video).
   await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
 
   return {
@@ -302,7 +338,7 @@ async function persistNewPackage(
     strategyItemId: context.strategyItemId,
     funnelStage,
     contentItemIds,
-    videoJobId: videoRow.id as string,
+    videoJobId,
     package: pkg,
   };
 }

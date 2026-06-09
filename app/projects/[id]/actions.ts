@@ -10,14 +10,20 @@ import {
   PROJECT_TYPE_OPTIONS,
 } from "@/lib/projects/fieldOptions";
 import {
+  CONTENT_TYPE_PLATFORMS,
+  DEFAULT_PLATFORM_CONTENT_TYPES,
+  isPlatformContentType,
   type ContentControls,
+  type ContentTypePlatform,
   type FunnelMix,
   type FunnelMixPreset,
+  type PlatformContentType,
   type VideosPerWeek,
   funnelMixForPreset,
   serializeContentControls,
   validateContentControls,
 } from "@/lib/projects/contentControls";
+import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type {
   GoalType,
   Json,
@@ -188,6 +194,26 @@ export interface ContentControlsFormValues {
   publishingTime: string;
   funnelMixPreset: string;
   funnelMix: FunnelMix;
+  // P3 — per-platform content type. Partial/loose map from the form; sanitized
+  // against CONTENT_TYPE_PLATFORMS + defaults below.
+  platformContentTypes: Record<string, string>;
+}
+
+// Sanitizes the loose form map into a complete, valid platform content type
+// map (unknown platforms dropped, missing/invalid values defaulted).
+function sanitizePlatformContentTypes(
+  raw: Record<string, string>,
+): Record<ContentTypePlatform, PlatformContentType> {
+  const result: Record<ContentTypePlatform, PlatformContentType> = {
+    ...DEFAULT_PLATFORM_CONTENT_TYPES,
+  };
+  for (const platform of CONTENT_TYPE_PLATFORMS) {
+    const value = raw[platform];
+    if (isPlatformContentType(value)) {
+      result[platform] = value;
+    }
+  }
+  return result;
 }
 
 function isFunnelMixPresetValue(value: string): value is FunnelMixPreset {
@@ -251,6 +277,9 @@ export async function updateContentControls(
     publishingTime: values.publishingTime,
     funnelMixPreset: preset,
     funnelMix,
+    platformContentTypes: sanitizePlatformContentTypes(
+      values.platformContentTypes ?? {},
+    ),
   };
 
   const validation = validateContentControls(controls, platforms);
@@ -277,4 +306,75 @@ export async function updateContentControls(
   } catch {
     return { ok: false, error: "Uložení se nezdařilo." };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Project Actions (P1) — manual workflow triggers.
+//
+// These reuse the EXISTING n8n trigger mechanism (the same sendN8nWebhook +
+// AUTOMATION_WORKFLOWS that /api/automation/* route handlers use). No new
+// workflow, endpoint, or business logic is introduced — this is the UI control
+// surface for triggers that already existed. Each trigger is fire-and-forget:
+// n8n runs the workflow and reports back via the existing callbacks, so we can
+// only confirm the request was QUEUED, not its eventual result.
+// ---------------------------------------------------------------------------
+
+// Current week's Monday as YYYY-MM-DD (UTC), matching the planner's week model.
+function currentWeekStart(): string {
+  const now = new Date();
+  const day = now.getUTCDay(); // 0 = Sun ... 6 = Sat
+  const offsetToMonday = (day + 6) % 7;
+  const monday = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+  monday.setUTCDate(monday.getUTCDate() - offsetToMonday);
+  return monday.toISOString().slice(0, 10);
+}
+
+async function triggerWorkflow(
+  projectId: string,
+  workflow: (typeof AUTOMATION_WORKFLOWS)[keyof typeof AUTOMATION_WORKFLOWS],
+  payload?: Record<string, unknown>,
+): Promise<ActionResult> {
+  if (!projectId) return { ok: false, error: "Chybí identifikátor projektu." };
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) return { ok: false, error: "Projekt nenalezen." };
+
+  try {
+    await sendN8nWebhook({ workflow, projectId, payload });
+    revalidatePath(`/projects/${projectId}/actions`);
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Spuštění workflow se nezdařilo." };
+  }
+}
+
+export async function runTrendScan(projectId: string): Promise<ActionResult> {
+  return triggerWorkflow(projectId, AUTOMATION_WORKFLOWS.trendScan);
+}
+
+export async function runWeeklyStrategy(
+  projectId: string,
+): Promise<ActionResult> {
+  return triggerWorkflow(projectId, AUTOMATION_WORKFLOWS.weeklyStrategy, {
+    week_start: currentWeekStart(),
+  });
+}
+
+export async function runGenerateContentPackages(
+  projectId: string,
+): Promise<ActionResult> {
+  return triggerWorkflow(
+    projectId,
+    AUTOMATION_WORKFLOWS.generateContentPackage,
+  );
+}
+
+export async function runPublishingPlanner(
+  projectId: string,
+): Promise<ActionResult> {
+  return triggerWorkflow(projectId, AUTOMATION_WORKFLOWS.publishingPlanner, {
+    week_start: currentWeekStart(),
+  });
 }

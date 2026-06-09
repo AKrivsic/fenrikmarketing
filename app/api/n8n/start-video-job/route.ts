@@ -59,9 +59,18 @@ export async function POST(request: Request): Promise<Response> {
       videoJobId,
     });
     if (!job) {
-      throw new WorkflowError(
-        "not_found",
-        "no video job found for the content package",
+      // No video job for an existing package now means a TEXT-ONLY package
+      // (no selected platform requires video, so generation skipped the video
+      // job). This is a benign no-op, not an error: nothing to render. Returning
+      // 2xx prevents n8n from retrying a render that will never exist.
+      return Response.json(
+        {
+          ok: true,
+          status: "no_video_job",
+          text_only: true,
+          message: "no video job for content package (text-only package)",
+        },
+        { status: 202 },
       );
     }
 

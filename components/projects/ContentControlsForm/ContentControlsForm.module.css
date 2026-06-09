@@ -34,6 +34,35 @@
   gap: 0.75rem;
 }
 
+.contentTypeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contentTypeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.contentTypeLabel {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.contentTypeOptions {
+  display: flex;
+  gap: 1rem;
+}
+
 .field {
   display: flex;
   flex-direction: column;

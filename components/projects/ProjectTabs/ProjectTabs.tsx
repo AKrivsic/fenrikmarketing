@@ -15,12 +15,17 @@ interface Tab {
 
 const TABS: Tab[] = [
   { label: "Project Brain", segment: "" },
+  { label: "Actions", segment: "actions" },
   { label: "Content Controls", segment: "content-controls" },
   { label: "Knowledge", segment: "knowledge" },
   { label: "Weekly Strategy", segment: "weekly-strategy" },
   { label: "Publishing Plan", segment: "publishing-plan" },
   { label: "Assets", segment: "assets" },
   { label: "Content Packages", segment: "content-packages" },
+  { label: "Review", segment: "review" },
+  { label: "Approved", segment: "approved" },
+  { label: "Scheduled", segment: "scheduled" },
+  { label: "Videos", segment: "videos" },
 ];
 
 export function ProjectTabs({ projectId }: ProjectTabsProps) {
