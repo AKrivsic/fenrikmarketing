@@ -8,6 +8,11 @@ import {
   resolvePackagePlatforms,
   resolveVideoPackagePlatforms,
 } from "@/lib/projects/contentControls";
+import {
+  normalizeProductionConfig,
+  outputsForPackageIndex,
+  resolveRunGenerationPlan,
+} from "@/lib/projects/productionRun";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
@@ -87,19 +92,31 @@ export async function runGenerateContentPackage(
   // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
 
+  // Production Run V3: when this item was seeded by a production run, the run's
+  // selected platforms + multipliers drive generation (incl. youtube / x and
+  // text-output fan-out). Otherwise fall back to projects.platforms (existing
+  // weekly-strategy-driven behavior — fully backwards compatible).
+  const runPlan = context.productionRunId
+    ? await loadRunGenerationPlan(supabase, input.projectId, context.productionRunId)
+    : null;
+
+  const controls = parseContentControls(project.publishing_rules);
+
   // Respect projects.platforms: only generate/require/persist the package
   // surfaces the project selected (falls back to the full required set).
-  const targetPlatforms = resolvePackagePlatforms(project.platforms);
+  const targetPlatforms = runPlan
+    ? runPlan.targetPlatforms
+    : resolvePackagePlatforms(project.platforms);
 
-  // P3 runtime wiring — derive which selected platforms require video from
-  // publishing_rules.platform_content_types. A package gets ONE shared video
-  // only when at least one selected platform is video-typed; otherwise it is a
-  // text-only package and no video block / video job is required.
-  const controls = parseContentControls(project.publishing_rules);
-  const videoPlatforms = resolveVideoPackagePlatforms(
-    project.platforms,
-    controls.platformContentTypes,
-  );
+  // P3 runtime wiring — derive which selected platforms require video. A package
+  // gets ONE shared video only when at least one selected platform is
+  // video-typed; otherwise it is a text-only package and no video job.
+  const videoPlatforms = runPlan
+    ? runPlan.videoPlatforms
+    : resolveVideoPackagePlatforms(
+        project.platforms,
+        controls.platformContentTypes,
+      );
   const requireVideo = videoPlatforms.length > 0;
 
   const generated = await generateValidatedJson({
@@ -154,9 +171,46 @@ export async function runGenerateContentPackage(
     generated.value,
     targetPlatforms,
     videoPlatforms,
+    // Fan-out is enabled only for production-run items, using the run's
+    // multipliers + this package's index. Non-run generation keeps 1 item per
+    // platform (fanOut = null).
+    runPlan && context.productionRunId
+      ? {
+          multipliers: runPlan.multipliers,
+          packageIndex: context.packageIndex ?? 0,
+          productionRunId: context.productionRunId,
+        }
+      : null,
   );
 
   return { ok: true, data };
+}
+
+// Reads a production run's stored config and resolves it into the generation
+// plan (target platforms, video platforms, per-platform multipliers). Returns
+// null when the run / config is missing so generation safely falls back to the
+// project's platforms.
+async function loadRunGenerationPlan(
+  supabase: SupabaseClient,
+  projectId: string,
+  runId: string,
+): Promise<ReturnType<typeof resolveRunGenerationPlan> | null> {
+  const { data, error } = await supabase
+    .from("production_runs")
+    .select("requested_config")
+    .eq("id", runId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const stored = data.requested_config as { config?: unknown } | null;
+  const rawConfig = stored && typeof stored === "object" ? stored.config : null;
+  if (!rawConfig) return null;
+
+  const config = normalizeProductionConfig(rawConfig);
+  const plan = resolveRunGenerationPlan(config);
+  return plan.targetPlatforms.length > 0 ? plan : null;
 }
 
 // Idempotence lookup: the existing package for (project, strategy item), if any.
@@ -223,6 +277,14 @@ async function loadLatestVideoJobId(
   return (data?.[0]?.id as string | undefined) ?? "";
 }
 
+// Production-run fan-out: how many content_items each text platform produces
+// for THIS package + the run tag/index stamped onto every row.
+interface PackageFanOut {
+  multipliers: Record<string, number>;
+  packageIndex: number;
+  productionRunId: string;
+}
+
 async function persistNewPackage(
   supabase: SupabaseClient,
   projectId: string,
@@ -232,6 +294,10 @@ async function persistNewPackage(
   // Package platforms that require video. Empty = text-only package: no video
   // job is created. Defaults to undefined (treated as "no video platforms").
   videoPlatforms?: readonly PackagePlatform[],
+  // When set, text platforms fan out to multiple content_items per the run's
+  // multipliers and every row is tagged with the run + package + variant index.
+  // null = legacy behavior: exactly one content_item per platform.
+  fanOut?: PackageFanOut | null,
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -273,23 +339,47 @@ async function persistNewPackage(
   }
   const packageId = packageRow.id as string;
 
-  // Persistable platform outputs -> content_items.
-  const itemRows = buildPersistableItems(pkg, context, targetPlatforms).map((item) => ({
-    project_id: projectId,
-    package_id: packageId,
-    platform: item.platform,
-    format: item.format,
-    status: "draft" as const,
-    title: pkg.title,
-    body: pkg.voiceover_text,
-    caption: item.caption,
-    hashtags: item.hashtags,
-    cta: item.cta,
-    generation_metadata: {
-      funnel_stage: funnelStage,
-      source: "creative_engine",
-    } as unknown as Json,
-  }));
+  // Persistable platform outputs -> content_items. Each platform yields ONE
+  // base item; with a production-run fan-out, TEXT platforms are expanded into
+  // multiple content_items (e.g. X ×3 → 3 rows) while VIDEO platforms keep a
+  // single row (one shared package video). Every produced row is distinguished
+  // by platform_variant_index and tagged with the run + package index.
+  const videoPlatformSet = new Set<string>(videoPlatforms ?? []);
+  const itemRows = buildPersistableItems(pkg, context, targetPlatforms).flatMap(
+    (item) => {
+      const kind = videoPlatformSet.has(item.platform) ? "video" : "text";
+      const count = fanOut
+        ? outputsForPackageIndex(
+            kind,
+            fanOut.multipliers[item.platform] ?? 1,
+            fanOut.packageIndex,
+          )
+        : 1;
+      return Array.from({ length: count }, (_unused, variantIndex) => ({
+        project_id: projectId,
+        package_id: packageId,
+        platform: item.platform,
+        format: item.format,
+        status: "draft" as const,
+        title: pkg.title,
+        body: pkg.voiceover_text,
+        caption: item.caption,
+        hashtags: item.hashtags,
+        cta: item.cta,
+        generation_metadata: {
+          funnel_stage: funnelStage,
+          source: "creative_engine",
+          ...(fanOut
+            ? {
+                production_run_id: fanOut.productionRunId,
+                package_index: fanOut.packageIndex,
+                platform_variant_index: variantIndex,
+              }
+            : {}),
+        } as unknown as Json,
+      }));
+    },
+  );
 
   const { data: insertedItems, error: itemErr } = await supabase
     .from("content_items")
@@ -304,7 +394,6 @@ async function persistNewPackage(
   // video. It is a single shared package video linked to the primary VIDEO
   // platform's content item (MVP: one video per package, not per platform).
   // Text-only packages skip video entirely and remain valid.
-  const videoPlatformSet = new Set<string>(videoPlatforms ?? []);
   const requireVideo = videoPlatformSet.size > 0;
   let videoJobId = "";
   if (requireVideo) {

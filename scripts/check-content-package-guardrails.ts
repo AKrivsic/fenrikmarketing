@@ -57,8 +57,10 @@ function buildPackage(): ContentPackageOutput {
     platform_outputs: {
       tiktok: platformOutput(),
       instagram: platformOutput(),
+      youtube: platformOutput(),
       facebook: platformOutput(),
       linkedin: platformOutput(),
+      x: platformOutput(),
       google_business: platformOutput(),
     },
   } as ContentPackageOutput;
@@ -227,7 +229,15 @@ check("missing subtitles fails", () => {
 
 section("content package guardrails — negative (platform outputs)");
 
-for (const platform of ["tiktok", "instagram", "facebook", "linkedin", "google_business"]) {
+for (const platform of [
+  "tiktok",
+  "instagram",
+  "youtube",
+  "facebook",
+  "linkedin",
+  "x",
+  "google_business",
+]) {
   check(`missing ${platform} output fails`, () => {
     const pkg = buildPackage();
     deletePlatform(pkg, platform);

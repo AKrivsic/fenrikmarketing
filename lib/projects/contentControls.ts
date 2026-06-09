@@ -44,6 +44,7 @@ export type PlatformContentType = "video" | "text_only";
 export const CONTENT_TYPE_PLATFORMS = [
   "tiktok",
   "instagram",
+  "youtube",
   "facebook",
   "linkedin",
   "google_business",
@@ -56,6 +57,7 @@ export const CONTENT_TYPE_PLATFORM_LABELS: Record<ContentTypePlatform, string> =
   {
     tiktok: "TikTok",
     instagram: "Instagram",
+    youtube: "YouTube",
     facebook: "Facebook",
     linkedin: "LinkedIn",
     google_business: "Google Business",
@@ -69,6 +71,7 @@ export const DEFAULT_PLATFORM_CONTENT_TYPES: Record<
 > = {
   tiktok: "video",
   instagram: "video",
+  youtube: "video",
   facebook: "video",
   linkedin: "text_only",
   google_business: "text_only",

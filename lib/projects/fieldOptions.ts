@@ -39,7 +39,7 @@ export const GOAL_TYPE_OPTIONS: GoalType[] = [
   "retention",
 ];
 
-// google_business is valid: added by migration 008_ai_workflow_columns.sql.
+// google_business added by migration 008, x added by migration 016.
 export const PLATFORM_OPTIONS: PlatformType[] = [
   "instagram",
   "facebook",
@@ -49,4 +49,5 @@ export const PLATFORM_OPTIONS: PlatformType[] = [
   "blog",
   "email",
   "google_business",
+  "x",
 ];

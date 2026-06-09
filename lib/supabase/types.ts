@@ -21,7 +21,10 @@ export type PlatformType =
   | "youtube"
   | "blog"
   | "email"
-  | "google_business";
+  | "google_business"
+  // X (Twitter). Added by migration 016 so X outputs persist as real
+  // content_items (Content Production V3 multipliers).
+  | "x";
 
 // Funnel stages (DB enum funnel_stage, migration 008/009). Kept in sync with
 // lib/ai/types.ts FUNNEL_STAGES.
@@ -210,4 +213,39 @@ export interface VideoJob {
   created_at: string;
   updated_at: string;
   completed_at: string | null;
+}
+
+// Production runs (migration 015). The "Generate Content" one-button flow.
+export type ProductionRunStatus = "queued" | "running" | "completed" | "failed";
+export type ProductionContentType = "video" | "text";
+
+export interface ProductionRun {
+  id: string;
+  project_id: string;
+  status: ProductionRunStatus;
+  requested_config: Json;
+  // V3 Package Based Model: number of packages (= videos) requested.
+  package_count: number;
+  requested_total: number;
+  generated_total: number;
+  failed_total: number;
+  error_message: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProductionRunItem {
+  id: string;
+  production_run_id: string;
+  project_id: string;
+  // Free text (content controls allow "x", not in the platform_type enum).
+  platform: string;
+  content_type: ProductionContentType;
+  status: ProductionRunStatus;
+  content_package_id: string | null;
+  content_item_id: string | null;
+  video_job_id: string | null;
+  error_message: string | null;
+  created_at: string;
+  updated_at: string;
 }

@@ -24,6 +24,11 @@ export interface StrategyItemContext {
   angle: string | null;
   platform: string;
   format: ContentFormat;
+  // Production Run V3 trace (present only for run-seeded items). Lets the
+  // generator fan text outputs out by the run's multipliers and tag each
+  // content_item with its run + package index.
+  productionRunId: string | null;
+  packageIndex: number | null;
 }
 
 // Loads the strategy item and derives the strategic context. The NOT NULL FK
@@ -63,6 +68,16 @@ export async function loadStrategyItemContext(
     );
   }
 
+  const productionRunId =
+    typeof brief["production_run_id"] === "string"
+      ? (brief["production_run_id"] as string)
+      : null;
+  const packageIndexRaw = brief["package_index"];
+  const packageIndex =
+    typeof packageIndexRaw === "number" && Number.isFinite(packageIndexRaw)
+      ? Math.trunc(packageIndexRaw)
+      : null;
+
   return {
     weeklyStrategyId: data.strategy_id as string,
     strategyItemId: data.id as string,
@@ -71,6 +86,8 @@ export async function loadStrategyItemContext(
     angle: (brief["angle"] as string | null) ?? null,
     platform: data.platform as string,
     format: data.format as ContentFormat,
+    productionRunId,
+    packageIndex,
   };
 }
 

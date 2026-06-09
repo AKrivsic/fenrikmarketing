@@ -52,33 +52,44 @@ export function isFunnelStageInput(value: unknown): boolean {
   return normalizeFunnelStage(value) !== null;
 }
 
-// Every content package must produce outputs for these surfaces. Note that
-// "google_business" is NOT part of the platform_type DB enum; outputs for it
-// live in package_brief only (see BLOCKERS in the report).
+// Platform surfaces a content package can produce outputs for. youtube + x are
+// part of the package surface set since Content Production V3 (migration 016
+// added "x" to platform_type; youtube has been a platform_type since 001).
+//
+// These are the platforms the AI is asked to produce outputs for and that can
+// be persisted as content_items. A given generation only produces the SUBSET a
+// project / production run selected (see resolvePackagePlatforms) — adding a
+// platform here does NOT force it onto projects that did not select it.
 export type PackagePlatform =
   | "tiktok"
   | "instagram"
+  | "youtube"
   | "facebook"
   | "linkedin"
+  | "x"
   | "google_business";
 
 export const REQUIRED_PACKAGE_PLATFORMS: readonly PackagePlatform[] = [
   "tiktok",
   "instagram",
+  "youtube",
   "facebook",
   "linkedin",
+  "x",
   "google_business",
 ];
 
 // Subset of REQUIRED_PACKAGE_PLATFORMS that can be persisted as content_items.
-// Since migration 008 added google_business to the platform_type enum, every
-// required platform is now persistable. Typed as the literal union so it
-// indexes both PackagePlatform-keyed maps and satisfies PlatformType.
+// Every package platform is now a platform_type enum value (001 youtube, 008
+// google_business, 016 x), so all of them are persistable. Typed as the literal
+// union so it indexes PackagePlatform-keyed maps and satisfies PlatformType.
 export const PERSISTABLE_PACKAGE_PLATFORMS = [
   "tiktok",
   "instagram",
+  "youtube",
   "facebook",
   "linkedin",
+  "x",
   "google_business",
 ] as const satisfies readonly (PlatformType & PackagePlatform)[];
 

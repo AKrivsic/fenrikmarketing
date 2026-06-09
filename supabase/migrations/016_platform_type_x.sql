@@ -1,0 +1,15 @@
+-- 016_platform_type_x.sql
+-- Content Production V3 runtime — add "x" (Twitter/X) as a real output platform.
+--
+-- Until now "x" lived only in content-control config (it was NOT a platform_type
+-- enum value), so the pipeline could never persist a content_items row for it.
+-- The Package Based Model needs X outputs to be REAL content_items (e.g. X with
+-- multiplier 3 → 3 rows per package), so X must be a first-class platform_type.
+--
+-- "youtube" is already part of platform_type (migration 001), so only "x" is
+-- added here. Additive + idempotent; existing rows are unaffected.
+--
+-- NOTE: ALTER TYPE ... ADD VALUE cannot be used in the same transaction that
+-- later references the new value. This migration only adds the value (it never
+-- uses it), so it is safe to run on its own.
+alter type platform_type add value if not exists 'x';

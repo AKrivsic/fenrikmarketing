@@ -1,0 +1,300 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Packages per week (primary control) -------------------------------- */
+
+.primary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle, var(--color-bg));
+}
+
+.primaryLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.primaryInput {
+  width: 6rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.primaryInput:disabled {
+  opacity: 0.55;
+}
+
+.primaryHint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Platforms + multipliers -------------------------------------------- */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+}
+
+.groupTitle {
+  padding: 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.platformHead {
+  display: grid;
+  grid-template-columns: 1fr 6rem 5rem;
+  gap: 0.75rem;
+  padding: 0 0.2rem 0.35rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.platformRow {
+  display: grid;
+  grid-template-columns: 1fr 6rem 5rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0.2rem;
+}
+
+.platformRow[data-active="false"] {
+  opacity: 0.55;
+}
+
+.platformLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.kindBadge {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+.multInput {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.88rem;
+  text-align: right;
+}
+
+.multInput:disabled {
+  opacity: 0.55;
+}
+
+.outputsCol {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+/* ---- Summary ------------------------------------------------------------ */
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+  padding: 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle, var(--color-bg));
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summaryItem dt {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.summaryItem dd {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.bigNumber {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---- Actions ------------------------------------------------------------ */
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.generateButton {
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.generateButton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: #b42318;
+}
+
+/* ---- Status / progress -------------------------------------------------- */
+
+.status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+}
+
+.statusHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.statusBadge[data-status="running"],
+.statusBadge[data-status="queued"] {
+  color: #b54708;
+  border-color: #b54708;
+}
+
+.statusBadge[data-status="completed"] {
+  color: #12805c;
+  border-color: #12805c;
+}
+
+.statusBadge[data-status="failed"] {
+  color: #b42318;
+  border-color: #b42318;
+}
+
+.statusTotals {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.progressRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.progressHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.progressLabel {
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.progressLabelStrong {
+  font-weight: 700;
+}
+
+.progressCount {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progressTrack {
+  height: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--color-border);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--color-text);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
