@@ -20,6 +20,10 @@ export interface RenderMp4Input {
   srtPath?: string;
   outputPath: string;
   durationSeconds?: number;
+  // Content Quality Sprint 2 — seconds of silence appended to the audio (apad)
+  // so the storyboard's final-beat hold survives -shortest. Omitted/<=0 keeps
+  // the audio untouched (backward compatible).
+  tailPadSeconds?: number;
   // Output geometry / pace. Defaults to the vertical Short profile.
   profile?: { width: number; height: number; fps: number; transitionSeconds: number };
 }
@@ -49,6 +53,21 @@ const SUBTITLE_FORCE_STYLE =
 
 // Upscale factor for the still before zoompan, so the motion crop stays crisp.
 const SCALE_HEADROOM = 1.4;
+
+// End-of-video silence — how long the FINAL frame is frozen (cloned) past the
+// end of the beat timeline in the multi-beat path. The audio carries the real
+// voiceover + `apad` silence and `-shortest` bounds the muxed file to whichever
+// stream ends first. The multi-beat video is a fixed sum of independently
+// rounded beat durations computed from the *measured* voiceover length, while
+// the audio is the *real* file padded by the tail; if the two drift (per-beat
+// rounding, xfade clamping, or — worst case — a failed duration probe that fell
+// back to the words-per-second estimate) `-shortest` would otherwise truncate
+// the spoken track or the silent hold. Freezing the final frame well past the
+// audio makes the VIDEO always the longer stream, so `-shortest` ends the file
+// exactly when the padded audio ends: voiceover -> tail silence -> hold -> end.
+// ffmpeg stops muxing the frozen frames as soon as the audio ends, so an
+// over-long hold costs nothing.
+const FINAL_FRAME_FREEZE_SECONDS = 30;
 
 function ffmpegBin(): string {
   return process.env.FFMPEG_PATH ?? "ffmpeg";
@@ -108,6 +127,28 @@ function subtitlesFilter(srtPath: string): string {
   return `subtitles=filename=${escapeForSubtitlesFilter(srtPath)}:force_style='${SUBTITLE_FORCE_STYLE}'`;
 }
 
+// Content Quality Sprint 2 — resolves how the audio stream is mapped. When a
+// tail pad is requested the audio is routed through the filtergraph with `apad`
+// so it gains exactly `tailPadSeconds` of trailing silence (the final beat's
+// hold), and the output maps the padded label. Otherwise the raw audio stream
+// is mapped directly (unchanged behavior).
+function resolveAudioMapping(
+  audioInputIndex: number,
+  tailPadSeconds: number | undefined,
+): { filter: string | null; mapLabel: string } {
+  if (
+    typeof tailPadSeconds === "number" &&
+    Number.isFinite(tailPadSeconds) &&
+    tailPadSeconds > 0
+  ) {
+    return {
+      filter: `[${audioInputIndex}:a]apad=pad_dur=${tailPadSeconds.toFixed(3)}[aout]`,
+      mapLabel: "[aout]",
+    };
+  }
+  return { filter: null, mapLabel: `${audioInputIndex}:a` };
+}
+
 // Builds the per-beat motion chain: upscale the still, apply zoompan motion for
 // the beat's frames, trim to the exact duration and normalize for xfade.
 function beatVideoChain(
@@ -140,8 +181,9 @@ function beatVideoChain(
 }
 
 // MVP-compatible single still path (also used when there is just one beat). Adds
-// a gentle zoom-in so even a one-image video is never fully static.
-function buildSingleImageArgs(input: RenderMp4Input): string[] {
+// a gentle zoom-in so even a one-image video is never fully static. Exported for
+// dependency-free arg-construction tests (scripts/check-end-silence.ts).
+export function buildSingleImageArgs(input: RenderMp4Input): string[] {
   const profile = input.profile ?? SHORT_PROFILE;
   const primaryImage = input.images[0].imagePath;
   // No trim: -shortest bounds the clip to the audio, so the voiceover is never
@@ -157,11 +199,15 @@ function buildSingleImageArgs(input: RenderMp4Input): string[] {
   );
 
   const videoLabel = "vout";
-  const filter = input.srtPath
+  const videoFilter = input.srtPath
     ? `${chain};[${label}]${subtitlesFilter(input.srtPath)}[${videoLabel}]`
     : `${chain};[${label}]null[${videoLabel}]`;
 
   const audioInputIndex = 1;
+  const audio = resolveAudioMapping(audioInputIndex, input.tailPadSeconds);
+  const filter = audio.filter
+    ? `${videoFilter};${audio.filter}`
+    : videoFilter;
   const args: string[] = [
     "-y",
     "-loop",
@@ -175,7 +221,7 @@ function buildSingleImageArgs(input: RenderMp4Input): string[] {
     "-map",
     `[${videoLabel}]`,
     "-map",
-    `${audioInputIndex}:a`,
+    audio.mapLabel,
     "-c:v",
     "libx264",
     "-pix_fmt",
@@ -195,7 +241,9 @@ function buildSingleImageArgs(input: RenderMp4Input): string[] {
 // Multi-beat path (Task 2 + 3 + 7): each beat is a moving clip; consecutive
 // beats are joined with a light xfade transition; subtitles are burned onto the
 // final stream. A single ffmpeg invocation builds the whole filtergraph.
-function buildMultiBeatArgs(
+// Exported for dependency-free arg-construction tests
+// (scripts/check-end-silence.ts).
+export function buildMultiBeatArgs(
   input: RenderMp4Input,
   beats: RenderBeat[],
 ): string[] {
@@ -240,16 +288,34 @@ function buildMultiBeatArgs(
     cumulative = cumulative - td + beats[i].durationSeconds;
   }
 
-  // Burn subtitles onto the joined stream (or pass through).
+  // Burn subtitles onto the joined stream (or pass through), then — when a tail
+  // pad is requested — freeze the FINAL frame so the video outlasts the padded
+  // audio. With `-shortest` the file ends exactly when the audio ends (voiceover
+  // + apad silence), so the last subtitle stays readable through the silent hold
+  // and the voiceover is never truncated by beat/audio drift. See
+  // FINAL_FRAME_FREEZE_SECONDS.
   const videoLabel = "vout";
-  const finalChain = input.srtPath
-    ? `[${currentLabel}]${subtitlesFilter(input.srtPath)}[${videoLabel}]`
-    : `[${currentLabel}]null[${videoLabel}]`;
-
-  const filter = [...chains, ...xfadeChains, finalChain].join(";");
+  const hasTailPad =
+    typeof input.tailPadSeconds === "number" &&
+    Number.isFinite(input.tailPadSeconds) &&
+    input.tailPadSeconds > 0;
+  const subtitleStage = input.srtPath
+    ? `[${currentLabel}]${subtitlesFilter(input.srtPath)}`
+    : `[${currentLabel}]null`;
+  const finalChain = hasTailPad
+    ? `${subtitleStage}[vsub];[vsub]tpad=stop_mode=clone:stop_duration=${FINAL_FRAME_FREEZE_SECONDS.toFixed(3)}[${videoLabel}]`
+    : `${subtitleStage}[${videoLabel}]`;
 
   // Audio is the last input.
   const audioInputIndex = beats.length;
+  const audio = resolveAudioMapping(audioInputIndex, input.tailPadSeconds);
+
+  const filter = [
+    ...chains,
+    ...xfadeChains,
+    finalChain,
+    ...(audio.filter ? [audio.filter] : []),
+  ].join(";");
 
   const args: string[] = [
     "-y",
@@ -261,7 +327,7 @@ function buildMultiBeatArgs(
     "-map",
     `[${videoLabel}]`,
     "-map",
-    `${audioInputIndex}:a`,
+    audio.mapLabel,
     "-c:v",
     "libx264",
     "-pix_fmt",

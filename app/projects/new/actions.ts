@@ -1,8 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createProject } from "@/lib/api/projects";
-import { updateProjectForAdmin } from "@/lib/api/projects-admin";
+import {
+  createProjectForAdmin,
+  updateProjectForAdmin,
+} from "@/lib/api/projects-admin";
 import { runProjectKnowledgeExtraction } from "@/lib/ai/workflows/extractKnowledge";
 import { emptyKnowledge } from "@/lib/knowledge/types";
 import { LANGUAGE_OPTIONS } from "@/lib/projects/fieldOptions";
@@ -45,7 +47,8 @@ function isUsableUrl(raw: string): boolean {
 }
 
 // Onboarding entry point: Create Project -> URL Extraction -> Knowledge
-// Extraction -> (redirect to) Approve Cards. Uses the existing createProject.
+// Extraction -> (redirect to) Approve Cards. Persists via createProjectForAdmin
+// (MVP admin has no user session; same service-role path as the project list).
 // The URL + extraction step is best-effort: even on failure the user lands on
 // the Approve Cards screen (with an empty proposal to fill in).
 export async function createProjectOnboarding(
@@ -92,9 +95,10 @@ export async function createProjectOnboarding(
 
   let projectId: string;
   try {
-    const project = await createProject(insert);
+    const project = await createProjectForAdmin(insert);
     projectId = project.id;
-  } catch {
+  } catch (err) {
+    console.error("[createProjectOnboarding] create project failed:", err);
     return { ok: false, error: "Vytvoření projektu se nezdařilo." };
   }
 

@@ -61,20 +61,33 @@ export interface VideoProfile {
 }
 
 // Task 7 — the single supported profile: vertical short (TikTok / IG Reels /
-// YouTube Shorts share one render). Faster pace via short beats; 20–45s total.
+// YouTube Shorts share one render).
+//
+// Content Quality Sprint 2 — HARD video length target is 15–25s (tightened from
+// the old 20–45s). The narration word budget (40–70 words, hard cap 80; see
+// lib/ai/guardrails) is the primary lever that keeps the spoken track inside
+// this window; the profile bounds the legacy words-per-second estimate and the
+// beat count (adaptive 3–5 beats over 15–25s). A short, punchy format.
 export const SHORT_PROFILE: VideoProfile = {
   id: "short",
   width: 1080,
   height: 1920,
   fps: 30,
-  minDurationSeconds: 20,
-  maxDurationSeconds: 45,
-  minBeats: 8,
-  maxBeats: 15,
+  minDurationSeconds: 15,
+  maxDurationSeconds: 25,
+  minBeats: 3,
+  maxBeats: 5,
   minBeatSeconds: 2,
   maxBeatSeconds: 5,
   transitionSeconds: 0.4,
 };
+
+// Content Quality Sprint 2 — tail buffer. A short silent hold added AFTER the
+// narration ends so the final beat (typically the CTA) and its subtitle stay on
+// screen instead of cutting the instant the voice stops. Applied to the LAST
+// beat's on-screen duration here, and mirrored by an audio `apad` of the same
+// length in the renderer so `-shortest` keeps the hold instead of trimming it.
+export const TAIL_BUFFER_SECONDS = 1.5;
 
 // Spoken words per second used to estimate narration length (so the timeline
 // roughly matches the voiceover without probing the audio file).
@@ -108,6 +121,11 @@ export interface BuildStoryboardInput {
   // (undefined) keeps the legacy estimate so the builder stays backward
   // compatible when no audio measurement is available.
   audioDurationSeconds?: number;
+  // Content Quality Sprint 2 — extra silent hold (seconds) appended to the LAST
+  // beat so the CTA / final subtitle lingers after the narration ends. Defaults
+  // to 0 (no tail) so existing callers and the audio-master invariant are
+  // unchanged; the worker passes TAIL_BUFFER_SECONDS.
+  tailBufferSeconds?: number;
   profile?: VideoProfile;
 }
 
@@ -280,5 +298,21 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
       durationSeconds: Math.round(perBeat * 100) / 100,
     });
   }
+
+  // Content Quality Sprint 2 — append the tail buffer to the LAST beat only, so
+  // the narration beats stay in sync with the voice and the final beat simply
+  // holds for the silent tail. The renderer pads the audio by the same amount
+  // (apad) so `-shortest` keeps the hold rather than trimming it.
+  const tail = input.tailBufferSeconds;
+  if (
+    typeof tail === "number" &&
+    Number.isFinite(tail) &&
+    tail > 0 &&
+    beats.length > 0
+  ) {
+    const last = beats[beats.length - 1];
+    last.durationSeconds = Math.round((last.durationSeconds + tail) * 100) / 100;
+  }
+
   return beats;
 }

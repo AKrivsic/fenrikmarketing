@@ -28,6 +28,11 @@ export interface CreativeMode {
   // scenario -> proof -> cta) so each mode tells its OWN kind of story. Every
   // arc opens on a hook-style beat and ends on "cta".
   narrativeBeats: string[];
+  // Content Quality Sprint 2 — modes whose shape matches the preferred
+  // Hook -> Twist -> Payoff -> CTA arc (an early turn + a late payoff before the
+  // CTA). The picker biases selection toward these so most content lands on the
+  // preferred structure; non-preferred modes stay available for variety.
+  preferred?: boolean;
 }
 
 export interface HookArchetype {
@@ -58,6 +63,12 @@ export interface CreativeDirectives {
 
 // --- Catalogue: Creative Modes ------------------------------------------
 
+// Content Quality Sprint 2 — the preferred narrative arc for short-form content.
+// "Twist" = an early turn / reversal that breaks the expected line; "Payoff" =
+// the reveal / punchline / result the twist sets up, landed LATE (just before
+// the CTA). The picker favours modes that follow this shape (see `preferred`).
+export const PREFERRED_STORY_ARC = ["hook", "twist", "payoff", "cta"] as const;
+
 export const CREATIVE_MODES: readonly CreativeMode[] = [
   {
     id: "standard",
@@ -76,6 +87,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
       "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
     avoid: "No abstract advice; keep it one situation, not a montage of tips.",
     narrativeBeats: ["setup", "conflict", "twist", "resolution", "cta"],
+    preferred: true,
   },
   {
     id: "shock",
@@ -86,6 +98,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     avoid:
       "No shock that is irrelevant to the topic and no payoff the content cannot deliver.",
     narrativeBeats: ["unexpected_fact", "implication", "proof", "cta"],
+    preferred: true,
   },
   {
     id: "contrarian",
@@ -95,6 +108,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
       "Common belief -> why it is wrong (dismantle with reasoning) -> proof of the better take -> CTA.",
     avoid: "Attack the idea or habit, never a person or group.",
     narrativeBeats: ["common_belief", "why_wrong", "proof", "cta"],
+    preferred: true,
   },
   {
     id: "myth_buster",
@@ -113,6 +127,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     avoid:
       "Humor must not mock the customer or devalue the product; the fix stays serious.",
     narrativeBeats: ["situation", "unexpected_turn", "punchline", "cta"],
+    preferred: true,
   },
   {
     id: "mistake",
@@ -122,6 +137,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
       "Name the mistake -> why it backfires -> the correct approach -> CTA.",
     avoid: "Do not shame the viewer; frame the mistake as easy to fix.",
     narrativeBeats: ["mistake", "why_backfires", "correct_approach", "cta"],
+    preferred: true,
   },
   {
     id: "comparison",
@@ -151,8 +167,14 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     avoid:
       "Do not state the obvious; the reveal must reframe the observation, not restate it.",
     narrativeBeats: ["observation", "meaning", "reveal", "cta"],
+    preferred: true,
   },
 ];
+
+// Content Quality Sprint 2 — the subset of modes that follow the preferred
+// Hook -> Twist -> Payoff -> CTA arc. The picker draws from this pool first.
+export const PREFERRED_CREATIVE_MODES: readonly CreativeMode[] =
+  CREATIVE_MODES.filter((m) => m.preferred);
 
 // --- Catalogue: Hook Archetypes -----------------------------------------
 
@@ -313,8 +335,14 @@ export function buildRegenerateCreativeSeedSalt(
 // different topic/angle/salt seeds return different directives.
 export function pickCreativeDirectives(seed: string): CreativeDirectives {
   const base = seed && seed.trim().length > 0 ? seed : "default";
+  // Content Quality Sprint 2 — bias the mode toward the preferred
+  // Hook -> Twist -> Payoff -> CTA pool. Still fully deterministic (same seed ->
+  // same mode) and still varies across seeds; the full catalogue is the
+  // fallback if no mode is marked preferred.
+  const modePool =
+    PREFERRED_CREATIVE_MODES.length > 0 ? PREFERRED_CREATIVE_MODES : CREATIVE_MODES;
   return {
-    mode: pickFrom(CREATIVE_MODES, `${base}::mode`),
+    mode: pickFrom(modePool, `${base}::mode`),
     hook: pickFrom(HOOK_ARCHETYPES, `${base}::hook`),
     persona: pickFrom(VOICE_PERSONAS, `${base}::persona`),
   };

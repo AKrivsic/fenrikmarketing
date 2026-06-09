@@ -433,13 +433,26 @@ async function persistNewPackage(
           ? candidate.trim()
           : item.caption;
       };
+      // X Native Variants — distinct title per output, generated alongside the
+      // caption variants. Falls back to the package base title when the model
+      // returned fewer title_variants than requested (so a row is never empty).
+      const titleVariants =
+        pkg.platform_outputs?.[item.platform]?.title_variants;
+      const titleFor = (variantIndex: number): string => {
+        const candidate = Array.isArray(titleVariants)
+          ? titleVariants[variantIndex]
+          : undefined;
+        return typeof candidate === "string" && candidate.trim().length > 0
+          ? candidate.trim()
+          : pkg.title;
+      };
       return Array.from({ length: count }, (_unused, variantIndex) => ({
         project_id: projectId,
         package_id: packageId,
         platform: item.platform,
         format: item.format,
         status: "draft" as const,
-        title: pkg.title,
+        title: titleFor(variantIndex),
         body: pkg.voiceover_text,
         caption: captionFor(variantIndex),
         hashtags: item.hashtags,

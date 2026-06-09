@@ -27,6 +27,58 @@ function findForbiddenPhrases(text: string, phrases: string[]): string[] {
   );
 }
 
+// --- Content Quality Sprint 2 --------------------------------------------
+
+// Voiceover length budget (words). The TARGET keeps the spoken track inside the
+// hard 15–25s video window (≈2.6 words/s); the HARD CAP is the only value the
+// guardrail rejects on, so a short-but-valid narration is never blocked. The
+// min/max are prompt guidance only (see lib/ai/prompts/generateContentPackage).
+export const VOICEOVER_TARGET_MIN_WORDS = 40;
+export const VOICEOVER_TARGET_MAX_WORDS = 70;
+export const VOICEOVER_HARD_CAP_WORDS = 80;
+
+// Corporate / "background story" copy is forbidden in short-form content
+// (Zakázat). These are unambiguous corporate clichés and company-history
+// openers — short, native scripts never need them, so flagging them triggers a
+// regenerate. Matched case-insensitively as substrings, EN + CS.
+export const CORPORATE_COPY_PHRASES: readonly string[] = [
+  "industry-leading",
+  "industry leading",
+  "best-in-class",
+  "best in class",
+  "world-class",
+  "world class",
+  "market-leading",
+  "market leading",
+  "cutting-edge",
+  "cutting edge",
+  "state-of-the-art",
+  "state of the art",
+  "value proposition",
+  "core competenc",
+  "synerg",
+  "we are committed to",
+  "committed to delivering",
+  "our mission is",
+  "we pride ourselves",
+  "founded in",
+  "established in",
+  "since our founding",
+  "our company was",
+  // Czech
+  "jsme lídrem na trhu",
+  "špičkové řešení",
+  "komplexní řešení",
+  "naše společnost byla",
+  "naším posláním",
+  "byla založena v roce",
+  "jsme hrdí na",
+];
+
+function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
 // --- Weekly Strategy -----------------------------------------------------
 
 export function checkWeeklyStrategyGuardrails(
@@ -241,6 +293,30 @@ export function checkContentPackageGuardrails(
   const productIsNot = findForbiddenPhrases(copy, ctx.project.product_is_not);
   for (const phrase of productIsNot) {
     issues.push(issue("$", `product_is_not claim present: "${phrase}"`));
+  }
+
+  // Content Quality Sprint 2 — voiceover hard length cap. The narration backs
+  // the video and the text-only body, so a bloated voiceover means a too-long
+  // video and a long-winded post. Reject anything over the hard cap; the 40–70
+  // word target stays prompt-side guidance only (no min reject).
+  if (pkg.voiceover_text) {
+    const words = countWords(pkg.voiceover_text);
+    if (words > VOICEOVER_HARD_CAP_WORDS) {
+      issues.push(
+        issue(
+          "$.voiceover_text",
+          `voiceover_text is ${words} words; hard cap is ${VOICEOVER_HARD_CAP_WORDS} (target ${VOICEOVER_TARGET_MIN_WORDS}–${VOICEOVER_TARGET_MAX_WORDS})`,
+        ),
+      );
+    }
+  }
+
+  // Content Quality Sprint 2 — forbid corporate / company-history copy in
+  // short-form content (Zakázat). Any clichéd corporate phrase triggers a
+  // regenerate so scripts stay native, not brochure copy.
+  const corporate = findForbiddenPhrases(copy, [...CORPORATE_COPY_PHRASES]);
+  for (const phrase of corporate) {
+    issues.push(issue("$", `corporate/background-story copy present: "${phrase}"`));
   }
 
   return issues;

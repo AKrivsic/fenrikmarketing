@@ -28,6 +28,7 @@ import { sendVideoCallback } from "@/video-worker/services/callback";
 import {
   buildStoryboard,
   SHORT_PROFILE,
+  TAIL_BUFFER_SECONDS,
   type StoryboardBeat,
 } from "@/lib/video-engine/storyboard";
 
@@ -306,6 +307,9 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       // Attention First V1 — the creative mode's narrative beats drive the role
       // arc (story/shock/contrarian/... instead of a fixed marketing arc).
       modeBeats: parseModeBeats(payload.input),
+      // Content Quality Sprint 2 — hold the final beat for the tail buffer; the
+      // renderer pads the audio by the same amount so the hold survives -shortest.
+      tailBufferSeconds: TAIL_BUFFER_SECONDS,
     });
 
     const { cues, totalSeconds } = buildSubtitleTimeline(
@@ -337,6 +341,9 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       srtPath,
       outputPath: mp4OutputPath,
       durationSeconds: spec.duration_seconds,
+      // Content Quality Sprint 2 — pad the audio by the tail buffer so the final
+      // beat's silent hold (added in the storyboard) is not trimmed by -shortest.
+      tailPadSeconds: TAIL_BUFFER_SECONDS,
       profile: {
         width: SHORT_PROFILE.width,
         height: SHORT_PROFILE.height,

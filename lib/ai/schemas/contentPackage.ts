@@ -22,6 +22,11 @@ const platformOutputSchema = vObject({
   // multiplier of 1 (or any non-run generation) simply omits it and `caption`
   // is used as before.
   caption_variants: vOptional(vArray(vString())),
+  // X Native Variants — generated alongside caption_variants (one per output,
+  // each a different angle). Persist fan-out picks title_variants[index] and
+  // falls back to the package base title when a slot is missing. Optional +
+  // backward compatible: omitted for single-output / non-run generation.
+  title_variants: vOptional(vArray(vString())),
 });
 
 // Builds a platform_outputs validator requiring an explicit output object for

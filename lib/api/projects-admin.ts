@@ -11,6 +11,7 @@ import type {
   PackageStatus,
   PlatformType,
   Project,
+  ProjectInsert,
   ProjectType,
   ProjectUpdate,
 } from "@/lib/supabase/types";
@@ -58,6 +59,49 @@ export async function listProjectsForAdmin(): Promise<ProjectListItem[]> {
     goalType: row.goal_type,
     createdAt: row.created_at,
   }));
+}
+
+// MVP admin UI has no Supabase Auth session; inserts use the service-role
+// client (same as list/update). owner_id must reference auth.users — resolved
+// from SUPABASE_DEFAULT_OWNER_ID or the first auth user in the project.
+async function resolveDefaultOwnerId(
+  supabase: ReturnType<typeof createSupabaseAdminClient>,
+): Promise<string> {
+  const fromEnv = process.env.SUPABASE_DEFAULT_OWNER_ID?.trim();
+  if (fromEnv) return fromEnv;
+
+  // Reuse the owner_id from an existing row (single-tenant MVP seed / prior projects).
+  const { data: existing, error: existingError } = await supabase
+    .from("projects")
+    .select("owner_id")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (existingError) throw existingError;
+  if (existing?.owner_id) return existing.owner_id;
+
+  throw new Error(
+    "Cannot resolve project owner_id. Set SUPABASE_DEFAULT_OWNER_ID or seed a project with a valid auth user.",
+  );
+}
+
+export async function createProjectForAdmin(
+  input: ProjectInsert,
+): Promise<Project> {
+  const supabase = createSupabaseAdminClient();
+  const ownerId = await resolveDefaultOwnerId(supabase);
+
+  const { data, error } = await supabase
+    .from("projects")
+    .insert({ ...input, owner_id: ownerId })
+    .select("*")
+    .single();
+
+  if (error) {
+    console.error("[createProjectForAdmin] Supabase insert failed:", error);
+    throw error;
+  }
+  return data as Project;
 }
 
 export async function getProjectForAdmin(

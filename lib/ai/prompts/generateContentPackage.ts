@@ -11,7 +11,14 @@ import {
   buildCreativeSeed,
   type CreativeDirectives,
   pickCreativeDirectives,
+  PREFERRED_STORY_ARC,
 } from "@/lib/ai/prompts/creativeDirectives";
+import {
+  VOICEOVER_HARD_CAP_WORDS,
+  VOICEOVER_TARGET_MAX_WORDS,
+  VOICEOVER_TARGET_MIN_WORDS,
+} from "@/lib/ai/guardrails";
+import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import {
   type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
@@ -228,6 +235,35 @@ export function buildGenerateContentPackagePrompt(
       "forbidden_claims, no product_is_not. Attention is NOT ragebait or fake claims.",
   ];
 
+  // Content Quality Sprint 2 — hard length / pacing / forbidden rules. These
+  // keep the short tight (15–25s), the narration punchy (40–70 words, never
+  // > 80) and the structure on the preferred Hook -> Twist -> Payoff -> CTA arc,
+  // and they explicitly forbid the long-explanation / background-story /
+  // corporate-copy failure modes.
+  const preferredArc = PREFERRED_STORY_ARC.map((b) =>
+    b === "cta" ? "CTA" : b.charAt(0).toUpperCase() + b.slice(1),
+  ).join(" -> ");
+  const qualityLines = [
+    "CONTENT QUALITY (hard rules — short, punchy, native short-form):",
+    ...(requireVideo
+      ? [
+          `- HARD video length target: ${SHORT_PROFILE.minDurationSeconds}–${SHORT_PROFILE.maxDurationSeconds}s. ` +
+            "Write for that length: a fast vertical short, not an explainer.",
+        ]
+      : []),
+    `- VOICEOVER LENGTH: write voiceover_text as ${VOICEOVER_TARGET_MIN_WORDS}–${VOICEOVER_TARGET_MAX_WORDS} words. ` +
+      `NEVER exceed ${VOICEOVER_HARD_CAP_WORDS} words — over the cap is rejected. ` +
+      "Every word must earn its place; cut filler.",
+    `- PREFERRED STORY ARC: ${preferredArc}. Favor a real TWIST (an early turn / ` +
+      "reversal) and land the PAYOFF late, just before the CTA. Map it onto the " +
+      "MODE BEATS above — do not flatten it into a linear explanation.",
+    "- FORBIDDEN (Zakázat): NO long explanations or lectures; NO background / " +
+      "company-history story (who you are, when you were founded, your mission); " +
+      "NO corporate copy or jargon (industry-leading, world-class, cutting-edge, " +
+      'value proposition, "we are committed to ...", synergy, etc.). ' +
+      "Speak like a person, not a brochure.",
+  ];
+
   // Hook block. The final narration line differs for text-only (no visual beats).
   const hookLines = [
     "HOOK V2 (the first 3 seconds — make it dramatically stronger):",
@@ -281,7 +317,7 @@ export function buildGenerateContentPackagePrompt(
         const variantsArray = Array.from({ length: count }, () => `"string"`).join(
           ", ",
         );
-        return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string", "caption_variants": [${variantsArray}] }`;
+        return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string", "title_variants": [${variantsArray}], "caption_variants": [${variantsArray}] }`;
       }
       return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`;
     })
@@ -298,12 +334,15 @@ export function buildGenerateContentPackagePrompt(
             "funnel stage, same CTA type):",
           ...platformsWithVariants.map(
             (p) =>
-              `- "${p}": provide EXACTLY ${variantCount(p)} captions in "caption_variants". ` +
-              `Set "caption" to the first one too.`,
+              `- "${p}": provide EXACTLY ${variantCount(p)} captions in "caption_variants" ` +
+              `AND EXACTLY ${variantCount(p)} matching titles in "title_variants" (same order). ` +
+              `Set "caption" to the first caption too.`,
           ),
           "- Each variant MUST be a genuinely different take: a different ANGLE, " +
             "opening line and structure (e.g. question vs bold claim vs mini-story). " +
             "Never reword the same sentence. Never produce near-duplicates.",
+          "- Each title in \"title_variants\" MUST match the ANGLE of the caption at " +
+            "the same index, and the titles must differ from one another.",
           "- Keep every variant on-topic, truthful and within the platform's style.",
         ]
       : [];
@@ -373,6 +412,8 @@ export function buildGenerateContentPackagePrompt(
     creativeDirective,
     "",
     ...attentionFirstLines,
+    "",
+    ...qualityLines,
     "",
     ...hookLines,
     ...visualBeatsLines,
