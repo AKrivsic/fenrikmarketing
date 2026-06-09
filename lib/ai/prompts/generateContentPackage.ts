@@ -8,6 +8,8 @@ import {
 } from "@/lib/ai/prompts/context";
 import {
   buildCreativeDirectiveBlock,
+  buildCreativeSeed,
+  type CreativeDirectives,
   pickCreativeDirectives,
 } from "@/lib/ai/prompts/creativeDirectives";
 import {
@@ -24,6 +26,78 @@ export interface AssetRef {
   // static | editable | reference
   asset_class: string;
   media_type: string;
+}
+
+// Content Quality Sprint (Platform Styles) — per-platform output style. Pure
+// prompt guidance: no new DB column, no new workflow, no schema change. Each
+// target platform gets its own tone / structure / CTA style / expected length
+// so the captions are genuinely platform-native instead of one reused text.
+export interface PlatformStyleSpec {
+  tone: string;
+  structure: string;
+  cta: string;
+  length: string;
+}
+
+export const PLATFORM_STYLE_SPECS: Record<string, PlatformStyleSpec> = {
+  tiktok: {
+    tone: "raw, fast, conversational, native — like talking to a friend",
+    structure: "hook in the first line, then quick punchy beats, end on a payoff",
+    cta: "implicit and casual (e.g. follow, watch till the end, try it)",
+    length: "1–2 short sentences + 3–5 trend-style hashtags",
+  },
+  instagram: {
+    tone: "polished, aspirational, visually-driven",
+    structure: "scroll-stopping hook -> a tight micro-story -> the value",
+    cta: 'save / share / "link in bio"',
+    length: "2–4 sentences, tasteful emoji allowed, 5–10 hashtags",
+  },
+  youtube: {
+    tone: "informative, search/watch-time oriented",
+    structure: "a high-CTR title line, then a structured description of the value",
+    cta: "subscribe + watch next",
+    length: "title <= 70 chars, description 3–5 sentences",
+  },
+  x: {
+    tone: "terse, opinionated, thread-able",
+    structure: "one strong claim, no filler",
+    cta: "spark a reply or repost",
+    length: "<= 280 characters, 0–2 hashtags",
+  },
+  google_business: {
+    tone: "factual, local, trustworthy",
+    structure: "offer / update -> concrete benefit -> action",
+    cta: 'local action (call / visit / book)',
+    length: "2–3 sentences, NO hashtags",
+  },
+  linkedin: {
+    tone: "professional, expert, B2B (no hype)",
+    structure: "insight -> context -> takeaway",
+    cta: 'invite a comment / connect',
+    length: "3–6 sentences, 0–3 hashtags, no decorative emoji",
+  },
+};
+
+// Renders the per-platform style guidance for the platforms a package targets.
+// Only the selected platforms are listed, so the block scales with the run.
+function buildPlatformStyleBlock(platforms: readonly string[]): string {
+  const lines = platforms
+    .map((p) => {
+      const spec = PLATFORM_STYLE_SPECS[p];
+      if (!spec) return null;
+      return (
+        `- ${p}: tone=${spec.tone}; structure=${spec.structure}; ` +
+        `cta=${spec.cta}; length=${spec.length}`
+      );
+    })
+    .filter((l): l is string => l !== null);
+  if (lines.length === 0) return "";
+  return [
+    "PLATFORM STYLES (make each platform's output genuinely native — NOT one " +
+      "text lightly reformatted; same facts, funnel stage and CTA type, but a " +
+      "platform-specific voice, structure and length):",
+    ...lines,
+  ].join("\n");
 }
 
 export interface GenerateContentPackagePromptInput {
@@ -52,6 +126,19 @@ export interface GenerateContentPackagePromptInput {
   // sets it from the previous title + feedback so a regenerated package gets a
   // different creative directive than the original.
   creativeSeedSalt?: string;
+  // Attention First V1 — the pre-resolved creative directive. When provided it is
+  // used verbatim (so the prompt, the storyboard role arc and the video job
+  // input all share the SAME mode). When omitted the prompt resolves it the
+  // legacy way from funnel/topic/angle/creativeSeedSalt — fully backward
+  // compatible with existing callers and tests.
+  directives?: CreativeDirectives;
+  // Content Quality Sprint (Multiplier Variants MVP-1) — number of OUTPUTS this
+  // package must produce per platform for the current production run + package
+  // index. When a platform's count is > 1, the prompt asks for that many
+  // DISTINCT captions (caption_variants) so fan-out persists real variants
+  // instead of duplicating one caption. Platforms absent from the map (or with
+  // a count <= 1) keep the single-caption shape unchanged.
+  variantCounts?: Record<string, number>;
 }
 
 const PACKAGE_SYSTEM_INTRO =
@@ -105,14 +192,41 @@ export function buildGenerateContentPackagePrompt(
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
 
-  // Content Quality V3 — deterministic creative directives derived from the
-  // strategy item (and an optional regeneration salt). Same inputs -> same
-  // directive; different topic/angle -> different directive. Prompt-only: no
+  // Content Quality V3 / Attention First V1 — deterministic creative directives.
+  // Prefer the directive the workflow resolved (so prompt + storyboard + video
+  // input share one mode); otherwise resolve it here from the strategy item and
+  // optional regeneration salt. Same inputs -> same directive. Prompt-only: no
   // new JSON output field, no DB, no workflow change.
-  const directives = pickCreativeDirectives(
-    [funnelLabel, topic, angle ?? "", input.creativeSeedSalt ?? ""].join("|"),
-  );
+  const directives =
+    input.directives ??
+    pickCreativeDirectives(
+      buildCreativeSeed(funnelLabel, topic, angle, input.creativeSeedSalt),
+    );
   const creativeDirective = buildCreativeDirectiveBlock(directives);
+  const modeBeatArc = directives.mode.narrativeBeats.join(" -> ");
+
+  // Attention First V1 — the priorities block. The audit found every mode
+  // collapsing into the same safe marketing arc; this restates the goal of an
+  // INTERNAL growth engine (attention/retention) over corporate brand-safety,
+  // while the CREATIVE SAFETY rules in the directive still hard-block lies and
+  // forbidden claims.
+  const attentionFirstLines = [
+    "ATTENTION FIRST (internal growth engine — optimize for attention & " +
+      "retention, NOT corporate brand-safety):",
+    "- Priority order: 1) scroll-stop, 2) watch time, 3) curiosity, " +
+      "4) emotion / conflict / surprise. proof, benefit and CTA come AFTER " +
+      "attention is earned — they serve the story, they are not the structure.",
+    `- Follow the MODE BEATS above as the structure: ${modeBeatArc}. Do NOT fall ` +
+      "back to a generic hook -> problem -> scenario -> proof -> CTA template.",
+    "- Fully COMMIT to the mode: if humor, be genuinely funny; if shock, lead " +
+      "with the actually surprising; if contrarian, take a real stance; if story, " +
+      "stay in one scene. Never sand it down into safe, generic marketing.",
+    "- Open ONE curiosity loop (tension / contrast / an unanswered question) in " +
+      "the hook and pay it off LATE (the reveal / twist / punchline near the end), " +
+      "never in the first sentence.",
+    "- Bound by CREATIVE SAFETY above: no lies, no invented numbers / results, no " +
+      "forbidden_claims, no product_is_not. Attention is NOT ragebait or fake claims.",
+  ];
 
   // Hook block. The final narration line differs for text-only (no visual beats).
   const hookLines = [
@@ -120,38 +234,79 @@ export function buildGenerateContentPackagePrompt(
     `- Write the hook in the "${directives.hook.id}" HOOK ARCHETYPE above: ${directives.hook.instruction}`,
     "- Open on a concrete moment: pull from the SCENARIO POOL, a sharp PAIN",
     "  POINT, or a striking PROOF point above. Never use a generic intro.",
-    "- The hook must create curiosity or tension in one short, punchy line.",
+    "- The hook must create curiosity or tension in one short, punchy line, and",
+    "  set up a loop the rest of the video keeps open until the payoff.",
     ...(requireVideo
       ? [
-          "- voiceover_text MUST start with that hook, then flow Problem -> Scenario",
-          "  -> Proof -> CTA, narrated in the VOICE PERSONA and MODE above so the",
-          "  narration maps onto fast visual beats.",
+          `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
+          "  narrated in the VOICE PERSONA and MODE above, so the narration maps onto",
+          "  fast visual beats. Do NOT collapse it into a generic marketing template.",
         ]
       : [
-          "- voiceover_text MUST start with that hook, then flow Problem -> Scenario",
-          "  -> Proof -> CTA, written in the VOICE PERSONA and MODE above. It is the",
-          "  core body copy for this TEXT-ONLY package (no video, no visual beats).",
+          `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
+          "  written in the VOICE PERSONA and MODE above. It is the core body copy for",
+          "  this TEXT-ONLY package (no video). Do NOT collapse it into a generic template.",
         ]),
   ];
 
-  // Visual beats / image prompts only apply to video packages.
+  // Visual beats / image prompts only apply to video packages. They follow the
+  // MODE BEATS (not the old marketing arc) so the visuals tell the mode's story
+  // and escalate toward the reveal.
   const visualBeatsLines = requireVideo
     ? [
         "",
-        "VISUAL BEATS: provide 5–8 image_prompts, one per distinct visual moment of",
-        "the arc (hook, problem, scenario, proof, CTA). They will be shown as short",
-        "moving beats, so make them visually distinct from each other.",
+        "VISUAL BEATS: provide 5–8 image_prompts, one per beat of the MODE BEATS",
+        `above (${modeBeatArc}). They will be shown as short moving beats, so make`,
+        "them visually distinct from each other and escalate the tension / curiosity",
+        "toward the reveal. Do NOT default to a generic, interchangeable beat set.",
       ]
     : [];
+
+  // Multiplier Variants MVP-1 — a platform that must produce N>1 outputs this
+  // package emits N DISTINCT captions in caption_variants (one per output);
+  // platforms producing a single output keep the historical single-caption
+  // shape. variantCount falls back to 1 when no count is supplied.
+  const variantCount = (p: string): number => {
+    const n = input.variantCounts?.[p];
+    return typeof n === "number" && Number.isFinite(n) && n > 1 ? Math.trunc(n) : 1;
+  };
+  const platformsWithVariants = targetPlatforms.filter((p) => variantCount(p) > 1);
 
   // JSON shape, assembled so the video/image_prompts fields are present only
   // when a video is required (video packages keep the exact historical shape).
   const platformOutputsBlock = targetPlatforms
-    .map(
-      (p) =>
-        `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`,
-    )
+    .map((p) => {
+      const count = variantCount(p);
+      if (count > 1) {
+        const variantsArray = Array.from({ length: count }, () => `"string"`).join(
+          ", ",
+        );
+        return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string", "caption_variants": [${variantsArray}] }`;
+      }
+      return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`;
+    })
     .join(",\n");
+
+  // Instruction block describing how the caption_variants must differ. Only
+  // emitted when at least one platform needs multiple outputs, so single-output
+  // packages keep the historical prompt verbatim.
+  const variantsLines =
+    platformsWithVariants.length > 0
+      ? [
+          "",
+          "MULTIPLE OUTPUTS PER PLATFORM (distinct variants — same facts, same " +
+            "funnel stage, same CTA type):",
+          ...platformsWithVariants.map(
+            (p) =>
+              `- "${p}": provide EXACTLY ${variantCount(p)} captions in "caption_variants". ` +
+              `Set "caption" to the first one too.`,
+          ),
+          "- Each variant MUST be a genuinely different take: a different ANGLE, " +
+            "opening line and structure (e.g. question vs bold claim vs mini-story). " +
+            "Never reword the same sentence. Never produce near-duplicates.",
+          "- Keep every variant on-topic, truthful and within the platform's style.",
+        ]
+      : [];
   const jsonShape = [
     "{",
     `  "title": "string",`,
@@ -217,6 +372,8 @@ export function buildGenerateContentPackagePrompt(
     "",
     creativeDirective,
     "",
+    ...attentionFirstLines,
+    "",
     ...hookLines,
     ...visualBeatsLines,
     "",
@@ -231,9 +388,13 @@ export function buildGenerateContentPackagePrompt(
           .join("\n")
       : "(none)",
     "",
+    "",
+    buildPlatformStyleBlock(targetPlatforms),
+    "",
     "TASK: Produce ONE content package as JSON with this exact shape:",
     jsonShape,
     rulesLine,
     ...mixedNote,
+    ...variantsLines,
   ].join("\n");
 }

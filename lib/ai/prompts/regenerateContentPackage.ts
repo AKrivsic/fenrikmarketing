@@ -2,6 +2,7 @@ import {
   buildGenerateContentPackagePrompt,
   type GenerateContentPackagePromptInput,
 } from "@/lib/ai/prompts/generateContentPackage";
+import { buildRegenerateCreativeSeedSalt } from "@/lib/ai/prompts/creativeDirectives";
 import { FUNNEL_STAGE_LABELS } from "@/lib/ai/types";
 
 const REGENERATE_SYSTEM_INTRO =
@@ -37,8 +38,13 @@ export function buildRegenerateContentPackagePrompt(
   // Content Quality V3 — fold the previous title + feedback into the creative
   // seed so a regeneration deterministically lands on a DIFFERENT creative
   // directive (mode / hook archetype / voice persona) than the original
-  // package, which used no salt.
-  const creativeSeedSalt = `regen|${input.previousTitle}|${input.feedback ?? ""}`;
+  // package, which used no salt. (When the workflow injects `directives`, the
+  // base prompt uses those directly and this salt is moot — but kept identical
+  // so any non-injected caller still resolves the same directive.)
+  const creativeSeedSalt = buildRegenerateCreativeSeedSalt(
+    input.previousTitle,
+    input.feedback ?? null,
+  );
   const base = buildGenerateContentPackagePrompt({ ...input, creativeSeedSalt });
   return [
     base,

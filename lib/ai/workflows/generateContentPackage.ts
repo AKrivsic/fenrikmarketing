@@ -2,7 +2,16 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Json, PackageStatus } from "@/lib/supabase/types";
 import { getCopywritingProvider } from "@/lib/ai/index";
-import { normalizeFunnelStage, type PackagePlatform } from "@/lib/ai/types";
+import {
+  FUNNEL_STAGE_LABELS,
+  normalizeFunnelStage,
+  type PackagePlatform,
+} from "@/lib/ai/types";
+import {
+  buildCreativeSeed,
+  type CreativeDirectives,
+  pickCreativeDirectives,
+} from "@/lib/ai/prompts/creativeDirectives";
 import {
   parseContentControls,
   resolvePackagePlatforms,
@@ -119,6 +128,31 @@ export async function runGenerateContentPackage(
       );
   const requireVideo = videoPlatforms.length > 0;
 
+  // Multiplier Variants MVP-1 — how many outputs each platform must produce for
+  // THIS package (run + package index). When > 1 the prompt asks for that many
+  // distinct captions so fan-out persists real variants. Computed once here and
+  // reused by persistNewPackage (same inputs => identical counts).
+  const variantCounts =
+    runPlan && context.productionRunId
+      ? buildVariantCounts(
+          targetPlatforms,
+          videoPlatforms,
+          runPlan.multipliers,
+          context.packageIndex ?? 0,
+        )
+      : undefined;
+
+  // Attention First V1 — resolve the creative directive ONCE here (no salt for
+  // fresh generation) so the prompt, the storyboard role arc and the video job
+  // input all share the SAME mode. Pure + deterministic: no AI call.
+  const directives: CreativeDirectives = pickCreativeDirectives(
+    buildCreativeSeed(
+      FUNNEL_STAGE_LABELS[context.funnelStage],
+      context.topic,
+      context.angle,
+    ),
+  );
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -134,6 +168,8 @@ export async function runGenerateContentPackage(
       targetPlatforms,
       requireVideo,
       videoPlatforms,
+      variantCounts,
+      directives,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -181,9 +217,34 @@ export async function runGenerateContentPackage(
           productionRunId: context.productionRunId,
         }
       : null,
+    directives,
   );
 
   return { ok: true, data };
+}
+
+// Multiplier Variants MVP-1 — outputs each platform produces for THIS package
+// (run + package index). Mirrors the persist-time fan-out math so the prompt
+// asks for exactly as many distinct captions as will be persisted. Video
+// platforms are always 1 (single shared video); only text platforms with a
+// multiplier > 1 yield > 1 here.
+function buildVariantCounts(
+  targetPlatforms: readonly string[],
+  videoPlatforms: readonly string[],
+  multipliers: Record<string, number>,
+  packageIndex: number,
+): Record<string, number> {
+  const videoSet = new Set<string>(videoPlatforms);
+  const counts: Record<string, number> = {};
+  for (const platform of targetPlatforms) {
+    const kind = videoSet.has(platform) ? "video" : "text";
+    counts[platform] = outputsForPackageIndex(
+      kind,
+      multipliers[platform] ?? 1,
+      packageIndex,
+    );
+  }
+  return counts;
 }
 
 // Reads a production run's stored config and resolves it into the generation
@@ -298,6 +359,10 @@ async function persistNewPackage(
   // multipliers and every row is tagged with the run + package + variant index.
   // null = legacy behavior: exactly one content_item per platform.
   fanOut?: PackageFanOut | null,
+  // Attention First V1 — the resolved creative directive. Its mode's narrative
+  // beats are stamped onto the video job input so the worker's storyboard role
+  // arc follows the mode.
+  directives?: CreativeDirectives,
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -355,6 +420,19 @@ async function persistNewPackage(
             fanOut.packageIndex,
           )
         : 1;
+      // Multiplier Variants MVP-1 — distinct caption per output. The model
+      // returns caption_variants for fanned-out platforms; pick the variant for
+      // this index, falling back to the base caption when the model returned
+      // fewer variants than requested (so a row is never empty).
+      const variants = pkg.platform_outputs?.[item.platform]?.caption_variants;
+      const captionFor = (variantIndex: number): string => {
+        const candidate = Array.isArray(variants)
+          ? variants[variantIndex]
+          : undefined;
+        return typeof candidate === "string" && candidate.trim().length > 0
+          ? candidate.trim()
+          : item.caption;
+      };
       return Array.from({ length: count }, (_unused, variantIndex) => ({
         project_id: projectId,
         package_id: packageId,
@@ -363,7 +441,7 @@ async function persistNewPackage(
         status: "draft" as const,
         title: pkg.title,
         body: pkg.voiceover_text,
-        caption: item.caption,
+        caption: captionFor(variantIndex),
         hashtags: item.hashtags,
         cta: item.cta,
         generation_metadata: {
@@ -400,7 +478,17 @@ async function persistNewPackage(
     const videoItemId =
       inserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
       primaryItemId;
-    const videoInput = await buildVideoJobInput(supabase, projectId, pkg);
+    const videoInput = await buildVideoJobInput(
+      supabase,
+      projectId,
+      pkg,
+      directives
+        ? {
+            creative_mode: directives.mode.id,
+            creative_mode_beats: directives.mode.narrativeBeats,
+          }
+        : {},
+    );
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")
       .insert({

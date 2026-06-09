@@ -15,6 +15,13 @@ const platformOutputSchema = vObject({
   cta: vNonEmptyString(),
   hashtags: vOptional(vArray(vString())),
   format: vOptional(vString()),
+  // Content Quality Sprint (Multiplier Variants MVP-1) — when a production run
+  // sets a text platform's multiplier > 1, the model returns multiple DISTINCT
+  // captions here (one per output), so fan-out persists real variants (A/B/C)
+  // instead of duplicating one caption. Optional + backward compatible: a
+  // multiplier of 1 (or any non-run generation) simply omits it and `caption`
+  // is used as before.
+  caption_variants: vOptional(vArray(vString())),
 });
 
 // Builds a platform_outputs validator requiring an explicit output object for

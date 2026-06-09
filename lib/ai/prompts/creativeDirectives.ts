@@ -21,6 +21,13 @@ export interface CreativeMode {
   structure: string;
   // What this mode must NOT do (creative guardrail).
   avoid: string;
+  // Attention First V1 — the ORDERED narrative beats this mode runs on. This is
+  // the single source of truth for the video structure: it drives the prompt
+  // (voiceover + image_prompts follow these beats) AND the storyboard role arc.
+  // It deliberately replaces the old hardcoded marketing arc (hook -> problem ->
+  // scenario -> proof -> cta) so each mode tells its OWN kind of story. Every
+  // arc opens on a hook-style beat and ends on "cta".
+  narrativeBeats: string[];
 }
 
 export interface HookArchetype {
@@ -56,33 +63,38 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "standard",
     name: "Standard",
     description: "Clean, direct value delivery with a strong hook.",
-    structure: "Hook -> problem -> concrete solution beat -> proof -> CTA.",
-    avoid: "Do not be bland or list-like; still open on a concrete moment.",
+    structure:
+      "Hook on a concrete moment -> the one insight that matters -> show it in action -> proof -> CTA.",
+    avoid: "Do not be bland, list-like or templated; still open on a concrete moment.",
+    narrativeBeats: ["hook", "insight", "in_action", "proof", "cta"],
   },
   {
     id: "story",
     name: "Story",
     description: "A tiny narrative built around one real customer moment.",
     structure:
-      "Hook drops mid-scene -> stakes/tension -> turning point -> resolution -> CTA.",
+      "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
     avoid: "No abstract advice; keep it one situation, not a montage of tips.",
+    narrativeBeats: ["setup", "conflict", "twist", "resolution", "cta"],
   },
   {
     id: "shock",
     name: "Shock",
     description: "Opens on a surprising, relevant fact or consequence.",
     structure:
-      "Surprising true beat -> why it matters -> what to do instead -> CTA.",
+      "Unexpected true fact -> implication (why it matters) -> proof -> CTA.",
     avoid:
       "No shock that is irrelevant to the topic and no payoff the content cannot deliver.",
+    narrativeBeats: ["unexpected_fact", "implication", "proof", "cta"],
   },
   {
     id: "contrarian",
     name: "Contrarian",
     description: "Challenges a common belief the audience holds.",
     structure:
-      "State the common belief -> dismantle it with reasoning -> better take -> CTA.",
+      "Common belief -> why it is wrong (dismantle with reasoning) -> proof of the better take -> CTA.",
     avoid: "Attack the idea or habit, never a person or group.",
+    narrativeBeats: ["common_belief", "why_wrong", "proof", "cta"],
   },
   {
     id: "myth_buster",
@@ -90,15 +102,17 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     description: "Names a widespread myth and corrects it.",
     structure: "Myth -> why people believe it -> the reality -> CTA.",
     avoid: "Do not invent the myth; correct it with real, supportable facts only.",
+    narrativeBeats: ["myth", "why_believed", "reality", "cta"],
   },
   {
     id: "humor",
     name: "Humor",
     description: "Light, self-aware tone that entertains while informing.",
     structure:
-      "Playful hook -> relatable exaggeration of the problem -> real fix -> CTA.",
+      "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
     avoid:
       "Humor must not mock the customer or devalue the product; the fix stays serious.",
+    narrativeBeats: ["situation", "unexpected_turn", "punchline", "cta"],
   },
   {
     id: "mistake",
@@ -107,6 +121,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     structure:
       "Name the mistake -> why it backfires -> the correct approach -> CTA.",
     avoid: "Do not shame the viewer; frame the mistake as easy to fix.",
+    narrativeBeats: ["mistake", "why_backfires", "correct_approach", "cta"],
   },
   {
     id: "comparison",
@@ -116,14 +131,26 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
       "Option A vs option B -> trade-offs -> clear recommendation -> CTA.",
     avoid:
       "No unfair strawman and no untrue claims about either side.",
+    narrativeBeats: ["option_a", "option_b", "tradeoffs", "recommendation", "cta"],
   },
   {
     id: "micro_case",
     name: "Micro Case",
     description: "A compact before/after style mini case study.",
-    structure: "Starting situation -> what changed -> outcome -> CTA.",
+    structure: "Before (starting situation) -> what changed -> after (outcome) -> CTA.",
     avoid:
       "Use only outcomes supported by real proof; never fabricate metrics or results.",
+    narrativeBeats: ["before", "change", "after", "cta"],
+  },
+  {
+    id: "observation",
+    name: "Observation",
+    description: "Starts from a sharp, relatable observation and finds the meaning.",
+    structure:
+      "Specific observation -> what it really means -> the reveal -> CTA.",
+    avoid:
+      "Do not state the obvious; the reveal must reframe the observation, not restate it.",
+    narrativeBeats: ["observation", "meaning", "reveal", "cta"],
   },
 ];
 
@@ -257,6 +284,29 @@ function pickFrom<T>(items: readonly T[], seed: string): T {
   return items[hashString(seed) % items.length];
 }
 
+// Builds the deterministic creative SEED from the strategy item. Exported so the
+// generation workflows can derive the SAME directive the prompt uses and pass
+// the chosen mode's narrative beats down to the storyboard (Attention First V1).
+// `salt` is empty for fresh generation and a regeneration salt otherwise.
+export function buildCreativeSeed(
+  funnelLabel: string,
+  topic: string,
+  angle: string | null | undefined,
+  salt?: string | null,
+): string {
+  return [funnelLabel, topic, angle ?? "", salt ?? ""].join("|");
+}
+
+// The regeneration salt mixed into the seed so a regenerated package lands on a
+// DIFFERENT directive than the original (which uses an empty salt). Kept here so
+// the prompt and the workflow compute byte-identical seeds.
+export function buildRegenerateCreativeSeedSalt(
+  previousTitle: string,
+  feedback: string | null | undefined,
+): string {
+  return `regen|${previousTitle}|${feedback ?? ""}`;
+}
+
 // Deterministically selects one mode, hook archetype and voice persona from a
 // seed. The three dimensions are decorrelated with distinct suffixes so they
 // vary independently. Identical seeds always return identical directives;
@@ -280,6 +330,7 @@ export function buildCreativeDirectiveBlock(
   return [
     "CREATIVE DIRECTIVE (this piece only — shapes tone & structure, NEVER facts):",
     `- MODE: ${mode.name} — ${mode.description} STRUCTURE: ${mode.structure} NEVER: ${mode.avoid}`,
+    `- MODE BEATS (the ONLY structure to follow — NOT a hook/problem/scenario/proof/cta template): ${mode.narrativeBeats.join(" -> ")}`,
     `- HOOK ARCHETYPE: ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
     `- VOICE PERSONA: ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
     "CREATIVE SAFETY (these ALWAYS override the directive on any conflict):",

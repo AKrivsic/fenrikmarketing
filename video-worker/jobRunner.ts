@@ -80,6 +80,19 @@ interface AssetImageRef {
   title?: string;
 }
 
+// Attention First V1 — the creative mode's ordered narrative beats, stamped onto
+// the job input by the generation workflow. Used to drive the storyboard role
+// arc. Returns undefined when absent so the storyboard falls back to a neutral
+// arc (fully backward compatible with older queued jobs).
+function parseModeBeats(input: Record<string, unknown>): string[] | undefined {
+  const raw = input["creative_mode_beats"];
+  if (!Array.isArray(raw)) return undefined;
+  const beats = raw.filter(
+    (b): b is string => typeof b === "string" && b.trim().length > 0,
+  );
+  return beats.length > 0 ? beats : undefined;
+}
+
 function parseAssetImages(input: Record<string, unknown>): AssetImageRef[] {
   const raw = input["asset_images"];
   if (!Array.isArray(raw)) return [];
@@ -280,11 +293,19 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     for (const image of images) tempFiles.add(image.imagePath);
 
     // Video Quality V2 — build the beat timeline (8–15 short moving beats) from
-    // the narration + the still pool, seeded by the package hook.
+    // the narration + the still pool, seeded by the package hook. Content
+    // Quality Sprint (Video Sync): pass the REAL measured voiceover duration so
+    // the beat + subtitle timeline is audio-driven (audio = master clock), not a
+    // words-per-second estimate. When the probe failed, durationSeconds is
+    // undefined and the builder falls back to the legacy estimate.
     const storyboard = buildStoryboard({
       voiceoverText: spec.voiceover_text,
       sceneIds: spec.scenes.map((scene) => scene.id),
       hook: asString(payload.input["hook"]) ?? null,
+      audioDurationSeconds: voiceover.durationSeconds,
+      // Attention First V1 — the creative mode's narrative beats drive the role
+      // arc (story/shock/contrarian/... instead of a fixed marketing arc).
+      modeBeats: parseModeBeats(payload.input),
     });
 
     const { cues, totalSeconds } = buildSubtitleTimeline(

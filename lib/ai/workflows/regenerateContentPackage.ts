@@ -33,7 +33,13 @@ import {
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
-import { normalizeFunnelStage } from "@/lib/ai/types";
+import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
+import {
+  buildCreativeSeed,
+  buildRegenerateCreativeSeedSalt,
+  type CreativeDirectives,
+  pickCreativeDirectives,
+} from "@/lib/ai/prompts/creativeDirectives";
 
 export interface RegenerateContentPackageInput {
   projectId: string;
@@ -118,6 +124,21 @@ export async function runRegenerateContentPackage(
     items: existingItems,
   });
 
+  // Attention First V1 — resolve the creative directive ONCE here, with the
+  // regeneration salt so it lands on a DIFFERENT mode than the original. Shared
+  // by the prompt, the storyboard role arc and the video job input. No AI call.
+  const directives: CreativeDirectives = pickCreativeDirectives(
+    buildCreativeSeed(
+      FUNNEL_STAGE_LABELS[context.funnelStage],
+      context.topic,
+      context.angle,
+      buildRegenerateCreativeSeedSalt(
+        existing.title as string,
+        input.feedback ?? null,
+      ),
+    ),
+  );
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildRegeneratePackageSystem(requireVideo),
@@ -135,6 +156,7 @@ export async function runRegenerateContentPackage(
       targetPlatforms,
       requireVideo,
       videoPlatforms,
+      directives,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -210,6 +232,8 @@ export async function runRegenerateContentPackage(
       primaryItemId;
     const videoInput = await buildVideoJobInput(supabase, projectId, pkg, {
       regenerated: true,
+      creative_mode: directives.mode.id,
+      creative_mode_beats: directives.mode.narrativeBeats,
     });
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")

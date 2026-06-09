@@ -1,3 +1,4 @@
+import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -16,8 +17,65 @@ function workerTempDir(): string {
   return process.env.VIDEO_WORKER_TEMP_DIR ?? join(process.cwd(), ".video-worker-tmp");
 }
 
+function ffprobeBin(): string {
+  return process.env.FFPROBE_PATH ?? "ffprobe";
+}
+
+// Content Quality Sprint (Video Sync) — measures the real duration of a media
+// file so the storyboard can use AUDIO as the master timeline instead of a
+// words-per-second estimate. Best-effort: any failure (ffprobe missing, parse
+// error) resolves to undefined so the caller falls back to the heuristic and
+// the render is never blocked.
+export async function probeAudioDurationSeconds(
+  filePath: string,
+): Promise<number | undefined> {
+  return new Promise((resolve) => {
+    let stdout = "";
+    let settled = false;
+    const done = (value: number | undefined) => {
+      if (settled) return;
+      settled = true;
+      resolve(value);
+    };
+
+    let child;
+    try {
+      child = spawn(
+        ffprobeBin(),
+        [
+          "-v",
+          "error",
+          "-show_entries",
+          "format=duration",
+          "-of",
+          "default=noprint_wrappers=1:nokey=1",
+          filePath,
+        ],
+        { stdio: ["ignore", "pipe", "ignore"] },
+      );
+    } catch {
+      done(undefined);
+      return;
+    }
+
+    child.stdout.on("data", (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
+    child.on("error", () => done(undefined));
+    child.on("close", (code) => {
+      if (code !== 0) {
+        done(undefined);
+        return;
+      }
+      const parsed = Number.parseFloat(stdout.trim());
+      done(Number.isFinite(parsed) && parsed > 0 ? parsed : undefined);
+    });
+  });
+}
+
 // Synthesizes voiceover audio via the shared OpenAI Speech provider (no duplicate
-// TTS logic in the worker). Writes MP3 bytes to a temp file for downstream FFmpeg.
+// TTS logic in the worker). Writes MP3 bytes to a temp file for downstream FFmpeg
+// and probes the file's real duration so the timeline can be audio-driven.
 export async function generateVoiceover(
   input: GenerateVoiceoverInput,
 ): Promise<GenerateVoiceoverResult> {
@@ -34,5 +92,7 @@ export async function generateVoiceover(
   const audioPath = join(dir, `voiceover-${randomUUID()}.mp3`);
   await writeFile(audioPath, Buffer.from(result.audioBase64, "base64"));
 
-  return { audioPath };
+  const durationSeconds = await probeAudioDurationSeconds(audioPath);
+
+  return { audioPath, ...(durationSeconds ? { durationSeconds } : {}) };
 }

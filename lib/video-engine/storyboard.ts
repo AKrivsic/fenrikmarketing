@@ -1,22 +1,26 @@
 // Video Quality V2 — Storyboard builder.
 //
 // Turns a content package's narration + a small pool of stills into a richer
-// TIMELINE of short "beats" (8–15 of them, 2–5s each) following a marketing arc
-// (Hook -> Problem -> Scenario -> Proof -> CTA). Each beat carries a motion and
-// a light transition so the renderer can produce a moving video instead of "4
-// static images with a voice".
+// TIMELINE of short "beats" (8–15 of them, 2–5s each). Each beat carries a
+// motion and a light transition so the renderer can produce a moving video
+// instead of "4 static images with a voice".
+//
+// Attention First V1 — the beat ROLE arc is driven by the CREATIVE MODE
+// (storyboard.role labels mirror the mode's narrativeBeats, e.g. Story:
+// setup/conflict/twist/resolution/cta), NOT a hardcoded marketing arc
+// (hook/problem/scenario/proof/cta). The mode beats are passed in via
+// BuildStoryboardInput.modeBeats; when absent the arc is a neutral
+// hook -> body... -> cta with no marketing template baked in.
 //
 // Cost stays flat: beats REUSE the existing still pool (cycling through it with
 // different motion), so a few generated images become many distinct-feeling
 // beats. No AI provider is involved here — this is deterministic.
 
-export type BeatRole =
-  | "hook"
-  | "problem"
-  | "scenario"
-  | "proof"
-  | "cta"
-  | "body";
+// A beat's structural role. The first beat is the hook/opening, the last is the
+// CTA, and the middle carries the active mode beats (or "body" when unknown).
+// Kept as a plain string so any creative mode's beat labels are accepted; it is
+// metadata only (it does not change motion/transition/render).
+export type BeatRole = string;
 
 export type MotionType =
   | "zoom_in"
@@ -92,6 +96,18 @@ export interface BuildStoryboardInput {
   sceneIds: string[];
   // Strong opening line (Task 5). When present it seeds the hook beat.
   hook?: string | null;
+  // Attention First V1 — the CREATIVE MODE's ordered narrative beats (e.g.
+  // ["setup","conflict","twist","resolution","cta"]). When provided the beat
+  // role arc follows the mode instead of a hardcoded marketing arc. Omitted
+  // (undefined/empty) keeps a neutral hook -> body... -> cta arc.
+  modeBeats?: string[];
+  // Content Quality Sprint (Video Sync) — the REAL voiceover duration (seconds),
+  // measured from the rendered TTS file. When provided it becomes the master
+  // timeline: beat durations are derived so the on-screen beats + subtitles sum
+  // to exactly this length, instead of the WORDS_PER_SECOND estimate. Omitted
+  // (undefined) keeps the legacy estimate so the builder stays backward
+  // compatible when no audio measurement is available.
+  audioDurationSeconds?: number;
   profile?: VideoProfile;
 }
 
@@ -153,17 +169,40 @@ function toSegments(sentences: string[], count: number): string[] {
   return segments;
 }
 
-// Builds the role arc: first beat is the hook, last is the CTA, and
-// Problem/Scenario/Proof are placed in order across the middle (rest = body).
-function buildRoles(count: number): BeatRole[] {
-  const roles: BeatRole[] = Array.from({ length: count }, () => "body");
-  roles[0] = "hook";
-  roles[count - 1] = "cta";
-  const middle: BeatRole[] = ["problem", "scenario", "proof"];
-  for (let i = 0; i < middle.length && i + 1 < count - 1; i++) {
-    roles[i + 1] = middle[i];
+// Attention First V1 — builds the role arc from the CREATIVE MODE's beats.
+//
+// The mode beats (e.g. ["setup","conflict","twist","resolution","cta"]) are
+// spread evenly across the `count` storyboard beats so the role labels mirror
+// the story the narration actually tells. There is NO hardcoded marketing arc
+// (problem/scenario/proof) anymore.
+//
+// When no mode beats are supplied we fall back to a NEUTRAL arc: first beat is
+// the hook/opening, last is the CTA, and everything between is "body" — still no
+// marketing template baked in.
+function buildRoles(count: number, modeBeats?: string[]): BeatRole[] {
+  if (count <= 0) return [];
+
+  const beats = (modeBeats ?? [])
+    .map((b) => b.trim())
+    .filter((b) => b.length > 0);
+
+  if (beats.length === 0) {
+    const roles: BeatRole[] = Array.from({ length: count }, () => "body");
+    roles[0] = "hook";
+    if (count > 1) roles[count - 1] = "cta";
+    return roles;
   }
-  return roles;
+
+  // Map each storyboard beat onto a mode beat, stretching/compressing the arc to
+  // fit `count` so the order is always preserved (first mode beat first, last
+  // mode beat — typically the CTA — last).
+  return Array.from({ length: count }, (_unused, i) => {
+    const idx =
+      count === 1
+        ? 0
+        : Math.min(beats.length - 1, Math.floor((i * beats.length) / count));
+    return beats[idx];
+  });
 }
 
 // Light transition pattern: mostly fade, with an occasional slide/push for
@@ -181,13 +220,20 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
   const sceneIds =
     input.sceneIds.length > 0 ? input.sceneIds : ["scene-1"];
 
+  // Audio-master timeline: when the real TTS duration is known, it IS the
+  // target total (source of truth) — no words-per-second estimate, no
+  // min/max duration clamp, so the timeline never under/overshoots the voice.
+  // Otherwise fall back to the legacy words-per-second estimate (clamped).
+  const hasAudio =
+    typeof input.audioDurationSeconds === "number" &&
+    Number.isFinite(input.audioDurationSeconds) &&
+    input.audioDurationSeconds > 0;
+
   const wordCount = input.voiceoverText.trim().split(/\s+/).filter(Boolean).length;
   const estimatedSpeech = wordCount / WORDS_PER_SECOND;
-  const targetTotal = clamp(
-    estimatedSpeech,
-    profile.minDurationSeconds,
-    profile.maxDurationSeconds,
-  );
+  const targetTotal = hasAudio
+    ? (input.audioDurationSeconds as number)
+    : clamp(estimatedSpeech, profile.minDurationSeconds, profile.maxDurationSeconds);
 
   // Beat count: ~3s per beat on average, clamped to the profile range.
   const numBeats = clamp(
@@ -198,17 +244,18 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
 
   // On-screen durations sum to targetTotal + overlap, because each transition
   // overlaps the previous beat by transitionSeconds (xfade), so the audible
-  // narration is not cut short.
+  // narration is not cut short. With a measured audio duration we do NOT clamp
+  // perBeat to the profile's beat range: clamping would make the beat sum
+  // diverge from the audio and re-introduce the very drift this fix removes.
   const overlap = (numBeats - 1) * profile.transitionSeconds;
-  const perBeat = clamp(
-    (targetTotal + overlap) / numBeats,
-    profile.minBeatSeconds,
-    profile.maxBeatSeconds,
-  );
+  const rawPerBeat = (targetTotal + overlap) / numBeats;
+  const perBeat = hasAudio
+    ? rawPerBeat
+    : clamp(rawPerBeat, profile.minBeatSeconds, profile.maxBeatSeconds);
 
   const sentences = splitSentences(input.voiceoverText);
   const segments = toSegments(sentences, numBeats);
-  const roles = buildRoles(numBeats);
+  const roles = buildRoles(numBeats, input.modeBeats);
 
   // Task 5 — seed the hook beat with the strong opening line when provided and
   // it is not already what the narration starts with.
