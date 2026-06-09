@@ -10,6 +10,7 @@ import type { AntiRepetitionMemory } from "@/lib/ai/types";
 import {
   intensityLabel,
   projectContentControls,
+  summarizePlatformTargets,
 } from "@/lib/projects/contentControls";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import { PLATFORM_OPTIONS } from "@/lib/projects/fieldOptions";
@@ -154,16 +155,46 @@ function allowedPlatforms(project: Project): string[] {
 
 // Content volume + funnel-mix guidance derived from the project's Content
 // Controls (stored in publishing_rules). Falls back to safe defaults.
+//
+// Platform Targets V2: when the project has per-platform weekly targets, those
+// drive the volume guidance (total + per-platform counts with content type).
+// These are TARGETS the planner should TRY to match — not a hard guarantee —
+// so the wording stays explicitly soft.
 function controlsBlock(project: Project): string {
   const controls = projectContentControls(project);
   const platforms = allowedPlatforms(project);
   const mix = controls.funnelMix;
-  return [
-    "CONTENT CONTROLS (respect these project settings):",
-    `- VOLUME: plan about ${controls.postsPerWeek} content_plan items this week (intensity: ${intensityLabel(controls.postsPerWeek)}).`,
+  const targets = summarizePlatformTargets(controls, project.platforms);
+
+  const lines = ["CONTENT CONTROLS (respect these project settings):"];
+
+  if (targets.activeEntries.length > 0 && targets.totalOutputs > 0) {
+    lines.push(
+      `- VOLUME (PLATFORM TARGETS): aim for about ${targets.totalOutputs} content_plan items this week in total ` +
+        `(${targets.videoOutputs} video + ${targets.textOutputs} text). These are TARGETS — try to match them; an exact count is NOT required.`,
+    );
+    lines.push("- PER-PLATFORM WEEKLY TARGETS (platform → target count, content type):");
+    for (const entry of targets.activeEntries) {
+      lines.push(
+        `  - ${entry.platform}: ${entry.target} ${
+          entry.contentType === "video" ? "video" : "text"
+        } item(s)`,
+      );
+    }
+    lines.push(
+      "- Distribute content_plan items so each platform's item count roughly matches its target (more items for higher targets). Every item's platform MUST be one of the active platforms below.",
+    );
+  } else {
+    lines.push(
+      `- VOLUME: plan about ${controls.postsPerWeek} content_plan items this week (intensity: ${intensityLabel(controls.postsPerWeek)}).`,
+    );
+  }
+
+  lines.push(
     `- PLATFORMS: use ONLY these platforms for every content_plan item: ${platforms.join(", ")}.`,
     `- TARGET FUNNEL MIX (approximate %): Awareness ${mix.awareness}, Problem Aware ${mix.problem_aware}, Solution Aware ${mix.solution_aware}, Conversion ${mix.conversion}.`,
-  ].join("\n");
+  );
+  return lines.join("\n");
 }
 
 export function buildWeeklyStrategyPrompt(
@@ -178,6 +209,12 @@ export function buildWeeklyStrategyPrompt(
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
   const platforms = allowedPlatforms(project);
+  const controls = projectContentControls(project);
+  const targets = summarizePlatformTargets(controls, project.platforms);
+  const volumeRule =
+    targets.activeEntries.length > 0 && targets.totalOutputs > 0
+      ? `Aim for about ${targets.totalOutputs} content_plan items distributed across platforms to roughly match the per-platform targets above (this is a TARGET; exact match not required).`
+      : `Aim for about ${controls.postsPerWeek} content_plan items.`;
 
   return [
     projectBrainBlock(project),
@@ -220,8 +257,7 @@ export function buildWeeklyStrategyPrompt(
   ]
 }`,
     "Rules: funnel_distribution must not be Conversion-only. Use ONLY the " +
-      `allowed platforms (${platforms.join(", ")}). Aim for about ` +
-      `${projectContentControls(project).postsPerWeek} content_plan items. ` +
+      `allowed platforms (${platforms.join(", ")}). ${volumeRule} ` +
       "Every content_plan item must set exactly one of trend_id or " +
       "evergreen_topic_id using only IDs from the lists above.",
   ].join("\n");

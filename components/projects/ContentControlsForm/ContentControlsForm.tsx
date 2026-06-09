@@ -10,10 +10,14 @@ import {
   CONTENT_TYPE_PLATFORMS,
   CONTENT_TYPE_PLATFORM_LABELS,
   FUNNEL_MIX_PRESET_OPTIONS,
+  PLATFORM_TARGET_MAX,
+  PLATFORM_TARGET_MIN,
   POSTS_PER_WEEK_MAX,
   POSTS_PER_WEEK_MIN,
   WEEKDAY_OPTIONS,
   funnelMixForPreset,
+  isSupportedContentTypePlatform,
+  resolvePlatformTargets,
   type ContentControls,
   type ContentTypePlatform,
   type FunnelMix,
@@ -68,6 +72,15 @@ export function ContentControlsForm({
   const [platformContentTypes, setPlatformContentTypes] = useState<
     Record<ContentTypePlatform, PlatformContentType>
   >(controls.platformContentTypes);
+  const [platformTargets, setPlatformTargets] = useState<
+    Record<ContentTypePlatform, number>
+  >(() => {
+    const initial = {} as Record<ContentTypePlatform, number>;
+    for (const entry of resolvePlatformTargets(controls, platforms)) {
+      initial[entry.platform] = entry.target;
+    }
+    return initial;
+  });
 
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -113,6 +126,13 @@ export function ContentControlsForm({
     setPlatformContentTypes((prev) => ({ ...prev, [platform]: value }));
   }
 
+  function setPlatformTarget(platform: ContentTypePlatform, value: number) {
+    setPlatformTargets((prev) => ({
+      ...prev,
+      [platform]: Number.isFinite(value) ? value : 0,
+    }));
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -130,6 +150,7 @@ export function ContentControlsForm({
       funnelMixPreset: preset,
       funnelMix,
       platformContentTypes,
+      platformTargets,
     };
 
     startTransition(async () => {
@@ -218,12 +239,69 @@ export function ContentControlsForm({
         </div>
       </section>
 
-      {/* B) Volume */}
+      {/* B) Volume — per-platform weekly targets (Platform Targets V2) */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Volume</h2>
+        <h2 className={styles.sectionTitle}>Volume — weekly targets per platform</h2>
+        <p className={styles.help}>
+          Zadejte cílový počet výstupů za týden pro každou aktivní platformu. Typ
+          se přebírá z „Platform Content Type“. <strong>Target</strong> — AI se
+          pokusí tento objem naplnit; přesné číslo není garantováno a workflow
+          může generovat postupně.
+        </p>
+        <table className={styles.targetTable}>
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Type</th>
+              <th>Weekly target</th>
+            </tr>
+          </thead>
+          <tbody>
+            {CONTENT_TYPE_PLATFORMS.map((platform) => {
+              const supported = isSupportedContentTypePlatform(platform);
+              const active = supported && selectedPlatforms.includes(platform);
+              const type = platformContentTypes[platform];
+              return (
+                <tr key={platform} data-disabled={!active}>
+                  <td>{CONTENT_TYPE_PLATFORM_LABELS[platform]}</td>
+                  <td>{type === "video" ? "Video" : "Text Only"}</td>
+                  <td>
+                    {!supported ? (
+                      <span className={styles.targetNote}>
+                        Not supported yet (no DB platform). TODO.
+                      </span>
+                    ) : !active ? (
+                      <span className={styles.targetNote}>
+                        Enable platform above to set a target.
+                      </span>
+                    ) : (
+                      <input
+                        className={styles.targetInput}
+                        type="number"
+                        min={PLATFORM_TARGET_MIN}
+                        max={PLATFORM_TARGET_MAX}
+                        value={platformTargets[platform] ?? 0}
+                        onChange={(e) =>
+                          setPlatformTarget(platform, Number(e.target.value))
+                        }
+                        disabled={isPending}
+                      />
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {fieldErrors.platformTargets ? (
+          <span className={styles.fieldError}>
+            {fieldErrors.platformTargets}
+          </span>
+        ) : null}
+
         <div className={styles.row}>
           <label className={styles.field}>
-            <span className={styles.label}>Posts per week</span>
+            <span className={styles.label}>Posts per week (fallback)</span>
             <input
               className={styles.input}
               type="number"
@@ -233,6 +311,10 @@ export function ContentControlsForm({
               onChange={(e) => setPostsPerWeek(Number(e.target.value))}
               disabled={isPending}
             />
+            <span className={styles.help}>
+              Ponecháno kvůli kompatibilitě a jako fallback. Řízení objemu
+              preferuje targety výše.
+            </span>
             {fieldErrors.postsPerWeek ? (
               <span className={styles.fieldError}>
                 {fieldErrors.postsPerWeek}

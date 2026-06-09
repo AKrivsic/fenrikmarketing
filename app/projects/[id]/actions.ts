@@ -23,7 +23,12 @@ import {
   serializeContentControls,
   validateContentControls,
 } from "@/lib/projects/contentControls";
-import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
+import {
+  AUTOMATION_WORKFLOWS,
+  N8nConfigError,
+  N8nRequestError,
+  sendN8nWebhook,
+} from "@/lib/n8n/client";
 import type {
   GoalType,
   Json,
@@ -54,8 +59,24 @@ export interface ProjectBrainFormValues {
 }
 
 export type ActionResult =
-  | { ok: true }
-  | { ok: false; error: string; fieldErrors?: Record<string, string> };
+  | { ok: true; code?: WorkflowResultCode }
+  | {
+      ok: false;
+      error: string;
+      fieldErrors?: Record<string, string>;
+      code?: WorkflowResultCode;
+    };
+
+// Machine-readable outcome of a workflow trigger, so the UI can render an exact
+// message (and never just a generic failure). "accepted" is the success code.
+export type WorkflowResultCode =
+  | "accepted"
+  | "not_configured"
+  | "workflow_not_found"
+  | "secret_mismatch"
+  | "workflow_error"
+  | "network_error"
+  | "unknown_error";
 
 // Splits a textarea into a string[] — one item per non-empty trimmed line.
 function parseLines(raw: string): string[] {
@@ -197,6 +218,9 @@ export interface ContentControlsFormValues {
   // P3 — per-platform content type. Partial/loose map from the form; sanitized
   // against CONTENT_TYPE_PLATFORMS + defaults below.
   platformContentTypes: Record<string, string>;
+  // Platform Targets V2 — per-platform weekly output target. Loose map from the
+  // form; sanitized to active platforms + clamped below.
+  platformTargets: Record<string, number>;
 }
 
 // Sanitizes the loose form map into a complete, valid platform content type
@@ -211,6 +235,25 @@ function sanitizePlatformContentTypes(
     const value = raw[platform];
     if (isPlatformContentType(value)) {
       result[platform] = value;
+    }
+  }
+  return result;
+}
+
+// Sanitizes the loose form target map into a clean map keyed by ACTIVE
+// content-type platforms only. Inactive/unsupported platforms (incl. "x") are
+// dropped so they are never persisted as targets. Values clamped to 0–100.
+function sanitizePlatformTargets(
+  raw: Record<string, number> | undefined,
+  platforms: PlatformType[],
+): Record<ContentTypePlatform, number> {
+  const result = {} as Record<ContentTypePlatform, number>;
+  const activeSet = new Set(platforms as string[]);
+  for (const platform of CONTENT_TYPE_PLATFORMS) {
+    if (!activeSet.has(platform)) continue;
+    const value = raw?.[platform];
+    if (typeof value === "number" && Number.isFinite(value)) {
+      result[platform] = Math.min(100, Math.max(0, Math.trunc(value)));
     }
   }
   return result;
@@ -280,6 +323,7 @@ export async function updateContentControls(
     platformContentTypes: sanitizePlatformContentTypes(
       values.platformContentTypes ?? {},
     ),
+    platformTargets: sanitizePlatformTargets(values.platformTargets, platforms),
   };
 
   const validation = validateContentControls(controls, platforms);
@@ -331,22 +375,88 @@ function currentWeekStart(): string {
   return monday.toISOString().slice(0, 10);
 }
 
+// Maps a thrown n8n error to a precise, user-facing result. We never collapse
+// every failure into one generic string — the user must be able to tell a
+// missing-config from a 404 from a network error.
+function classifyWorkflowError(
+  workflow: string,
+  err: unknown,
+): { ok: false; error: string; code: WorkflowResultCode } {
+  if (err instanceof N8nConfigError) {
+    return {
+      ok: false,
+      code: "not_configured",
+      error: "n8n není nakonfigurováno (chybí N8N_BASE_URL / N8N_WEBHOOK_SECRET).",
+    };
+  }
+
+  if (err instanceof N8nRequestError) {
+    const status = err.status;
+    if (status === undefined) {
+      return {
+        ok: false,
+        code: "network_error",
+        error: "Síťová chyba: n8n nelze kontaktovat.",
+      };
+    }
+    if (status === 404) {
+      return {
+        ok: false,
+        code: "workflow_not_found",
+        error:
+          "n8n workflow není aktivní (404). Aktivujte workflow v n8n (production webhook).",
+      };
+    }
+    if (status === 401 || status === 403) {
+      return {
+        ok: false,
+        code: "secret_mismatch",
+        error: "n8n odmítl požadavek (neplatný secret – 401/403).",
+      };
+    }
+    return {
+      ok: false,
+      code: "workflow_error",
+      error: `n8n vrátil chybu (status ${status}).`,
+    };
+  }
+
+  // Defensive: anything we did not anticipate. Surface it, do not hide it.
+  const detail = err instanceof Error ? err.message : String(err);
+  console.error(`[actions] workflow=${workflow} unexpected_error: ${detail}`);
+  return {
+    ok: false,
+    code: "unknown_error",
+    error: "Neočekávaná chyba při spuštění workflow.",
+  };
+}
+
 async function triggerWorkflow(
   projectId: string,
   workflow: (typeof AUTOMATION_WORKFLOWS)[keyof typeof AUTOMATION_WORKFLOWS],
   payload?: Record<string, unknown>,
 ): Promise<ActionResult> {
-  if (!projectId) return { ok: false, error: "Chybí identifikátor projektu." };
+  if (!projectId)
+    return {
+      ok: false,
+      code: "unknown_error",
+      error: "Chybí identifikátor projektu.",
+    };
 
   const project = await getProjectForAdmin(projectId);
-  if (!project) return { ok: false, error: "Projekt nenalezen." };
+  if (!project)
+    return {
+      ok: false,
+      code: "unknown_error",
+      error: "Projekt nenalezen.",
+    };
 
   try {
     await sendN8nWebhook({ workflow, projectId, payload });
     revalidatePath(`/projects/${projectId}/actions`);
-    return { ok: true };
-  } catch {
-    return { ok: false, error: "Spuštění workflow se nezdařilo." };
+    return { ok: true, code: "accepted" };
+  } catch (err) {
+    return classifyWorkflowError(workflow, err);
   }
 }
 

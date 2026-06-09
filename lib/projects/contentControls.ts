@@ -9,6 +9,7 @@ import {
   type FunnelStage,
   type PackagePlatform,
 } from "@/lib/ai/types";
+import { PLATFORM_OPTIONS } from "@/lib/projects/fieldOptions";
 
 // ---------------------------------------------------------------------------
 // Project Content Control Center — settings model.
@@ -74,6 +75,26 @@ export const DEFAULT_PLATFORM_CONTENT_TYPES: Record<
   x: "text_only",
 };
 
+// True when a content-type platform is also a real DB platform_type enum value
+// (i.e. it can live in projects.platforms and content_items). "x" is the only
+// content-type platform that is NOT a DB enum yet, so it is never supported.
+export function isSupportedContentTypePlatform(
+  platform: ContentTypePlatform,
+): boolean {
+  return (PLATFORM_OPTIONS as string[]).includes(platform);
+}
+
+// Platform Targets V2 — per-platform weekly output volume. Stored under
+// publishing_rules.platform_targets as { tiktok: 21, instagram: 21, ... }.
+// Only ACTIVE platforms (in projects.platforms) may hold a target > 0; inactive
+// platforms are dropped on save. This replaces the coarse posts_per_week as the
+// primary volume control (posts_per_week is kept for backwards compatibility
+// and as the fallback when no targets are stored yet).
+export type PlatformTargets = Partial<Record<ContentTypePlatform, number>>;
+
+export const PLATFORM_TARGET_MIN = 0;
+export const PLATFORM_TARGET_MAX = 100;
+
 // Funnel distribution percentages keyed by canonical funnel stage. Values are
 // whole percentages that should sum to ~100.
 export type FunnelMix = Record<FunnelStage, number>;
@@ -96,6 +117,10 @@ export interface ContentControls {
   // Per-platform content type (P3). Always a complete map (missing keys fall
   // back to DEFAULT_PLATFORM_CONTENT_TYPES on read).
   platformContentTypes: Record<ContentTypePlatform, PlatformContentType>;
+  // Per-platform weekly output target (Platform Targets V2). Sparse map: only
+  // platforms with a stored value appear. Empty means "no targets stored yet"
+  // → callers fall back to posts_per_week per active platform.
+  platformTargets: PlatformTargets;
 }
 
 // Built-in funnel mix presets. Conversion-light intentionally keeps a balanced
@@ -166,6 +191,9 @@ export const DEFAULT_CONTENT_CONTROLS: ContentControls = {
   funnelMixPreset: "balanced",
   funnelMix: { ...FUNNEL_MIX_PRESETS.balanced },
   platformContentTypes: { ...DEFAULT_PLATFORM_CONTENT_TYPES },
+  // Empty by default — resolvePlatformTargets derives a safe fallback from
+  // posts_per_week for active platforms until the user sets explicit targets.
+  platformTargets: {},
 };
 
 const HHMM_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
@@ -258,6 +286,8 @@ export function parseContentControls(
     rules["platform_content_types"],
   );
 
+  const platformTargets = readPlatformTargets(rules["platform_targets"]);
+
   return {
     postsPerWeek,
     videosPerWeek,
@@ -266,6 +296,7 @@ export function parseContentControls(
     funnelMixPreset,
     funnelMix,
     platformContentTypes,
+    platformTargets,
   };
 }
 
@@ -290,11 +321,33 @@ export function serializeContentControls(
   } else {
     delete next.funnel_mix;
   }
-  // P3 — persist the per-platform content type map. TODO(pipeline): the
-  // generation workflows (weekly strategy / content package / video jobs) do
-  // not yet read platform_content_types; this is settings + persistence only.
+  // P3 — persist the per-platform content type map. The runtime (content
+  // package generation / video jobs) reads platform_content_types to decide
+  // whether a package requires video.
   next.platform_content_types = { ...controls.platformContentTypes };
+  // Platform Targets V2 — persist the per-platform weekly output target. The
+  // caller passes only ACTIVE platforms here (inactive ones are dropped before
+  // save), so this map never carries targets for unselected platforms.
+  next.platform_targets = { ...controls.platformTargets };
   return next as Json;
+}
+
+// Parses publishing_rules.platform_targets into a sparse map. Unknown platforms
+// are ignored; values are clamped to [PLATFORM_TARGET_MIN, PLATFORM_TARGET_MAX].
+// A missing/invalid object yields {} (→ fallback handled by resolve).
+function readPlatformTargets(value: unknown): PlatformTargets {
+  const result: PlatformTargets = {};
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return result;
+  }
+  const record = value as Record<string, unknown>;
+  for (const platform of CONTENT_TYPE_PLATFORMS) {
+    const n = readInt(record[platform]);
+    if (n !== null) {
+      result[platform] = clamp(n, PLATFORM_TARGET_MIN, PLATFORM_TARGET_MAX);
+    }
+  }
+  return result;
 }
 
 // Parses publishing_rules.platform_content_types into a complete map. Unknown
@@ -366,6 +419,37 @@ export function validateContentControls(
     fieldErrors.publishingWeekdays = "Select at least one publishing day.";
   }
 
+  // Platform Targets V2. Each stored target must be 0–100 and only an ACTIVE
+  // platform may have a target > 0. When at least one content-type platform is
+  // active, at least one of them must have a target > 0 (otherwise nothing
+  // would be generated). Projects whose active platforms are all non-content-
+  // type (e.g. youtube/blog only) are exempt and keep using posts_per_week.
+  const activePlatformSet = new Set(platforms as string[]);
+  const activeContentTypePlatforms = CONTENT_TYPE_PLATFORMS.filter((p) =>
+    activePlatformSet.has(p),
+  );
+  let anyPositiveTarget = false;
+  for (const platform of CONTENT_TYPE_PLATFORMS) {
+    const target = controls.platformTargets[platform];
+    if (target === undefined) continue;
+    if (
+      !Number.isInteger(target) ||
+      target < PLATFORM_TARGET_MIN ||
+      target > PLATFORM_TARGET_MAX
+    ) {
+      fieldErrors.platformTargets = `Weekly target must be ${PLATFORM_TARGET_MIN}–${PLATFORM_TARGET_MAX} per platform.`;
+    }
+    if (target > 0 && !activePlatformSet.has(platform)) {
+      fieldErrors.platformTargets =
+        "Only active platforms can have a weekly target > 0.";
+    }
+    if (target > 0) anyPositiveTarget = true;
+  }
+  if (activeContentTypePlatforms.length > 0 && !anyPositiveTarget) {
+    fieldErrors.platformTargets =
+      "At least one active platform must have a weekly target > 0.";
+  }
+
   // Funnel mix must never be conversion-only.
   const mix = controls.funnelMix;
   const total =
@@ -400,6 +484,94 @@ export function resolvePackagePlatforms(
 }
 
 // ---------------------------------------------------------------------------
+// Platform Targets V2 — resolution + summary.
+// ---------------------------------------------------------------------------
+
+export interface PlatformTargetEntry {
+  platform: ContentTypePlatform;
+  label: string;
+  // Weekly output target. 0 for inactive/unsupported platforms.
+  target: number;
+  contentType: PlatformContentType;
+  // In the DB platform_type enum (false for "x").
+  isSupported: boolean;
+  // Selected in projects.platforms (always false for unsupported platforms).
+  isActive: boolean;
+}
+
+// Resolves the effective weekly target for EVERY content-type platform (so the
+// UI can render all rows, disabling inactive/unsupported ones). For active
+// platforms: the stored target when present; otherwise — only when NO targets
+// are stored at all (legacy project) — a safe fallback of posts_per_week per
+// active platform. Inactive/unsupported platforms always resolve to 0.
+export function resolvePlatformTargets(
+  controls: ContentControls,
+  platforms: PlatformType[],
+): PlatformTargetEntry[] {
+  const activeSet = new Set(platforms as string[]);
+  const hasAnyStored = CONTENT_TYPE_PLATFORMS.some(
+    (p) => controls.platformTargets[p] !== undefined,
+  );
+
+  return CONTENT_TYPE_PLATFORMS.map((platform) => {
+    const isSupported = isSupportedContentTypePlatform(platform);
+    const isActive = isSupported && activeSet.has(platform);
+    const stored = controls.platformTargets[platform];
+
+    let target = 0;
+    if (isActive) {
+      if (stored !== undefined) target = stored;
+      else if (!hasAnyStored) target = controls.postsPerWeek; // legacy fallback
+    }
+
+    return {
+      platform,
+      label: CONTENT_TYPE_PLATFORM_LABELS[platform],
+      target,
+      contentType:
+        controls.platformContentTypes[platform] ??
+        DEFAULT_PLATFORM_CONTENT_TYPES[platform],
+      isSupported,
+      isActive,
+    };
+  });
+}
+
+export interface PlatformTargetsSummary {
+  // All content-type platforms (active + inactive), for full UI rendering.
+  entries: PlatformTargetEntry[];
+  // Active platforms only.
+  activeEntries: PlatformTargetEntry[];
+  totalOutputs: number;
+  videoOutputs: number;
+  textOutputs: number;
+}
+
+// Aggregates resolved targets into weekly output totals (overall + video/text).
+export function summarizePlatformTargets(
+  controls: ContentControls,
+  platforms: PlatformType[],
+): PlatformTargetsSummary {
+  const entries = resolvePlatformTargets(controls, platforms);
+  const activeEntries = entries.filter((entry) => entry.isActive);
+
+  let videoOutputs = 0;
+  let textOutputs = 0;
+  for (const entry of activeEntries) {
+    if (entry.contentType === "video") videoOutputs += entry.target;
+    else textOutputs += entry.target;
+  }
+
+  return {
+    entries,
+    activeEntries,
+    totalOutputs: videoOutputs + textOutputs,
+    videoOutputs,
+    textOutputs,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Current Generation Plan (P2) — a read-only, derived preview of what the
 // system will produce for one weekly cycle, given the saved controls. This is
 // an ESTIMATE: actual counts depend on AI output. No generation happens here.
@@ -426,6 +598,13 @@ export interface GenerationPlan {
   // "every_package" mirrors expectedPackages; otherwise the fixed weekly count.
   expectedVideos: number;
   videosMode: VideosPerWeek;
+  // Platform Targets V2 — per active platform weekly output target, plus the
+  // aggregated totals. These are the PRIMARY volume figures going forward; they
+  // are targets the AI will TRY to match, not hard guarantees.
+  platformTargets: PlatformTargetEntry[];
+  totalOutputs: number;
+  videoOutputs: number;
+  textOutputs: number;
   // Always true — the figures are realistic estimates, not guarantees.
   isEstimate: boolean;
 }
@@ -462,6 +641,8 @@ export function computeGenerationPlan(
       ? expectedPackages
       : controls.videosPerWeek;
 
+  const targetsSummary = summarizePlatformTargets(controls, platforms);
+
   return {
     packagePlatforms,
     postsPerWeek: controls.postsPerWeek,
@@ -472,6 +653,10 @@ export function computeGenerationPlan(
     perPlatformOutputs,
     expectedVideos,
     videosMode: controls.videosPerWeek,
+    platformTargets: targetsSummary.activeEntries,
+    totalOutputs: targetsSummary.totalOutputs,
+    videoOutputs: targetsSummary.videoOutputs,
+    textOutputs: targetsSummary.textOutputs,
     isEstimate: true,
   };
 }

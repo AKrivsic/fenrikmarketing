@@ -29,10 +29,21 @@ export class N8nConfigError extends Error {
 }
 
 // Network failure or non-2xx response from n8n -> mapped to HTTP 500.
+// status is set for a non-2xx HTTP response (undefined for a transport/network
+// failure). bodySnippet carries a truncated copy of the n8n response body so
+// callers/logs can show the exact reason (e.g. n8n's "webhook not registered").
 export class N8nRequestError extends Error {
-  constructor(message: string) {
+  readonly status?: number;
+  readonly bodySnippet?: string;
+
+  constructor(
+    message: string,
+    options?: { status?: number; bodySnippet?: string },
+  ) {
     super(message);
     this.name = "N8nRequestError";
+    this.status = options?.status;
+    this.bodySnippet = options?.bodySnippet;
   }
 }
 
@@ -50,13 +61,31 @@ export interface SendN8nWebhookArgs {
   payload?: Record<string, unknown>;
 }
 
+// Reduces a URL to origin + pathname (no query / hash) so logging can never
+// leak a secret that some setups put in a query string. Our secret travels in
+// the x-n8n-secret header, never the URL.
+function safeEndpoint(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl);
+    return `${url.origin}${url.pathname}`;
+  } catch {
+    return "(invalid N8N_BASE_URL)";
+  }
+}
+
 export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
   const baseUrl = process.env.N8N_BASE_URL;
   const secret = process.env.N8N_WEBHOOK_SECRET;
   if (!baseUrl || !secret) {
+    // Logged so the missing-config case is visible in server logs. No secret
+    // value is printed (there is none to print).
+    console.error(
+      `[n8n] workflow=${args.workflow} not configured: missing ${!baseUrl ? "N8N_BASE_URL" : ""}${!baseUrl && !secret ? " + " : ""}${!secret ? "N8N_WEBHOOK_SECRET" : ""}`,
+    );
     throw new N8nConfigError("Missing N8N_BASE_URL or N8N_WEBHOOK_SECRET");
   }
 
+  const endpoint = safeEndpoint(baseUrl);
   const envelope: N8nWebhookEnvelope = {
     workflow: args.workflow,
     project_id: args.projectId,
@@ -84,10 +113,34 @@ export async function sendN8nWebhook(args: SendN8nWebhookArgs): Promise<void> {
     );
   } catch (err) {
     const detail = err instanceof Error ? err.message : "network error";
+    // Transport-level failure (timeout / DNS / connection). No HTTP status.
+    console.error(
+      `[n8n] workflow=${args.workflow} endpoint=${endpoint} transport_error: ${detail}`,
+    );
     throw new N8nRequestError(`n8n webhook request failed: ${detail}`);
   }
 
   if (!response.ok) {
-    throw new N8nRequestError(`n8n webhook returned status ${response.status}`);
+    // Capture a truncated body so the exact n8n reason (e.g. "webhook not
+    // registered" / auth message) is visible without leaking secrets — the
+    // response body never contains our outbound secret.
+    let bodySnippet = "";
+    try {
+      bodySnippet = (await response.text()).slice(0, 500);
+    } catch {
+      bodySnippet = "(no body)";
+    }
+    console.error(
+      `[n8n] workflow=${args.workflow} endpoint=${endpoint} status=${response.status} body=${bodySnippet}`,
+    );
+    throw new N8nRequestError(
+      `n8n webhook returned status ${response.status}`,
+      { status: response.status, bodySnippet },
+    );
   }
+
+  // Success path — concise, secret-free confirmation for observability.
+  console.info(
+    `[n8n] workflow=${args.workflow} endpoint=${endpoint} status=${response.status} accepted`,
+  );
 }

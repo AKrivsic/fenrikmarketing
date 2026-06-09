@@ -1,31 +1,162 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-}
-
-.card {
+.workflow {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.1rem;
+  gap: 1.5rem;
+}
+
+/* ---- Primary card ------------------------------------------------------- */
+
+.primaryCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle, var(--color-bg));
+}
+
+.primaryHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primaryTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.weekLabel {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.primaryButton {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.primaryButton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.primaryHint {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem 1.25rem;
+  margin: 0.4rem 0 0;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.summaryItem dt {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.summaryItem dd {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+/* ---- Guided steps ------------------------------------------------------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step {
+  display: flex;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-bg);
 }
 
-.head {
+.stepIndex {
+  flex: 0 0 auto;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+}
+
+.stepHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
 }
 
-.title {
+.stepTitle {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-text);
 }
+
+.stepExplanation {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.stepFooter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+/* ---- Shared bits -------------------------------------------------------- */
 
 .badge {
   padding: 0.1rem 0.45rem;
@@ -53,21 +184,6 @@
   border-color: #b42318;
 }
 
-.description {
-  margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: var(--color-text-muted);
-}
-
-.footer {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-
 .button {
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--color-text);
@@ -80,8 +196,13 @@
 }
 
 .button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: default;
+}
+
+.gate {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
 }
 
 .queued {
@@ -92,4 +213,55 @@
 .failed {
   font-size: 0.78rem;
   color: #b42318;
+}
+
+/* ---- Advanced / Debug --------------------------------------------------- */
+
+.advanced {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  background-color: var(--color-bg);
+}
+
+.advancedSummary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.advancedNote {
+  margin: 0.6rem 0;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.advancedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+
+.advancedItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.advancedButton {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+}
+
+.advancedButton:disabled {
+  opacity: 0.55;
+  cursor: default;
 }
