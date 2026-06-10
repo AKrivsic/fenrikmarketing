@@ -1,5 +1,6 @@
 import type { StoryboardBeat } from "@/lib/video-engine/storyboard";
 import type { SubtitleCue } from "@/video-worker/services/subtitles";
+import type { WordTimestamp } from "@/lib/ai/types";
 
 // Subtitle Quality Sprint — phrase captions.
 //
@@ -222,4 +223,190 @@ export function buildPhraseCues(
   }
 
   return { cues, totalSeconds: total };
+}
+
+// ===========================================================================
+// Word Timestamp Subtitles V1 — REAL timing source.
+//
+// The phrase STYLE is unchanged (same splitIntoPhrases: 2–5 word phrases at
+// natural boundaries — NOT word-by-word karaoke). Only the TIMING SOURCE
+// changes: instead of distributing the timeline proportionally, each phrase's
+// timing comes from the whisper word timestamps:
+//   start = first word's start, end = last word's end.
+// The cues are then normalized to be monotonic, gap-free and overlap-free (a
+// caption holds through inter-word silence until the next phrase begins), which
+// matches the contiguous guarantees of the proportional builder.
+//
+// This is the OPTIONAL path: buildPhraseCuesFromWords returns null whenever the
+// transcript cannot be aligned confidently, and the caller falls back to
+// buildPhraseCues (proportional). Video generation never depends on it.
+// ===========================================================================
+
+// Normalizes a token for matching: lowercased, punctuation stripped, diacritics
+// PRESERVED (Czech/German/French/etc. letters are kept so "čistě" matches).
+function normalizeToken(token: string): string {
+  return token.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+}
+
+interface TokenTime {
+  start: number;
+  end: number;
+}
+
+// Greedy forward aligner: walks the narration tokens and the transcript words in
+// order, matching by normalized equality within a small look-ahead window so it
+// tolerates the occasional whisper insertion/deletion (e.g. a number spelled out
+// or a dropped filler word). Returns per-narration-token timing (or null when a
+// token could not be matched).
+function alignTokens(
+  narrationTokens: string[],
+  words: WordTimestamp[],
+  window = 6,
+): (TokenTime | null)[] {
+  const times: (TokenTime | null)[] = new Array(narrationTokens.length).fill(
+    null,
+  );
+  let cursor = 0;
+  for (let i = 0; i < narrationTokens.length; i++) {
+    const nt = normalizeToken(narrationTokens[i]);
+    if (!nt) continue;
+    const limit = Math.min(words.length, cursor + window);
+    for (let k = cursor; k < limit; k++) {
+      if (normalizeToken(words[k].word) === nt) {
+        times[i] = { start: words[k].start, end: words[k].end };
+        cursor = k + 1;
+        break;
+      }
+    }
+  }
+  return times;
+}
+
+// Linearly interpolates the NaN holes in a monotonic series, anchoring a leading
+// hole to `head` and a trailing hole to `tail`. Used to give unaligned phrases a
+// plausible time so the cue track stays continuous.
+function interpolateSeries(
+  values: number[],
+  head: number,
+  tail: number,
+): number[] {
+  const n = values.length;
+  if (n === 0) return [];
+  const out = values.slice();
+
+  let prevIdx = -1;
+  let prevVal = head;
+  for (let i = 0; i < n; i++) {
+    if (Number.isFinite(out[i])) {
+      // Fill the gap (prevIdx, i) by linear interpolation from prevVal -> out[i].
+      const span = i - prevIdx;
+      for (let j = prevIdx + 1; j < i; j++) {
+        out[j] = prevVal + ((out[i] - prevVal) * (j - prevIdx)) / span;
+      }
+      prevIdx = i;
+      prevVal = out[i];
+    }
+  }
+  // Trailing unknowns: ramp from the last known value up to `tail`.
+  if (prevIdx < n - 1) {
+    const span = n - prevIdx;
+    for (let j = prevIdx + 1; j < n; j++) {
+      out[j] = prevVal + ((tail - prevVal) * (j - prevIdx)) / span;
+    }
+  }
+  return out;
+}
+
+export interface BuildPhraseCuesFromWordsInput {
+  // The text that was actually spoken (the TTS input == what whisper heard).
+  voiceoverText: string;
+  // Real per-word timestamps from whisper (already sanitized).
+  words: WordTimestamp[];
+  // Upper bound for the cue track (typically the storyboard timeline total).
+  // Cue ends are clamped to it so subtitles never run past the video.
+  totalSeconds?: number;
+  minCueSeconds?: number;
+  // Minimum fraction of narration tokens that must align to the transcript for
+  // the result to be trusted. Below it we return null (fall back to estimate).
+  minMatchRatio?: number;
+}
+
+// Builds phrase cues from real word timestamps, or returns null when the audio
+// could not be aligned confidently (caller then uses buildPhraseCues).
+export function buildPhraseCuesFromWords(
+  input: BuildPhraseCuesFromWordsInput,
+): BuildPhraseCuesResult | null {
+  const minCue = input.minCueSeconds ?? MIN_CUE_SECONDS;
+  const minMatchRatio = input.minMatchRatio ?? 0.5;
+  const transcriptWords = input.words ?? [];
+
+  const phrases = splitIntoPhrases(input.voiceoverText);
+  if (phrases.length === 0 || transcriptWords.length === 0) return null;
+
+  // Token ranges per phrase (splitIntoPhrases preserves token order, so the
+  // flattened phrase tokens are the narration token stream).
+  const phraseTokens = phrases.map((p) => words(p));
+  const narrationTokens = phraseTokens.flat();
+  if (narrationTokens.length === 0) return null;
+
+  const tokenTimes = alignTokens(narrationTokens, transcriptWords);
+  const matched = tokenTimes.reduce((acc, t) => acc + (t ? 1 : 0), 0);
+  if (matched / narrationTokens.length < minMatchRatio) return null;
+
+  // Per-phrase raw start (first matched word start) / end (last matched word end).
+  const rawStarts: number[] = [];
+  const rawEnds: number[] = [];
+  let idx = 0;
+  for (const tokens of phraseTokens) {
+    const slice = tokenTimes.slice(idx, idx + tokens.length);
+    idx += tokens.length;
+    const present = slice.filter((t): t is TokenTime => t !== null);
+    if (present.length > 0) {
+      rawStarts.push(present[0].start);
+      rawEnds.push(present[present.length - 1].end);
+    } else {
+      rawStarts.push(NaN);
+      rawEnds.push(NaN);
+    }
+  }
+
+  const audioEnd = transcriptWords.reduce((m, w) => Math.max(m, w.end), 0);
+  const total =
+    input.totalSeconds && input.totalSeconds > 0
+      ? input.totalSeconds
+      : audioEnd;
+
+  // Fill any unaligned phrases so the track is continuous.
+  const starts = interpolateSeries(rawStarts, 0, total);
+  const ends = interpolateSeries(rawEnds, 0, total);
+
+  // Build cues: start = first word start (clamped monotonic), end = last word
+  // end (floored to the minimum on-screen time), then bridge inter-phrase
+  // silence so the track is gap-free and overlap-free.
+  const cues: SubtitleCue[] = [];
+  let prevEnd = 0;
+  for (let i = 0; i < phrases.length; i++) {
+    const start = Math.max(starts[i], prevEnd);
+    const end = Math.max(ends[i], start + minCue);
+    cues.push({ startSeconds: start, endSeconds: end, text: phrases[i] });
+    prevEnd = end;
+  }
+
+  // Close gaps: each cue holds until the next one begins (no blank flashes),
+  // which also guarantees no overlaps and strict monotonic order.
+  for (let i = 0; i < cues.length - 1; i++) {
+    cues[i].endSeconds = cues[i + 1].startSeconds;
+  }
+
+  // Clamp the whole track to the timeline so nothing runs past the video.
+  for (const cue of cues) {
+    if (cue.startSeconds > total) cue.startSeconds = total;
+    if (cue.endSeconds > total) cue.endSeconds = total;
+    if (cue.endSeconds <= cue.startSeconds) {
+      cue.endSeconds = Math.min(total, cue.startSeconds + minCue);
+    }
+  }
+
+  const last = cues[cues.length - 1];
+  return { cues, totalSeconds: last.endSeconds };
 }

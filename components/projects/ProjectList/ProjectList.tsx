@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ProjectListItem } from "@/lib/api/projects-admin";
+import { DeleteProjectButton } from "./DeleteProjectButton";
 import styles from "./ProjectList.module.css";
 
 interface ProjectListProps {
@@ -28,6 +29,10 @@ export function ProjectList({ projects }: ProjectListProps) {
               <span className={styles.metaItem}>{project.goalType}</span>
             </span>
           </Link>
+          <DeleteProjectButton
+            projectId={project.id}
+            projectName={project.name}
+          />
         </li>
       ))}
     </ul>

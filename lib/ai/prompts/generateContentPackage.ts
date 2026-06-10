@@ -2,6 +2,7 @@ import type { Project } from "@/lib/supabase/types";
 import {
   antiRepetitionBlock,
   constraintsBlock,
+  painPointFirstBlock,
   projectBrainBlock,
   proofBlock,
   scenarioBlock,
@@ -176,6 +177,12 @@ export interface PackageDiversitySpec {
   // Compact angles already used by sibling packages in the SAME run, so the
   // model is told not to repeat them. Empty/omitted when none exist yet.
   previousAngles?: PreviousPackageAngle[];
+  // Pain Point First V1 — the specific pain point THIS package must anchor to,
+  // plus whether the pain point is the PRIMARY topic (~80% of packages) or a
+  // SUPPORTING detail that still connects back to it (~20%). Omitted for
+  // projects with no pain points, so those runs keep the prior block unchanged.
+  painPoint?: string;
+  painPointMode?: "primary" | "supporting";
 }
 
 // Run Package Diversity V1 — builds the PACKAGE DIVERSITY block. It tells the
@@ -204,6 +211,27 @@ function buildPackageDiversityLines(spec: PackageDiversitySpec): string[] {
     "- Pick a different concrete moment from the SCENARIO POOL than a " +
       "neighbouring package would pick.",
   ];
+
+  // Pain Point First V1 — pin THIS package to its assigned pain point. Primary
+  // packages make the pain point the central topic; supporting packages may use
+  // a detail/insight, but it must still connect back to the SAME pain point.
+  const painPoint = spec.painPoint?.trim();
+  if (painPoint) {
+    if (spec.painPointMode === "supporting") {
+      lines.push(
+        `- PAIN POINT FOCUS (this package is a SUPPORTING one): connect to the ` +
+          `pain point "${painPoint}". You may lead with a supporting detail, ` +
+          "mistake or observation, but it MUST clearly tie back to that pain " +
+          "point — never let the detail become a standalone topic.",
+      );
+    } else {
+      lines.push(
+        `- PAIN POINT FOCUS (this package is PRIMARY): the central topic MUST ` +
+          `solve, expose, amplify or dramatize this pain point: "${painPoint}". ` +
+          "Do NOT make a minor detail the main topic.",
+      );
+    }
+  }
 
   const prev = (spec.previousAngles ?? []).filter(
     (p) => typeof p.title === "string" && p.title.trim().length > 0,
@@ -270,6 +298,7 @@ export function buildGenerateContentPackagePrompt(
   const isMixed =
     requireVideo && videoPlatforms.length > 0 && textOnlyPlatforms.length > 0;
 
+  const painPointFirst = painPointFirstBlock(project);
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
@@ -483,6 +512,7 @@ export function buildGenerateContentPackagePrompt(
     projectBrainBlock(project),
     "",
     constraintsBlock(project),
+    ...(painPointFirst ? ["", painPointFirst] : []),
     ...(proof ? ["", proof] : []),
     ...(scenarios ? ["", scenarios] : []),
     ...(memory ? ["", memory] : []),

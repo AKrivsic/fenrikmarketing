@@ -21,8 +21,10 @@ import {
   angleLensForIndex,
   normalizeProductionConfig,
   outputsForPackageIndex,
+  painPointFocusForIndex,
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
+import { normalizePainPoints } from "@/lib/ai/prompts/context";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
@@ -167,6 +169,11 @@ export async function runGenerateContentPackage(
           packageIndex: context.packageIndex,
           packageCount: runInfo?.packageCount,
           angleLens: angleLensForIndex(context.packageIndex),
+          // Pain Point First V1 — deterministically anchor THIS package to a
+          // project pain point (cycled by index) and pick its primary/supporting
+          // mode (80/20). Null when the project has no pain points → the focus
+          // line is omitted and the block is unchanged.
+          ...painPointFocusFields(project, context.packageIndex),
           previousAngles: await loadRunSiblingAngles(
             supabase,
             input.projectId,
@@ -245,6 +252,22 @@ export async function runGenerateContentPackage(
   );
 
   return { ok: true, data };
+}
+
+// Pain Point First V1 — resolves the deterministic pain-point focus for a run
+// package index into the PackageDiversitySpec fields. Returns an empty object
+// (no fields) when the project has no pain points, so the diversity block is
+// unchanged for those projects.
+function painPointFocusFields(
+  project: Parameters<typeof normalizePainPoints>[0],
+  packageIndex: number,
+): { painPoint?: string; painPointMode?: "primary" | "supporting" } {
+  const focus = painPointFocusForIndex(
+    normalizePainPoints(project),
+    packageIndex,
+  );
+  if (!focus) return {};
+  return { painPoint: focus.painPoint, painPointMode: focus.mode };
 }
 
 // Multiplier Variants MVP-1 — outputs each platform produces for THIS package

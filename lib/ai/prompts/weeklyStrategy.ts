@@ -2,6 +2,7 @@ import type { Project } from "@/lib/supabase/types";
 import {
   antiRepetitionBlock,
   constraintsBlock,
+  painPointFirstBlock,
   projectBrainBlock,
   proofBlock,
   scenarioBlock,
@@ -205,6 +206,7 @@ export function buildWeeklyStrategyPrompt(
     eligibleTrends,
     evergreenTopics,
   );
+  const painPointFirst = painPointFirstBlock(project);
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
@@ -220,6 +222,7 @@ export function buildWeeklyStrategyPrompt(
     projectBrainBlock(project),
     "",
     constraintsBlock(project),
+    ...(painPointFirst ? ["", painPointFirst] : []),
     ...(proof ? ["", proof] : []),
     ...(scenarios ? ["", scenarios] : []),
     ...(memory ? ["", memory] : []),
@@ -259,6 +262,12 @@ export function buildWeeklyStrategyPrompt(
     "Rules: funnel_distribution must not be Conversion-only. Use ONLY the " +
       `allowed platforms (${platforms.join(", ")}). ${volumeRule} ` +
       "Every content_plan item must set exactly one of trend_id or " +
-      "evergreen_topic_id using only IDs from the lists above.",
+      "evergreen_topic_id using only IDs from the lists above." +
+      (painPointFirst
+        ? " Every item's topic MUST anchor to a real pain point (see PAIN POINT " +
+          "FIRST): ~80% directly tied to one explicit pain point, ~20% supporting " +
+          "details that still connect to a pain point. A trend topic must connect " +
+          "to a pain point; never make a minor detail the primary topic."
+        : ""),
   ].join("\n");
 }

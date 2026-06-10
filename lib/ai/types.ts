@@ -173,6 +173,49 @@ export interface SpeechProvider {
   synthesize(req: SpeechRequest): Promise<SpeechResult>;
 }
 
+// ---------------------------------------------------------------------------
+// Speech-to-text (transcription) abstraction. Word Timestamp Subtitles V1 —
+// after TTS produces the voiceover MP3 we transcribe it with OpenAI whisper-1
+// (verbose_json + word granularity) to obtain REAL per-word timings, so phrase
+// subtitles are aligned to the actual spoken audio instead of a proportional
+// estimate. This is best-effort: callers must fall back to the estimate if it
+// is unavailable (see video-worker/services/wordTimestamps.ts).
+// ---------------------------------------------------------------------------
+
+// One word with its start/end offset (seconds) within the audio.
+export interface WordTimestamp {
+  word: string;
+  start: number;
+  end: number;
+}
+
+export interface TranscriptionRequest {
+  // Raw audio bytes (e.g. the MP3 buffer). Sent as multipart/form-data.
+  audio: Uint8Array;
+  // Filename hint for the multipart upload (extension drives format detection).
+  filename?: string;
+  // MIME type for the uploaded blob (defaults to audio/mpeg).
+  contentType?: string;
+  // ISO-639-1 language hint (e.g. "cs", "en", "de"). Improves accuracy; when
+  // omitted whisper auto-detects the language.
+  language?: string;
+  model?: string;
+}
+
+export interface TranscriptionResult {
+  provider: string;
+  model: string;
+  // Detected (or hinted) language code echoed back by the API, when present.
+  language?: string;
+  words: WordTimestamp[];
+  raw?: unknown;
+}
+
+export interface TranscriptionProvider {
+  readonly name: string;
+  transcribeWords(req: TranscriptionRequest): Promise<TranscriptionResult>;
+}
+
 // Allowed CTA categories per project goal. Used by the content-package
 // guardrails so the generated CTA type matches project.goal_type.
 export const CTA_TYPES_BY_GOAL: Record<GoalType, readonly string[]> = {

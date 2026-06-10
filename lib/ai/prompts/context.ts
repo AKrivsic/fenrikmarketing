@@ -39,6 +39,66 @@ function list(values: string[]): string {
   return values.length ? values.join("; ") : "(none)";
 }
 
+// De-duplicates and trims a project's pain points, dropping blanks. Shared by
+// the Pain Point First block and the per-package focus assignment so both read
+// the SAME normalized list.
+export function normalizePainPoints(project: Project): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const raw of project.pain_points ?? []) {
+    const text = (raw ?? "").trim();
+    if (!text) continue;
+    const key = text.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(text);
+  }
+  return out;
+}
+
+// Pain Point First V1 — the most important content rule. The audit found that
+// pain_points were just one bullet among many in PROJECT BRAIN, so topic
+// selection (weekly strategy) and package generation could drift onto an
+// interesting-but-minor detail (a dirty switch, a trash-can smell) as the
+// PRIMARY topic. This block promotes pain_points to the primary content source:
+// every package's central topic must be anchored to a real pain point, details
+// may only support that story, and trends must connect to a pain point.
+//
+// Returns "" when the project has no pain points, so legacy projects keep the
+// prompt byte-for-byte unchanged (backward compatible).
+export const PAIN_POINT_FIRST_HEADER = "PAIN POINT FIRST";
+
+export function painPointFirstBlock(project: Project): string {
+  const painPoints = normalizePainPoints(project);
+  if (painPoints.length === 0) return "";
+
+  return [
+    `${PAIN_POINT_FIRST_HEADER} (the PRIMARY content source — the central topic of ` +
+      "EVERY content item MUST be anchored to a real customer pain point):",
+    "PROJECT PAIN POINTS (anchor topics to these):",
+    ...painPoints.map((p) => `- ${p}`),
+    "PAIN POINT RULES:",
+    "- The central topic MUST solve, expose, amplify, or dramatize one of the " +
+      "pain points above. The pain point is the STORY.",
+    "- Details may SUPPORT the story; details must NOT become the story. Do NOT " +
+      "make a minor detail (a dirty switch, a dusty handle, a trash-can smell, a " +
+      "single forgotten object) the PRIMARY topic — it can only appear as " +
+      "supporting evidence inside a larger pain point.",
+    "- 80/20 RULE: about 80% of items must be tied DIRECTLY to one explicit pain " +
+      "point above; the other ~20% may be a supporting insight, mistake, " +
+      "observation or detail — but each of those MUST still connect back to a " +
+      "pain point.",
+    "- TREND + PAIN POINT: trend topics are allowed, but a trend MUST connect to " +
+      'a pain point. GOOD: trend "summer tourism boom" -> pain point "more guest ' +
+      'turnover". BAD: trend "summer tourism boom" -> "clean trash can lid".',
+    "- GOOD primary topics (examples): guest complaint, bad review, late " +
+      "checkout, stress before guest arrival, no time to clean.",
+    "- BAD primary topics (examples): trash can smell, dusty switch, a single " +
+      "forgotten object — unless used as supporting evidence inside a larger pain " +
+      "point.",
+  ].join("\n");
+}
+
 // Phase 2C — exposes the project's Proof pool (from projects.knowledge) to the
 // content generation prompts as OPTIONAL marketing ammunition. Combines the
 // manually approved `statements` and the asset-derived `asset_statements`. The

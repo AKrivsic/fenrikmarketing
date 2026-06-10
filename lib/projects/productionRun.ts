@@ -456,6 +456,58 @@ export function angleLensForIndex(packageIndex: number): string {
   return PACKAGE_ANGLE_LENSES[((i % n) + n) % n];
 }
 
+// ---------------------------------------------------------------------------
+// Pain Point First V1 — per-package pain-point focus.
+//
+// Every package in a run must anchor to a real pain point. To honour the 80/20
+// rule WITHOUT scoring or extra AI calls, each package index is deterministically
+// assigned:
+//   - a primary pain point (cycled through the project's pain_points), and
+//   - a MODE: "primary" for ~80% of packages (the pain point IS the topic) and
+//     "supporting" for ~20% (a supporting detail/insight that still connects to
+//     the assigned pain point).
+//
+// The split uses a fixed cadence: 1 in every 5 packages (index % 5 === 4) is a
+// supporting package → exactly 20% supporting, 80% primary. Pure (no IO), so it
+// is unit-testable.
+// ---------------------------------------------------------------------------
+export type PainPointFocusMode = "primary" | "supporting";
+
+// 1 in SUPPORTING_EVERY packages is a "supporting detail" package (the rest are
+// pain-point-primary). 5 → 20% supporting / 80% primary.
+export const SUPPORTING_EVERY = 5;
+
+export interface PainPointFocus {
+  // The pain point this package must anchor to (verbatim from project.pain_points).
+  painPoint: string;
+  // "primary": the pain point is the central topic. "supporting": a supporting
+  // detail/insight that still connects back to this pain point.
+  mode: PainPointFocusMode;
+}
+
+// Deterministically assigns a pain-point focus to a 0-based package index. The
+// pain point cycles through the (already-normalized) list; the mode follows the
+// 80/20 cadence. Returns null when the project has no pain points so callers can
+// skip the focus line (legacy / no-pain-point projects keep the prompt
+// unchanged). Non-finite / negative indices fall back to index 0.
+export function painPointFocusForIndex(
+  painPoints: readonly string[],
+  packageIndex: number,
+): PainPointFocus | null {
+  const n = painPoints.length;
+  if (n === 0) return null;
+  const i =
+    typeof packageIndex === "number" && Number.isFinite(packageIndex)
+      ? Math.trunc(packageIndex)
+      : 0;
+  const idx = ((i % n) + n) % n;
+  const mode: PainPointFocusMode =
+    Math.abs(i) % SUPPORTING_EVERY === SUPPORTING_EVERY - 1
+      ? "supporting"
+      : "primary";
+  return { painPoint: painPoints[idx], mode };
+}
+
 export function resolveRunGenerationPlan(
   config: ProductionConfig,
 ): RunGenerationPlan {

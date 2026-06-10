@@ -18,7 +18,11 @@ import {
   type SceneImage,
 } from "@/video-worker/services/images";
 import { writeSrtFile } from "@/video-worker/services/subtitles";
-import { buildPhraseCues } from "@/video-worker/services/phraseCaptions";
+import {
+  buildPhraseCues,
+  buildPhraseCuesFromWords,
+} from "@/video-worker/services/phraseCaptions";
+import { transcribeWordTimestamps } from "@/video-worker/services/wordTimestamps";
 import {
   renderMp4,
   generateThumbnail,
@@ -290,11 +294,43 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // 2–5 word phrases and the audio-master timeline is distributed across them
     // proportionally (with a minimum on-screen floor), instead of one
     // full-sentence cue per beat. The storyboard beats / video duration are
-    // unchanged; only the burned subtitles change.
-    const { cues, totalSeconds } = buildPhraseCues({
+    // unchanged; only the burned subtitles change. This proportional result is
+    // also the FALLBACK for word-timestamp alignment below.
+    const proportional = buildPhraseCues({
       beats: storyboard,
       transitionSeconds: SHORT_PROFILE.transitionSeconds,
     });
+    let cues = proportional.cues;
+    const totalSeconds = proportional.totalSeconds;
+
+    // Word Timestamp Subtitles V1 — re-time the SAME phrase captions to the real
+    // spoken audio. We transcribe the voiceover MP3 with whisper-1 (word
+    // timestamps), passing the job's language hint when available (CZ/EN/DE/FR/
+    // ES/IT). Best-effort: on a timeout, API error, empty timestamps, or a
+    // low-confidence alignment we keep the proportional cues. Phrase STYLE is
+    // unchanged — only the timing SOURCE changes.
+    const words = await transcribeWordTimestamps({
+      audioPath: voiceover.audioPath,
+      language: payload.input["language"],
+    });
+    if (words) {
+      const aligned = buildPhraseCuesFromWords({
+        voiceoverText: spec.voiceover_text,
+        words,
+        totalSeconds,
+      });
+      if (aligned && aligned.cues.length > 0) {
+        cues = aligned.cues;
+        console.log(
+          "[video-worker] subtitles aligned to whisper word timestamps",
+          JSON.stringify({
+            video_job_id: payload.video_job_id,
+            words: words.length,
+            cues: aligned.cues.length,
+          }),
+        );
+      }
+    }
 
     const { srtPath } = await writeSrtFile({
       cues,

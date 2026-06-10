@@ -3,12 +3,14 @@ import {
   OpenAIImageProvider,
   OpenAISpeechProvider,
   OpenAITextProvider,
+  OpenAITranscriptionProvider,
   OpenAIVisionProvider,
 } from "@/lib/ai/openai";
 import type {
   ImageProvider,
   SpeechProvider,
   TextProvider,
+  TranscriptionProvider,
 } from "@/lib/ai/types";
 
 // Single place that hard-codes the provider routing rules from the spec:
@@ -21,6 +23,7 @@ let claude: TextProvider | null = null;
 let openaiText: TextProvider | null = null;
 let openaiImage: ImageProvider | null = null;
 let openaiSpeech: SpeechProvider | null = null;
+let openaiTranscription: TranscriptionProvider | null = null;
 let openaiVision: OpenAIVisionProvider | null = null;
 
 function claudeProvider(): TextProvider {
@@ -68,6 +71,15 @@ export function getImageProvider(): ImageProvider {
 export function getSpeechProvider(): SpeechProvider {
   if (!openaiSpeech) openaiSpeech = new OpenAISpeechProvider();
   return openaiSpeech;
+}
+
+// Speech-to-text for Word Timestamp Subtitles V1. OpenAI-backed (whisper-1),
+// used by the video worker to align phrase subtitles to the real spoken audio.
+export function getTranscriptionProvider(): TranscriptionProvider {
+  if (!openaiTranscription) {
+    openaiTranscription = new OpenAITranscriptionProvider();
+  }
+  return openaiTranscription;
 }
 
 // Vision (image understanding) for asset analysis. OpenAI-backed, multimodal.

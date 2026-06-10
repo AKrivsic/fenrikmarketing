@@ -13,15 +13,25 @@ import type {
   TextCompletionRequest,
   TextCompletionResult,
   TextProvider,
+  TranscriptionProvider,
+  TranscriptionRequest,
+  TranscriptionResult,
+  WordTimestamp,
 } from "@/lib/ai/types";
 
 const CHAT_URL = "https://api.openai.com/v1/chat/completions";
 const IMAGE_URL = "https://api.openai.com/v1/images/generations";
 const SPEECH_URL = "https://api.openai.com/v1/audio/speech";
+const TRANSCRIPTION_URL = "https://api.openai.com/v1/audio/transcriptions";
 
 const DEFAULT_TEXT_MODEL = "gpt-4o-mini";
 const DEFAULT_IMAGE_MODEL = "gpt-image-1";
 const DEFAULT_TTS_MODEL = "gpt-4o-mini-tts";
+// Word Timestamp Subtitles V1 — whisper-1 is the model that supports
+// verbose_json + word-level timestamp granularities (the gpt-4o transcribe
+// models do not expose word timestamps). Do not change without re-checking the
+// response shape consumed below.
+const DEFAULT_TRANSCRIPTION_MODEL = "whisper-1";
 // gpt-4o-mini is multimodal (accepts image inputs), so vision reuses it.
 const DEFAULT_VISION_MODEL = "gpt-4o-mini";
 
@@ -279,6 +289,98 @@ export class OpenAISpeechProvider implements SpeechProvider {
       provider: this.name,
       model,
       audioBase64: Buffer.from(buffer).toString("base64"),
+    };
+  }
+}
+
+// Shape of the relevant fields in OpenAI's verbose_json transcription response.
+// Only `words` is consumed (timestamp_granularities[]=word). `segment`-level
+// timing is intentionally ignored — phrase grouping happens downstream.
+interface VerboseJsonTranscription {
+  language?: string;
+  words?: { word?: unknown; start?: unknown; end?: unknown }[];
+}
+
+function toFiniteNumber(value: unknown): number {
+  return typeof value === "number" ? value : Number(value);
+}
+
+// Word Timestamp Subtitles V1 — transcribes already-synthesized audio with
+// whisper-1 to obtain real per-word timestamps. Uses multipart/form-data (the
+// transcription endpoint requires a file upload, unlike the JSON chat/speech
+// endpoints) and the SAME OPENAI_API_KEY + retry/timeout transport as the rest
+// of the OpenAI surface. Heavy validation of the word array lives in the worker
+// (sanitizeWhisperWords); here we only coerce the raw shape.
+export class OpenAITranscriptionProvider implements TranscriptionProvider {
+  readonly name = "openai";
+  private readonly apiKey?: string;
+  private readonly defaultModel: string;
+
+  constructor(
+    apiKey?: string,
+    defaultModel: string = DEFAULT_TRANSCRIPTION_MODEL,
+  ) {
+    this.apiKey = apiKey;
+    this.defaultModel = defaultModel;
+  }
+
+  async transcribeWords(
+    req: TranscriptionRequest,
+  ): Promise<TranscriptionResult> {
+    const apiKey = getApiKey(this.apiKey);
+    const model = req.model ?? this.defaultModel;
+
+    const form = new FormData();
+    // Copy into a plain ArrayBuffer so the Blob part type is unambiguous (the
+    // incoming Uint8Array may be backed by a SharedArrayBuffer per the types).
+    const bytes = new ArrayBuffer(req.audio.byteLength);
+    new Uint8Array(bytes).set(req.audio);
+    const blob = new Blob([bytes], {
+      type: req.contentType ?? "audio/mpeg",
+    });
+    form.append("file", blob, req.filename ?? "audio.mp3");
+    form.append("model", model);
+    form.append("response_format", "verbose_json");
+    form.append("timestamp_granularities[]", "word");
+    if (req.language) form.append("language", req.language);
+
+    const res = await fetchWithRetry(
+      TRANSCRIPTION_URL,
+      {
+        method: "POST",
+        // Do NOT set content-type: fetch derives the multipart boundary from
+        // the FormData body. Setting it manually breaks the upload.
+        headers: { authorization: `Bearer ${apiKey}` },
+        body: form,
+      },
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.ai,
+        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
+        label: "openai:transcription",
+      },
+    );
+
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(
+        `OpenAI transcription request failed (${res.status}): ${detail}`,
+      );
+    }
+
+    const data = (await res.json()) as VerboseJsonTranscription;
+    const rawWords = Array.isArray(data.words) ? data.words : [];
+    const words: WordTimestamp[] = rawWords.map((w) => ({
+      word: typeof w.word === "string" ? w.word : String(w.word ?? ""),
+      start: toFiniteNumber(w.start),
+      end: toFiniteNumber(w.end),
+    }));
+
+    return {
+      provider: this.name,
+      model,
+      ...(typeof data.language === "string" ? { language: data.language } : {}),
+      words,
+      raw: data,
     };
   }
 }

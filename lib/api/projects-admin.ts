@@ -1,4 +1,5 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { STORAGE_BUCKETS } from "@/lib/api/storage";
 import type {
   ApprovalStatus,
   ContentFormat,
@@ -132,6 +133,105 @@ export async function updateProjectForAdmin(
     .eq("id", projectId);
 
   if (error) throw error;
+}
+
+// Every project file lives under the `{project_id}/...` prefix (see
+// lib/api/storage.ts: the first path segment is always the project id). This
+// recursively collects ALL object paths under that single prefix in one
+// bucket — strictly scoped to the project, never touching other projects.
+async function listProjectObjectPaths(
+  supabase: ReturnType<typeof createSupabaseAdminClient>,
+  bucket: string,
+  projectId: string,
+): Promise<string[]> {
+  const paths: string[] = [];
+  const PAGE_SIZE = 100;
+
+  async function walk(prefix: string): Promise<void> {
+    let offset = 0;
+    for (;;) {
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .list(prefix, { limit: PAGE_SIZE, offset });
+      if (error) throw error;
+
+      const entries = data ?? [];
+      for (const entry of entries) {
+        const childPath = prefix ? `${prefix}/${entry.name}` : entry.name;
+        // A null `id` denotes a folder/prefix (no underlying object); recurse.
+        if (entry.id === null) {
+          await walk(childPath);
+        } else {
+          paths.push(childPath);
+        }
+      }
+
+      if (entries.length < PAGE_SIZE) break;
+      offset += PAGE_SIZE;
+    }
+  }
+
+  // Anchor the walk at the project's own folder so nothing outside it is read.
+  await walk(projectId);
+  return paths;
+}
+
+// Removes ALL storage objects that belong to a single project across every
+// project bucket. Scoped strictly to the `{project_id}/` prefix.
+async function deleteProjectStorage(
+  supabase: ReturnType<typeof createSupabaseAdminClient>,
+  projectId: string,
+): Promise<void> {
+  const buckets = [
+    STORAGE_BUCKETS.projectAssets,
+    STORAGE_BUCKETS.generatedVisuals,
+    STORAGE_BUCKETS.videoRenders,
+  ];
+
+  for (const bucket of buckets) {
+    const paths = await listProjectObjectPaths(supabase, bucket, projectId);
+    if (paths.length === 0) continue;
+
+    // Remove in batches to stay within request limits on large projects.
+    const BATCH = 100;
+    for (let i = 0; i < paths.length; i += BATCH) {
+      const batch = paths.slice(i, i + BATCH);
+      const { error } = await supabase.storage.from(bucket).remove(batch);
+      if (error) {
+        console.error(
+          `[deleteProjectStorage] remove failed in bucket ${bucket}:`,
+          error,
+        );
+        throw error;
+      }
+    }
+  }
+}
+
+// Deletes a project AND everything connected to it — strictly scoped to this
+// project, never any other.
+//   1. Storage: removes all objects under the `{project_id}/` prefix in every
+//      project bucket (project-assets, generated-visuals, video-renders).
+//   2. Database: deletes the project row. All related tables reference
+//      projects(id) with ON DELETE CASCADE, so the project's full row graph
+//      (content, packages, strategies, schedules, assets, production runs, …)
+//      is removed in one statement.
+// Storage is cleaned first so a failure aborts before the DB row is gone,
+// keeping the operation safely retryable.
+export async function deleteProjectForAdmin(projectId: string): Promise<void> {
+  const supabase = createSupabaseAdminClient();
+
+  await deleteProjectStorage(supabase, projectId);
+
+  const { error } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", projectId);
+
+  if (error) {
+    console.error("[deleteProjectForAdmin] Supabase delete failed:", error);
+    throw error;
+  }
 }
 
 // Read model for the project Content Packages tab.
