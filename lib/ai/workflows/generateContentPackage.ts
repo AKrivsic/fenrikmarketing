@@ -18,6 +18,7 @@ import {
   resolveVideoPackagePlatforms,
 } from "@/lib/projects/contentControls";
 import {
+  angleLensForIndex,
   normalizeProductionConfig,
   outputsForPackageIndex,
   resolveRunGenerationPlan,
@@ -26,6 +27,7 @@ import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
   buildGeneratePackageSystem,
+  type PreviousPackageAngle,
 } from "@/lib/ai/prompts/generateContentPackage";
 import {
   buildContentPackageSchema,
@@ -105,9 +107,10 @@ export async function runGenerateContentPackage(
   // selected platforms + multipliers drive generation (incl. youtube / x and
   // text-output fan-out). Otherwise fall back to projects.platforms (existing
   // weekly-strategy-driven behavior — fully backwards compatible).
-  const runPlan = context.productionRunId
+  const runInfo = context.productionRunId
     ? await loadRunGenerationPlan(supabase, input.projectId, context.productionRunId)
     : null;
+  const runPlan = runInfo?.plan ?? null;
 
   const controls = parseContentControls(project.publishing_rules);
 
@@ -153,6 +156,26 @@ export async function runGenerateContentPackage(
     ),
   );
 
+  // Run Package Diversity V1 — when this item belongs to a production run, give
+  // the prompt a PACKAGE DIVERSITY block (this is package N of M, lead with a
+  // distinct angle lens, and don't repeat sibling angles) so multiple packages
+  // in one run take different angles. Prompt/context-only: no new AI call, no
+  // new table. Omitted for legacy generation (prompt unchanged).
+  const packageDiversity =
+    runPlan && context.productionRunId && context.packageIndex !== null
+      ? {
+          packageIndex: context.packageIndex,
+          packageCount: runInfo?.packageCount,
+          angleLens: angleLensForIndex(context.packageIndex),
+          previousAngles: await loadRunSiblingAngles(
+            supabase,
+            input.projectId,
+            context.productionRunId,
+            context.strategyItemId,
+          ),
+        }
+      : undefined;
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -170,6 +193,7 @@ export async function runGenerateContentPackage(
       videoPlatforms,
       variantCounts,
       directives,
+      packageDiversity,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -255,7 +279,12 @@ async function loadRunGenerationPlan(
   supabase: SupabaseClient,
   projectId: string,
   runId: string,
-): Promise<ReturnType<typeof resolveRunGenerationPlan> | null> {
+): Promise<{
+  plan: ReturnType<typeof resolveRunGenerationPlan>;
+  // Total packages requested in the run (M in "package N of M"). Used only by
+  // the PACKAGE DIVERSITY prompt block.
+  packageCount: number;
+} | null> {
   const { data, error } = await supabase
     .from("production_runs")
     .select("requested_config")
@@ -271,7 +300,66 @@ async function loadRunGenerationPlan(
 
   const config = normalizeProductionConfig(rawConfig);
   const plan = resolveRunGenerationPlan(config);
-  return plan.targetPlatforms.length > 0 ? plan : null;
+  return plan.targetPlatforms.length > 0
+    ? { plan, packageCount: config.packageCount }
+    : null;
+}
+
+// Run Package Diversity V1 — loads a compact list of the angles already used by
+// SIBLING packages in the same production run, so the prompt can say "do not
+// repeat these". Reuses EXISTING rows only (strategy items tagged with the run
+// in their brief + their content_packages' title/hook) — no new table, no AI
+// call. Best-effort: any error yields an empty list so generation is never
+// blocked by this enrichment.
+const SIBLING_ANGLE_LIMIT = 12;
+async function loadRunSiblingAngles(
+  supabase: SupabaseClient,
+  projectId: string,
+  productionRunId: string,
+  currentStrategyItemId: string,
+): Promise<PreviousPackageAngle[]> {
+  try {
+    const { data: items, error: itemsErr } = await supabase
+      .from("content_strategy_items")
+      .select("id, brief")
+      .eq("project_id", projectId)
+      .eq("brief->>production_run_id", productionRunId);
+    if (itemsErr || !items) return [];
+
+    const topicByItemId = new Map<string, string>();
+    const siblingItemIds: string[] = [];
+    for (const row of items) {
+      const id = row.id as string;
+      if (!id || id === currentStrategyItemId) continue;
+      siblingItemIds.push(id);
+      const brief = (row.brief ?? {}) as Record<string, unknown>;
+      const topic = typeof brief.topic === "string" ? brief.topic.trim() : "";
+      if (topic) topicByItemId.set(id, topic);
+    }
+    if (siblingItemIds.length === 0) return [];
+
+    const { data: pkgs, error: pkgErr } = await supabase
+      .from("content_packages")
+      .select("title, package_brief, strategy_item_id, created_at")
+      .eq("project_id", projectId)
+      .in("strategy_item_id", siblingItemIds)
+      .order("created_at", { ascending: true })
+      .limit(SIBLING_ANGLE_LIMIT);
+    if (pkgErr || !pkgs) return [];
+
+    const angles: PreviousPackageAngle[] = [];
+    for (const row of pkgs) {
+      const title = typeof row.title === "string" ? row.title.trim() : "";
+      if (!title) continue;
+      const brief = (row.package_brief ?? {}) as Record<string, unknown>;
+      const hook = typeof brief.hook === "string" ? brief.hook.trim() : null;
+      const topic = topicByItemId.get(row.strategy_item_id as string) ?? null;
+      angles.push({ title, hook, topic });
+    }
+    return angles;
+  } catch {
+    return [];
+  }
 }
 
 // Idempotence lookup: the existing package for (project, strategy item), if any.

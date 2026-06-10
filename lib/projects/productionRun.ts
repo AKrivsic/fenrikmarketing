@@ -421,6 +421,41 @@ export interface RunGenerationPlan {
   multipliers: Record<ProductionPlatformId, number>;
 }
 
+// ---------------------------------------------------------------------------
+// Run Package Diversity V1 — generic ANGLE LENSES.
+//
+// Multiple packages in ONE production run share the same project/topic, so the
+// model can drift into near-duplicates (same hook, pain point, scenario). To
+// force distinct angles WITHOUT embeddings, scoring, new tables or extra AI
+// calls, each package is nudged through a different generic "angle lens" picked
+// deterministically from its 0-based package index. The lens is intentionally
+// topic-agnostic so it applies to any project; the prompt sharpens the run's
+// real topic/angle through it. Pure (no IO), so it is unit-testable.
+// ---------------------------------------------------------------------------
+export const PACKAGE_ANGLE_LENSES: readonly string[] = [
+  "the overlooked detail most people miss",
+  "a high-pressure, last-minute moment",
+  "the social-judgment / reputation risk",
+  "the worst-case consequence of ignoring it",
+  "a recurring everyday habit or routine",
+  "a surprising before-vs-after contrast",
+  "the hidden time or money cost",
+  "an insider / expert POV outsiders rarely hear",
+];
+
+// Deterministically maps a 0-based package index to an angle lens, cycling the
+// list for runs larger than the rotation. Out-of-range / non-finite indices fall
+// back to the first lens so it never throws.
+export function angleLensForIndex(packageIndex: number): string {
+  const n = PACKAGE_ANGLE_LENSES.length;
+  if (n === 0) return "";
+  const i =
+    typeof packageIndex === "number" && Number.isFinite(packageIndex)
+      ? Math.trunc(packageIndex)
+      : 0;
+  return PACKAGE_ANGLE_LENSES[((i % n) + n) % n];
+}
+
 export function resolveRunGenerationPlan(
   config: ProductionConfig,
 ): RunGenerationPlan {

@@ -17,7 +17,8 @@ import {
   generateSceneImages,
   type SceneImage,
 } from "@/video-worker/services/images";
-import { writeSrtFile, type SubtitleCue } from "@/video-worker/services/subtitles";
+import { writeSrtFile } from "@/video-worker/services/subtitles";
+import { buildPhraseCues } from "@/video-worker/services/phraseCaptions";
 import {
   renderMp4,
   generateThumbnail,
@@ -29,7 +30,6 @@ import {
   buildStoryboard,
   SHORT_PROFILE,
   TAIL_BUFFER_SECONDS,
-  type StoryboardBeat,
 } from "@/lib/video-engine/storyboard";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
@@ -170,32 +170,6 @@ function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
   };
 }
 
-// Replicates the renderer's xfade timing so each subtitle cue lines up with the
-// beat that is on screen. Returns one cue per beat plus the total timeline
-// length (after transition overlaps).
-function buildSubtitleTimeline(
-  beats: StoryboardBeat[],
-  transitionSeconds: number,
-): { cues: SubtitleCue[]; totalSeconds: number } {
-  if (beats.length === 0) return { cues: [], totalSeconds: 0 };
-
-  const starts: number[] = [0];
-  let cumulative = beats[0].durationSeconds;
-  for (let i = 1; i < beats.length; i++) {
-    const td = Math.min(transitionSeconds, beats[i].durationSeconds / 2);
-    starts.push(Math.max(0, cumulative - td));
-    cumulative = cumulative - td + beats[i].durationSeconds;
-  }
-
-  const cues: SubtitleCue[] = beats.map((beat, i) => ({
-    startSeconds: starts[i],
-    endSeconds: i + 1 < beats.length ? starts[i + 1] : cumulative,
-    text: beat.text,
-  }));
-
-  return { cues, totalSeconds: cumulative };
-}
-
 function totalDuration(spec: RenderSpec): number {
   if (spec.duration_seconds && spec.duration_seconds > 0) {
     return spec.duration_seconds;
@@ -312,10 +286,15 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       tailBufferSeconds: TAIL_BUFFER_SECONDS,
     });
 
-    const { cues, totalSeconds } = buildSubtitleTimeline(
-      storyboard,
-      SHORT_PROFILE.transitionSeconds,
-    );
+    // Subtitle Quality Sprint — phrase captions. The narration is segmented into
+    // 2–5 word phrases and the audio-master timeline is distributed across them
+    // proportionally (with a minimum on-screen floor), instead of one
+    // full-sentence cue per beat. The storyboard beats / video duration are
+    // unchanged; only the burned subtitles change.
+    const { cues, totalSeconds } = buildPhraseCues({
+      beats: storyboard,
+      transitionSeconds: SHORT_PROFILE.transitionSeconds,
+    });
 
     const { srtPath } = await writeSrtFile({
       cues,

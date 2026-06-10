@@ -19,6 +19,7 @@ import {
   VOICEOVER_TARGET_MIN_WORDS,
 } from "@/lib/ai/guardrails";
 import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
+import { angleLensForIndex } from "@/lib/projects/productionRun";
 import {
   type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
@@ -146,6 +147,80 @@ export interface GenerateContentPackagePromptInput {
   // instead of duplicating one caption. Platforms absent from the map (or with
   // a count <= 1) keep the single-caption shape unchanged.
   variantCounts?: Record<string, number>;
+  // Run Package Diversity V1 — present only for production-run items (when
+  // production_run_id + package_index are known). It injects the PACKAGE
+  // DIVERSITY block so every package in one run commits to a DISTINCT angle.
+  // Omitted for legacy / single-package generation, which keeps the prompt
+  // byte-for-byte unchanged.
+  packageDiversity?: PackageDiversitySpec;
+}
+
+// One sibling package already produced for the same production run, summarized
+// for the "do not repeat these angles" list. Sourced from existing rows
+// (content_packages.title + package_brief.hook + the item topic) — no new table
+// and no AI call.
+export interface PreviousPackageAngle {
+  title: string;
+  hook?: string | null;
+  topic?: string | null;
+}
+
+export interface PackageDiversitySpec {
+  // 0-based index of this package within the run.
+  packageIndex: number;
+  // Total packages requested in the run (M in "package N of M"), when known.
+  packageCount?: number;
+  // The angle lens THIS package should lead with. Defaults to the deterministic
+  // lens for packageIndex when omitted.
+  angleLens?: string;
+  // Compact angles already used by sibling packages in the SAME run, so the
+  // model is told not to repeat them. Empty/omitted when none exist yet.
+  previousAngles?: PreviousPackageAngle[];
+}
+
+// Run Package Diversity V1 — builds the PACKAGE DIVERSITY block. It tells the
+// model this is package N (of M), forces a distinct hook angle / pain point /
+// scenario / visual motif / CTA framing, leads with a deterministic angle lens,
+// and (when siblings exist) lists their angles as "do not repeat".
+function buildPackageDiversityLines(spec: PackageDiversitySpec): string[] {
+  const human = Math.trunc(spec.packageIndex) + 1;
+  const ofM =
+    typeof spec.packageCount === "number" && spec.packageCount > 0
+      ? ` of ${Math.trunc(spec.packageCount)}`
+      : "";
+  const lens = spec.angleLens ?? angleLensForIndex(spec.packageIndex);
+
+  const lines = [
+    `PACKAGE DIVERSITY (this is package ${human}${ofM} in ONE production run — ` +
+      "every package in the run MUST be clearly DISTINCT, never a near-duplicate " +
+      "of a sibling):",
+    "- Keep the SAME project, topic and funnel stage, but commit to a DIFFERENT " +
+      "ANGLE than the other packages. The hook angle, pain point, scenario, " +
+      "visual motif and CTA framing must ALL differ from the other packages in " +
+      "this run.",
+    `- For THIS package, lead through this ANGLE LENS: "${lens}". Sharpen the ` +
+      "strategy topic/angle specifically through that lens — do not drift to a " +
+      "generic take that could fit any package in the run.",
+    "- Pick a different concrete moment from the SCENARIO POOL than a " +
+      "neighbouring package would pick.",
+  ];
+
+  const prev = (spec.previousAngles ?? []).filter(
+    (p) => typeof p.title === "string" && p.title.trim().length > 0,
+  );
+  if (prev.length > 0) {
+    lines.push(
+      "- DO NOT REPEAT these angles already used by other packages in this run " +
+        "(use a genuinely different angle, hook and scenario):",
+      ...prev.map((p) => {
+        const hook = p.hook?.trim() ? ` — hook: "${p.hook.trim()}"` : "";
+        const topic = p.topic?.trim() ? ` (topic: ${p.topic.trim()})` : "";
+        return `  - "${p.title.trim()}"${hook}${topic}`;
+      }),
+    );
+  }
+
+  return lines;
 }
 
 const PACKAGE_SYSTEM_INTRO =
@@ -211,6 +286,12 @@ export function buildGenerateContentPackagePrompt(
     );
   const creativeDirective = buildCreativeDirectiveBlock(directives);
   const modeBeatArc = directives.mode.narrativeBeats.join(" -> ");
+
+  // Run Package Diversity V1 — present only for production-run items, so legacy
+  // single-package generation keeps the prompt unchanged.
+  const packageDiversityLines = input.packageDiversity
+    ? buildPackageDiversityLines(input.packageDiversity)
+    : [];
 
   // Attention First V1 — the priorities block. The audit found every mode
   // collapsing into the same safe marketing arc; this restates the goal of an
@@ -411,6 +492,7 @@ export function buildGenerateContentPackagePrompt(
     "",
     creativeDirective,
     "",
+    ...(packageDiversityLines.length > 0 ? [...packageDiversityLines, ""] : []),
     ...attentionFirstLines,
     "",
     ...qualityLines,
