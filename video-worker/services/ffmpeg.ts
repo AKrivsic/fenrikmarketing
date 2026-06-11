@@ -328,6 +328,8 @@ export function buildSingleImageArgs(input: RenderMp4Input): string[] {
     "-y",
     "-loop",
     "1",
+    "-framerate",
+    String(profile.fps),
     "-i",
     primaryImage,
     "-i",
@@ -363,7 +365,20 @@ export function buildMultiBeatArgs(
 
   beats.forEach((beat, index) => {
     const image = imageBySceneId.get(beat.sceneId) ?? input.images[0];
-    inputArgs.push("-loop", "1", "-t", String(beat.durationSeconds), "-i", image.imagePath);
+    // Still inputs default to ~25fps; beat duration uses profile.fps in zoompan/trim.
+    // Without matching -framerate here, -t caps frame count at the wrong rate
+    // (e.g. 5.2s becomes 130 frames / 30fps ≈ 4.33s) and xfade offsets drift past
+    // the real first-stream length — the joined label collapses to ~one beat.
+    inputArgs.push(
+      "-loop",
+      "1",
+      "-framerate",
+      String(fps),
+      "-t",
+      String(beat.durationSeconds),
+      "-i",
+      image.imagePath,
+    );
     const { chain, label } = beatVideoChain(
       index,
       beat.motion,

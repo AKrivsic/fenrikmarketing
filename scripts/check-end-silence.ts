@@ -101,6 +101,13 @@ check("xfade timeline is shorter than the audio target in this fixture", () => {
   assert.ok(timeline < TARGET, `timeline ${timeline} must be < target ${TARGET}`);
 });
 
+check("still image inputs declare profile fps so beat -t matches zoompan/trim", () => {
+  const fps = String(baseInput.profile!.fps);
+  const frIdx = withTarget.indexOf("-framerate");
+  assert.ok(frIdx >= 0, "expected -framerate before each still input");
+  assert.equal(withTarget[frIdx + 1], fps);
+});
+
 check("video stream is extended before mux (generous tpad + in-filter trim to target)", () => {
   assert.ok(
     /tpad=stop_mode=1:stop_duration=\d/.test(targetFilter),

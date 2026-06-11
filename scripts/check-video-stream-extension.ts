@@ -233,6 +233,34 @@ const syncInput: RenderMp4Input = {
 };
 await run(ffmpegBin(), buildMultiBeatArgs(syncInput, syncBeats));
 
+await check("xfade joined stream length matches beat-sum timeline (pre-extension)", async () => {
+  const vjoinedPath = join(dir, "vjoined-pre-extend.mp4");
+  const args = buildMultiBeatArgs(
+    { ...syncInput, outputPath: vjoinedPath },
+    syncBeats,
+  );
+  const fIdx = args.indexOf("-filter_complex");
+  const filter = args[fIdx + 1]
+    .replace(/\[vjoined\]tpad=[^;]+;/, "[vjoined]null[vout];")
+    .replace(/;\[\d+:a\]apad\[aout\]/, "");
+  args[fIdx + 1] = filter;
+  const audioPath = syncInput.audioPath;
+  const audioIdx = args.indexOf(audioPath);
+  args.splice(audioIdx - 1, 2);
+  const mapA = args.lastIndexOf("[aout]");
+  if (mapA >= 0) args.splice(mapA - 1, 2);
+  args.splice(args.indexOf("-c:a"), 4);
+  args.push("-an");
+  await run(ffmpegBin(), args);
+  const streams = await probeMediaStreams(vjoinedPath);
+  assert.equal(typeof streams.video, "number");
+  const video = streams.video as number;
+  assert.ok(
+    video >= syncTimeline - TOLERANCE,
+    `xfade joined ${video} < beat-sum timeline ${syncTimeline}`,
+  );
+});
+
 await check("audio-synced timeline (storyboard beats / 30s speech) reaches full target", async () => {
   const streams = await probeMediaStreams(syncIntermediate);
   assert.equal(typeof streams.video, "number");

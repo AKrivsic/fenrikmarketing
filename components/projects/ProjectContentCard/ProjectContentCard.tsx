@@ -2,8 +2,11 @@ import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { ReviewCardActions } from "@/components/review/ReviewCardActions/ReviewCardActions";
 import { GenerateVariantsAction } from "@/components/projects/GenerateVariantsAction/GenerateVariantsAction";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
+import { CopyButton } from "@/components/common/CopyButton/CopyButton";
 import type { ProjectContentEntry } from "@/lib/api/project-content-admin";
 import styles from "./ProjectContentCard.module.css";
+
+const X_MAX_LENGTH = 280;
 
 interface ProjectContentCardProps {
   projectId: string;
@@ -40,6 +43,15 @@ export function ProjectContentCard({
   const hasHashtags = entry.hashtags.length > 0;
   const languageBadge = `${entry.isLanguageVariant ? "Variant" : "Primary"} · ${entry.language}`;
 
+  // Title+body platforms (youtube, google_business) expose a standalone title
+  // copy action; their publishReadyText is the description / body only.
+  const hasPublishTitle = entry.publishTitle !== null;
+  const bodyLabel =
+    entry.platform === "youtube" ? "description" : "body";
+  const isX = entry.platform === "x";
+  const publishLength = entry.publishReadyText.length;
+  const xOverLimit = isX && publishLength > X_MAX_LENGTH;
+
   return (
     <article className={styles.card}>
       <header className={styles.header}>
@@ -60,6 +72,60 @@ export function ProjectContentCard({
         </div>
       </header>
 
+      <section className={styles.publishBlock}>
+        <div className={styles.publishHeader}>
+          <span className={styles.publishTitleLabel}>Ready to publish</span>
+          {isX ? (
+            <span
+              className={
+                xOverLimit ? styles.charCountWarning : styles.charCount
+              }
+            >
+              {publishLength}/{X_MAX_LENGTH}
+            </span>
+          ) : null}
+        </div>
+
+        {hasPublishTitle ? (
+          <div className={styles.publishField}>
+            <div className={styles.publishFieldHeader}>
+              <span className={styles.label}>Title</span>
+              <CopyButton
+                text={entry.publishTitle ?? ""}
+                label="Copy title"
+              />
+            </div>
+            <p className={styles.publishText}>{entry.publishTitle ?? EMPTY}</p>
+          </div>
+        ) : null}
+
+        <div className={styles.publishField}>
+          {hasPublishTitle ? (
+            <div className={styles.publishFieldHeader}>
+              <span className={styles.label}>{bodyLabel}</span>
+              <CopyButton
+                text={entry.publishReadyText}
+                label={`Copy ${bodyLabel}`}
+              />
+            </div>
+          ) : (
+            <div className={styles.publishFieldHeader}>
+              <span className={styles.label}>Text</span>
+              <CopyButton text={entry.publishReadyText} label="Copy" />
+            </div>
+          )}
+          <p className={styles.publishText}>
+            {entry.publishReadyText.length > 0 ? entry.publishReadyText : EMPTY}
+          </p>
+          {xOverLimit ? (
+            <p className={styles.charWarningText}>
+              Exceeds X&rsquo;s {X_MAX_LENGTH}-character limit — trim before
+              posting.
+            </p>
+          ) : null}
+        </div>
+      </section>
+
       {entry.title ? <h3 className={styles.title}>{entry.title}</h3> : null}
 
       {hideVideo ? null : (
@@ -69,30 +135,36 @@ export function ProjectContentCard({
         />
       )}
 
-      <div className={styles.field}>
-        <span className={styles.label}>Caption</span>
-        <p className={styles.value}>{entry.caption ?? EMPTY}</p>
-      </div>
+      <details className={styles.details}>
+        <summary className={styles.detailsSummary}>
+          Edit fields (caption · hashtags · CTA)
+        </summary>
 
-      <div className={styles.field}>
-        <span className={styles.label}>Hashtags</span>
-        {hasHashtags ? (
-          <ul className={styles.hashtags}>
-            {entry.hashtags.map((tag) => (
-              <li key={tag} className={styles.hashtag}>
-                {tag.startsWith("#") ? tag : `#${tag}`}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className={styles.value}>{EMPTY}</p>
-        )}
-      </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Caption</span>
+          <p className={styles.value}>{entry.caption ?? EMPTY}</p>
+        </div>
 
-      <div className={styles.field}>
-        <span className={styles.label}>CTA</span>
-        <p className={styles.value}>{entry.cta ?? EMPTY}</p>
-      </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Hashtags</span>
+          {hasHashtags ? (
+            <ul className={styles.hashtags}>
+              {entry.hashtags.map((tag) => (
+                <li key={tag} className={styles.hashtag}>
+                  {tag.startsWith("#") ? tag : `#${tag}`}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.value}>{EMPTY}</p>
+          )}
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>CTA</span>
+          <p className={styles.value}>{entry.cta ?? EMPTY}</p>
+        </div>
+      </details>
 
       {hideVideo ? null : (
         <VideoDownloads

@@ -9,6 +9,10 @@ import {
   type RenderDebug,
 } from "@/lib/api/content-shared";
 import { loadVariantEligibility } from "@/lib/api/variant-eligibility";
+import {
+  buildPublishReadyText,
+  buildPublishTitle,
+} from "@/lib/publishing/publishReadyText";
 import type {
   ApprovalStatus,
   ContentFormat,
@@ -59,6 +63,15 @@ export interface ProjectContentEntry {
   caption: string | null;
   hashtags: string[];
   cta: string | null;
+  // Publishing UX V1 — the exact text to paste into the platform's primary
+  // publish field (caption / post / tweet / description / body). Composed at
+  // read time from caption + cta + hashtags per platform rules, so it always
+  // reflects the latest edits without a DB column. Never empty for a populated
+  // item; never contains "Hashtags:" / "CTA:" scaffolding.
+  publishReadyText: string;
+  // Standalone title to copy for title+body platforms (youtube, google_business);
+  // null for single-field platforms where the title is not separately published.
+  publishTitle: string | null;
   language: LanguageCode;
   isLanguageVariant: boolean;
   // Raw content_items.language (NULL for primary items). Distinct from the
@@ -142,6 +155,14 @@ export async function listProjectContentByStatus(
     const output = job ? readVideoOutput(job.output) : null;
     const isVariant = isVariantItem(item);
 
+    const publishInput = {
+      platform: item.platform,
+      title: item.title,
+      caption: item.caption,
+      cta: item.cta,
+      hashtags: item.hashtags ?? [],
+    };
+
     return {
       id: item.id,
       packageId: item.package_id,
@@ -152,6 +173,8 @@ export async function listProjectContentByStatus(
       caption: item.caption,
       hashtags: item.hashtags ?? [],
       cta: item.cta,
+      publishReadyText: buildPublishReadyText(publishInput),
+      publishTitle: buildPublishTitle(publishInput),
       language: effectiveLanguage(item.language, projectLanguage),
       isLanguageVariant: isVariant,
       variantLanguage: item.language,
