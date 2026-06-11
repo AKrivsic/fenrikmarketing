@@ -9,6 +9,7 @@ import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import type { WeeklyStrategyOutput } from "@/lib/ai/schemas/weeklyStrategy";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import { MIN_TREND_RELEVANCE } from "@/lib/ai/schemas/trendRelevanceScore";
+import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 
 // Business guardrails enforced AFTER structural validation. These encode the
 // product rules from the spec; a non-empty issue list triggers reject /
@@ -317,6 +318,25 @@ export function checkContentPackageGuardrails(
   const corporate = findForbiddenPhrases(copy, [...CORPORATE_COPY_PHRASES]);
   for (const phrase of corporate) {
     issues.push(issue("$", `corporate/background-story copy present: "${phrase}"`));
+  }
+
+  // MVP scene/image cost cap — a video package drives one GENERATED still per
+  // image_prompt (1 video = ≤MAX_VIDEO_SCENE_STILLS stills = ≤that many image
+  // generations). Require at least one prompt and reject inflated sets so a
+  // single short can never queue 6–8 image generations. Text-only packages have
+  // no video and no image_prompts, so this only applies when video is required.
+  if (requireVideo) {
+    const prompts = (pkg.image_prompts ?? []).filter(
+      (p) => typeof p === "string" && p.trim().length > 0,
+    );
+    if (prompts.length < 1 || prompts.length > MAX_VIDEO_SCENE_STILLS) {
+      issues.push(
+        issue(
+          "$.image_prompts",
+          `image_prompts must contain 1–${MAX_VIDEO_SCENE_STILLS} prompts`,
+        ),
+      );
+    }
   }
 
   return issues;

@@ -16,6 +16,7 @@ import {
 } from "@/lib/ai/guardrails";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
+import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -165,6 +166,33 @@ export function makePackageGuardrails(args: {
 
     return issues;
   };
+}
+
+// MVP scene/image cost cap — normalizes a package's image_prompts IN PLACE so
+// the persisted package_brief and the queued video job both carry the exact
+// same, render-ready list: empty/whitespace prompts are dropped and the list is
+// capped to MAX_VIDEO_SCENE_STILLS (1 video = ≤5 generated stills = ≤5 image
+// generations). Guardrails already reject >5 before this runs; this is the
+// belt-and-suspenders cap that also guarantees brief === what gets rendered.
+// No-op for packages without image_prompts (e.g. text-only).
+export function normalizeImagePrompts(
+  pkg: ContentPackageOutput,
+  logContext: Record<string, unknown> = {},
+): void {
+  const cleaned = (pkg.image_prompts ?? [])
+    .filter((p): p is string => typeof p === "string" && p.trim().length > 0)
+    .map((p) => p.trim());
+  if (cleaned.length > MAX_VIDEO_SCENE_STILLS) {
+    console.warn(
+      "[content-package] image_prompts truncated to cap",
+      JSON.stringify({
+        ...logContext,
+        original_count: cleaned.length,
+        capped_count: MAX_VIDEO_SCENE_STILLS,
+      }),
+    );
+  }
+  pkg.image_prompts = cleaned.slice(0, MAX_VIDEO_SCENE_STILLS);
 }
 
 // Assembles the package_brief jsonb. weekly_strategy_id, strategy_item_id and

@@ -21,7 +21,7 @@ import {
   VOICEOVER_TARGET_MIN_WORDS,
 } from "@/lib/ai/guardrails";
 import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
-import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
+import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
 import {
   type AntiRepetitionMemory,
@@ -410,10 +410,14 @@ export function buildGenerateContentPackagePrompt(
   const visualBeatsLines = requireVideo
     ? [
         "",
-        "VISUAL BEATS: provide 5–8 image_prompts, one per beat of the MODE BEATS",
-        `above (${modeBeatArc}). They will be shown as short moving beats, so make`,
-        "them visually distinct from each other and escalate the tension / curiosity",
-        "toward the reveal. Do NOT default to a generic, interchangeable beat set.",
+        `VISUAL BEATS: provide 3–${MAX_VIDEO_SCENE_STILLS} image_prompts. Each one is a`,
+        "GENERATED still image, and a small set is enough to carry a 20–30s short",
+        "(the stills are reused across the moving beats). Do NOT provide more than",
+        `${MAX_VIDEO_SCENE_STILLS}. They should follow the MODE BEATS above`,
+        `(${modeBeatArc}), but do NOT force one image per narration beat — fewer or`,
+        "more narration labels is fine. Make the stills visually distinct from each",
+        "other and escalate the tension / curiosity toward the reveal. Do NOT default",
+        "to a generic, interchangeable beat set.",
         "Each image_prompt MUST describe a PURELY VISUAL scene. NEVER request",
         "readable text, words, letters, numbers, captions, signs, labels, UI,",
         "phone notifications, checklists or typography inside the image — image",

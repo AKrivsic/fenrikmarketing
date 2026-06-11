@@ -48,6 +48,7 @@ import {
   loadAvailableAssets,
   loadStrategyItemContext,
   makePackageGuardrails,
+  normalizeImagePrompts,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
@@ -231,6 +232,14 @@ export async function runGenerateContentPackage(
     topic: context.topic,
     angle: context.angle,
     memory,
+  });
+
+  // MVP scene/image cost cap — drop empty prompts and cap to the supported max
+  // BEFORE persistence, so the stored package_brief and the queued video job
+  // both carry the exact render-ready list (≤5 generated stills per video).
+  normalizeImagePrompts(generated.value, {
+    workflow: "generate",
+    strategy_item_id: context.strategyItemId,
   });
 
   const data = await persistNewPackage(

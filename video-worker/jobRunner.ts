@@ -36,13 +36,14 @@ import { uploadVideoArtifact } from "@/video-worker/services/storage";
 import { sendVideoCallback } from "@/video-worker/services/callback";
 import {
   buildStoryboard,
+  MAX_VIDEO_SCENE_STILLS,
   SHORT_PROFILE,
   TAIL_BUFFER_SECONDS,
 } from "@/lib/video-engine/storyboard";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
-// Cap the generated/reused still pool so a richer storyboard never inflates
-// image-generation cost: many beats cycle through a handful of stills.
+// Cap the combined generated + reused still pool so a richer storyboard never
+// inflates cost: many beats cycle through a handful of stills.
 const MAX_SCENE_POOL = 8;
 
 function workerTempDir(): string {
@@ -126,7 +127,7 @@ function parseAssetImages(input: Record<string, unknown>): AssetImageRef[] {
 // Task 6 — relevant image assets the package referenced are added to the still
 // pool as REUSED stills (image_bucket/image_path), so the storyboard can show
 // real screenshots/dashboards/references without any new image generation.
-function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
+export function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
   const direct = renderSchema.safeParse(input);
   if (direct.success) return direct.data;
 
@@ -153,11 +154,19 @@ function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
       ? prompts
       : [asString(input["concept"]) ?? asString(input["script"]) ?? voiceoverText];
 
-  const generatedScenes: Scene[] = scenePrompts.map((prompt, index) => ({
-    id: `scene-${index + 1}`,
-    image_prompt: prompt,
-    duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
-  }));
+  // MVP scene/image cost cap — a NEW render generates exactly one image per
+  // generated scene, so the generated stills are capped to MAX_VIDEO_SCENE_STILLS
+  // BEFORE image generation (1 video = ≤5 image-gen calls). Reused asset stills
+  // (below) cost nothing extra and are NOT bound by this cap. The reuse path
+  // (renderSchema.safeParse above) returns early with the legacy input scenes,
+  // so this never re-truncates a language variant's stored render_spec.scenes.
+  const generatedScenes: Scene[] = scenePrompts
+    .slice(0, MAX_VIDEO_SCENE_STILLS)
+    .map((prompt, index) => ({
+      id: `scene-${index + 1}`,
+      image_prompt: prompt,
+      duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
+    }));
 
   const assetScenes: Scene[] = parseAssetImages(input).map((ref, index) => ({
     id: `asset-${index + 1}`,
@@ -168,7 +177,7 @@ function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
   }));
 
   // Generated stills first (the hook usually opens on a branded generated
-  // image), assets appended. Pool is capped to control cost.
+  // image), reused assets appended. Pool is capped to control cost.
   const scenes = [...generatedScenes, ...assetScenes].slice(0, MAX_SCENE_POOL);
 
   return {

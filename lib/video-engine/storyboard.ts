@@ -82,6 +82,15 @@ export const SHORT_PROFILE: VideoProfile = {
   transitionSeconds: 0.4,
 };
 
+// MVP scene/image cost cap. ONE video drives at most this many GENERATED scene
+// stills, i.e. at most this many image-generation calls (1 video = ≤5 stills =
+// ≤5 image gens). The storyboard cycles a small still pool across the 3–5
+// timeline beats, so a handful of stills is enough for a 20–30s short. Reused
+// asset stills cost nothing extra and are not bound by this cap. Shared by the
+// content prompt, guardrails, workflow normalization and the video worker so
+// the mental model and cost stay aligned in one place.
+export const MAX_VIDEO_SCENE_STILLS = 5;
+
 // Content Quality Sprint 2 — tail buffer. A short silent hold added AFTER the
 // narration ends so the final beat (typically the CTA) and its subtitle stay on
 // screen instead of cutting the instant the voice stops. Applied to the LAST

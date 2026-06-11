@@ -54,6 +54,7 @@ function buildPackage(): ContentPackageOutput {
     subtitles: "Here is how we help.",
     cta: { type: "learn_more", text: "Learn more" },
     video: { concept: "Explainer", script: "Scene 1..." },
+    image_prompts: ["bright kitchen", "sponge close-up", "happy customer"],
     platform_outputs: {
       tiktok: platformOutput(),
       instagram: platformOutput(),

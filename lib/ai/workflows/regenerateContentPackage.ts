@@ -28,6 +28,7 @@ import {
   loadAvailableAssets,
   loadStrategyItemContext,
   makePackageGuardrails,
+  normalizeImagePrompts,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
@@ -189,6 +190,10 @@ export async function runRegenerateContentPackage(
   });
 
   const pkg = generated.value;
+  // MVP scene/image cost cap — drop empty prompts and cap to the supported max
+  // BEFORE persisting the brief and queuing the video job, so the stored brief
+  // matches exactly what the worker renders and no extra image gens are queued.
+  normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.
   const funnelStage =
     normalizeFunnelStage(pkg.funnel_stage) ?? context.funnelStage;
