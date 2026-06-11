@@ -1,4 +1,9 @@
 import type { Json, Project } from "@/lib/supabase/types";
+import {
+  canonicalWebsiteUrl,
+  websiteUrlStatus,
+} from "@/lib/knowledge/websiteUrl";
+import { projectServiceMix } from "@/lib/projects/serviceMix";
 import styles from "./ProjectBrain.module.css";
 
 interface ProjectBrainProps {
@@ -44,7 +49,29 @@ function JsonField({ label, value }: { label: string; value: Json }) {
   );
 }
 
+// Website URL field with a configured/missing status badge (Part 1 + Part 4).
+function WebsiteUrlField({ project }: { project: Project }) {
+  const url = canonicalWebsiteUrl(project);
+  const status = websiteUrlStatus(project);
+  return (
+    <div className={styles.field}>
+      <span className={styles.label}>Website URL</span>
+      <p className={`${styles.value} ${styles.urlValue}`}>
+        {url ?? EMPTY}{" "}
+        <span
+          className={
+            status === "configured" ? styles.statusOk : styles.statusMissing
+          }
+        >
+          {status === "configured" ? "configured" : "missing"}
+        </span>
+      </p>
+    </div>
+  );
+}
+
 export function ProjectBrain({ project }: ProjectBrainProps) {
+  const serviceMix = projectServiceMix(project);
   return (
     <div className={styles.brain}>
       <section className={styles.section}>
@@ -59,6 +86,11 @@ export function ProjectBrain({ project }: ProjectBrainProps) {
           <TextField label="Market scope" value={project.market_scope} />
           <TextField label="Goal" value={project.goal_type} />
           <TextField label="Default CTA" value={project.default_cta} />
+          <WebsiteUrlField project={project} />
+          <ListField
+            label="Service mix"
+            values={serviceMix.map((entry) => `${entry.service} = ${entry.weight}`)}
+          />
         </div>
       </section>
 

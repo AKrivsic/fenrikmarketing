@@ -15,7 +15,11 @@ import {
   type RenderMp4Input,
 } from "@/video-worker/services/ffmpeg";
 import { probeMediaStreams } from "@/video-worker/services/tts";
-import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
+import {
+  buildStoryboard,
+  SHORT_PROFILE,
+  TAIL_BUFFER_SECONDS,
+} from "@/lib/video-engine/storyboard";
 
 const TOLERANCE = 0.25;
 const AUDIO_TARGET = 29.916;
@@ -164,6 +168,86 @@ await check("production-shaped xfade undershoot is extended to audio target", as
   );
 });
 
+// Audio-master storyboard: beat-sum timeline matches target within one frame, so
+// the old trim-only extension path skipped tpad and left video at ~one beat (~5s).
+const AUDIO_SYNC = 30.0;
+const syncStoryboard = buildStoryboard({
+  voiceoverText: "word ".repeat(72).trim(),
+  sceneIds: ["s1", "s2", "s3", "s4", "s5", "s6"],
+  audioDurationSeconds: AUDIO_SYNC,
+  tailBufferSeconds: TAIL_BUFFER_SECONDS,
+});
+const syncBeats = syncStoryboard.map((beat) => ({
+  sceneId: beat.sceneId,
+  motion: beat.motion,
+  transition: beat.transition,
+  durationSeconds: beat.durationSeconds,
+}));
+const syncSceneIds = [...new Set(syncStoryboard.map((b) => b.sceneId))];
+const syncTarget = AUDIO_SYNC + TAIL_BUFFER_SECONDS;
+const syncTimeline = computeXfadeTimelineSeconds(syncBeats, SHORT_PROFILE.transitionSeconds);
+assert.ok(
+  syncTarget - syncTimeline <= 1 / SHORT_PROFILE.fps + 0.001,
+  `fixture should hit the sub-frame trim-only bug (gap=${syncTarget - syncTimeline})`,
+);
+for (const sceneId of syncSceneIds) {
+  const i = Number.parseInt(sceneId.replace(/\D/g, ""), 10) || 1;
+  await run(ffmpegBin(), [
+    "-y",
+    "-f",
+    "lavfi",
+    "-i",
+    `color=c=0x${(i * 0x111111).toString(16).padStart(6, "0")}:s=1080x1920:d=1`,
+    "-frames:v",
+    "1",
+    join(dir, `sync-${sceneId}.png`),
+  ]);
+}
+await run(ffmpegBin(), [
+  "-y",
+  "-f",
+  "lavfi",
+  "-i",
+  "anullsrc=r=44100:cl=stereo",
+  "-t",
+  AUDIO_SYNC.toFixed(3),
+  join(dir, "sync-vo.mp3"),
+]);
+const syncIntermediate = join(dir, "intermediate-audio-sync.mp4");
+const syncInput: RenderMp4Input = {
+  images: syncSceneIds.map((sceneId) => ({
+    sceneId,
+    imagePath: join(dir, `sync-${sceneId}.png`),
+  })),
+  beats: syncBeats,
+  audioPath: join(dir, "sync-vo.mp3"),
+  outputPath: syncIntermediate,
+  targetDurationSeconds: syncTarget,
+  audioDurationSeconds: AUDIO_SYNC,
+  profile: {
+    width: SHORT_PROFILE.width,
+    height: SHORT_PROFILE.height,
+    fps: SHORT_PROFILE.fps,
+    transitionSeconds: SHORT_PROFILE.transitionSeconds,
+  },
+};
+await run(ffmpegBin(), buildMultiBeatArgs(syncInput, syncBeats));
+
+await check("audio-synced timeline (storyboard beats / 30s speech) reaches full target", async () => {
+  const streams = await probeMediaStreams(syncIntermediate);
+  assert.equal(typeof streams.video, "number");
+  assert.equal(typeof streams.audio, "number");
+  const video = streams.video as number;
+  assert.ok(
+    video >= syncTarget - TOLERANCE,
+    `video ${video} stuck near first beat; expected ~${syncTarget}`,
+  );
+  assert.ok(
+    video >= 29.75,
+    `video ${video} must be at least 29.75s for 30s speech fixture`,
+  );
+});
+
 console.log(
-  `\nVideo stream extension check passed (xfade ${timeline.toFixed(3)}s / prod-shape ${prodTimeline.toFixed(3)}s -> target ${AUDIO_TARGET}s)`,
+  `\nVideo stream extension check passed (xfade ${timeline.toFixed(3)}s / prod-shape ${prodTimeline.toFixed(3)}s / audio-sync ${syncTimeline.toFixed(3)}s -> targets)`,
 );

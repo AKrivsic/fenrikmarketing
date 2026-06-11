@@ -12,6 +12,11 @@ import {
   PLATFORM_OPTIONS,
   PROJECT_TYPE_OPTIONS,
 } from "@/lib/projects/fieldOptions";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
+import {
+  projectServiceMix,
+  serializeServiceMixInput,
+} from "@/lib/projects/serviceMix";
 import type { Json, Project } from "@/lib/supabase/types";
 import styles from "./ProjectBrainForm.module.css";
 
@@ -33,6 +38,8 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
     marketScope: project.market_scope,
     goalType: project.goal_type,
     defaultCta: project.default_cta ?? "",
+    websiteUrl: canonicalWebsiteUrl(project) ?? "",
+    serviceMix: serializeServiceMixInput(projectServiceMix(project)),
     productIs: project.product_is.join("\n"),
     productIsNot: project.product_is_not.join("\n"),
     productStrengths: project.product_strengths.join("\n"),
@@ -205,6 +212,21 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
       </fieldset>
 
       <label className={styles.field}>
+        <span className={styles.label}>Website URL</span>
+        <input
+          className={styles.input}
+          type="text"
+          value={values.websiteUrl}
+          onChange={(e) => setField("websiteUrl", e.target.value)}
+          placeholder="např. example.com"
+          disabled={isPending}
+        />
+        {fieldErrors.websiteUrl ? (
+          <span className={styles.fieldError}>{fieldErrors.websiteUrl}</span>
+        ) : null}
+      </label>
+
+      <label className={styles.field}>
         <span className={styles.label}>Default CTA</span>
         <input
           className={styles.input}
@@ -213,6 +235,23 @@ export function ProjectBrainForm({ project, onDone }: ProjectBrainFormProps) {
           onChange={(e) => setField("defaultCta", e.target.value)}
           disabled={isPending}
         />
+      </label>
+
+      <label className={styles.field}>
+        <span className={styles.label}>
+          Service mix (volitelné, „Služba = 50“ na řádek, součet 100)
+        </span>
+        <textarea
+          className={styles.textarea}
+          value={values.serviceMix}
+          onChange={(e) => setField("serviceMix", e.target.value)}
+          rows={3}
+          placeholder={"Airbnb cleaning = 50\nOffice cleaning = 30\nRecurring cleaning = 20"}
+          disabled={isPending}
+        />
+        {fieldErrors.serviceMix ? (
+          <span className={styles.fieldError}>{fieldErrors.serviceMix}</span>
+        ) : null}
       </label>
 
       <fieldset className={styles.fieldset} disabled={isPending}>

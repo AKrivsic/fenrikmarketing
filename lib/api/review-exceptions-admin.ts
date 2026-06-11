@@ -37,6 +37,10 @@ export interface ReviewExceptionCard {
   // Extra warning tags (e.g. "Subtitle fallback", "Render warning").
   badges: string[];
   createdAt: string;
+  // Project Brain Improvements V1 (Part 5) — terminal timestamp for run-based
+  // exceptions (the run's completed/failed time). null for item/job cards and
+  // for runs still in progress.
+  completedAt: string | null;
 }
 
 export interface ReviewExceptionsSummary {
@@ -155,6 +159,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
         detail: `${run.failed} failed · ${run.generated} generated · ${run.packageCount} packages`,
         badges: hasWarnings ? [`${run.warningsCount} warnings`] : [],
         createdAt: run.createdAt,
+        completedAt: run.completedAt,
       });
     } else if (hasWarnings) {
       cards.push({
@@ -166,6 +171,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
         detail: `${run.warningsCount} warning${run.warningsCount === 1 ? "" : "s"}`,
         badges: [],
         createdAt: run.createdAt,
+        completedAt: run.completedAt,
       });
     }
   }
@@ -181,6 +187,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
       detail: item.error_message,
       badges: [],
       createdAt: item.created_at,
+      completedAt: null,
     });
   }
 
@@ -202,6 +209,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
         detail: job.error_message,
         badges: warningBadges(debug),
         createdAt: job.created_at,
+        completedAt: null,
       });
       continue;
     }
@@ -217,6 +225,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
         detail: warningDetail(debug),
         badges: warningBadges(debug),
         createdAt: job.created_at,
+        completedAt: null,
       });
     }
   }

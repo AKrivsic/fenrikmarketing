@@ -200,6 +200,12 @@ export interface ReviewRunExport {
     content_item_id: string | null;
     debug: RenderDebug;
   }[];
+  // Project Brain Improvements V1 (Part 4) — top-level website URL observability
+  // for QA tooling. website_url_present is a boolean flag and website_url is the
+  // canonical URL (or null). Mirrors project_url.canonical_website_url; surfaced
+  // at the top level so consumers don't have to dig into project_url.
+  website_url_present: boolean;
+  website_url: string | null;
   // URL observability (Final Review UX Polish). project_url surfaces the
   // canonical website URL the post-process uses plus the raw knowledge value;
   // url_diagnostics explains, per package, whether a URL would be appended and
@@ -388,6 +394,8 @@ export async function getReviewRunExport(
     voiceovers,
     platform_outputs: platformOutputs,
     warnings,
+    website_url_present: websiteUrl !== null,
+    website_url: websiteUrl,
     project_url: {
       canonical_website_url: websiteUrl,
       source_url: rawSourceUrl,

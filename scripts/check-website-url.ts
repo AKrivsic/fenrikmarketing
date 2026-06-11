@@ -14,6 +14,8 @@ import type { Json, Project } from "@/lib/supabase/types";
 import {
   canonicalWebsiteUrl,
   normalizeWebsiteUrl,
+  setKnowledgeSourceUrl,
+  websiteUrlStatus,
 } from "@/lib/knowledge/websiteUrl";
 import { websiteLinkRulesBlock } from "@/lib/ai/prompts/context";
 import {
@@ -128,6 +130,79 @@ check("returns null when knowledge has no source_url", () => {
 
 check("returns null when source_url is blank", () => {
   assert.equal(canonicalWebsiteUrl(buildProject({ source_url: "  " })), null);
+});
+
+// --- setKnowledgeSourceUrl + websiteUrlStatus (Part 1 persistence) ----------
+
+section("setKnowledgeSourceUrl");
+
+check("writes a normalized source_url into an empty knowledge block", () => {
+  const knowledge = setKnowledgeSourceUrl({}, "uklidy-praha.cz") as Record<
+    string,
+    unknown
+  >;
+  assert.equal(knowledge.source_url, "https://uklidy-praha.cz");
+});
+
+check("preserves cards / scenarios while updating source_url", () => {
+  const before = {
+    source_url: "https://old.cz",
+    extracted_at: "2026-01-01T00:00:00Z",
+    cards: { product: { status: "approved" } },
+    scenarios: [{ text: "guest arrives", source: "generated" }],
+  };
+  const after = setKnowledgeSourceUrl(before, "https://new.cz") as Record<
+    string,
+    unknown
+  >;
+  assert.equal(after.source_url, "https://new.cz");
+  assert.deepEqual(after.cards, before.cards);
+  assert.deepEqual(after.scenarios, before.scenarios);
+  assert.equal(after.extracted_at, before.extracted_at);
+});
+
+check("clears source_url to null for a blank / invalid value", () => {
+  assert.equal(
+    (setKnowledgeSourceUrl({ source_url: "https://x.cz" }, "") as Record<
+      string,
+      unknown
+    >).source_url,
+    null,
+  );
+  assert.equal(
+    (setKnowledgeSourceUrl({}, "localhost") as Record<string, unknown>)
+      .source_url,
+    null,
+  );
+});
+
+check("does not mutate the input knowledge object", () => {
+  const before = { source_url: "https://old.cz", cards: {} };
+  setKnowledgeSourceUrl(before, "https://new.cz");
+  assert.equal(before.source_url, "https://old.cz");
+});
+
+check("round-trips: written URL is read back by canonicalWebsiteUrl", () => {
+  const knowledge = setKnowledgeSourceUrl({ cards: {} }, "example.com");
+  const project = buildProject(knowledge as Json);
+  assert.equal(canonicalWebsiteUrl(project), "https://example.com");
+});
+
+section("websiteUrlStatus");
+
+check("is 'configured' when a usable URL exists", () => {
+  assert.equal(
+    websiteUrlStatus(buildProject({ source_url: "uklidy-praha.cz" })),
+    "configured",
+  );
+});
+
+check("is 'missing' when there is no usable URL", () => {
+  assert.equal(websiteUrlStatus(buildProject({})), "missing");
+  assert.equal(
+    websiteUrlStatus(buildProject({ source_url: "localhost" })),
+    "missing",
+  );
 });
 
 // --- websiteLinkRulesBlock --------------------------------------------------

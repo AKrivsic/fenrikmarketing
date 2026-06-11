@@ -13,6 +13,7 @@ import {
   projectContentControls,
   summarizePlatformTargets,
 } from "@/lib/projects/contentControls";
+import { serviceMixBlock } from "@/lib/projects/serviceMix";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import { PLATFORM_OPTIONS } from "@/lib/projects/fieldOptions";
 
@@ -209,6 +210,7 @@ export function buildWeeklyStrategyPrompt(
   const painPointFirst = painPointFirstBlock(project);
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
+  const serviceMix = serviceMixBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
   const platforms = allowedPlatforms(project);
   const controls = projectContentControls(project);
@@ -225,6 +227,7 @@ export function buildWeeklyStrategyPrompt(
     ...(painPointFirst ? ["", painPointFirst] : []),
     ...(proof ? ["", proof] : []),
     ...(scenarios ? ["", scenarios] : []),
+    ...(serviceMix ? ["", serviceMix] : []),
     ...(memory ? ["", memory] : []),
     "",
     controlsBlock(project),

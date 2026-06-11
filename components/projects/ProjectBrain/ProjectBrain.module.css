@@ -45,6 +45,34 @@
   text-transform: capitalize;
 }
 
+.urlValue {
+  text-transform: none;
+  word-break: break-all;
+}
+
+.statusOk,
+.statusMissing {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+
+.statusOk {
+  background-color: color-mix(in srgb, green 18%, transparent);
+  color: green;
+}
+
+.statusMissing {
+  background-color: color-mix(in srgb, crimson 18%, transparent);
+  color: crimson;
+}
+
 .list {
   margin: 0;
   padding-left: 1.1rem;

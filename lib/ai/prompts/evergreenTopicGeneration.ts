@@ -1,5 +1,6 @@
 import type { Project } from "@/lib/supabase/types";
 import { constraintsBlock, projectBrainBlock } from "@/lib/ai/prompts/context";
+import { serviceMixBlock } from "@/lib/projects/serviceMix";
 
 export interface EvergreenGenerationPromptInput {
   project: Project;
@@ -17,11 +18,13 @@ export function buildEvergreenTopicGenerationPrompt(
   input: EvergreenGenerationPromptInput,
 ): string {
   const { project, count, pillar, existingTitles } = input;
+  const serviceMix = serviceMixBlock(project);
 
   return [
     projectBrainBlock(project),
     "",
     constraintsBlock(project),
+    ...(serviceMix ? ["", serviceMix] : []),
     "",
     `TARGET COUNT: ${count}`,
     pillar ? `FOCUS PILLAR: ${pillar}` : "PILLARS: derive sensible pillars.",

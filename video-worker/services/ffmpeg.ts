@@ -276,13 +276,15 @@ function extendVideoToTargetDuration(
   outLabel: string,
   targetSeconds: number,
   timelineSeconds: number,
-  fps: number,
 ): string {
   const target = targetSeconds.toFixed(3);
-  const gap = targetSeconds - timelineSeconds;
-  if (!Number.isFinite(gap) || gap <= 1 / fps) {
-    return `[${inLabel}]trim=duration=${target},setpts=PTS-STARTPTS[${outLabel}]`;
-  }
+  // Always clone-hold then trim. The beat-sum timeline (and even xfade PTS length)
+  // can match the audio target within a frame while the joined stream is still
+  // shorter than that target — trim-only then caps a ~one-beat stream (~5s) even
+  // though -t on the mux forces full-length audio.
+  const gap = Number.isFinite(targetSeconds - timelineSeconds)
+    ? targetSeconds - timelineSeconds
+    : VIDEO_EXTENSION_MARGIN_SECONDS;
   const stopDuration = Math.max(
     FINAL_FRAME_FREEZE_SECONDS,
     gap + VIDEO_EXTENSION_MARGIN_SECONDS,
@@ -406,7 +408,6 @@ export function buildMultiBeatArgs(
           videoLabel,
           targetSeconds,
           timelineSeconds,
-          fps,
         )
       : needsLegacyFreeze
         ? finalFreezeStage(currentLabel, videoLabel)

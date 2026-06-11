@@ -227,9 +227,16 @@ function ExceptionCard({ card }: { card: ReviewExceptionCard }) {
       ) : null}
 
       <footer className={styles.cardFooter}>
-        <time className={styles.timestamp} dateTime={card.createdAt}>
-          {formatDateTime(card.createdAt)}
-        </time>
+        <span className={styles.timestamps}>
+          <time className={styles.timestamp} dateTime={card.createdAt}>
+            {formatDateTime(card.createdAt)}
+          </time>
+          {card.completedAt ? (
+            <time className={styles.timestamp} dateTime={card.completedAt}>
+              {`→ ${formatDateTime(card.completedAt)}`}
+            </time>
+          ) : null}
+        </span>
         <Link
           href={`/projects/${card.projectId}/review`}
           className={styles.openLink}

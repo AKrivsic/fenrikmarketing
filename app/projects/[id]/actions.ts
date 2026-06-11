@@ -29,6 +29,15 @@ import {
   N8nRequestError,
   sendN8nWebhook,
 } from "@/lib/n8n/client";
+import {
+  normalizeWebsiteUrl,
+  setKnowledgeSourceUrl,
+} from "@/lib/knowledge/websiteUrl";
+import {
+  parseServiceMixInput,
+  validateServiceMix,
+  withServiceMix,
+} from "@/lib/projects/serviceMix";
 import type {
   GoalType,
   Json,
@@ -47,6 +56,12 @@ export interface ProjectBrainFormValues {
   marketScope: string;
   goalType: string;
   defaultCta: string;
+  // Project Brain Improvements V1 (Part 1) — canonical website URL, persisted
+  // into projects.knowledge.source_url (no DB migration).
+  websiteUrl: string;
+  // Project Brain Improvements V1 (Part 2) — optional service mix textarea
+  // ("Service name = 50" per line), persisted into publishing_rules.service_mix.
+  serviceMix: string;
   productIs: string;
   productIsNot: string;
   productStrengths: string;
@@ -163,9 +178,28 @@ export async function updateProjectBrain(
   const publishingRules = parseJsonObject(values.publishingRules);
   if (!publishingRules.ok) fieldErrors.publishingRules = publishingRules.error;
 
+  // Website URL (Part 1). A blank value clears the URL; a non-empty value must
+  // normalize to a usable http(s) URL, otherwise it is rejected.
+  const websiteUrlRaw = values.websiteUrl.trim();
+  if (websiteUrlRaw.length > 0 && normalizeWebsiteUrl(websiteUrlRaw) === null) {
+    fieldErrors.websiteUrl = "Neplatná URL (např. example.com).";
+  }
+
+  // Service mix (Part 2). Optional; when provided it must total 100.
+  const serviceMixEntries = parseServiceMixInput(values.serviceMix);
+  const serviceMixValidation = validateServiceMix(serviceMixEntries);
+  if (!serviceMixValidation.ok) {
+    fieldErrors.serviceMix = serviceMixValidation.error ?? "Neplatný service mix.";
+  }
+
   if (Object.keys(fieldErrors).length > 0) {
     return { ok: false, error: "Zkontroluj zvýrazněná pole.", fieldErrors };
   }
+
+  // The website URL is merged into the EXISTING knowledge jsonb (preserving
+  // cards / scenarios), so load the current row first.
+  const existing = await getProjectForAdmin(projectId);
+  if (!existing) return { ok: false, error: "Projekt nenalezen." };
 
   const defaultCta = values.defaultCta.trim();
 
@@ -185,7 +219,14 @@ export async function updateProjectBrain(
     platforms,
     target_audience: (targetAudience as { value: Json }).value,
     tone_of_voice: (toneOfVoice as { value: Json }).value,
-    publishing_rules: (publishingRules as { value: Json }).value,
+    // Merge the service mix into the edited publishing_rules (the dedicated
+    // field is the source of truth and overrides any service_mix in the JSON).
+    publishing_rules: withServiceMix(
+      (publishingRules as { value: Json }).value,
+      serviceMixEntries,
+    ),
+    // Persist the canonical website URL into knowledge.source_url (Part 1).
+    knowledge: setKnowledgeSourceUrl(existing.knowledge, websiteUrlRaw),
   };
 
   try {

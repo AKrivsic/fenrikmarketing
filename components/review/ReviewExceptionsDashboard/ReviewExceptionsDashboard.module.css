@@ -259,6 +259,12 @@
   gap: 0.75rem;
 }
 
+.timestamps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 .timestamp {
   font-size: 0.78rem;
   color: var(--color-text-muted);

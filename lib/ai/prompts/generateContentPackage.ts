@@ -20,6 +20,7 @@ import {
   VOICEOVER_TARGET_MAX_WORDS,
   VOICEOVER_TARGET_MIN_WORDS,
 } from "@/lib/ai/guardrails";
+import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
 import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
 import {
@@ -418,6 +419,11 @@ export function buildGenerateContentPackagePrompt(
         "phone notifications, checklists or typography inside the image — image",
         "models render these as garbled noise. All messaging is delivered through",
         "the voiceover and burned-in subtitles, NOT inside the generated image.",
+        "",
+        // Visual Style Guardrail V1 (Part 3) — global bright/clean/daylight
+        // default so generated stills stop skewing dark/moody, unless the
+        // concept explicitly requires a darker look. Imagery only — never copy.
+        visualStyleGuardrailBlock(),
       ]
     : [];
 
