@@ -76,6 +76,74 @@ export function maybeAppendWebsiteUrl(args: {
 }
 
 // ---------------------------------------------------------------------------
+// URL observability (Final Review UX Polish)
+// ---------------------------------------------------------------------------
+// Lightweight, read-only diagnostic that explains — without changing any of the
+// rules above — whether the canonical URL post-process WOULD append a link for a
+// given package, and if not, the first guard that blocked it. Surfaced in the
+// run export JSON so a QA can see at a glance why a run did/didn't carry URLs.
+
+export type UrlAppendReason =
+  | "no_source_url"
+  | "funnel_stage_not_eligible"
+  | "cta_type_not_eligible"
+  | "platform_not_eligible"
+  | "already_has_url";
+
+export interface UrlAppendDiagnostic {
+  url_available: boolean;
+  // Platforms in THIS package that would receive the canonical URL (all guards
+  // pass). Empty when no URL would be appended.
+  url_append_eligible_platforms: string[];
+  // First guard that blocked the append, or null when the URL would/did append.
+  reason: UrlAppendReason | null;
+}
+
+// True for any platform that participates in the deterministic CTA URL append.
+function isUrlAppendPlatform(platform: string): boolean {
+  return platform in URL_APPEND_STAGES_BY_PLATFORM;
+}
+
+export function diagnoseUrlAppend(args: {
+  platforms: string[];
+  funnelStage: FunnelStage;
+  ctaType: string | null | undefined;
+  websiteUrl: string | null;
+  ctaText?: string | null;
+}): UrlAppendDiagnostic {
+  const { platforms, funnelStage, ctaType, websiteUrl, ctaText } = args;
+  const urlAvailable = Boolean(websiteUrl);
+  const ctaTypeEligible = Boolean(ctaType && URL_APPEND_CTA_TYPES.has(ctaType));
+
+  const eligiblePlatforms =
+    urlAvailable && ctaTypeEligible
+      ? platforms.filter((platform) => {
+          const stages = URL_APPEND_STAGES_BY_PLATFORM[platform];
+          return Boolean(stages && stages.includes(funnelStage));
+        })
+      : [];
+
+  let reason: UrlAppendReason | null = null;
+  if (!urlAvailable) {
+    reason = "no_source_url";
+  } else if (!ctaTypeEligible) {
+    reason = "cta_type_not_eligible";
+  } else if (!platforms.some(isUrlAppendPlatform)) {
+    reason = "platform_not_eligible";
+  } else if (eligiblePlatforms.length === 0) {
+    reason = "funnel_stage_not_eligible";
+  } else if (ctaText && textHasUrl(ctaText)) {
+    reason = "already_has_url";
+  }
+
+  return {
+    url_available: urlAvailable,
+    url_append_eligible_platforms: eligiblePlatforms,
+    reason,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // X URL Distribution V1
 // ---------------------------------------------------------------------------
 // X is intentionally excluded from the per-CTA append above (maybeAppendWebsiteUrl)

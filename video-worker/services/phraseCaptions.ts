@@ -41,6 +41,17 @@ export const MAX_WORDS_PER_PHRASE = 5;
 // never extends the total timeline (which stays equal to the audio).
 export const MIN_CUE_SECONDS = 1.0;
 
+// Subtitle Tail Timing Fix V1 — the video stream is intentionally longer than
+// the speech: the renderer pads it by TAIL_BUFFER_SECONDS of silence so the
+// final frame/caption holds after the voice stops. Subtitle cues must be timed
+// against the SPEECH window [0, speechDuration], NOT the padded video window
+// [0, speechDuration + tail]; otherwise the proportional distribution (and the
+// whisper interpolation) push the LAST spoken phrase into the silent tail and it
+// reads as "missing". This constant is how long the LAST cue may dwell past the
+// spoken audio into the tail — small (<= 0.5s) so the final caption lingers just
+// long enough to finish reading without floating in deep silence.
+export const LAST_CUE_TAIL_HOLD_SECONDS = 0.3;
+
 const PHRASE_BOUNDARY_PUNCTUATION = /[,.;:!?…—–]$/;
 
 function words(text: string): string[] {
@@ -174,24 +185,74 @@ export interface BuildPhraseCuesInput {
   beats: StoryboardBeat[];
   transitionSeconds: number;
   minCueSeconds?: number;
+  // Subtitle Tail Timing Fix V1 — the actual spoken audio duration (seconds).
+  // When provided, phrases are distributed over the SPEECH window
+  // [0, speechDurationSeconds] so the final cue never slides into the silent
+  // tail. When omitted, the speech window is derived from the beat timeline
+  // (minus tailBufferSeconds if given) and finally falls back to the full
+  // timeline (legacy behaviour) so existing callers are unchanged.
+  speechDurationSeconds?: number;
+  // The silent hold appended AFTER the speech by the renderer (e.g.
+  // TAIL_BUFFER_SECONDS). Excluded from the phrase distribution. Only used to
+  // derive the speech window when speechDurationSeconds is not supplied.
+  tailBufferSeconds?: number;
+  // How long the LAST cue may dwell past the speech end into the tail. Capped at
+  // the beat timeline so legacy callers (no tail separated) are unaffected.
+  lastCueTailHoldSeconds?: number;
 }
 
 export interface BuildPhraseCuesResult {
   cues: SubtitleCue[];
+  // The subtitle timeline duration = the LAST cue's end.
   totalSeconds: number;
+  // Subtitle Tail Timing Fix V1 — the speech window the cues were distributed
+  // across (diagnostics; equals the beat timeline in the legacy fallback).
+  speechDurationSeconds: number;
+}
+
+// Subtitle Tail Timing Fix V1 — resolves the SPEECH window the cues cover. The
+// measured spoken duration wins; otherwise the tail buffer is subtracted from
+// the beat timeline; otherwise the full timeline is used (legacy). Never exceeds
+// the beat timeline (the cue track can't run past the video).
+function resolveSpeechWindow(
+  input: BuildPhraseCuesInput,
+  timelineTotal: number,
+): number {
+  const speech = input.speechDurationSeconds;
+  if (typeof speech === "number" && Number.isFinite(speech) && speech > 0) {
+    return Math.min(speech, timelineTotal);
+  }
+  const tail = input.tailBufferSeconds;
+  if (typeof tail === "number" && Number.isFinite(tail) && tail > 0) {
+    return Math.max(0, timelineTotal - tail);
+  }
+  return timelineTotal;
+}
+
+function resolveTailHold(input: BuildPhraseCuesInput): number {
+  const hold = input.lastCueTailHoldSeconds ?? LAST_CUE_TAIL_HOLD_SECONDS;
+  if (!Number.isFinite(hold) || hold < 0) return 0;
+  return hold;
 }
 
 // Builds the phrase-level subtitle cues for the whole video. The narration
-// (joined across beats, in order) is segmented into phrases and the audio-master
-// timeline is distributed across them in proportion to phrase length, then the
+// (joined across beats, in order) is segmented into phrases and the SPEECH
+// window is distributed across them in proportion to phrase length, then the
 // minimum-duration floor is applied. Cues are emitted contiguously so the
-// timeline has no gaps, no overlaps, and covers the entire voiceover.
+// timeline has no gaps, no overlaps, and covers the entire voiceover. The last
+// cue is pinned to the speech end (plus a small, capped tail hold) so the final
+// spoken phrase is never pushed into the silent tail.
 export function buildPhraseCues(
   input: BuildPhraseCuesInput,
 ): BuildPhraseCuesResult {
   const { beats, transitionSeconds } = input;
   const minCue = input.minCueSeconds ?? MIN_CUE_SECONDS;
-  const total = timelineTotalSeconds(beats, transitionSeconds);
+  const timelineTotal = timelineTotalSeconds(beats, transitionSeconds);
+  const speech = resolveSpeechWindow(input, timelineTotal);
+  // The last cue may hold a touch past the speech end, but never past the video
+  // (beat timeline). In the legacy path speech === timelineTotal, so the cap
+  // pins the last cue exactly to the timeline — unchanged behaviour.
+  const lastCueEnd = Math.min(speech + resolveTailHold(input), timelineTotal);
 
   const fullText = beats
     .map((beat) => beat.text)
@@ -200,29 +261,35 @@ export function buildPhraseCues(
     .trim();
   const phrases = splitIntoPhrases(fullText);
 
-  if (phrases.length === 0 || total <= 0) {
-    return { cues: [], totalSeconds: total };
+  if (phrases.length === 0 || speech <= 0) {
+    return { cues: [], totalSeconds: 0, speechDurationSeconds: speech };
   }
 
   // Weight by character length: longer phrases take longer to say than a raw
   // word count implies (it accounts for word length), tracking rhythm better.
   const weights = phrases.map((p) => Math.max(1, p.length));
   const weightSum = weights.reduce((sum, w) => sum + w, 0);
-  const proportional = weights.map((w) => (total * w) / weightSum);
-  const durations = enforceMinDurations(proportional, total, minCue);
+  const proportional = weights.map((w) => (speech * w) / weightSum);
+  const durations = enforceMinDurations(proportional, speech, minCue);
 
   const cues: SubtitleCue[] = [];
   let cursor = 0;
   for (let i = 0; i < phrases.length; i++) {
     const start = cursor;
-    // Pin the last cue to the exact total so coverage is complete and free of
-    // floating-point drift; intermediate cues advance by their duration.
-    const end = i === phrases.length - 1 ? total : start + durations[i];
+    // Intermediate cues advance by their duration; the LAST cue is pinned to the
+    // speech end (+ small tail hold) so coverage is complete, free of
+    // floating-point drift, and never slides into the silent tail.
+    const end = i === phrases.length - 1 ? lastCueEnd : start + durations[i];
     cues.push({ startSeconds: start, endSeconds: end, text: phrases[i] });
     cursor = end;
   }
 
-  return { cues, totalSeconds: total };
+  const last = cues[cues.length - 1];
+  return {
+    cues,
+    totalSeconds: last.endSeconds,
+    speechDurationSeconds: speech,
+  };
 }
 
 // ===========================================================================
@@ -340,8 +407,14 @@ export interface BuildPhraseCuesFromWordsInput {
   voiceoverText: string;
   // Real per-word timestamps from whisper (already sanitized).
   words: WordTimestamp[];
-  // Upper bound for the cue track (typically the storyboard timeline total).
-  // Cue ends are clamped to it so subtitles never run past the video.
+  // Subtitle Tail Timing Fix V1 — the measured spoken audio duration (seconds).
+  // When provided it is the SPEECH window: unmatched trailing phrases interpolate
+  // toward it (NOT toward audioDuration + tail) and the whole track is clamped to
+  // it, so the last cue can never be pushed into the silent tail. When omitted,
+  // falls back to totalSeconds, then to the last word's end (legacy behaviour).
+  speechDurationSeconds?: number;
+  // Legacy upper bound for the cue track (typically the storyboard timeline
+  // total). Used only when speechDurationSeconds is not supplied.
   totalSeconds?: number;
   minCueSeconds?: number;
   // Minimum fraction of narration tokens that must align to the transcript for
@@ -389,10 +462,19 @@ export function buildPhraseCuesFromWords(
   }
 
   const audioEnd = transcriptWords.reduce((m, w) => Math.max(m, w.end), 0);
-  const total =
-    input.totalSeconds && input.totalSeconds > 0
-      ? input.totalSeconds
-      : audioEnd;
+  // Subtitle Tail Timing Fix V1 — bound the cue track to the SPEECH window. The
+  // measured spoken duration wins; otherwise the legacy totalSeconds; otherwise
+  // the last spoken word. `Math.max(..., audioEnd)` guarantees a genuinely
+  // aligned final word is never clipped, while keeping the window at the speech
+  // end (NOT audioDuration + tail), so unmatched trailing phrases interpolate
+  // toward the speech end instead of into the silent tail.
+  const speech =
+    input.speechDurationSeconds && input.speechDurationSeconds > 0
+      ? input.speechDurationSeconds
+      : input.totalSeconds && input.totalSeconds > 0
+        ? input.totalSeconds
+        : audioEnd;
+  const total = Math.max(speech, audioEnd);
 
   // Fill any unaligned phrases so the track is continuous.
   const starts = interpolateSeries(rawStarts, 0, total);
@@ -416,7 +498,8 @@ export function buildPhraseCuesFromWords(
     cues[i].endSeconds = cues[i + 1].startSeconds;
   }
 
-  // Clamp the whole track to the timeline so nothing runs past the video.
+  // Clamp the whole track to the speech window so nothing runs into the silent
+  // tail (Subtitle Tail Timing Fix V1) or past the video.
   for (const cue of cues) {
     if (cue.startSeconds > total) cue.startSeconds = total;
     if (cue.endSeconds > total) cue.endSeconds = total;
@@ -426,5 +509,5 @@ export function buildPhraseCuesFromWords(
   }
 
   const last = cues[cues.length - 1];
-  return { cues, totalSeconds: last.endSeconds };
+  return { cues, totalSeconds: last.endSeconds, speechDurationSeconds: speech };
 }

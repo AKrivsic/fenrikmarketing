@@ -300,9 +300,16 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // full-sentence cue per beat. The storyboard beats / video duration are
     // unchanged; only the burned subtitles change. This proportional result is
     // also the FALLBACK for word-timestamp alignment below.
+    // Subtitle Tail Timing Fix V1 — distribute phrases over the SPEECH window
+    // (the measured voiceover), NOT the padded video window (speech + tail). The
+    // renderer holds the final frame for TAIL_BUFFER_SECONDS of silence; without
+    // this separation the proportional distribution slides the last spoken phrase
+    // into that silent tail and it reads as "missing".
     const proportional = buildPhraseCues({
       beats: storyboard,
       transitionSeconds: SHORT_PROFILE.transitionSeconds,
+      speechDurationSeconds: voiceover.durationSeconds,
+      tailBufferSeconds: TAIL_BUFFER_SECONDS,
     });
     let cues = proportional.cues;
     const totalSeconds = proportional.totalSeconds;
@@ -335,6 +342,11 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       const aligned = buildPhraseCuesFromWords({
         voiceoverText: spec.voiceover_text,
         words: transcription.words,
+        // Subtitle Tail Timing Fix V1 — word timestamps already live in speech
+        // time; clamp the track (and any trailing interpolation) to the spoken
+        // audio, never into the silent tail. totalSeconds remains as the legacy
+        // fallback bound when no measured duration is available.
+        speechDurationSeconds: voiceover.durationSeconds,
         totalSeconds,
       });
       if (aligned && aligned.cues.length > 0) {
@@ -410,6 +422,13 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       video_duration: renderDiagnostics.videoDuration,
       srt_last_cue_end: srtLastCueEnd,
       duration_delta: renderDiagnostics.durationDelta,
+      // Subtitle Tail Timing Fix V1 — make the speech vs subtitle vs tail windows
+      // provable from the debug payload alone (no DB migration; debug JSON only).
+      // subtitle_timeline_duration is the last cue end; with the fix it tracks
+      // speech_duration (+ a small hold), not speech_duration + tail_buffer.
+      speech_duration: voiceover.durationSeconds ?? null,
+      subtitle_timeline_duration: srtLastCueEnd,
+      tail_buffer_seconds: TAIL_BUFFER_SECONDS,
       // Video Duration Audit V1 — per-stage durations so the exact point any
       // truncation is introduced is provable from the debug payload alone.
       target_duration: renderDiagnostics.targetDuration,

@@ -18,6 +18,7 @@ import {
 import { websiteLinkRulesBlock } from "@/lib/ai/prompts/context";
 import {
   appendUrlToText,
+  diagnoseUrlAppend,
   maybeAppendWebsiteUrl,
   xUrlVariantCount,
   xUrlVariantIndices,
@@ -450,6 +451,80 @@ check("X is still excluded from the per-CTA append", () => {
     }),
     cta,
   );
+});
+
+// --- diagnoseUrlAppend (URL observability) ----------------------------------
+
+section("diagnoseUrlAppend");
+
+check("reports no_source_url when there is no website URL", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["youtube", "facebook"],
+    funnelStage: "conversion",
+    ctaType: "lead",
+    websiteUrl: null,
+  });
+  assert.equal(d.url_available, false);
+  assert.equal(d.reason, "no_source_url");
+  assert.deepEqual(d.url_append_eligible_platforms, []);
+});
+
+check("reports cta_type_not_eligible for a non-conversion CTA", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["youtube"],
+    funnelStage: "conversion",
+    ctaType: "learn_more",
+    websiteUrl: URL,
+  });
+  assert.equal(d.url_available, true);
+  assert.equal(d.reason, "cta_type_not_eligible");
+});
+
+check("reports funnel_stage_not_eligible for awareness", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["youtube", "facebook"],
+    funnelStage: "awareness",
+    ctaType: "lead",
+    websiteUrl: URL,
+  });
+  assert.equal(d.reason, "funnel_stage_not_eligible");
+  assert.deepEqual(d.url_append_eligible_platforms, []);
+});
+
+check("reports platform_not_eligible when no append platform is present", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["tiktok", "instagram", "x", "google_business"],
+    funnelStage: "conversion",
+    ctaType: "lead",
+    websiteUrl: URL,
+  });
+  assert.equal(d.reason, "platform_not_eligible");
+});
+
+check("lists eligible platforms and null reason when a URL would append", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["tiktok", "youtube", "facebook", "linkedin"],
+    funnelStage: "conversion",
+    ctaType: "lead",
+    websiteUrl: URL,
+  });
+  assert.equal(d.reason, null);
+  assert.deepEqual(d.url_append_eligible_platforms.sort(), [
+    "facebook",
+    "linkedin",
+    "youtube",
+  ]);
+});
+
+check("reports already_has_url when the CTA already carries a link", () => {
+  const d = diagnoseUrlAppend({
+    platforms: ["youtube"],
+    funnelStage: "conversion",
+    ctaType: "lead",
+    websiteUrl: URL,
+    ctaText: `Objednejte na ${URL}`,
+  });
+  assert.equal(d.reason, "already_has_url");
 });
 
 // --- summary ---------------------------------------------------------------

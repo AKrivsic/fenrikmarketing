@@ -87,11 +87,12 @@ const SUBTITLE_FORCE_STYLE =
 // Upscale factor for the still before zoompan, so the motion crop stays crisp.
 const SCALE_HEADROOM = 1.4;
 
-// How long the FINAL frame is frozen (cloned) past the beat timeline. With the
-// explicit -t target (audio + tail) bounding the output, the freeze only has to
-// outlast the gap between the (audio-driven) beat timeline and the target, so a
-// generous fixed hold guarantees the video stream always reaches the target.
+// Minimum clone-hold after xfade. Must be generous: xfade PTS length often exceeds
+// the beat-sum timeline (frame rounding), and a short stop_duration does not
+// materialize enough frames — output -t alone cannot fix that.
 const FINAL_FRAME_FREEZE_SECONDS = 30;
+// Extra seconds above (target - timeline) when sizing tpad for the audio target.
+const VIDEO_EXTENSION_MARGIN_SECONDS = 5;
 
 // Subtitle Reliability V1 (Part A) — max allowed |video - audio| in the final
 // MP4 before a render_warning is recorded.
@@ -247,11 +248,49 @@ function beatVideoChain(
   return { chain, label };
 }
 
-// Subtitle Reliability V1 (Part B) — the FINAL frame freeze applied to the
-// (subtitle-free) intermediate video so the video stream always reaches the
-// explicit -t target.
+// Video Stream Extension V2 — xfade timeline length (seconds) after overlaps.
+export function computeXfadeTimelineSeconds(
+  beats: RenderBeat[],
+  transitionSeconds: number,
+): number {
+  if (beats.length === 0) return 0;
+  let cumulative = beats[0].durationSeconds;
+  for (let i = 1; i < beats.length; i++) {
+    const td = Math.min(transitionSeconds, beats[i].durationSeconds / 2);
+    cumulative = cumulative - td + beats[i].durationSeconds;
+  }
+  return cumulative;
+}
+
+// Legacy tail-pad hold (no measured audio target).
 function finalFreezeStage(currentLabel: string, videoLabel: string): string {
-  return `[${currentLabel}]tpad=stop_mode=clone:stop_duration=${FINAL_FRAME_FREEZE_SECONDS.toFixed(3)}[${videoLabel}]`;
+  return `[${currentLabel}]tpad=stop_mode=1:stop_duration=${FINAL_FRAME_FREEZE_SECONDS.toFixed(3)}[${videoLabel}]`;
+}
+
+// Video Stream Extension V2 — after the xfade chain, clone the last frame and
+// concat until the stream is at least the audio target, then trim to the exact
+// target. Output `-t` can cap mux duration but cannot create missing frames; this
+// stage materializes them in the filtergraph before encode.
+function extendVideoToTargetDuration(
+  inLabel: string,
+  outLabel: string,
+  targetSeconds: number,
+  timelineSeconds: number,
+  fps: number,
+): string {
+  const target = targetSeconds.toFixed(3);
+  const gap = targetSeconds - timelineSeconds;
+  if (!Number.isFinite(gap) || gap <= 1 / fps) {
+    return `[${inLabel}]trim=duration=${target},setpts=PTS-STARTPTS[${outLabel}]`;
+  }
+  const stopDuration = Math.max(
+    FINAL_FRAME_FREEZE_SECONDS,
+    gap + VIDEO_EXTENSION_MARGIN_SECONDS,
+  );
+  return (
+    `[${inLabel}]tpad=stop_mode=1:stop_duration=${stopDuration.toFixed(3)},` +
+    `trim=duration=${target},setpts=PTS-STARTPTS[${outLabel}]`
+  );
 }
 
 // MVP-compatible single still path (also used when there is just one beat). Adds
@@ -275,7 +314,7 @@ export function buildSingleImageArgs(input: RenderMp4Input): string[] {
   );
 
   const videoLabel = "vout";
-  // The looped still is unbounded; freeze stage is unnecessary here. Pass through.
+  // Looped still + zoompan is unbounded; output -t bounds to the audio target.
   const videoFilter = `${chain};[${label}]null[${videoLabel}]`;
 
   const audioInputIndex = 1;
@@ -352,18 +391,26 @@ export function buildMultiBeatArgs(
     cumulative = cumulative - td + beats[i].durationSeconds;
   }
 
-  // Freeze the FINAL frame so the (subtitle-free) video outlasts the audio
-  // target; the output -t cuts it exactly at audio + tail. Legacy (no target)
-  // only freezes when a tail pad was requested, matching historical behaviour.
   const videoLabel = "vout";
-  const needsFreeze =
-    hasTarget(input) ||
-    (typeof input.tailPadSeconds === "number" &&
-      Number.isFinite(input.tailPadSeconds) &&
-      input.tailPadSeconds > 0);
-  const finalChain = needsFreeze
-    ? finalFreezeStage(currentLabel, videoLabel)
-    : `[${currentLabel}]null[${videoLabel}]`;
+  const timelineSeconds = computeXfadeTimelineSeconds(beats, transitionSeconds);
+  const targetSeconds = input.targetDurationSeconds;
+  const needsLegacyFreeze =
+    !hasTarget(input) &&
+    typeof input.tailPadSeconds === "number" &&
+    Number.isFinite(input.tailPadSeconds) &&
+    input.tailPadSeconds > 0;
+  const finalChain =
+    hasTarget(input) && typeof targetSeconds === "number"
+      ? extendVideoToTargetDuration(
+          currentLabel,
+          videoLabel,
+          targetSeconds,
+          timelineSeconds,
+          fps,
+        )
+      : needsLegacyFreeze
+        ? finalFreezeStage(currentLabel, videoLabel)
+        : `[${currentLabel}]null[${videoLabel}]`;
 
   // Audio is the last input.
   const audioInputIndex = beats.length;

@@ -12,8 +12,16 @@ import type {
   Json,
   ProductionRun,
   ProductionRunStatus,
+  Project,
   VideoJob,
 } from "@/lib/supabase/types";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
+import { parseProjectKnowledge } from "@/lib/knowledge/types";
+import { normalizeFunnelStage } from "@/lib/ai/types";
+import {
+  diagnoseUrlAppend,
+  type UrlAppendReason,
+} from "@/lib/ai/websiteLinks";
 
 // Subtitle Reliability V1 (Part D + E + F) — Run Review UX.
 //
@@ -192,6 +200,50 @@ export interface ReviewRunExport {
     content_item_id: string | null;
     debug: RenderDebug;
   }[];
+  // URL observability (Final Review UX Polish). project_url surfaces the
+  // canonical website URL the post-process uses plus the raw knowledge value;
+  // url_diagnostics explains, per package, whether a URL would be appended and
+  // (when not) the first guard that blocked it. Read-only — no rule changes.
+  project_url: {
+    canonical_website_url: string | null;
+    source_url: string | null;
+  };
+  url_diagnostics: {
+    package_id: string;
+    funnel_stage: string | null;
+    cta_type: string | null;
+    url_available: boolean;
+    url_append_eligible_platforms: string[];
+    reason: UrlAppendReason | null;
+  }[];
+}
+
+// Reads the package CTA payload (text + type) persisted in package_brief.cta.
+function readPackageCta(brief: Json | null): {
+  text: string | null;
+  type: string | null;
+} {
+  if (!brief || typeof brief !== "object" || Array.isArray(brief)) {
+    return { text: null, type: null };
+  }
+  const cta = (brief as Record<string, unknown>).cta;
+  if (!cta || typeof cta !== "object" || Array.isArray(cta)) {
+    return { text: null, type: null };
+  }
+  const record = cta as Record<string, unknown>;
+  return {
+    text: typeof record.text === "string" ? record.text : null,
+    type: typeof record.type === "string" ? record.type : null,
+  };
+}
+
+// Platform-output keys for a package (the platforms it produced outputs for).
+function readPlatformKeys(brief: Json | null): string[] {
+  const outputs = readPlatformOutputs(brief);
+  if (!outputs || typeof outputs !== "object" || Array.isArray(outputs)) {
+    return [];
+  }
+  return Object.keys(outputs);
 }
 
 function readVoiceoverText(input: Json | null): string | null {
@@ -284,6 +336,49 @@ export async function getReviewRunExport(
       debug: entry.debug as RenderDebug,
     }));
 
+  // URL observability — load the project once for the canonical/raw URL and the
+  // per-package append diagnostics. Best-effort: a missing project just yields
+  // null URLs and "no_source_url" diagnostics (it never blocks the export).
+  const { data: projectRow, error: projectErr } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", run.project_id)
+    .maybeSingle();
+  if (projectErr) throw projectErr;
+  const project = (projectRow ?? null) as Project | null;
+
+  const websiteUrl = project ? canonicalWebsiteUrl(project) : null;
+  const rawSourceUrl = project
+    ? (parseProjectKnowledge(project.knowledge)?.source_url ?? null)
+    : null;
+
+  const urlDiagnostics = packages.map((pkg) => {
+    const { text: ctaText, type: ctaType } = readPackageCta(pkg.package_brief);
+    const platforms = readPlatformKeys(pkg.package_brief);
+    const funnelStage = normalizeFunnelStage(pkg.funnel_stage);
+    const diagnostic = funnelStage
+      ? diagnoseUrlAppend({
+          platforms,
+          funnelStage,
+          ctaType,
+          websiteUrl,
+          ctaText,
+        })
+      : {
+          url_available: Boolean(websiteUrl),
+          url_append_eligible_platforms: [],
+          reason: (websiteUrl
+            ? "funnel_stage_not_eligible"
+            : "no_source_url") as UrlAppendReason,
+        };
+    return {
+      package_id: pkg.id,
+      funnel_stage: funnelStage,
+      cta_type: ctaType,
+      ...diagnostic,
+    };
+  });
+
   return {
     exported_at: new Date().toISOString(),
     run,
@@ -293,5 +388,10 @@ export async function getReviewRunExport(
     voiceovers,
     platform_outputs: platformOutputs,
     warnings,
+    project_url: {
+      canonical_website_url: websiteUrl,
+      source_url: rawSourceUrl,
+    },
+    url_diagnostics: urlDiagnostics,
   };
 }

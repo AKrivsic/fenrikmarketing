@@ -16,10 +16,12 @@ import {
   MIN_CUE_SECONDS,
   MIN_WORDS_PER_PHRASE,
   MAX_WORDS_PER_PHRASE,
+  LAST_CUE_TAIL_HOLD_SECONDS,
 } from "@/video-worker/services/phraseCaptions";
 import {
   buildStoryboard,
   SHORT_PROFILE,
+  TAIL_BUFFER_SECONDS,
 } from "@/lib/video-engine/storyboard";
 
 let passed = 0;
@@ -206,9 +208,150 @@ check("sum of cue durations equals the timeline (mass is conserved)", () => {
   );
 });
 
-// --- 3. edge cases ---------------------------------------------------------
+// --- 3. Subtitle Tail Timing Fix V1 — speech window vs silent tail ----------
 
-section("3. edge cases");
+section("3. subtitle tail timing (cues cover speech, not the silent tail)");
+
+// Production-shaped storyboard: the last beat carries the TAIL_BUFFER_SECONDS
+// silent hold, so the beat timeline = speech + tail (exactly what the renderer
+// pads the video to). Subtitles must be timed against the SPEECH window only.
+function buildTailFixCues(audioDurationSeconds: number) {
+  const beats = buildStoryboard({
+    voiceoverText: EN_NARRATION,
+    sceneIds: ["s1", "s2", "s3"],
+    audioDurationSeconds,
+    tailBufferSeconds: TAIL_BUFFER_SECONDS,
+  });
+  const timelineTotal = timelineTotalSeconds(
+    beats,
+    SHORT_PROFILE.transitionSeconds,
+  );
+  const result = buildPhraseCues({
+    beats,
+    transitionSeconds: SHORT_PROFILE.transitionSeconds,
+    speechDurationSeconds: audioDurationSeconds,
+    tailBufferSeconds: TAIL_BUFFER_SECONDS,
+  });
+  return { ...result, timelineTotal };
+}
+
+check("proportional cues end at speechDuration, not speechDuration + tail", () => {
+  // Requirement example: audioDuration = 29.916, tail = 1.5 -> cover ~0..29.916,
+  // NOT 0..31.416.
+  const speech = 29.916;
+  const { cues, totalSeconds, timelineTotal } = buildTailFixCues(speech);
+  const lastEnd = cues[cues.length - 1].endSeconds;
+  assert.ok(
+    Math.abs(timelineTotal - (speech + TAIL_BUFFER_SECONDS)) < 0.05,
+    `fixture timeline should be speech+tail (~${(speech + TAIL_BUFFER_SECONDS).toFixed(3)}), got ${timelineTotal.toFixed(3)}`,
+  );
+  assert.ok(
+    lastEnd <= speech + 0.5 + 1e-6,
+    `last cue ends at ${lastEnd.toFixed(3)}, expected <= ${(speech + 0.5).toFixed(3)} (must not reach ${(speech + TAIL_BUFFER_SECONDS).toFixed(3)})`,
+  );
+  assert.ok(
+    lastEnd >= speech - 1e-6,
+    `last cue ends at ${lastEnd.toFixed(3)}, expected >= speechDuration ${speech}`,
+  );
+  assert.ok(
+    Math.abs(totalSeconds - lastEnd) < 1e-6,
+    "totalSeconds should equal the last cue end",
+  );
+});
+
+check("the final cue is not delayed into the tail (start <= speechDuration)", () => {
+  const speech = 22;
+  const { cues } = buildTailFixCues(speech);
+  const last = cues[cues.length - 1];
+  assert.ok(
+    last.startSeconds <= speech + 1e-6,
+    `last cue starts at ${last.startSeconds.toFixed(3)}, expected <= speechDuration ${speech}`,
+  );
+});
+
+check("the last cue holds at most LAST_CUE_TAIL_HOLD_SECONDS past speech", () => {
+  const speech = 22;
+  const { cues } = buildTailFixCues(speech);
+  const lastEnd = cues[cues.length - 1].endSeconds;
+  assert.ok(
+    lastEnd <= speech + LAST_CUE_TAIL_HOLD_SECONDS + 1e-6,
+    `last cue end ${lastEnd.toFixed(3)} exceeds speech + hold ${(speech + LAST_CUE_TAIL_HOLD_SECONDS).toFixed(3)}`,
+  );
+});
+
+check("every non-final cue stays inside the speech window", () => {
+  const speech = 22;
+  const { cues } = buildTailFixCues(speech);
+  for (let i = 0; i < cues.length - 1; i++) {
+    assert.ok(
+      cues[i].endSeconds <= speech + 1e-6,
+      `cue ${i} ends at ${cues[i].endSeconds.toFixed(3)}, past speechDuration ${speech}`,
+    );
+  }
+});
+
+check("full coverage, no gaps inside the speech window (0 -> last end)", () => {
+  const { cues, totalSeconds } = buildTailFixCues(22);
+  assert.ok(cues.length > 0, "expected cues");
+  assert.ok(Math.abs(cues[0].startSeconds) < 1e-6, "first cue must start at 0");
+  for (let i = 1; i < cues.length; i++) {
+    assert.ok(
+      Math.abs(cues[i].startSeconds - cues[i - 1].endSeconds) < 1e-6,
+      `discontinuity between cue ${i - 1} and ${i}`,
+    );
+  }
+  assert.ok(
+    Math.abs(cues[cues.length - 1].endSeconds - totalSeconds) < 1e-6,
+    "last cue end must equal totalSeconds",
+  );
+});
+
+check("speech window is reported in the result for diagnostics", () => {
+  const speech = 22;
+  const { speechDurationSeconds } = buildTailFixCues(speech);
+  assert.ok(
+    Math.abs(speechDurationSeconds - speech) < 1e-6,
+    `expected speechDurationSeconds ${speech}, got ${speechDurationSeconds}`,
+  );
+});
+
+check("every cue clears the minimum on-screen duration (no flashing)", () => {
+  const { cues } = buildTailFixCues(22);
+  for (const cue of cues) {
+    const dur = cue.endSeconds - cue.startSeconds;
+    assert.ok(
+      dur >= MIN_CUE_SECONDS - 1e-6,
+      `cue "${cue.text}" lasts ${dur.toFixed(3)}s (< ${MIN_CUE_SECONDS}s)`,
+    );
+  }
+});
+
+check("legacy path (no speechDuration) still covers the full beat timeline", () => {
+  // Backward compatibility: without speechDurationSeconds/tailBufferSeconds the
+  // cues cover the whole beat timeline exactly (unchanged behaviour).
+  const beats = buildStoryboard({
+    voiceoverText: EN_NARRATION,
+    sceneIds: ["s1", "s2"],
+    audioDurationSeconds: 22,
+  });
+  const total = timelineTotalSeconds(beats, SHORT_PROFILE.transitionSeconds);
+  const { cues, totalSeconds } = buildPhraseCues({
+    beats,
+    transitionSeconds: SHORT_PROFILE.transitionSeconds,
+  });
+  assert.ok(
+    Math.abs(totalSeconds - total) < 1e-6,
+    `legacy totalSeconds ${totalSeconds} != timeline ${total}`,
+  );
+  assert.ok(
+    Math.abs(cues[cues.length - 1].endSeconds - total) < 1e-6,
+    "legacy last cue must end exactly at the beat timeline",
+  );
+});
+
+// --- 4. edge cases ---------------------------------------------------------
+
+section("4. edge cases");
 
 check("empty narration yields no cues (and never throws)", () => {
   const beats = buildStoryboard({

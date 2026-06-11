@@ -8,7 +8,7 @@ import {
   LANGUAGE_FILTER_OPTIONS,
   PLATFORM_FILTER_OPTIONS,
   STATUS_FILTER_OPTIONS,
-  ALL,
+  toggleFilterValue,
   type RunFilterState,
 } from "@/components/review/reviewFilters";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
@@ -52,11 +52,21 @@ export function ReviewRunSection({
     (pkg) => pkg.items.length > 0,
   );
 
-  function update<K extends keyof RunFilterState>(
+  function toggle<K extends keyof RunFilterState>(
     key: K,
-    value: RunFilterState[K],
+    value: RunFilterState[K][number],
   ) {
-    setFilter((prev) => ({ ...prev, [key]: value }));
+    setFilter((prev) => ({
+      ...prev,
+      [key]: toggleFilterValue(
+        prev[key] as RunFilterState[K][number][],
+        value,
+      ),
+    }));
+  }
+
+  function clear<K extends keyof RunFilterState>(key: K) {
+    setFilter((prev) => ({ ...prev, [key]: [] }));
   }
 
   return (
@@ -95,29 +105,26 @@ export function ReviewRunSection({
           {packagesWithItems.length > 0 ? (
             <>
               <div className={styles.filters}>
-                <Filter
+                <ChipFilter
                   label="Platform"
-                  value={filter.platform}
+                  selected={filter.platforms}
                   options={PLATFORM_FILTER_OPTIONS}
-                  onChange={(value) =>
-                    update("platform", value as RunFilterState["platform"])
-                  }
+                  onToggle={(value) => toggle("platforms", value)}
+                  onClear={() => clear("platforms")}
                 />
-                <Filter
+                <ChipFilter
                   label="Language"
-                  value={filter.language}
+                  selected={filter.languages}
                   options={LANGUAGE_FILTER_OPTIONS}
-                  onChange={(value) =>
-                    update("language", value as RunFilterState["language"])
-                  }
+                  onToggle={(value) => toggle("languages", value)}
+                  onClear={() => clear("languages")}
                 />
-                <Filter
+                <ChipFilter
                   label="Status"
-                  value={filter.status}
+                  selected={filter.statuses}
                   options={STATUS_FILTER_OPTIONS}
-                  onChange={(value) =>
-                    update("status", value as RunFilterState["status"])
-                  }
+                  onToggle={(value) => toggle("statuses", value)}
+                  onClear={() => clear("statuses")}
                 />
               </div>
 
@@ -144,32 +151,50 @@ export function ReviewRunSection({
   );
 }
 
-function Filter({
+// Multi-select chip group. The "All" chip is active when nothing specific is
+// selected (= no filtering); clicking it clears the dimension. Selecting one or
+// more value chips filters to ANY of them.
+function ChipFilter<T extends string>({
   label,
-  value,
+  selected,
   options,
-  onChange,
+  onToggle,
+  onClear,
 }: {
   label: string;
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (value: string) => void;
+  selected: readonly T[];
+  options: { value: T; label: string }[];
+  onToggle: (value: T) => void;
+  onClear: () => void;
 }) {
+  const allActive = selected.length === 0;
   return (
-    <label className={styles.filter}>
+    <div className={styles.filter}>
       <span className={styles.filterLabel}>{label}</span>
-      <select
-        className={styles.select}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        <option value={ALL}>All</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
+      <div className={styles.chips} role="group" aria-label={label}>
+        <button
+          type="button"
+          className={`${styles.chip} ${allActive ? styles.chipActive : ""}`}
+          aria-pressed={allActive}
+          onClick={onClear}
+        >
+          All
+        </button>
+        {options.map((option) => {
+          const active = selected.includes(option.value);
+          return (
+            <button
+              key={option.value}
+              type="button"
+              className={`${styles.chip} ${active ? styles.chipActive : ""}`}
+              aria-pressed={active}
+              onClick={() => onToggle(option.value)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

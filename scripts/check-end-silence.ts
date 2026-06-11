@@ -17,6 +17,7 @@ import {
   buildMultiBeatArgs,
   buildSingleImageArgs,
   buildSubtitleBurnArgs,
+  computeXfadeTimelineSeconds,
   type RenderBeat,
   type RenderMp4Input,
 } from "@/video-worker/services/ffmpeg";
@@ -95,10 +96,27 @@ check("audio is padded indefinitely (apad) so it always reaches the target", () 
   assert.equal(withTarget[mapIdx + 1], "[aout]");
 });
 
-check("the final video frame is frozen (cloned) past the timeline", () => {
+check("xfade timeline is shorter than the audio target in this fixture", () => {
+  const timeline = computeXfadeTimelineSeconds(beats, baseInput.profile!.transitionSeconds);
+  assert.ok(timeline < TARGET, `timeline ${timeline} must be < target ${TARGET}`);
+});
+
+check("video stream is extended before mux (generous tpad + in-filter trim to target)", () => {
   assert.ok(
-    /tpad=stop_mode=clone:stop_duration=\d/.test(targetFilter),
-    `expected a tpad clone hold in: ${targetFilter}`,
+    /tpad=stop_mode=1:stop_duration=\d/.test(targetFilter),
+    `expected tpad clone hold in: ${targetFilter}`,
+  );
+  assert.ok(
+    targetFilter.includes(`trim=duration=${TARGET.toFixed(3)}`),
+    `expected in-filter trim to target in: ${targetFilter}`,
+  );
+  const holdMatch = targetFilter.match(/tpad=stop_mode=1:stop_duration=([\d.]+)/);
+  assert.ok(holdMatch, "expected stop_duration on tpad");
+  const hold = Number.parseFloat(holdMatch[1]);
+  const timeline = computeXfadeTimelineSeconds(beats, baseInput.profile!.transitionSeconds);
+  assert.ok(
+    hold >= TARGET - timeline + 4,
+    `stop_duration ${hold} too small for gap ${TARGET - timeline}`,
   );
 });
 

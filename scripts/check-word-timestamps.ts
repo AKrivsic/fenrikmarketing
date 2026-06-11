@@ -379,6 +379,122 @@ check("tolerates a dropped unique word (still aligns)", () => {
   assert.ok(result, "expected alignment to survive a dropped unique word");
 });
 
+// --- 9. Subtitle Tail Timing Fix V1 — speech window clamp ------------------
+
+section("9. speech window (cues clamp to spoken audio, never the silent tail)");
+
+check("speechDurationSeconds bounds the track and is reported", () => {
+  const words = synthWords(EN_NARRATION);
+  const audioEnd = words.reduce((m, w) => Math.max(m, w.end), 0);
+  // The measured audio runs a little past the last spoken word; the renderer
+  // then pads a silent tail on top. Cues must clamp to the speech end, not tail.
+  const speech = audioEnd + 0.2;
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: EN_NARRATION,
+    words,
+    speechDurationSeconds: speech,
+  });
+  assert.ok(result, "expected aligned cues");
+  const last = result!.cues[result!.cues.length - 1];
+  assert.ok(
+    last.endSeconds <= speech + 1e-6,
+    `last cue ends at ${last.endSeconds}, past speechDuration ${speech}`,
+  );
+  assert.ok(
+    Math.abs(result!.speechDurationSeconds - speech) < 1e-6,
+    `expected speechDurationSeconds ${speech}, got ${result!.speechDurationSeconds}`,
+  );
+});
+
+check("speechDurationSeconds wins over a legacy totalSeconds tail bound", () => {
+  // Drop the last phrase's words so the final phrase is UNMATCHED and must be
+  // interpolated; provide a legacy totalSeconds that includes the 1.5s tail. The
+  // fix must clamp to speechDuration, NOT to speechDuration + tail.
+  const phrases = splitIntoPhrases(EN_NARRATION);
+  const lastCount = tokensOf(phrases[phrases.length - 1]).length;
+  const all = synthWords(EN_NARRATION);
+  const matched = all.slice(0, all.length - lastCount);
+  const lastMatchedEnd = matched[matched.length - 1].end;
+  const speech = lastMatchedEnd + 2.0; // unmatched phrase is spoken in this window
+  const tail = 1.5;
+
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: EN_NARRATION,
+    words: matched,
+    speechDurationSeconds: speech,
+    totalSeconds: speech + tail, // legacy bound would allow the silent tail
+  });
+  assert.ok(result, "expected alignment to survive a dropped final phrase");
+  const last = result!.cues[result!.cues.length - 1];
+  assert.ok(
+    last.endSeconds <= speech + 1e-6,
+    `unmatched final phrase clamped to ${last.endSeconds}, must be <= speechDuration ${speech} (not ${speech + tail})`,
+  );
+  // …and it interpolated FORWARD into the speech window (not stuck at the last
+  // matched word), so the final caption still shows.
+  assert.ok(
+    last.endSeconds > lastMatchedEnd + 1e-6,
+    `final phrase did not advance into the speech window (end ${last.endSeconds} <= last matched ${lastMatchedEnd})`,
+  );
+});
+
+check("unmatched final phrase interpolation clamps to speechDuration", () => {
+  const phrases = splitIntoPhrases(EN_NARRATION);
+  const lastCount = tokensOf(phrases[phrases.length - 1]).length;
+  const all = synthWords(EN_NARRATION);
+  const matched = all.slice(0, all.length - lastCount);
+  const lastMatchedEnd = matched[matched.length - 1].end;
+  const speech = lastMatchedEnd + 3.0;
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: EN_NARRATION,
+    words: matched,
+    speechDurationSeconds: speech,
+  });
+  assert.ok(result);
+  for (const cue of result!.cues) {
+    assert.ok(
+      cue.startSeconds <= speech + 1e-6 && cue.endSeconds <= speech + 1e-6,
+      `cue "${cue.text}" runs past speechDuration ${speech}`,
+    );
+  }
+});
+
+check("last cue end <= audioDuration + 0.5 (speech path)", () => {
+  const words = synthWords(CZ_NARRATION);
+  const audioEnd = words.reduce((m, w) => Math.max(m, w.end), 0);
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: CZ_NARRATION,
+    words,
+    speechDurationSeconds: audioEnd,
+  });
+  assert.ok(result);
+  const last = result!.cues[result!.cues.length - 1];
+  assert.ok(
+    last.endSeconds <= audioEnd + 0.5 + 1e-6,
+    `last cue end ${last.endSeconds} exceeds audioDuration + 0.5 (${audioEnd + 0.5})`,
+  );
+});
+
+check("speechDurationSeconds does not shift fully-aligned cue starts", () => {
+  // Word timestamps already live in speech time; passing speechDuration must not
+  // move aligned cues (start still equals the first word's start).
+  const expected = expectedPhraseTimes(EN_NARRATION);
+  const words = synthWords(EN_NARRATION);
+  const audioEnd = words.reduce((m, w) => Math.max(m, w.end), 0);
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: EN_NARRATION,
+    words,
+    speechDurationSeconds: audioEnd + 1.0,
+  });
+  assert.ok(result);
+  result!.cues.forEach((cue, i) => {
+    assert.ok(
+      Math.abs(cue.startSeconds - expected[i].start) < 1e-6,
+      `cue ${i} start ${cue.startSeconds} != first word start ${expected[i].start}`,
+    );
+  });
+});
+
 // --- summary ---------------------------------------------------------------
 
 console.log(`\n${passed} passed, ${failed} failed`);
