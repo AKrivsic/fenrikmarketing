@@ -317,6 +317,24 @@ function interpolateSeries(
   return out;
 }
 
+// Subtitle Reliability V1 (Part G — observability). Computes the fraction of
+// narration tokens that align to the whisper transcript, using the SAME greedy
+// aligner buildPhraseCuesFromWords relies on. Recorded as match_ratio in the
+// video_jobs debug output so a low-confidence (proportional fallback) subtitle
+// run is visible in review. Returns 0 when there is nothing to align.
+export function computeAlignmentRatio(
+  voiceoverText: string,
+  transcriptWords: WordTimestamp[],
+): number {
+  const narrationTokens = splitIntoPhrases(voiceoverText)
+    .map((p) => words(p))
+    .flat();
+  if (narrationTokens.length === 0 || transcriptWords.length === 0) return 0;
+  const tokenTimes = alignTokens(narrationTokens, transcriptWords);
+  const matched = tokenTimes.reduce((acc, t) => acc + (t ? 1 : 0), 0);
+  return matched / narrationTokens.length;
+}
+
 export interface BuildPhraseCuesFromWordsInput {
   // The text that was actually spoken (the TTS input == what whisper heard).
   voiceoverText: string;

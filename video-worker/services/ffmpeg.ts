@@ -1,6 +1,11 @@
 import { spawn } from "node:child_process";
+import { rm } from "node:fs/promises";
 import { buildZoompanExpr, xfadeTransitionName } from "@/lib/video-engine/motion";
 import { SHORT_PROFILE, type MotionType, type TransitionType } from "@/lib/video-engine/storyboard";
+import {
+  probeAudioDurationSeconds,
+  probeMediaStreams,
+} from "@/video-worker/services/tts";
 
 // Video Quality V2 — a render beat: one still shown with motion for a short
 // duration, joined to the previous beat by a light transition.
@@ -20,16 +25,35 @@ export interface RenderMp4Input {
   srtPath?: string;
   outputPath: string;
   durationSeconds?: number;
-  // Content Quality Sprint 2 — seconds of silence appended to the audio (apad)
-  // so the storyboard's final-beat hold survives -shortest. Omitted/<=0 keeps
-  // the audio untouched (backward compatible).
+  // Content Quality Sprint 2 — seconds of silence appended to the audio so the
+  // storyboard's final-beat hold survives. Omitted/<=0 keeps the audio untouched.
   tailPadSeconds?: number;
+  // Subtitle Reliability V1 (Part A) — the MEASURED voiceover duration. AUDIO is
+  // the single source of truth: the final MP4 duration is forced (explicit -t)
+  // to audioDurationSeconds + tailPadSeconds, so the video can never end before
+  // the audio. When absent the renderer probes the audio file itself.
+  audioDurationSeconds?: number;
+  // Internal — the resolved target duration (audio + tail) propagated to the
+  // arg builders. Callers normally leave this unset; renderMp4 fills it in.
+  targetDurationSeconds?: number;
   // Output geometry / pace. Defaults to the vertical Short profile.
   profile?: { width: number; height: number; fps: number; transitionSeconds: number };
 }
 
+// Subtitle Reliability V1 (Part A + G) — diagnostics recorded after every
+// render. Never throws and never fails a render: purely observational.
+export interface RenderDiagnostics {
+  audioDuration: number | null;
+  videoDuration: number | null;
+  durationDelta: number | null;
+  targetDuration: number | null;
+  renderWarning: boolean;
+  renderWarnings: string[];
+}
+
 export interface RenderMp4Result {
   mp4Path: string;
+  diagnostics: RenderDiagnostics;
 }
 
 export interface GenerateThumbnailInput {
@@ -54,20 +78,15 @@ const SUBTITLE_FORCE_STYLE =
 // Upscale factor for the still before zoompan, so the motion crop stays crisp.
 const SCALE_HEADROOM = 1.4;
 
-// End-of-video silence — how long the FINAL frame is frozen (cloned) past the
-// end of the beat timeline in the multi-beat path. The audio carries the real
-// voiceover + `apad` silence and `-shortest` bounds the muxed file to whichever
-// stream ends first. The multi-beat video is a fixed sum of independently
-// rounded beat durations computed from the *measured* voiceover length, while
-// the audio is the *real* file padded by the tail; if the two drift (per-beat
-// rounding, xfade clamping, or — worst case — a failed duration probe that fell
-// back to the words-per-second estimate) `-shortest` would otherwise truncate
-// the spoken track or the silent hold. Freezing the final frame well past the
-// audio makes the VIDEO always the longer stream, so `-shortest` ends the file
-// exactly when the padded audio ends: voiceover -> tail silence -> hold -> end.
-// ffmpeg stops muxing the frozen frames as soon as the audio ends, so an
-// over-long hold costs nothing.
+// How long the FINAL frame is frozen (cloned) past the beat timeline. With the
+// explicit -t target (audio + tail) bounding the output, the freeze only has to
+// outlast the gap between the (audio-driven) beat timeline and the target, so a
+// generous fixed hold guarantees the video stream always reaches the target.
 const FINAL_FRAME_FREEZE_SECONDS = 30;
+
+// Subtitle Reliability V1 (Part A) — max allowed |video - audio| in the final
+// MP4 before a render_warning is recorded.
+const DURATION_DELTA_WARNING_SECONDS = 0.25;
 
 function ffmpegBin(): string {
   return process.env.FFMPEG_PATH ?? "ffmpeg";
@@ -127,15 +146,33 @@ function subtitlesFilter(srtPath: string): string {
   return `subtitles=filename=${escapeForSubtitlesFilter(srtPath)}:force_style='${SUBTITLE_FORCE_STYLE}'`;
 }
 
-// Content Quality Sprint 2 — resolves how the audio stream is mapped. When a
-// tail pad is requested the audio is routed through the filtergraph with `apad`
-// so it gains exactly `tailPadSeconds` of trailing silence (the final beat's
-// hold), and the output maps the padded label. Otherwise the raw audio stream
-// is mapped directly (unchanged behavior).
+function hasTarget(input: RenderMp4Input): boolean {
+  return (
+    typeof input.targetDurationSeconds === "number" &&
+    Number.isFinite(input.targetDurationSeconds) &&
+    input.targetDurationSeconds > 0
+  );
+}
+
+// Resolves how the audio stream is mapped for the INTERMEDIATE (audio-muxed,
+// subtitle-free) render.
+//   - With an explicit target: pad the audio with silence indefinitely (`apad`)
+//     so it always reaches the target; the output `-t` does the cutting. This is
+//     explicit duration control — `apad`/`-shortest` are no longer the duration
+//     mechanism, only a guarantee the stream is long enough.
+//   - Without a target (legacy fallback only): the historical `apad=pad_dur` +
+//     `-shortest` behaviour.
 function resolveAudioMapping(
   audioInputIndex: number,
-  tailPadSeconds: number | undefined,
+  input: RenderMp4Input,
 ): { filter: string | null; mapLabel: string } {
+  if (hasTarget(input)) {
+    return {
+      filter: `[${audioInputIndex}:a]apad[aout]`,
+      mapLabel: "[aout]",
+    };
+  }
+  const tailPadSeconds = input.tailPadSeconds;
   if (
     typeof tailPadSeconds === "number" &&
     Number.isFinite(tailPadSeconds) &&
@@ -149,6 +186,27 @@ function resolveAudioMapping(
   return { filter: null, mapLabel: `${audioInputIndex}:a` };
 }
 
+// Output codec/duration tail shared by the intermediate render paths.
+function outputArgs(input: RenderMp4Input, fps: number): string[] {
+  const tail = hasTarget(input)
+    ? ["-t", (input.targetDurationSeconds as number).toFixed(3)]
+    : ["-shortest"];
+  return [
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    "-r",
+    String(fps),
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    ...tail,
+    input.outputPath,
+  ];
+}
+
 // Builds the per-beat motion chain: upscale the still, apply zoompan motion for
 // the beat's frames, trim to the exact duration and normalize for xfade.
 function beatVideoChain(
@@ -158,8 +216,8 @@ function beatVideoChain(
   width: number,
   height: number,
   fps: number,
-  // When false, the clip is not trimmed (single-still fallback relies on
-  // -shortest to bound it to the audio so the voiceover is never cut).
+  // When false, the clip is not trimmed (single-still fallback relies on the
+  // output -t / -shortest to bound it to the audio so the voiceover is never cut).
   trim = true,
 ): { chain: string; label: string } {
   const bigW = Math.round(width * SCALE_HEADROOM);
@@ -180,18 +238,27 @@ function beatVideoChain(
   return { chain, label };
 }
 
+// Subtitle Reliability V1 (Part B) — the FINAL frame freeze applied to the
+// (subtitle-free) intermediate video so the video stream always reaches the
+// explicit -t target.
+function finalFreezeStage(currentLabel: string, videoLabel: string): string {
+  return `[${currentLabel}]tpad=stop_mode=clone:stop_duration=${FINAL_FRAME_FREEZE_SECONDS.toFixed(3)}[${videoLabel}]`;
+}
+
 // MVP-compatible single still path (also used when there is just one beat). Adds
-// a gentle zoom-in so even a one-image video is never fully static. Exported for
-// dependency-free arg-construction tests (scripts/check-end-silence.ts).
+// a gentle zoom-in so even a one-image video is never fully static. Produces the
+// INTERMEDIATE (audio-muxed, SUBTITLE-FREE) video — subtitles are burned in a
+// dedicated second pass (buildSubtitleBurnArgs). Exported for dependency-free
+// arg-construction tests.
 export function buildSingleImageArgs(input: RenderMp4Input): string[] {
   const profile = input.profile ?? SHORT_PROFILE;
   const primaryImage = input.images[0].imagePath;
-  // No trim: -shortest bounds the clip to the audio, so the voiceover is never
-  // cut. The slow zoom completes over ~maxDuration frames and then holds.
+  // No trim: the output -t (or -shortest) bounds the clip to the audio target,
+  // so the voiceover is never cut. The slow zoom completes then holds.
   const { chain, label } = beatVideoChain(
     0,
     "zoom_in",
-    input.durationSeconds ?? 30,
+    input.targetDurationSeconds ?? input.durationSeconds ?? 30,
     profile.width,
     profile.height,
     profile.fps,
@@ -199,12 +266,11 @@ export function buildSingleImageArgs(input: RenderMp4Input): string[] {
   );
 
   const videoLabel = "vout";
-  const videoFilter = input.srtPath
-    ? `${chain};[${label}]${subtitlesFilter(input.srtPath)}[${videoLabel}]`
-    : `${chain};[${label}]null[${videoLabel}]`;
+  // The looped still is unbounded; freeze stage is unnecessary here. Pass through.
+  const videoFilter = `${chain};[${label}]null[${videoLabel}]`;
 
   const audioInputIndex = 1;
-  const audio = resolveAudioMapping(audioInputIndex, input.tailPadSeconds);
+  const audio = resolveAudioMapping(audioInputIndex, input);
   const filter = audio.filter
     ? `${videoFilter};${audio.filter}`
     : videoFilter;
@@ -222,27 +288,16 @@ export function buildSingleImageArgs(input: RenderMp4Input): string[] {
     `[${videoLabel}]`,
     "-map",
     audio.mapLabel,
-    "-c:v",
-    "libx264",
-    "-pix_fmt",
-    "yuv420p",
-    "-r",
-    String(profile.fps),
-    "-c:a",
-    "aac",
-    "-b:a",
-    "192k",
-    "-shortest",
-    input.outputPath,
+    ...outputArgs(input, profile.fps),
   ];
   return args;
 }
 
-// Multi-beat path (Task 2 + 3 + 7): each beat is a moving clip; consecutive
-// beats are joined with a light xfade transition; subtitles are burned onto the
-// final stream. A single ffmpeg invocation builds the whole filtergraph.
-// Exported for dependency-free arg-construction tests
-// (scripts/check-end-silence.ts).
+// Multi-beat path: each beat is a moving clip; consecutive beats are joined with
+// a light xfade transition. Produces the INTERMEDIATE (audio-muxed,
+// SUBTITLE-FREE) video — libass never touches the xfade graph. Subtitles are
+// burned in a dedicated second pass (buildSubtitleBurnArgs). Exported for
+// dependency-free arg-construction tests.
 export function buildMultiBeatArgs(
   input: RenderMp4Input,
   beats: RenderBeat[],
@@ -288,27 +343,22 @@ export function buildMultiBeatArgs(
     cumulative = cumulative - td + beats[i].durationSeconds;
   }
 
-  // Burn subtitles onto the joined stream (or pass through), then — when a tail
-  // pad is requested — freeze the FINAL frame so the video outlasts the padded
-  // audio. With `-shortest` the file ends exactly when the audio ends (voiceover
-  // + apad silence), so the last subtitle stays readable through the silent hold
-  // and the voiceover is never truncated by beat/audio drift. See
-  // FINAL_FRAME_FREEZE_SECONDS.
+  // Freeze the FINAL frame so the (subtitle-free) video outlasts the audio
+  // target; the output -t cuts it exactly at audio + tail. Legacy (no target)
+  // only freezes when a tail pad was requested, matching historical behaviour.
   const videoLabel = "vout";
-  const hasTailPad =
-    typeof input.tailPadSeconds === "number" &&
-    Number.isFinite(input.tailPadSeconds) &&
-    input.tailPadSeconds > 0;
-  const subtitleStage = input.srtPath
-    ? `[${currentLabel}]${subtitlesFilter(input.srtPath)}`
-    : `[${currentLabel}]null`;
-  const finalChain = hasTailPad
-    ? `${subtitleStage}[vsub];[vsub]tpad=stop_mode=clone:stop_duration=${FINAL_FRAME_FREEZE_SECONDS.toFixed(3)}[${videoLabel}]`
-    : `${subtitleStage}[${videoLabel}]`;
+  const needsFreeze =
+    hasTarget(input) ||
+    (typeof input.tailPadSeconds === "number" &&
+      Number.isFinite(input.tailPadSeconds) &&
+      input.tailPadSeconds > 0);
+  const finalChain = needsFreeze
+    ? finalFreezeStage(currentLabel, videoLabel)
+    : `[${currentLabel}]null[${videoLabel}]`;
 
   // Audio is the last input.
   const audioInputIndex = beats.length;
-  const audio = resolveAudioMapping(audioInputIndex, input.tailPadSeconds);
+  const audio = resolveAudioMapping(audioInputIndex, input);
 
   const filter = [
     ...chains,
@@ -328,37 +378,159 @@ export function buildMultiBeatArgs(
     `[${videoLabel}]`,
     "-map",
     audio.mapLabel,
-    "-c:v",
-    "libx264",
-    "-pix_fmt",
-    "yuv420p",
-    "-r",
-    String(fps),
-    "-c:a",
-    "aac",
-    "-b:a",
-    "192k",
-    "-shortest",
-    input.outputPath,
+    ...outputArgs(input, fps),
   ];
   return args;
 }
 
-// Renders the final MP4. Uses the multi-beat motion+transition path when a beat
-// timeline with at least two beats is provided; otherwise renders a single
-// moving still (backward compatible, never static).
+// Subtitle Reliability V1 (Part B) — DEDICATED final subtitle pass. libass burns
+// the SRT onto the already-flattened intermediate video only; the audio is copied
+// verbatim so the verified durations are preserved. This is the single place
+// subtitles are rendered, so they can never be lost inside the xfade graph.
+// Exported for dependency-free arg-construction tests.
+export function buildSubtitleBurnArgs(
+  intermediatePath: string,
+  srtPath: string,
+  outputPath: string,
+  profile?: { fps: number },
+): string[] {
+  return [
+    "-y",
+    "-i",
+    intermediatePath,
+    "-vf",
+    subtitlesFilter(srtPath),
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    ...(profile ? ["-r", String(profile.fps)] : []),
+    "-c:a",
+    "copy",
+    outputPath,
+  ];
+}
+
+// Renders the final MP4 in two passes:
+//   Pass 1 — images -> xfade chain -> mux audio -> intermediate video (no subs).
+//   Pass 2 — burn subtitles onto the intermediate -> final output.
+// AUDIO is the single source of truth: the intermediate is forced to
+// audioDuration + tailPad via an explicit -t (not -shortest/filtergraph
+// convergence). After the render, both stream durations are probed and a
+// render_warning is recorded when they drift by more than the threshold.
 export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result> {
   if (input.images.length === 0) {
     throw new Error("renderMp4: at least one image is required");
   }
 
-  const args =
-    input.beats && input.beats.length >= 2
-      ? buildMultiBeatArgs(input, input.beats)
-      : buildSingleImageArgs(input);
+  const tail =
+    typeof input.tailPadSeconds === "number" &&
+    Number.isFinite(input.tailPadSeconds) &&
+    input.tailPadSeconds > 0
+      ? input.tailPadSeconds
+      : 0;
 
-  await runFfmpeg(args);
-  return { mp4Path: input.outputPath };
+  // Resolve the audio master clock. Prefer the measured value the caller passed;
+  // otherwise probe the audio file. Either way AUDIO drives the target duration.
+  let audioDuration = input.audioDurationSeconds ?? null;
+  if (audioDuration === null) {
+    audioDuration = (await probeAudioDurationSeconds(input.audioPath)) ?? null;
+  }
+  const targetDuration =
+    audioDuration !== null && audioDuration > 0 ? audioDuration + tail : undefined;
+
+  // Pass 1 — intermediate (audio-muxed, subtitle-free).
+  const intermediatePath = `${input.outputPath}.intermediate.mp4`;
+  const pass1Input: RenderMp4Input = {
+    ...input,
+    outputPath: intermediatePath,
+    ...(targetDuration !== undefined
+      ? { targetDurationSeconds: targetDuration }
+      : {}),
+  };
+  const pass1Args =
+    input.beats && input.beats.length >= 2
+      ? buildMultiBeatArgs(pass1Input, input.beats)
+      : buildSingleImageArgs(pass1Input);
+  await runFfmpeg(pass1Args);
+
+  const profile = input.profile ?? SHORT_PROFILE;
+
+  try {
+    // Pass 2 — dedicated subtitle burn (or passthrough when there are no subs).
+    if (input.srtPath) {
+      await runFfmpeg(
+        buildSubtitleBurnArgs(intermediatePath, input.srtPath, input.outputPath, {
+          fps: profile.fps,
+        }),
+      );
+    } else {
+      // No subtitles: re-mux the intermediate to the final path (stream copy).
+      await runFfmpeg([
+        "-y",
+        "-i",
+        intermediatePath,
+        "-c",
+        "copy",
+        input.outputPath,
+      ]);
+    }
+  } finally {
+    await rm(intermediatePath, { force: true }).catch(() => undefined);
+  }
+
+  // Post-render verification (Part A + G). Best-effort, never throws.
+  const diagnostics = await verifyRender({
+    outputPath: input.outputPath,
+    audioDuration,
+    targetDuration: targetDuration ?? null,
+  });
+
+  return { mp4Path: input.outputPath, diagnostics };
+}
+
+async function verifyRender(args: {
+  outputPath: string;
+  audioDuration: number | null;
+  targetDuration: number | null;
+}): Promise<RenderDiagnostics> {
+  const warnings: string[] = [];
+  let videoDuration: number | null = null;
+  let measuredAudio = args.audioDuration;
+
+  try {
+    const streams = await probeMediaStreams(args.outputPath);
+    if (typeof streams.video === "number") videoDuration = streams.video;
+    if (typeof streams.audio === "number") measuredAudio = streams.audio;
+  } catch {
+    warnings.push("post-render probe failed");
+  }
+
+  let durationDelta: number | null = null;
+  if (videoDuration !== null && measuredAudio !== null) {
+    durationDelta = Math.abs(videoDuration - measuredAudio);
+    if (durationDelta > DURATION_DELTA_WARNING_SECONDS) {
+      warnings.push(
+        `video/audio duration mismatch: video=${videoDuration.toFixed(2)}s ` +
+          `audio=${measuredAudio.toFixed(2)}s delta=${durationDelta.toFixed(2)}s`,
+      );
+    }
+    // The video must never END BEFORE the audio.
+    if (videoDuration + DURATION_DELTA_WARNING_SECONDS < measuredAudio) {
+      warnings.push("video ends before audio");
+    }
+  } else {
+    warnings.push("could not probe final durations");
+  }
+
+  return {
+    audioDuration: measuredAudio,
+    videoDuration,
+    durationDelta,
+    targetDuration: args.targetDuration,
+    renderWarning: warnings.length > 0,
+    renderWarnings: warnings,
+  };
 }
 
 // Extracts the first frame of the rendered mp4 as a PNG thumbnail.

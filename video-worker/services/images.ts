@@ -8,6 +8,7 @@ import {
 } from "@/lib/http/fetchWithRetry";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
+import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 
 export interface GenerateSceneImagesInput {
   scenes: Scene[];
@@ -113,8 +114,12 @@ export async function generateSceneImages(
       "[video-worker] Generating scene image",
       JSON.stringify({ scene_id: scene.id }),
     );
+    // Subtitle Reliability V1 (Part C) — strip any request for readable text and
+    // append the no-text directive before the provider call. Messaging lives in
+    // subtitles + voiceover, never baked into the generated image.
+    const safePrompt = sanitizeImagePrompt(scene.image_prompt);
     const generated = await provider.generateImage({
-      prompt: scene.image_prompt,
+      prompt: safePrompt,
       size: "1024x1024",
     });
     const bytes = await resolveImageBytes(

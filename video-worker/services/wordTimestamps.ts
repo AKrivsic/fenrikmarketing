@@ -68,11 +68,18 @@ export interface TranscribeWordTimestampsInput {
   language?: unknown;
 }
 
+export interface TranscribeWordTimestampsResult {
+  words: WordTimestamp[];
+  // Language echoed back / detected by whisper (verbose_json `language`), when
+  // present. Recorded for diagnostics (Part G); never affects the render.
+  languageDetected?: string;
+}
+
 // Transcribes the audio file and returns clean word timestamps, or null on ANY
 // failure (so the caller falls back to proportional timing). Never throws.
 export async function transcribeWordTimestamps(
   input: TranscribeWordTimestampsInput,
-): Promise<WordTimestamp[] | null> {
+): Promise<TranscribeWordTimestampsResult | null> {
   try {
     const audio = await readFile(input.audioPath);
     const provider = getTranscriptionProvider();
@@ -92,7 +99,12 @@ export async function transcribeWordTimestamps(
       );
       return null;
     }
-    return words;
+    return {
+      words,
+      ...(typeof result.language === "string"
+        ? { languageDetected: result.language }
+        : {}),
+    };
   } catch (err) {
     console.warn(
       "[video-worker] word-timestamp transcription failed; falling back to proportional timing",

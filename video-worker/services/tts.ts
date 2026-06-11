@@ -73,6 +73,75 @@ export async function probeAudioDurationSeconds(
   });
 }
 
+// Subtitle Reliability V1 (Part A — post-render verification) — measures the
+// per-stream durations of a rendered file so the worker can verify the VIDEO
+// never ends before the AUDIO. Returns the video and audio stream durations (in
+// seconds) when available. Best-effort: any failure resolves to an empty object
+// so duration verification only ever RECORDS a diagnostic, never blocks/fails a
+// render.
+export async function probeMediaStreams(
+  filePath: string,
+): Promise<{ video?: number; audio?: number }> {
+  return new Promise((resolve) => {
+    let stdout = "";
+    let settled = false;
+    const done = (value: { video?: number; audio?: number }) => {
+      if (settled) return;
+      settled = true;
+      resolve(value);
+    };
+
+    let child;
+    try {
+      child = spawn(
+        ffprobeBin(),
+        [
+          "-v",
+          "error",
+          "-show_entries",
+          "stream=codec_type,duration",
+          "-of",
+          "json",
+          filePath,
+        ],
+        { stdio: ["ignore", "pipe", "ignore"] },
+      );
+    } catch {
+      done({});
+      return;
+    }
+
+    child.stdout.on("data", (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
+    child.on("error", () => done({}));
+    child.on("close", (code) => {
+      if (code !== 0) {
+        done({});
+        return;
+      }
+      try {
+        const parsed = JSON.parse(stdout) as {
+          streams?: { codec_type?: string; duration?: string }[];
+        };
+        const out: { video?: number; audio?: number } = {};
+        for (const stream of parsed.streams ?? []) {
+          const value = Number.parseFloat(String(stream.duration));
+          if (!Number.isFinite(value) || value <= 0) continue;
+          if (stream.codec_type === "video" && out.video === undefined) {
+            out.video = value;
+          } else if (stream.codec_type === "audio" && out.audio === undefined) {
+            out.audio = value;
+          }
+        }
+        done(out);
+      } catch {
+        done({});
+      }
+    });
+  });
+}
+
 // Synthesizes voiceover audio via the shared OpenAI Speech provider (no duplicate
 // TTS logic in the worker). Writes MP3 bytes to a temp file for downstream FFmpeg
 // and probes the file's real duration so the timeline can be audio-driven.

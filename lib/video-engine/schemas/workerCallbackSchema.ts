@@ -10,6 +10,30 @@ import { renderSpecOutputSchema } from "@/lib/video-engine/schemas/renderSchema"
 // paths). It is additive: older workers that omit it stay valid, and the
 // callback handler only merges it into output when present.
 
+// Subtitle Reliability V1 (Part E + G) — observability/debug metadata recorded
+// per render. Additive and OPTIONAL: older workers omit it, the callback handler
+// only persists it when present, and a malformed/missing value never fails a
+// render. Stored verbatim under video_jobs.output.debug.
+export const renderDebugSchema = z
+  .object({
+    subtitle_source: z.enum(["whisper", "proportional"]).optional(),
+    match_ratio: z.number().nullable().optional(),
+    fallback_used: z.boolean().optional(),
+    language_hint: z.string().nullable().optional(),
+    language_detected: z.string().nullable().optional(),
+    whisper_word_count: z.number().nullable().optional(),
+    audio_duration: z.number().nullable().optional(),
+    video_duration: z.number().nullable().optional(),
+    srt_last_cue_end: z.number().nullable().optional(),
+    duration_delta: z.number().nullable().optional(),
+    subtitle_warning: z.boolean().optional(),
+    render_warning: z.boolean().optional(),
+    render_warnings: z.array(z.string()).optional(),
+  })
+  .passthrough();
+
+export type RenderDebug = z.infer<typeof renderDebugSchema>;
+
 export const workerCallbackSuccessSchema = z.object({
   video_job_id: z.string().min(1),
   status: z.literal("completed"),
@@ -17,6 +41,7 @@ export const workerCallbackSuccessSchema = z.object({
   thumbnail_url: z.string().url().optional(),
   subtitle_url: z.string().url().optional(),
   render_spec: renderSpecOutputSchema.optional(),
+  debug: renderDebugSchema.optional(),
 });
 
 export const workerCallbackFailureSchema = z.object({

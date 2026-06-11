@@ -1,17 +1,22 @@
-// Dependency-free check for the end-of-video silence contract. Runs via Node's
-// built-in type stripping + the "@/" alias loader:
+// Dependency-free check for the Subtitle Reliability V1 render contract. Runs via
+// Node's built-in type stripping + the "@/" alias loader:
 //   npm run check:end-silence
 //
-// Required behavior: voiceover ends -> 1.5s silence -> final frame hold -> end.
-// The renderer pads the audio with `apad` (the silence) and freezes the FINAL
-// frame past the padded audio so `-shortest` ends the file on the audio — the
-// voiceover is never truncated and the last subtitle stays readable through the
-// hold. This inspects the ffmpeg arg/filtergraph construction (no ffmpeg spawn).
+// Contract (Parts A + B):
+//   * AUDIO is the single source of truth: when a target duration is provided
+//     the renderer forces it with an explicit -t (NOT -shortest / filtergraph
+//     convergence). The audio is padded indefinitely (apad) and the final video
+//     frame is frozen so both streams always reach the target.
+//   * Subtitles are burned in a DEDICATED second pass (buildSubtitleBurnArgs);
+//     libass NEVER touches the xfade graph (no subtitles= inside the intermediate
+//     filter_complex).
+// This inspects the ffmpeg arg/filtergraph construction only (no ffmpeg spawn).
 
 import assert from "node:assert/strict";
 import {
   buildMultiBeatArgs,
   buildSingleImageArgs,
+  buildSubtitleBurnArgs,
   type RenderBeat,
   type RenderMp4Input,
 } from "@/video-worker/services/ffmpeg";
@@ -40,9 +45,10 @@ function section(title: string): void {
 const beats: RenderBeat[] = [
   { sceneId: "s1", motion: "zoom_in", transition: "none", durationSeconds: 5 },
   { sceneId: "s2", motion: "pan_right", transition: "fade", durationSeconds: 5 },
-  // Last beat already carries the storyboard tail (+1.5s) hold.
   { sceneId: "s3", motion: "zoom_out", transition: "fade", durationSeconds: 6.5 },
 ];
+
+const TARGET = 26.0 + TAIL_BUFFER_SECONDS;
 
 const baseInput: RenderMp4Input = {
   images: [
@@ -55,6 +61,7 @@ const baseInput: RenderMp4Input = {
   srtPath: "/tmp/vo.srt",
   outputPath: "/tmp/out.mp4",
   tailPadSeconds: TAIL_BUFFER_SECONDS,
+  targetDurationSeconds: TARGET,
   profile: { width: 1080, height: 1920, fps: 30, transitionSeconds: 0.4 },
 };
 
@@ -64,80 +71,94 @@ function filterOf(args: string[]): string {
   return args[i + 1];
 }
 
-// --- 1. tail pad present -> silence + frozen final frame -------------------
+// --- 1. explicit duration target ------------------------------------------
 
-section("multi-beat: voiceover + 1.5s silence + final frame hold");
+section("multi-beat intermediate: explicit -t target, audio is the master");
 
-const withTail = buildMultiBeatArgs(baseInput, beats);
-const tailFilter = filterOf(withTail);
+const withTarget = buildMultiBeatArgs(baseInput, beats);
+const targetFilter = filterOf(withTarget);
 
-check("audio is padded with exactly the tail buffer of silence (apad)", () => {
+check("output is forced to the exact target with -t (not -shortest)", () => {
+  // The output -t is the LAST -t (per-beat inputs also use -t before -i).
+  const tIdx = withTarget.lastIndexOf("-t");
+  assert.ok(tIdx >= 0, "expected an output -t");
+  assert.equal(withTarget[tIdx + 1], TARGET.toFixed(3));
+  assert.ok(!withTarget.includes("-shortest"), "must NOT rely on -shortest");
+});
+
+check("audio is padded indefinitely (apad) so it always reaches the target", () => {
   assert.ok(
-    tailFilter.includes(`apad=pad_dur=${TAIL_BUFFER_SECONDS.toFixed(3)}`),
-    `expected apad pad_dur=${TAIL_BUFFER_SECONDS.toFixed(3)} in: ${tailFilter}`,
+    targetFilter.includes("apad[aout]"),
+    `expected indefinite apad in: ${targetFilter}`,
+  );
+  const mapIdx = withTarget.lastIndexOf("-map");
+  assert.equal(withTarget[mapIdx + 1], "[aout]");
+});
+
+check("the final video frame is frozen (cloned) past the timeline", () => {
+  assert.ok(
+    /tpad=stop_mode=clone:stop_duration=\d/.test(targetFilter),
+    `expected a tpad clone hold in: ${targetFilter}`,
   );
 });
 
-check("the final frame is frozen (cloned) past the audio", () => {
+check("NO subtitles are rendered inside the xfade graph", () => {
   assert.ok(
-    /tpad=stop_mode=clone:stop_duration=\d/.test(tailFilter),
-    `expected a tpad clone hold in: ${tailFilter}`,
+    !targetFilter.includes("subtitles="),
+    `intermediate filter must be subtitle-free: ${targetFilter}`,
   );
 });
 
-check("the freeze is applied AFTER subtitles are burned", () => {
-  const sub = tailFilter.indexOf("subtitles=");
-  const freeze = tailFilter.indexOf("tpad=stop_mode=clone");
-  assert.ok(sub >= 0, "expected burned subtitles");
-  assert.ok(freeze > sub, "freeze must clone the subtitled final frame");
+// --- 2. dedicated subtitle pass -------------------------------------------
+
+section("dedicated subtitle burn pass (libass touches the final video only)");
+
+const burnArgs = buildSubtitleBurnArgs("/tmp/out.mp4.intermediate.mp4", "/tmp/vo.srt", "/tmp/out.mp4");
+
+check("subtitle pass burns the SRT and copies audio verbatim", () => {
+  assert.ok(burnArgs.some((a) => a.startsWith("subtitles=")), "expected subtitles= filter");
+  const caIdx = burnArgs.indexOf("-c:a");
+  assert.equal(burnArgs[caIdx + 1], "copy", "audio must be stream-copied");
+  assert.equal(burnArgs[burnArgs.length - 1], "/tmp/out.mp4");
 });
 
-check("-shortest bounds the muxed file to the (padded) audio", () => {
-  assert.ok(withTail.includes("-shortest"));
-  // Output maps the padded audio label, not the raw stream.
-  const mapIdx = withTail.lastIndexOf("-map");
-  assert.equal(withTail[mapIdx + 1], "[aout]");
-});
+// --- 3. single-image path also honours the target -------------------------
 
-// --- 2. backward compatibility: no tail pad -> historical graph ------------
-
-section("backward compatibility (no tail pad)");
-
-const noTail = buildMultiBeatArgs(
-  { ...baseInput, tailPadSeconds: undefined },
-  beats,
-);
-const noTailFilter = filterOf(noTail);
-
-check("no apad and no frozen frame when tail pad is absent", () => {
-  assert.ok(!noTailFilter.includes("apad="));
-  assert.ok(!noTailFilter.includes("tpad=stop_mode=clone"));
-});
-
-check("raw audio stream is mapped directly (historical shape)", () => {
-  const mapIdx = noTail.lastIndexOf("-map");
-  assert.equal(noTail[mapIdx + 1], `${beats.length}:a`);
-});
-
-// --- 3. single-image path keeps padding the audio --------------------------
-
-section("single-image path");
+section("single-image intermediate path");
 
 const single = buildSingleImageArgs({
   ...baseInput,
   beats: undefined,
   images: [{ sceneId: "s1", imagePath: "/tmp/s1.png" }],
-  durationSeconds: 20,
+  targetDurationSeconds: 22.0,
 });
 const singleFilter = filterOf(single);
 
-check("single-image path still appends the tail silence (apad)", () => {
+check("single-image path forces -t and pads the audio (apad)", () => {
+  const tIdx = single.indexOf("-t");
+  assert.ok(tIdx >= 0 && single[tIdx + 1] === (22.0).toFixed(3));
+  assert.ok(singleFilter.includes("apad[aout]"), `expected apad in: ${singleFilter}`);
+  assert.ok(single.includes("-loop"));
+  assert.ok(!singleFilter.includes("subtitles="), "no subtitles in intermediate");
+});
+
+// --- 4. backward compatibility: no target -> legacy -shortest -------------
+
+section("backward compatibility (no target)");
+
+const noTarget = buildMultiBeatArgs(
+  { ...baseInput, targetDurationSeconds: undefined },
+  beats,
+);
+const noTargetFilter = filterOf(noTarget);
+
+check("falls back to -shortest + apad=pad_dur when no target is provided", () => {
+  assert.ok(noTarget.includes("-shortest"));
   assert.ok(
-    singleFilter.includes(`apad=pad_dur=${TAIL_BUFFER_SECONDS.toFixed(3)}`),
-    `expected apad in: ${singleFilter}`,
+    noTargetFilter.includes(`apad=pad_dur=${TAIL_BUFFER_SECONDS.toFixed(3)}`),
+    `expected legacy apad pad_dur in: ${noTargetFilter}`,
   );
-  // The looped still (-loop 1) is already unbounded, so -shortest ends on audio.
-  assert.ok(single.includes("-loop") && single.includes("-shortest"));
+  assert.ok(!noTargetFilter.includes("subtitles="));
 });
 
 // --- summary ---------------------------------------------------------------

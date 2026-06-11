@@ -10,6 +10,9 @@ export const dynamic = "force-dynamic";
 // localization inline; raise the page-level Server Action budget accordingly.
 export const maxDuration = 300;
 
+// Production Runs are reviewed in PROJECT context (/projects/[id]/review): QA and
+// approval are project-scoped, so a cross-project run list here would only cause
+// confusion. This global page stays focused on the cross-project review queue.
 export default async function ReviewQueuePage() {
   const items = await listReviewQueueItems();
 

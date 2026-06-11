@@ -21,8 +21,12 @@ import { writeSrtFile } from "@/video-worker/services/subtitles";
 import {
   buildPhraseCues,
   buildPhraseCuesFromWords,
+  computeAlignmentRatio,
 } from "@/video-worker/services/phraseCaptions";
-import { transcribeWordTimestamps } from "@/video-worker/services/wordTimestamps";
+import {
+  transcribeWordTimestamps,
+  normalizeLanguageHint,
+} from "@/video-worker/services/wordTimestamps";
 import {
   renderMp4,
   generateThumbnail,
@@ -303,34 +307,54 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     let cues = proportional.cues;
     const totalSeconds = proportional.totalSeconds;
 
+    // Subtitle Reliability V1 (Part G) — observability for the subtitle stage.
+    const languageHint =
+      normalizeLanguageHint(payload.input["language"]) ?? null;
+    let subtitleSource: "whisper" | "proportional" = "proportional";
+    let matchRatio: number | null = null;
+    let whisperWordCount: number | null = null;
+    let languageDetected: string | null = null;
+
     // Word Timestamp Subtitles V1 — re-time the SAME phrase captions to the real
     // spoken audio. We transcribe the voiceover MP3 with whisper-1 (word
     // timestamps), passing the job's language hint when available (CZ/EN/DE/FR/
     // ES/IT). Best-effort: on a timeout, API error, empty timestamps, or a
     // low-confidence alignment we keep the proportional cues. Phrase STYLE is
     // unchanged — only the timing SOURCE changes.
-    const words = await transcribeWordTimestamps({
+    const transcription = await transcribeWordTimestamps({
       audioPath: voiceover.audioPath,
       language: payload.input["language"],
     });
-    if (words) {
+    if (transcription) {
+      whisperWordCount = transcription.words.length;
+      languageDetected = transcription.languageDetected ?? null;
+      matchRatio = computeAlignmentRatio(
+        spec.voiceover_text,
+        transcription.words,
+      );
       const aligned = buildPhraseCuesFromWords({
         voiceoverText: spec.voiceover_text,
-        words,
+        words: transcription.words,
         totalSeconds,
       });
       if (aligned && aligned.cues.length > 0) {
         cues = aligned.cues;
+        subtitleSource = "whisper";
         console.log(
           "[video-worker] subtitles aligned to whisper word timestamps",
           JSON.stringify({
             video_job_id: payload.video_job_id,
-            words: words.length,
+            words: transcription.words.length,
             cues: aligned.cues.length,
           }),
         );
       }
     }
+    // The subtitles came from the proportional ESTIMATE (whisper failed or could
+    // not be aligned), which is less precise — a yellow warning in review.
+    const fallbackUsed = subtitleSource === "proportional";
+    const srtLastCueEnd =
+      cues.length > 0 ? cues[cues.length - 1].endSeconds : null;
 
     const { srtPath } = await writeSrtFile({
       cues,
@@ -349,15 +373,19 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
 
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
     tempFiles.add(mp4OutputPath);
-    const { mp4Path } = await renderMp4({
+    const { mp4Path, diagnostics: renderDiagnostics } = await renderMp4({
       images,
       beats,
       audioPath: voiceover.audioPath,
       srtPath,
       outputPath: mp4OutputPath,
       durationSeconds: spec.duration_seconds,
+      // Subtitle Reliability V1 (Part A) — AUDIO is the single source of truth:
+      // the renderer forces the final duration to audio + tail with an explicit
+      // -t, so the video can never end before the audio.
+      audioDurationSeconds: voiceover.durationSeconds,
       // Content Quality Sprint 2 — pad the audio by the tail buffer so the final
-      // beat's silent hold (added in the storyboard) is not trimmed by -shortest.
+      // beat's silent hold (added in the storyboard) survives.
       tailPadSeconds: TAIL_BUFFER_SECONDS,
       profile: {
         width: SHORT_PROFILE.width,
@@ -366,6 +394,30 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         transitionSeconds: SHORT_PROFILE.transitionSeconds,
       },
     });
+
+    // Subtitle Reliability V1 (Part E + G) — diagnostics persisted under
+    // video_jobs.output.debug. Purely observational: assembled AFTER a
+    // successful render and never able to fail one.
+    const debug = {
+      subtitle_source: subtitleSource,
+      match_ratio: matchRatio,
+      fallback_used: fallbackUsed,
+      language_hint: languageHint,
+      language_detected: languageDetected,
+      whisper_word_count: whisperWordCount,
+      audio_duration:
+        renderDiagnostics.audioDuration ?? voiceover.durationSeconds ?? null,
+      video_duration: renderDiagnostics.videoDuration,
+      srt_last_cue_end: srtLastCueEnd,
+      duration_delta: renderDiagnostics.durationDelta,
+      subtitle_warning: fallbackUsed,
+      render_warning: renderDiagnostics.renderWarning,
+      render_warnings: renderDiagnostics.renderWarnings,
+    };
+    console.log(
+      "[video-worker] render diagnostics",
+      JSON.stringify({ video_job_id: payload.video_job_id, ...debug }),
+    );
 
     const thumbnailOutputPath = join(
       dir,
@@ -415,6 +467,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       thumbnail_url: thumbUpload.signedUrl,
       subtitle_url: srtUpload.signedUrl,
       render_spec: renderSpec,
+      debug,
     };
     await sendVideoCallback(payload.callback_url, callback, transport);
 

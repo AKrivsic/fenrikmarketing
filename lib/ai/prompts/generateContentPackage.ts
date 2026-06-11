@@ -405,6 +405,11 @@ export function buildGenerateContentPackagePrompt(
         `above (${modeBeatArc}). They will be shown as short moving beats, so make`,
         "them visually distinct from each other and escalate the tension / curiosity",
         "toward the reveal. Do NOT default to a generic, interchangeable beat set.",
+        "Each image_prompt MUST describe a PURELY VISUAL scene. NEVER request",
+        "readable text, words, letters, numbers, captions, signs, labels, UI,",
+        "phone notifications, checklists or typography inside the image — image",
+        "models render these as garbled noise. All messaging is delivered through",
+        "the voiceover and burned-in subtitles, NOT inside the generated image.",
       ]
     : [];
 

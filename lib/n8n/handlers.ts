@@ -244,6 +244,15 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
       ? (renderSpecValue as Record<string, unknown>)
       : undefined;
 
+  // Subtitle Reliability V1 (Part E + G) — observability/debug metadata. Stored
+  // verbatim under output.debug so the review UI can surface subtitle source,
+  // language, durations and render/subtitle warnings. Additive and optional.
+  const debugValue = body["debug"];
+  const debug =
+    debugValue && typeof debugValue === "object" && !Array.isArray(debugValue)
+      ? (debugValue as Record<string, unknown>)
+      : undefined;
+
   const supabase = createSupabaseAdminClient();
   await requirePackageInProject(supabase, contentPackageId, projectId);
 
@@ -265,6 +274,7 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
   if (subtitleUrl) output.subtitle_url = subtitleUrl;
   if (errorMessage) output.error_message = errorMessage;
   if (renderSpec) output.render_spec = renderSpec;
+  if (debug) output.debug = debug;
 
   const videoUpdate: Record<string, unknown> = { status, output };
   if (status === "completed") {
