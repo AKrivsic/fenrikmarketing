@@ -48,6 +48,10 @@ export interface ProductionPlatformDef {
 export const PRODUCTION_PLATFORMS: readonly ProductionPlatformDef[] = [
   { id: "tiktok", label: "TikTok", kind: "video", persistable: true },
   { id: "instagram", label: "Instagram", kind: "video", persistable: true },
+  // facebook is a platform_type since migration 001 and is configured as a
+  // video platform in Content Controls (DEFAULT_PLATFORM_CONTENT_TYPES), so it
+  // shares the package video like the other video surfaces.
+  { id: "facebook", label: "Facebook", kind: "video", persistable: true },
   { id: "youtube", label: "YouTube", kind: "video", persistable: true },
   { id: "linkedin", label: "LinkedIn", kind: "text", persistable: true },
   // x is a real platform_type since migration 016 → persistable content_items.
@@ -63,6 +67,7 @@ export const PRODUCTION_PLATFORMS: readonly ProductionPlatformDef[] = [
 export type ProductionPlatformId =
   | "tiktok"
   | "instagram"
+  | "facebook"
   | "youtube"
   | "linkedin"
   | "x"
@@ -108,6 +113,7 @@ export function isPersistableProductionPlatform(
 export const DEFAULT_MULTIPLIERS: Record<ProductionPlatformId, number> = {
   tiktok: 1,
   instagram: 1,
+  facebook: 1,
   youtube: 1,
   linkedin: 1,
   x: 3,
