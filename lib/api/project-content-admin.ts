@@ -3,8 +3,10 @@ import { effectiveLanguage } from "@/lib/projects/language";
 import {
   isVariantItem,
   newestByContentItem,
+  readDebug,
   readProductionRunId,
   readVideoOutput,
+  type RenderDebug,
 } from "@/lib/api/content-shared";
 import { loadVariantEligibility } from "@/lib/api/variant-eligibility";
 import type {
@@ -78,6 +80,10 @@ export interface ProjectContentEntry {
   videoUrl: string | null;
   thumbnailUrl: string | null;
   subtitleUrl: string | null;
+  // Render diagnostics from the linked video job's output.debug — drives the
+  // package video panel's Warning / subtitle-fallback indicators. Null when the
+  // item has no video job or the job predates debug metadata.
+  videoDebug: RenderDebug | null;
 }
 
 // Lists a project's content items filtered by approval status, enriched with
@@ -158,6 +164,7 @@ export async function listProjectContentByStatus(
       videoUrl: output?.mp4Url ?? null,
       thumbnailUrl: output?.thumbnailUrl ?? null,
       subtitleUrl: output?.subtitleUrl ?? null,
+      videoDebug: job ? readDebug(job.output) : null,
     } satisfies ProjectContentEntry;
   });
 }

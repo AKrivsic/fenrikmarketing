@@ -1,5 +1,4 @@
-import { ReviewRunCard } from "@/components/review/ReviewRunCard/ReviewRunCard";
-import { ProjectContentCard } from "@/components/projects/ProjectContentCard/ProjectContentCard";
+import { ReviewRunSection } from "@/components/review/ReviewRunSection/ReviewRunSection";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
 import styles from "./ReviewGroupedList.module.css";
 
@@ -8,9 +7,11 @@ interface ReviewGroupedListProps {
   groups: ReviewRunGroup[];
 }
 
-// Renders the project review tab as Production Run → Package → Content item.
-// Reuses ReviewRunCard for the run header and ProjectContentCard (with the
-// Step 2 actions) for each item — no card UI is rewritten.
+// Renders the project review tab as collapsible Production Run → Package →
+// Content item (project review V2). Each run and package collapses; the newest
+// run is open by default, the rest closed, so the page scales to 100+ runs.
+// Per-run filters, the package-level video panel and package actions live in the
+// child sections — no card UI or workflow action is rewritten here.
 export function ReviewGroupedList({
   projectId,
   groups,
@@ -29,51 +30,13 @@ export function ReviewGroupedList({
     <div className={styles.groups}>
       {groups.map((group, index) => {
         const key = group.run?.id ?? `no-run-${index}`;
-        const packagesWithItems = group.packages.filter(
-          (pkg) => pkg.items.length > 0,
-        );
-
         return (
-          <section key={key} className={styles.runGroup}>
-            {group.run ? (
-              <ReviewRunCard run={group.run} />
-            ) : (
-              <h3 className={styles.noRunTitle}>Bez production runu</h3>
-            )}
-
-            {packagesWithItems.length > 0 ? (
-              <div className={styles.packages}>
-                {packagesWithItems.map((pkg) => (
-                  <div
-                    key={pkg.packageId ?? "no-package"}
-                    className={styles.package}
-                  >
-                    <header className={styles.packageHeader}>
-                      <h4 className={styles.packageTitle}>{pkg.title}</h4>
-                      <span className={styles.packageCount}>
-                        {pkg.items.length}{" "}
-                        {pkg.items.length === 1 ? "položka" : "položek"}
-                      </span>
-                    </header>
-                    <div className={styles.items}>
-                      {pkg.items.map((entry) => (
-                        <ProjectContentCard
-                          key={entry.id}
-                          projectId={projectId}
-                          entry={entry}
-                          showActions
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className={styles.runEmpty}>
-                Žádný obsah čekající na review v tomto runu.
-              </p>
-            )}
-          </section>
+          <ReviewRunSection
+            key={key}
+            projectId={projectId}
+            group={group}
+            defaultOpen={index === 0}
+          />
         );
       })}
     </div>

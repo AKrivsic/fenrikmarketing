@@ -1,66 +1,7 @@
 .groups {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-}
-
-.runGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.noRunTitle {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.packages {
-  display: flex;
-  flex-direction: column;
   gap: 1.25rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--color-border);
-}
-
-.package {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.packageHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.packageTitle {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.packageCount {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-}
-
-.items {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.runEmpty {
-  margin: 0;
-  padding-left: 1rem;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
 }
 
 .empty {

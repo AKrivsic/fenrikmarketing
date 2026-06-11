@@ -1,6 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { newestByContentItem } from "@/lib/api/content-shared";
+import {
+  jobHasWarning,
+  newestByContentItem,
+  readDebug,
+  type RenderDebug,
+} from "@/lib/api/content-shared";
 import type {
   ContentItem,
   ContentPackage,
@@ -22,23 +27,10 @@ import type {
 // How many of the most-recent runs to surface in the review page.
 const MAX_REVIEW_RUNS = 25;
 
-// The render-diagnostics blob persisted under video_jobs.output.debug by the
-// worker (Part G). All fields optional / nullable — older jobs omit it.
-export interface RenderDebug {
-  subtitle_source?: "whisper" | "proportional";
-  match_ratio?: number | null;
-  fallback_used?: boolean;
-  language_hint?: string | null;
-  language_detected?: string | null;
-  whisper_word_count?: number | null;
-  audio_duration?: number | null;
-  video_duration?: number | null;
-  srt_last_cue_end?: number | null;
-  duration_delta?: number | null;
-  subtitle_warning?: boolean;
-  render_warning?: boolean;
-  render_warnings?: string[];
-}
+// The render-diagnostics helpers now live in content-shared (single source of
+// truth across the review surfaces). Re-exported here so existing importers
+// (e.g. review-exceptions-admin) keep working unchanged.
+export { jobHasWarning, readDebug, type RenderDebug };
 
 // Traffic-light health used for the run + job status badges.
 export type ReviewHealth = "green" | "yellow" | "red";
@@ -57,19 +49,6 @@ export interface ReviewRunCard {
   generated: number;
   failed: number;
   warningsCount: number;
-}
-
-export function readDebug(output: Json | null): RenderDebug | null {
-  if (!output || typeof output !== "object" || Array.isArray(output)) return null;
-  const debug = (output as Record<string, unknown>).debug;
-  if (!debug || typeof debug !== "object" || Array.isArray(debug)) return null;
-  return debug as RenderDebug;
-}
-
-// A job "has a warning" when the worker flagged a render or subtitle warning.
-export function jobHasWarning(debug: RenderDebug | null): boolean {
-  if (!debug) return false;
-  return Boolean(debug.render_warning) || Boolean(debug.subtitle_warning);
 }
 
 function runHealth(

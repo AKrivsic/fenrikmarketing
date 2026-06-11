@@ -16,6 +16,10 @@ interface ReviewCardActionsProps {
   isLanguageVariant: boolean;
   canGenerateVariants: boolean;
   variantLanguage: LanguageCode | null;
+  // Forwarded to ReviewActions: when true the package-level Regenerate +
+  // Generate language variants buttons are omitted (they live in the package
+  // header). Approve / Reject / Edit and per-variant Regenerate stay.
+  packageActionsInHeader?: boolean;
 }
 
 export function ReviewCardActions({
@@ -28,6 +32,7 @@ export function ReviewCardActions({
   isLanguageVariant,
   canGenerateVariants,
   variantLanguage,
+  packageActionsInHeader = false,
 }: ReviewCardActionsProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -50,6 +55,7 @@ export function ReviewCardActions({
           isLanguageVariant={isLanguageVariant}
           canGenerateVariants={canGenerateVariants}
           variantLanguage={variantLanguage}
+          packageActionsInHeader={packageActionsInHeader}
           onEdit={() => setIsEditing(true)}
         />
       )}

@@ -19,6 +19,11 @@ interface ReviewActionsProps {
   isLanguageVariant: boolean;
   canGenerateVariants: boolean;
   variantLanguage: LanguageCode | null;
+  // When true, the package-level Regenerate (primary) and Generate language
+  // variants buttons are omitted — they are rendered once in the package header
+  // (project review V2). The per-VARIANT Regenerate stays, since it targets a
+  // single language and belongs with its variant card.
+  packageActionsInHeader?: boolean;
   onEdit: () => void;
 }
 
@@ -29,6 +34,7 @@ export function ReviewActions({
   isLanguageVariant,
   canGenerateVariants,
   variantLanguage,
+  packageActionsInHeader = false,
   onEdit,
 }: ReviewActionsProps) {
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +68,8 @@ export function ReviewActions({
         {isLanguageVariant ? (
           // Variant regenerate re-localizes ONLY this language and queues its
           // own video job. It MUST NOT call the package-level regenerate (which
-          // would regenerate the primary package and every language).
+          // would regenerate the primary package and every language). It stays
+          // on the card even when package actions are hoisted to the header.
           <button
             type="button"
             className={styles.regenerate}
@@ -81,7 +88,7 @@ export function ReviewActions({
           >
             Regenerate
           </button>
-        ) : (
+        ) : packageActionsInHeader ? null : (
           <button
             type="button"
             className={styles.regenerate}
@@ -112,7 +119,7 @@ export function ReviewActions({
         >
           Edit
         </button>
-        {canGenerateVariants ? (
+        {canGenerateVariants && !packageActionsInHeader ? (
           <button
             type="button"
             className={styles.generate}

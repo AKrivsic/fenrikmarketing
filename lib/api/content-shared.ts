@@ -66,6 +66,54 @@ export function isVariantItem(item: ContentItem): boolean {
   return readVariantMeta(item.generation_metadata).kind === "language_variant";
 }
 
+// The render-diagnostics blob persisted under video_jobs.output.debug by the
+// worker. All fields optional / nullable — older jobs omit it. Single source of
+// truth shared by the run list, the exceptions dashboard and the project review
+// video panel.
+export interface RenderDebug {
+  subtitle_source?: "whisper" | "proportional";
+  match_ratio?: number | null;
+  fallback_used?: boolean;
+  language_hint?: string | null;
+  language_detected?: string | null;
+  whisper_word_count?: number | null;
+  audio_duration?: number | null;
+  video_duration?: number | null;
+  srt_last_cue_end?: number | null;
+  duration_delta?: number | null;
+  subtitle_warning?: boolean;
+  render_warning?: boolean;
+  render_warnings?: string[];
+}
+
+// Pulls the render-diagnostics blob out of a video_jobs.output jsonb. Returns
+// null when absent (older jobs) or malformed.
+export function readDebug(output: Json | null): RenderDebug | null {
+  if (!output || typeof output !== "object" || Array.isArray(output)) {
+    return null;
+  }
+  const debug = (output as Record<string, unknown>).debug;
+  if (!debug || typeof debug !== "object" || Array.isArray(debug)) return null;
+  return debug as RenderDebug;
+}
+
+// A job "has a warning" when the worker flagged a render or subtitle warning.
+export function jobHasWarning(debug: RenderDebug | null): boolean {
+  if (!debug) return false;
+  return Boolean(debug.render_warning) || Boolean(debug.subtitle_warning);
+}
+
+// A subtitle fallback happened when the worker had to synthesize proportional
+// subtitles instead of using usable Whisper output.
+export function isSubtitleFallback(debug: RenderDebug | null): boolean {
+  if (!debug) return false;
+  return (
+    debug.fallback_used === true ||
+    debug.subtitle_warning === true ||
+    debug.subtitle_source === "proportional"
+  );
+}
+
 // Reduces a list of video jobs to the newest job per content_item_id. Input is
 // expected to be ordered created_at desc, so the first seen wins.
 export function newestByContentItem<

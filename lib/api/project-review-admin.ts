@@ -7,7 +7,12 @@ import {
   listReviewRunsForProject,
   type ReviewRunCard,
 } from "@/lib/api/review-runs-admin";
-import type { ApprovalStatus } from "@/lib/supabase/types";
+import type { RenderDebug } from "@/lib/api/content-shared";
+import type {
+  ApprovalStatus,
+  JobStatus,
+  LanguageCode,
+} from "@/lib/supabase/types";
 
 // Composes the project review tab as Production Run → Package → Content item.
 // Pure composition over EXISTING read layers: the run cards come from
@@ -19,11 +24,59 @@ import type { ApprovalStatus } from "@/lib/supabase/types";
 const PENDING_STATUSES: ApprovalStatus[] = ["draft", "in_review"];
 const NO_PACKAGE_TITLE = "Bez balíčku";
 
+// One package video, resolved per language. Today only the package's primary
+// language is populated (MVP: one video per package); the per-language shape is
+// the seam that lets the UI grow into CS / EN / DE video tabs later without a
+// data-layer rewrite.
+export interface PackageVideo {
+  language: LanguageCode;
+  isPrimary: boolean;
+  jobId: string | null;
+  status: JobStatus | null;
+  videoUrl: string | null;
+  thumbnailUrl: string | null;
+  subtitleUrl: string | null;
+  debug: RenderDebug | null;
+}
+
 export interface ReviewPackageGroup {
   // null only for items that somehow carry no package_id.
   packageId: string | null;
   title: string;
+  // True when this package qualifies for "Generate language variants" (any of
+  // its primary items is eligible). Surfaced on the package header so the action
+  // can never be hidden by the per-run platform/language/status filter.
+  canGenerateVariants: boolean;
+  // Package-level video(s), one per resolved language. Rendered above the
+  // platform outputs and intentionally NOT subject to the run filter.
+  videos: PackageVideo[];
   items: ProjectContentEntry[];
+}
+
+// Collects the package's video(s) keyed by resolved language. The video job is
+// linked to a single content item per language (the video-platform / primary
+// item for the primary language, the variant's video item for each variant
+// language), so the first item per language that carries a job wins. Items are
+// pre-sorted (primary before variants), so primaries naturally lead.
+function buildPackageVideos(items: ProjectContentEntry[]): PackageVideo[] {
+  const byLanguage = new Map<LanguageCode, PackageVideo>();
+  for (const item of items) {
+    if (!item.videoJobId) continue;
+    if (byLanguage.has(item.language)) continue;
+    byLanguage.set(item.language, {
+      language: item.language,
+      isPrimary: !item.isLanguageVariant,
+      jobId: item.videoJobId,
+      status: item.videoStatus,
+      videoUrl: item.videoUrl,
+      thumbnailUrl: item.thumbnailUrl,
+      subtitleUrl: item.subtitleUrl,
+      debug: item.videoDebug,
+    });
+  }
+  return Array.from(byLanguage.values()).sort(
+    (a, b) => Number(b.isPrimary) - Number(a.isPrimary),
+  );
 }
 
 export interface ReviewRunGroup {
@@ -111,13 +164,18 @@ export async function listProjectReviewGroups(
   function toPackageGroups(
     packageMap: Map<string | null, ProjectContentEntry[]>,
   ): ReviewPackageGroup[] {
-    return Array.from(packageMap.entries()).map(([packageId, items]) => ({
-      packageId,
-      title:
-        (packageId ? packageTitleById.get(packageId) : null) ??
-        NO_PACKAGE_TITLE,
-      items: sortItems(items),
-    }));
+    return Array.from(packageMap.entries()).map(([packageId, items]) => {
+      const sorted = sortItems(items);
+      return {
+        packageId,
+        title:
+          (packageId ? packageTitleById.get(packageId) : null) ??
+          NO_PACKAGE_TITLE,
+        canGenerateVariants: sorted.some((item) => item.canGenerateVariants),
+        videos: buildPackageVideos(sorted),
+        items: sorted,
+      };
+    });
   }
 
   const groups: ReviewRunGroup[] = [];

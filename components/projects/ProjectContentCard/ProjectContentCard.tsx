@@ -16,6 +16,15 @@ interface ProjectContentCardProps {
   // variants" action on eligible primary cards (entry.canGenerateVariants).
   // Used by the Approved tab after Review UX Consolidation V1 removed the queue.
   showVariantAction?: boolean;
+  // When true, the inline video preview + download + video-status badge are
+  // suppressed because the video is rendered ONCE at the package level (project
+  // review V2). Defaults to false so the Approved / Scheduled tabs keep showing
+  // each item's video inline.
+  hideVideo?: boolean;
+  // When true, the package-level actions (Regenerate package + Generate language
+  // variants) are NOT rendered on this card — they live in the package header.
+  // Per-item Approve / Reject / Edit and per-variant Regenerate stay here.
+  packageActionsInHeader?: boolean;
 }
 
 const EMPTY = "—";
@@ -25,6 +34,8 @@ export function ProjectContentCard({
   entry,
   showActions = false,
   showVariantAction = false,
+  hideVideo = false,
+  packageActionsInHeader = false,
 }: ProjectContentCardProps) {
   const hasHashtags = entry.hashtags.length > 0;
   const languageBadge = `${entry.isLanguageVariant ? "Variant" : "Primary"} · ${entry.language}`;
@@ -39,7 +50,7 @@ export function ProjectContentCard({
         </div>
         <div className={styles.statuses}>
           <span className={styles.workflowStatus}>Workflow: {entry.status}</span>
-          {entry.videoStatus ? (
+          {hideVideo ? null : entry.videoStatus ? (
             <span className={styles.videoStatus}>
               Video: {entry.videoStatus}
             </span>
@@ -51,10 +62,12 @@ export function ProjectContentCard({
 
       {entry.title ? <h3 className={styles.title}>{entry.title}</h3> : null}
 
-      <VideoPreview
-        videoUrl={entry.videoUrl}
-        thumbnailUrl={entry.thumbnailUrl}
-      />
+      {hideVideo ? null : (
+        <VideoPreview
+          videoUrl={entry.videoUrl}
+          thumbnailUrl={entry.thumbnailUrl}
+        />
+      )}
 
       <div className={styles.field}>
         <span className={styles.label}>Caption</span>
@@ -81,13 +94,15 @@ export function ProjectContentCard({
         <p className={styles.value}>{entry.cta ?? EMPTY}</p>
       </div>
 
-      <VideoDownloads
-        projectId={projectId}
-        jobId={entry.videoJobId}
-        hasMp4={entry.videoUrl !== null}
-        hasSubtitle={entry.subtitleUrl !== null}
-        hasThumbnail={entry.thumbnailUrl !== null}
-      />
+      {hideVideo ? null : (
+        <VideoDownloads
+          projectId={projectId}
+          jobId={entry.videoJobId}
+          hasMp4={entry.videoUrl !== null}
+          hasSubtitle={entry.subtitleUrl !== null}
+          hasThumbnail={entry.thumbnailUrl !== null}
+        />
+      )}
 
       {showActions ? (
         <ReviewCardActions
@@ -100,6 +115,7 @@ export function ProjectContentCard({
           isLanguageVariant={entry.isLanguageVariant}
           canGenerateVariants={entry.canGenerateVariants}
           variantLanguage={entry.variantLanguage}
+          packageActionsInHeader={packageActionsInHeader}
         />
       ) : showVariantAction && entry.canGenerateVariants ? (
         <GenerateVariantsAction
