@@ -6,6 +6,7 @@ import {
   projectBrainBlock,
   proofBlock,
   scenarioBlock,
+  websiteLinkRulesBlock,
 } from "@/lib/ai/prompts/context";
 import {
   buildCreativeDirectiveBlock,
@@ -84,6 +85,12 @@ export const PLATFORM_STYLE_SPECS: Record<string, PlatformStyleSpec> = {
     structure: "insight -> context -> takeaway",
     cta: 'invite a comment / connect',
     length: "3–6 sentences, 0–3 hashtags, no decorative emoji",
+  },
+  facebook: {
+    tone: "friendly, community-oriented, approachable local business",
+    structure: "relatable hook -> the value or offer -> a clear next step",
+    cta: "message / book / one clean canonical link for lead or conversion content",
+    length: "2–4 sentences, light emoji ok, 0–3 hashtags",
   },
 };
 
@@ -301,6 +308,7 @@ export function buildGenerateContentPackagePrompt(
   const painPointFirst = painPointFirstBlock(project);
   const proof = proofBlock(project);
   const scenarios = scenarioBlock(project);
+  const websiteLinks = websiteLinkRulesBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
 
   // Content Quality V3 / Attention First V1 — deterministic creative directives.
@@ -520,6 +528,7 @@ export function buildGenerateContentPackagePrompt(
     ...(painPointFirst ? ["", painPointFirst] : []),
     ...(proof ? ["", proof] : []),
     ...(scenarios ? ["", scenarios] : []),
+    ...(websiteLinks ? ["", websiteLinks] : []),
     ...(memory ? ["", memory] : []),
     "",
     `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,

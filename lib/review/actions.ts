@@ -11,12 +11,29 @@ import { runRegenerateLanguageVariant } from "@/lib/ai/workflows/regenerateLangu
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type { LanguageCode } from "@/lib/supabase/types";
 
+// Shared review/approval Server Actions. These power BOTH the global
+// /review-queue and the per-project /projects/[id]/review surfaces, so every
+// action revalidates both paths off the projectId it already receives. No DB
+// schema, workflow or AI changes — pure relocation + dual revalidation of the
+// actions that previously lived in app/review-queue/actions.ts.
+
 const REVIEW_QUEUE_PATH = "/review-queue";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 function fail(error: string): ActionResult {
   return { ok: false, error };
+}
+
+// Revalidates the surfaces affected by a mutation: the global queue, the owning
+// project's review tab, and its Approved tab. The Approved tab is included
+// because approvals move items onto it and "Generate language variants" (exposed
+// there after Review UX Consolidation V1) changes both the primary's eligibility
+// and the variant rows shown.
+function revalidateReview(projectId: string): void {
+  revalidatePath(REVIEW_QUEUE_PATH);
+  revalidatePath(`/projects/${projectId}/review`);
+  revalidatePath(`/projects/${projectId}/approved`);
 }
 
 // Splits a free-text hashtag input into a normalized string[]. Hashtags are
@@ -35,7 +52,7 @@ export async function approveItem(
   if (!itemId || !projectId) return fail("Chybí identifikátor položky.");
   try {
     await setContentItemStatus(itemId, projectId, "approved");
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Schválení se nezdařilo.");
@@ -49,7 +66,7 @@ export async function rejectItem(
   if (!itemId || !projectId) return fail("Chybí identifikátor položky.");
   try {
     await setContentItemStatus(itemId, projectId, "rejected");
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Zamítnutí se nezdařilo.");
@@ -77,7 +94,7 @@ export async function editItem(input: EditItemInput): Promise<ActionResult> {
       hashtags: parseHashtags(input.hashtags),
       cta: cta.length > 0 ? cta : null,
     });
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Uložení změn se nezdařilo.");
@@ -100,7 +117,7 @@ export async function regeneratePackage(
       projectId,
       payload: { content_package_id: packageId },
     });
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Spuštění regenerace se nezdařilo.");
@@ -134,7 +151,7 @@ export async function generateLanguageVariants(
       { projectId, packageId },
       { videoCallbackUrl },
     );
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Spuštění generování jazykových variant se nezdařilo.");
@@ -160,7 +177,7 @@ export async function regenerateLanguageVariant(
       { projectId, packageId, targetLanguage },
       { videoCallbackUrl },
     );
-    revalidatePath(REVIEW_QUEUE_PATH);
+    revalidateReview(projectId);
     return { ok: true };
   } catch {
     return fail("Regenerace jazykové varianty se nezdařila.");

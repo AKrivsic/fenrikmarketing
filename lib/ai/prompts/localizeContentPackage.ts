@@ -1,5 +1,6 @@
 import type { LanguageCode, Project } from "@/lib/supabase/types";
 import { projectBrainBlock } from "@/lib/ai/prompts/context";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 
 // Human-readable language names so the model gets an unambiguous target market
 // rather than a bare ISO code. Falls back to the code itself for safety.
@@ -56,6 +57,7 @@ export function buildLocalizeContentPackagePrompt(
   const { project, sourceLanguage, targetLanguage, source } = input;
   const sourceLabel = languageLabel(sourceLanguage);
   const targetLabel = languageLabel(targetLanguage);
+  const canonicalUrl = canonicalWebsiteUrl(project);
 
   const platformsBlock = source.platformItems.length
     ? source.platformItems
@@ -86,6 +88,15 @@ export function buildLocalizeContentPackagePrompt(
     `- Never describe the product as anything in product_is_not: ${list(project.product_is_not)}`,
     "- Localize hashtags idiomatically for the target market (not a mechanical translation).",
     "- Adapt the CTA so it feels culturally natural in the target language.",
+    "- If any source field already contains a URL, keep that URL EXACTLY as-is " +
+      "(same scheme, host and path). Do NOT translate, localize, shorten or otherwise modify it.",
+    "- Localize ONLY the words around a URL (the CTA wording); never translate the hostname or path.",
+    ...(canonicalUrl
+      ? [
+          `- The canonical website URL is ${canonicalUrl}. There are no localized ` +
+            "landing pages yet, so reuse this SAME URL for every language wherever a URL appears.",
+        ]
+      : []),
     "- Keep voiceover_text length approximately similar to the source.",
     "- Preserve exactly the same set of platforms as the source.",
     "- Output must be a single valid JSON document, no prose, no code fences.",

@@ -25,6 +25,8 @@ import {
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
 import { normalizePainPoints } from "@/lib/ai/prompts/context";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
+import { appendUrlToText, xUrlVariantIndices } from "@/lib/ai/websiteLinks";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerateContentPackagePrompt,
@@ -249,6 +251,7 @@ export async function runGenerateContentPackage(
         }
       : null,
     directives,
+    canonicalWebsiteUrl(project),
   );
 
   return { ok: true, data };
@@ -474,6 +477,10 @@ async function persistNewPackage(
   // beats are stamped onto the video job input so the worker's storyboard role
   // arc follows the mode.
   directives?: CreativeDirectives,
+  // Website URL & CTA Usage V1 — the project's canonical website URL, threaded
+  // in so the deterministic CTA post-process can run without re-loading the
+  // project. null = no URL / no append (legacy behavior).
+  websiteUrl: string | null = null,
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -521,7 +528,12 @@ async function persistNewPackage(
   // single row (one shared package video). Every produced row is distinguished
   // by platform_variant_index and tagged with the run + package index.
   const videoPlatformSet = new Set<string>(videoPlatforms ?? []);
-  const itemRows = buildPersistableItems(pkg, context, targetPlatforms).flatMap(
+  const itemRows = buildPersistableItems(
+    pkg,
+    context,
+    targetPlatforms,
+    websiteUrl,
+  ).flatMap(
     (item) => {
       const kind = videoPlatformSet.has(item.platform) ? "video" : "text";
       const count = fanOut
@@ -557,6 +569,21 @@ async function persistNewPackage(
           ? candidate.trim()
           : pkg.title;
       };
+      // X URL Distribution V1 — for an X batch of `count` variants, a controlled
+      // minority of CAPTIONS (never titles) get the canonical URL appended. The
+      // indices are spread evenly so URL variants are not adjacent. Other
+      // platforms are unaffected (their CTA append already ran in
+      // buildPersistableItems; X is excluded there by design).
+      const xUrlIndices =
+        item.platform === "x" && websiteUrl
+          ? xUrlVariantIndices(count, funnelStage)
+          : null;
+      const captionWithUrl = (variantIndex: number): string => {
+        const base = captionFor(variantIndex);
+        return xUrlIndices?.has(variantIndex)
+          ? appendUrlToText(base, websiteUrl)
+          : base;
+      };
       return Array.from({ length: count }, (_unused, variantIndex) => ({
         project_id: projectId,
         package_id: packageId,
@@ -565,7 +592,7 @@ async function persistNewPackage(
         status: "draft" as const,
         title: titleFor(variantIndex),
         body: pkg.voiceover_text,
-        caption: captionFor(variantIndex),
+        caption: captionWithUrl(variantIndex),
         hashtags: item.hashtags,
         cta: item.cta,
         generation_metadata: {

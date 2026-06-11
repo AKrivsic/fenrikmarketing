@@ -1,6 +1,7 @@
 import type { Project } from "@/lib/supabase/types";
 import type { AntiRepetitionMemory } from "@/lib/ai/types";
 import { parseProjectKnowledge } from "@/lib/knowledge/types";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 
 // Serializes the relevant Project Brain fields into a compact, deterministic
 // block that every prompt embeds. Keeping this in one place ensures all
@@ -22,6 +23,40 @@ export function projectBrainBlock(project: Project): string {
     `- forbidden_claims (NEVER use): ${list(project.forbidden_claims)}`,
     `- platforms: ${list(project.platforms)}`,
     `- default_cta: ${project.default_cta ?? "(none)"}`,
+  ].join("\n");
+}
+
+// Website URL & CTA Usage V1 — emits the WEBSITE / LINK RULES block when the
+// project has a canonical website URL (projects.knowledge.source_url). The model
+// gets the real URL plus strict per-platform rules so it stops inventing/omitting
+// links and never leaks a URL into spoken voiceover or generated imagery. Returns
+// "" when there is no URL, so prompts for URL-less projects are unchanged.
+export function websiteLinkRulesBlock(project: Project): string {
+  const url = canonicalWebsiteUrl(project);
+  if (!url) return "";
+
+  return [
+    `WEBSITE / LINK RULES (canonical project website: ${url}):`,
+    "- A real canonical website URL exists (above). Use it ONLY where the " +
+      "per-platform rules below allow, and only when it genuinely helps the viewer act.",
+    "- NEVER invent, guess or shorten a URL. Use the canonical URL verbatim, or no URL at all.",
+    "- NEVER translate or alter the URL (host or path) — it is the same in every language.",
+    "- NEVER put a URL into voiceover_text or the video script — links are not spoken.",
+    "- NEVER put a URL into image_prompts, and NEVER request visible URL / website / " +
+      "link / QR-code text rendered inside a generated image.",
+    "- A link must never turn the piece into an ad: earn attention first, then the link " +
+      "is a quiet next step — not the message.",
+    "PER-PLATFORM LINK RULES:",
+    "- tiktok: NO raw URL in the caption. Use DM / comment / \"link in bio\" only when it fits naturally.",
+    "- instagram: NO raw URL by default. The CTA may point to \"link in bio\" or DM.",
+    "- youtube: you MAY include the canonical URL in the description/caption when the " +
+      "CTA is lead / conversion oriented.",
+    "- linkedin: awareness / problem-aware -> usually NO URL. solution-aware / " +
+      "conversion -> at most ONE canonical URL, placed at the end.",
+    "- facebook: you MAY include ONE canonical URL in the caption / CTA for lead / conversion content.",
+    "- google_business: NO raw URL in the text. The CTA may say visit website / call / " +
+      "book; never invent a booking URL.",
+    "- x: include a URL ONLY for conversion-style output, at most ONE, and not necessarily in every variant.",
   ].join("\n");
 }
 

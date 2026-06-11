@@ -166,6 +166,43 @@ check("prompt omits cta line when source has no package cta", () => {
   assert.ok(prompt.includes("(none — omit the cta field in the output)"));
 });
 
+section("localize prompt — URL handling");
+
+check("prompt always carries URL-preservation rules", () => {
+  const prompt = buildLocalizeContentPackagePrompt({
+    project: buildProject(),
+    sourceLanguage: "cs",
+    targetLanguage: "de",
+    source: buildSource(),
+  });
+  // Preserve URLs exactly; only localize the surrounding words.
+  assert.ok(/keep that URL EXACTLY/i.test(prompt));
+  assert.ok(/never translate the hostname or path/i.test(prompt));
+});
+
+check("prompt names the canonical URL and reuse rule when one exists", () => {
+  const project = buildProject();
+  project.knowledge = { source_url: "https://uklidy-praha.cz" } as Project["knowledge"];
+  const prompt = buildLocalizeContentPackagePrompt({
+    project,
+    sourceLanguage: "cs",
+    targetLanguage: "de",
+    source: buildSource(),
+  });
+  assert.ok(prompt.includes("https://uklidy-praha.cz"));
+  assert.ok(/reuse this SAME URL/i.test(prompt));
+});
+
+check("prompt omits the canonical-URL line when no URL exists", () => {
+  const prompt = buildLocalizeContentPackagePrompt({
+    project: buildProject(),
+    sourceLanguage: "cs",
+    targetLanguage: "de",
+    source: buildSource(),
+  });
+  assert.ok(!/reuse this SAME URL/i.test(prompt));
+});
+
 // --- summary ---------------------------------------------------------------
 
 console.log(`\n${passed} passed, ${failed} failed`);

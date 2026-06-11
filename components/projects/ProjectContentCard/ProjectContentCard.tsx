@@ -1,4 +1,6 @@
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
+import { ReviewCardActions } from "@/components/review/ReviewCardActions/ReviewCardActions";
+import { GenerateVariantsAction } from "@/components/projects/GenerateVariantsAction/GenerateVariantsAction";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import type { ProjectContentEntry } from "@/lib/api/project-content-admin";
 import styles from "./ProjectContentCard.module.css";
@@ -6,6 +8,14 @@ import styles from "./ProjectContentCard.module.css";
 interface ProjectContentCardProps {
   projectId: string;
   entry: ProjectContentEntry;
+  // When true, renders the approve / reject / edit / regenerate / generate-
+  // variants controls (reused from the review queue). Off by default so the
+  // Approved / Scheduled tabs stay read-only.
+  showActions?: boolean;
+  // When true, the card stays read-only but exposes ONLY the "Generate language
+  // variants" action on eligible primary cards (entry.canGenerateVariants).
+  // Used by the Approved tab after Review UX Consolidation V1 removed the queue.
+  showVariantAction?: boolean;
 }
 
 const EMPTY = "—";
@@ -13,6 +23,8 @@ const EMPTY = "—";
 export function ProjectContentCard({
   projectId,
   entry,
+  showActions = false,
+  showVariantAction = false,
 }: ProjectContentCardProps) {
   const hasHashtags = entry.hashtags.length > 0;
   const languageBadge = `${entry.isLanguageVariant ? "Variant" : "Primary"} · ${entry.language}`;
@@ -76,6 +88,25 @@ export function ProjectContentCard({
         hasSubtitle={entry.subtitleUrl !== null}
         hasThumbnail={entry.thumbnailUrl !== null}
       />
+
+      {showActions ? (
+        <ReviewCardActions
+          itemId={entry.id}
+          projectId={projectId}
+          packageId={entry.packageId}
+          caption={entry.caption}
+          hashtags={entry.hashtags}
+          cta={entry.cta}
+          isLanguageVariant={entry.isLanguageVariant}
+          canGenerateVariants={entry.canGenerateVariants}
+          variantLanguage={entry.variantLanguage}
+        />
+      ) : showVariantAction && entry.canGenerateVariants ? (
+        <GenerateVariantsAction
+          projectId={projectId}
+          packageId={entry.packageId}
+        />
+      ) : null}
     </article>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { editItem } from "@/app/review-queue/actions";
+import { editItem } from "@/lib/review/actions";
 import styles from "./EditItemForm.module.css";
 
 interface EditItemFormProps {

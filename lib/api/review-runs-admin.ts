@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { newestByContentItem } from "@/lib/api/content-shared";
 import type {
   ContentItem,
   ContentPackage,
@@ -58,7 +59,7 @@ export interface ReviewRunCard {
   warningsCount: number;
 }
 
-function readDebug(output: Json | null): RenderDebug | null {
+export function readDebug(output: Json | null): RenderDebug | null {
   if (!output || typeof output !== "object" || Array.isArray(output)) return null;
   const debug = (output as Record<string, unknown>).debug;
   if (!debug || typeof debug !== "object" || Array.isArray(debug)) return null;
@@ -105,13 +106,9 @@ async function loadRunVideoJobs(
     .order("created_at", { ascending: false });
   if (jobErr) throw jobErr;
 
-  const newestByItem = new Map<string, VideoJob>();
-  for (const job of (jobRows ?? []) as VideoJob[]) {
-    const itemId = job.content_item_id;
-    if (!itemId || newestByItem.has(itemId)) continue;
-    newestByItem.set(itemId, job);
-  }
-  return Array.from(newestByItem.values());
+  return Array.from(
+    newestByContentItem((jobRows ?? []) as VideoJob[]).values(),
+  );
 }
 
 // Shared builder: turns a production_run row into the review card view, counting

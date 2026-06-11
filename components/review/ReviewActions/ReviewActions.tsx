@@ -8,7 +8,7 @@ import {
   regeneratePackage,
   rejectItem,
   type ActionResult,
-} from "@/app/review-queue/actions";
+} from "@/lib/review/actions";
 import type { LanguageCode } from "@/lib/supabase/types";
 import styles from "./ReviewActions.module.css";
 

@@ -1,5 +1,12 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { effectiveLanguage } from "@/lib/projects/language";
+import {
+  isVariantItem,
+  newestByContentItem,
+  readProductionRunId,
+  readVideoOutput,
+} from "@/lib/api/content-shared";
+import { loadVariantEligibility } from "@/lib/api/variant-eligibility";
 import type {
   ApprovalStatus,
   ContentFormat,
@@ -26,35 +33,6 @@ const ARTIFACT_OUTPUT_KEY: Record<VideoArtifactType, string> = {
   thumbnail: "thumbnail_url",
 };
 
-// Pulls the artifact URLs out of a video_jobs.output jsonb blob. Free-form at
-// the DB level, so every field is read defensively.
-function readVideoOutput(output: Json | null): {
-  mp4Url: string | null;
-  thumbnailUrl: string | null;
-  subtitleUrl: string | null;
-} {
-  if (!output || typeof output !== "object" || Array.isArray(output)) {
-    return { mp4Url: null, thumbnailUrl: null, subtitleUrl: null };
-  }
-  const record = output as Record<string, unknown>;
-  const str = (key: string) =>
-    typeof record[key] === "string" ? (record[key] as string) : null;
-  return {
-    mp4Url: str("mp4_url"),
-    thumbnailUrl: str("thumbnail_url"),
-    subtitleUrl: str("subtitle_url"),
-  };
-}
-
-function isVariantItem(item: ContentItem): boolean {
-  if (item.language !== null) return true;
-  const metadata = item.generation_metadata;
-  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
-    return false;
-  }
-  return (metadata as Record<string, unknown>).kind === "language_variant";
-}
-
 type VideoJobLite = {
   id: string;
   content_item_id: string | null;
@@ -62,19 +40,6 @@ type VideoJobLite = {
   output: Json | null;
   created_at: string;
 };
-
-// Newest video job per content_item_id. Input must be ordered created_at desc
-// (first seen wins).
-function newestByContentItem(
-  jobs: VideoJobLite[],
-): Map<string, VideoJobLite> {
-  const byItem = new Map<string, VideoJobLite>();
-  for (const job of jobs) {
-    if (!job.content_item_id) continue;
-    if (!byItem.has(job.content_item_id)) byItem.set(job.content_item_id, job);
-  }
-  return byItem;
-}
 
 // ---------------------------------------------------------------------------
 // Content tabs (Review / Approved / Scheduled) — read-only.
@@ -94,6 +59,17 @@ export interface ProjectContentEntry {
   cta: string | null;
   language: LanguageCode;
   isLanguageVariant: boolean;
+  // Raw content_items.language (NULL for primary items). Distinct from the
+  // resolved `language` above; the review actions need the raw value to target a
+  // single variant for regeneration.
+  variantLanguage: LanguageCode | null;
+  // True only on a PRIMARY card whose package is ready for variant generation
+  // (all primary items approved, project has target languages, no variants yet).
+  // Drives the "Generate language variants" action on the project review tab.
+  canGenerateVariants: boolean;
+  // Owning production run (generation_metadata.production_run_id), or null for
+  // items that predate production runs. Used to group the review tab by run.
+  productionRunId: string | null;
   createdAt: string;
   // Newest video job linked directly to this content item (content_item_id),
   // or null when no video has been generated for it yet.
@@ -139,20 +115,26 @@ export async function listProjectContentByStatus(
 
   const jobByItem = newestByContentItem((jobRows ?? []) as VideoJobLite[]);
 
-  // Project primary language resolves NULL item languages to a concrete code.
-  const { data: projectRow, error: projectError } = await supabase
-    .from("projects")
-    .select("language")
-    .eq("id", projectId)
-    .maybeSingle();
-
-  if (projectError) throw projectError;
+  // Shared eligibility computes per-package variant qualification and exposes the
+  // project's primary language (resolves NULL item languages for badges) — so no
+  // separate projects query is needed here.
+  const packageIds = Array.from(
+    new Set(
+      items
+        .map((item) => item.package_id)
+        .filter((id): id is string => typeof id === "string"),
+    ),
+  );
+  const eligibility = await loadVariantEligibility(supabase, packageIds, [
+    projectId,
+  ]);
   const projectLanguage =
-    (projectRow as { language: LanguageCode } | null)?.language ?? "cs";
+    eligibility.projectLanguageById.get(projectId) ?? "cs";
 
   return items.map((item) => {
     const job = jobByItem.get(item.id);
     const output = job ? readVideoOutput(job.output) : null;
+    const isVariant = isVariantItem(item);
 
     return {
       id: item.id,
@@ -165,7 +147,11 @@ export async function listProjectContentByStatus(
       hashtags: item.hashtags ?? [],
       cta: item.cta,
       language: effectiveLanguage(item.language, projectLanguage),
-      isLanguageVariant: isVariantItem(item),
+      isLanguageVariant: isVariant,
+      variantLanguage: item.language,
+      canGenerateVariants:
+        !isVariant && eligibility.qualifies(projectId, item.package_id),
+      productionRunId: readProductionRunId(item.generation_metadata),
       createdAt: item.created_at,
       videoJobId: job?.id ?? null,
       videoStatus: job?.status ?? null,

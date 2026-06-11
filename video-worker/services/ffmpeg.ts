@@ -47,6 +47,15 @@ export interface RenderDiagnostics {
   videoDuration: number | null;
   durationDelta: number | null;
   targetDuration: number | null;
+  // Video Duration Audit V1 — per-STAGE durations so the exact point any future
+  // truncation is introduced is provable from the debug payload alone:
+  //   intermediateVideoDuration — video stream after the xfade chain + freeze.
+  //   postMuxDuration           — audio stream after the mux (the intermediate).
+  //   postSubtitleDuration      — final video stream after the subtitle burn.
+  // All best-effort (null when the probe failed).
+  intermediateVideoDuration: number | null;
+  postMuxDuration: number | null;
+  postSubtitleDuration: number | null;
   renderWarning: boolean;
   renderWarnings: string[];
 }
@@ -392,8 +401,19 @@ export function buildSubtitleBurnArgs(
   intermediatePath: string,
   srtPath: string,
   outputPath: string,
-  profile?: { fps: number },
+  // Video Duration Audit V1 — targetDurationSeconds bounds the FINAL output to
+  // the audio master (audio + tail) with an explicit -t, exactly like the
+  // intermediate. The intermediate is already exact, so this is defensive: it
+  // guarantees the LAST stage can never reintroduce drift (e.g. a libass tail
+  // event extending the timeline). Omitted -> inherit the intermediate length.
+  options?: { fps?: number; targetDurationSeconds?: number },
 ): string[] {
+  const fps = options?.fps;
+  const target = options?.targetDurationSeconds;
+  const tail =
+    typeof target === "number" && Number.isFinite(target) && target > 0
+      ? ["-t", target.toFixed(3)]
+      : [];
   return [
     "-y",
     "-i",
@@ -404,9 +424,10 @@ export function buildSubtitleBurnArgs(
     "libx264",
     "-pix_fmt",
     "yuv420p",
-    ...(profile ? ["-r", String(profile.fps)] : []),
+    ...(typeof fps === "number" ? ["-r", String(fps)] : []),
     "-c:a",
     "copy",
+    ...tail,
     outputPath,
   ];
 }
@@ -456,12 +477,34 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
 
   const profile = input.profile ?? SHORT_PROFILE;
 
+  // Video Duration Audit V1 — probe the intermediate BEFORE it is deleted so the
+  // mux stage durations are recorded. Best-effort: a probe failure never affects
+  // the render, only the diagnostics.
+  let intermediateVideoDuration: number | null = null;
+  let postMuxDuration: number | null = null;
+  try {
+    const interStreams = await probeMediaStreams(intermediatePath);
+    if (typeof interStreams.video === "number") {
+      intermediateVideoDuration = interStreams.video;
+    }
+    if (typeof interStreams.audio === "number") {
+      postMuxDuration = interStreams.audio;
+    }
+  } catch {
+    // Diagnostics only — ignore.
+  }
+
   try {
     // Pass 2 — dedicated subtitle burn (or passthrough when there are no subs).
+    // Both branches force the FINAL duration to the audio master with -t when a
+    // target is known, so the last stage can never end before the audio.
     if (input.srtPath) {
       await runFfmpeg(
         buildSubtitleBurnArgs(intermediatePath, input.srtPath, input.outputPath, {
           fps: profile.fps,
+          ...(targetDuration !== undefined
+            ? { targetDurationSeconds: targetDuration }
+            : {}),
         }),
       );
     } else {
@@ -472,6 +515,9 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
         intermediatePath,
         "-c",
         "copy",
+        ...(targetDuration !== undefined
+          ? ["-t", targetDuration.toFixed(3)]
+          : []),
         input.outputPath,
       ]);
     }
@@ -484,6 +530,8 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
     outputPath: input.outputPath,
     audioDuration,
     targetDuration: targetDuration ?? null,
+    intermediateVideoDuration,
+    postMuxDuration,
   });
 
   return { mp4Path: input.outputPath, diagnostics };
@@ -493,6 +541,8 @@ async function verifyRender(args: {
   outputPath: string;
   audioDuration: number | null;
   targetDuration: number | null;
+  intermediateVideoDuration: number | null;
+  postMuxDuration: number | null;
 }): Promise<RenderDiagnostics> {
   const warnings: string[] = [];
   let videoDuration: number | null = null;
@@ -528,6 +578,10 @@ async function verifyRender(args: {
     videoDuration,
     durationDelta,
     targetDuration: args.targetDuration,
+    intermediateVideoDuration: args.intermediateVideoDuration,
+    postMuxDuration: args.postMuxDuration,
+    // The final video stream IS the post-subtitle-pass duration.
+    postSubtitleDuration: videoDuration,
     renderWarning: warnings.length > 0,
     renderWarnings: warnings,
   };

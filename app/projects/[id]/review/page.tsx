@@ -1,10 +1,13 @@
-import { ProjectContentList } from "@/components/projects/ProjectContentList/ProjectContentList";
-import { ReviewRunsList } from "@/components/review/ReviewRunsList/ReviewRunsList";
-import { listProjectContentByStatus } from "@/lib/api/project-content-admin";
-import { listReviewRunsForProject } from "@/lib/api/review-runs-admin";
+import { ReviewGroupedList } from "@/components/review/ReviewGroupedList/ReviewGroupedList";
+import { listProjectReviewGroups } from "@/lib/api/project-review-admin";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
+
+// The review actions (generate / regenerate language variants) run AI
+// localization inline via the shared Server Actions, so raise the page-level
+// Server Action budget — mirrors /review-queue.
+export const maxDuration = 300;
 
 interface ReviewTabPageProps {
   params: Promise<{ id: string }>;
@@ -12,26 +15,11 @@ interface ReviewTabPageProps {
 
 export default async function ReviewTabPage({ params }: ReviewTabPageProps) {
   const { id } = await params;
-  const [entries, runs] = await Promise.all([
-    listProjectContentByStatus(id, ["draft", "in_review"]),
-    listReviewRunsForProject(id),
-  ]);
+  const groups = await listProjectReviewGroups(id);
 
   return (
     <div className={styles.tab}>
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Production Runs</h2>
-        <ReviewRunsList runs={runs} />
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Review Queue</h2>
-        <ProjectContentList
-          projectId={id}
-          entries={entries}
-          emptyText="Tento projekt nemá žádný obsah čekající na review."
-        />
-      </section>
+      <ReviewGroupedList projectId={id} groups={groups} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {
   type FunnelStage,
 } from "@/lib/ai/types";
 import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import { maybeAppendWebsiteUrl } from "@/lib/ai/websiteLinks";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import {
   checkAssetModification,
@@ -261,6 +262,11 @@ export function buildPersistableItems(
   pkg: ContentPackageOutput,
   context: StrategyItemContext,
   targetPlatforms?: readonly string[],
+  // Website URL & CTA Usage V1 — the project's canonical website URL. When
+  // provided, the deterministic post-process may append it to the CTA on the
+  // eligible platforms/stages (see maybeAppendWebsiteUrl). Defaults to null,
+  // which keeps the historical behavior (no URL is ever appended).
+  websiteUrl: string | null = null,
 ): PersistableItem[] {
   const items: PersistableItem[] = [];
   const allowed = targetPlatforms ? new Set(targetPlatforms) : null;
@@ -272,7 +278,13 @@ export function buildPersistableItems(
       platform,
       format: coerceFormat(output.format, context.format),
       caption: output.caption,
-      cta: output.cta,
+      cta: maybeAppendWebsiteUrl({
+        platform,
+        cta: output.cta,
+        funnelStage: context.funnelStage,
+        ctaType: pkg.cta?.type,
+        websiteUrl,
+      }),
       hashtags: output.hashtags ?? pkg.hashtags ?? [],
     });
   }

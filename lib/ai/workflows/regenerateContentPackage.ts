@@ -31,6 +31,7 @@ import {
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
+import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
@@ -217,6 +218,7 @@ export async function runRegenerateContentPackage(
     pkg,
     existingItems,
     targetPlatforms,
+    canonicalWebsiteUrl(project),
   );
   const contentItemIds = upserted.map((r) => r.id);
   const primaryItemId = contentItemIds[0] ?? null;
@@ -325,11 +327,17 @@ async function upsertPackageItems(
   pkg: ContentPackageOutput,
   existingItems: ContentItem[],
   targetPlatforms?: readonly string[],
+  websiteUrl: string | null = null,
 ): Promise<{ id: string; platform: string }[]> {
   const existingByPlatform = new Map(existingItems.map((i) => [i.platform, i]));
   const result: { id: string; platform: string }[] = [];
 
-  for (const item of buildPersistableItems(pkg, context, targetPlatforms)) {
+  for (const item of buildPersistableItems(
+    pkg,
+    context,
+    targetPlatforms,
+    websiteUrl,
+  )) {
     const existing = existingByPlatform.get(item.platform);
     const fields = {
       format: item.format,

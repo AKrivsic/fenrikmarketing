@@ -410,6 +410,12 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       video_duration: renderDiagnostics.videoDuration,
       srt_last_cue_end: srtLastCueEnd,
       duration_delta: renderDiagnostics.durationDelta,
+      // Video Duration Audit V1 — per-stage durations so the exact point any
+      // truncation is introduced is provable from the debug payload alone.
+      target_duration: renderDiagnostics.targetDuration,
+      intermediate_video_duration: renderDiagnostics.intermediateVideoDuration,
+      post_mux_duration: renderDiagnostics.postMuxDuration,
+      post_subtitle_duration: renderDiagnostics.postSubtitleDuration,
       subtitle_warning: fallbackUsed,
       render_warning: renderDiagnostics.renderWarning,
       render_warnings: renderDiagnostics.renderWarnings,

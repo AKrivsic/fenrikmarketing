@@ -6,6 +6,11 @@ import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
+// The "Generate language variants" action runs AI localization inline via the
+// shared Server Action, so raise the page-level Server Action budget — mirrors
+// /projects/[id]/review and /review-queue.
+export const maxDuration = 300;
+
 interface ApprovedTabPageProps {
   params: Promise<{ id: string }>;
 }
@@ -26,6 +31,7 @@ export default async function ApprovedTabPage({
         projectId={id}
         entries={entries}
         emptyText="Tento projekt zatím nemá žádný schválený obsah."
+        showVariantAction
       />
     </div>
   );

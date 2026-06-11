@@ -59,6 +59,7 @@ const ALL_PLATFORMS = [
   "x",
   "google_business",
   "linkedin",
+  "facebook",
 ] as const;
 
 // --- 1. catalogue completeness ---------------------------------------------
@@ -129,6 +130,66 @@ check("a 2-platform run lists only those platforms", () => {
   assert.ok(small.includes("- x: tone="));
   assert.ok(!small.includes("- linkedin: tone="));
   assert.ok(!small.includes("- youtube: tone="));
+});
+
+// --- 4. facebook style is present ------------------------------------------
+
+section("facebook platform style exists");
+
+check("facebook has a complete style spec", () => {
+  const spec = PLATFORM_STYLE_SPECS.facebook;
+  assert.ok(spec, "missing facebook style spec");
+  assert.ok(spec.tone.length > 0);
+  assert.ok(spec.structure.length > 0);
+  assert.ok(spec.cta.length > 0);
+  assert.ok(spec.length.length > 0);
+});
+
+check("facebook style line appears in a facebook run", () => {
+  const fb = buildGenerateContentPackagePrompt({
+    project,
+    funnelStage: "conversion" as const,
+    topic: "kitchen smell",
+    availableAssets: [],
+    targetPlatforms: ["facebook", "linkedin"] as const,
+    requireVideo: false,
+    videoPlatforms: [] as const,
+  });
+  assert.ok(fb.includes("- facebook: tone="));
+});
+
+// --- 5. WEBSITE / LINK RULES block -----------------------------------------
+
+section("website / link rules block");
+
+const projectWithUrl = {
+  ...project,
+  knowledge: { source_url: "https://uklidy-praha.cz" },
+} as unknown as Project;
+
+check("prompt omits the WEBSITE / LINK RULES block when no URL exists", () => {
+  // `project` has no knowledge.source_url.
+  assert.ok(!prompt.includes("WEBSITE / LINK RULES"));
+});
+
+check("prompt includes the WEBSITE / LINK RULES block when a URL exists", () => {
+  const withUrl = buildGenerateContentPackagePrompt({
+    project: projectWithUrl,
+    funnelStage: "conversion" as const,
+    topic: "kitchen smell",
+    availableAssets: [],
+    targetPlatforms: ALL_PLATFORMS,
+    requireVideo: true,
+    videoPlatforms: ["tiktok", "instagram", "youtube"] as const,
+  });
+  assert.ok(withUrl.includes("WEBSITE / LINK RULES"));
+  assert.ok(withUrl.includes("https://uklidy-praha.cz"));
+  // URL must never be routed into spoken voiceover or generated imagery.
+  assert.ok(/voiceover_text/.test(withUrl));
+  assert.ok(/image_prompts/.test(withUrl));
+  // Per-platform link rules are present.
+  assert.ok(withUrl.includes("- tiktok: NO raw URL"));
+  assert.ok(withUrl.includes("- google_business: NO raw URL"));
 });
 
 // --- summary ---------------------------------------------------------------

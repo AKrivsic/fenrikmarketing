@@ -1,25 +1,25 @@
 import { PageHeader } from "@/components/PageHeader/PageHeader";
-import { ReviewQueueList } from "@/components/review/ReviewQueueList/ReviewQueueList";
-import { listReviewQueueItems } from "@/lib/api/review-queue";
+import { ReviewExceptionsDashboard } from "@/components/review/ReviewExceptionsDashboard/ReviewExceptionsDashboard";
+import { listReviewExceptions } from "@/lib/api/review-exceptions-admin";
 import styles from "./page.module.css";
 
 // Read live data per request: the admin-client query must not run at build time.
 export const dynamic = "force-dynamic";
 
-// Task 1 — the language-variant Server Actions (generate / regenerate) run AI
-// localization inline; raise the page-level Server Action budget accordingly.
-export const maxDuration = 300;
-
-// Production Runs are reviewed in PROJECT context (/projects/[id]/review): QA and
-// approval are project-scoped, so a cross-project run list here would only cause
-// confusion. This global page stays focused on the cross-project review queue.
+// Cross-project EXCEPTIONS dashboard. Review/approval happens in PROJECT context
+// (/projects/[id]/review); this page is monitoring only — it surfaces failures
+// and warnings across all projects and links each one back into its project.
+// No workflow actions live here anymore.
 export default async function ReviewQueuePage() {
-  const items = await listReviewQueueItems();
+  const data = await listReviewExceptions();
 
   return (
     <div className={styles.page}>
-      <PageHeader title="Review Queue" description="Obsah čekající na schválení." />
-      <ReviewQueueList items={items} />
+      <PageHeader
+        title="Review Queue"
+        description="Cross-project monitoring — failures a warnings napříč projekty."
+      />
+      <ReviewExceptionsDashboard data={data} />
     </div>
   );
 }

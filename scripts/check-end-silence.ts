@@ -122,6 +122,26 @@ check("subtitle pass burns the SRT and copies audio verbatim", () => {
   assert.equal(burnArgs[burnArgs.length - 1], "/tmp/out.mp4");
 });
 
+// Video Duration Audit V1 — the FINAL stage is also bounded to the audio master.
+const burnArgsTarget = buildSubtitleBurnArgs(
+  "/tmp/out.mp4.intermediate.mp4",
+  "/tmp/vo.srt",
+  "/tmp/out.mp4",
+  { fps: 30, targetDurationSeconds: TARGET },
+);
+
+check("subtitle pass forces the FINAL duration to the target with -t", () => {
+  const tIdx = burnArgsTarget.lastIndexOf("-t");
+  assert.ok(tIdx >= 0, "expected an output -t on the subtitle pass");
+  assert.equal(burnArgsTarget[tIdx + 1], TARGET.toFixed(3));
+  // -t must come AFTER the audio copy and right before the output path.
+  assert.equal(burnArgsTarget[burnArgsTarget.length - 1], "/tmp/out.mp4");
+});
+
+check("subtitle pass omits -t when no target is supplied", () => {
+  assert.ok(!burnArgs.includes("-t"), "no -t without a target (inherits intermediate)");
+});
+
 // --- 3. single-image path also honours the target -------------------------
 
 section("single-image intermediate path");
