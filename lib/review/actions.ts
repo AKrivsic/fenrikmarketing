@@ -3,10 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import {
+  setContentItemPublished,
   setContentItemStatus,
   updateContentItemFields,
 } from "@/lib/api/review-queue";
-import { runGenerateLanguageVariants } from "@/lib/ai/workflows/generateLanguageVariants";
+import {
+  runGenerateLanguageVariants,
+  runGenerateLanguageVariantsForItem,
+} from "@/lib/ai/workflows/generateLanguageVariants";
 import { runRegenerateLanguageVariant } from "@/lib/ai/workflows/regenerateLanguageVariant";
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type { LanguageCode } from "@/lib/supabase/types";
@@ -34,6 +38,7 @@ function revalidateReview(projectId: string): void {
   revalidatePath(REVIEW_QUEUE_PATH);
   revalidatePath(`/projects/${projectId}/review`);
   revalidatePath(`/projects/${projectId}/approved`);
+  revalidatePath(`/projects/${projectId}/published`);
 }
 
 // Splits a free-text hashtag input into a normalized string[]. Hashtags are
@@ -70,6 +75,28 @@ export async function rejectItem(
     return { ok: true };
   } catch {
     return fail("Zamítnutí se nezdařilo.");
+  }
+}
+
+// Manual publish: marks ONE approved item as published after the user has
+// copied its publish-ready text/video into Metricool by hand. Only the
+// approved → published transition is allowed (enforced in the DB write); other
+// statuses fail with a clear message. Affects only this item — never the whole
+// package or sibling language variants.
+export async function markContentItemPublished(
+  itemId: string,
+  projectId: string,
+): Promise<ActionResult> {
+  if (!itemId || !projectId) return fail("Chybí identifikátor položky.");
+  try {
+    const ok = await setContentItemPublished(itemId, projectId);
+    if (!ok) {
+      return fail("Publikovat lze pouze schválenou (approved) položku.");
+    }
+    revalidateReview(projectId);
+    return { ok: true };
+  } catch {
+    return fail("Označení jako publikováno se nezdařilo.");
   }
 }
 
@@ -149,6 +176,32 @@ export async function generateLanguageVariants(
     const videoCallbackUrl = await resolveVideoCallbackUrl();
     await runGenerateLanguageVariants(
       { projectId, packageId },
+      { videoCallbackUrl },
+    );
+    revalidateReview(projectId);
+    return { ok: true };
+  } catch {
+    return fail("Spuštění generování jazykových variant se nezdařilo.");
+  }
+}
+
+// Generates language variants for a SINGLE approved primary content item. Used
+// by the Approved tab so an approved item (e.g. TikTok) can be localized into
+// all target languages independently of sibling items' statuses (a draft X item
+// never blocks it). Video platforms also queue one variant video job per
+// language (reusing the package render_spec); text-only platforms create only
+// localized content_items. Never touches the primary item or its package.
+export async function generateLanguageVariantsForItem(
+  sourceContentItemId: string | null,
+  projectId: string,
+): Promise<ActionResult> {
+  if (!projectId) return fail("Chybí identifikátor projektu.");
+  if (!sourceContentItemId) return fail("Chybí identifikátor položky.");
+
+  try {
+    const videoCallbackUrl = await resolveVideoCallbackUrl();
+    await runGenerateLanguageVariantsForItem(
+      { projectId, sourceContentItemId },
       { videoCallbackUrl },
     );
     revalidateReview(projectId);

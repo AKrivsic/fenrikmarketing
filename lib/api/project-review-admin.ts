@@ -22,6 +22,10 @@ import type {
 
 // Content shown on the review tab is the pending work: draft + in_review.
 const PENDING_STATUSES: ApprovalStatus[] = ["draft", "in_review"];
+// The "Approved" review view shows approved items (ready to copy → publish) in
+// the same Run → Package grouping so the user keeps run context while marking
+// items published. Published items are intentionally excluded from both views.
+export const APPROVED_REVIEW_STATUSES: ApprovalStatus[] = ["approved"];
 const NO_PACKAGE_TITLE = "Bez balíčku";
 
 // One package video, resolved per language. Today only the package's primary
@@ -130,9 +134,10 @@ function sortItems(items: ProjectContentEntry[]): ProjectContentEntry[] {
 
 export async function listProjectReviewGroups(
   projectId: string,
+  statuses: ApprovalStatus[] = PENDING_STATUSES,
 ): Promise<ReviewRunGroup[]> {
   const [entries, runs] = await Promise.all([
-    listProjectContentByStatus(projectId, PENDING_STATUSES),
+    listProjectContentByStatus(projectId, statuses),
     listReviewRunsForProject(projectId),
   ]);
 

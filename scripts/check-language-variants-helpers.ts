@@ -10,7 +10,10 @@
 import assert from "node:assert/strict";
 import {
   allItemsApproved,
+  canGenerateItemVariants,
   extractRenderSpecScenes,
+  isVideoPlatform,
+  pendingVariantLanguages,
   pickVideoJobItem,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
@@ -147,6 +150,124 @@ check("falls back to first when no tiktok", () => {
 
 check("null for empty list", () => {
   assert.equal(pickVideoJobItem([]), null);
+});
+
+// --- isVideoPlatform -------------------------------------------------------
+
+section("isVideoPlatform");
+
+check("tiktok / instagram / youtube / facebook are video", () => {
+  assert.equal(isVideoPlatform("tiktok"), true);
+  assert.equal(isVideoPlatform("instagram"), true);
+  assert.equal(isVideoPlatform("youtube"), true);
+  assert.equal(isVideoPlatform("facebook"), true);
+});
+
+check("linkedin / x / google_business are NOT video", () => {
+  assert.equal(isVideoPlatform("linkedin"), false);
+  assert.equal(isVideoPlatform("x"), false);
+  assert.equal(isVideoPlatform("google_business"), false);
+});
+
+// --- pendingVariantLanguages -----------------------------------------------
+
+section("pendingVariantLanguages");
+
+check("returns languages not yet covered, order-preserving", () => {
+  assert.deepEqual(
+    pendingVariantLanguages(["de", "fr", "es", "it"], ["fr"]),
+    ["de", "es", "it"],
+  );
+});
+
+check("empty when all covered", () => {
+  assert.deepEqual(
+    pendingVariantLanguages(["de", "fr"], ["de", "fr"]),
+    [],
+  );
+});
+
+check("all pending when nothing covered", () => {
+  assert.deepEqual(
+    pendingVariantLanguages(["de", "fr"], []),
+    ["de", "fr"],
+  );
+});
+
+// --- canGenerateItemVariants -----------------------------------------------
+
+section("canGenerateItemVariants");
+
+check("true for approved primary item with pending target languages", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: null,
+      itemStatus: "approved",
+      targetLanguages: ["de", "fr", "es", "it"],
+      coveredLanguages: [],
+    }),
+    true,
+  );
+});
+
+check("false when item is a variant (language not null)", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: "de",
+      itemStatus: "approved",
+      targetLanguages: ["de", "fr"],
+      coveredLanguages: [],
+    }),
+    false,
+  );
+});
+
+check("false when item is not approved (draft X never qualifies)", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: null,
+      itemStatus: "draft",
+      targetLanguages: ["de", "fr"],
+      coveredLanguages: [],
+    }),
+    false,
+  );
+});
+
+check("false when project has no target languages", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: null,
+      itemStatus: "approved",
+      targetLanguages: [],
+      coveredLanguages: [],
+    }),
+    false,
+  );
+});
+
+check("false when every target language already covered for this item", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: null,
+      itemStatus: "approved",
+      targetLanguages: ["de", "fr"],
+      coveredLanguages: ["de", "fr"],
+    }),
+    false,
+  );
+});
+
+check("true when only some target languages are covered", () => {
+  assert.equal(
+    canGenerateItemVariants({
+      itemLanguage: null,
+      itemStatus: "approved",
+      targetLanguages: ["de", "fr", "es", "it"],
+      coveredLanguages: ["de", "fr"],
+    }),
+    true,
+  );
 });
 
 // --- summary ---------------------------------------------------------------

@@ -80,8 +80,14 @@ export interface ProjectContentEntry {
   variantLanguage: LanguageCode | null;
   // True only on a PRIMARY card whose package is ready for variant generation
   // (all primary items approved, project has target languages, no variants yet).
-  // Drives the "Generate language variants" action on the project review tab.
+  // Drives the package-level "Generate language variants" action on the project
+  // review tab.
   canGenerateVariants: boolean;
+  // True on a PRIMARY card that is APPROVED and still has at least one target
+  // language without a variant — independent of sibling items' statuses. Drives
+  // the per-item "Generate language variants" action on the Approved tab so an
+  // approved TikTok item can localize even while sibling X items are draft.
+  canGenerateItemVariants: boolean;
   // Owning production run (generation_metadata.production_run_id), or null for
   // items that predate production runs. Used to group the review tab by run.
   productionRunId: string | null;
@@ -180,6 +186,13 @@ export async function listProjectContentByStatus(
       variantLanguage: item.language,
       canGenerateVariants:
         !isVariant && eligibility.qualifies(projectId, item.package_id),
+      canGenerateItemVariants:
+        !isVariant &&
+        eligibility.qualifiesItem(projectId, {
+          id: item.id,
+          language: item.language,
+          status: item.status,
+        }),
       productionRunId: readProductionRunId(item.generation_metadata),
       createdAt: item.created_at,
       videoJobId: job?.id ?? null,

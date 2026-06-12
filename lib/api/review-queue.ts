@@ -36,6 +36,29 @@ export async function setContentItemStatus(
   if (error) throw error;
 }
 
+// Manual publish transition (Metricool copy/paste flow). Atomically moves a
+// SINGLE content item from `approved` to `published`. The status guard in the
+// WHERE clause makes the transition idempotent and prevents publishing an item
+// that is not approved (draft / in_review / rejected / already published). Only
+// content_items.status changes — no schedule, no log, no package mutation.
+// Returns true when a row matched (transition applied), false otherwise.
+export async function setContentItemPublished(
+  itemId: string,
+  projectId: string,
+): Promise<boolean> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_items")
+    .update({ status: "published" })
+    .eq("id", itemId)
+    .eq("project_id", projectId)
+    .eq("status", "approved")
+    .select("id");
+
+  if (error) throw error;
+  return (data ?? []).length > 0;
+}
+
 export async function updateContentItemFields(
   itemId: string,
   projectId: string,

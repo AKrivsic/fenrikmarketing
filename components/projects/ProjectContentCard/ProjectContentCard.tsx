@@ -1,6 +1,7 @@
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { ReviewCardActions } from "@/components/review/ReviewCardActions/ReviewCardActions";
 import { GenerateVariantsAction } from "@/components/projects/GenerateVariantsAction/GenerateVariantsAction";
+import { MarkPublishedButton } from "@/components/review/MarkPublishedButton/MarkPublishedButton";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { CopyButton } from "@/components/common/CopyButton/CopyButton";
 import type { ProjectContentEntry } from "@/lib/api/project-content-admin";
@@ -181,6 +182,7 @@ export function ProjectContentCard({
           itemId={entry.id}
           projectId={projectId}
           packageId={entry.packageId}
+          status={entry.status}
           caption={entry.caption}
           hashtags={entry.hashtags}
           cta={entry.cta}
@@ -189,11 +191,15 @@ export function ProjectContentCard({
           variantLanguage={entry.variantLanguage}
           packageActionsInHeader={packageActionsInHeader}
         />
-      ) : showVariantAction && entry.canGenerateVariants ? (
-        <GenerateVariantsAction
-          projectId={projectId}
-          packageId={entry.packageId}
-        />
+      ) : showVariantAction ? (
+        <div className={styles.variantActions}>
+          {entry.status === "approved" ? (
+            <MarkPublishedButton itemId={entry.id} projectId={projectId} />
+          ) : null}
+          {entry.canGenerateItemVariants ? (
+            <GenerateVariantsAction projectId={projectId} itemId={entry.id} />
+          ) : null}
+        </div>
       ) : null}
     </article>
   );

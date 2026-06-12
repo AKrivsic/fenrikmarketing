@@ -27,6 +27,53 @@ export function allItemsApproved(statuses: ApprovalStatus[]): boolean {
   return statuses.length > 0 && statuses.every((s) => s === "approved");
 }
 
+// Platforms whose primary output is a video. Mirrors the product defaults in
+// DEFAULT_PLATFORM_CONTENT_TYPES (lib/projects/contentControls.ts): tiktok /
+// instagram / youtube / facebook produce a video, while linkedin / x /
+// google_business are text-only. Used by the item-level variant flow to decide
+// whether an approved primary item should also produce a localized video job.
+const VIDEO_PLATFORMS = new Set<string>([
+  "tiktok",
+  "instagram",
+  "youtube",
+  "facebook",
+]);
+
+export function isVideoPlatform(platform: string): boolean {
+  return VIDEO_PLATFORMS.has(platform);
+}
+
+// Target languages that do NOT yet have a variant for a given source item.
+// Order-preserving over targetLanguages.
+export function pendingVariantLanguages(
+  targetLanguages: LanguageCode[],
+  existingLanguages: Iterable<LanguageCode>,
+): LanguageCode[] {
+  const have = new Set<LanguageCode>(existingLanguages);
+  return targetLanguages.filter((lang) => !have.has(lang));
+}
+
+// Item-level eligibility for "Generate language variants" on a SINGLE approved
+// primary item. True when the item is primary (language NULL), approved, the
+// project has at least one target language, and at least one target language is
+// still missing a variant for this item. Independent of any OTHER item's status
+// in the same package — a draft X item never blocks an approved TikTok item.
+export function canGenerateItemVariants(args: {
+  itemLanguage: LanguageCode | null;
+  itemStatus: ApprovalStatus;
+  targetLanguages: LanguageCode[];
+  // Languages that already have a variant for THIS source item.
+  coveredLanguages: Iterable<LanguageCode>;
+}): boolean {
+  if (args.itemLanguage !== null) return false;
+  if (args.itemStatus !== "approved") return false;
+  if (args.targetLanguages.length === 0) return false;
+  return (
+    pendingVariantLanguages(args.targetLanguages, args.coveredLanguages).length >
+    0
+  );
+}
+
 // Extracts the persisted scenes array from a video_jobs.output blob, or null
 // when no usable render_spec.scenes[] is present. Scenes are returned verbatim
 // so they can be fed back into a new job's input (triggering visual reuse).

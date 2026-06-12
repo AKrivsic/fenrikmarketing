@@ -9,13 +9,17 @@ import {
   rejectItem,
   type ActionResult,
 } from "@/lib/review/actions";
-import type { LanguageCode } from "@/lib/supabase/types";
+import { MarkPublishedButton } from "@/components/review/MarkPublishedButton/MarkPublishedButton";
+import type { ApprovalStatus, LanguageCode } from "@/lib/supabase/types";
 import styles from "./ReviewActions.module.css";
 
 interface ReviewActionsProps {
   itemId: string;
   projectId: string;
   packageId: string | null;
+  // Item workflow status. Drives the manual "Mark published" control, which is
+  // shown ONLY for approved items (approved → published).
+  status: ApprovalStatus;
   isLanguageVariant: boolean;
   canGenerateVariants: boolean;
   variantLanguage: LanguageCode | null;
@@ -31,6 +35,7 @@ export function ReviewActions({
   itemId,
   projectId,
   packageId,
+  status,
   isLanguageVariant,
   canGenerateVariants,
   variantLanguage,
@@ -135,6 +140,10 @@ export function ReviewActions({
           </button>
         ) : null}
       </div>
+
+      {status === "approved" ? (
+        <MarkPublishedButton itemId={itemId} projectId={projectId} />
+      ) : null}
 
       {error ? <p className={styles.error}>{error}</p> : null}
       {notice ? <p className={styles.notice}>{notice}</p> : null}

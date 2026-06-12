@@ -15,14 +15,13 @@ interface Stage {
 }
 
 // Makes the content lifecycle explicit so Approved is never a dead end:
-// Review → Approved → Scheduled → Published. Each stage links to its tab where
-// one exists (Published has no dedicated tab; it is shown under Scheduled).
+// Review → Approved → Scheduled → Published. Each stage links to its own tab.
 export function ContentFlow({ projectId, counts }: ContentFlowProps) {
   const stages: Stage[] = [
     { label: "Review", count: counts.review, segment: "review" },
     { label: "Approved", count: counts.approved, segment: "approved" },
     { label: "Scheduled", count: counts.scheduled, segment: "scheduled" },
-    { label: "Published", count: counts.published, segment: "scheduled" },
+    { label: "Published", count: counts.published, segment: "published" },
   ];
 
   return (

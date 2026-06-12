@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { ReviewActions } from "@/components/review/ReviewActions/ReviewActions";
 import { EditItemForm } from "@/components/review/EditItemForm/EditItemForm";
-import type { LanguageCode } from "@/lib/supabase/types";
+import type { ApprovalStatus, LanguageCode } from "@/lib/supabase/types";
 import styles from "./ReviewCardActions.module.css";
 
 interface ReviewCardActionsProps {
   itemId: string;
   projectId: string;
   packageId: string | null;
+  status: ApprovalStatus;
   caption: string | null;
   hashtags: string[];
   cta: string | null;
@@ -26,6 +27,7 @@ export function ReviewCardActions({
   itemId,
   projectId,
   packageId,
+  status,
   caption,
   hashtags,
   cta,
@@ -52,6 +54,7 @@ export function ReviewCardActions({
           itemId={itemId}
           projectId={projectId}
           packageId={packageId}
+          status={status}
           isLanguageVariant={isLanguageVariant}
           canGenerateVariants={canGenerateVariants}
           variantLanguage={variantLanguage}

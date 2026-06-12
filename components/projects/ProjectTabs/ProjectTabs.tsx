@@ -26,6 +26,7 @@ const TABS: Tab[] = [
   { label: "Review", segment: "review" },
   { label: "Approved", segment: "approved" },
   { label: "Scheduled", segment: "scheduled" },
+  { label: "Published", segment: "published" },
   { label: "Videos", segment: "videos" },
 ];
 

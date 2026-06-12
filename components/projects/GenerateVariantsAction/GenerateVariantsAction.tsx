@@ -1,24 +1,25 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { generateLanguageVariants } from "@/lib/review/actions";
+import { generateLanguageVariantsForItem } from "@/lib/review/actions";
 import styles from "./GenerateVariantsAction.module.css";
 
 interface GenerateVariantsActionProps {
   projectId: string;
-  packageId: string | null;
+  itemId: string;
 }
 
 // Approved-tab-only action. Review UX Consolidation V1 made the Approved tab
 // read-only, which removed the only place that surfaced "Generate language
-// variants" for approved primary packages. This component re-exposes JUST that
+// variants" for approved primary content. This component re-exposes JUST that
 // single action (no approve / reject / edit / regenerate) by reusing the shared
-// generateLanguageVariants Server Action. It is rendered only when the entry is
-// eligible (entry.canGenerateVariants), so it carries no eligibility logic of
-// its own.
+// item-level generateLanguageVariantsForItem Server Action. It is rendered only
+// when the entry is eligible (entry.canGenerateItemVariants), so it carries no
+// eligibility logic of its own. Item-level so an approved item localizes even
+// while sibling items in the same package are still draft.
 export function GenerateVariantsAction({
   projectId,
-  packageId,
+  itemId,
 }: GenerateVariantsActionProps) {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -28,7 +29,7 @@ export function GenerateVariantsAction({
     setError(null);
     setNotice(null);
     startTransition(async () => {
-      const result = await generateLanguageVariants(packageId, projectId);
+      const result = await generateLanguageVariantsForItem(itemId, projectId);
       if (result.ok) {
         setNotice("Generování jazykových variant bylo spuštěno.");
       } else {
@@ -42,7 +43,7 @@ export function GenerateVariantsAction({
       <button
         type="button"
         className={styles.generate}
-        disabled={isPending || !packageId}
+        disabled={isPending || !itemId}
         onClick={handleClick}
       >
         Generate language variants
