@@ -11,19 +11,27 @@ import styles from "./PackageActions.module.css";
 interface PackageActionsProps {
   projectId: string;
   packageId: string | null;
-  // True when the package qualifies for language-variant generation. Computed at
-  // the package level so the action stays visible regardless of the run filter.
+  // True when the package qualifies for translation generation (package-level,
+  // video-platform primaries approved, no variants yet).
   canGenerateVariants: boolean;
+  // True when the package already has at least one translation.
+  hasTranslations: boolean;
+  // Reason the package is NOT yet eligible for translations, shown instead of
+  // silently hiding the action. Null when eligible OR already translated.
+  translationReason: string | null;
 }
 
-// Package-scoped review actions hoisted out of the per-item cards so the
-// platform/language/status filter can never hide them. Approve / reject / edit
-// stay on each content item; "Regenerate package" and "Generate language
-// variants" act on the whole package and live here, next to the video.
+// Package-scoped review actions hoisted out of the per-item cards so they live
+// next to the package video. Approve / reject / edit stay on each content item;
+// "Regenerate package" and the package-level "Generate translations" act on the
+// whole package. Translations target ONLY video platforms (enforced by the
+// backend workflow); LinkedIn / X never get variants.
 export function PackageActions({
   projectId,
   packageId,
   canGenerateVariants,
+  hasTranslations,
+  translationReason,
 }: PackageActionsProps) {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -68,14 +76,19 @@ export function PackageActions({
             onClick={() =>
               run(
                 () => generateLanguageVariants(packageId, projectId),
-                "Generování jazykových variant bylo spuštěno.",
+                "Generování překladů bylo spuštěno.",
               )
             }
           >
-            Generate language variants
+            Generate translations
           </button>
         ) : null}
       </div>
+
+      {/* Never silently hide the action: explain why it isn't available yet. */}
+      {!canGenerateVariants && !hasTranslations && translationReason ? (
+        <p className={styles.reason}>{translationReason}</p>
+      ) : null}
 
       {error ? <p className={styles.error}>{error}</p> : null}
       {notice ? <p className={styles.notice}>{notice}</p> : null}

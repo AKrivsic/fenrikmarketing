@@ -32,11 +32,6 @@
   color: var(--color-text);
 }
 
-.count {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-}
-
 .body {
   display: flex;
   flex-direction: column;
@@ -45,14 +40,128 @@
   border-left: 2px solid var(--color-border);
 }
 
+/* --- Sections (Primary / Translations / Published) -------------------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
 .items {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.noMatch {
+.empty {
   margin: 0;
   font-size: 0.85rem;
   color: var(--color-text-muted);
+}
+
+/* --- Translations: language blocks ------------------------------------ */
+
+.languageBlocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.languageBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  background: var(--color-surface-muted, #f8fafc);
+}
+
+.languageToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.languageName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.languageCode {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.videoBadge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.videoBadgeGreen {
+  background: var(--color-success-bg, #dcfce7);
+  color: var(--color-success-text, #166534);
+}
+
+.videoBadgeYellow {
+  background: var(--color-warning-bg, #fef9c3);
+  color: var(--color-warning-text, #854d0e);
+}
+
+.videoBadgeRed {
+  background: var(--color-danger-bg, #fee2e2);
+  color: var(--color-danger-text, #991b1b);
+}
+
+.videoBadgeMuted {
+  background: var(--color-surface-muted, #f1f5f9);
+  color: var(--color-text-muted, #64748b);
+}
+
+/* --- Published (collapsible) ------------------------------------------ */
+
+.publishedToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.publishedCount {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--color-success-bg, #dcfce7);
+  color: var(--color-success-text, #166534);
 }

@@ -141,17 +141,32 @@ export async function runGenerateLanguageVariants(
     );
   }
 
-  // Gate 4: all primary items must be approved.
-  if (!allItemsApproved(primaryItems.map((item) => item.status))) {
+  // Review UX V2 — translations target ONLY video platforms (TikTok /
+  // Instagram / YouTube / Facebook). Text-only platforms (LinkedIn / X /
+  // Google Business) are never localized and never gate translation, so a
+  // draft LinkedIn / X item can no longer block an approved video package.
+  const videoPrimaryItems = primaryItems.filter((item) =>
+    isVideoPlatform(item.platform),
+  );
+  if (videoPrimaryItems.length === 0) {
     throw new WorkflowError(
       "invalid_input",
-      "primary content items are not all approved; approve them before generating variants",
+      "this package has no video-platform primary items to translate (translations are video-only)",
+    );
+  }
+
+  // Gate 4: all VIDEO-PLATFORM primary items must be approved.
+  if (!allItemsApproved(videoPrimaryItems.map((item) => item.status))) {
+    throw new WorkflowError(
+      "invalid_input",
+      "video-platform primary items are not all approved; approve them before generating translations",
     );
   }
 
   // Gate 5: source render_spec from the newest completed video job for the
-  // primary items. Must contain reusable scenes with durable storage paths.
-  const primaryItemIds = primaryItems.map((item) => item.id);
+  // video-platform primary items. Must contain reusable scenes with durable
+  // storage paths.
+  const primaryItemIds = videoPrimaryItems.map((item) => item.id);
   const { data: jobRows, error: jobErr } = await supabase
     .from("video_jobs")
     .select("id, output, created_at")
@@ -197,7 +212,9 @@ export async function runGenerateLanguageVariants(
   const sourceVoiceover = readString(brief, "voiceover_text");
   const sourceSubtitles = readString(brief, "subtitles");
   const sourceCta = readPackageCta(brief);
-  const sourcePlatformItems: LocalizeSourcePlatformItem[] = primaryItems.map(
+  // Only video-platform items are localized, so LinkedIn / X / Google Business
+  // never produce variant content_items.
+  const sourcePlatformItems: LocalizeSourcePlatformItem[] = videoPrimaryItems.map(
     (item) => ({
       platform: item.platform,
       title: item.title,
@@ -212,9 +229,9 @@ export async function runGenerateLanguageVariants(
   const videoScript = readString(briefVideo, "script");
 
   // Per-platform lookup so each localized output maps back to its primary item
-  // (format + source_content_item_id).
+  // (format + source_content_item_id). Video platforms only.
   const primaryByPlatform = new Map<string, ContentItem>();
-  for (const item of primaryItems) primaryByPlatform.set(item.platform, item);
+  for (const item of videoPrimaryItems) primaryByPlatform.set(item.platform, item);
 
   for (const language of targetLanguages) {
     if (existingLanguages.has(language)) {
@@ -412,6 +429,14 @@ export async function runGenerateLanguageVariantsForItem(
     throw new WorkflowError(
       "invalid_input",
       "source item is not approved; approve it before generating variants",
+    );
+  }
+  // Review UX V2 — translations are video-only. Text-only platforms (LinkedIn /
+  // X / Google Business) stay English-only and are never localized.
+  if (!isVideoPlatform(source.platform)) {
+    throw new WorkflowError(
+      "invalid_input",
+      "translations are only generated for video platforms (TikTok / Instagram / YouTube / Facebook)",
     );
   }
   const packageId = source.package_id;

@@ -1,42 +1,28 @@
 import { ReviewGroupedList } from "@/components/review/ReviewGroupedList/ReviewGroupedList";
-import {
-  ReviewViewTabs,
-  type ReviewView,
-} from "@/components/review/ReviewViewTabs/ReviewViewTabs";
-import {
-  APPROVED_REVIEW_STATUSES,
-  listProjectReviewGroups,
-} from "@/lib/api/project-review-admin";
+import { listProjectReviewGroups } from "@/lib/api/project-review-admin";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-// The review actions (generate / regenerate language variants) run AI
-// localization inline via the shared Server Actions, so raise the page-level
-// Server Action budget — mirrors /review-queue.
+// The review actions (generate / regenerate translations) run AI localization
+// inline via the shared Server Actions, so raise the page-level Server Action
+// budget.
 export const maxDuration = 300;
 
 interface ReviewTabPageProps {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ view?: string }>;
 }
 
-export default async function ReviewTabPage({
-  params,
-  searchParams,
-}: ReviewTabPageProps) {
+// Review UX V2 — the single content workspace. One page shows every production
+// run grouped as Run → Package, and inside each package the Primary (EN),
+// Translations (by language) and Published sections live together. No more
+// Pending / Approved status views: a package is always shown whole.
+export default async function ReviewTabPage({ params }: ReviewTabPageProps) {
   const { id } = await params;
-  const { view: viewParam } = await searchParams;
-  const view: ReviewView = viewParam === "approved" ? "approved" : "pending";
-
-  const groups = await listProjectReviewGroups(
-    id,
-    view === "approved" ? APPROVED_REVIEW_STATUSES : undefined,
-  );
+  const groups = await listProjectReviewGroups(id);
 
   return (
     <div className={styles.tab}>
-      <ReviewViewTabs projectId={id} active={view} />
       <ReviewGroupedList projectId={id} groups={groups} />
     </div>
   );

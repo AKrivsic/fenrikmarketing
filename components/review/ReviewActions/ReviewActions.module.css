@@ -13,6 +13,7 @@
 }
 
 .approve,
+.approvePublish,
 .reject,
 .regenerate,
 .edit,
@@ -32,11 +33,18 @@
   border-color: var(--color-text);
 }
 
+.approvePublish {
+  background-color: var(--color-success-bg, #166534);
+  color: #fff;
+  border-color: var(--color-success-bg, #166534);
+}
+
 .generate {
   border-style: dashed;
 }
 
 .approve:disabled,
+.approvePublish:disabled,
 .reject:disabled,
 .regenerate:disabled,
 .edit:disabled,

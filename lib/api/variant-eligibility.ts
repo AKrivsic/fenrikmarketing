@@ -2,19 +2,29 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   allItemsApproved,
   canGenerateItemVariants,
+  isVideoPlatform,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
-import type { ApprovalStatus, Json, LanguageCode } from "@/lib/supabase/types";
+import type {
+  ApprovalStatus,
+  Json,
+  LanguageCode,
+  PlatformType,
+} from "@/lib/supabase/types";
 
 // Shared package eligibility for language-variant generation, previously inline
-// in review-queue.ts and now reused by the project review surface too. A package
-// qualifies (package-level) when ALL its primary items are approved, it has NO
-// variants yet, and the owning project has at least one target language.
+// in review-queue.ts and now reused by the project review surface too.
+//
+// Review UX V2 — product rule: translations target ONLY video platforms
+// (TikTok / Instagram / YouTube / Facebook). A package qualifies (package-level)
+// when ALL its VIDEO-PLATFORM primary items are approved, it has NO variants
+// yet, and the owning project has at least one target language. Draft / pending
+// text-only platforms (LinkedIn, X, Google Business) NEVER block translation.
 //
 // ITEM-LEVEL eligibility (qualifiesItem) is independent of other items in the
-// same package: a single approved primary item is eligible as soon as the
-// project has target languages still missing a variant for THAT item. This lets
-// an approved TikTok item localize even while sibling X items are still draft.
+// same package and is likewise restricted to video platforms: a single approved
+// video-platform primary item is eligible as soon as the project has target
+// languages still missing a variant for THAT item.
 //
 // Service-role admin client is passed in by the caller (single-tenant MVP, RLS
 // bypassed, server-only).
@@ -30,16 +40,18 @@ function readSourceContentItemId(metadata: Json | null): string | null {
 
 export interface VariantEligibility {
   // True when the package may generate language variants for the given project
-  // (package-level: every primary item approved, no variants yet).
+  // (package-level: every VIDEO-PLATFORM primary item approved, no variants
+  // yet). Text-only platforms (LinkedIn / X / Google Business) are ignored.
   qualifies(projectId: string, packageId: string | null): boolean;
-  // True when a SINGLE approved primary item may generate language variants,
-  // regardless of sibling items' statuses.
+  // True when a SINGLE approved VIDEO-PLATFORM primary item may generate
+  // language variants, regardless of sibling items' statuses.
   qualifiesItem(
     projectId: string,
     item: {
       id: string;
       language: LanguageCode | null;
       status: ApprovalStatus;
+      platform: PlatformType;
     },
   ): boolean;
   // Primary language per project, derived from the same projects read used for
@@ -53,8 +65,9 @@ export async function loadVariantEligibility(
   packageIds: string[],
   projectIds: string[],
 ): Promise<VariantEligibility> {
-  // Per-package scan: collect primary item statuses and whether variants exist.
-  const primaryStatusesByPackage = new Map<string, ApprovalStatus[]>();
+  // Per-package scan: collect VIDEO-PLATFORM primary statuses (text-only
+  // platforms never gate translation) and whether variants exist.
+  const videoPrimaryStatusesByPackage = new Map<string, ApprovalStatus[]>();
   const hasVariantsByPackage = new Map<string, boolean>();
   // Item-level: languages already localized for each source (primary) item id,
   // resolved from each variant row's generation_metadata.source_content_item_id.
@@ -63,21 +76,24 @@ export async function loadVariantEligibility(
   if (packageIds.length > 0) {
     const { data, error } = await supabase
       .from("content_items")
-      .select("package_id, language, status, generation_metadata")
+      .select("package_id, platform, language, status, generation_metadata")
       .in("package_id", packageIds);
     if (error) throw error;
 
     for (const row of (data ?? []) as {
       package_id: string | null;
+      platform: PlatformType;
       language: LanguageCode | null;
       status: ApprovalStatus;
       generation_metadata: Json | null;
     }[]) {
       if (!row.package_id) continue;
       if (row.language === null) {
-        const list = primaryStatusesByPackage.get(row.package_id) ?? [];
+        // Only video-platform primaries count toward translation eligibility.
+        if (!isVideoPlatform(row.platform)) continue;
+        const list = videoPrimaryStatusesByPackage.get(row.package_id) ?? [];
         list.push(row.status);
-        primaryStatusesByPackage.set(row.package_id, list);
+        videoPrimaryStatusesByPackage.set(row.package_id, list);
       } else {
         hasVariantsByPackage.set(row.package_id, true);
         const sourceId = readSourceContentItemId(row.generation_metadata);
@@ -117,13 +133,17 @@ export async function loadVariantEligibility(
   return {
     qualifies(projectId, packageId) {
       if (!packageId) return false;
-      if (!allItemsApproved(primaryStatusesByPackage.get(packageId) ?? [])) {
+      // Requires at least one video-platform primary, all approved (an empty
+      // list is NOT approved — a text-only package can never be translated).
+      if (!allItemsApproved(videoPrimaryStatusesByPackage.get(packageId) ?? [])) {
         return false;
       }
       if (hasVariantsByPackage.get(packageId)) return false;
       return (projectTargetsById.get(projectId) ?? []).length > 0;
     },
     qualifiesItem(projectId, item) {
+      // Translations are only generated for video platforms.
+      if (!isVideoPlatform(item.platform)) return false;
       return canGenerateItemVariants({
         itemLanguage: item.language,
         itemStatus: item.status,

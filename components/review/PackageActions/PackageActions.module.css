@@ -31,6 +31,13 @@
   cursor: not-allowed;
 }
 
+.reason {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
 .error {
   margin: 0;
   font-size: 0.85rem;

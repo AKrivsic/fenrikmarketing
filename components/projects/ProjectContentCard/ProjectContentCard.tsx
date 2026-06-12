@@ -1,6 +1,5 @@
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { ReviewCardActions } from "@/components/review/ReviewCardActions/ReviewCardActions";
-import { GenerateVariantsAction } from "@/components/projects/GenerateVariantsAction/GenerateVariantsAction";
 import { MarkPublishedButton } from "@/components/review/MarkPublishedButton/MarkPublishedButton";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { CopyButton } from "@/components/common/CopyButton/CopyButton";
@@ -16,9 +15,10 @@ interface ProjectContentCardProps {
   // variants controls (reused from the review queue). Off by default so the
   // Approved / Scheduled tabs stay read-only.
   showActions?: boolean;
-  // When true, the card stays read-only but exposes ONLY the "Generate language
-  // variants" action on eligible primary cards (entry.canGenerateVariants).
-  // Used by the Approved tab after Review UX Consolidation V1 removed the queue.
+  // When true, the card stays read-only but exposes ONLY the "Mark published"
+  // action on approved items. Used by the Approved tab. Translation generation
+  // is intentionally NOT surfaced here — the single visible translation
+  // workflow is package-level, in /projects/[id]/review (Review UX V2).
   showVariantAction?: boolean;
   // When true, the inline video preview + download + video-status badge are
   // suppressed because the video is rendered ONCE at the package level (project
@@ -195,9 +195,6 @@ export function ProjectContentCard({
         <div className={styles.variantActions}>
           {entry.status === "approved" ? (
             <MarkPublishedButton itemId={entry.id} projectId={projectId} />
-          ) : null}
-          {entry.canGenerateItemVariants ? (
-            <GenerateVariantsAction projectId={projectId} itemId={entry.id} />
           ) : null}
         </div>
       ) : null}

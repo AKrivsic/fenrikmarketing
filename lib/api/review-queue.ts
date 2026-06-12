@@ -59,6 +59,31 @@ export async function setContentItemPublished(
   return (data ?? []).length > 0;
 }
 
+// Solo-founder shortcut: directly publishes a SINGLE content item straight from
+// `draft` / `in_review` to `published`, skipping the explicit approve step. Used
+// after a manual Metricool copy/paste when the user wants to mark the post done
+// immediately. The status guard in the WHERE clause makes it idempotent and
+// prevents publishing an item that is already approved / published / rejected
+// (use the normal approved → published path for approved items). Only
+// content_items.status changes — no schedule, no log, no package mutation.
+// Returns true when a row matched (transition applied), false otherwise.
+export async function setContentItemPublishedFromReview(
+  itemId: string,
+  projectId: string,
+): Promise<boolean> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_items")
+    .update({ status: "published" })
+    .eq("id", itemId)
+    .eq("project_id", projectId)
+    .in("status", ["draft", "in_review"])
+    .select("id");
+
+  if (error) throw error;
+  return (data ?? []).length > 0;
+}
+
 export async function updateContentItemFields(
   itemId: string,
   projectId: string,

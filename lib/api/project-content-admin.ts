@@ -192,6 +192,7 @@ export async function listProjectContentByStatus(
           id: item.id,
           language: item.language,
           status: item.status,
+          platform: item.platform,
         }),
       productionRunId: readProductionRunId(item.generation_metadata),
       createdAt: item.created_at,

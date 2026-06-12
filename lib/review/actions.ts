@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import {
   setContentItemPublished,
+  setContentItemPublishedFromReview,
   setContentItemStatus,
   updateContentItemFields,
 } from "@/lib/api/review-queue";
@@ -97,6 +98,29 @@ export async function markContentItemPublished(
     return { ok: true };
   } catch {
     return fail("Označení jako publikováno se nezdařilo.");
+  }
+}
+
+// Solo-founder shortcut: marks ONE draft / in_review item as published in a
+// single click (draft/in_review → published), skipping the explicit approve
+// step. Used after a manual Metricool copy/paste. Only the draft → published and
+// in_review → published transitions are allowed (enforced in the DB write);
+// other statuses fail with a clear message. Affects only this item — never the
+// whole package or sibling language variants.
+export async function approveAndPublishContentItem(
+  itemId: string,
+  projectId: string,
+): Promise<ActionResult> {
+  if (!itemId || !projectId) return fail("Chybí identifikátor položky.");
+  try {
+    const ok = await setContentItemPublishedFromReview(itemId, projectId);
+    if (!ok) {
+      return fail("Approve & Publish lze jen z draftu nebo in review.");
+    }
+    revalidateReview(projectId);
+    return { ok: true };
+  } catch {
+    return fail("Approve & Publish se nezdařilo.");
   }
 }
 
