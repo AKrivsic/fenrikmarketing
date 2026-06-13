@@ -537,6 +537,23 @@ async function resolvePackageIdsForReviewRuns(
     .map(([packageId]) => packageId);
 }
 
+// Review run bucketing uses generation_metadata.production_run_id on primaries;
+// language variants omit it but point at their source primary via
+// source_content_item_id — inherit that item's run so the package stays whole.
+function resolveReviewProductionRunId(
+  entry: ProjectContentEntry,
+  entryById: Map<string, ProjectContentEntry>,
+  visited: Set<string> = new Set(),
+): string | null {
+  if (entry.productionRunId) return entry.productionRunId;
+  const sourceId = entry.sourceContentItemId;
+  if (!sourceId || visited.has(entry.id)) return null;
+  visited.add(entry.id);
+  const source = entryById.get(sourceId);
+  if (!source) return null;
+  return resolveReviewProductionRunId(source, entryById, visited);
+}
+
 // Resolves the project's translation target languages (enabled_languages minus
 // the primary language). Used to drive the per-package translation progress —
 // the set of languages a package is expected to be translated into.
@@ -606,6 +623,7 @@ export async function listProjectReviewGroups(
     loadProjectTargetLanguages(projectId),
   ]);
   const runIdsSet = new Set(runIds);
+  const entryById = new Map(entries.map((entry) => [entry.id, entry]));
 
   // Bucket entries: run id → package id → items[] (insertion order preserved).
   // Items whose run id is null OR not in the fetched run list fall into noRun.
@@ -613,7 +631,7 @@ export async function listProjectReviewGroups(
   const noRun = new Map<string | null, ProjectContentEntry[]>();
 
   for (const entry of entries) {
-    const runId = entry.productionRunId;
+    const runId = resolveReviewProductionRunId(entry, entryById);
     const usesRun = runId !== null && runIdsSet.has(runId);
 
     let packageMap: Map<string | null, ProjectContentEntry[]>;

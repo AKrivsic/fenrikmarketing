@@ -4,6 +4,7 @@ import {
   isVideoPlatform,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
+import { readSourceContentItemId } from "@/lib/api/content-shared";
 import type {
   ApprovalStatus,
   Json,
@@ -30,15 +31,6 @@ import type {
 //
 // Service-role admin client is passed in by the caller (single-tenant MVP, RLS
 // bypassed, server-only).
-
-// Reads generation_metadata.source_content_item_id from a content_items blob.
-function readSourceContentItemId(metadata: Json | null): string | null {
-  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
-    return null;
-  }
-  const value = (metadata as Record<string, unknown>).source_content_item_id;
-  return typeof value === "string" && value.length > 0 ? value : null;
-}
 
 export interface VariantEligibility {
   // True when the package may generate language variants for the given project

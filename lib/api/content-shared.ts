@@ -59,6 +59,16 @@ export function readProductionRunId(metadata: Json | null): string | null {
   return typeof value === "string" && value.length > 0 ? value : null;
 }
 
+// Primary content item a language variant was generated from (language_variant
+// workflow stamps generation_metadata.source_content_item_id).
+export function readSourceContentItemId(metadata: Json | null): string | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return null;
+  }
+  const value = (metadata as Record<string, unknown>).source_content_item_id;
+  return typeof value === "string" && value.length > 0 ? value : null;
+}
+
 // A content item is a language variant when it carries an explicit language OR
 // its generation_metadata marks it as a language_variant.
 export function isVariantItem(item: ContentItem): boolean {

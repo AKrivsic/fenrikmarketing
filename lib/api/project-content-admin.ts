@@ -5,6 +5,7 @@ import {
   newestByContentItem,
   readDebug,
   readProductionRunId,
+  readSourceContentItemId,
   readVideoOutput,
   type RenderDebug,
 } from "@/lib/api/content-shared";
@@ -91,6 +92,8 @@ export interface ProjectContentEntry {
   // Owning production run (generation_metadata.production_run_id), or null for
   // items that predate production runs. Used to group the review tab by run.
   productionRunId: string | null;
+  // Language-variant source primary item id (generation_metadata), when present.
+  sourceContentItemId: string | null;
   createdAt: string;
   // Newest video job linked directly to this content item (content_item_id),
   // or null when no video has been generated for it yet.
@@ -215,6 +218,7 @@ export async function listProjectContentByStatus(
           platform: item.platform,
         }),
       productionRunId: readProductionRunId(item.generation_metadata),
+      sourceContentItemId: readSourceContentItemId(item.generation_metadata),
       createdAt: item.created_at,
       videoJobId: job?.id ?? null,
       videoStatus: job?.status ?? null,
