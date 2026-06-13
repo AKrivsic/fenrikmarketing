@@ -1,3 +1,9 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .summary {
   display: flex;
   flex-wrap: wrap;
@@ -54,4 +60,50 @@
 .toneMuted {
   background: var(--color-surface-muted, #f1f5f9);
   color: var(--color-text-muted, #64748b);
+}
+
+/* --- Translation progress -------------------------------------------- */
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  background: var(--color-surface-muted, #f8fafc);
+}
+
+.progressHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progressList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.progressLang {
+  min-width: 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.progressText {
+  min-width: 4.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
 }

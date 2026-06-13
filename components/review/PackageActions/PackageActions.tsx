@@ -80,7 +80,7 @@ export function PackageActions({
               )
             }
           >
-            Generate translations
+            {isPending ? "Generating translations…" : "Generate translations"}
           </button>
         ) : null}
       </div>

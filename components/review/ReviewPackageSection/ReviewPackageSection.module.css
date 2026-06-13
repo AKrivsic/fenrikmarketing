@@ -32,6 +32,14 @@
   color: var(--color-text);
 }
 
+.headerBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
 .body {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,11 @@
 import type { PackageStatusSummary as Summary } from "@/lib/api/project-review-admin";
 import { languageCodeLabel } from "@/components/review/languageLabels";
+import {
+  VIDEO_STATE_LABEL,
+  translationBadgeLabel,
+  translationBadgeTone,
+  videoStateTone,
+} from "@/components/review/translationProgress";
 import type { ApprovalStatus, JobStatus } from "@/lib/supabase/types";
 import styles from "./PackageStatusSummary.module.css";
 
@@ -50,7 +56,11 @@ function videoTone(status: JobStatus | null): Tone {
 // approval progress, per-language translation status, per-language video render
 // status and the published count at a glance.
 export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
+  const progress = summary.translationProgress;
+  const progressBadge = translationBadgeLabel(progress);
+
   return (
+    <div className={styles.root}>
     <div className={styles.summary}>
       <div className={styles.group}>
         <span className={styles.label}>Primary</span>
@@ -109,6 +119,44 @@ export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
               {summary.publishedCount} items
             </span>
           </div>
+        </div>
+      ) : null}
+    </div>
+
+      {/* Translation Progress — per target language: text coverage + video
+          render state. Video platforms only (LinkedIn / X are excluded by the
+          data layer). Hidden when the package has nothing to translate. */}
+      {progressBadge && progress.languages.length > 0 ? (
+        <div className={styles.progress}>
+          <div className={styles.progressHead}>
+            <span className={styles.label}>Translation Progress</span>
+            <span
+              className={`${styles.badge} ${
+                TONE_CLASS[translationBadgeTone(progress.overall)]
+              }`}
+            >
+              {progressBadge}
+            </span>
+          </div>
+          <ul className={styles.progressList}>
+            {progress.languages.map((lang) => (
+              <li key={lang.language} className={styles.progressRow}>
+                <span className={styles.progressLang}>
+                  {languageCodeLabel(lang.language)}
+                </span>
+                <span className={styles.progressText}>
+                  Text {lang.textDone}/{lang.textExpected}
+                </span>
+                <span
+                  className={`${styles.badge} ${
+                    TONE_CLASS[videoStateTone(lang.video)]
+                  }`}
+                >
+                  Video {VIDEO_STATE_LABEL[lang.video]}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       ) : null}
     </div>

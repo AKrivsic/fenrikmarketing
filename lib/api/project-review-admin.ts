@@ -7,7 +7,10 @@ import {
   listReviewRunsForProject,
   type ReviewRunCard,
 } from "@/lib/api/review-runs-admin";
-import { isVideoPlatform } from "@/lib/ai/workflows/languageVariantsHelpers";
+import {
+  isVideoPlatform,
+  resolveTargetLanguages,
+} from "@/lib/ai/workflows/languageVariantsHelpers";
 import type { RenderDebug } from "@/lib/api/content-shared";
 import type {
   ApprovalStatus,
@@ -89,6 +92,52 @@ export interface LanguageTranslationBlock {
   items: ProjectContentEntry[];
 }
 
+// Per-language translation video state, collapsed from the variant's video job
+// status. "missing" means no variant video job exists for the language yet.
+export type TranslationVideoState =
+  | "completed"
+  | "rendering"
+  | "failed"
+  | "missing";
+
+// One target language's translation progress: how many of the package's
+// expected video platforms have a localized text item, plus the localized
+// video render state. Drives the per-language "DE: Text 3/3, Video completed"
+// lines and the package translation badge.
+export interface LanguageTranslationProgress {
+  language: LanguageCode;
+  // Expected video platforms that already have a localized content item.
+  textDone: number;
+  // Expected video platforms (approved primary video-platform items).
+  textExpected: number;
+  video: TranslationVideoState;
+}
+
+// Overall translation rollup for the whole package.
+//   none        — nothing to translate (no target languages / no expected
+//                 video platforms approved yet) → no badge.
+//   not_started — translatable, but no variant exists for any target language.
+//   running     — at least one target-language video is still rendering.
+//   partial     — some languages done, none rendering, none failed.
+//   complete    — every target language is text + video complete.
+//   failed      — a language video failed and nothing is actively rendering.
+export type TranslationOverallState =
+  | "none"
+  | "not_started"
+  | "running"
+  | "partial"
+  | "complete"
+  | "failed";
+
+export interface TranslationProgress {
+  overall: TranslationOverallState;
+  // Target languages that are fully complete (text + video).
+  completeCount: number;
+  // Total target languages (enabled_languages minus primary).
+  targetCount: number;
+  languages: LanguageTranslationProgress[];
+}
+
 // Compact, badge-only package status summary (no charts). Drives the package
 // header at-a-glance state.
 export interface PackageStatusSummary {
@@ -100,6 +149,8 @@ export interface PackageStatusSummary {
   // Render status per package video (primary + variants).
   videos: { language: LanguageCode; isPrimary: boolean; status: JobStatus | null }[];
   publishedCount: number;
+  // Per-language translation progress (text + video) plus the package rollup.
+  translationProgress: TranslationProgress;
 }
 
 export interface ReviewPackageGroup {
@@ -250,9 +301,96 @@ function buildTranslationReason(items: ProjectContentEntry[]): string | null {
   return "Projekt nemá nastavené další jazyky pro překlad.";
 }
 
+// Collapses a variant video job status into a translation video state.
+function videoStateFromJob(status: JobStatus | null): TranslationVideoState {
+  if (status === "completed") return "completed";
+  if (status === "queued" || status === "processing") return "rendering";
+  if (status === "failed") return "failed";
+  return "missing";
+}
+
+// Computes per-language translation progress + the package rollup, using only
+// existing data (content_items.language/status, the resolved package videos and
+// the project's target languages). Product rule: ONLY video platforms (TikTok /
+// Instagram / YouTube / Facebook) count — LinkedIn / X / Google Business are
+// ignored entirely (text-only). No new queue, scheduler or schema.
+function buildTranslationProgress(
+  items: ProjectContentEntry[],
+  videos: PackageVideo[],
+  targetLanguages: LanguageCode[],
+): TranslationProgress {
+  // Expected platforms = approved (or already published) primary video-platform
+  // items. These are the platforms a complete translation must cover.
+  const expectedPlatforms = new Set<PlatformType>();
+  for (const item of items) {
+    if (item.isLanguageVariant) continue;
+    if (!isVideoPlatform(item.platform)) continue;
+    if (item.status !== "approved" && item.status !== "published") continue;
+    expectedPlatforms.add(item.platform);
+  }
+  const textExpected = expectedPlatforms.size;
+
+  // Localized video-platform items present per target language (only platforms
+  // that are actually expected count toward the text ratio).
+  const variantPlatformsByLanguage = new Map<LanguageCode, Set<PlatformType>>();
+  for (const item of items) {
+    if (!item.isLanguageVariant) continue;
+    if (!isVideoPlatform(item.platform)) continue;
+    if (!expectedPlatforms.has(item.platform)) continue;
+    const set = variantPlatformsByLanguage.get(item.language) ?? new Set();
+    set.add(item.platform);
+    variantPlatformsByLanguage.set(item.language, set);
+  }
+
+  // Variant (non-primary) video render status per language.
+  const videoStatusByLanguage = new Map<LanguageCode, JobStatus | null>();
+  for (const video of videos) {
+    if (video.isPrimary) continue;
+    videoStatusByLanguage.set(video.language, video.status);
+  }
+
+  const languages: LanguageTranslationProgress[] = targetLanguages.map(
+    (language) => ({
+      language,
+      textDone: variantPlatformsByLanguage.get(language)?.size ?? 0,
+      textExpected,
+      video: videoStateFromJob(
+        videoStatusByLanguage.has(language)
+          ? (videoStatusByLanguage.get(language) ?? null)
+          : null,
+      ),
+    }),
+  );
+
+  const targetCount = targetLanguages.length;
+
+  const isLanguageComplete = (l: LanguageTranslationProgress): boolean =>
+    l.textExpected > 0 && l.textDone >= l.textExpected && l.video === "completed";
+  const completeCount = languages.filter(isLanguageComplete).length;
+
+  let overall: TranslationOverallState;
+  if (targetCount === 0 || textExpected === 0) {
+    overall = "none";
+  } else {
+    const anyStarted = languages.some(
+      (l) => l.textDone > 0 || l.video !== "missing",
+    );
+    const isRunning = languages.some((l) => l.video === "rendering");
+    const anyFailed = languages.some((l) => l.video === "failed");
+    if (!anyStarted) overall = "not_started";
+    else if (completeCount === targetCount) overall = "complete";
+    else if (isRunning) overall = "running";
+    else if (anyFailed) overall = "failed";
+    else overall = "partial";
+  }
+
+  return { overall, completeCount, targetCount, languages };
+}
+
 function buildSummary(
   items: ProjectContentEntry[],
   videos: PackageVideo[],
+  targetLanguages: LanguageCode[],
 ): PackageStatusSummary {
   const primary = items.filter(
     (item) => !item.isLanguageVariant && item.status !== "rejected",
@@ -287,6 +425,7 @@ function buildSummary(
       status: video.status,
     })),
     publishedCount: items.filter((item) => item.status === "published").length,
+    translationProgress: buildTranslationProgress(items, videos, targetLanguages),
   };
 }
 
@@ -294,6 +433,7 @@ function buildPackageGroup(
   packageId: string | null,
   title: string,
   rawItems: ProjectContentEntry[],
+  targetLanguages: LanguageCode[],
 ): ReviewPackageGroup {
   const items = sortItems(rawItems);
   const videos = buildPackageVideos(items);
@@ -344,7 +484,7 @@ function buildPackageGroup(
     canGenerateVariants,
     hasTranslations,
     translationReason,
-    summary: buildSummary(items, videos),
+    summary: buildSummary(items, videos, targetLanguages),
   };
 }
 
@@ -397,6 +537,28 @@ async function resolvePackageIdsForReviewRuns(
     .map(([packageId]) => packageId);
 }
 
+// Resolves the project's translation target languages (enabled_languages minus
+// the primary language). Used to drive the per-package translation progress —
+// the set of languages a package is expected to be translated into.
+async function loadProjectTargetLanguages(
+  projectId: string,
+): Promise<LanguageCode[]> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("projects")
+    .select("language, enabled_languages")
+    .eq("id", projectId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return [];
+
+  const row = data as {
+    language: LanguageCode;
+    enabled_languages: LanguageCode[] | null;
+  };
+  return resolveTargetLanguages(row.language, row.enabled_languages ?? []);
+}
+
 // Fallback when the project has no production runs: recent packages only.
 async function resolveFallbackPackageIds(
   projectId: string,
@@ -439,7 +601,10 @@ export async function listProjectReviewGroups(
 
   logReviewTiming("entries", startedAt, `${entries.length} items`);
 
-  const packageTitleById = await loadPackageTitles(projectId, entries);
+  const [packageTitleById, targetLanguages] = await Promise.all([
+    loadPackageTitles(projectId, entries),
+    loadProjectTargetLanguages(projectId),
+  ]);
   const runIdsSet = new Set(runIds);
 
   // Bucket entries: run id → package id → items[] (insertion order preserved).
@@ -473,6 +638,7 @@ export async function listProjectReviewGroups(
         (packageId ? packageTitleById.get(packageId) : null) ??
           NO_PACKAGE_TITLE,
         items,
+        targetLanguages,
       ),
     );
   }

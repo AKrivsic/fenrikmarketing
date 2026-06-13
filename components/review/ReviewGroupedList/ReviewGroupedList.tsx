@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ReviewRunSection } from "@/components/review/ReviewRunSection/ReviewRunSection";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
 import styles from "./ReviewGroupedList.module.css";
@@ -7,6 +9,18 @@ import styles from "./ReviewGroupedList.module.css";
 interface ReviewGroupedListProps {
   projectId: string;
   groups: ReviewRunGroup[];
+}
+
+// Poll cadence while any translation video is still rendering. Long enough to
+// avoid hammering the server, short enough to feel live.
+const TRANSLATION_POLL_INTERVAL_MS = 7000;
+
+function hasRunningTranslation(groups: ReviewRunGroup[]): boolean {
+  return groups.some((group) =>
+    group.packages.some(
+      (pkg) => pkg.summary.translationProgress.overall === "running",
+    ),
+  );
 }
 
 // Renders the project review tab as collapsible Production Run → Package →
@@ -18,6 +32,21 @@ export function ReviewGroupedList({
   projectId,
   groups,
 }: ReviewGroupedListProps) {
+  const router = useRouter();
+
+  // Auto-refresh while at least one translation video job is queued/running.
+  // router.refresh() re-runs the server data load (force-dynamic page), so the
+  // per-language progress fills in without a manual reload. Stops automatically
+  // once every target language is complete or failed (no more "running").
+  const running = hasRunningTranslation(groups);
+  useEffect(() => {
+    if (!running) return;
+    const timer = setInterval(() => {
+      router.refresh();
+    }, TRANSLATION_POLL_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [running, router]);
+
   if (groups.length === 0) {
     return (
       <div className={styles.empty}>

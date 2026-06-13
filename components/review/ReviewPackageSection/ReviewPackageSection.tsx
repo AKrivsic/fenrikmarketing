@@ -6,6 +6,10 @@ import { PackageVideoPanel } from "@/components/review/PackageVideoPanel/Package
 import { PackageActions } from "@/components/review/PackageActions/PackageActions";
 import { PackageStatusSummary } from "@/components/review/PackageStatusSummary/PackageStatusSummary";
 import { languageCodeLabel, languageName } from "@/components/review/languageLabels";
+import {
+  translationBadgeLabel,
+  translationBadgeTone,
+} from "@/components/review/translationProgress";
 import type {
   LanguageTranslationBlock,
   ReviewPackageGroup,
@@ -23,6 +27,14 @@ interface ReviewPackageSectionProps {
   pkg: ReviewPackageGroup;
   defaultOpen: boolean;
 }
+
+const HEADER_BADGE_CLASS: Record<"green" | "yellow" | "red" | "muted", string> =
+  {
+    green: styles.videoBadgeGreen,
+    yellow: styles.videoBadgeYellow,
+    red: styles.videoBadgeRed,
+    muted: styles.videoBadgeMuted,
+  };
 
 const VIDEO_STATUS_LABEL: Record<JobStatus, string> = {
   queued: "queued",
@@ -50,6 +62,9 @@ export function ReviewPackageSection({
   defaultOpen,
 }: ReviewPackageSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
+
+  const progress = pkg.summary.translationProgress;
+  const progressBadge = translationBadgeLabel(progress);
 
   useEffect(() => {
     if (!REVIEW_RENDER_DEBUG) return;
@@ -85,6 +100,15 @@ export function ReviewPackageSection({
             {open ? "▼" : "▶"}
           </span>
           <span className={styles.title}>{pkg.title}</span>
+          {progressBadge ? (
+            <span
+              className={`${styles.headerBadge} ${
+                HEADER_BADGE_CLASS[translationBadgeTone(progress.overall)]
+              }`}
+            >
+              {progressBadge}
+            </span>
+          ) : null}
         </button>
       </header>
 
