@@ -51,10 +51,10 @@ function videoTone(status: JobStatus | null): Tone {
 // status and the published count at a glance.
 export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
   return (
-    <dl className={styles.summary}>
+    <div className={styles.summary}>
       <div className={styles.group}>
-        <dt className={styles.label}>Primary</dt>
-        <dd className={styles.value}>
+        <span className={styles.label}>Primary</span>
+        <div className={styles.value}>
           <span
             className={`${styles.badge} ${
               summary.primaryTotal > 0 &&
@@ -65,13 +65,13 @@ export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
           >
             {summary.primaryApproved}/{summary.primaryTotal} approved
           </span>
-        </dd>
+        </div>
       </div>
 
       {summary.translations.length > 0 ? (
         <div className={styles.group}>
-          <dt className={styles.label}>Translations</dt>
-          <dd className={styles.value}>
+          <span className={styles.label}>Translations</span>
+          <div className={styles.value}>
             {summary.translations.map((t) => (
               <span
                 key={t.language}
@@ -80,14 +80,14 @@ export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
                 {languageCodeLabel(t.language)} {STATUS_LABEL[t.status]}
               </span>
             ))}
-          </dd>
+          </div>
         </div>
       ) : null}
 
       {summary.videos.length > 0 ? (
         <div className={styles.group}>
-          <dt className={styles.label}>Videos</dt>
-          <dd className={styles.value}>
+          <span className={styles.label}>Videos</span>
+          <div className={styles.value}>
             {summary.videos.map((v) => (
               <span
                 key={v.language}
@@ -97,20 +97,20 @@ export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
                 {v.status ? VIDEO_LABEL[v.status] : "none"}
               </span>
             ))}
-          </dd>
+          </div>
         </div>
       ) : null}
 
       {summary.publishedCount > 0 ? (
         <div className={styles.group}>
-          <dt className={styles.label}>Published</dt>
-          <dd className={styles.value}>
+          <span className={styles.label}>Published</span>
+          <div className={styles.value}>
             <span className={`${styles.badge} ${TONE_CLASS.green}`}>
               {summary.publishedCount} items
             </span>
-          </dd>
+          </div>
         </div>
       ) : null}
-    </dl>
+    </div>
   );
 }

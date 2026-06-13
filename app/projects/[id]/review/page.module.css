@@ -4,6 +4,12 @@
   gap: 2rem;
 }
 
+.loading {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
 .section {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,5 @@
 import type { ReviewRunCard as ReviewRunCardData } from "@/lib/api/review-runs-admin";
+import { formatCsDateTime } from "@/lib/datetime/formatCs";
 import styles from "./ReviewRunCard.module.css";
 
 interface ReviewRunCardProps {
@@ -8,16 +9,7 @@ interface ReviewRunCardProps {
 const EMPTY = "—";
 
 function formatDateTime(value: string | null): string {
-  if (!value) return EMPTY;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return EMPTY;
-  return date.toLocaleString("cs-CZ", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return formatCsDateTime(value, EMPTY);
 }
 
 function formatDuration(seconds: number | null): string {

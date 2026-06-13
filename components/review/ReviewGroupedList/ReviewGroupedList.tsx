@@ -1,3 +1,5 @@
+"use client";
+
 import { ReviewRunSection } from "@/components/review/ReviewRunSection/ReviewRunSection";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
 import styles from "./ReviewGroupedList.module.css";

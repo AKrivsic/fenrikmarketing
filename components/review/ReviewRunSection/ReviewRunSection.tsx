@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ReviewRunCard } from "@/components/review/ReviewRunCard/ReviewRunCard";
 import { ReviewPackageSection } from "@/components/review/ReviewPackageSection/ReviewPackageSection";
+import { formatCsDateTime } from "@/lib/datetime/formatCs";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
 import styles from "./ReviewRunSection.module.css";
 
@@ -20,15 +21,9 @@ const HEALTH_CLASS = {
 
 function formatRunLabel(createdAt: string | null): string {
   if (!createdAt) return "Run";
-  const date = new Date(createdAt);
-  if (Number.isNaN(date.getTime())) return "Run";
-  return `Run · ${date.toLocaleString("cs-CZ", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })}`;
+  const formatted = formatCsDateTime(createdAt, "");
+  if (!formatted) return "Run";
+  return `Run · ${formatted}`;
 }
 
 // Review UX V2 — a production run header that expands into its packages. The

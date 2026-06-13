@@ -135,30 +135,30 @@ export function PackageVideoPanel({
         thumbnailUrl={active.thumbnailUrl}
       />
 
-      <dl className={styles.meta}>
+      <div className={styles.meta}>
         <div className={styles.metaItem}>
-          <dt className={styles.metaLabel}>Render</dt>
-          <dd>
+          <span className={styles.metaLabel}>Render</span>
+          <div>
             <span className={`${styles.badge} ${TONE_CLASS[render.tone]}`}>
               {render.label}
             </span>
-          </dd>
+          </div>
         </div>
         <div className={styles.metaItem}>
-          <dt className={styles.metaLabel}>Titulky</dt>
-          <dd>
+          <span className={styles.metaLabel}>Titulky</span>
+          <div>
             <span className={`${styles.badge} ${TONE_CLASS[subtitle.tone]}`}>
               {subtitle.label}
             </span>
-          </dd>
+          </div>
         </div>
         {duration ? (
           <div className={styles.metaItem}>
-            <dt className={styles.metaLabel}>Délka</dt>
-            <dd className={styles.metaValue}>{duration}</dd>
+            <span className={styles.metaLabel}>Délka</span>
+            <div className={styles.metaValue}>{duration}</div>
           </div>
         ) : null}
-      </dl>
+      </div>
 
       <VideoDownloads
         projectId={projectId}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProjectContentCard } from "@/components/projects/ProjectContentCard/ProjectContentCard";
 import { PackageVideoPanel } from "@/components/review/PackageVideoPanel/PackageVideoPanel";
 import { PackageActions } from "@/components/review/PackageActions/PackageActions";
@@ -13,6 +13,10 @@ import type {
 import type { ProjectContentEntry } from "@/lib/api/project-content-admin";
 import type { JobStatus } from "@/lib/supabase/types";
 import styles from "./ReviewPackageSection.module.css";
+
+const REVIEW_RENDER_DEBUG =
+  process.env.NODE_ENV === "development" ||
+  process.env.REVIEW_RENDER_DEBUG === "1";
 
 interface ReviewPackageSectionProps {
   projectId: string;
@@ -46,6 +50,27 @@ export function ReviewPackageSection({
   defaultOpen,
 }: ReviewPackageSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
+
+  useEffect(() => {
+    if (!REVIEW_RENDER_DEBUG) return;
+    console.info("[review-render] ReviewPackageSection mount", {
+      packageId: pkg.packageId,
+      title: pkg.title,
+      open: defaultOpen,
+      primaryItems: pkg.primaryItems.length,
+      translationLanguages: pkg.translations.length,
+      publishedItems: pkg.publishedItems.length,
+      videos: pkg.videos.length,
+    });
+  }, [
+    pkg.packageId,
+    pkg.title,
+    defaultOpen,
+    pkg.primaryItems.length,
+    pkg.translations.length,
+    pkg.publishedItems.length,
+    pkg.videos.length,
+  ]);
 
   return (
     <div className={styles.package}>
@@ -138,7 +163,7 @@ function LanguageBlock({
   projectId: string;
   block: LanguageTranslationBlock;
 }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const videoStatus = block.video?.status ?? null;
 
   return (

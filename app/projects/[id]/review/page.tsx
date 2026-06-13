@@ -1,6 +1,19 @@
-import { ReviewGroupedList } from "@/components/review/ReviewGroupedList/ReviewGroupedList";
+import nextDynamic from "next/dynamic";
 import { listProjectReviewGroups } from "@/lib/api/project-review-admin";
 import styles from "./page.module.css";
+
+const ReviewGroupedList = nextDynamic(
+  () =>
+    import("@/components/review/ReviewGroupedList/ReviewGroupedList").then(
+      (mod) => mod.ReviewGroupedList,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <p className={styles.loading}>Načítání review workspace…</p>
+    ),
+  },
+);
 
 export const dynamic = "force-dynamic";
 
