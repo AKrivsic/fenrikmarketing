@@ -18,11 +18,9 @@ import {
 } from "@/lib/video-worker/client";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
 import {
-  allItemsApproved,
   extractRenderSpecScenes,
   isVideoPlatform,
   pendingVariantLanguages,
-  pickVideoJobItem,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
 
@@ -33,11 +31,29 @@ export interface GenerateLanguageVariantsInput {
 
 export interface GenerateLanguageVariantsSummary {
   packageId: string;
+  // Variant target languages resolved for the owning project.
+  targetLanguages: LanguageCode[];
+  // Video platforms that produced at least one new variant in this run.
+  processedPlatforms: string[];
+  // Video platforms skipped: already fully translated (no-op), not approved, or
+  // failed (see errors). Text-only platforms are never considered.
+  skippedPlatforms: string[];
   createdLanguages: LanguageCode[];
-  skippedLanguages: LanguageCode[];
   createdItemIds: string[];
   createdVideoJobIds: string[];
   warnings: string[];
+  // Per-platform failures. A failing platform never aborts the others.
+  errors: string[];
+}
+
+// Video platforms are processed in this order. TikTok leads so the single,
+// package-wide-deduped variant video job per language attaches to the TikTok
+// variant — matching the proven item-level production order.
+const VIDEO_PLATFORM_ORDER = ["tiktok", "instagram", "youtube", "facebook"];
+
+function videoPlatformRank(platform: string): number {
+  const index = VIDEO_PLATFORM_ORDER.indexOf(platform);
+  return index === -1 ? VIDEO_PLATFORM_ORDER.length : index;
 }
 
 // Injectable dependencies. videoCallbackUrl is supplied by the route (derived
@@ -72,10 +88,18 @@ function readPackageCta(
   return type && text ? { type, text } : null;
 }
 
-// Generates language variants for an APPROVED primary content package. Creates
-// variant content_items (language = target) and a queued video_job per language
-// whose input reuses the source render_spec scenes (no new image generation).
-// Never mutates the primary package or its primary-language content_items.
+// Generates language variants for an APPROVED primary content package. This is
+// the package-level entry point behind the single "Generate translations"
+// button, but it does NOT localize every platform inside one heavy multi-
+// platform AI call (that path serialized all platforms x all languages into a
+// single request and timed out on Vercel after 300s). Instead it resolves the
+// approved video-platform primary items and delegates EACH to the proven item-
+// level workflow (runGenerateLanguageVariantsForItem) — many small, fast,
+// single-platform localizations. Dedupe of variant content_items and of video
+// jobs (one per package+language) is inherited verbatim from the item-level
+// workflow, so a platform that is already translated is skipped and the others
+// continue. Never mutates the primary package or its primary content_items.
+// Text-only platforms (LinkedIn / X / Google Business) are never localized.
 export async function runGenerateLanguageVariants(
   input: GenerateLanguageVariantsInput,
   deps: GenerateLanguageVariantsDeps = {},
@@ -85,15 +109,12 @@ export async function runGenerateLanguageVariants(
   if (!packageId) throw new WorkflowError("invalid_input", "package_id is required");
 
   const supabase: SupabaseClient = deps.client ?? createSupabaseAdminClient();
-  const localize = deps.localize ?? localizeContentPackageForLanguage;
-  const startVideoJob = deps.startVideoJob ?? startVideoWorkerJob;
-
   const project: Project = await loadProjectOrThrow(supabase, projectId);
 
-  // Gate 1: package belongs to the project (and load its brief).
+  // Gate 1: package belongs to the project.
   const { data: pkg, error: pkgErr } = await supabase
     .from("content_packages")
-    .select("id, package_brief")
+    .select("id")
     .eq("id", packageId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -104,15 +125,17 @@ export async function runGenerateLanguageVariants(
       `content package ${packageId} not found for project ${projectId}`,
     );
   }
-  const brief = asRecord(pkg.package_brief);
 
   const summary: GenerateLanguageVariantsSummary = {
     packageId,
+    targetLanguages: [],
+    processedPlatforms: [],
+    skippedPlatforms: [],
     createdLanguages: [],
-    skippedLanguages: [],
     createdItemIds: [],
     createdVideoJobIds: [],
     warnings: [],
+    errors: [],
   };
 
   // Gate 2: enabled_languages must yield at least one target -> otherwise no-op.
@@ -120,6 +143,7 @@ export async function runGenerateLanguageVariants(
     project.language,
     project.enabled_languages ?? [],
   );
+  summary.targetLanguages = targetLanguages;
   if (targetLanguages.length === 0) {
     summary.warnings.push("no additional enabled_languages configured (no-op)");
     return summary;
@@ -128,23 +152,19 @@ export async function runGenerateLanguageVariants(
   // Gate 3: primary content items = package_id + language IS NULL.
   const { data: primaryRows, error: primaryErr } = await supabase
     .from("content_items")
-    .select("*")
+    .select("id, platform, status, language")
     .eq("project_id", projectId)
     .eq("package_id", packageId)
     .is("language", null);
   if (primaryErr) throw primaryErr;
-  const primaryItems = (primaryRows ?? []) as ContentItem[];
-  if (primaryItems.length === 0) {
-    throw new WorkflowError(
-      "invalid_input",
-      "no primary-language content items found for this package",
-    );
-  }
+  const primaryItems = (primaryRows ?? []) as Pick<
+    ContentItem,
+    "id" | "platform" | "status" | "language"
+  >[];
 
   // Review UX V2 — translations target ONLY video platforms (TikTok /
   // Instagram / YouTube / Facebook). Text-only platforms (LinkedIn / X /
-  // Google Business) are never localized and never gate translation, so a
-  // draft LinkedIn / X item can no longer block an approved video package.
+  // Google Business) are excluded here and never produce variant items.
   const videoPrimaryItems = primaryItems.filter((item) =>
     isVideoPlatform(item.platform),
   );
@@ -155,210 +175,67 @@ export async function runGenerateLanguageVariants(
     );
   }
 
-  // Gate 4: all VIDEO-PLATFORM primary items must be approved.
-  if (!allItemsApproved(videoPrimaryItems.map((item) => item.status))) {
+  // Only APPROVED video-platform primaries are localized. A non-approved video
+  // primary is skipped (it never blocks its approved siblings, matching the
+  // item-level rule); the throw below only fires when NONE are approved.
+  const approvedVideoItems: typeof videoPrimaryItems = [];
+  for (const item of videoPrimaryItems) {
+    if (item.status === "approved") {
+      approvedVideoItems.push(item);
+    } else {
+      summary.skippedPlatforms.push(item.platform);
+    }
+  }
+  if (approvedVideoItems.length === 0) {
     throw new WorkflowError(
       "invalid_input",
-      "video-platform primary items are not all approved; approve them before generating translations",
+      "no approved video-platform primary items; approve at least one before generating translations",
     );
   }
 
-  // Gate 5: source render_spec from the newest completed video job for the
-  // video-platform primary items. Must contain reusable scenes with durable
-  // storage paths.
-  const primaryItemIds = videoPrimaryItems.map((item) => item.id);
-  const { data: jobRows, error: jobErr } = await supabase
-    .from("video_jobs")
-    .select("id, output, created_at")
-    .eq("project_id", projectId)
-    .in("content_item_id", primaryItemIds)
-    .eq("status", "completed")
-    .order("created_at", { ascending: false });
-  if (jobErr) throw jobErr;
-
-  let sourceVideoJobId: string | null = null;
-  let scenes: Record<string, unknown>[] | null = null;
-  for (const job of jobRows ?? []) {
-    const candidate = extractRenderSpecScenes((job as { output: unknown }).output);
-    if (candidate) {
-      sourceVideoJobId = (job as { id: string }).id;
-      scenes = candidate;
-      break;
-    }
-  }
-  if (!scenes || !sourceVideoJobId) {
-    throw new WorkflowError(
-      "invalid_input",
-      "render_spec missing: this package has no completed render with reusable scenes (legacy package needs re-render)",
-    );
-  }
-
-  // Idempotence: languages that already have variant items for this package.
-  const { data: existingVariantRows, error: existingErr } = await supabase
-    .from("content_items")
-    .select("language")
-    .eq("project_id", projectId)
-    .eq("package_id", packageId)
-    .not("language", "is", null);
-  if (existingErr) throw existingErr;
-  const existingLanguages = new Set<string>(
-    (existingVariantRows ?? [])
-      .map((row) => (row as { language: string | null }).language)
-      .filter((l): l is string => typeof l === "string"),
+  // Delegate each approved video platform to the item-level workflow, TikTok
+  // first so the single package-wide-deduped video job per language attaches to
+  // the TikTok variant. Sequential awaits guarantee the first platform's video
+  // jobs are persisted before the next platform dedupes against them. The
+  // injected client is shared so all calls reuse one connection.
+  const ordered = [...approvedVideoItems].sort(
+    (a, b) => videoPlatformRank(a.platform) - videoPlatformRank(b.platform),
   );
+  const itemDeps: GenerateLanguageVariantsDeps = { ...deps, client: supabase };
+  const createdLanguages = new Set<LanguageCode>();
 
-  // Source text (authoritative) lives in package_brief; platform items mirror
-  // the primary content_items editable fields.
-  const sourceVoiceover = readString(brief, "voiceover_text");
-  const sourceSubtitles = readString(brief, "subtitles");
-  const sourceCta = readPackageCta(brief);
-  // Only video-platform items are localized, so LinkedIn / X / Google Business
-  // never produce variant content_items.
-  const sourcePlatformItems: LocalizeSourcePlatformItem[] = videoPrimaryItems.map(
-    (item) => ({
-      platform: item.platform,
-      title: item.title,
-      body: item.body,
-      caption: item.caption,
-      hashtags: item.hashtags ?? [],
-      cta: item.cta,
-    }),
-  );
-  const briefVideo = asRecord(brief?.video);
-  const videoConcept = readString(briefVideo, "concept");
-  const videoScript = readString(briefVideo, "script");
-
-  // Per-platform lookup so each localized output maps back to its primary item
-  // (format + source_content_item_id). Video platforms only.
-  const primaryByPlatform = new Map<string, ContentItem>();
-  for (const item of videoPrimaryItems) primaryByPlatform.set(item.platform, item);
-
-  for (const language of targetLanguages) {
-    if (existingLanguages.has(language)) {
-      summary.skippedLanguages.push(language);
-      continue;
-    }
-
-    const localizeInput: LocalizeContentPackageInput = {
-      project,
-      targetLanguage: language,
-      source: {
-        voiceoverText: sourceVoiceover,
-        subtitles: sourceSubtitles,
-        cta: sourceCta,
-        platformItems: sourcePlatformItems,
-      },
-    };
-
-    const localized = await localize(localizeInput);
-    if (!localized.ok) {
-      summary.warnings.push(
-        `language ${language}: localization failed (${localized.error}); skipped`,
+  for (const item of ordered) {
+    try {
+      const itemSummary = await runGenerateLanguageVariantsForItem(
+        { projectId, sourceContentItemId: item.id },
+        itemDeps,
       );
-      continue;
-    }
-
-    // Persist one variant content_item per localized platform output.
-    const variantRows = localized.data.localized.platform_outputs
-      .map((out) => {
-        const primary = primaryByPlatform.get(out.platform);
-        if (!primary) return null;
-        return {
-          project_id: projectId,
-          package_id: packageId,
-          platform: primary.platform,
-          format: primary.format,
-          status: "draft" as const,
-          language,
-          title: out.title ?? primary.title,
-          body: out.body ?? localized.data.localized.voiceover_text,
-          caption: out.caption,
-          hashtags: out.hashtags ?? [],
-          cta: out.cta,
-          generation_metadata: {
-            source: "language_variant",
-            kind: "language_variant",
-            source_language: localized.data.sourceLanguage,
-            target_language: language,
-            source_content_item_id: primary.id,
-            source_video_job_id: sourceVideoJobId,
-            generated_from_render_spec: true,
-          } as unknown as Json,
-        };
-      })
-      .filter((row): row is NonNullable<typeof row> => row !== null);
-
-    if (variantRows.length === 0) {
-      summary.warnings.push(
-        `language ${language}: no platform outputs mapped to primary items; skipped`,
-      );
-      continue;
-    }
-
-    const { data: insertedItems, error: insertErr } = await supabase
-      .from("content_items")
-      .insert(variantRows)
-      .select("id, platform");
-    if (insertErr) throw insertErr;
-
-    const created = (insertedItems ?? []) as { id: string; platform: string }[];
-    summary.createdLanguages.push(language);
-    for (const row of created) summary.createdItemIds.push(row.id);
-
-    // One queued video job per language, attached to a single variant item
-    // (TikTok preferred). input.scenes reuses the source render_spec scenes.
-    const videoItem = pickVideoJobItem(created);
-    if (!videoItem) continue;
-
-    const jobInput = {
-      concept: videoConcept,
-      script: videoScript,
-      voiceover_text: localized.data.localized.voiceover_text,
-      subtitles: localized.data.localized.subtitles,
-      scenes,
-      language,
-      generated_from_language_variant: true,
-    } as unknown as Json;
-
-    const { data: jobRow, error: jobInsertErr } = await supabase
-      .from("video_jobs")
-      .insert({
-        project_id: projectId,
-        content_item_id: videoItem.id,
-        provider: "video_engine",
-        status: "queued",
-        input: jobInput,
-      })
-      .select("id")
-      .single();
-    if (jobInsertErr) throw jobInsertErr;
-    const videoJobId = jobRow.id as string;
-    summary.createdVideoJobIds.push(videoJobId);
-
-    // Best-effort inline worker start. Requires a callback URL; on any failure
-    // the job stays queued and a warning is recorded (no throw). The job is
-    // claimed (queued -> processing) BEFORE dispatch so the worker's terminal
-    // callback can never be overwritten back to processing (Task 5).
-    if (!deps.videoCallbackUrl) {
-      summary.warnings.push(
-        `language ${language}: video job ${videoJobId} left queued (no callback url for inline start)`,
-      );
-      continue;
-    }
-    const dispatch = await claimAndDispatchVariantVideoJob(supabase, {
-      videoJobId,
-      projectId,
-      contentPackageId: packageId,
-      contentItemId: videoItem.id,
-      callbackUrl: deps.videoCallbackUrl,
-      input: jobInput as Record<string, unknown>,
-      startVideoJob,
-    });
-    if (dispatch.warning) {
-      summary.warnings.push(`language ${language}: ${dispatch.warning}`);
+      if (itemSummary.createdItemIds.length > 0) {
+        summary.processedPlatforms.push(item.platform);
+      } else {
+        // Nothing new (already fully translated for this item).
+        summary.skippedPlatforms.push(item.platform);
+      }
+      summary.createdItemIds.push(...itemSummary.createdItemIds);
+      summary.createdVideoJobIds.push(...itemSummary.createdVideoJobIds);
+      for (const language of itemSummary.createdLanguages) {
+        createdLanguages.add(language);
+      }
+      for (const warning of itemSummary.warnings) {
+        summary.warnings.push(`${item.platform}: ${warning}`);
+      }
+    } catch (err) {
+      // A single platform failing never aborts the others.
+      const detail = err instanceof Error ? err.message : "unknown error";
+      summary.errors.push(`${item.platform}: ${detail}`);
+      summary.skippedPlatforms.push(item.platform);
     }
   }
 
+  // Order-preserving over the resolved targets.
+  summary.createdLanguages = targetLanguages.filter((language) =>
+    createdLanguages.has(language),
+  );
   return summary;
 }
 

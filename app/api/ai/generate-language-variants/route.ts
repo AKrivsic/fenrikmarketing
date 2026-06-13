@@ -1,10 +1,9 @@
 import { runGenerateLanguageVariants } from "@/lib/ai/workflows/generateLanguageVariants";
 import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
 
-// Task 1 — localizes the package for each enabled language (one AI call per
-// language); up to 4 languages can run long. Request the max function budget.
-// This route is the prime candidate for the worker-offload migration (see
-// report) if more languages are enabled.
+// Package-level entry: delegates each approved video-platform primary to the
+// item-level workflow (one small AI call per platform per language). Request
+// the max function budget for safety; typical runs finish well under 300s.
 export const maxDuration = 300;
 
 // Internal endpoint that generates language variants for an APPROVED primary
