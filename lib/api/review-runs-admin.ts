@@ -143,11 +143,7 @@ async function buildRunCards(
   supabase: SupabaseClient,
   runs: ProductionRun[],
 ): Promise<ReviewRunCard[]> {
-  const cards: ReviewRunCard[] = [];
-  for (const run of runs) {
-    cards.push(await buildRunCard(supabase, run));
-  }
-  return cards;
+  return Promise.all(runs.map((run) => buildRunCard(supabase, run)));
 }
 
 // Global, read-only list of recent production runs (cross-project). Kept for the
@@ -163,18 +159,28 @@ export async function listReviewRuns(): Promise<ReviewRunCard[]> {
   return buildRunCards(supabase, (runRows ?? []) as ProductionRun[]);
 }
 
+export interface ListReviewRunsForProjectOptions {
+  // Caps how many runs are fetched and enriched. Default MAX_REVIEW_RUNS.
+  limit?: number;
+}
+
 // Project-scoped list of recent production runs. QA and approval happen in
 // project context, so this powers the project review page. Scoped by project_id.
 export async function listReviewRunsForProject(
   projectId: string,
+  options: ListReviewRunsForProjectOptions = {},
 ): Promise<ReviewRunCard[]> {
+  const limit = Math.min(
+    Math.max(1, options.limit ?? MAX_REVIEW_RUNS),
+    MAX_REVIEW_RUNS,
+  );
   const supabase = createSupabaseAdminClient();
   const { data: runRows, error } = await supabase
     .from("production_runs")
     .select("*")
     .eq("project_id", projectId)
     .order("created_at", { ascending: false })
-    .limit(MAX_REVIEW_RUNS);
+    .limit(limit);
   if (error) throw error;
   return buildRunCards(supabase, (runRows ?? []) as ProductionRun[]);
 }

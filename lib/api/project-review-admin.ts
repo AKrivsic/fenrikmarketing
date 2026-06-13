@@ -25,9 +25,21 @@ import type {
 //   C) Published         — everything already marked published (read-only)
 //
 // Pure composition over EXISTING read layers (review-runs-admin +
-// project-content-admin). No new tables, workflows or AI. Unlike V1 it loads the
-// WHOLE package (all reviewable statuses) so the primary, its translations and
-// its published items are never scattered across separate status views.
+// project-content-admin). No new tables, workflows or AI. Loads the WHOLE
+// package (all reviewable statuses) for a BOUNDED set of recent runs/packages
+// so the page stays within Vercel time limits (see REVIEW_* limits below).
+
+/** Latest production runs shown on the project review tab (newest first). */
+export const REVIEW_RUN_LIMIT = 5;
+
+/** Max distinct packages whose full item/video payload is loaded per request. */
+export const REVIEW_PACKAGE_LIMIT = 20;
+
+/** When there are no production runs, load this many recent packages instead. */
+export const REVIEW_FALLBACK_PACKAGES = 20;
+
+const REVIEW_TIMING =
+  process.env.REVIEW_TIMING === "1" || process.env.NODE_ENV === "development";
 
 // Every reviewable status is loaded together so a package is shown whole.
 // Rejected and scheduled items are intentionally excluded from the workspace.
@@ -336,16 +348,99 @@ function buildPackageGroup(
   };
 }
 
+function logReviewTiming(label: string, startedAt: number, detail?: string) {
+  if (!REVIEW_TIMING) return;
+  const ms = Math.round(performance.now() - startedAt);
+  console.info(
+    `[review] ${label}: ${ms}ms${detail ? ` (${detail})` : ""}`,
+  );
+}
+
+// Resolves package ids to load for the review tab: packages tied to the latest
+// N production runs (newest runs first), capped at REVIEW_PACKAGE_LIMIT.
+async function resolvePackageIdsForReviewRuns(
+  projectId: string,
+  runIds: string[],
+): Promise<string[]> {
+  if (runIds.length === 0) return [];
+
+  const supabase = createSupabaseAdminClient();
+  const orFilter = runIds
+    .map((id) => `generation_metadata->>production_run_id.eq.${id}`)
+    .join(",");
+
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("package_id, created_at")
+    .eq("project_id", projectId)
+    .not("package_id", "is", null)
+    .or(orFilter);
+
+  if (error) throw error;
+
+  // Newest activity per package wins; preserve run order preference via created_at.
+  const latestByPackage = new Map<string, string>();
+  for (const row of (data ?? []) as {
+    package_id: string | null;
+    created_at: string;
+  }[]) {
+    if (!row.package_id) continue;
+    const prev = latestByPackage.get(row.package_id);
+    if (!prev || row.created_at > prev) {
+      latestByPackage.set(row.package_id, row.created_at);
+    }
+  }
+
+  return Array.from(latestByPackage.entries())
+    .sort((a, b) => b[1].localeCompare(a[1]))
+    .slice(0, REVIEW_PACKAGE_LIMIT)
+    .map(([packageId]) => packageId);
+}
+
+// Fallback when the project has no production runs: recent packages only.
+async function resolveFallbackPackageIds(
+  projectId: string,
+): Promise<string[]> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_packages")
+    .select("id")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false })
+    .limit(REVIEW_FALLBACK_PACKAGES);
+  if (error) throw error;
+  return (data ?? []).map((row) => (row as { id: string }).id);
+}
+
 export async function listProjectReviewGroups(
   projectId: string,
 ): Promise<ReviewRunGroup[]> {
-  const [entries, runs] = await Promise.all([
-    listProjectContentByStatus(projectId, REVIEW_STATUSES),
-    listReviewRunsForProject(projectId),
-  ]);
+  const startedAt = performance.now();
+
+  const runs = await listReviewRunsForProject(projectId, {
+    limit: REVIEW_RUN_LIMIT,
+  });
+  logReviewTiming("runs", startedAt, `${runs.length} runs`);
+
+  const runIds = runs.map((run) => run.id);
+  const packageIds =
+    runIds.length > 0
+      ? await resolvePackageIdsForReviewRuns(projectId, runIds)
+      : await resolveFallbackPackageIds(projectId);
+
+  logReviewTiming("packageIds", startedAt, `${packageIds.length} packages`);
+
+  const entries =
+    packageIds.length > 0
+      ? await listProjectContentByStatus(projectId, REVIEW_STATUSES, {
+          packageIds,
+        })
+      : [];
+
+  logReviewTiming("entries", startedAt, `${entries.length} items`);
 
   const packageTitleById = await loadPackageTitles(projectId, entries);
-  const runIds = new Set(runs.map((run) => run.id));
+  const runIdsSet = new Set(runIds);
 
   // Bucket entries: run id → package id → items[] (insertion order preserved).
   // Items whose run id is null OR not in the fetched run list fall into noRun.
@@ -354,7 +449,7 @@ export async function listProjectReviewGroups(
 
   for (const entry of entries) {
     const runId = entry.productionRunId;
-    const usesRun = runId !== null && runIds.has(runId);
+    const usesRun = runId !== null && runIdsSet.has(runId);
 
     let packageMap: Map<string | null, ProjectContentEntry[]>;
     if (usesRun) {
@@ -384,8 +479,8 @@ export async function listProjectReviewGroups(
 
   const groups: ReviewRunGroup[] = [];
 
-  // One group per run (runs order preserved). Runs with no reviewable items
-  // still render their header so the run overview + Export JSON stays reachable.
+  // One group per scoped run (newest first). Runs with no items in the loaded
+  // package set still render their header (Export JSON stays reachable).
   for (const run of runs) {
     const packageMap = byRun.get(run.id);
     groups.push({
@@ -394,10 +489,13 @@ export async function listProjectReviewGroups(
     });
   }
 
-  // Trailing bucket for items with no/unknown production run.
+  // Trailing bucket for loaded items with no/unknown production run (e.g.
+  // language variants without production_run_id on metadata).
   if (noRun.size > 0) {
     groups.push({ run: null, packages: toPackageGroups(noRun) });
   }
+
+  logReviewTiming("listProjectReviewGroups total", startedAt);
 
   return groups;
 }

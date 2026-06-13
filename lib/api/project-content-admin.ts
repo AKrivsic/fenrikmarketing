@@ -105,21 +105,39 @@ export interface ProjectContentEntry {
   videoDebug: RenderDebug | null;
 }
 
+export interface ListProjectContentOptions {
+  // When set, only items belonging to these packages are loaded. Used by the
+  // project review tab to bound payload size (Review UX V2 hotfix).
+  packageIds?: string[];
+}
+
 // Lists a project's content items filtered by approval status, enriched with
 // the newest directly-linked video job. Two queries total (items, then their
-// video jobs) — no N+1.
+// video jobs) — no N+1. Optional packageIds scopes the read to specific packages.
 export async function listProjectContentByStatus(
   projectId: string,
   statuses: ApprovalStatus[],
+  options: ListProjectContentOptions = {},
 ): Promise<ProjectContentEntry[]> {
+  const packageIds = options.packageIds;
+  if (packageIds !== undefined && packageIds.length === 0) {
+    return [];
+  }
+
   const supabase = createSupabaseAdminClient();
 
-  const { data: itemRows, error: itemsError } = await supabase
+  let itemsQuery = supabase
     .from("content_items")
     .select("*")
     .eq("project_id", projectId)
     .in("status", statuses)
     .order("created_at", { ascending: false });
+
+  if (packageIds !== undefined) {
+    itemsQuery = itemsQuery.in("package_id", packageIds);
+  }
+
+  const { data: itemRows, error: itemsError } = await itemsQuery;
 
   if (itemsError) throw itemsError;
 
@@ -143,16 +161,18 @@ export async function listProjectContentByStatus(
   // Shared eligibility computes per-package variant qualification and exposes the
   // project's primary language (resolves NULL item languages for badges) — so no
   // separate projects query is needed here.
-  const packageIds = Array.from(
+  const eligibilityPackageIds = Array.from(
     new Set(
       items
         .map((item) => item.package_id)
         .filter((id): id is string => typeof id === "string"),
     ),
   );
-  const eligibility = await loadVariantEligibility(supabase, packageIds, [
-    projectId,
-  ]);
+  const eligibility = await loadVariantEligibility(
+    supabase,
+    eligibilityPackageIds,
+    [projectId],
+  );
   const projectLanguage =
     eligibility.projectLanguageById.get(projectId) ?? "cs";
 
