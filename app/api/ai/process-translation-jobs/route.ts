@@ -1,16 +1,18 @@
 import { after } from "next/server";
 import { unauthorizedResponse, verifyN8nSecret } from "@/lib/n8n/callback";
 import {
-  processNextTranslationJob,
+  drainTranslationJobs,
   triggerTranslationProcessor,
 } from "@/lib/ai/workflows/translationJobs";
 
 // Background worker for the asynchronous "Generate translations" flow. Each call
-// processes EXACTLY ONE translation unit (one source item × one language) so a
-// single invocation stays small and never approaches the 300s function limit.
-// The heavy Claude localization runs in `after()` (after the 202 response is
-// sent), then the endpoint re-triggers itself for the next pending unit. The
-// chain stops automatically once no `pending` unit remains.
+// DRAINS as many translation units as fit in a wall-clock budget that stays well
+// under the 300s function limit (one unit is ~10-15s, so a typical package
+// finishes in a single invocation). The heavy Claude localization runs in
+// `after()` (after the 202 response is sent). Only when units remain after the
+// budget is hit does the endpoint re-trigger itself for the rest — and that kick
+// is retried — so the queue can no longer be silently stranded by one dropped
+// self-trigger. The chain stops automatically once no `pending` unit remains.
 export const maxDuration = 300;
 
 // Guarded by the same shared secret as the n8n callbacks (x-n8n-secret). The
@@ -34,12 +36,23 @@ export async function POST(request: Request): Promise<Response> {
   // continues within this invocation's max duration.
   after(async () => {
     try {
-      const result = await processNextTranslationJob({ videoCallbackUrl });
-      if (result.processed && result.hasMore) {
-        // Hand the next pending unit to a fresh invocation so no single one
-        // accumulates time.
-        await triggerTranslationProcessor(origin);
+      const result = await drainTranslationJobs({ videoCallbackUrl });
+      // Only hop to a fresh invocation when the budget/cap left work behind.
+      // A drained queue (remaining === 0) stops the chain.
+      let processorRetriggered = false;
+      if (result.remaining > 0) {
+        processorRetriggered = await triggerTranslationProcessor(origin);
       }
+      console.log(
+        `[process-translation-jobs] ${JSON.stringify({
+          jobs_claimed: result.claimed,
+          jobs_completed: result.completed,
+          jobs_failed: result.failed,
+          jobs_remaining: result.remaining,
+          processor_retriggered: processorRetriggered,
+          processor_idle: result.claimed === 0,
+        })}`,
+      );
     } catch (err) {
       const detail = err instanceof Error ? err.message : "unknown error";
       console.error(`[process-translation-jobs] processing failed: ${detail}`);

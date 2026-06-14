@@ -56,6 +56,35 @@ const STALE_PROCESSING_MINUTES = (() => {
   return Number.isFinite(raw) && raw > 0 ? raw : 15;
 })();
 
+// A single processor invocation drains units back-to-back (in claim order) until
+// either the queue is empty or this wall-clock budget is reached, then hands any
+// remainder to a fresh invocation. The budget stays well under the route's
+// maxDuration (300s) so the final unit + the self-retrigger always finish before
+// the platform kills the function. One localization unit is ~10-15s, so a typical
+// package (≤16 units) drains in a single invocation with zero retriggers.
+// 200s leaves ~100s of the 300s maxDuration as headroom for an occasionally slow
+// final unit (the budget is only checked between units) plus the retried
+// self-retrigger, so the chain never hands off too late to survive.
+const DRAIN_BUDGET_MS = (() => {
+  const raw = Number(process.env.TRANSLATION_DRAIN_BUDGET_MS);
+  return Number.isFinite(raw) && raw > 0 ? raw : 200_000;
+})();
+
+// Hard safety cap on units per invocation (defence against a pathological loop);
+// the time budget is the normal stopping condition.
+const DRAIN_MAX_UNITS = (() => {
+  const raw = Number(process.env.TRANSLATION_DRAIN_MAX_UNITS);
+  return Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 100;
+})();
+
+// The self-retrigger fetch is the ONE link that, if dropped, used to strand every
+// remaining pending unit (errors are swallowed and nothing else re-kicks the
+// processor). Retry it a few times so a transient blip / cold start does not
+// silently halt the queue.
+const TRIGGER_MAX_ATTEMPTS = 3;
+const TRIGGER_TIMEOUT_MS = 10_000;
+const TRIGGER_RETRY_DELAY_MS = 500;
+
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
@@ -222,6 +251,14 @@ export async function enqueuePackageTranslations(
     result.warnings.push(
       "all target languages already have a variant for this package (no new units)",
     );
+    console.log(
+      `[translation-jobs] ${JSON.stringify({
+        event: "enqueue",
+        package_id: packageId,
+        jobs_created: 0,
+        target_languages: targetLanguages,
+      })}`,
+    );
     return result;
   }
 
@@ -243,6 +280,19 @@ export async function enqueuePackageTranslations(
       ignoreDuplicates: true,
     });
   if (upsertErr) throw upsertErr;
+
+  // Diagnostic: how many units this click was responsible for. `jobs_created` is
+  // the requested unit count; rows already present (pending/processing/completed)
+  // are silently ignored by the idempotent upsert, so the queue may actually grow
+  // by fewer than this.
+  console.log(
+    `[translation-jobs] ${JSON.stringify({
+      event: "enqueue",
+      package_id: packageId,
+      jobs_created: rows.length,
+      target_languages: targetLanguages,
+    })}`,
+  );
 
   return result;
 }
@@ -342,6 +392,20 @@ export async function claimNextTranslationJob(
   };
 }
 
+// Number of `pending` units left in the WHOLE queue (across packages). Used to
+// decide whether the chain must continue and reported as the `jobs_remaining`
+// diagnostic.
+async function countPendingTranslationJobs(
+  supabase: SupabaseClient,
+): Promise<number> {
+  const { count, error } = await supabase
+    .from("translation_jobs")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export interface ProcessTranslationJobResult {
   // True when a unit was claimed and processed (completed or failed) in this call.
   processed: boolean;
@@ -392,50 +456,121 @@ export async function processNextTranslationJob(deps: {
     );
   }
 
-  const { count, error: countErr } = await supabase
-    .from("translation_jobs")
-    .select("id", { count: "exact", head: true })
-    .eq("status", "pending");
-  if (countErr) throw countErr;
+  const pending = await countPendingTranslationJobs(supabase);
 
   return {
     processed: true,
-    hasMore: (count ?? 0) > 0,
+    hasMore: pending > 0,
     jobId: job.id,
     language: job.language,
     status,
   };
 }
 
-// Best-effort fire-and-forget kick to the background processor endpoint. The
-// endpoint responds 202 immediately and does the work in `after()`, so this
-// resolves fast and never blocks the caller. Errors are swallowed: a missed
-// kick is recovered on the next "Generate translations" click (stale sweep).
-export async function triggerTranslationProcessor(origin: string): Promise<void> {
+export interface DrainTranslationJobsResult {
+  // Units claimed and processed (completed or failed) by THIS invocation.
+  claimed: number;
+  completed: number;
+  failed: number;
+  // `pending` units still queued after this invocation stopped (0 == queue empty).
+  remaining: number;
+}
+
+// Drains the translation queue within a SINGLE invocation: claims and processes
+// units one at a time, in claim order (TikTok-first per language, so the single
+// per-language variant video job is created before that language's other
+// platforms run — preserving the no-duplicate-video-job invariant), until the
+// queue is empty or the wall-clock budget / unit cap is hit. Whatever remains is
+// reported so the caller can hand it to a fresh invocation.
+//
+// This replaces the previous "exactly one unit per HTTP hop" design, where every
+// unit depended on its own best-effort self-trigger fetch: a single dropped hop
+// silently stranded all remaining pending units (the stale sweep only recovers
+// `processing` rows, never untouched `pending` ones). Draining in-process removes
+// almost all of those fragile hops — a typical package now finishes in one.
+export async function drainTranslationJobs(deps: {
+  videoCallbackUrl?: string;
+  client?: SupabaseClient;
+  budgetMs?: number;
+  maxUnits?: number;
+}): Promise<DrainTranslationJobsResult> {
+  const supabase: SupabaseClient = deps.client ?? createSupabaseAdminClient();
+  const budgetMs = deps.budgetMs ?? DRAIN_BUDGET_MS;
+  const maxUnits = deps.maxUnits ?? DRAIN_MAX_UNITS;
+  const start = Date.now();
+
+  let claimed = 0;
+  let completed = 0;
+  let failed = 0;
+
+  while (claimed < maxUnits && Date.now() - start < budgetMs) {
+    const result = await processNextTranslationJob({
+      videoCallbackUrl: deps.videoCallbackUrl,
+      client: supabase,
+    });
+    if (!result.processed) {
+      // Nothing claimable right now: queue empty, or only fresh `processing`
+      // rows owned by a concurrent worker. Either way this invocation is done.
+      break;
+    }
+    claimed++;
+    if (result.status === "failed") failed++;
+    else completed++;
+    if (!result.hasMore) break;
+  }
+
+  const remaining = await countPendingTranslationJobs(supabase);
+  return { claimed, completed, failed, remaining };
+}
+
+// Kicks the background processor endpoint. The endpoint responds 202 immediately
+// and does the work in `after()`, so this resolves fast and never blocks the
+// caller. Retried up to TRIGGER_MAX_ATTEMPTS times because this fetch is the only
+// link that advances the queue across invocations: a single swallowed failure
+// used to halt the entire remaining queue until a manual re-click. Returns true
+// once the endpoint has accepted the kick.
+export async function triggerTranslationProcessor(
+  origin: string,
+): Promise<boolean> {
   const secret = process.env.N8N_CALLBACK_SECRET;
   if (!secret) {
     console.error(
       "[translation-jobs] cannot trigger processor: missing N8N_CALLBACK_SECRET",
     );
-    return;
+    return false;
   }
   const url = `${origin}/api/ai/process-translation-jobs`;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
-  try {
-    await fetch(url, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        [N8N_SECRET_HEADER]: secret,
-      },
-      body: "{}",
-      signal: controller.signal,
-    });
-  } catch (err) {
-    const detail = err instanceof Error ? err.message : "unknown error";
-    console.error(`[translation-jobs] processor trigger failed: ${detail}`);
-  } finally {
-    clearTimeout(timeout);
+
+  for (let attempt = 1; attempt <= TRIGGER_MAX_ATTEMPTS; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TRIGGER_TIMEOUT_MS);
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          [N8N_SECRET_HEADER]: secret,
+        },
+        body: "{}",
+        signal: controller.signal,
+      });
+      if (res.ok || res.status === 202) return true;
+      console.error(
+        `[translation-jobs] processor trigger attempt ${attempt}/${TRIGGER_MAX_ATTEMPTS} -> HTTP ${res.status}`,
+      );
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "unknown error";
+      console.error(
+        `[translation-jobs] processor trigger attempt ${attempt}/${TRIGGER_MAX_ATTEMPTS} failed: ${detail}`,
+      );
+    } finally {
+      clearTimeout(timeout);
+    }
+    if (attempt < TRIGGER_MAX_ATTEMPTS) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, TRIGGER_RETRY_DELAY_MS * attempt),
+      );
+    }
   }
+  return false;
 }
