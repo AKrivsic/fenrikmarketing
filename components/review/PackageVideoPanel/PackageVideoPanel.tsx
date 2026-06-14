@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
+import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
 import { isSubtitleFallback } from "@/lib/api/content-shared";
 import type { PackageVideo } from "@/lib/api/project-review-admin";
 import styles from "./PackageVideoPanel.module.css";
@@ -159,6 +160,10 @@ export function PackageVideoPanel({
           </div>
         ) : null}
       </div>
+
+      {active.status === "failed" ? (
+        <RetryVideoRenderButton projectId={projectId} videoJobId={active.jobId} />
+      ) : null}
 
       <VideoDownloads
         projectId={projectId}

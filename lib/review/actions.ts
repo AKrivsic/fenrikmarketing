@@ -15,6 +15,7 @@ import {
   triggerTranslationProcessor,
 } from "@/lib/ai/workflows/translationJobs";
 import { runRegenerateLanguageVariant } from "@/lib/ai/workflows/regenerateLanguageVariant";
+import { runRetryVideoJob } from "@/lib/ai/workflows/retryVideoJob";
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type { LanguageCode } from "@/lib/supabase/types";
 
@@ -252,6 +253,29 @@ export async function generateLanguageVariantsForItem(
     return { ok: true };
   } catch {
     return fail("Spuštění generování jazykových variant se nezdařilo.");
+  }
+}
+
+// Retries ONLY a failed video render/upload for one language. Creates and
+// dispatches a fresh video job for the SAME content item, reusing the failed
+// job's stored render input + scene stills (no text / content / image
+// regeneration). Idempotent: when a queued/processing render already exists for
+// the language no duplicate is created. The previous failed job is kept as
+// history; the new (newer) job becomes the one the UI shows.
+export async function retryVideoRender(
+  videoJobId: string | null,
+  projectId: string,
+): Promise<ActionResult> {
+  if (!projectId) return fail("Chybí identifikátor projektu.");
+  if (!videoJobId) return fail("Chybí identifikátor video jobu.");
+
+  try {
+    const videoCallbackUrl = await resolveVideoCallbackUrl();
+    await runRetryVideoJob({ projectId, videoJobId }, { videoCallbackUrl });
+    revalidateReview(projectId);
+    return { ok: true };
+  } catch {
+    return fail("Opětovné spuštění renderu videa se nezdařilo.");
   }
 }
 
