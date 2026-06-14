@@ -24,38 +24,6 @@ import {
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
 
-export interface GenerateLanguageVariantsInput {
-  projectId: string;
-  packageId: string;
-}
-
-export interface GenerateLanguageVariantsSummary {
-  packageId: string;
-  // Variant target languages resolved for the owning project.
-  targetLanguages: LanguageCode[];
-  // Video platforms that produced at least one new variant in this run.
-  processedPlatforms: string[];
-  // Video platforms skipped: already fully translated (no-op), not approved, or
-  // failed (see errors). Text-only platforms are never considered.
-  skippedPlatforms: string[];
-  createdLanguages: LanguageCode[];
-  createdItemIds: string[];
-  createdVideoJobIds: string[];
-  warnings: string[];
-  // Per-platform failures. A failing platform never aborts the others.
-  errors: string[];
-}
-
-// Video platforms are processed in this order. TikTok leads so the single,
-// package-wide-deduped variant video job per language attaches to the TikTok
-// variant — matching the proven item-level production order.
-const VIDEO_PLATFORM_ORDER = ["tiktok", "instagram", "youtube", "facebook"];
-
-function videoPlatformRank(platform: string): number {
-  const index = VIDEO_PLATFORM_ORDER.indexOf(platform);
-  return index === -1 ? VIDEO_PLATFORM_ORDER.length : index;
-}
-
 // Injectable dependencies. videoCallbackUrl is supplied by the route (derived
 // from the request origin, mirroring /api/n8n/start-video-job); without it the
 // inline worker start is skipped and the job is left queued with a warning.
@@ -88,160 +56,21 @@ function readPackageCta(
   return type && text ? { type, text } : null;
 }
 
-// Generates language variants for an APPROVED primary content package. This is
-// the package-level entry point behind the single "Generate translations"
-// button, but it does NOT localize every platform inside one heavy multi-
-// platform AI call (that path serialized all platforms x all languages into a
-// single request and timed out on Vercel after 300s). Instead it resolves the
-// approved video-platform primary items and delegates EACH to the proven item-
-// level workflow (runGenerateLanguageVariantsForItem) — many small, fast,
-// single-platform localizations. Dedupe of variant content_items and of video
-// jobs (one per package+language) is inherited verbatim from the item-level
-// workflow, so a platform that is already translated is skipped and the others
-// continue. Never mutates the primary package or its primary content_items.
-// Text-only platforms (LinkedIn / X / Google Business) are never localized.
-export async function runGenerateLanguageVariants(
-  input: GenerateLanguageVariantsInput,
-  deps: GenerateLanguageVariantsDeps = {},
-): Promise<GenerateLanguageVariantsSummary> {
-  const { projectId, packageId } = input;
-  if (!projectId) throw new WorkflowError("invalid_input", "project_id is required");
-  if (!packageId) throw new WorkflowError("invalid_input", "package_id is required");
-
-  const supabase: SupabaseClient = deps.client ?? createSupabaseAdminClient();
-  const project: Project = await loadProjectOrThrow(supabase, projectId);
-
-  // Gate 1: package belongs to the project.
-  const { data: pkg, error: pkgErr } = await supabase
-    .from("content_packages")
-    .select("id")
-    .eq("id", packageId)
-    .eq("project_id", projectId)
-    .maybeSingle();
-  if (pkgErr) throw pkgErr;
-  if (!pkg) {
-    throw new WorkflowError(
-      "not_found",
-      `content package ${packageId} not found for project ${projectId}`,
-    );
-  }
-
-  const summary: GenerateLanguageVariantsSummary = {
-    packageId,
-    targetLanguages: [],
-    processedPlatforms: [],
-    skippedPlatforms: [],
-    createdLanguages: [],
-    createdItemIds: [],
-    createdVideoJobIds: [],
-    warnings: [],
-    errors: [],
-  };
-
-  // Gate 2: enabled_languages must yield at least one target -> otherwise no-op.
-  const targetLanguages = resolveTargetLanguages(
-    project.language,
-    project.enabled_languages ?? [],
-  );
-  summary.targetLanguages = targetLanguages;
-  if (targetLanguages.length === 0) {
-    summary.warnings.push("no additional enabled_languages configured (no-op)");
-    return summary;
-  }
-
-  // Gate 3: primary content items = package_id + language IS NULL.
-  const { data: primaryRows, error: primaryErr } = await supabase
-    .from("content_items")
-    .select("id, platform, status, language")
-    .eq("project_id", projectId)
-    .eq("package_id", packageId)
-    .is("language", null);
-  if (primaryErr) throw primaryErr;
-  const primaryItems = (primaryRows ?? []) as Pick<
-    ContentItem,
-    "id" | "platform" | "status" | "language"
-  >[];
-
-  // Review UX V2 — translations target ONLY video platforms (TikTok /
-  // Instagram / YouTube / Facebook). Text-only platforms (LinkedIn / X /
-  // Google Business) are excluded here and never produce variant items.
-  const videoPrimaryItems = primaryItems.filter((item) =>
-    isVideoPlatform(item.platform),
-  );
-  if (videoPrimaryItems.length === 0) {
-    throw new WorkflowError(
-      "invalid_input",
-      "this package has no video-platform primary items to translate (translations are video-only)",
-    );
-  }
-
-  // Only APPROVED video-platform primaries are localized. A non-approved video
-  // primary is skipped (it never blocks its approved siblings, matching the
-  // item-level rule); the throw below only fires when NONE are approved.
-  const approvedVideoItems: typeof videoPrimaryItems = [];
-  for (const item of videoPrimaryItems) {
-    if (item.status === "approved") {
-      approvedVideoItems.push(item);
-    } else {
-      summary.skippedPlatforms.push(item.platform);
-    }
-  }
-  if (approvedVideoItems.length === 0) {
-    throw new WorkflowError(
-      "invalid_input",
-      "no approved video-platform primary items; approve at least one before generating translations",
-    );
-  }
-
-  // Delegate each approved video platform to the item-level workflow, TikTok
-  // first so the single package-wide-deduped video job per language attaches to
-  // the TikTok variant. Sequential awaits guarantee the first platform's video
-  // jobs are persisted before the next platform dedupes against them. The
-  // injected client is shared so all calls reuse one connection.
-  const ordered = [...approvedVideoItems].sort(
-    (a, b) => videoPlatformRank(a.platform) - videoPlatformRank(b.platform),
-  );
-  const itemDeps: GenerateLanguageVariantsDeps = { ...deps, client: supabase };
-  const createdLanguages = new Set<LanguageCode>();
-
-  for (const item of ordered) {
-    try {
-      const itemSummary = await runGenerateLanguageVariantsForItem(
-        { projectId, sourceContentItemId: item.id },
-        itemDeps,
-      );
-      if (itemSummary.createdItemIds.length > 0) {
-        summary.processedPlatforms.push(item.platform);
-      } else {
-        // Nothing new (already fully translated for this item).
-        summary.skippedPlatforms.push(item.platform);
-      }
-      summary.createdItemIds.push(...itemSummary.createdItemIds);
-      summary.createdVideoJobIds.push(...itemSummary.createdVideoJobIds);
-      for (const language of itemSummary.createdLanguages) {
-        createdLanguages.add(language);
-      }
-      for (const warning of itemSummary.warnings) {
-        summary.warnings.push(`${item.platform}: ${warning}`);
-      }
-    } catch (err) {
-      // A single platform failing never aborts the others.
-      const detail = err instanceof Error ? err.message : "unknown error";
-      summary.errors.push(`${item.platform}: ${detail}`);
-      summary.skippedPlatforms.push(item.platform);
-    }
-  }
-
-  // Order-preserving over the resolved targets.
-  summary.createdLanguages = targetLanguages.filter((language) =>
-    createdLanguages.has(language),
-  );
-  return summary;
-}
-
+// NOTE: the package-level orchestrator that used to live here
+// (runGenerateLanguageVariants) ran every platform × language localization
+// inline and timed out on Vercel after 300s. It has been replaced by the
+// asynchronous translation-jobs queue (lib/ai/workflows/translationJobs.ts):
+// the action enqueues pending units and a background endpoint processes each
+// (item, language) one at a time using the item-level workflow below.
 export interface GenerateLanguageVariantsForItemInput {
   projectId: string;
   sourceContentItemId: string;
+  // Optional allow-list of target languages to process in THIS call. When set,
+  // only the intersection of (still-pending languages) and this list is
+  // localized — used by the async translation-jobs processor to handle exactly
+  // one language per background invocation. Unset = process every pending
+  // language (the original synchronous behaviour).
+  languages?: LanguageCode[];
 }
 
 export interface GenerateLanguageVariantsForItemSummary {
@@ -386,7 +215,14 @@ export async function runGenerateLanguageVariantsForItem(
     }
   }
 
-  const pending = pendingVariantLanguages(targetLanguages, coveredForSource);
+  let pending = pendingVariantLanguages(targetLanguages, coveredForSource);
+  // Optional single/subset language scoping for the async processor: only keep
+  // the requested languages (intersection preserves the target order). An empty
+  // intersection is a benign no-op (the requested language is already covered).
+  if (input.languages && input.languages.length > 0) {
+    const requested = new Set<LanguageCode>(input.languages);
+    pending = pending.filter((language) => requested.has(language));
+  }
   if (pending.length === 0) {
     summary.warnings.push(
       "all target languages already have a variant for this item (no-op)",

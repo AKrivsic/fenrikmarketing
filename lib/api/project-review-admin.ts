@@ -10,6 +10,8 @@ import {
 import {
   isVideoPlatform,
   resolveTargetLanguages,
+  rollupTranslationTextJob,
+  type TranslationTextJobState,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
 import type { RenderDebug } from "@/lib/api/content-shared";
 import type {
@@ -17,7 +19,14 @@ import type {
   JobStatus,
   LanguageCode,
   PlatformType,
+  TranslationJobStatus,
 } from "@/lib/supabase/types";
+
+// One translation_jobs row reduced to what the progress rollup needs.
+interface PackageTranslationJob {
+  language: LanguageCode;
+  status: TranslationJobStatus;
+}
 
 // Review UX V2 — single-package workspace.
 //
@@ -111,16 +120,24 @@ export interface LanguageTranslationProgress {
   // Expected video platforms (approved primary video-platform items).
   textExpected: number;
   video: TranslationVideoState;
+  // Async localization (translation_jobs) state for this language:
+  //   "active" — a unit is still pending/processing (Claude running, no variant
+  //              content_item yet) → the package shows "running" and polls.
+  //   "failed" — the last localization attempt failed (re-clickable). Completed
+  //              languages stay usable; this never hides them.
+  //   null     — no outstanding async unit (idle or done).
+  textJob: TranslationTextJobState;
 }
 
 // Overall translation rollup for the whole package.
 //   none        — nothing to translate (no target languages / no expected
 //                 video platforms approved yet) → no badge.
-//   not_started — translatable, but no variant exists for any target language.
-//   running     — at least one target-language video is still rendering.
-//   partial     — some languages done, none rendering, none failed.
+//   not_started — translatable, but no variant / queued unit exists yet.
+//   running     — at least one target-language localization unit is still
+//                 pending/processing OR a target-language video is rendering.
+//   partial     — some languages done, none running, none failed.
 //   complete    — every target language is text + video complete.
-//   failed      — a language video failed and nothing is actively rendering.
+//   failed      — a localization unit or video failed and nothing is running.
 export type TranslationOverallState =
   | "none"
   | "not_started"
@@ -318,6 +335,7 @@ function buildTranslationProgress(
   items: ProjectContentEntry[],
   videos: PackageVideo[],
   targetLanguages: LanguageCode[],
+  translationJobs: PackageTranslationJob[],
 ): TranslationProgress {
   // Expected platforms = approved (or already published) primary video-platform
   // items. These are the platforms a complete translation must cover.
@@ -349,6 +367,16 @@ function buildTranslationProgress(
     videoStatusByLanguage.set(video.language, video.status);
   }
 
+  // Async localization (translation_jobs) state per language, rolled up across
+  // the language's units (one per video platform). This makes a freshly-clicked
+  // package show "running" BEFORE any variant content_item exists yet.
+  const jobStatusesByLanguage = new Map<LanguageCode, TranslationJobStatus[]>();
+  for (const job of translationJobs) {
+    const list = jobStatusesByLanguage.get(job.language) ?? [];
+    list.push(job.status);
+    jobStatusesByLanguage.set(job.language, list);
+  }
+
   const languages: LanguageTranslationProgress[] = targetLanguages.map(
     (language) => ({
       language,
@@ -358,6 +386,9 @@ function buildTranslationProgress(
         videoStatusByLanguage.has(language)
           ? (videoStatusByLanguage.get(language) ?? null)
           : null,
+      ),
+      textJob: rollupTranslationTextJob(
+        jobStatusesByLanguage.get(language) ?? [],
       ),
     }),
   );
@@ -373,10 +404,16 @@ function buildTranslationProgress(
     overall = "none";
   } else {
     const anyStarted = languages.some(
-      (l) => l.textDone > 0 || l.video !== "missing",
+      (l) => l.textDone > 0 || l.video !== "missing" || l.textJob !== null,
     );
-    const isRunning = languages.some((l) => l.video === "rendering");
-    const anyFailed = languages.some((l) => l.video === "failed");
+    // Running while a video renders OR an async localization unit is still
+    // pending/processing (so the review page keeps polling until both finish).
+    const isRunning = languages.some(
+      (l) => l.video === "rendering" || l.textJob === "active",
+    );
+    const anyFailed = languages.some(
+      (l) => l.video === "failed" || l.textJob === "failed",
+    );
     if (!anyStarted) overall = "not_started";
     else if (completeCount === targetCount) overall = "complete";
     else if (isRunning) overall = "running";
@@ -391,6 +428,7 @@ function buildSummary(
   items: ProjectContentEntry[],
   videos: PackageVideo[],
   targetLanguages: LanguageCode[],
+  translationJobs: PackageTranslationJob[],
 ): PackageStatusSummary {
   const primary = items.filter(
     (item) => !item.isLanguageVariant && item.status !== "rejected",
@@ -425,7 +463,12 @@ function buildSummary(
       status: video.status,
     })),
     publishedCount: items.filter((item) => item.status === "published").length,
-    translationProgress: buildTranslationProgress(items, videos, targetLanguages),
+    translationProgress: buildTranslationProgress(
+      items,
+      videos,
+      targetLanguages,
+      translationJobs,
+    ),
   };
 }
 
@@ -434,6 +477,7 @@ function buildPackageGroup(
   title: string,
   rawItems: ProjectContentEntry[],
   targetLanguages: LanguageCode[],
+  translationJobs: PackageTranslationJob[],
 ): ReviewPackageGroup {
   const items = sortItems(rawItems);
   const videos = buildPackageVideos(items);
@@ -484,7 +528,7 @@ function buildPackageGroup(
     canGenerateVariants,
     hasTranslations,
     translationReason,
-    summary: buildSummary(items, videos, targetLanguages),
+    summary: buildSummary(items, videos, targetLanguages, translationJobs),
   };
 }
 
@@ -576,6 +620,37 @@ async function loadProjectTargetLanguages(
   return resolveTargetLanguages(row.language, row.enabled_languages ?? []);
 }
 
+// Loads the async translation-jobs queue rows for the given packages, grouped
+// by package_id. Used to surface "running / failed" localization state on the
+// review tab BEFORE any variant content_item exists (no new poll/scheduler —
+// the existing 7s router.refresh re-reads this). Empty map when no packages.
+async function loadTranslationJobsByPackage(
+  projectId: string,
+  packageIds: string[],
+): Promise<Map<string, PackageTranslationJob[]>> {
+  const byPackage = new Map<string, PackageTranslationJob[]>();
+  if (packageIds.length === 0) return byPackage;
+
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("translation_jobs")
+    .select("package_id, language, status")
+    .eq("project_id", projectId)
+    .in("package_id", packageIds);
+  if (error) throw error;
+
+  for (const row of (data ?? []) as {
+    package_id: string;
+    language: LanguageCode;
+    status: TranslationJobStatus;
+  }[]) {
+    const list = byPackage.get(row.package_id) ?? [];
+    list.push({ language: row.language, status: row.status });
+    byPackage.set(row.package_id, list);
+  }
+  return byPackage;
+}
+
 // Fallback when the project has no production runs: recent packages only.
 async function resolveFallbackPackageIds(
   projectId: string,
@@ -618,10 +693,12 @@ export async function listProjectReviewGroups(
 
   logReviewTiming("entries", startedAt, `${entries.length} items`);
 
-  const [packageTitleById, targetLanguages] = await Promise.all([
-    loadPackageTitles(projectId, entries),
-    loadProjectTargetLanguages(projectId),
-  ]);
+  const [packageTitleById, targetLanguages, translationJobsByPackage] =
+    await Promise.all([
+      loadPackageTitles(projectId, entries),
+      loadProjectTargetLanguages(projectId),
+      loadTranslationJobsByPackage(projectId, packageIds),
+    ]);
   const runIdsSet = new Set(runIds);
   const entryById = new Map(entries.map((entry) => [entry.id, entry]));
 
@@ -657,6 +734,7 @@ export async function listProjectReviewGroups(
           NO_PACKAGE_TITLE,
         items,
         targetLanguages,
+        (packageId ? translationJobsByPackage.get(packageId) : null) ?? [],
       ),
     );
   }

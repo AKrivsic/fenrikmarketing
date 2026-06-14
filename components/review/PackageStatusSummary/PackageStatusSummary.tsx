@@ -4,6 +4,8 @@ import {
   VIDEO_STATE_LABEL,
   translationBadgeLabel,
   translationBadgeTone,
+  translationTextLabel,
+  translationTextTone,
   videoStateTone,
 } from "@/components/review/translationProgress";
 import type { ApprovalStatus, JobStatus } from "@/lib/supabase/types";
@@ -144,8 +146,12 @@ export function PackageStatusSummary({ summary }: PackageStatusSummaryProps) {
                 <span className={styles.progressLang}>
                   {languageCodeLabel(lang.language)}
                 </span>
-                <span className={styles.progressText}>
-                  Text {lang.textDone}/{lang.textExpected}
+                <span
+                  className={`${styles.badge} ${
+                    TONE_CLASS[translationTextTone(lang)]
+                  }`}
+                >
+                  {translationTextLabel(lang)}
                 </span>
                 <span
                   className={`${styles.badge} ${

@@ -249,3 +249,28 @@ export interface ProductionRunItem {
   created_at: string;
   updated_at: string;
 }
+
+// Asynchronous "Generate translations" queue (migration 017). One row per
+// (approved primary item, target language). The server action enqueues `pending`
+// rows and returns immediately; a background endpoint claims and processes them
+// one at a time, reusing the item-level localization workflow per language.
+export type TranslationJobStatus =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed";
+
+export interface TranslationJob {
+  id: string;
+  project_id: string;
+  package_id: string;
+  source_content_item_id: string;
+  // Free text mirror of the source item's platform (no coupling to the enum).
+  platform: string;
+  language: LanguageCode;
+  status: TranslationJobStatus;
+  attempts: number;
+  error_message: string | null;
+  created_at: string;
+  updated_at: string;
+}

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { headers } from "next/headers";
 import {
   setContentItemPublished,
@@ -8,10 +9,11 @@ import {
   setContentItemStatus,
   updateContentItemFields,
 } from "@/lib/api/review-queue";
+import { runGenerateLanguageVariantsForItem } from "@/lib/ai/workflows/generateLanguageVariants";
 import {
-  runGenerateLanguageVariants,
-  runGenerateLanguageVariantsForItem,
-} from "@/lib/ai/workflows/generateLanguageVariants";
+  enqueuePackageTranslations,
+  triggerTranslationProcessor,
+} from "@/lib/ai/workflows/translationJobs";
 import { runRegenerateLanguageVariant } from "@/lib/ai/workflows/regenerateLanguageVariant";
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type { LanguageCode } from "@/lib/supabase/types";
@@ -186,9 +188,24 @@ async function resolveVideoCallbackUrl(): Promise<string | undefined> {
   return host ? `${proto}://${host}/api/n8n/video-callback` : undefined;
 }
 
-// Generates language variants for an APPROVED primary package. Calls the same
-// backend workflow as POST /api/ai/generate-language-variants. Never touches
-// the primary package or its primary content_items.
+// Derives the deployment origin (scheme + host) from the incoming request so a
+// server action can kick the same-deployment background processor endpoint.
+async function resolveRequestOrigin(): Promise<string | undefined> {
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
+  return host ? `${proto}://${host}` : undefined;
+}
+
+// Generates language variants for an APPROVED primary package. ASYNC: this only
+// enqueues one pending translation unit per (approved video primary, missing
+// target language) and kicks the background processor, then returns in
+// milliseconds. The actual Claude localization + variant video dispatch run in
+// the /api/ai/process-translation-jobs worker (one unit at a time) so the click
+// can never hit the 300s Vercel function limit. Never touches the primary
+// package or its primary content_items; dedupe is preserved by the queue's
+// unique (source item, language) index + the item-level workflow.
 export async function generateLanguageVariants(
   packageId: string | null,
   projectId: string,
@@ -197,11 +214,14 @@ export async function generateLanguageVariants(
   if (!packageId) return fail("Položka nemá balíček pro jazykové varianty.");
 
   try {
-    const videoCallbackUrl = await resolveVideoCallbackUrl();
-    await runGenerateLanguageVariants(
-      { projectId, packageId },
-      { videoCallbackUrl },
-    );
+    await enqueuePackageTranslations({ projectId, packageId });
+    // Kick the worker after the response is sent (the endpoint replies 202 and
+    // does the work in its own invocation). A missed kick is recovered on the
+    // next click via the queue's stale sweep, so this is best-effort.
+    const origin = await resolveRequestOrigin();
+    if (origin) {
+      after(() => triggerTranslationProcessor(origin));
+    }
     revalidateReview(projectId);
     return { ok: true };
   } catch {

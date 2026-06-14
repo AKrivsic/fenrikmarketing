@@ -1,4 +1,8 @@
-import type { ApprovalStatus, LanguageCode } from "@/lib/supabase/types";
+import type {
+  ApprovalStatus,
+  LanguageCode,
+  TranslationJobStatus,
+} from "@/lib/supabase/types";
 
 // Pure helpers for the generate-language-variants workflow. Kept free of
 // Supabase / WorkflowError imports so they can be unit-tested under Node's
@@ -97,6 +101,26 @@ export function extractRenderSpecScenes(
   );
   if (!usable) return null;
   return scenes as Record<string, unknown>[];
+}
+
+// Collapsed async-localization state for ONE target language, rolled up from the
+// translation_jobs rows of that language (a language can have several units, one
+// per video platform). Drives the "running / failed" signal in the review
+// translation progress BEFORE any variant content_item exists yet.
+//   "active" — at least one unit is still pending or processing (Claude running).
+//   "failed" — no unit is active and at least one failed.
+//   null     — no outstanding unit (idle, or every unit completed).
+export type TranslationTextJobState = "active" | "failed" | null;
+
+export function rollupTranslationTextJob(
+  statuses: TranslationJobStatus[],
+): TranslationTextJobState {
+  if (statuses.length === 0) return null;
+  if (statuses.some((s) => s === "pending" || s === "processing")) {
+    return "active";
+  }
+  if (statuses.some((s) => s === "failed")) return "failed";
+  return null;
 }
 
 // Picks the content item to attach the variant video job to: prefer TikTok
