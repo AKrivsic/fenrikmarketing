@@ -90,3 +90,20 @@
   font-size: 0.9rem;
   color: var(--color-text-muted);
 }
+
+.editorToggle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.editorBtn {
+  align-self: flex-start;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}

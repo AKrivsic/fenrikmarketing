@@ -13,8 +13,10 @@ import {
   type ServerResponse,
 } from "node:http";
 import { timingSafeEqual } from "node:crypto";
+import { z } from "zod";
 import { workerPayloadSchema } from "@/lib/video-engine/schemas/workerPayloadSchema";
 import { enqueueVideoJob } from "@/video-worker/queue";
+import { regenerateSceneImage } from "@/video-worker/services/regenerateSceneImage";
 
 // Auth header the Vercel client (lib/video-worker/client.ts) sends with every
 // render request. Single source of truth shared with that caller by convention.
@@ -112,6 +114,73 @@ async function handleRender(
   });
 }
 
+const regenerateSceneImageSchema = z.object({
+  project_id: z.string().min(1),
+  source_video_job_id: z.string().min(1),
+  scene_id: z.string().min(1),
+  image_prompt: z.string().min(1),
+  instruction: z.string().min(1),
+});
+
+async function handleRegenerateSceneImage(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  if (!isAuthorized(req)) {
+    sendJson(res, 401, { ok: false, error: "unauthorized" });
+    return;
+  }
+
+  let raw: string;
+  try {
+    raw = await readBody(req);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "read_error" });
+    return;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "invalid_json" });
+    return;
+  }
+
+  const result = regenerateSceneImageSchema.safeParse(parsed);
+  if (!result.success) {
+    sendJson(res, 400, {
+      ok: false,
+      error: "invalid_payload",
+      issues: result.error.issues,
+    });
+    return;
+  }
+
+  const body = result.data;
+  try {
+    const uploaded = await regenerateSceneImage({
+      projectId: body.project_id,
+      sourceVideoJobId: body.source_video_job_id,
+      sceneId: body.scene_id,
+      imagePrompt: body.image_prompt,
+      instruction: body.instruction,
+    });
+    sendJson(res, 200, {
+      ok: true,
+      image_bucket: uploaded.image_bucket,
+      image_path: uploaded.image_path,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "regenerate_failed";
+    console.error(
+      "[video-worker] regenerate-scene-image failed",
+      JSON.stringify({ error: message }),
+    );
+    sendJson(res, 500, { ok: false, error: message });
+  }
+}
+
 const server = createServer((req, res) => {
   void route(req, res);
 });
@@ -131,6 +200,15 @@ async function route(
       return;
     }
     await handleRender(req, res);
+    return;
+  }
+
+  if (req.url === "/regenerate-scene-image") {
+    if (req.method !== "POST") {
+      sendJson(res, 405, { ok: false, error: "method_not_allowed" });
+      return;
+    }
+    await handleRegenerateSceneImage(req, res);
     return;
   }
 

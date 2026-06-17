@@ -1,4 +1,5 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
 import { effectiveLanguage } from "@/lib/projects/language";
 import {
   isVariantItem,
@@ -253,6 +254,8 @@ export interface ProjectVideoEntry {
   hasMp4: boolean;
   hasSubtitle: boolean;
   hasThumbnail: boolean;
+  /** True when this completed job has a persisted render_spec.scenes[] to edit. */
+  canEditScenes: boolean;
 }
 
 interface VideoJobRow {
@@ -348,6 +351,10 @@ export async function listProjectVideoJobs(
       hasMp4: output.mp4Url !== null,
       hasSubtitle: output.subtitleUrl !== null,
       hasThumbnail: output.thumbnailUrl !== null,
+      canEditScenes:
+        job.status === "completed" &&
+        job.content_item_id !== null &&
+        extractRenderSpecScenes(job.output) !== null,
     } satisfies ProjectVideoEntry;
   });
 }
