@@ -262,25 +262,31 @@ export class OpenAIImageProvider implements ImageProvider {
       );
     }
 
+    // Images Edit API expects an array field in multipart form data (`image[]`),
+    // including when only one file is sent. Repeating bare `image` duplicates the
+    // parameter and OpenAI returns duplicate_parameter (400).
     const form = new FormData();
-    form.append(
-      "image",
-      new Blob([new Uint8Array(req.sourceImageBytes)], { type: mimeType }),
-      `scene.${ext}`,
-    );
+    const appendEditImage = (
+      imageBytes: Buffer,
+      type: string,
+      filename: string,
+    ) => {
+      const bytes = new ArrayBuffer(imageBytes.byteLength);
+      new Uint8Array(bytes).set(imageBytes);
+      form.append("image[]", new Blob([bytes], { type }), filename);
+    };
+    appendEditImage(req.sourceImageBytes, mimeType, `scene.${ext}`);
     for (let i = 0; i < refs.length; i++) {
       const ref = refs[i]!;
       const refExt = ref.mimeType === "image/jpeg" ? "jpg" : "png";
-      form.append(
-        "image",
-        new Blob([new Uint8Array(ref.imageBytes)], { type: ref.mimeType }),
-        `reference-${i}.${refExt}`,
-      );
+      appendEditImage(ref.imageBytes, ref.mimeType, `reference-${i}.${refExt}`);
     }
 
     const promptPrefix =
       refs.length > 0
-        ? "The additional uploaded image is the exact logo/brand asset to place. "
+        ? refs.length === 1
+          ? "The additional uploaded image is the exact logo/brand asset to place. "
+          : "The additional uploaded images include the exact logo/brand assets to place. "
         : "";
     form.append("prompt", `${promptPrefix}${req.instruction}`);
     form.append("model", model);

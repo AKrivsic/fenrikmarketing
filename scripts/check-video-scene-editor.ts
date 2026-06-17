@@ -489,6 +489,12 @@ check("OpenAI image provider implements editImage", () => {
   const src = readRepo("lib/ai/openai.ts");
   assert.match(src, /async editImage\(/);
   assert.match(src, /IMAGE_EDIT_URL/);
+  assert.match(src, /image\[\]/);
+  assert.equal(
+    (src.match(/form\.append\(\s*["']image["']/g) ?? []).length,
+    0,
+    "must not append duplicate bare image fields for multi-image edit",
+  );
 });
 
 check("worker exposes POST /edit-scene-image", () => {
