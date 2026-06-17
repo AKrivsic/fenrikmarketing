@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import type { VideoSceneEditorSceneView } from "@/lib/ai/workflows/videoSceneEditor";
+import { DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION } from "@/lib/video-scene-editor/constants";
 import styles from "./VideoSceneEditor.module.css";
 
 interface VideoSceneCardProps {
@@ -11,6 +12,12 @@ interface VideoSceneCardProps {
   disabled: boolean;
   onUpload: (sceneId: string, file: File) => void;
   onRegenerate: (sceneId: string, instruction: string) => void;
+  onEditImage: (sceneId: string, instruction: string) => void;
+  onInsertBrandAsset: (
+    sceneId: string,
+    file: File,
+    instruction: string,
+  ) => void;
   onPromptSave: (sceneId: string, imagePrompt: string) => void;
   onRestore: (sceneId: string, versionId: string) => void;
 }
@@ -19,6 +26,8 @@ const SOURCE_LABEL: Record<string, string> = {
   original: "původní",
   upload: "nahrání",
   regenerate: "regenerace",
+  image_edit: "úprava obrázku",
+  brand_asset_edit: "logo / asset",
   restore: "obnovení",
   prompt_edit: "úprava textu",
 };
@@ -30,12 +39,21 @@ export function VideoSceneCard({
   disabled,
   onUpload,
   onRegenerate,
+  onEditImage,
+  onInsertBrandAsset,
   onPromptSave,
   onRestore,
 }: VideoSceneCardProps) {
   const inputId = useId();
+  const brandAssetInputId = useId();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [instruction, setInstruction] = useState("");
+  const brandAssetRef = useRef<HTMLInputElement>(null);
+  const [generateInstruction, setGenerateInstruction] = useState("");
+  const [editInstruction, setEditInstruction] = useState("");
+  const [brandAssetInstruction, setBrandAssetInstruction] = useState(
+    DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION,
+  );
+  const [brandAssetFile, setBrandAssetFile] = useState<File | null>(null);
   const [promptDraft, setPromptDraft] = useState(scene.image_prompt);
   const [historyOpen, setHistoryOpen] = useState(false);
 
@@ -122,21 +140,106 @@ export function VideoSceneCard({
       </div>
 
       <label className={styles.instructionLabel}>
+        Instrukce pro úpravu aktuálního obrázku
+        <textarea
+          className={styles.instruction}
+          rows={2}
+          placeholder='např. "udělej notebook červený" nebo "přidej logo na obrazovku"'
+          value={editInstruction}
+          disabled={disabled}
+          onChange={(e) => setEditInstruction(e.target.value)}
+        />
+      </label>
+      <p className={styles.fieldHint}>
+        Úprava bez nahraného souboru — změna podle textu; přesné logo nezaručí.
+      </p>
+      <button
+        type="button"
+        className={styles.secondaryBtn}
+        disabled={disabled || editInstruction.trim().length === 0}
+        onClick={() => onEditImage(scene.id, editInstruction)}
+      >
+        Upravit tento obrázek
+      </button>
+
+      <div className={styles.brandAssetBlock}>
+        <span className={styles.sectionTitle}>Vložit logo / asset</span>
+        <p className={styles.fieldHint}>
+          Pro přesné logo nahraj soubor (PNG/JPEG, max 5 MB). Textová instrukce
+          sama o sobě přesné logo nezaručí.
+        </p>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled}
+          onClick={() => brandAssetRef.current?.click()}
+        >
+          Vybrat logo / asset
+        </button>
+        {brandAssetFile ? (
+          <p className={styles.fileName}>{brandAssetFile.name}</p>
+        ) : null}
+        <input
+          id={brandAssetInputId}
+          ref={brandAssetRef}
+          type="file"
+          accept="image/png,image/jpeg"
+          className={styles.hiddenInput}
+          disabled={disabled}
+          onChange={(event) => {
+            const file = event.target.files?.[0] ?? null;
+            setBrandAssetFile(file);
+            event.target.value = "";
+          }}
+        />
+        <label className={styles.instructionLabel}>
+          Instrukce pro vložení
+          <textarea
+            className={styles.instruction}
+            rows={3}
+            value={brandAssetInstruction}
+            disabled={disabled}
+            onChange={(e) => setBrandAssetInstruction(e.target.value)}
+          />
+        </label>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={
+            disabled ||
+            !brandAssetFile ||
+            brandAssetInstruction.trim().length === 0
+          }
+          onClick={() => {
+            if (brandAssetFile) {
+              onInsertBrandAsset(
+                scene.id,
+                brandAssetFile,
+                brandAssetInstruction.trim(),
+              );
+            }
+          }}
+        >
+          Vložit logo / asset
+        </button>
+      </div>
+
+      <label className={styles.instructionLabel}>
         Instrukce pro nový obrázek (celá scéna se vygeneruje znovu)
         <textarea
           className={styles.instruction}
           rows={2}
-          placeholder='např. "červený notebook na stole"'
-          value={instruction}
+          placeholder='např. "úplně jiná scéna — kancelář v noci"'
+          value={generateInstruction}
           disabled={disabled}
-          onChange={(e) => setInstruction(e.target.value)}
+          onChange={(e) => setGenerateInstruction(e.target.value)}
         />
       </label>
       <button
         type="button"
         className={styles.primaryBtn}
-        disabled={disabled || instruction.trim().length === 0}
-        onClick={() => onRegenerate(scene.id, instruction)}
+        disabled={disabled || generateInstruction.trim().length === 0}
+        onClick={() => onRegenerate(scene.id, generateInstruction)}
       >
         Vygenerovat nový obrázek
       </button>

@@ -4,6 +4,7 @@ import {
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
 import type {
+  ImageEditRequest,
   ImageGenerationRequest,
   ImageGenerationResult,
   ImageProvider,
@@ -21,11 +22,14 @@ import type {
 
 const CHAT_URL = "https://api.openai.com/v1/chat/completions";
 const IMAGE_URL = "https://api.openai.com/v1/images/generations";
+const IMAGE_EDIT_URL = "https://api.openai.com/v1/images/edits";
 const SPEECH_URL = "https://api.openai.com/v1/audio/speech";
 const TRANSCRIPTION_URL = "https://api.openai.com/v1/audio/transcriptions";
 
 const DEFAULT_TEXT_MODEL = "gpt-4o-mini";
 const DEFAULT_IMAGE_MODEL = "gpt-image-1";
+const DEFAULT_IMAGE_EDIT_MODEL =
+  process.env.OPENAI_IMAGE_EDIT_MODEL ?? DEFAULT_IMAGE_MODEL;
 const DEFAULT_TTS_MODEL = "gpt-4o-mini-tts";
 // Word Timestamp Subtitles V1 — whisper-1 is the model that supports
 // verbose_json + word-level timestamp granularities (the gpt-4o transcribe
@@ -191,6 +195,9 @@ interface ImageResponse {
 // MVP default image provider. Reached only through the image_provider adapter.
 export class OpenAIImageProvider implements ImageProvider {
   readonly name = "openai" as const;
+  readonly supportsMultiImageEdit =
+    DEFAULT_IMAGE_EDIT_MODEL.startsWith("gpt-image") ||
+    process.env.OPENAI_IMAGE_EDIT_MULTI === "true";
   private readonly apiKey?: string;
   private readonly defaultModel: string;
 
@@ -229,6 +236,77 @@ export class OpenAIImageProvider implements ImageProvider {
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
       throw new Error(`OpenAI image request failed (${res.status}): ${detail}`);
+    }
+
+    const data = (await res.json()) as ImageResponse;
+    const first = data.data?.[0];
+    return {
+      provider: this.name,
+      model,
+      imageBase64: first?.b64_json,
+      imageUrl: first?.url,
+      raw: data,
+    };
+  }
+
+  async editImage(req: ImageEditRequest): Promise<ImageGenerationResult> {
+    const apiKey = getApiKey(this.apiKey);
+    const model = req.model ?? DEFAULT_IMAGE_EDIT_MODEL;
+    const mimeType = req.mimeType ?? "image/png";
+    const ext = mimeType === "image/jpeg" ? "jpg" : "png";
+    const refs = req.additionalImages ?? [];
+
+    if (refs.length > 0 && !this.supportsMultiImageEdit) {
+      throw new Error(
+        "Multi-image edit (logo/asset reference) is not supported for the configured OpenAI image edit model",
+      );
+    }
+
+    const form = new FormData();
+    form.append(
+      "image",
+      new Blob([new Uint8Array(req.sourceImageBytes)], { type: mimeType }),
+      `scene.${ext}`,
+    );
+    for (let i = 0; i < refs.length; i++) {
+      const ref = refs[i]!;
+      const refExt = ref.mimeType === "image/jpeg" ? "jpg" : "png";
+      form.append(
+        "image",
+        new Blob([new Uint8Array(ref.imageBytes)], { type: ref.mimeType }),
+        `reference-${i}.${refExt}`,
+      );
+    }
+
+    const promptPrefix =
+      refs.length > 0
+        ? "The additional uploaded image is the exact logo/brand asset to place. "
+        : "";
+    form.append("prompt", `${promptPrefix}${req.instruction}`);
+    form.append("model", model);
+    form.append("size", req.size ?? "1024x1024");
+
+    const res = await fetchWithRetry(
+      IMAGE_EDIT_URL,
+      {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${apiKey}`,
+        },
+        body: form,
+      },
+      {
+        timeoutMs: HTTP_TIMEOUT_MS.ai,
+        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
+        label: "openai:image-edit",
+      },
+    );
+
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(
+        `OpenAI image edit request failed (${res.status}): ${detail}`,
+      );
     }
 
     const data = (await res.json()) as ImageResponse;

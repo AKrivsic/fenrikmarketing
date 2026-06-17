@@ -144,9 +144,31 @@ export interface ImageGenerationResult {
   raw?: unknown;
 }
 
+export interface ImageEditReferenceImage {
+  imageBytes: Buffer;
+  mimeType: "image/png" | "image/jpeg";
+  /** Hint for providers that distinguish roles (e.g. logo overlay). */
+  role?: "reference" | "logo";
+}
+
+export interface ImageEditRequest {
+  /** Source still bytes (PNG or JPEG). */
+  sourceImageBytes: Buffer;
+  mimeType?: "image/png" | "image/jpeg";
+  instruction: string;
+  size?: string;
+  model?: string;
+  /** Extra images (e.g. uploaded logo) for multi-image edit. */
+  additionalImages?: ImageEditReferenceImage[];
+}
+
 export interface ImageProvider {
   readonly name: VisualProvider;
   generateImage(req: ImageGenerationRequest): Promise<ImageGenerationResult>;
+  /** Optional inpainting / edit on an existing image. */
+  editImage?(req: ImageEditRequest): Promise<ImageGenerationResult>;
+  /** When true, editImage accepts additionalImages (logo / brand asset). */
+  readonly supportsMultiImageEdit?: boolean;
 }
 
 // ---------------------------------------------------------------------------

@@ -56,6 +56,19 @@ function parseSceneImageVersion(value: unknown): SceneImageVersion | null {
     source: source as SceneImageVersion["source"],
     created_at,
     is_original: is_original === true,
+    ...(typeof row.instruction === "string"
+      ? { instruction: row.instruction }
+      : {}),
+    ...(typeof row.reference_asset_bucket === "string"
+      ? { reference_asset_bucket: row.reference_asset_bucket }
+      : {}),
+    ...(typeof row.reference_asset_path === "string"
+      ? { reference_asset_path: row.reference_asset_path }
+      : {}),
+    ...(typeof row.edit_provider === "string"
+      ? { edit_provider: row.edit_provider }
+      : {}),
+    ...(typeof row.edit_model === "string" ? { edit_model: row.edit_model } : {}),
   };
 }
 

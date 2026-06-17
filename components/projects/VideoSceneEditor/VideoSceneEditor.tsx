@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import {
+  insertVideoSceneBrandAsset,
+  editVideoSceneImage,
   fetchVideoSceneEditorState,
   regenerateVideoSceneImage,
   rerenderVideoFromSceneEditor,
@@ -83,6 +85,39 @@ export function VideoSceneEditor({
         videoJobId,
         sceneId,
         formData,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleInsertBrandAsset(
+    sceneId: string,
+    file: File,
+    instruction: string,
+  ): void {
+    const formData = new FormData();
+    formData.set("file", file);
+    formData.set("instruction", instruction);
+    startTransition(async () => {
+      const result = await insertVideoSceneBrandAsset(
+        projectId,
+        videoJobId,
+        sceneId,
+        formData,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleEditImage(sceneId: string, instruction: string): void {
+    startTransition(async () => {
+      const result = await editVideoSceneImage(
+        projectId,
+        videoJobId,
+        sceneId,
+        instruction,
       );
       applyResult(result);
       router.refresh();
@@ -232,6 +267,8 @@ export function VideoSceneEditor({
             disabled={pending || state.activeRenderInFlight}
             onUpload={handleUpload}
             onRegenerate={handleRegenerate}
+            onEditImage={handleEditImage}
+            onInsertBrandAsset={handleInsertBrandAsset}
             onPromptSave={handlePromptSave}
             onRestore={handleRestore}
           />

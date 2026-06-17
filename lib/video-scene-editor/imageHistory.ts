@@ -4,6 +4,8 @@ export type SceneImageVersionSource =
   | "original"
   | "upload"
   | "regenerate"
+  | "image_edit"
+  | "brand_asset_edit"
   | "restore"
   | "prompt_edit";
 
@@ -16,6 +18,11 @@ export interface SceneImageVersion {
   created_at: string;
   /** Permanent first-generated still for this scene (never removed from history). */
   is_original: boolean;
+  instruction?: string;
+  reference_asset_bucket?: string;
+  reference_asset_path?: string;
+  edit_provider?: string;
+  edit_model?: string;
 }
 
 export function sceneVersionFromDraftScene(
@@ -36,6 +43,25 @@ export function sceneVersionFromDraftScene(
     source,
     created_at: new Date().toISOString(),
     is_original: args?.isOriginal ?? false,
+  };
+}
+
+export function sceneVersionFromBrandAssetEdit(args: {
+  scene: SceneEditorDraftScene;
+  instruction: string;
+  reference_asset_bucket: string;
+  reference_asset_path: string;
+  edit_provider?: string;
+  edit_model?: string;
+}): SceneImageVersion {
+  const base = sceneVersionFromDraftScene(args.scene, "brand_asset_edit");
+  return {
+    ...base,
+    instruction: args.instruction,
+    reference_asset_bucket: args.reference_asset_bucket,
+    reference_asset_path: args.reference_asset_path,
+    ...(args.edit_provider ? { edit_provider: args.edit_provider } : {}),
+    ...(args.edit_model ? { edit_model: args.edit_model } : {}),
   };
 }
 

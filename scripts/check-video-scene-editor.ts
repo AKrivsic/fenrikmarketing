@@ -30,6 +30,18 @@ import {
   type MockStore,
 } from "@/lib/video-scene-editor/sceneEditorRerender.mock";
 import { saveEditorVoiceoverText } from "@/lib/video-scene-editor/saveEditorVoiceover";
+import { applySceneImageWorkerResult } from "@/lib/video-scene-editor/applySceneImageWorkerResult";
+import {
+  editImageWithProvider,
+  ImageEditMultiImageNotSupportedError,
+  ImageEditNotSupportedError,
+  providerSupportsMultiImageEdit,
+} from "@/lib/ai/imageEdit";
+import type { ImageProvider } from "@/lib/ai/types";
+import { validateBrandAssetUpload } from "@/lib/video-scene-editor/validateBrandAssetUpload";
+import {
+  sceneVersionFromBrandAssetEdit,
+} from "@/lib/video-scene-editor/imageHistory";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
 
 let passed = 0;
@@ -358,11 +370,346 @@ check("groups jobs by content_item_id into one card", () => {
   assert.equal(groups[0]?.displayJobId, "job-new");
 });
 
-section("Vercel must not run image gen / FFmpeg for scene editor");
+section("image edit / inpainting");
 
 function readRepo(rel: string): string {
   return readFileSync(join(process.cwd(), rel), "utf8");
 }
+
+await checkAsync("editImageWithProvider throws when provider lacks editImage", async () => {
+  const provider: ImageProvider = {
+    name: "openai",
+    generateImage: async () => ({
+      provider: "openai",
+      model: "mock",
+      imageBase64: "aGk=",
+    }),
+  };
+  await assert.rejects(
+    () =>
+      editImageWithProvider(provider, {
+        sourceImageBytes: Buffer.from("x"),
+        instruction: "make red",
+      }),
+    (err: unknown) => {
+      assert.ok(err instanceof ImageEditNotSupportedError);
+      return true;
+    },
+  );
+});
+
+await checkAsync("editImageWithProvider delegates to provider.editImage", async () => {
+  let called = false;
+  const provider: ImageProvider = {
+    name: "openai",
+    generateImage: async () => ({
+      provider: "openai",
+      model: "mock",
+      imageBase64: "aGk=",
+    }),
+    editImage: async (req) => {
+      called = true;
+      assert.equal(req.instruction, "add logo");
+      return { provider: "openai", model: "mock", imageBase64: "aGk=" };
+    },
+  };
+  await editImageWithProvider(provider, {
+    sourceImageBytes: Buffer.from("png"),
+    instruction: "add logo",
+  });
+  assert.equal(called, true);
+});
+
+check("image_edit appends version and updates current scene pointer", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "b",
+    image_path: "original.png",
+    duration_seconds: 3,
+  };
+  const history = seedSceneImageHistory([baseline]);
+  const originalPath = originalSceneImageVersion(history, "scene-1")!.image_path;
+
+  const applied = applySceneImageWorkerResult({
+    scenes: [baseline],
+    sceneId: "scene-1",
+    image_bucket: "b",
+    image_path: "edited.png",
+    source: "image_edit",
+    imageVersions: history,
+  });
+
+  assert.equal(applied.scenes[0]?.image_path, "edited.png");
+  assert.equal(applied.imageVersions["scene-1"]?.length, 2);
+  assert.equal(
+    originalSceneImageVersion(applied.imageVersions, "scene-1")?.image_path,
+    originalPath,
+  );
+  assert.equal(applied.imageVersions["scene-1"]?.[1]?.source, "image_edit");
+});
+
+check("restore after image_edit keeps history and can revert pointer", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "b",
+    image_path: "original.png",
+    duration_seconds: 3,
+  };
+  let history = seedSceneImageHistory([baseline]);
+  const originalVersion = originalSceneImageVersion(history, "scene-1")!;
+
+  const edited = applySceneImageWorkerResult({
+    scenes: [baseline],
+    sceneId: "scene-1",
+    image_bucket: "b",
+    image_path: "edited.png",
+    source: "image_edit",
+    imageVersions: history,
+  });
+
+  const restoredScene = {
+    ...baseline,
+    image_bucket: originalVersion.image_bucket,
+    image_path: originalVersion.image_path,
+    image_prompt: originalVersion.image_prompt,
+  };
+  history = appendSceneImageVersion(
+    edited.imageVersions,
+    "scene-1",
+    sceneVersionFromDraftScene(restoredScene, "restore"),
+  );
+
+  assert.equal(history["scene-1"]?.length, 3);
+  assert.equal(originalSceneImageVersion(history, "scene-1")?.image_path, "original.png");
+});
+
+check("OpenAI image provider implements editImage", () => {
+  const src = readRepo("lib/ai/openai.ts");
+  assert.match(src, /async editImage\(/);
+  assert.match(src, /IMAGE_EDIT_URL/);
+});
+
+check("worker exposes POST /edit-scene-image", () => {
+  const src = readRepo("video-worker/server.ts");
+  assert.match(src, /\/edit-scene-image/);
+  assert.match(src, /editSceneImage\(/);
+});
+
+check("regenerate path still uses generateImage only", () => {
+  const src = readRepo("video-worker/services/regenerateSceneImage.ts");
+  assert.match(src, /generateImage\(/);
+  assert.equal(src.includes("editImage"), false);
+});
+
+check("edit path uses editImageWithProvider and storage download", () => {
+  const src = readRepo("video-worker/services/editSceneImage.ts");
+  assert.match(src, /editImageWithProvider/);
+  assert.match(src, /downloadStorageObjectToFile/);
+  assert.equal(src.includes("generateImage"), false);
+});
+
+check("Vercel scene editor calls edit worker client, not OpenAI directly", () => {
+  const workflow = readRepo("lib/ai/workflows/videoSceneEditor.ts");
+  assert.match(workflow, /editSceneImageViaWorker/);
+  assert.equal(workflow.includes("getImageProvider"), false);
+  assert.equal(workflow.includes("editImageWithProvider"), false);
+});
+
+check("validateBrandAssetUpload accepts png within 5MB", () => {
+  assert.equal(validateBrandAssetUpload({ type: "image/png", size: 1024 }), null);
+});
+
+check("validateBrandAssetUpload rejects svg", () => {
+  assert.match(
+    validateBrandAssetUpload({ type: "image/svg+xml", size: 100 }) ?? "",
+    /SVG/,
+  );
+});
+
+check("validateBrandAssetUpload rejects over 5MB", () => {
+  assert.match(
+    validateBrandAssetUpload({ type: "image/png", size: 6 * 1024 * 1024 }) ?? "",
+    /5 MB/,
+  );
+});
+
+await checkAsync("multi-image edit throws when provider lacks supportsMultiImageEdit", async () => {
+  const provider: ImageProvider = {
+    name: "openai",
+    generateImage: async () => ({
+      provider: "openai",
+      model: "mock",
+      imageBase64: "aGk=",
+    }),
+    editImage: async () => ({
+      provider: "openai",
+      model: "mock",
+      imageBase64: "aGk=",
+    }),
+  };
+  await assert.rejects(
+    () =>
+      editImageWithProvider(provider, {
+        sourceImageBytes: Buffer.from("scene"),
+        instruction: "place logo",
+        additionalImages: [
+          { imageBytes: Buffer.from("logo"), mimeType: "image/png", role: "logo" },
+        ],
+      }),
+    (err: unknown) => {
+      assert.ok(err instanceof ImageEditMultiImageNotSupportedError);
+      return true;
+    },
+  );
+});
+
+await checkAsync("multi-image edit passes scene + reference bytes to editImage", async () => {
+  let captured: { sceneLen: number; refs: number } | null = null;
+  const provider: ImageProvider = {
+    name: "openai",
+    supportsMultiImageEdit: true,
+    generateImage: async () => ({
+      provider: "openai",
+      model: "mock",
+      imageBase64: "aGk=",
+    }),
+    editImage: async (req) => {
+      captured = {
+        sceneLen: req.sourceImageBytes.length,
+        refs: req.additionalImages?.length ?? 0,
+      };
+      return { provider: "openai", model: "mock", imageBase64: "aGk=" };
+    },
+  };
+  assert.equal(providerSupportsMultiImageEdit(provider), true);
+  await editImageWithProvider(provider, {
+    sourceImageBytes: Buffer.from("scene-bytes"),
+    instruction: "Place logo on screen",
+    additionalImages: [
+      { imageBytes: Buffer.from("logo-bytes"), mimeType: "image/png", role: "logo" },
+    ],
+  });
+  assert.deepEqual(captured, { sceneLen: 11, refs: 1 });
+});
+
+check("brand_asset_edit version stores reference asset metadata", () => {
+  const scene = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "video-renders",
+    image_path: "out.png",
+    duration_seconds: 3,
+  };
+  const version = sceneVersionFromBrandAssetEdit({
+    scene,
+    instruction: "Place logo",
+    reference_asset_bucket: "project-assets",
+    reference_asset_path: "p/logo.png",
+    edit_provider: "openai",
+    edit_model: "gpt-image-1",
+  });
+  assert.equal(version.source, "brand_asset_edit");
+  assert.equal(version.reference_asset_path, "p/logo.png");
+  assert.equal(version.instruction, "Place logo");
+});
+
+check("brand_asset_edit append keeps original intact", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "b",
+    image_path: "original.png",
+    duration_seconds: 3,
+  };
+  const history = seedSceneImageHistory([baseline]);
+  const applied = applySceneImageWorkerResult({
+    scenes: [baseline],
+    sceneId: "scene-1",
+    image_bucket: "b",
+    image_path: "branded.png",
+    source: "brand_asset_edit",
+    imageVersions: history,
+    version: sceneVersionFromBrandAssetEdit({
+      scene: { ...baseline, image_path: "branded.png" },
+      instruction: "Place logo",
+      reference_asset_bucket: "project-assets",
+      reference_asset_path: "p/logo.png",
+    }),
+  });
+  assert.equal(applied.scenes[0]?.image_path, "branded.png");
+  assert.equal(originalSceneImageVersion(applied.imageVersions, "scene-1")?.image_path, "original.png");
+});
+
+check("restore after brand_asset_edit preserves history length", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "b",
+    image_path: "original.png",
+    duration_seconds: 3,
+  };
+  let history = seedSceneImageHistory([baseline]);
+  const original = originalSceneImageVersion(history, "scene-1")!;
+  const applied = applySceneImageWorkerResult({
+    scenes: [baseline],
+    sceneId: "scene-1",
+    image_bucket: "b",
+    image_path: "branded.png",
+    source: "brand_asset_edit",
+    imageVersions: history,
+    version: sceneVersionFromBrandAssetEdit({
+      scene: { ...baseline, image_path: "branded.png" },
+      instruction: "x",
+      reference_asset_bucket: "project-assets",
+      reference_asset_path: "p/logo.png",
+    }),
+  });
+  history = appendSceneImageVersion(
+    applied.imageVersions,
+    "scene-1",
+    sceneVersionFromDraftScene(
+      { ...baseline, image_path: original.image_path },
+      "restore",
+    ),
+  );
+  assert.equal(history["scene-1"]?.length, 3);
+});
+
+check("worker exposes POST /insert-scene-asset", () => {
+  const src = readRepo("video-worker/server.ts");
+  assert.match(src, /\/insert-scene-asset/);
+  assert.match(src, /insertSceneBrandAsset\(/);
+});
+
+check("brand asset worker uses multi-image editImageWithProvider", () => {
+  const src = readRepo("video-worker/services/insertSceneBrandAsset.ts");
+  assert.match(src, /additionalImages/);
+  assert.match(src, /downloadStorageObjectToFile/);
+  assert.equal(src.includes("generateImage"), false);
+});
+
+check("single-image edit worker path unchanged", () => {
+  const src = readRepo("video-worker/services/editSceneImage.ts");
+  assert.match(src, /editImageWithProvider/);
+  assert.equal(src.includes("additionalImages"), false);
+});
+
+check("Vercel workflow uses insertSceneBrandAssetViaWorker", () => {
+  const workflow = readRepo("lib/ai/workflows/videoSceneEditor.ts");
+  assert.match(workflow, /insertSceneBrandAssetViaWorker/);
+  assert.match(workflow, /insertBrandAssetInEditor/);
+  assert.equal(workflow.includes("getImageProvider"), false);
+});
+
+check("OpenAI provider declares supportsMultiImageEdit and extra image form parts", () => {
+  const src = readRepo("lib/ai/openai.ts");
+  assert.match(src, /supportsMultiImageEdit/);
+  assert.match(src, /additionalImages/);
+});
+
+section("Vercel must not run image gen / FFmpeg for scene editor");
 
 check("scene editor workflow does not import getImageProvider", () => {
   const src = readRepo("lib/ai/workflows/videoSceneEditor.ts");

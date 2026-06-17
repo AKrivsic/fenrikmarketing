@@ -239,6 +239,32 @@
   display: none;
 }
 
+.brandAssetBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.65rem 0;
+  border-top: 1px dashed var(--color-border);
+}
+
+.sectionTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.fileName {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.fieldHint {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+}
+
 .instruction {
   width: 100%;
   resize: vertical;

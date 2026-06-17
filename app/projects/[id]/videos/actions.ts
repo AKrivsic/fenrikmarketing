@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import {
   loadVideoSceneEditorState,
+  insertBrandAssetInEditor,
+  editSceneImageInEditor,
   regenerateSceneImageInEditor,
   restoreSceneImageVersionInEditor,
   runSceneEditorRerender,
@@ -109,6 +111,57 @@ export async function updateVideoSceneImagePrompt(
       videoJobId,
       sceneId,
       imagePrompt,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function insertVideoSceneBrandAsset(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  formData: FormData,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  const file = formData.get("file");
+  const instructionRaw = formData.get("instruction");
+  if (!(file instanceof File)) {
+    return fail("Chybí soubor loga / assetu.");
+  }
+  const instruction =
+    typeof instructionRaw === "string" ? instructionRaw.trim() : "";
+  if (!instruction) {
+    return fail("Chybí instrukce pro vložení loga.");
+  }
+  try {
+    const data = await insertBrandAssetInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      file,
+      instruction,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function editVideoSceneImage(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  instruction: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await editSceneImageInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      instruction,
     });
     revalidateVideos(projectId);
     return { ok: true, data };
