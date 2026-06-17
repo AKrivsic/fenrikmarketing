@@ -1,5 +1,10 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
+import {
+  groupProjectVideoJobs,
+  type ProjectVideoGroup,
+} from "@/lib/video-scene-editor/videoJobGrouping";
+import { readSceneEditorDraft } from "@/lib/video-scene-editor/metadata";
 import { effectiveLanguage } from "@/lib/projects/language";
 import {
   isVariantItem,
@@ -256,7 +261,10 @@ export interface ProjectVideoEntry {
   hasThumbnail: boolean;
   /** True when this completed job has a persisted render_spec.scenes[] to edit. */
   canEditScenes: boolean;
+  isEditorRerender: boolean;
 }
+
+export type { ProjectVideoGroup };
 
 interface VideoJobRow {
   id: string;
@@ -264,11 +272,17 @@ interface VideoJobRow {
   provider: string;
   model: string | null;
   status: JobStatus;
+  input: Json | null;
   output: Json | null;
   error_message: string | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
+}
+
+function readEditorRerenderFlag(input: Json | null): boolean {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return false;
+  return (input as Record<string, unknown>).scene_editor_rerender === true;
 }
 
 // Lists every video job for a project (created_at desc), enriched with the
@@ -281,7 +295,7 @@ export async function listProjectVideoJobs(
   const { data: jobRows, error: jobsError } = await supabase
     .from("video_jobs")
     .select(
-      "id, content_item_id, provider, model, status, output, error_message, created_at, updated_at, completed_at",
+      "id, content_item_id, provider, model, status, input, output, error_message, created_at, updated_at, completed_at",
     )
     .eq("project_id", projectId)
     .order("created_at", { ascending: false });
@@ -355,8 +369,46 @@ export async function listProjectVideoJobs(
         job.status === "completed" &&
         job.content_item_id !== null &&
         extractRenderSpecScenes(job.output) !== null,
+      isEditorRerender: readEditorRerenderFlag(job.input),
     } satisfies ProjectVideoEntry;
   });
+}
+
+export async function listProjectVideoGroups(
+  projectId: string,
+): Promise<ProjectVideoGroup[]> {
+  const entries = await listProjectVideoJobs(projectId);
+  if (entries.length === 0) return [];
+
+  const contentItemIds = Array.from(
+    new Set(
+      entries
+        .map((e) => e.contentItemId)
+        .filter((id): id is string => typeof id === "string"),
+    ),
+  );
+
+  const editorSourceByItem = new Map<string, string>();
+  if (contentItemIds.length > 0) {
+    const supabase = createSupabaseAdminClient();
+    const { data: itemRows, error } = await supabase
+      .from("content_items")
+      .select("id, generation_metadata")
+      .eq("project_id", projectId)
+      .in("id", contentItemIds);
+    if (error) throw error;
+    for (const row of (itemRows ?? []) as {
+      id: string;
+      generation_metadata: Json | null;
+    }[]) {
+      const draft = readSceneEditorDraft(row.generation_metadata);
+      if (draft?.source_video_job_id) {
+        editorSourceByItem.set(row.id, draft.source_video_job_id);
+      }
+    }
+  }
+
+  return groupProjectVideoJobs(entries, { editorSourceByItem });
 }
 
 // Resolves a single downloadable artifact URL for one video job, scoped by

@@ -56,6 +56,25 @@
   color: var(--color-text-muted);
 }
 
+.instructionLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.voiceoverBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
 .sceneList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -123,6 +142,68 @@
   overflow: auto;
 }
 
+.promptEdit {
+  width: 100%;
+  resize: vertical;
+  min-height: 4.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.historyToggle {
+  align-self: flex-start;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.72rem;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.historyItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+}
+
+.historyMeta {
+  color: var(--color-text-muted);
+}
+
+.historyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -156,14 +237,6 @@
 
 .hiddenInput {
   display: none;
-}
-
-.instructionLabel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
 }
 
 .instruction {

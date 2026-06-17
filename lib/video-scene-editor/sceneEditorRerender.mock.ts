@@ -200,5 +200,15 @@ export function createMockSupabaseClient(store: MockStore): SupabaseClient {
     from(table: string) {
       return new MockQuery(store, table);
     },
+    storage: {
+      from() {
+        return {
+          createSignedUrl: async () => ({
+            data: { signedUrl: "https://example.test/signed" },
+            error: null,
+          }),
+        };
+      },
+    },
   } as unknown as SupabaseClient;
 }

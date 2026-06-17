@@ -1,24 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { VideoSceneEditor } from "@/components/projects/VideoSceneEditor/VideoSceneEditor";
-import type { ProjectVideoEntry } from "@/lib/api/project-content-admin";
+import type { ProjectVideoGroup } from "@/lib/api/project-content-admin";
 import styles from "./ProjectVideoList.module.css";
 
 interface ProjectVideoListProps {
   projectId: string;
-  entries: ProjectVideoEntry[];
+  groups: ProjectVideoGroup[];
 }
 
 const EMPTY = "—";
 
 export function ProjectVideoList({
   projectId,
-  entries,
+  groups,
 }: ProjectVideoListProps) {
-  if (entries.length === 0) {
+  if (groups.length === 0) {
     return (
       <div className={styles.empty}>
         <p className={styles.emptyText}>
@@ -30,62 +31,102 @@ export function ProjectVideoList({
 
   return (
     <div className={styles.list}>
-      {entries.map((entry) => (
-        <VideoJobCard key={entry.id} projectId={projectId} entry={entry} />
+      {groups.map((group) => (
+        <VideoGroupCard
+          key={`${group.groupKey}-${group.displayJobId}-${group.versions.length}-${group.activeRenderInFlight}`}
+          projectId={projectId}
+          group={group}
+        />
       ))}
     </div>
   );
 }
 
-function VideoJobCard({
+function VideoGroupCard({
   projectId,
-  entry,
+  group,
 }: {
   projectId: string;
-  entry: ProjectVideoEntry;
+  group: ProjectVideoGroup;
 }) {
+  const router = useRouter();
   const [editorOpen, setEditorOpen] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState(group.displayJobId);
+  const [editorRenderActive, setEditorRenderActive] = useState(false);
+
+  const rendering = group.activeRenderInFlight || editorRenderActive;
+
+  useEffect(() => {
+    if (!rendering) return;
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [rendering, router]);
+
+  const selected =
+    group.versions.find((v) => v.jobId === selectedJobId) ?? group.versions[0]!;
 
   return (
     <article className={styles.card}>
       <header className={styles.header}>
-            <div className={styles.meta}>
-              {entry.platform ? (
-                <span className={styles.tag}>{entry.platform}</span>
-              ) : null}
-              {entry.format ? (
-                <span className={styles.tag}>{entry.format}</span>
-              ) : null}
-              <span className={styles.tag}>{entry.provider}</span>
-            </div>
-            <span
-              className={styles.status}
-              data-status={entry.status}
-            >
-              {entry.status}
-            </span>
+        <div className={styles.meta}>
+          {group.platform ? (
+            <span className={styles.tag}>{group.platform}</span>
+          ) : null}
+          {group.format ? (
+            <span className={styles.tag}>{group.format}</span>
+          ) : null}
+          <span className={styles.tag}>{group.provider}</span>
+          {group.versions.length > 1 ? (
+            <span className={styles.tag}>{group.versions.length} verzí</span>
+          ) : null}
+        </div>
+        <span
+          className={styles.status}
+          data-status={group.displayStatus}
+        >
+          {group.displayStatus}
+        </span>
       </header>
 
-      <p className={styles.title}>{entry.itemTitle ?? EMPTY}</p>
+      <p className={styles.title}>{group.itemTitle ?? EMPTY}</p>
+
+      {group.versions.length > 1 ? (
+        <label className={styles.versionPicker}>
+          Verze videa
+          <select
+            className={styles.versionSelect}
+            value={selectedJobId}
+            onChange={(e) => setSelectedJobId(e.target.value)}
+          >
+            {group.versions.map((version) => (
+              <option key={version.jobId} value={version.jobId}>
+                {version.versionLabel} · {version.status}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
 
       <VideoPreview
-        videoUrl={entry.videoUrl}
-        thumbnailUrl={entry.thumbnailUrl}
+        videoUrl={selected.videoUrl}
+        thumbnailUrl={selected.thumbnailUrl}
       />
 
-      {entry.status === "failed" && entry.errorMessage ? (
-        <p className={styles.error}>{entry.errorMessage}</p>
+      {group.displayStatus === "failed" && group.displayErrorMessage ? (
+        <p className={styles.error}>{group.displayErrorMessage}</p>
       ) : null}
 
       <VideoDownloads
         projectId={projectId}
-        jobId={entry.id}
-        hasMp4={entry.hasMp4}
-        hasSubtitle={entry.hasSubtitle}
-        hasThumbnail={entry.hasThumbnail}
+        jobId={selected.jobId}
+        hasMp4={selected.hasMp4}
+        hasSubtitle={selected.hasSubtitle}
+        hasThumbnail={selected.hasThumbnail}
       />
 
-      {entry.canEditScenes ? (
+      {group.canEditScenes && group.editorSourceJobId ? (
         <div className={styles.editorToggle}>
           <button
             type="button"
@@ -96,7 +137,11 @@ function VideoJobCard({
             {editorOpen ? "Skrýt editor scén" : "Upravit scény videa"}
           </button>
           {editorOpen ? (
-            <VideoSceneEditor projectId={projectId} videoJobId={entry.id} />
+            <VideoSceneEditor
+              projectId={projectId}
+              videoJobId={group.editorSourceJobId}
+              onRenderActivityChange={setEditorRenderActive}
+            />
           ) : null}
         </div>
       ) : null}

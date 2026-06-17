@@ -10,6 +10,17 @@ import {
 } from "@/lib/video-scene-editor/metadata";
 import { validateSceneImageUpload } from "@/lib/video-scene-editor/validateUpload";
 import { resolveVideoWorkerEndpoint } from "@/lib/video-scene-editor/workerUrl";
+import { buildSceneEditorDraft } from "@/lib/video-scene-editor/draftEnvelope";
+import {
+  appendSceneImageVersion,
+  findSceneImageVersion,
+  originalSceneImageVersion,
+  sceneVersionFromDraftScene,
+  seedOriginalScenes,
+  seedSceneImageHistory,
+} from "@/lib/video-scene-editor/imageHistory";
+import { groupProjectVideoJobs } from "@/lib/video-scene-editor/videoJobGrouping";
+import type { ProjectVideoEntry } from "@/lib/api/project-content-admin";
 import {
   runSceneEditorRerender,
   SceneEditorRerenderError,
@@ -18,6 +29,7 @@ import {
   createMockSupabaseClient,
   type MockStore,
 } from "@/lib/video-scene-editor/sceneEditorRerender.mock";
+import { saveEditorVoiceoverText } from "@/lib/video-scene-editor/saveEditorVoiceover";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
 
 let passed = 0;
@@ -56,23 +68,47 @@ function section(title: string): void {
 section("readSceneEditorDraft");
 
 check("round-trips scenes under generation_metadata", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "A desk",
+    image_bucket: "video-renders",
+    image_path: "p1/video/job-1/scene-1.png",
+    duration_seconds: 3,
+  };
   const merged = mergeSceneEditorDraft(null, {
     source_video_job_id: "job-1",
     updated_at: "2026-01-01T00:00:00.000Z",
-    scenes: [
-      {
-        id: "scene-1",
-        image_prompt: "A desk",
-        image_bucket: "video-renders",
-        image_path: "p1/video/job-1/scene-1.png",
-        duration_seconds: 3,
-      },
-    ],
+    scenes: [baseline],
+    original_scenes: seedOriginalScenes([baseline]),
+    image_versions: seedSceneImageHistory([baseline]),
   });
   const draft = readSceneEditorDraft(merged);
   assert.ok(draft);
   assert.equal(draft.scenes.length, 1);
   assert.equal(draft.source_video_job_id, "job-1");
+});
+
+check("round-trips voiceover_text in generation_metadata", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "A desk",
+    image_bucket: "video-renders",
+    image_path: "p1/video/job-1/scene-1.png",
+    duration_seconds: 3,
+  };
+  const merged = mergeSceneEditorDraft(null, {
+    source_video_job_id: "job-1",
+    updated_at: "2026-01-01T00:00:00.000Z",
+    scenes: [baseline],
+    original_scenes: seedOriginalScenes([baseline]),
+    image_versions: seedSceneImageHistory([baseline]),
+    voiceover_text: "Updated narration",
+    original_voiceover_text: "Original narration",
+  });
+  const draft = readSceneEditorDraft(merged);
+  assert.ok(draft);
+  assert.equal(draft.voiceover_text, "Updated narration");
+  assert.equal(draft.original_voiceover_text, "Original narration");
 });
 
 section("validateSceneImageUpload");
@@ -104,6 +140,224 @@ check("appends path when VIDEO_WORKER_URL ends with /render", () => {
   }
 });
 
+section("imageHistory");
+
+check("keeps permanent original version", () => {
+  const scene = {
+    id: "scene-1",
+    image_prompt: "Desk",
+    image_bucket: "b",
+    image_path: "p",
+    duration_seconds: 3,
+  };
+  const history = seedSceneImageHistory([scene]);
+  const original = originalSceneImageVersion(history, "scene-1");
+  assert.ok(original?.is_original);
+  const next = appendSceneImageVersion(
+    history,
+    "scene-1",
+    sceneVersionFromDraftScene(
+      { ...scene, image_path: "p2" },
+      "upload",
+    ),
+  );
+  assert.ok(originalSceneImageVersion(next, "scene-1")?.is_original);
+  assert.equal(next["scene-1"]?.length, 2);
+});
+
+check("upload + regenerate + restore appends versions without dropping history", () => {
+  const baseline = {
+    id: "scene-1",
+    image_prompt: "Original desk",
+    image_bucket: "b",
+    image_path: "original.png",
+    duration_seconds: 3,
+  };
+  const originals = seedOriginalScenes([baseline]);
+  let history = seedSceneImageHistory([baseline]);
+  const originalVersionId = originalSceneImageVersion(history, "scene-1")!.version_id;
+
+  history = appendSceneImageVersion(
+    history,
+    "scene-1",
+    sceneVersionFromDraftScene(
+      { ...baseline, image_path: "upload.png" },
+      "upload",
+    ),
+  );
+  history = appendSceneImageVersion(
+    history,
+    "scene-1",
+    sceneVersionFromDraftScene(
+      { ...baseline, image_path: "regen.png", image_prompt: "Red desk" },
+      "regenerate",
+    ),
+  );
+
+  const originalEntry = findSceneImageVersion(history, "scene-1", originalVersionId);
+  assert.ok(originalEntry?.is_original);
+  assert.equal(history["scene-1"]?.length, 3);
+
+  const restoredScene = {
+    ...baseline,
+    image_bucket: originalEntry!.image_bucket,
+    image_path: originalEntry!.image_path,
+    image_prompt: originalEntry!.image_prompt,
+  };
+  history = appendSceneImageVersion(
+    history,
+    "scene-1",
+    sceneVersionFromDraftScene(restoredScene, "restore"),
+  );
+  assert.equal(history["scene-1"]?.length, 4);
+  assert.equal(originalSceneImageVersion(history, "scene-1")?.image_path, "original.png");
+
+  const envelope = buildSceneEditorDraft({
+    sourceVideoJobId: "job-1",
+    scenes: [restoredScene],
+    existing: {
+      source_video_job_id: "job-1",
+      updated_at: "2026-01-01T00:00:00.000Z",
+      scenes: [restoredScene],
+      original_scenes: originals,
+      image_versions: history,
+    },
+    baselineScenes: [baseline],
+  });
+  assert.deepEqual(envelope.original_scenes["scene-1"], originals["scene-1"]);
+  assert.equal(envelope.scenes[0]?.image_path, "original.png");
+});
+
+function makeVideoEntry(
+  overrides: Partial<ProjectVideoEntry> & Pick<ProjectVideoEntry, "id" | "contentItemId" | "createdAt">,
+): ProjectVideoEntry {
+  return {
+    status: "completed",
+    provider: "video_engine",
+    model: null,
+    errorMessage: null,
+    updatedAt: overrides.createdAt,
+    completedAt: overrides.createdAt,
+    itemTitle: "T",
+    platform: "tiktok",
+    format: "reel",
+    videoUrl: null,
+    thumbnailUrl: null,
+    subtitleUrl: null,
+    hasMp4: false,
+    hasSubtitle: false,
+    hasThumbnail: false,
+    canEditScenes: false,
+    isEditorRerender: false,
+    ...overrides,
+  };
+}
+
+check("three jobs for one content item -> one group with three sorted versions", () => {
+  const itemId = "item-shared";
+  const jobs = [
+    makeVideoEntry({
+      id: "job-v3",
+      contentItemId: itemId,
+      createdAt: "2026-06-03T00:00:00.000Z",
+      isEditorRerender: true,
+    }),
+    makeVideoEntry({
+      id: "job-v2",
+      contentItemId: itemId,
+      createdAt: "2026-06-02T00:00:00.000Z",
+      hasMp4: true,
+      videoUrl: "https://example/v2.mp4",
+    }),
+    makeVideoEntry({
+      id: "job-v1",
+      contentItemId: itemId,
+      createdAt: "2026-06-01T00:00:00.000Z",
+      canEditScenes: true,
+      hasMp4: true,
+      videoUrl: "https://example/v1.mp4",
+    }),
+  ];
+  const groups = groupProjectVideoJobs(jobs);
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0]?.versions.length, 3);
+  assert.equal(groups[0]?.versions[0]?.versionLabel, "v3 · editor");
+  assert.equal(groups[0]?.versions[2]?.versionLabel, "v1 · render");
+  assert.equal(groups[0]?.editorSourceJobId, "job-v1");
+});
+
+check("two content items -> two groups", () => {
+  const groups = groupProjectVideoJobs([
+    makeVideoEntry({
+      id: "job-a",
+      contentItemId: "item-a",
+      createdAt: "2026-06-01T00:00:00.000Z",
+    }),
+    makeVideoEntry({
+      id: "job-b",
+      contentItemId: "item-b",
+      createdAt: "2026-06-01T00:00:00.000Z",
+    }),
+  ]);
+  assert.equal(groups.length, 2);
+});
+
+section("groupProjectVideoJobs");
+
+check("groups jobs by content_item_id into one card", () => {
+  const itemId = "item-a";
+  const jobs = [
+    {
+      id: "job-new",
+      status: "completed",
+      provider: "video_engine",
+      model: null,
+      errorMessage: null,
+      createdAt: "2026-06-02T00:00:00.000Z",
+      updatedAt: "2026-06-02T00:00:00.000Z",
+      completedAt: "2026-06-02T00:00:00.000Z",
+      contentItemId: itemId,
+      itemTitle: "T",
+      platform: "tiktok",
+      format: "reel",
+      videoUrl: null,
+      thumbnailUrl: null,
+      subtitleUrl: null,
+      hasMp4: false,
+      hasSubtitle: false,
+      hasThumbnail: false,
+      canEditScenes: false,
+      isEditorRerender: true,
+    },
+    {
+      id: "job-old",
+      status: "completed",
+      provider: "video_engine",
+      model: null,
+      errorMessage: null,
+      createdAt: "2026-06-01T00:00:00.000Z",
+      updatedAt: "2026-06-01T00:00:00.000Z",
+      completedAt: "2026-06-01T00:00:00.000Z",
+      contentItemId: itemId,
+      itemTitle: "T",
+      platform: "tiktok",
+      format: "reel",
+      videoUrl: "https://example/v.mp4",
+      thumbnailUrl: null,
+      subtitleUrl: null,
+      hasMp4: true,
+      hasSubtitle: false,
+      hasThumbnail: false,
+      canEditScenes: true,
+      isEditorRerender: false,
+    },
+  ] satisfies ProjectVideoEntry[];
+  const groups = groupProjectVideoJobs(jobs);
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0]?.versions.length, 2);
+  assert.equal(groups[0]?.displayJobId, "job-new");
+});
+
 section("Vercel must not run image gen / FFmpeg for scene editor");
 
 function readRepo(rel: string): string {
@@ -126,6 +380,22 @@ check("n8n handlers unchanged (no scene editor hooks)", () => {
   const src = readRepo("lib/n8n/handlers.ts");
   assert.equal(src.includes("scene_editor"), false);
   assert.equal(src.includes("video_scene_editor"), false);
+});
+
+check("ProjectVideoList polls only while queued/processing render in flight", () => {
+  const src = readRepo("components/projects/ProjectVideoList/ProjectVideoList.tsx");
+  assert.match(src, /activeRenderInFlight \|\| editorRenderActive/);
+  assert.match(src, /if \(!rendering\) return/);
+  assert.doesNotMatch(
+    src,
+    /setInterval\([^)]*refresh[^)]*\)[\s\S]*completed/,
+  );
+});
+
+check("VideoSceneEditor polls only while activeRenderInFlight", () => {
+  const src = readRepo("components/projects/VideoSceneEditor/VideoSceneEditor.tsx");
+  assert.match(src, /if \(!state\?\.activeRenderInFlight\) return/);
+  assert.match(src, /onRenderActivityChange\?\.\(result\.data\.activeRenderInFlight\)/);
 });
 
 const PROJECT_ID = "11111111-1111-1111-1111-111111111111";
@@ -157,6 +427,8 @@ function buildStoreWithDraft(args?: {
     source_video_job_id: SOURCE_JOB_ID,
     updated_at: "2026-06-01T00:00:00.000Z",
     scenes: [edited],
+    original_scenes: seedOriginalScenes([baseline]),
+    image_versions: seedSceneImageHistory([baseline]),
   });
 
   const store: MockStore = {
@@ -227,6 +499,7 @@ await checkAsync(
     const sourceAfter = store.videoJobs.find((j) => j.id === SOURCE_JOB_ID);
     assert.ok(sourceAfter);
     assert.deepEqual(sourceAfter.output, sourceBefore.output);
+    assert.deepEqual(sourceAfter.input, sourceBefore.input);
     assert.equal(sourceAfter.status, "completed");
 
     const newJob = store.videoJobs.find((j) => j.id === summary.videoJobId);
@@ -255,6 +528,103 @@ await checkAsync(
     assert.equal(workerCalls[0].content_item_id, ITEM_ID);
     const workerScenes = workerCalls[0].input.scenes as Record<string, unknown>[];
     assert.equal(workerScenes[0].image_prompt, "Red desk scene");
+  },
+);
+
+await checkAsync(
+  "voiceover-only draft change sets new job input.voiceover_text",
+  async () => {
+    const store = buildStoreWithDraft();
+    const baseline = baselineScene();
+    store.contentItems[0].generation_metadata = mergeSceneEditorDraft(null, {
+      source_video_job_id: SOURCE_JOB_ID,
+      updated_at: "2026-06-01T00:00:00.000Z",
+      scenes: [baseline],
+      original_scenes: seedOriginalScenes([baseline]),
+      image_versions: seedSceneImageHistory([baseline]),
+      voiceover_text: "Revised voiceover for TTS",
+      original_voiceover_text: "Hello world",
+    });
+
+    const sourceBefore = structuredClone(store.videoJobs[0]);
+    const summary = await runSceneEditorRerender(
+      { projectId: PROJECT_ID, videoJobId: SOURCE_JOB_ID },
+      {
+        client: createMockSupabaseClient(store),
+        videoCallbackUrl: CALLBACK_URL,
+        startVideoJob: async () => {},
+      },
+    );
+
+    const newJob = store.videoJobs.find((j) => j.id === summary.videoJobId);
+    assert.ok(newJob);
+    const input = newJob.input as Record<string, unknown>;
+    assert.equal(input.voiceover_text, "Revised voiceover for TTS");
+
+    const sourceAfter = store.videoJobs.find((j) => j.id === SOURCE_JOB_ID);
+    assert.deepEqual(sourceAfter?.input, sourceBefore.input);
+    assert.deepEqual(sourceAfter?.output, sourceBefore.output);
+  },
+);
+
+await checkAsync("saveEditorVoiceoverText persists draft voiceover_text", async () => {
+  const store = buildStoreWithDraft();
+  const baseline = baselineScene();
+  store.contentItems[0].generation_metadata = mergeSceneEditorDraft(null, {
+    source_video_job_id: SOURCE_JOB_ID,
+    updated_at: "2026-06-01T00:00:00.000Z",
+    scenes: [baseline],
+    original_scenes: seedOriginalScenes([baseline]),
+    image_versions: seedSceneImageHistory([baseline]),
+  });
+  const job = store.videoJobs[0]!;
+
+  const merged = await saveEditorVoiceoverText({
+    supabase: createMockSupabaseClient(store),
+    projectId: PROJECT_ID,
+    contentItemId: ITEM_ID,
+    sourceVideoJobId: SOURCE_JOB_ID,
+    generationMetadata: store.contentItems[0].generation_metadata,
+    jobInput: job.input,
+    jobOutput: job.output,
+    voiceoverText: "Saved narration",
+  });
+  store.contentItems[0].generation_metadata = merged;
+
+  const draft = readSceneEditorDraft(store.contentItems[0].generation_metadata);
+  assert.equal(draft?.voiceover_text, "Saved narration");
+  assert.equal(draft?.original_voiceover_text, "Hello world");
+});
+
+await checkAsync(
+  "prompt-only draft change updates job input scenes but keeps voiceover_text",
+  async () => {
+    const store = buildStoreWithDraft();
+    const baseline = baselineScene();
+    store.contentItems[0].generation_metadata = mergeSceneEditorDraft(null, {
+      source_video_job_id: SOURCE_JOB_ID,
+      updated_at: "2026-06-01T00:00:00.000Z",
+      scenes: [{ ...baseline, image_prompt: "Only prompt changed" }],
+      original_scenes: seedOriginalScenes([baseline]),
+      image_versions: seedSceneImageHistory([baseline]),
+    });
+
+    const summary = await runSceneEditorRerender(
+      { projectId: PROJECT_ID, videoJobId: SOURCE_JOB_ID },
+      {
+        client: createMockSupabaseClient(store),
+        videoCallbackUrl: CALLBACK_URL,
+        startVideoJob: async () => {},
+      },
+    );
+
+    const newJob = store.videoJobs.find((j) => j.id === summary.videoJobId);
+    assert.ok(newJob);
+    const input = newJob.input as Record<string, unknown>;
+    assert.equal(input.voiceover_text, "Hello world");
+    const scenes = input.scenes as Record<string, unknown>[];
+    assert.equal(scenes[0]?.image_prompt, "Only prompt changed");
+    assert.equal(scenes[0]?.image_path, baseline.image_path);
   },
 );
 
@@ -321,6 +691,8 @@ await checkAsync("fails when draft matches baseline (no changes)", async () => {
     source_video_job_id: SOURCE_JOB_ID,
     updated_at: "2026-06-01T00:00:00.000Z",
     scenes: [baseline],
+    original_scenes: seedOriginalScenes([baseline]),
+    image_versions: seedSceneImageHistory([baseline]),
   });
   await assert.rejects(
     () =>
@@ -330,7 +702,7 @@ await checkAsync("fails when draft matches baseline (no changes)", async () => {
       ),
     (err: unknown) => {
       assert.ok(err instanceof SceneEditorRerenderError);
-      assert.match(err.message, /no scene changes/);
+      assert.match(err.message, /no changes/);
       return true;
     },
   );

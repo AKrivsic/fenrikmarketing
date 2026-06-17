@@ -1,5 +1,5 @@
 import { ProjectVideoList } from "@/components/projects/ProjectVideoList/ProjectVideoList";
-import { listProjectVideoJobs } from "@/lib/api/project-content-admin";
+import { listProjectVideoGroups } from "@/lib/api/project-content-admin";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -10,11 +10,11 @@ interface VideosTabPageProps {
 
 export default async function VideosTabPage({ params }: VideosTabPageProps) {
   const { id } = await params;
-  const entries = await listProjectVideoJobs(id);
+  const groups = await listProjectVideoGroups(id);
 
   return (
     <div className={styles.tab}>
-      <ProjectVideoList projectId={id} entries={entries} />
+      <ProjectVideoList projectId={id} groups={groups} />
     </div>
   );
 }

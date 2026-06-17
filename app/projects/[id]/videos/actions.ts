@@ -5,7 +5,10 @@ import { headers } from "next/headers";
 import {
   loadVideoSceneEditorState,
   regenerateSceneImageInEditor,
+  restoreSceneImageVersionInEditor,
   runSceneEditorRerender,
+  updateSceneEditorVoiceoverText,
+  updateSceneImagePromptInEditor,
   uploadSceneReplacementImage,
   type VideoSceneEditorState,
 } from "@/lib/ai/workflows/videoSceneEditor";
@@ -26,6 +29,7 @@ function mapWorkflowError(err: unknown): string {
 
 function revalidateVideos(projectId: string): void {
   revalidatePath(`/projects/${projectId}/videos`);
+  revalidatePath(`/projects/${projectId}`, "layout");
 }
 
 async function resolveVideoCallbackUrl(): Promise<string | undefined> {
@@ -85,6 +89,64 @@ export async function regenerateVideoSceneImage(
       videoJobId,
       sceneId,
       instruction,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function updateVideoSceneImagePrompt(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  imagePrompt: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await updateSceneImagePromptInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      imagePrompt,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function updateVideoSceneEditorVoiceover(
+  projectId: string,
+  videoJobId: string,
+  voiceoverText: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await updateSceneEditorVoiceoverText({
+      projectId,
+      videoJobId,
+      voiceoverText,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function restoreVideoSceneImage(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  versionId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await restoreSceneImageVersionInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      versionId,
     });
     revalidateVideos(projectId);
     return { ok: true, data };

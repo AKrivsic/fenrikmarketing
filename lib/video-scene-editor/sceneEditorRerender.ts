@@ -12,6 +12,12 @@ import {
   readSceneEditorDraft,
   type SceneEditorDraftScene,
 } from "@/lib/video-scene-editor/metadata";
+import { hasSceneEditorRerenderChanges } from "@/lib/video-scene-editor/sceneEditorChanges";
+import {
+  baselineVoiceoverForEditor,
+  readSourceVoiceoverText,
+  resolveDraftVoiceoverText,
+} from "@/lib/video-scene-editor/voiceoverDraft";
 
 // Scene-editor re-render orchestration. Kept free of WorkflowError (parameter
 // properties) so Node strip-only check scripts can import and mock-test it.
@@ -72,29 +78,6 @@ function draftScenesToInputScenes(
     image_bucket: scene.image_bucket,
     image_path: scene.image_path,
   }));
-}
-
-function normalizedSceneInput(scene: Record<string, unknown>) {
-  return {
-    id: String(scene.id ?? ""),
-    image_prompt: String(scene.image_prompt ?? ""),
-    image_bucket: String(scene.image_bucket ?? ""),
-    image_path: String(scene.image_path ?? ""),
-    duration_seconds: Number(scene.duration_seconds ?? 0),
-  };
-}
-
-function sceneInputsEqual(
-  left: Record<string, unknown>[],
-  right: Record<string, unknown>[],
-): boolean {
-  if (left.length !== right.length) return false;
-  for (let i = 0; i < left.length; i++) {
-    const a = normalizedSceneInput(left[i]!);
-    const b = normalizedSceneInput(right[i]!);
-    if (JSON.stringify(a) !== JSON.stringify(b)) return false;
-  }
-  return true;
 }
 
 async function loadSourceJob(
@@ -218,30 +201,48 @@ export async function runSceneEditorRerender(
 
   await assertNoActiveRender(supabase, input.projectId, contentItemId);
 
+  const generationMetadata = itemRow.generation_metadata as Json | null;
+  const draft = readSceneEditorDraft(generationMetadata);
+
   const scenes = await loadBaselineScenes({
     sourceVideoJobId: job.id,
-    generationMetadata: itemRow.generation_metadata as Json | null,
+    generationMetadata,
     jobOutput: job.output,
   });
 
   const baselineFromOutput = extractRenderSpecScenes(job.output);
-  const hasChanges =
-    baselineFromOutput !== null &&
-    !sceneInputsEqual(
-      draftScenesToInputScenes(scenes),
-      baselineFromOutput,
-    );
+  const baselineVoiceover = baselineVoiceoverForEditor({
+    draft,
+    sourceVideoJobId: job.id,
+    sourceJobInput: job.input,
+  });
+  const hasChanges = hasSceneEditorRerenderChanges({
+    scenes,
+    baselineFromOutput,
+    draft,
+    sourceVideoJobId: job.id,
+    baselineVoiceover,
+  });
   if (!hasChanges) {
     throw new SceneEditorRerenderError(
       "invalid_input",
-      "no scene changes to re-render; edit a scene first",
+      "no changes to re-render; edit voiceover or a scene first",
     );
   }
 
   const baseInput = asRecord(job.input) ?? {};
+  const resolvedVoiceover = resolveDraftVoiceoverText({
+    draft,
+    sourceVideoJobId: job.id,
+    sourceJobInput: job.input,
+  });
   const jobInput = {
     ...baseInput,
     scenes: draftScenesToInputScenes(scenes),
+    voiceover_text:
+      resolvedVoiceover.length > 0
+        ? resolvedVoiceover
+        : readSourceVoiceoverText(job.input),
     scene_editor_rerender: true,
     scene_editor_source_video_job_id: job.id,
   } as unknown as Json;

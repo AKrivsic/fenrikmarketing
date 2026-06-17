@@ -15,10 +15,26 @@ import {
 import {
   mergeSceneEditorDraft,
   readSceneEditorDraft,
-  type SceneEditorDraft,
   type SceneEditorDraftScene,
 } from "@/lib/video-scene-editor/metadata";
+import { buildSceneEditorDraft } from "@/lib/video-scene-editor/draftEnvelope";
+import { sceneDraftsEqual } from "@/lib/video-scene-editor/sceneDraftCompare";
+import {
+  baselineVoiceoverForEditor,
+  readSourceVoiceoverText,
+  resolveDraftVoiceoverText,
+  voiceoverTextChangedInDraft,
+} from "@/lib/video-scene-editor/voiceoverDraft";
+import {
+  appendSceneImageVersion,
+  findSceneImageVersion,
+  originalSceneImageVersion,
+  sceneVersionFromDraftScene,
+  seedSceneImageHistory,
+  type SceneImageVersion,
+} from "@/lib/video-scene-editor/imageHistory";
 import { validateSceneImageUpload } from "@/lib/video-scene-editor/validateUpload";
+import { saveEditorVoiceoverText } from "@/lib/video-scene-editor/saveEditorVoiceover";
 
 function scenesToDraftScenes(
   scenes: Record<string, unknown>[],
@@ -112,13 +128,26 @@ async function persistDraft(
     sourceVideoJobId: string;
     scenes: SceneEditorDraftScene[];
     generationMetadata: Json | null;
+    baselineScenes: SceneEditorDraftScene[];
+    baselineVoiceoverText: string;
+    imageVersions?: Record<string, SceneImageVersion[]>;
+    voiceoverText?: string;
   },
 ): Promise<void> {
-  const draft: SceneEditorDraft = {
-    source_video_job_id: args.sourceVideoJobId,
+  const existing = readSceneEditorDraft(args.generationMetadata);
+  const draft = buildSceneEditorDraft({
+    sourceVideoJobId: args.sourceVideoJobId,
     scenes: args.scenes,
-    updated_at: new Date().toISOString(),
-  };
+    existing,
+    baselineScenes: args.baselineScenes,
+    baselineVoiceoverText: args.baselineVoiceoverText,
+  });
+  if (args.imageVersions) {
+    draft.image_versions = args.imageVersions;
+  }
+  if (args.voiceoverText !== undefined) {
+    draft.voiceover_text = args.voiceoverText.trim();
+  }
   const { error } = await supabase
     .from("content_items")
     .update({
@@ -132,6 +161,17 @@ async function persistDraft(
   if (error) throw error;
 }
 
+export interface SceneImageVersionView {
+  versionId: string;
+  source: SceneImageVersion["source"];
+  createdAt: string;
+  isOriginal: boolean;
+  image_prompt: string;
+  image_bucket: string;
+  image_path: string;
+  previewUrl: string | null;
+}
+
 export interface VideoSceneEditorSceneView {
   id: string;
   sceneNumber: number;
@@ -140,11 +180,16 @@ export interface VideoSceneEditorSceneView {
   image_path: string;
   duration_seconds: number;
   previewUrl: string | null;
+  imageVersions: SceneImageVersionView[];
+  originalVersionId: string | null;
+  originalPreviewUrl: string | null;
 }
 
 export interface VideoSceneEditorState {
   sourceVideoJobId: string;
   contentItemId: string;
+  voiceoverText: string;
+  baselineVoiceoverText: string;
   scenes: VideoSceneEditorSceneView[];
   hasDraftChanges: boolean;
   activeRenderInFlight: boolean;
@@ -199,11 +244,27 @@ export async function loadVideoSceneEditorState(
   const baselineScenes = baselineFromOutput
     ? scenesToDraftScenes(baselineFromOutput)
     : null;
-  const hasDraftChanges =
+  const baselineVoiceoverText = baselineVoiceoverForEditor({
+    draft,
+    sourceVideoJobId: job.id,
+    sourceJobInput: job.input,
+  });
+  const voiceoverText = resolveDraftVoiceoverText({
+    draft,
+    sourceVideoJobId: job.id,
+    sourceJobInput: job.input,
+  });
+  const sceneVisualChanges =
     draft !== null &&
     draft.source_video_job_id === job.id &&
     baselineScenes !== null &&
-    JSON.stringify(draft.scenes) !== JSON.stringify(baselineScenes);
+    !sceneDraftsEqual(draft.scenes, baselineScenes);
+  const voiceoverChanges = voiceoverTextChangedInDraft({
+    draft,
+    sourceVideoJobId: job.id,
+    baselineVoiceover: baselineVoiceoverText,
+  });
+  const hasDraftChanges = sceneVisualChanges || voiceoverChanges;
 
   const { data: activeRows } = await supabase
     .from("video_jobs")
@@ -215,18 +276,66 @@ export async function loadVideoSceneEditorState(
 
   const previewUrls = await signScenePreviews(supabase, scenes);
 
+  const envelope = buildSceneEditorDraft({
+    sourceVideoJobId: job.id,
+    scenes,
+    existing: draft,
+    baselineScenes: baselineScenes ?? scenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+  });
+
+  const versionPreviewUrls = await signScenePreviews(
+    supabase,
+    envelope.image_versions
+      ? Object.values(envelope.image_versions)
+          .flat()
+          .map((version) => ({
+            id: version.version_id,
+            image_prompt: version.image_prompt,
+            image_bucket: version.image_bucket,
+            image_path: version.image_path,
+            duration_seconds: 1,
+          }))
+      : [],
+  );
+
   return {
     sourceVideoJobId: job.id,
     contentItemId,
-    scenes: scenes.map((scene, index) => ({
-      id: scene.id,
-      sceneNumber: index + 1,
-      image_prompt: scene.image_prompt,
-      image_bucket: scene.image_bucket,
-      image_path: scene.image_path,
-      duration_seconds: scene.duration_seconds,
-      previewUrl: previewUrls.get(`${scene.image_bucket}\n${scene.image_path}`) ?? null,
-    })),
+    voiceoverText,
+    baselineVoiceoverText,
+    scenes: scenes.map((scene, index) => {
+      const versions = envelope.image_versions[scene.id] ?? [];
+      const original = originalSceneImageVersion(envelope.image_versions, scene.id);
+      return {
+        id: scene.id,
+        sceneNumber: index + 1,
+        image_prompt: scene.image_prompt,
+        image_bucket: scene.image_bucket,
+        image_path: scene.image_path,
+        duration_seconds: scene.duration_seconds,
+        previewUrl: previewUrls.get(`${scene.image_bucket}\n${scene.image_path}`) ?? null,
+        imageVersions: versions.map((version) => ({
+          versionId: version.version_id,
+          source: version.source,
+          createdAt: version.created_at,
+          isOriginal: version.is_original,
+          image_prompt: version.image_prompt,
+          image_bucket: version.image_bucket,
+          image_path: version.image_path,
+          previewUrl:
+            versionPreviewUrls.get(
+              `${version.image_bucket}\n${version.image_path}`,
+            ) ?? null,
+        })),
+        originalVersionId: original?.version_id ?? null,
+        originalPreviewUrl: original
+          ? (versionPreviewUrls.get(
+              `${original.image_bucket}\n${original.image_path}`,
+            ) ?? null)
+          : null,
+      };
+    }),
     hasDraftChanges,
     activeRenderInFlight: (activeRows ?? []).length > 0,
   };
@@ -319,6 +428,14 @@ export async function uploadSceneReplacementImage(
     generationMetadata: itemRow.generation_metadata as Json | null,
     jobOutput: job.output,
   });
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError("invalid_input", "missing render_spec baseline");
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const existingDraft = readSceneEditorDraft(
+    itemRow.generation_metadata as Json | null,
+  );
   const index = scenes.findIndex((s) => s.id === input.sceneId);
   if (index < 0) {
     throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
@@ -351,12 +468,23 @@ export async function uploadSceneReplacementImage(
     image_path: storagePath,
   };
 
+  const historyBase =
+    existingDraft?.image_versions ?? seedSceneImageHistory(baselineScenes);
+  const imageVersions = appendSceneImageVersion(
+    historyBase,
+    input.sceneId,
+    sceneVersionFromDraftScene(updated[index], "upload"),
+  );
+
   await persistDraft(supabase, {
     projectId: input.projectId,
     contentItemId,
     sourceVideoJobId: job.id,
     scenes: updated,
     generationMetadata: itemRow.generation_metadata as Json | null,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+    imageVersions,
   });
 
   return loadVideoSceneEditorState(
@@ -408,6 +536,14 @@ export async function regenerateSceneImageInEditor(
     generationMetadata: itemRow.generation_metadata as Json | null,
     jobOutput: job.output,
   });
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError("invalid_input", "missing render_spec baseline");
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const existingDraft = readSceneEditorDraft(
+    itemRow.generation_metadata as Json | null,
+  );
   const index = scenes.findIndex((s) => s.id === input.sceneId);
   if (index < 0) {
     throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
@@ -429,13 +565,273 @@ export async function regenerateSceneImageInEditor(
     image_path: generated.image_path,
   };
 
+  const historyBase =
+    existingDraft?.image_versions ?? seedSceneImageHistory(baselineScenes);
+  const imageVersions = appendSceneImageVersion(
+    historyBase,
+    input.sceneId,
+    sceneVersionFromDraftScene(updated[index], "regenerate"),
+  );
+
   await persistDraft(supabase, {
     projectId: input.projectId,
     contentItemId,
     sourceVideoJobId: job.id,
     scenes: updated,
     generationMetadata: itemRow.generation_metadata as Json | null,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+    imageVersions,
   });
+
+  return loadVideoSceneEditorState(
+    { projectId: input.projectId, videoJobId: input.videoJobId },
+    deps,
+  );
+}
+
+export async function updateSceneImagePromptInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+    imagePrompt: string;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const imagePrompt = input.imagePrompt.trim();
+  if (!imagePrompt) {
+    throw new WorkflowError("invalid_input", "image prompt is required");
+  }
+
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  await assertNoActiveRender(supabase, input.projectId, contentItemId);
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const scenes = await loadBaselineScenes(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    jobOutput: job.output,
+  });
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError("invalid_input", "missing render_spec baseline");
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const existingDraft = readSceneEditorDraft(
+    itemRow.generation_metadata as Json | null,
+  );
+  const index = scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const updated = [...scenes];
+  updated[index] = { ...updated[index], image_prompt: imagePrompt };
+
+  const historyBase =
+    existingDraft?.image_versions ?? seedSceneImageHistory(baselineScenes);
+  const imageVersions = appendSceneImageVersion(
+    historyBase,
+    input.sceneId,
+    sceneVersionFromDraftScene(updated[index], "prompt_edit"),
+  );
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    scenes: updated,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+    imageVersions,
+  });
+
+  return loadVideoSceneEditorState(
+    { projectId: input.projectId, videoJobId: input.videoJobId },
+    deps,
+  );
+}
+
+export async function restoreSceneImageVersionInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+    versionId: string;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  await assertNoActiveRender(supabase, input.projectId, contentItemId);
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const scenes = await loadBaselineScenes(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    jobOutput: job.output,
+  });
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError("invalid_input", "missing render_spec baseline");
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const existingDraft = readSceneEditorDraft(
+    itemRow.generation_metadata as Json | null,
+  );
+  const envelope = buildSceneEditorDraft({
+    sourceVideoJobId: job.id,
+    scenes,
+    existing: existingDraft,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+  });
+  const version = findSceneImageVersion(
+    envelope.image_versions,
+    input.sceneId,
+    input.versionId,
+  );
+  if (!version) {
+    throw new WorkflowError("not_found", "image version not found");
+  }
+
+  const index = scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const updated = [...scenes];
+  updated[index] = {
+    ...updated[index],
+    image_bucket: version.image_bucket,
+    image_path: version.image_path,
+    image_prompt: version.image_prompt,
+  };
+
+  const imageVersions = appendSceneImageVersion(
+    envelope.image_versions,
+    input.sceneId,
+    sceneVersionFromDraftScene(updated[index], "restore"),
+  );
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    scenes: updated,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+    imageVersions,
+  });
+
+  return loadVideoSceneEditorState(
+    { projectId: input.projectId, videoJobId: input.videoJobId },
+    deps,
+  );
+}
+
+export async function updateSceneEditorVoiceoverText(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    voiceoverText: string;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const voiceoverText = input.voiceoverText.trim();
+  if (!voiceoverText) {
+    throw new WorkflowError("invalid_input", "voiceover text is required");
+  }
+
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  await assertNoActiveRender(supabase, input.projectId, contentItemId);
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  let mergedMetadata: Json;
+  try {
+    mergedMetadata = await saveEditorVoiceoverText({
+      supabase,
+      projectId: input.projectId,
+      contentItemId,
+      sourceVideoJobId: job.id,
+      generationMetadata: itemRow.generation_metadata as Json | null,
+      jobInput: job.input,
+      jobOutput: job.output,
+      voiceoverText,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new WorkflowError("invalid_input", err.message);
+    }
+    throw err;
+  }
+
+  const { error: updateErr } = await supabase
+    .from("content_items")
+    .update({ generation_metadata: mergedMetadata })
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId);
+  if (updateErr) throw updateErr;
 
   return loadVideoSceneEditorState(
     { projectId: input.projectId, videoJobId: input.videoJobId },

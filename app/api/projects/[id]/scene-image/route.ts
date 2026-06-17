@@ -1,11 +1,5 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import {
-  loadVideoSceneEditorState,
-} from "@/lib/ai/workflows/videoSceneEditor";
-
-// Proxies a scene still for download (attachment). Resolves bucket/path from the
-// scene editor working copy or the source job's render_spec — never accepts raw
-// storage paths from the client.
+import { loadVideoSceneEditorState } from "@/lib/ai/workflows/videoSceneEditor";
 
 export async function GET(
   request: Request,
@@ -15,6 +9,7 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const videoJobId = searchParams.get("jobId");
   const sceneId = searchParams.get("sceneId");
+  const versionId = searchParams.get("versionId");
 
   if (!videoJobId || !sceneId) {
     return new Response("Bad request", { status: 400 });
@@ -32,10 +27,21 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
+  let imageBucket = scene.image_bucket;
+  let imagePath = scene.image_path;
+  if (versionId) {
+    const version = scene.imageVersions.find((v) => v.versionId === versionId);
+    if (!version) {
+      return new Response("Not found", { status: 404 });
+    }
+    imageBucket = version.image_bucket;
+    imagePath = version.image_path;
+  }
+
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase.storage
-    .from(scene.image_bucket)
-    .createSignedUrl(scene.image_path, 60 * 5);
+    .from(imageBucket)
+    .createSignedUrl(imagePath, 60 * 5);
   if (error || !data?.signedUrl) {
     return new Response("Artifact unavailable", { status: 502 });
   }
@@ -45,8 +51,8 @@ export async function GET(
     return new Response("Artifact unavailable", { status: 502 });
   }
 
-  const ext = scene.image_path.endsWith(".png") ? "png" : "jpg";
-  const filename = `scene-${scene.sceneNumber}.${ext}`;
+  const ext = imagePath.endsWith(".png") ? "png" : "jpg";
+  const filename = `scene-${scene.sceneNumber}${versionId ? `-version` : ""}.${ext}`;
   const contentType =
     upstream.headers.get("content-type") ??
     (ext === "png" ? "image/png" : "image/jpeg");
