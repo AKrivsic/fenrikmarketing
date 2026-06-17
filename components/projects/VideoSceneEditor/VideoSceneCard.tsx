@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { VideoSceneEditorSceneView } from "@/lib/ai/workflows/videoSceneEditor";
 import { DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION } from "@/lib/video-scene-editor/constants";
 import styles from "./VideoSceneEditor.module.css";
@@ -51,11 +51,20 @@ export function VideoSceneCard({
   const [generateInstruction, setGenerateInstruction] = useState("");
   const [editInstruction, setEditInstruction] = useState("");
   const [brandAssetInstruction, setBrandAssetInstruction] = useState(
-    DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION,
+    () =>
+      scene.brandAssetInsertInstruction.trim() ||
+      DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION,
   );
   const [brandAssetFile, setBrandAssetFile] = useState<File | null>(null);
   const [promptDraft, setPromptDraft] = useState(scene.image_prompt);
   const [historyOpen, setHistoryOpen] = useState(false);
+
+  useEffect(() => {
+    setBrandAssetInstruction(
+      scene.brandAssetInsertInstruction.trim() ||
+        DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION,
+    );
+  }, [scene.brandAssetInsertInstruction, scene.id]);
 
   const downloadHref = (versionId?: string) => {
     const base = `/api/projects/${projectId}/scene-image?jobId=${encodeURIComponent(videoJobId)}&sceneId=${encodeURIComponent(scene.id)}`;

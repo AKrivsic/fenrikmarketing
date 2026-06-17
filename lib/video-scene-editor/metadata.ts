@@ -21,6 +21,8 @@ export interface SceneEditorDraft {
   voiceover_text?: string;
   /** Voiceover copied from the source job when the editor session started. */
   original_voiceover_text?: string;
+  /** Last brand-asset insert instruction per scene (UI + re-insert). */
+  brand_asset_insert_instructions?: Record<string, string>;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -151,6 +153,20 @@ export function readSceneEditorDraft(
       ? draft.original_voiceover_text
       : undefined;
 
+  const brand_asset_insert_instructions: Record<string, string> = {};
+  const instructionsRaw = draft.brand_asset_insert_instructions;
+  if (
+    instructionsRaw &&
+    typeof instructionsRaw === "object" &&
+    !Array.isArray(instructionsRaw)
+  ) {
+    for (const [sceneId, value] of Object.entries(instructionsRaw)) {
+      if (typeof value === "string" && value.trim().length > 0) {
+        brand_asset_insert_instructions[sceneId] = value.trim();
+      }
+    }
+  }
+
   return {
     source_video_job_id: sourceJobId,
     scenes: parsed,
@@ -159,6 +175,9 @@ export function readSceneEditorDraft(
     image_versions,
     ...(voiceover_text !== undefined ? { voiceover_text } : {}),
     ...(original_voiceover_text !== undefined ? { original_voiceover_text } : {}),
+    ...(Object.keys(brand_asset_insert_instructions).length > 0
+      ? { brand_asset_insert_instructions }
+      : {}),
   };
 }
 

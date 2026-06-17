@@ -7,7 +7,7 @@ import {
   HTTP_MAX_ATTEMPTS,
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
-import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
+import { normalizeBrandAssetInsertInstruction } from "@/lib/video-scene-editor/brandAssetInstruction";
 import {
   downloadStorageObjectToFile,
   uploadVideoArtifact,
@@ -73,7 +73,9 @@ async function resolveImageBytes(
 export async function insertSceneBrandAsset(
   input: InsertSceneBrandAssetInput,
 ): Promise<InsertSceneBrandAssetResult> {
-  const instruction = sanitizeImagePrompt(input.instruction.trim());
+  // Brand-asset insert must keep logo/placement wording intact. The scene-gen
+  // sanitizer strips "logo" clauses and forbids logos in the output image.
+  const instruction = normalizeBrandAssetInsertInstruction(input.instruction);
   if (!instruction) {
     throw new Error("instruction is required");
   }

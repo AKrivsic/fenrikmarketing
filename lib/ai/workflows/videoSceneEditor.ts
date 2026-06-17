@@ -22,6 +22,10 @@ import {
   readSceneEditorDraft,
   type SceneEditorDraftScene,
 } from "@/lib/video-scene-editor/metadata";
+import {
+  mergeBrandAssetInsertInstruction,
+  resolveBrandAssetInsertInstructionOrDefault,
+} from "@/lib/video-scene-editor/brandAssetInstruction";
 import { buildSceneEditorDraft } from "@/lib/video-scene-editor/draftEnvelope";
 import { sceneDraftsEqual } from "@/lib/video-scene-editor/sceneDraftCompare";
 import {
@@ -138,6 +142,7 @@ async function persistDraft(
     baselineVoiceoverText: string;
     imageVersions?: Record<string, SceneImageVersion[]>;
     voiceoverText?: string;
+    brandAssetInsertInstructions?: Record<string, string>;
   },
 ): Promise<void> {
   const existing = readSceneEditorDraft(args.generationMetadata);
@@ -153,6 +158,9 @@ async function persistDraft(
   }
   if (args.voiceoverText !== undefined) {
     draft.voiceover_text = args.voiceoverText.trim();
+  }
+  if (args.brandAssetInsertInstructions) {
+    draft.brand_asset_insert_instructions = args.brandAssetInsertInstructions;
   }
   const { error } = await supabase
     .from("content_items")
@@ -189,6 +197,7 @@ export interface VideoSceneEditorSceneView {
   imageVersions: SceneImageVersionView[];
   originalVersionId: string | null;
   originalPreviewUrl: string | null;
+  brandAssetInsertInstruction: string;
 }
 
 export interface VideoSceneEditorState {
@@ -340,6 +349,10 @@ export async function loadVideoSceneEditorState(
               `${original.image_bucket}\n${original.image_path}`,
             ) ?? null)
           : null,
+        brandAssetInsertInstruction: resolveBrandAssetInsertInstructionOrDefault(
+          envelope,
+          scene.id,
+        ),
       };
     }),
     hasDraftChanges,
@@ -816,6 +829,11 @@ export async function insertBrandAssetInEditor(
     baselineScenes,
     baselineVoiceoverText: readSourceVoiceoverText(job.input),
     imageVersions: applied.imageVersions,
+    brandAssetInsertInstructions: mergeBrandAssetInsertInstruction(
+      existingDraft?.brand_asset_insert_instructions,
+      input.sceneId,
+      instruction,
+    ),
   });
 
   return loadVideoSceneEditorState(

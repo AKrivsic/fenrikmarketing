@@ -41,6 +41,11 @@ export function buildSceneEditorDraft(args: {
   if (typeof args.existing?.voiceover_text === "string") {
     draft.voiceover_text = args.existing.voiceover_text;
   }
+  if (args.existing?.brand_asset_insert_instructions) {
+    draft.brand_asset_insert_instructions = {
+      ...args.existing.brand_asset_insert_instructions,
+    };
+  }
 
   return draft;
 }

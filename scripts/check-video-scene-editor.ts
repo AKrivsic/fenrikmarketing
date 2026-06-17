@@ -40,6 +40,11 @@ import {
 import type { ImageProvider } from "@/lib/ai/types";
 import { validateBrandAssetUpload } from "@/lib/video-scene-editor/validateBrandAssetUpload";
 import {
+  mergeBrandAssetInsertInstruction,
+  resolveBrandAssetInsertInstructionOrDefault,
+} from "@/lib/video-scene-editor/brandAssetInstruction";
+import { DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION } from "@/lib/video-scene-editor/constants";
+import {
   sceneVersionFromBrandAssetEdit,
 } from "@/lib/video-scene-editor/imageHistory";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
@@ -694,6 +699,39 @@ check("brand asset worker uses multi-image editImageWithProvider", () => {
   assert.match(src, /additionalImages/);
   assert.match(src, /downloadStorageObjectToFile/);
   assert.equal(src.includes("generateImage"), false);
+  assert.equal(src.includes("sanitizeImagePrompt"), false);
+  assert.match(src, /normalizeBrandAssetInsertInstruction/);
+});
+
+check("brand asset insert instruction resolves from draft metadata", () => {
+  const merged = mergeBrandAssetInsertInstruction(
+    undefined,
+    "scene-1",
+    "Place logo on the coffee mug",
+  );
+  assert.equal(merged["scene-1"], "Place logo on the coffee mug");
+  const draft = {
+    source_video_job_id: "job-1",
+    scenes: [],
+    updated_at: "2026-01-01T00:00:00.000Z",
+    original_scenes: {},
+    image_versions: {},
+    brand_asset_insert_instructions: merged,
+  };
+  assert.equal(
+    resolveBrandAssetInsertInstructionOrDefault(draft, "scene-1"),
+    "Place logo on the coffee mug",
+  );
+  assert.equal(
+    resolveBrandAssetInsertInstructionOrDefault(null, "scene-1"),
+    DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION,
+  );
+});
+
+check("scene card restores brand asset instruction from server state", () => {
+  const src = readRepo("components/projects/VideoSceneEditor/VideoSceneCard.tsx");
+  assert.match(src, /scene\.brandAssetInsertInstruction/);
+  assert.match(src, /setBrandAssetInstruction/);
 });
 
 check("single-image edit worker path unchanged", () => {
