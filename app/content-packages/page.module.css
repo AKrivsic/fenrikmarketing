@@ -1,0 +1,98 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.hero {
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  line-height: 1.15;
+  max-width: 18ch;
+}
+
+.lead {
+  margin: 0 0 1.5rem;
+  max-width: 52ch;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  font-size: 1.05rem;
+}
+
+.ctaLink {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-text);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.6;
+}
+
+.packages {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.packageCard {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.packageName {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+
+.packagePrice {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.packageMeta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.formSection {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.formIntro {
+  margin: 0 0 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 48ch;
+}

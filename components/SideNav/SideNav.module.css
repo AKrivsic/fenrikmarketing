@@ -25,4 +25,24 @@
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  flex: 1;
+}
+
+.logoutForm {
+  margin-top: auto;
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+
+.logoutBtn {
+  width: 100%;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background: var(--color-surface-hover);
 }

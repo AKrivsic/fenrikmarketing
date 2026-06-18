@@ -12,4 +12,5 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Assets", href: "/assets" },
   { label: "History", href: "/history" },
   { label: "Settings", href: "/settings" },
+  { label: "Content Clients", href: "/admin/clients" },
 ];

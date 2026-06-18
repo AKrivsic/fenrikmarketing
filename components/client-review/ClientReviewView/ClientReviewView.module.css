@@ -1,0 +1,146 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+}
+
+.status {
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  border: none;
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.secondaryBtn {
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.lockBanner {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 0.95rem;
+}
+
+.item {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.itemTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.itemName {
+  margin: 0 0 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.video {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm);
+  background: #000;
+}
+
+.fields {
+  margin: 0 0 1rem;
+}
+
+.fields dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.fields dd {
+  margin: 0 0 0.85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.downloadLink {
+  color: var(--color-text);
+}
+
+.downloadLocked {
+  color: var(--color-text-muted);
+}
+
+.comments {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.commentAuthor {
+  text-transform: capitalize;
+  color: var(--color-text-muted);
+}
+
+.commentForm label {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.fullExport {
+  margin-top: 1rem;
+}

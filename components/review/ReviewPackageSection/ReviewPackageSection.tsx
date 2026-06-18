@@ -5,6 +5,7 @@ import { ProjectContentCard } from "@/components/projects/ProjectContentCard/Pro
 import { PackageVideoPanel } from "@/components/review/PackageVideoPanel/PackageVideoPanel";
 import { PackageActions } from "@/components/review/PackageActions/PackageActions";
 import { PackageStatusSummary } from "@/components/review/PackageStatusSummary/PackageStatusSummary";
+import { PackageIdCopy } from "@/components/common/PackageIdCopy/PackageIdCopy";
 import { languageCodeLabel, languageName } from "@/components/review/languageLabels";
 import {
   translationBadgeLabel,
@@ -114,6 +115,7 @@ export function ReviewPackageSection({
 
       {open ? (
         <div className={styles.body}>
+          {pkg.packageId ? <PackageIdCopy packageId={pkg.packageId} /> : null}
           <PackageStatusSummary summary={pkg.summary} />
 
           {/* All package videos (EN + translations) in one pill panel. */}

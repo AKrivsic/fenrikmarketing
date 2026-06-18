@@ -1,0 +1,158 @@
+.wrap {
+  max-width: 960px;
+}
+
+.back {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.back a {
+  color: var(--color-text-muted);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+}
+
+.meta {
+  margin: 0.15rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.reviewLink {
+  color: inherit;
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.primaryBtn {
+  border: 1px solid var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.secondaryBtn {
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.statusForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.select,
+.input,
+.textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.importForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.importForm .input {
+  flex: 1;
+  min-width: 240px;
+}
+
+.pkgList {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.itemCard {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.itemTitle {
+  margin: 0 0 0.75rem;
+}
+
+.video {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm);
+  background: #000;
+}
+
+.itemForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.itemForm label {
+  font-size: 0.85rem;
+}
+
+.commentList {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.commentMeta {
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}

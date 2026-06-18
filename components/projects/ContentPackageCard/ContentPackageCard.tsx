@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PackageIdCopy } from "@/components/common/PackageIdCopy/PackageIdCopy";
 import type { ProjectContentPackage } from "@/lib/api/projects-admin";
 import styles from "./ContentPackageCard.module.css";
 
@@ -17,6 +18,8 @@ export function ContentPackageCard({ pkg }: ContentPackageCardProps) {
         <h3 className={styles.title}>{pkg.title}</h3>
         <span className={styles.status}>{pkg.status}</span>
       </header>
+
+      <PackageIdCopy packageId={pkg.id} />
 
       <div className={styles.meta}>
         <span className={styles.metaItem}>

@@ -13,6 +13,11 @@ export function SideNav() {
           </li>
         ))}
       </ul>
+      <form action="/api/admin-logout" method="post" className={styles.logoutForm}>
+        <button type="submit" className={styles.logoutBtn}>
+          Sign out
+        </button>
+      </form>
     </nav>
   );
 }
