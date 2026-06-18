@@ -2,6 +2,7 @@
 
 import { insertSampleRequest } from "@/lib/api/client-delivery-admin";
 import { sendSampleRequestNotification } from "@/lib/email/sendSampleRequestNotification";
+import { normalizeWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 
 export type SampleFormResult =
   | { ok: true }
@@ -25,15 +26,6 @@ const REVENUE_BANDS = new Set([
   "$10k–50k / month",
   "$50k+ / month",
 ]);
-
-function isValidUrl(value: string): boolean {
-  try {
-    const parsed = new URL(value);
-    return parsed.protocol === "http:" || parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
 
 function buildNotesBlock(input: {
   businessType: string;
@@ -70,9 +62,12 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     fieldErrors.email = "Enter a valid email.";
   }
+  const normalizedWebsiteUrl = websiteUrl
+    ? normalizeWebsiteUrl(websiteUrl)
+    : null;
   if (!websiteUrl) fieldErrors.websiteUrl = "Website URL is required.";
-  else if (!isValidUrl(websiteUrl)) {
-    fieldErrors.websiteUrl = "Enter a valid http(s) URL.";
+  else if (!normalizedWebsiteUrl) {
+    fieldErrors.websiteUrl = "Enter a valid website (e.g. example.com or https://example.com).";
   }
   if (!businessType || !BUSINESS_TYPES.has(businessType)) {
     fieldErrors.businessType = "Select a business type.";
@@ -94,7 +89,7 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
     await insertSampleRequest({
       name,
       email,
-      websiteUrl,
+      websiteUrl: normalizedWebsiteUrl!,
       notes: buildNotesBlock({ businessType, monthlyRevenue, notes }),
     });
   } catch {
@@ -104,7 +99,7 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
   await sendSampleRequestNotification({
     name,
     email,
-    websiteUrl,
+    websiteUrl: normalizedWebsiteUrl!,
     businessType,
     monthlyRevenue,
     notes,

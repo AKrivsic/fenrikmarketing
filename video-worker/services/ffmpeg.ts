@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { rm } from "node:fs/promises";
+import { rename, rm } from "node:fs/promises";
 import { buildZoompanExpr, xfadeTransitionName } from "@/lib/video-engine/motion";
 import { SHORT_PROFILE, type MotionType, type TransitionType } from "@/lib/video-engine/storyboard";
 import {
@@ -588,6 +588,8 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
     await rm(intermediatePath, { force: true }).catch(() => undefined);
   }
 
+  await applyFastStartMp4(input.outputPath);
+
   // Post-render verification (Part A + G). Best-effort, never throws.
   const diagnostics = await verifyRender({
     outputPath: input.outputPath,
@@ -598,6 +600,23 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
   });
 
   return { mp4Path: input.outputPath, diagnostics };
+}
+
+// Web playback needs the moov atom before mdat; ffmpeg's default mux puts it at
+// the end, which makes <video> appear broken until the whole file is fetched.
+async function applyFastStartMp4(path: string): Promise<void> {
+  const tempPath = `${path}.faststart.mp4`;
+  await runFfmpeg([
+    "-y",
+    "-i",
+    path,
+    "-c",
+    "copy",
+    "-movflags",
+    "+faststart",
+    tempPath,
+  ]);
+  await rename(tempPath, path);
 }
 
 async function verifyRender(args: {

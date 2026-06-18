@@ -87,10 +87,11 @@ export function SampleRequestForm() {
         Website URL *
         <input
           name="websiteUrl"
-          type="url"
+          type="text"
           required
           className={styles.input}
-          placeholder="https://"
+          placeholder="example.com or https://example.com"
+          autoComplete="url"
         />
         {fieldErrors.websiteUrl ? (
           <span className={styles.fieldError}>{fieldErrors.websiteUrl}</span>

@@ -33,13 +33,12 @@ export function LandingSampleShowcase({ sample }: LandingSampleShowcaseProps) {
           <video
             className={styles.video}
             src={sample.videoUrl}
+            poster={sample.posterUrl ?? undefined}
             controls
             playsInline
             preload="metadata"
           />
         ) : (
-          // TODO(landing): Replace placeholder when a published package with a
-          // signed video URL is available in production.
           <div className={styles.videoPlaceholder}>
             <p className={styles.placeholderText}>
               Video preview will appear here once a ready-to-post sample is
