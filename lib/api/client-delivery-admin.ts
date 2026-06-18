@@ -1,5 +1,6 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { readVideoOutput } from "@/lib/api/content-shared";
+import { buildVideoRenderPath } from "@/lib/api/storage";
 import type { ContentItem, Json } from "@/lib/supabase/types";
 
 export type ClientProjectStatus =
@@ -69,6 +70,37 @@ export interface ClientProjectItemRow {
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
+}
+
+/** Fields safe to pass into the public client review UI (no media URLs or internal notes). */
+export type ClientProjectItemClientView = Omit<
+  ClientProjectItemRow,
+  "videoUrl" | "videoStoragePath" | "internalNote"
+> & { hasVideo: boolean };
+
+export function toClientProjectItemClientView(
+  item: ClientProjectItemRow,
+): ClientProjectItemClientView {
+  const { videoUrl: _v, videoStoragePath: _p, internalNote: _n, ...rest } = item;
+  return {
+    ...rest,
+    hasVideo: Boolean(_p?.trim() || _v?.trim()),
+  };
+}
+
+export type ClientProjectExportItem = Omit<
+  ClientProjectItemRow,
+  "videoUrl" | "videoStoragePath" | "internalNote"
+>;
+
+export function toClientExportItem(item: ClientProjectItemRow): ClientProjectExportItem {
+  const {
+    videoUrl: _v,
+    videoStoragePath: _p,
+    internalNote: _n,
+    ...rest
+  } = item;
+  return rest;
 }
 
 export interface ClientProjectCommentRow {
@@ -519,19 +551,30 @@ export async function importInternalContentPackage(
   const itemIds = items.map((i) => i.id);
   const { data: jobRows, error: jobsError } = await supabase
     .from("video_jobs")
-    .select("content_item_id, output, status")
+    .select("id, content_item_id, output, status")
     .eq("project_id", pkg.project_id as string)
     .in("content_item_id", itemIds)
     .order("created_at", { ascending: false });
   if (jobsError) throw jobsError;
 
   let videoUrl: string | null = null;
+  let videoStoragePath: string | null = null;
   for (const job of jobRows ?? []) {
-    const itemId = (job as { content_item_id: string | null }).content_item_id;
+    const row = job as {
+      id: string;
+      content_item_id: string | null;
+      output: Json | null;
+    };
+    const itemId = row.content_item_id;
     if (itemId === anchorItem.id || videoUrl === null) {
-      const out = readVideoOutput((job as { output: Json | null }).output);
+      const out = readVideoOutput(row.output);
       if (out.mp4Url) {
         videoUrl = out.mp4Url;
+        videoStoragePath = buildVideoRenderPath(
+          pkg.project_id as string,
+          row.id,
+          "output.mp4",
+        );
         if (itemId === anchorItem.id) break;
       }
     }
@@ -554,6 +597,7 @@ export async function importInternalContentPackage(
     package_id: deliveryPkg.id as string,
     title: anchorItem.title ?? pkg.title ?? "Video",
     video_url: videoUrl,
+    video_storage_path: videoStoragePath,
     tik_tok_caption: findCaption(items, "tiktok") || anchorItem.caption || "",
     instagram_caption:
       findCaption(items, "instagram") || anchorItem.caption || "",

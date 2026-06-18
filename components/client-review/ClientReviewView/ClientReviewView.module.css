@@ -1,22 +1,44 @@
 .page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1.25rem 3rem;
+  padding: 1.25rem 1rem 3rem;
 }
 
 .header {
   margin-bottom: 1.5rem;
 }
 
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
 .title {
   margin: 0 0 0.35rem;
-  font-size: 1.6rem;
+  font-size: clamp(1.35rem, 4vw, 1.6rem);
+  line-height: 1.25;
 }
 
 .status {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   color: var(--color-text-muted);
   text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+.intro {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.intro p {
+  margin: 0 0 0.5rem;
 }
 
 .actions {
@@ -27,10 +49,11 @@
 
 .primaryBtn,
 .secondaryBtn {
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1rem;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
   cursor: pointer;
+  max-width: 100%;
 }
 
 .primaryBtn {
@@ -44,13 +67,23 @@
   background: var(--color-bg);
 }
 
-.lockBanner {
-  margin: 0 0 1.5rem;
+.lockBanner,
+.paidBanner {
+  margin: 0 0 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.lockBanner {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  font-size: 0.95rem;
+}
+
+.paidBanner {
+  background: color-mix(in srgb, var(--color-text) 8%, var(--color-bg));
+  border: 1px solid var(--color-border);
 }
 
 .item {
@@ -61,50 +94,80 @@
 
 .itemTitle {
   margin: 0 0 0.25rem;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
 }
 
 .itemName {
   margin: 0 0 0.75rem;
   color: var(--color-text-muted);
+  font-size: 0.95rem;
 }
 
 .video {
   width: 100%;
-  max-width: 420px;
+  max-width: 100%;
   margin-bottom: 1rem;
   border-radius: var(--radius-sm);
   background: #000;
 }
 
-.fields {
-  margin: 0 0 1rem;
+.platformBlocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.fields dt {
-  font-size: 0.8rem;
+.platformDetails {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.65rem;
+  background: var(--color-surface, var(--color-bg));
+}
+
+.platformSummary {
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   color: var(--color-text-muted);
-  margin-bottom: 0.2rem;
+  cursor: pointer;
+  list-style: none;
 }
 
-.fields dd {
-  margin: 0 0 0.85rem;
-  line-height: 1.5;
+.platformSummary::-webkit-details-marker {
+  display: none;
+}
+
+.platformBody {
+  margin: 0.5rem 0 0.35rem;
+  line-height: 1.55;
   white-space: pre-wrap;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
 }
 
 .downloads {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
+@media (min-width: 480px) {
+  .downloads {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
 .downloadLink {
   color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .downloadLocked {
@@ -115,6 +178,7 @@
   margin: 0 0 0.75rem;
   padding-left: 1.1rem;
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 .commentAuthor {
@@ -130,6 +194,8 @@
 .textarea {
   display: block;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 0.25rem 0 0.5rem;
   padding: 0.5rem;
   border: 1px solid var(--color-border);
@@ -143,4 +209,108 @@
 
 .fullExport {
   margin-top: 1rem;
+}
+
+.conversion {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.conversionTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.conversionLead {
+  margin: 0 0 1.25rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.pricingGrid {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .pricingGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pricingCard {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  background: var(--color-surface, var(--color-bg));
+}
+
+.pricingName {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pricingPrice {
+  margin: 0.25rem 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.pricingDetail {
+  margin: 0 0 0.65rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.pricingIncludesLabel {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.pricingIncludes {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.conversionActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 480px) {
+  .conversionActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.primaryBtnLink,
+.secondaryBtnLink {
+  display: inline-block;
+  text-align: center;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  text-decoration: none;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.primaryBtnLink {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.secondaryBtnLink {
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
 }

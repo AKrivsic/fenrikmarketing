@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import type {
   ClientProjectCommentRow,
-  ClientProjectItemRow,
+  ClientProjectItemClientView,
   ClientProjectRow,
 } from "@/lib/api/client-delivery-admin";
 import {
@@ -15,8 +15,51 @@ import styles from "./ClientReviewView.module.css";
 
 interface ClientReviewViewProps {
   project: ClientProjectRow;
-  items: ClientProjectItemRow[];
+  items: ClientProjectItemClientView[];
   comments: ClientProjectCommentRow[];
+}
+
+const PACKAGE_INCLUDES = [
+  "1 short-form video",
+  "TikTok caption",
+  "Instagram caption",
+  "Facebook post",
+  "LinkedIn post",
+  "hashtags",
+];
+
+const PRICING = [
+  {
+    name: "Starter",
+    price: "$199",
+    detail: "5 content packages — about 1 week of weekday content",
+  },
+  {
+    name: "Growth",
+    price: "$349",
+    detail: "10 content packages — about 2 weeks of weekday content",
+  },
+  {
+    name: "Monthly",
+    price: "$599",
+    detail: "20 content packages — about 1 month of weekday content",
+  },
+] as const;
+
+function videoPreviewSrc(projectId: string, itemId: string): string {
+  return `/api/client-projects/${projectId}/video?itemId=${encodeURIComponent(itemId)}`;
+}
+
+function videoDownloadHref(projectId: string, itemId: string): string {
+  return `/api/client-projects/${projectId}/video?itemId=${encodeURIComponent(itemId)}&download=1`;
+}
+
+function requestPackageMailto(projectTitle: string, projectId: string): string {
+  const subject = encodeURIComponent(`Full content package — ${projectTitle}`);
+  const body = encodeURIComponent(
+    `Hi,\n\nI reviewed my sample and would like to order a full content package.\n\nProject: ${projectTitle}\nReview link path: /client-review/${projectId}\n\nThanks!`,
+  );
+  return `mailto:hello@fenrikmarketing.com?subject=${subject}&body=${body}`;
 }
 
 export function ClientReviewView({ project, items, comments }: ClientReviewViewProps) {
@@ -30,12 +73,31 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
   }
 
   const paid = project.paid;
+  const mailtoHref = requestPackageMailto(project.title, project.id);
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
+        <p className={styles.eyebrow}>Content package preview</p>
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.status}>Status: {project.status.replaceAll("_", " ")}</p>
+        {paid ? (
+          <p className={styles.paidBanner}>Paid — downloads unlocked</p>
+        ) : (
+          <p className={styles.lockBanner}>
+            Preview only. Downloads unlock after payment.
+          </p>
+        )}
+        <div className={styles.intro}>
+          <p>
+            This is a <strong>free sample</strong> content package — one video and
+            platform-ready text you can review here.
+          </p>
+          <p>You can review the video and text here. Use comments if you want changes.</p>
+          {!paid ? (
+            <p>After payment, downloads for video and captions will be unlocked.</p>
+          ) : null}
+        </div>
         <div className={styles.actions}>
           <button
             type="button"
@@ -64,10 +126,6 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
         </div>
       </header>
 
-      {!paid ? (
-        <p className={styles.lockBanner}>Downloads unlock after payment.</p>
-      ) : null}
-
       {items.length === 0 ? (
         <p className={styles.muted}>Content is being prepared.</p>
       ) : (
@@ -76,44 +134,54 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
             <h2 className={styles.itemTitle}>Video #{index + 1}</h2>
             {item.title ? <p className={styles.itemName}>{item.title}</p> : null}
 
-            {item.videoUrl ? (
-              <video src={item.videoUrl} controls className={styles.video} preload="metadata" />
+            {item.hasVideo ? (
+              <video
+                src={videoPreviewSrc(project.id, item.id)}
+                controls
+                controlsList="nodownload noplaybackrate"
+                disablePictureInPicture
+                playsInline
+                className={styles.video}
+                preload="metadata"
+              />
             ) : (
               <p className={styles.muted}>Video preview not available yet.</p>
             )}
 
-            <dl className={styles.fields}>
-              <div>
-                <dt>TikTok Caption</dt>
-                <dd>{item.tikTokCaption || "—"}</dd>
-              </div>
-              <div>
-                <dt>Instagram Caption</dt>
-                <dd>{item.instagramCaption || "—"}</dd>
-              </div>
-              <div>
-                <dt>Facebook Post</dt>
-                <dd>{item.facebookPost || "—"}</dd>
-              </div>
-              <div>
-                <dt>LinkedIn Post</dt>
-                <dd>{item.linkedinPost || "—"}</dd>
-              </div>
-              <div>
-                <dt>Hashtags</dt>
-                <dd>{item.hashtags.length ? item.hashtags.join(" ") : "—"}</dd>
-              </div>
+            <div className={styles.platformBlocks}>
+              <details className={styles.platformDetails} open>
+                <summary className={styles.platformSummary}>TikTok caption</summary>
+                <p className={styles.platformBody}>{item.tikTokCaption || "—"}</p>
+              </details>
+              <details className={styles.platformDetails}>
+                <summary className={styles.platformSummary}>Instagram caption</summary>
+                <p className={styles.platformBody}>{item.instagramCaption || "—"}</p>
+              </details>
+              <details className={styles.platformDetails}>
+                <summary className={styles.platformSummary}>Facebook post</summary>
+                <p className={styles.platformBody}>{item.facebookPost || "—"}</p>
+              </details>
+              <details className={styles.platformDetails}>
+                <summary className={styles.platformSummary}>LinkedIn post</summary>
+                <p className={styles.platformBody}>{item.linkedinPost || "—"}</p>
+              </details>
+              <details className={styles.platformDetails}>
+                <summary className={styles.platformSummary}>Hashtags</summary>
+                <p className={styles.platformBody}>
+                  {item.hashtags.length ? item.hashtags.join(" ") : "—"}
+                </p>
+              </details>
               {item.clientNote ? (
-                <div>
-                  <dt>Note</dt>
-                  <dd>{item.clientNote}</dd>
-                </div>
+                <details className={styles.platformDetails} open>
+                  <summary className={styles.platformSummary}>Note</summary>
+                  <p className={styles.platformBody}>{item.clientNote}</p>
+                </details>
               ) : null}
-            </dl>
+            </div>
 
             <div className={styles.downloads}>
-              {paid && item.videoUrl ? (
-                <a href={item.videoUrl} download className={styles.downloadLink}>
+              {paid && item.hasVideo ? (
+                <a href={videoDownloadHref(project.id, item.id)} className={styles.downloadLink}>
                   Download video
                 </a>
               ) : (
@@ -163,11 +231,44 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
 
       {paid && items.length > 0 ? (
         <p className={styles.fullExport}>
-          <a href={`/api/client-projects/${project.id}/export?format=json&client=1`} className={styles.downloadLink}>
+          <a
+            href={`/api/client-projects/${project.id}/export?format=json&client=1`}
+            className={styles.downloadLink}
+          >
             Download full package (JSON)
           </a>
         </p>
       ) : null}
+
+      <section className={styles.conversion} id="order">
+        <h2 className={styles.conversionTitle}>Want more content like this?</h2>
+        <p className={styles.conversionLead}>
+          This is one sample content package. We can create a full batch for your business.
+        </p>
+        <div className={styles.pricingGrid}>
+          {PRICING.map((tier) => (
+            <article key={tier.name} className={styles.pricingCard}>
+              <p className={styles.pricingName}>{tier.name}</p>
+              <p className={styles.pricingPrice}>{tier.price}</p>
+              <p className={styles.pricingDetail}>{tier.detail}</p>
+              <p className={styles.pricingIncludesLabel}>Each package includes:</p>
+              <ul className={styles.pricingIncludes}>
+                {PACKAGE_INCLUDES.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <div className={styles.conversionActions}>
+          <a href={mailtoHref} className={styles.primaryBtnLink}>
+            Request Full Package
+          </a>
+          <a href="/content-packages" className={styles.secondaryBtnLink}>
+            View packages
+          </a>
+        </div>
+      </section>
     </div>
   );
 }

@@ -47,7 +47,11 @@ async function loadPackageItems(
   return fullItems as ContentItem[];
 }
 
-function isEligibleVideoItem(item: ContentItem | undefined): item is ContentItem {
+type EligibleVideoItem = ContentItem & { package_id: string };
+
+function isEligibleVideoItem(
+  item: ContentItem | undefined,
+): item is EligibleVideoItem {
   if (!item?.package_id || item.language !== null) return false;
   if (!SAMPLE_ITEM_STATUSES.has(item.status)) return false;
   return item.platform === "tiktok" || item.platform === "youtube";
@@ -74,7 +78,7 @@ async function selectionFromJob(
   if (itemError || !isEligibleVideoItem(itemRow as ContentItem | undefined)) {
     return null;
   }
-  const item = itemRow as ContentItem;
+  const item = itemRow as EligibleVideoItem;
   const items = await loadPackageItems(supabase, item.package_id);
   if (!items || scorePackage(items) < 3) return null;
 

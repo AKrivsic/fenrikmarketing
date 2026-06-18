@@ -4,6 +4,7 @@ import {
   getClientProject,
   listClientProjectItems,
   listCommentsForProject,
+  toClientProjectItemClientView,
 } from "@/lib/api/client-delivery-admin";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +23,10 @@ export default async function ClientReviewPage({ params }: ClientReviewPageProps
     listCommentsForProject(projectId),
   ]);
 
-  const { ...project } = detail;
+  const { client: _client, ...project } = detail;
+  const clientItems = items.map(toClientProjectItemClientView);
 
-  return <ClientReviewView project={project} items={items} comments={comments} />;
+  return (
+    <ClientReviewView project={project} items={clientItems} comments={comments} />
+  );
 }

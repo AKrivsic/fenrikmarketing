@@ -1,7 +1,13 @@
+import { cookies } from "next/headers";
+import {
+  ADMIN_SESSION_COOKIE,
+  isValidAdminSessionCookie,
+} from "@/lib/auth/admin-gate";
 import {
   buildProjectTextExport,
   getClientProject,
   listClientProjectItems,
+  toClientExportItem,
 } from "@/lib/api/client-delivery-admin";
 
 export async function GET(
@@ -13,6 +19,15 @@ export async function GET(
   const format = searchParams.get("format") ?? "txt";
   const itemId = searchParams.get("itemId");
   const clientFacing = searchParams.get("client") === "1";
+
+  const cookieStore = await cookies();
+  const isAdmin = await isValidAdminSessionCookie(
+    cookieStore.get(ADMIN_SESSION_COOKIE)?.value,
+  );
+
+  if (!clientFacing && !isAdmin) {
+    return new Response("Forbidden", { status: 403 });
+  }
 
   const detail = await getClientProject(projectId);
   if (!detail) {
@@ -27,6 +42,10 @@ export async function GET(
     return new Response("Downloads unlock after payment.", { status: 403 });
   }
 
+  const exportItems = clientFacing
+    ? scopedItems.map(toClientExportItem)
+    : scopedItems;
+
   if (format === "json") {
     const body = JSON.stringify(
       {
@@ -37,7 +56,7 @@ export async function GET(
           paid: project.paid,
           client: { name: client.name, email: client.email },
         },
-        items: scopedItems,
+        items: exportItems,
       },
       null,
       2,
@@ -50,7 +69,10 @@ export async function GET(
     });
   }
 
-  const text = buildProjectTextExport(project, scopedItems);
+  const text = buildProjectTextExport(
+    project,
+    exportItems as Parameters<typeof buildProjectTextExport>[1],
+  );
   const filename = itemId
     ? `video-${itemId.slice(0, 8)}.txt`
     : `content-package-${projectId}.txt`;
