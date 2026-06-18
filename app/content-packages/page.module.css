@@ -20,7 +20,7 @@
   margin: 0 0 1rem;
   font-size: clamp(1.75rem, 4vw, 2.35rem);
   line-height: 1.15;
-  max-width: 18ch;
+  max-width: 22ch;
 }
 
 .lead {
@@ -41,6 +41,36 @@
   font-size: 0.95rem;
 }
 
+.heroBenefits {
+  margin-top: 1.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  max-width: 320px;
+}
+
+.heroBenefitsTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.heroBenefitsList {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.sectionLead {
+  margin: 0 0 1.25rem;
+  max-width: 48ch;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
 .section {
   margin-bottom: 3rem;
 }
@@ -52,8 +82,28 @@
 
 .steps {
   margin: 0;
-  padding-left: 1.25rem;
-  line-height: 1.6;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stepTitle {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.stepText {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 .packages {
@@ -79,8 +129,18 @@
   font-size: 1.1rem;
 }
 
-.packageMeta {
+.packageIncludesLabel {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.packageIncludes {
   margin: 0;
+  padding-left: 1.1rem;
   font-size: 0.85rem;
   color: var(--color-text-muted);
   line-height: 1.45;
@@ -95,4 +155,12 @@
   margin: 0 0 1.25rem;
   color: var(--color-text-muted);
   max-width: 48ch;
+}
+
+.formMicrocopy {
+  margin: 1rem 0 0;
+  max-width: 48ch;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
 }

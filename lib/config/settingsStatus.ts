@@ -58,5 +58,13 @@ export function getSettingsStatus(): SettingsGroup[] {
         { label: "Worker secret", configured: isConfigured("VIDEO_WORKER_SECRET") },
       ],
     },
+    {
+      title: "Email (Resend)",
+      items: [
+        { label: "Resend API key", configured: isConfigured("RESEND_API_KEY") },
+        { label: "Contact from", configured: isConfigured("CONTACT_FROM") },
+        { label: "Contact to", configured: isConfigured("CONTACT_TO") },
+      ],
+    },
   ];
 }
