@@ -2,9 +2,8 @@ import { notFound } from "next/navigation";
 import { ClientReviewView } from "@/components/client-review/ClientReviewView/ClientReviewView";
 import {
   getClientProject,
-  listClientProjectItems,
   listCommentsForProject,
-  toClientProjectItemClientView,
+  loadClientProjectItemsForReview,
 } from "@/lib/api/client-delivery-admin";
 
 export const dynamic = "force-dynamic";
@@ -18,13 +17,12 @@ export default async function ClientReviewPage({ params }: ClientReviewPageProps
   const detail = await getClientProject(projectId);
   if (!detail) notFound();
 
-  const [items, comments] = await Promise.all([
-    listClientProjectItems(projectId),
+  const [clientItems, comments] = await Promise.all([
+    loadClientProjectItemsForReview(projectId),
     listCommentsForProject(projectId),
   ]);
 
   const { client: _client, ...project } = detail;
-  const clientItems = items.map(toClientProjectItemClientView);
 
   return (
     <ClientReviewView project={project} items={clientItems} comments={comments} />

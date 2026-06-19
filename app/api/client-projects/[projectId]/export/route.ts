@@ -6,6 +6,7 @@ import {
 import {
   buildProjectTextExport,
   getClientProject,
+  loadClientProjectItemsForReview,
   listClientProjectItems,
   toClientExportItem,
 } from "@/lib/api/client-delivery-admin";
@@ -35,8 +36,12 @@ export async function GET(
   }
 
   const { client, ...project } = detail;
+  const reviewItems = await loadClientProjectItemsForReview(projectId);
   const items = await listClientProjectItems(projectId);
   const scopedItems = itemId ? items.filter((i) => i.id === itemId) : items;
+  const scopedReviewItems = itemId
+    ? reviewItems.filter((i) => i.id === itemId)
+    : reviewItems;
 
   if (clientFacing && !project.paid) {
     return new Response("Downloads unlock after payment.", { status: 403 });
@@ -45,6 +50,10 @@ export async function GET(
   const exportItems = clientFacing
     ? scopedItems.map(toClientExportItem)
     : scopedItems;
+
+  const publishSectionsByItemId = new Map(
+    scopedReviewItems.map((i) => [i.id, i.publishSections]),
+  );
 
   if (format === "json") {
     const body = JSON.stringify(
@@ -72,6 +81,7 @@ export async function GET(
   const text = buildProjectTextExport(
     project,
     exportItems as Parameters<typeof buildProjectTextExport>[1],
+    { publishSectionsByItemId },
   );
   const filename = itemId
     ? `video-${itemId.slice(0, 8)}.txt`

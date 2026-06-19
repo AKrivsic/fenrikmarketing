@@ -13,9 +13,6 @@ import {
 } from "@/app/client-review/[projectId]/actions";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
 import { PublishPlatformOutputs } from "@/components/content-packages/PublishPlatformOutputs/PublishPlatformOutputs";
-import {
-  CLIENT_PUBLISH_PLATFORM_LABELS,
-} from "@/lib/publishing/clientProjectPublishText";
 import styles from "./ClientReviewView.module.css";
 
 interface ClientReviewViewProps {
@@ -28,8 +25,10 @@ const PACKAGE_INCLUDES = [
   "1 short-form video",
   "TikTok caption",
   "Instagram caption",
+  "YouTube title + description",
   "Facebook post",
   "LinkedIn post",
+  "X posts (when generated)",
 ];
 
 const PRICING = [
@@ -158,15 +157,7 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
                 )}
               </div>
 
-              <PublishPlatformOutputs
-                sections={CLIENT_PUBLISH_PLATFORM_LABELS.map(
-                  ({ key, label }, sectionIndex) => ({
-                    label,
-                    text: item.publishTexts[key],
-                    defaultOpen: sectionIndex === 0,
-                  }),
-                )}
-              />
+              <PublishPlatformOutputs sections={item.publishSections} />
             </div>
 
             {item.clientNote ? (

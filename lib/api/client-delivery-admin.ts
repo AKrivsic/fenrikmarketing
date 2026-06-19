@@ -3,8 +3,13 @@ import { readVideoOutput } from "@/lib/api/content-shared";
 import { buildVideoRenderPath } from "@/lib/api/storage";
 import {
   buildClientProjectPublishTexts,
+  CLIENT_PUBLISH_PLATFORM_LABELS,
   type ClientProjectPublishTexts,
 } from "@/lib/publishing/clientProjectPublishText";
+import {
+  buildClientPublishSectionsFromContentItems,
+  type ClientDeliveryPublishSection,
+} from "@/lib/publishing/clientDeliveryFromContentItems";
 import type { ContentItem, Json } from "@/lib/supabase/types";
 
 export type ClientProjectStatus =
@@ -83,16 +88,34 @@ export type ClientProjectItemClientView = Omit<
 > & {
   hasVideo: boolean;
   publishTexts: ClientProjectPublishTexts;
+  publishSections: ClientDeliveryPublishSection[];
 };
+
+function legacyPublishSections(
+  item: ClientProjectItemRow,
+): ClientDeliveryPublishSection[] {
+  const publishTexts = buildClientProjectPublishTexts(item);
+  return CLIENT_PUBLISH_PLATFORM_LABELS.map(({ key, label }, index) => ({
+    label,
+    text: publishTexts[key],
+    defaultOpen: index === 0,
+  }));
+}
 
 export function toClientProjectItemClientView(
   item: ClientProjectItemRow,
+  internalContentItems?: ContentItem[],
 ): ClientProjectItemClientView {
   const { videoUrl: _v, videoStoragePath: _p, internalNote: _n, ...rest } = item;
+  const publishSections =
+    internalContentItems && internalContentItems.length > 0
+      ? buildClientPublishSectionsFromContentItems(internalContentItems)
+      : legacyPublishSections(item);
   return {
     ...rest,
     hasVideo: Boolean(_p?.trim() || _v?.trim()),
     publishTexts: buildClientProjectPublishTexts(item),
+    publishSections,
   };
 }
 
@@ -201,21 +224,9 @@ function mapComment(row: Record<string, unknown>): ClientProjectCommentRow {
 function findCaption(items: ContentItem[], platform: string): string {
   const item = items.find((i) => i.platform === platform);
   if (!item) return "";
-  const parts = [item.caption, item.body].filter(
-    (p) => typeof p === "string" && p.trim().length > 0,
-  ) as string[];
-  return parts.join("\n\n").trim();
+  return (item.caption ?? "").trim();
 }
 
-function hashtagsForItems(items: ContentItem[]): string[] {
-  const set = new Set<string>();
-  for (const item of items) {
-    for (const tag of item.hashtags ?? []) {
-      if (tag.trim()) set.add(tag.trim());
-    }
-  }
-  return [...set];
-}
 
 export async function insertSampleRequest(input: {
   name: string;
@@ -427,6 +438,57 @@ export async function listClientProjectItems(
   return (data ?? []).map((row) => mapItem(row as Record<string, unknown>));
 }
 
+/** Client review UI: hydrate publish copy from linked internal content_packages when present. */
+export async function loadClientProjectItemsForReview(
+  projectId: string,
+): Promise<ClientProjectItemClientView[]> {
+  const [items, packages] = await Promise.all([
+    listClientProjectItems(projectId),
+    listClientProjectPackages(projectId),
+  ]);
+  const packageById = new Map(packages.map((p) => [p.id, p]));
+
+  const internalPackageIds = [
+    ...new Set(
+      items
+        .map((item) => {
+          if (!item.packageId) return null;
+          return packageById.get(item.packageId)?.internalPackageId ?? null;
+        })
+        .filter((id): id is string => typeof id === "string" && id.length > 0),
+    ),
+  ];
+
+  const contentItemsByPackageId = new Map<string, ContentItem[]>();
+  if (internalPackageIds.length > 0) {
+    const supabase = createSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("content_items")
+      .select("*")
+      .in("package_id", internalPackageIds)
+      .is("language", null);
+    if (error) throw error;
+    for (const row of data ?? []) {
+      const contentItem = row as ContentItem;
+      const packageId = contentItem.package_id;
+      if (!packageId) continue;
+      const list = contentItemsByPackageId.get(packageId) ?? [];
+      list.push(contentItem);
+      contentItemsByPackageId.set(packageId, list);
+    }
+  }
+
+  return items.map((item) => {
+    const internalId = item.packageId
+      ? packageById.get(item.packageId)?.internalPackageId
+      : null;
+    const internalItems = internalId
+      ? contentItemsByPackageId.get(internalId)
+      : undefined;
+    return toClientProjectItemClientView(item, internalItems);
+  });
+}
+
 export async function listCommentsForProject(
   projectId: string,
 ): Promise<ClientProjectCommentRow[]> {
@@ -595,7 +657,7 @@ export async function importInternalContentPackage(
     .order("sort_order", { ascending: false })
     .limit(1);
   if (itemSortError) throw itemSortError;
-  let itemSort =
+  const itemSort =
     existingItems && existingItems.length > 0
       ? ((existingItems[0] as { sort_order: number }).sort_order ?? 0) + 1
       : 0;
@@ -609,9 +671,9 @@ export async function importInternalContentPackage(
     tik_tok_caption: findCaption(items, "tiktok") || anchorItem.caption || "",
     instagram_caption:
       findCaption(items, "instagram") || anchorItem.caption || "",
-    facebook_post: findCaption(items, "facebook") || anchorItem.body || "",
-    linkedin_post: findCaption(items, "linkedin") || anchorItem.body || "",
-    hashtags: hashtagsForItems(items),
+    facebook_post: findCaption(items, "facebook") || anchorItem.caption || "",
+    linkedin_post: findCaption(items, "linkedin") || anchorItem.caption || "",
+    hashtags: anchorItem.hashtags ?? [],
     sort_order: itemSort,
   });
   if (insertItemError) throw insertItemError;
@@ -622,6 +684,7 @@ export async function importInternalContentPackage(
 export function buildProjectTextExport(
   project: ClientProjectRow,
   items: ClientProjectItemRow[],
+  options?: { publishSectionsByItemId?: Map<string, ClientDeliveryPublishSection[]> },
 ): string {
   const lines: string[] = [
     `# ${project.title}`,
@@ -630,21 +693,22 @@ export function buildProjectTextExport(
     "",
   ];
   items.forEach((item, index) => {
-    const publish = buildClientProjectPublishTexts(item);
+    const sections =
+      options?.publishSectionsByItemId?.get(item.id) ??
+      legacyPublishSections(item);
     lines.push(`## Video ${index + 1}: ${item.title}`);
     lines.push("");
-    lines.push("### TikTok");
-    lines.push(publish.tikTok || "—");
-    lines.push("");
-    lines.push("### Instagram");
-    lines.push(publish.instagram || "—");
-    lines.push("");
-    lines.push("### Facebook");
-    lines.push(publish.facebook || "—");
-    lines.push("");
-    lines.push("### LinkedIn");
-    lines.push(publish.linkedin || "—");
-    lines.push("");
+    for (const section of sections) {
+      lines.push(`### ${section.label}`);
+      if (section.publishTitle) {
+        lines.push("");
+        lines.push("Title:");
+        lines.push(section.publishTitle);
+      }
+      lines.push("");
+      lines.push(section.text || "—");
+      lines.push("");
+    }
   });
   return lines.join("\n");
 }
