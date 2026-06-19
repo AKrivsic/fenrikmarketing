@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import type {
   ClientProjectCommentRow,
   ClientProjectItemClientView,
@@ -12,6 +12,7 @@ import {
   requestChangesAction,
 } from "@/app/client-review/[projectId]/actions";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
+import { SampleRequestForm } from "@/components/content-packages/SampleRequestForm/SampleRequestForm";
 import { PublishPlatformOutputs } from "@/components/content-packages/PublishPlatformOutputs/PublishPlatformOutputs";
 import styles from "./ClientReviewView.module.css";
 
@@ -57,16 +58,10 @@ function videoDownloadHref(projectId: string, itemId: string): string {
   return `/api/client-projects/${projectId}/video?itemId=${encodeURIComponent(itemId)}&download=1`;
 }
 
-function requestPackageMailto(projectTitle: string, projectId: string): string {
-  const subject = encodeURIComponent(`Full content package — ${projectTitle}`);
-  const body = encodeURIComponent(
-    `Hi,\n\nI reviewed my sample and would like to order a full content package.\n\nProject: ${projectTitle}\nReview link path: /client-review/${projectId}\n\nThanks!`,
-  );
-  return `mailto:hello@fenrikmarketing.com?subject=${subject}&body=${body}`;
-}
-
 export function ClientReviewView({ project, items, comments }: ClientReviewViewProps) {
   const [pending, startTransition] = useTransition();
+  const [orderFormOpen, setOrderFormOpen] = useState(false);
+  const orderFormRef = useRef<HTMLElement>(null);
   const commentsByItem = new Map<string, ClientProjectCommentRow[]>();
   for (const c of comments) {
     if (c.authorType === "internal") continue;
@@ -76,7 +71,13 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
   }
 
   const paid = project.paid;
-  const mailtoHref = requestPackageMailto(project.title, project.id);
+
+  function openOrderForm() {
+    setOrderFormOpen(true);
+    requestAnimationFrame(() => {
+      orderFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   return (
     <div className={styles.page}>
@@ -101,7 +102,7 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
           </p>
           <p>You can review the video and text here. Use comments if you want changes.</p>
           {!paid ? (
-            <p>After payment, downloads for video and captions will be unlocked.</p>
+            <p>After payment, video download will be unlocked.</p>
           ) : null}
         </div>
         <div className={styles.actions}>
@@ -175,16 +176,6 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
               ) : (
                 <span className={styles.downloadLocked}>Download video (locked)</span>
               )}
-              {paid ? (
-                <a
-                  href={`/api/client-projects/${project.id}/export?format=txt&itemId=${item.id}&client=1`}
-                  className={styles.downloadLink}
-                >
-                  Download captions (.txt)
-                </a>
-              ) : (
-                <span className={styles.downloadLocked}>Download captions (locked)</span>
-              )}
             </div>
 
             <ul className={styles.comments}>
@@ -217,17 +208,6 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
         ))
       )}
 
-      {paid && items.length > 0 ? (
-        <p className={styles.fullExport}>
-          <a
-            href={`/api/client-projects/${project.id}/export?format=json&client=1`}
-            className={styles.downloadLink}
-          >
-            Download full package (JSON)
-          </a>
-        </p>
-      ) : null}
-
       <section className={styles.conversion} id="order">
         <h2 className={styles.conversionTitle}>Want more content like this?</h2>
         <p className={styles.conversionLead}>
@@ -249,13 +229,31 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
           ))}
         </div>
         <div className={styles.conversionActions}>
-          <a href={mailtoHref} className={styles.primaryBtnLink}>
+          <button type="button" className={styles.primaryBtn} onClick={openOrderForm}>
             Request Full Package
-          </a>
-          <a href="/" className={styles.secondaryBtnLink}>
-            View packages
-          </a>
+          </button>
         </div>
+        {orderFormOpen ? (
+          <section
+            ref={orderFormRef}
+            className={styles.orderFormSection}
+            id="order-form"
+            aria-labelledby="order-form-title"
+          >
+            <h3 className={styles.orderFormTitle} id="order-form-title">
+              Request a full package
+            </h3>
+            <p className={styles.orderFormLead}>
+              Same form as on our homepage — tell us about your business and which
+              package you want (Starter, Growth, or Monthly).
+            </p>
+            <SampleRequestForm
+              variant="full_package"
+              clientProjectId={project.id}
+              clientProjectTitle={project.title}
+            />
+          </section>
+        ) : null}
       </section>
     </div>
   );

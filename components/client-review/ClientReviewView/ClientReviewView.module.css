@@ -299,6 +299,25 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.orderFormSection {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.orderFormTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.orderFormLead {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
 }
 
 @media (min-width: 480px) {

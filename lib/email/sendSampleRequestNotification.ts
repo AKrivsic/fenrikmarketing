@@ -8,6 +8,9 @@ export interface SampleRequestNotificationPayload {
   monthlyRevenue: string;
   notes: string;
   submittedAt: Date;
+  requestVariant?: string;
+  clientProjectId?: string;
+  clientProjectTitle?: string;
 }
 
 function getEmailConfig(): {
@@ -27,9 +30,19 @@ function formatTimestamp(date: Date): string {
 }
 
 function buildEmailBody(payload: SampleRequestNotificationPayload): string {
+  const heading =
+    payload.requestVariant === "full_package"
+      ? "New full package request (after client review)"
+      : "New free sample request";
   const lines = [
-    "New free sample request",
+    heading,
     "",
+    ...(payload.clientProjectTitle
+      ? [`Sample project: ${payload.clientProjectTitle}`]
+      : []),
+    ...(payload.clientProjectId
+      ? [`Review: /client-review/${payload.clientProjectId}`]
+      : []),
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,
     `Website: ${payload.websiteUrl}`,
@@ -56,7 +69,10 @@ export async function sendSampleRequestNotification(
   }
 
   const resend = new Resend(config.apiKey);
-  const subject = `Sample request: ${payload.name}`;
+  const subject =
+    payload.requestVariant === "full_package"
+      ? `Full package request: ${payload.name}`
+      : `Sample request: ${payload.name}`;
 
   try {
     const { error } = await resend.emails.send({

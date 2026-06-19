@@ -23,7 +23,20 @@ const REVENUE_OPTIONS = [
   "$50k+ / month",
 ] as const;
 
-export function SampleRequestForm() {
+export type SampleRequestFormVariant = "free_sample" | "full_package";
+
+export interface SampleRequestFormProps {
+  variant?: SampleRequestFormVariant;
+  clientProjectId?: string;
+  clientProjectTitle?: string;
+}
+
+export function SampleRequestForm({
+  variant = "free_sample",
+  clientProjectId,
+  clientProjectTitle,
+}: SampleRequestFormProps = {}) {
+  const isFullPackage = variant === "full_package";
   const [pending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,8 +61,9 @@ export function SampleRequestForm() {
       <div className={styles.success} role="status">
         <h2 className={styles.successTitle}>Request received</h2>
         <p className={styles.successText}>
-          Thanks — we will review your website and prepare a free sample content
-          package. We will email you when it is ready.
+          {isFullPackage
+            ? "Thanks — we received your order request and will follow up by email shortly."
+            : "Thanks — we will review your website and prepare a free sample content package. We will email you when it is ready."}
         </p>
       </div>
     );
@@ -57,6 +71,13 @@ export function SampleRequestForm() {
 
   return (
     <form className={styles.form} action={onSubmit}>
+      <input type="hidden" name="requestVariant" value={variant} />
+      {clientProjectId ? (
+        <input type="hidden" name="clientProjectId" value={clientProjectId} />
+      ) : null}
+      {clientProjectTitle ? (
+        <input type="hidden" name="clientProjectTitle" value={clientProjectTitle} />
+      ) : null}
       <div className={styles.honeypot} aria-hidden="true">
         <label>
           Company website URL
@@ -137,7 +158,11 @@ export function SampleRequestForm() {
         ) : null}
       </label>
       <button type="submit" className={styles.button} disabled={pending}>
-        {pending ? "Sending…" : "Get My Free Sample"}
+        {pending
+          ? "Sending…"
+          : isFullPackage
+            ? "Send request"
+            : "Get My Free Sample"}
       </button>
     </form>
   );

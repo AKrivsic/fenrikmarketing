@@ -31,8 +31,20 @@ function buildNotesBlock(input: {
   businessType: string;
   monthlyRevenue: string;
   notes: string;
+  requestVariant: string;
+  clientProjectId?: string;
+  clientProjectTitle?: string;
 }): string {
   const lines = [
+    input.requestVariant === "full_package"
+      ? "Request: Full content package (after sample review)"
+      : "Request: Free sample",
+    ...(input.clientProjectTitle
+      ? [`Sample project: ${input.clientProjectTitle}`]
+      : []),
+    ...(input.clientProjectId
+      ? [`Review link: /client-review/${input.clientProjectId}`]
+      : []),
     `Business type: ${input.businessType}`,
     `Monthly revenue: ${input.monthlyRevenue}`,
     "",
@@ -56,6 +68,9 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
   const businessType = String(formData.get("businessType") ?? "").trim();
   const monthlyRevenue = String(formData.get("monthlyRevenue") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
+  const requestVariant = String(formData.get("requestVariant") ?? "free_sample").trim();
+  const clientProjectId = String(formData.get("clientProjectId") ?? "").trim();
+  const clientProjectTitle = String(formData.get("clientProjectTitle") ?? "").trim();
 
   if (!name) fieldErrors.name = "Name is required.";
   if (!email) fieldErrors.email = "Email is required.";
@@ -90,7 +105,14 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
       name,
       email,
       websiteUrl: normalizedWebsiteUrl!,
-      notes: buildNotesBlock({ businessType, monthlyRevenue, notes }),
+      notes: buildNotesBlock({
+        businessType,
+        monthlyRevenue,
+        notes,
+        requestVariant,
+        clientProjectId: clientProjectId || undefined,
+        clientProjectTitle: clientProjectTitle || undefined,
+      }),
     });
   } catch {
     return { ok: false, error: "Could not save your request. Please try again." };
@@ -104,6 +126,9 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
     monthlyRevenue,
     notes,
     submittedAt,
+    requestVariant,
+    clientProjectId: clientProjectId || undefined,
+    clientProjectTitle: clientProjectTitle || undefined,
   });
 
   return { ok: true };
