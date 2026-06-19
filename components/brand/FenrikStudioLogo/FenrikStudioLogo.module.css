@@ -1,0 +1,35 @@
+.logo {
+  display: block;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+}
+
+.nav {
+  max-height: 36px;
+  width: auto;
+}
+
+.landing {
+  max-height: 44px;
+  width: auto;
+}
+
+.header {
+  max-height: 112px;
+  width: auto;
+  max-width: min(100%, 320px);
+}
+
+@media (max-width: 640px) {
+  .header {
+    max-height: 88px;
+    max-width: min(100%, 260px);
+  }
+}
+
+.login {
+  max-height: 40px;
+  width: auto;
+  margin: 0;
+}

@@ -45,10 +45,10 @@ interface PackageTranslationJob {
 export const REVIEW_RUN_LIMIT = 5;
 
 /** Max distinct packages whose full item/video payload is loaded per request. */
-export const REVIEW_PACKAGE_LIMIT = 20;
+export const REVIEW_PACKAGE_LIMIT = 21;
 
 /** When there are no production runs, load this many recent packages instead. */
-export const REVIEW_FALLBACK_PACKAGES = 20;
+export const REVIEW_FALLBACK_PACKAGES = 21;
 
 const REVIEW_TIMING =
   process.env.REVIEW_TIMING === "1" || process.env.NODE_ENV === "development";

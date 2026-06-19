@@ -14,8 +14,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Content Manager",
-  description: "Interní admin pro správu AI obsahu",
+  title: {
+    default: "Fenrik Studio",
+    template: "%s | Fenrik Studio",
+  },
+  description:
+    "Send us your website and get a free sample content package with ready-to-post videos and social posts.",
+  icons: {
+    icon: "/fenrik-logo.png",
+    apple: "/fenrik-logo.png",
+  },
 };
 
 export default function RootLayout({

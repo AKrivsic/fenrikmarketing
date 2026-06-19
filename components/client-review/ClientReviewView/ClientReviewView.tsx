@@ -11,6 +11,7 @@ import {
   approveProjectAction,
   requestChangesAction,
 } from "@/app/client-review/[projectId]/actions";
+import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
 import styles from "./ClientReviewView.module.css";
 
 interface ClientReviewViewProps {
@@ -77,6 +78,9 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
 
   return (
     <div className={styles.page}>
+      <div className={styles.siteBrand}>
+        <FenrikStudioLogo variant="landing" />
+      </div>
       <header className={styles.header}>
         <p className={styles.eyebrow}>Content package preview</p>
         <h1 className={styles.title}>{project.title}</h1>
@@ -264,7 +268,7 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
           <a href={mailtoHref} className={styles.primaryBtnLink}>
             Request Full Package
           </a>
-          <a href="/content-packages" className={styles.secondaryBtnLink}>
+          <a href="/" className={styles.secondaryBtnLink}>
             View packages
           </a>
         </div>
