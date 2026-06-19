@@ -12,6 +12,10 @@ import {
   requestChangesAction,
 } from "@/app/client-review/[projectId]/actions";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
+import { PublishPlatformOutputs } from "@/components/content-packages/PublishPlatformOutputs/PublishPlatformOutputs";
+import {
+  CLIENT_PUBLISH_PLATFORM_LABELS,
+} from "@/lib/publishing/clientProjectPublishText";
 import styles from "./ClientReviewView.module.css";
 
 interface ClientReviewViewProps {
@@ -26,7 +30,6 @@ const PACKAGE_INCLUDES = [
   "Instagram caption",
   "Facebook post",
   "LinkedIn post",
-  "hashtags",
 ];
 
 const PRICING = [
@@ -138,50 +141,40 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
             <h2 className={styles.itemTitle}>Video #{index + 1}</h2>
             {item.title ? <p className={styles.itemName}>{item.title}</p> : null}
 
-            {item.hasVideo ? (
-              <video
-                src={videoPreviewSrc(project.id, item.id)}
-                controls
-                controlsList="nodownload noplaybackrate"
-                disablePictureInPicture
-                playsInline
-                className={styles.video}
-                preload="metadata"
-              />
-            ) : (
-              <p className={styles.muted}>Video preview not available yet.</p>
-            )}
+            <div className={styles.itemShowcase}>
+              <div className={styles.itemMedia}>
+                {item.hasVideo ? (
+                  <video
+                    src={videoPreviewSrc(project.id, item.id)}
+                    controls
+                    controlsList="nodownload noplaybackrate"
+                    disablePictureInPicture
+                    playsInline
+                    className={styles.video}
+                    preload="metadata"
+                  />
+                ) : (
+                  <p className={styles.muted}>Video preview not available yet.</p>
+                )}
+              </div>
 
-            <div className={styles.platformBlocks}>
-              <details className={styles.platformDetails} open>
-                <summary className={styles.platformSummary}>TikTok caption</summary>
-                <p className={styles.platformBody}>{item.tikTokCaption || "—"}</p>
-              </details>
-              <details className={styles.platformDetails}>
-                <summary className={styles.platformSummary}>Instagram caption</summary>
-                <p className={styles.platformBody}>{item.instagramCaption || "—"}</p>
-              </details>
-              <details className={styles.platformDetails}>
-                <summary className={styles.platformSummary}>Facebook post</summary>
-                <p className={styles.platformBody}>{item.facebookPost || "—"}</p>
-              </details>
-              <details className={styles.platformDetails}>
-                <summary className={styles.platformSummary}>LinkedIn post</summary>
-                <p className={styles.platformBody}>{item.linkedinPost || "—"}</p>
-              </details>
-              <details className={styles.platformDetails}>
-                <summary className={styles.platformSummary}>Hashtags</summary>
-                <p className={styles.platformBody}>
-                  {item.hashtags.length ? item.hashtags.join(" ") : "—"}
-                </p>
-              </details>
-              {item.clientNote ? (
-                <details className={styles.platformDetails} open>
-                  <summary className={styles.platformSummary}>Note</summary>
-                  <p className={styles.platformBody}>{item.clientNote}</p>
-                </details>
-              ) : null}
+              <PublishPlatformOutputs
+                sections={CLIENT_PUBLISH_PLATFORM_LABELS.map(
+                  ({ key, label }, sectionIndex) => ({
+                    label,
+                    text: item.publishTexts[key],
+                    defaultOpen: sectionIndex === 0,
+                  }),
+                )}
+              />
             </div>
+
+            {item.clientNote ? (
+              <details className={styles.noteDetails}>
+                <summary className={styles.noteSummary}>Note</summary>
+                <p className={styles.noteBody}>{item.clientNote}</p>
+              </details>
+            ) : null}
 
             <div className={styles.downloads}>
               {paid && item.hasVideo ? (

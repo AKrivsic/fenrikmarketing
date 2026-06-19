@@ -1,30 +1,31 @@
 import type { LandingSamplePreview } from "@/lib/api/landing-sample";
+import { PublishPlatformOutputs } from "@/components/content-packages/PublishPlatformOutputs/PublishPlatformOutputs";
 import styles from "./LandingSampleShowcase.module.css";
 
 interface LandingSampleShowcaseProps {
   sample: LandingSamplePreview;
 }
 
-function SampleCard({
-  label,
-  children,
-}: {
+const PLATFORM_SECTIONS: {
+  key: keyof Pick<
+    LandingSamplePreview,
+    "tikTokCaption" | "instagramCaption" | "facebookPost" | "linkedinPost"
+  >;
   label: string;
-  children: string;
-}) {
-  return (
-    <article className={styles.card}>
-      <h3 className={styles.cardLabel}>{label}</h3>
-      <p className={styles.cardBody}>{children}</p>
-    </article>
-  );
-}
+  defaultOpen?: boolean;
+}[] = [
+  { key: "tikTokCaption", label: "TikTok", defaultOpen: true },
+  { key: "instagramCaption", label: "Instagram" },
+  { key: "facebookPost", label: "Facebook" },
+  { key: "linkedinPost", label: "LinkedIn" },
+];
 
 export function LandingSampleShowcase({ sample }: LandingSampleShowcaseProps) {
-  const hashtagLine =
-    sample.hashtags.length > 0
-      ? sample.hashtags.join(" ")
-      : "—";
+  const sections = PLATFORM_SECTIONS.map(({ key, label, defaultOpen }) => ({
+    label,
+    text: sample[key],
+    defaultOpen,
+  }));
 
   return (
     <div className={styles.showcase}>
@@ -47,15 +48,7 @@ export function LandingSampleShowcase({ sample }: LandingSampleShowcaseProps) {
           </div>
         )}
       </div>
-      <div className={styles.cards}>
-        <SampleCard label="TikTok caption">{sample.tikTokCaption}</SampleCard>
-        <SampleCard label="Instagram caption">
-          {sample.instagramCaption}
-        </SampleCard>
-        <SampleCard label="Facebook post">{sample.facebookPost}</SampleCard>
-        <SampleCard label="LinkedIn post">{sample.linkedinPost}</SampleCard>
-        <SampleCard label="Hashtags">{hashtagLine}</SampleCard>
-      </div>
+      <PublishPlatformOutputs sections={sections} />
     </div>
   );
 }

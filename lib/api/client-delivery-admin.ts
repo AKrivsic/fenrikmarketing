@@ -1,6 +1,10 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { readVideoOutput } from "@/lib/api/content-shared";
 import { buildVideoRenderPath } from "@/lib/api/storage";
+import {
+  buildClientProjectPublishTexts,
+  type ClientProjectPublishTexts,
+} from "@/lib/publishing/clientProjectPublishText";
 import type { ContentItem, Json } from "@/lib/supabase/types";
 
 export type ClientProjectStatus =
@@ -76,7 +80,10 @@ export interface ClientProjectItemRow {
 export type ClientProjectItemClientView = Omit<
   ClientProjectItemRow,
   "videoUrl" | "videoStoragePath" | "internalNote"
-> & { hasVideo: boolean };
+> & {
+  hasVideo: boolean;
+  publishTexts: ClientProjectPublishTexts;
+};
 
 export function toClientProjectItemClientView(
   item: ClientProjectItemRow,
@@ -85,6 +92,7 @@ export function toClientProjectItemClientView(
   return {
     ...rest,
     hasVideo: Boolean(_p?.trim() || _v?.trim()),
+    publishTexts: buildClientProjectPublishTexts(item),
   };
 }
 
@@ -622,22 +630,20 @@ export function buildProjectTextExport(
     "",
   ];
   items.forEach((item, index) => {
+    const publish = buildClientProjectPublishTexts(item);
     lines.push(`## Video ${index + 1}: ${item.title}`);
     lines.push("");
     lines.push("### TikTok");
-    lines.push(item.tikTokCaption || "—");
+    lines.push(publish.tikTok || "—");
     lines.push("");
     lines.push("### Instagram");
-    lines.push(item.instagramCaption || "—");
+    lines.push(publish.instagram || "—");
     lines.push("");
     lines.push("### Facebook");
-    lines.push(item.facebookPost || "—");
+    lines.push(publish.facebook || "—");
     lines.push("");
     lines.push("### LinkedIn");
-    lines.push(item.linkedinPost || "—");
-    lines.push("");
-    lines.push("### Hashtags");
-    lines.push(item.hashtags.length ? item.hashtags.join(" ") : "—");
+    lines.push(publish.linkedin || "—");
     lines.push("");
   });
   return lines.join("\n");

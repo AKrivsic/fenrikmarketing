@@ -8,6 +8,7 @@ import type { Json } from "@/lib/supabase/types";
 
 export type KnowledgeCardStatus = "proposed" | "approved";
 export type KnowledgeSource = "url" | "manual";
+export type KnowledgeExtractionStatus = "success" | "failed";
 
 export const KNOWLEDGE_CARD_KEYS = [
   "product",
@@ -76,6 +77,10 @@ export interface Scenario {
 export interface ProjectKnowledge {
   source_url: string | null;
   extracted_at: string | null;
+  extraction_status?: KnowledgeExtractionStatus;
+  last_extraction_reason?: string | null;
+  last_extraction_error?: string | null;
+  last_extraction_at?: string | null;
   cards: {
     product: ProductCard;
     customer: CustomerCard;
@@ -156,6 +161,22 @@ export function parseProjectKnowledge(
   base.source_url = typeof record.source_url === "string" ? record.source_url : null;
   base.extracted_at =
     typeof record.extracted_at === "string" ? record.extracted_at : null;
+
+  if (record.extraction_status === "success" || record.extraction_status === "failed") {
+    base.extraction_status = record.extraction_status;
+  }
+  base.last_extraction_reason =
+    typeof record.last_extraction_reason === "string"
+      ? record.last_extraction_reason
+      : null;
+  base.last_extraction_error =
+    typeof record.last_extraction_error === "string"
+      ? record.last_extraction_error
+      : null;
+  base.last_extraction_at =
+    typeof record.last_extraction_at === "string"
+      ? record.last_extraction_at
+      : null;
 
   for (const key of KNOWLEDGE_CARD_KEYS) {
     const raw = cards[key];

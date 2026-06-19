@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { runProjectKnowledgeExtraction } from "@/lib/ai/workflows/extractKnowledge";
 import { getProjectForAdmin, updateProjectForAdmin } from "@/lib/api/projects-admin";
 import { compileCardToBrain } from "@/lib/knowledge/compile";
 import { deriveKnowledgeFromProject } from "@/lib/knowledge/deriveFromProject";
@@ -18,6 +19,10 @@ import type { Json, ProjectUpdate } from "@/lib/supabase/types";
 export type KnowledgeActionResult =
   | { ok: true; ready: boolean }
   | { ok: false; error: string };
+
+export type RegenerateKnowledgeResult =
+  | { ok: true }
+  | { ok: false; error: string; reason?: string };
 
 function fail(error: string): KnowledgeActionResult {
   return { ok: false, error };
@@ -111,5 +116,33 @@ export async function approveKnowledgeCard(
     return { ok: true, ready };
   } catch {
     return fail("Schválení se nezdařilo.");
+  }
+}
+
+export async function regenerateProjectKnowledge(
+  projectId: string,
+): Promise<RegenerateKnowledgeResult> {
+  if (!projectId) return { ok: false, error: "Chybí identifikátor projektu." };
+
+  try {
+    const result = await runProjectKnowledgeExtraction(projectId);
+    revalidatePath(`/projects/${projectId}/knowledge`);
+
+    if (!result.extracted) {
+      const reason = result.reason ?? "unknown";
+      const detail = result.error?.trim();
+      return {
+        ok: false,
+        reason,
+        error: detail
+          ? `Extrakce selhala (${reason}): ${detail}`
+          : `Extrakce selhala (${reason}).`,
+      };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return { ok: false, error: message };
   }
 }

@@ -3,6 +3,7 @@ import {
   type LandingSampleSelection,
 } from "@/lib/api/landing-sample-resolve";
 import { STORAGE_BUCKETS, buildVideoRenderPath } from "@/lib/api/storage";
+import { buildPublishReadyText } from "@/lib/publishing/publishReadyText";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { ContentItem } from "@/lib/supabase/types";
 
@@ -20,7 +21,6 @@ export interface LandingSamplePreview {
   instagramCaption: string;
   facebookPost: string;
   linkedinPost: string;
-  hashtags: string[];
   fromDatabase: boolean;
 }
 
@@ -38,6 +38,25 @@ function captionText(item: ContentItem): string {
   return parts.join("\n\n").trim();
 }
 
+function itemCaptionForPublish(item: ContentItem): string {
+  if (item.caption?.trim()) return item.caption.trim();
+  if (item.body?.trim()) return item.body.trim();
+  return "";
+}
+
+/** Same paste-ready text as project review (caption + CTA + hashtags per platform). */
+function itemPublishText(item: ContentItem): string {
+  const composed = buildPublishReadyText({
+    platform: item.platform,
+    title: item.title,
+    caption: itemCaptionForPublish(item),
+    cta: item.cta,
+    hashtags: item.hashtags ?? [],
+  });
+  if (composed.trim()) return composed;
+  return captionText(item);
+}
+
 function pickPlatformItem(
   items: ContentItem[],
   platform: string,
@@ -51,19 +70,6 @@ function pickPlatformItem(
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => statusRank(b.status) - statusRank(a.status));
   return candidates[0] ?? null;
-}
-
-function collectHashtags(items: ContentItem[]): string[] {
-  const tags = new Set<string>();
-  for (const item of items) {
-    if (item.language !== null) continue;
-    if (!SAMPLE_ITEM_STATUSES.has(item.status)) continue;
-    for (const tag of item.hashtags ?? []) {
-      const trimmed = tag.trim();
-      if (trimmed) tags.add(trimmed);
-    }
-  }
-  return [...tags].slice(0, 12);
 }
 
 async function signPosterUrl(
@@ -99,36 +105,63 @@ function previewFromSelection(
   const anchor = tiktok ?? instagram ?? linkedin ?? items[0];
 
   const facebookText =
-    (facebook ? captionText(facebook) : "") ||
-    (linkedin ? captionText(linkedin) : "") ||
-    (instagram ? captionText(instagram) : "") ||
-    captionText(anchor);
+    (facebook ? itemPublishText(facebook) : "") ||
+    (linkedin ? itemPublishText(linkedin) : "") ||
+    (instagram ? itemPublishText(instagram) : "") ||
+    itemPublishText(anchor);
 
   return {
     videoUrl: LANDING_SAMPLE_VIDEO_PATH,
     posterUrl,
-    tikTokCaption: tiktok ? captionText(tiktok) : captionText(anchor),
-    instagramCaption: instagram ? captionText(instagram) : captionText(anchor),
-    linkedinPost: linkedin ? captionText(linkedin) : captionText(anchor),
-    facebookPost: facebookText,
-    hashtags: collectHashtags(items),
+    tikTokCaption: tiktok ? itemPublishText(tiktok) : itemPublishText(anchor),
+    instagramCaption: instagram
+      ? itemPublishText(instagram)
+      : itemPublishText(anchor),
+    linkedinPost: linkedin ? itemPublishText(linkedin) : itemPublishText(anchor),
+    facebookPost: facebook
+      ? itemPublishText(facebook)
+      : facebookText,
     fromDatabase: true,
   };
 }
 
 export async function getLandingSamplePreview(): Promise<LandingSamplePreview> {
+  const sampleTags = ["yourbrand", "contentpackage", "readytopost"];
   const fallback: LandingSamplePreview = {
     videoUrl: null,
     posterUrl: null,
-    tikTokCaption:
-      "Your TikTok caption lands here — short, scroll-stopping, and ready to post.",
-    instagramCaption:
-      "Your Instagram caption with a clear hook and a line that invites saves or replies.",
-    facebookPost:
-      "Your Facebook post written for the feed: context, value, and a simple next step.",
-    linkedinPost:
-      "Your LinkedIn post in a professional tone — insight first, soft CTA at the end.",
-    hashtags: ["#yourbrand", "#contentpackage", "#readytopost"],
+    tikTokCaption: buildPublishReadyText({
+      platform: "tiktok",
+      title: null,
+      caption:
+        "Your TikTok caption lands here — short, scroll-stopping, and ready to post.",
+      cta: null,
+      hashtags: sampleTags,
+    }),
+    instagramCaption: buildPublishReadyText({
+      platform: "instagram",
+      title: null,
+      caption:
+        "Your Instagram caption with a clear hook and a line that invites saves or replies.",
+      cta: null,
+      hashtags: sampleTags,
+    }),
+    facebookPost: buildPublishReadyText({
+      platform: "facebook",
+      title: null,
+      caption:
+        "Your Facebook post written for the feed: context, value, and a simple next step.",
+      cta: null,
+      hashtags: sampleTags,
+    }),
+    linkedinPost: buildPublishReadyText({
+      platform: "linkedin",
+      title: null,
+      caption:
+        "Your LinkedIn post in a professional tone — insight first, soft CTA at the end.",
+      cta: null,
+      hashtags: sampleTags,
+    }),
     fromDatabase: false,
   };
 

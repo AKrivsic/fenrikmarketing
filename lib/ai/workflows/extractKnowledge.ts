@@ -12,7 +12,7 @@ import {
 } from "@/lib/ai/schemas/extractKnowledge";
 import { WorkflowError, type WorkflowResult } from "@/lib/ai/workflows/shared";
 import { getProjectForAdmin, updateProjectForAdmin } from "@/lib/api/projects-admin";
-import { fetchUrlText } from "@/lib/knowledge/fetchUrlText";
+import { FetchUrlError, fetchUrlText } from "@/lib/knowledge/fetchUrlText";
 import {
   emptyKnowledge,
   parseProjectKnowledge,
@@ -26,6 +26,85 @@ export interface ExtractKnowledgeInput {
 
 export interface ExtractKnowledgeDeps {
   textProvider?: TextProvider;
+}
+
+const LOG_PREFIX = "[knowledge-extraction]";
+
+function logStart(payload: {
+  project_id: string;
+  project_name: string;
+  source_url: string | null;
+  started_at: string;
+}): void {
+  console.log(`${LOG_PREFIX} START`, payload);
+}
+
+function logSuccess(payload: {
+  project_id: string;
+  duration_ms: number;
+  extracted: true;
+}): void {
+  console.log(`${LOG_PREFIX} SUCCESS`, payload);
+}
+
+function logFailure(payload: {
+  project_id: string;
+  duration_ms: number;
+  extracted: false;
+  reason: string;
+  error?: string;
+}): void {
+  console.error(`${LOG_PREFIX} FAILURE`, payload);
+}
+
+function errorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  return String(err);
+}
+
+function applyExtractionFailureMeta(
+  knowledge: ProjectKnowledge,
+  reason: string,
+  error: string | null,
+): void {
+  const at = new Date().toISOString();
+  knowledge.extraction_status = "failed";
+  knowledge.last_extraction_reason = reason;
+  knowledge.last_extraction_error = error;
+  knowledge.last_extraction_at = at;
+}
+
+function applyExtractionSuccessMeta(knowledge: ProjectKnowledge): void {
+  const at = new Date().toISOString();
+  knowledge.extraction_status = "success";
+  knowledge.last_extraction_reason = null;
+  knowledge.last_extraction_error = null;
+  knowledge.last_extraction_at = at;
+}
+
+async function persistKnowledge(
+  projectId: string,
+  knowledge: ProjectKnowledge,
+): Promise<void> {
+  await updateProjectForAdmin(projectId, {
+    knowledge: knowledge as unknown as Json,
+  });
+}
+
+async function persistExtractionFailure(
+  projectId: string,
+  base: ProjectKnowledge | null,
+  sourceUrl: string | null,
+  reason: string,
+  error: string | null,
+): Promise<void> {
+  const knowledge =
+    base ?? emptyKnowledge("proposed", "url", sourceUrl);
+  if (sourceUrl && !knowledge.source_url) {
+    knowledge.source_url = sourceUrl;
+  }
+  applyExtractionFailureMeta(knowledge, reason, error);
+  await persistKnowledge(projectId, knowledge);
 }
 
 // Pure AI step (DB-agnostic): given a project + website text it returns the four
@@ -84,6 +163,8 @@ export function buildProposedKnowledge(
   knowledge.cards.voice.forbidden_claims = clean(output.voice.forbidden_claims);
   knowledge.cards.proof.statements = clean(output.proof.statements);
 
+  applyExtractionSuccessMeta(knowledge);
+
   return knowledge;
 }
 
@@ -97,6 +178,7 @@ export interface ProjectKnowledgeExtractionResult {
   // failed and the project keeps its previous knowledge (e.g. empty proposal).
   extracted: boolean;
   reason?: string;
+  error?: string;
 }
 
 // Orchestration used by the onboarding action and POST /api/ai/extract-knowledge.
@@ -110,6 +192,9 @@ export async function runProjectKnowledgeExtraction(
 ): Promise<ProjectKnowledgeExtractionResult> {
   if (!projectId) throw new WorkflowError("invalid_input", "project_id is required");
 
+  const startedAt = new Date().toISOString();
+  const t0 = Date.now();
+
   const project = await getProjectForAdmin(projectId);
   if (!project) {
     throw new WorkflowError("not_found", `project ${projectId} not found`);
@@ -117,25 +202,97 @@ export async function runProjectKnowledgeExtraction(
 
   const existing = parseProjectKnowledge(project.knowledge);
   const sourceUrl = existing?.source_url ?? null;
+
+  logStart({
+    project_id: projectId,
+    project_name: project.name,
+    source_url: sourceUrl,
+    started_at: startedAt,
+  });
+
+  const finishFailure = async (
+    reason: string,
+    error: string | null,
+  ): Promise<ProjectKnowledgeExtractionResult> => {
+    const duration_ms = Date.now() - t0;
+    try {
+      await persistExtractionFailure(
+        projectId,
+        existing,
+        sourceUrl,
+        reason,
+        error,
+      );
+    } catch (persistErr) {
+      logFailure({
+        project_id: projectId,
+        duration_ms,
+        extracted: false,
+        reason: "persist_failed",
+        error: errorMessage(persistErr),
+      });
+      throw persistErr;
+    }
+    logFailure({
+      project_id: projectId,
+      duration_ms,
+      extracted: false,
+      reason,
+      ...(error ? { error } : {}),
+    });
+    return { ok: false, extracted: false, reason, ...(error ? { error } : {}) };
+  };
+
   if (!sourceUrl) {
-    return { ok: false, extracted: false, reason: "no_source_url" };
+    return finishFailure("no_source_url", null);
   }
 
   let text: string;
   try {
     text = await fetchUrlText(sourceUrl);
-  } catch {
-    return { ok: false, extracted: false, reason: "fetch_failed" };
+  } catch (err) {
+    const message =
+      err instanceof FetchUrlError ? err.message : errorMessage(err);
+    return finishFailure("fetch_failed", message);
   }
 
-  const result = await runExtractKnowledge({ project, text });
+  let result: WorkflowResult<ExtractKnowledgeOutput>;
+  try {
+    result = await runExtractKnowledge({ project, text });
+  } catch (err) {
+    return finishFailure("extraction_error", errorMessage(err));
+  }
+
   if (!result.ok) {
-    return { ok: false, extracted: false, reason: "generation_failed" };
+    const detail =
+      result.validationErrors?.length &&
+      result.validationErrors
+        .slice(0, 3)
+        .map((issue) => issue.message)
+        .join("; ");
+    return finishFailure("generation_failed", detail || null);
   }
 
   const knowledge = buildProposedKnowledge(result.data, sourceUrl);
-  await updateProjectForAdmin(projectId, {
-    knowledge: knowledge as unknown as Json,
+  try {
+    await persistKnowledge(projectId, knowledge);
+  } catch (err) {
+    const duration_ms = Date.now() - t0;
+    const message = errorMessage(err);
+    logFailure({
+      project_id: projectId,
+      duration_ms,
+      extracted: false,
+      reason: "persist_failed",
+      error: message,
+    });
+    throw err;
+  }
+
+  logSuccess({
+    project_id: projectId,
+    duration_ms: Date.now() - t0,
+    extracted: true,
   });
 
   return { ok: true, extracted: true };

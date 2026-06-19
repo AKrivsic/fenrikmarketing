@@ -9,6 +9,9 @@ import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
+// Regenerate runs URL fetch + AI inline (same as onboarding).
+export const maxDuration = 120;
+
 interface KnowledgePageProps {
   params: Promise<{ id: string }>;
 }

@@ -110,9 +110,25 @@ export async function createProjectOnboarding(
     await updateProjectForAdmin(projectId, {
       knowledge: base as unknown as Json,
     });
-    await runProjectKnowledgeExtraction(projectId);
-  } catch {
-    // Ignore: the user can edit the empty proposal on the next screen.
+    const extraction = await runProjectKnowledgeExtraction(projectId);
+    if (extraction.extracted) {
+      console.log("[createProjectOnboarding] knowledge extraction completed", {
+        project_id: projectId,
+        extracted: true,
+      });
+    } else {
+      console.error("[createProjectOnboarding] knowledge extraction failed", {
+        project_id: projectId,
+        extracted: false,
+        reason: extraction.reason,
+        error: extraction.error,
+      });
+    }
+  } catch (err) {
+    console.error("[createProjectOnboarding] knowledge extraction threw", {
+      project_id: projectId,
+      error: err instanceof Error ? err.message : String(err),
+    });
   }
 
   redirect(`/projects/${projectId}/knowledge`);

@@ -1,0 +1,65 @@
+.root {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.details {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem 0.45rem;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.summary {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel {
+  margin-top: 0.45rem;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
+.body {
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.details:not([open]) .body {
+  display: none;
+}
+
+.details:not([open]) .panelHeader {
+  display: none;
+}

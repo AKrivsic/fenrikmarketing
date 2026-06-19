@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { regenerateProjectKnowledge } from "@/app/projects/[id]/knowledge/actions";
 import {
   KnowledgeCard,
   type KnowledgeCardField,
@@ -68,8 +70,25 @@ export function KnowledgePanel({
   assetTitlesById = {},
 }: KnowledgePanelProps) {
   const router = useRouter();
+  const [isRegenerating, startRegenerate] = useTransition();
+  const [regenerateError, setRegenerateError] = useState<string | null>(null);
   const ready = isKnowledgeReady(knowledge);
   const projectHref = `/projects/${projectId}`;
+
+  const showFailedBanner =
+    !!knowledge.source_url && knowledge.extraction_status === "failed";
+
+  function handleRegenerate(): void {
+    setRegenerateError(null);
+    startRegenerate(async () => {
+      const result = await regenerateProjectKnowledge(projectId);
+      if (!result.ok) {
+        setRegenerateError(result.error);
+        return;
+      }
+      router.refresh();
+    });
+  }
 
   // Asset-derived proof statements rendered read-only on the Proof card.
   const proofStatements: ProofStatementView[] =
@@ -90,6 +109,53 @@ export function KnowledgePanel({
 
   return (
     <div className={styles.panel}>
+      <div className={styles.toolbar}>
+        <button
+          type="button"
+          className={styles.regenerateButton}
+          onClick={handleRegenerate}
+          disabled={isRegenerating || !knowledge.source_url}
+        >
+          {isRegenerating ? "Regenerating…" : "Regenerate Knowledge"}
+        </button>
+        {!knowledge.source_url ? (
+          <span className={styles.toolbarHint}>No source URL stored.</span>
+        ) : null}
+      </div>
+
+      {regenerateError ? (
+        <p className={styles.regenerateError} role="alert">
+          {regenerateError}
+        </p>
+      ) : null}
+
+      {showFailedBanner ? (
+        <div className={styles.failedBanner} role="alert">
+          <div className={styles.failedBannerText}>
+            <strong>Knowledge extraction failed.</strong>
+            {knowledge.last_extraction_reason ? (
+              <span>
+                {" "}
+                Reason: {knowledge.last_extraction_reason}
+                {knowledge.last_extraction_error
+                  ? ` — ${knowledge.last_extraction_error}`
+                  : null}
+              </span>
+            ) : (
+              <span> Please try regenerating.</span>
+            )}
+          </div>
+          <button
+            type="button"
+            className={styles.failedBannerButton}
+            onClick={handleRegenerate}
+            disabled={isRegenerating}
+          >
+            Regenerate Knowledge
+          </button>
+        </div>
+      ) : null}
+
       {ready ? (
         <div className={styles.ready}>
           <span className={styles.readyText}>
