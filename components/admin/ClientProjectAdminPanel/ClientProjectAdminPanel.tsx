@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState, useTransition, type RefObject } from "react";
 import type {
   ClientProjectCommentRow,
   ClientProjectItemRow,
@@ -14,6 +15,7 @@ import {
   markProjectPaidAction,
   saveItemAction,
   updateProjectStatusAction,
+  type ActionResult,
 } from "@/app/admin/clients/actions";
 import styles from "./ClientProjectAdminPanel.module.css";
 
@@ -41,7 +43,29 @@ export function ClientProjectAdminPanel({
   items,
   comments,
 }: ClientProjectAdminPanelProps) {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [feedback, setFeedback] = useState<{ kind: "ok" | "err"; text: string } | null>(
+    null,
+  );
+  const importFormRef = useRef<HTMLFormElement>(null);
+
+  function runAction(
+    work: () => Promise<ActionResult>,
+    options?: { okMessage?: string; resetFormRef?: RefObject<HTMLFormElement | null> },
+  ) {
+    startTransition(async () => {
+      const result = await work();
+      if (result.ok) {
+        setFeedback({ kind: "ok", text: options?.okMessage ?? "Saved." });
+        options?.resetFormRef?.current?.reset();
+        router.refresh();
+      } else {
+        setFeedback({ kind: "err", text: result.error });
+      }
+    });
+  }
+
   const commentsByItem = new Map<string, ClientProjectCommentRow[]>();
   for (const c of comments) {
     const list = commentsByItem.get(c.clientProjectItemId) ?? [];
@@ -75,8 +99,8 @@ export function ClientProjectAdminPanel({
             className={styles.secondaryBtn}
             disabled={pending || project.paid}
             onClick={() =>
-              startTransition(async () => {
-                await markProjectPaidAction(project.id);
+              runAction(() => markProjectPaidAction(project.id), {
+                okMessage: "Marked as paid.",
               })
             }
           >
@@ -94,13 +118,18 @@ export function ClientProjectAdminPanel({
         </div>
       </header>
 
+      {feedback ? (
+        <p
+          className={feedback.kind === "err" ? styles.feedbackErr : styles.feedbackOk}
+          role="status"
+        >
+          {feedback.text}
+        </p>
+      ) : null}
+
       <form
         className={styles.statusForm}
-        action={(fd) =>
-          startTransition(async () => {
-            await updateProjectStatusAction(fd);
-          })
-        }
+        action={(fd) => runAction(() => updateProjectStatusAction(fd))}
       >
         <input type="hidden" name="projectId" value={project.id} />
         <label>
@@ -121,10 +150,12 @@ export function ClientProjectAdminPanel({
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Import internal package</h2>
         <form
+          ref={importFormRef}
           className={styles.importForm}
           action={(fd) =>
-            startTransition(async () => {
-              await importPackageAction(fd);
+            runAction(() => importPackageAction(fd), {
+              okMessage: "Internal package imported.",
+              resetFormRef: importFormRef,
             })
           }
         >
@@ -174,11 +205,7 @@ export function ClientProjectAdminPanel({
 
               <form
                 className={styles.itemForm}
-                action={(fd) =>
-                  startTransition(async () => {
-                    await saveItemAction(fd);
-                  })
-                }
+                action={(fd) => runAction(() => saveItemAction(fd))}
               >
                 <input type="hidden" name="itemId" value={item.id} />
                 <input type="hidden" name="projectId" value={project.id} />

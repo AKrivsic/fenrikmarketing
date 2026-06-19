@@ -116,6 +116,25 @@
   color: var(--color-text-muted);
 }
 
+.feedbackOk,
+.feedbackErr {
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.feedbackOk {
+  border: 1px solid color-mix(in srgb, var(--color-text) 25%, transparent);
+  background: color-mix(in srgb, var(--color-text) 6%, var(--color-bg));
+}
+
+.feedbackErr {
+  border: 1px solid #c53030;
+  background: color-mix(in srgb, #c53030 10%, var(--color-bg));
+  color: #9b2c2c;
+}
+
 .itemCard {
   margin-bottom: 1.5rem;
   padding: 1rem;
