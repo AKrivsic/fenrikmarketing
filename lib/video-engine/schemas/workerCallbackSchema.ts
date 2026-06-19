@@ -29,6 +29,11 @@ export const renderDebugSchema = z
     subtitle_warning: z.boolean().optional(),
     render_warning: z.boolean().optional(),
     render_warnings: z.array(z.string()).optional(),
+    tts_validation_attempts: z.number().optional(),
+    tts_tail_validation_passed: z.boolean().optional(),
+    tts_tail_expected: z.array(z.string()).optional(),
+    tts_tail_transcript: z.array(z.string()).optional(),
+    tts_tail_retry_used: z.boolean().optional(),
   })
   .passthrough();
 

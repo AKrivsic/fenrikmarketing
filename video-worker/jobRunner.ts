@@ -12,7 +12,7 @@ import {
   type WorkerPayload,
 } from "@/lib/video-engine/schemas/workerPayloadSchema";
 import type { WorkerCallback } from "@/lib/video-engine/schemas/workerCallbackSchema";
-import { generateVoiceover } from "@/video-worker/services/tts";
+import { generateValidatedVoiceover } from "@/video-worker/services/ttsTailValidation";
 import {
   generateSceneImages,
   type SceneImage,
@@ -24,7 +24,6 @@ import {
   computeAlignmentRatio,
 } from "@/video-worker/services/phraseCaptions";
 import {
-  transcribeWordTimestamps,
   normalizeLanguageHint,
 } from "@/video-worker/services/wordTimestamps";
 import {
@@ -274,8 +273,13 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     const spec = buildRenderSpec(payload.input);
     const dir = workerTempDir();
 
-    const voiceover = await generateVoiceover({ text: spec.voiceover_text });
+    const validatedVoiceover = await generateValidatedVoiceover({
+      text: spec.voiceover_text,
+      language: payload.input["language"],
+    });
+    const voiceover = validatedVoiceover.voiceover;
     tempFiles.add(voiceover.audioPath);
+    const ttsTailDebug = validatedVoiceover.meta;
 
     const images = await generateSceneImages({
       scenes: spec.scenes,
@@ -337,10 +341,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // ES/IT). Best-effort: on a timeout, API error, empty timestamps, or a
     // low-confidence alignment we keep the proportional cues. Phrase STYLE is
     // unchanged — only the timing SOURCE changes.
-    const transcription = await transcribeWordTimestamps({
-      audioPath: voiceover.audioPath,
-      language: payload.input["language"],
-    });
+    const transcription = validatedVoiceover.transcription;
     if (transcription) {
       whisperWordCount = transcription.words.length;
       languageDetected = transcription.languageDetected ?? null;
@@ -420,6 +421,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // video_jobs.output.debug. Purely observational: assembled AFTER a
     // successful render and never able to fail one.
     const debug = {
+      ...ttsTailDebug,
       subtitle_source: subtitleSource,
       match_ratio: matchRatio,
       fallback_used: fallbackUsed,

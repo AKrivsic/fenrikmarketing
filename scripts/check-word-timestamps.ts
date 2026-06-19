@@ -407,38 +407,36 @@ check("speechDurationSeconds bounds the track and is reported", () => {
 });
 
 check("speechDurationSeconds wins over a legacy totalSeconds tail bound", () => {
-  // Drop the last phrase's words so the final phrase is UNMATCHED and must be
-  // interpolated; provide a legacy totalSeconds that includes the 1.5s tail. The
-  // fix must clamp to speechDuration, NOT to speechDuration + tail.
+  // Drop the last phrase's words so the final phrase is UNMATCHED; it must be
+  // omitted from cues (no phantom tail captions).
   const phrases = splitIntoPhrases(EN_NARRATION);
   const lastCount = tokensOf(phrases[phrases.length - 1]).length;
   const all = synthWords(EN_NARRATION);
   const matched = all.slice(0, all.length - lastCount);
   const lastMatchedEnd = matched[matched.length - 1].end;
-  const speech = lastMatchedEnd + 2.0; // unmatched phrase is spoken in this window
+  const speech = lastMatchedEnd + 2.0;
   const tail = 1.5;
 
   const result = buildPhraseCuesFromWords({
     voiceoverText: EN_NARRATION,
     words: matched,
     speechDurationSeconds: speech,
-    totalSeconds: speech + tail, // legacy bound would allow the silent tail
+    totalSeconds: speech + tail,
   });
   assert.ok(result, "expected alignment to survive a dropped final phrase");
   const last = result!.cues[result!.cues.length - 1];
+  assert.notEqual(
+    last.text,
+    phrases[phrases.length - 1],
+    "unmatched final phrase must not appear in cues",
+  );
   assert.ok(
     last.endSeconds <= speech + 1e-6,
-    `unmatched final phrase clamped to ${last.endSeconds}, must be <= speechDuration ${speech} (not ${speech + tail})`,
-  );
-  // …and it interpolated FORWARD into the speech window (not stuck at the last
-  // matched word), so the final caption still shows.
-  assert.ok(
-    last.endSeconds > lastMatchedEnd + 1e-6,
-    `final phrase did not advance into the speech window (end ${last.endSeconds} <= last matched ${lastMatchedEnd})`,
+    `last cue ends at ${last.endSeconds}, must be <= speechDuration ${speech}`,
   );
 });
 
-check("unmatched final phrase interpolation clamps to speechDuration", () => {
+check("unmatched final phrase is dropped, not interpolated", () => {
   const phrases = splitIntoPhrases(EN_NARRATION);
   const lastCount = tokensOf(phrases[phrases.length - 1]).length;
   const all = synthWords(EN_NARRATION);
@@ -451,6 +449,10 @@ check("unmatched final phrase interpolation clamps to speechDuration", () => {
     speechDurationSeconds: speech,
   });
   assert.ok(result);
+  assert.notEqual(
+    result!.cues[result!.cues.length - 1].text,
+    phrases[phrases.length - 1],
+  );
   for (const cue of result!.cues) {
     assert.ok(
       cue.startSeconds <= speech + 1e-6 && cue.endSeconds <= speech + 1e-6,
@@ -493,6 +495,29 @@ check("speechDurationSeconds does not shift fully-aligned cue starts", () => {
       `cue ${i} start ${cue.startSeconds} != first word start ${expected[i].start}`,
     );
   });
+});
+
+check("drops consecutive unmatched trailing phrases (tail safety)", () => {
+  const phrases = splitIntoPhrases(EN_NARRATION);
+  const dropCount =
+    tokensOf(phrases[phrases.length - 1]).length +
+    tokensOf(phrases[phrases.length - 2]).length;
+  const all = synthWords(EN_NARRATION);
+  const matched = all.slice(0, all.length - dropCount);
+  const result = buildPhraseCuesFromWords({
+    voiceoverText: EN_NARRATION,
+    words: matched,
+  });
+  assert.ok(result);
+  assert.ok(result!.cues.length < phrases.length);
+  assert.notEqual(
+    result!.cues[result!.cues.length - 1].text,
+    phrases[phrases.length - 1],
+  );
+  assert.notEqual(
+    result!.cues[result!.cues.length - 1].text,
+    phrases[phrases.length - 2],
+  );
 });
 
 // --- summary ---------------------------------------------------------------

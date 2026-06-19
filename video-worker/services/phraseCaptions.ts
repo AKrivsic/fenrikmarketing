@@ -444,11 +444,29 @@ export function buildPhraseCuesFromWords(
   const matched = tokenTimes.reduce((acc, t) => acc + (t ? 1 : 0), 0);
   if (matched / narrationTokens.length < minMatchRatio) return null;
 
+  // Drop trailing phrases with zero whisper alignment — do not interpolate
+  // phantom captions for script tail that was not spoken (TTS tail safety net).
+  let activePhrases = phrases;
+  let activePhraseTokens = phraseTokens;
+  while (activePhrases.length > 0) {
+    const tokenStart = activePhraseTokens
+      .slice(0, activePhrases.length - 1)
+      .reduce((sum, t) => sum + t.length, 0);
+    const slice = tokenTimes.slice(
+      tokenStart,
+      tokenStart + activePhraseTokens[activePhrases.length - 1].length,
+    );
+    if (slice.some((t) => t !== null)) break;
+    activePhrases = activePhrases.slice(0, -1);
+    activePhraseTokens = activePhraseTokens.slice(0, -1);
+  }
+  if (activePhrases.length === 0) return null;
+
   // Per-phrase raw start (first matched word start) / end (last matched word end).
   const rawStarts: number[] = [];
   const rawEnds: number[] = [];
   let idx = 0;
-  for (const tokens of phraseTokens) {
+  for (const tokens of activePhraseTokens) {
     const slice = tokenTimes.slice(idx, idx + tokens.length);
     idx += tokens.length;
     const present = slice.filter((t): t is TokenTime => t !== null);
@@ -485,10 +503,14 @@ export function buildPhraseCuesFromWords(
   // silence so the track is gap-free and overlap-free.
   const cues: SubtitleCue[] = [];
   let prevEnd = 0;
-  for (let i = 0; i < phrases.length; i++) {
+  for (let i = 0; i < activePhrases.length; i++) {
     const start = Math.max(starts[i], prevEnd);
     const end = Math.max(ends[i], start + minCue);
-    cues.push({ startSeconds: start, endSeconds: end, text: phrases[i] });
+    cues.push({
+      startSeconds: start,
+      endSeconds: end,
+      text: activePhrases[i],
+    });
     prevEnd = end;
   }
 
