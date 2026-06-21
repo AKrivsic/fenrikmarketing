@@ -118,15 +118,10 @@ export function ProjectActionsPanel({
     [status],
   );
 
-  // A step is runnable when its predecessor is completed (step 1 always is).
-  function isRunnable(stepIdx: number): boolean {
-    if (stepIdx === 0) return true;
-    return isCompleted(steps[stepIdx - 1].stageStatus);
-  }
-
-  // First step that is not yet completed — the one "Prepare this week" advances.
+  // Suggested next step for the primary button (first incomplete, or step 1 again).
   const nextStepIdx = steps.findIndex((s) => !isCompleted(s.stageStatus));
   const allDone = nextStepIdx === -1;
+  const primaryStep = allDone ? steps[0] : steps[nextStepIdx];
 
   function handleRun(step: StepDef) {
     setRunStates((prev) => ({
@@ -147,7 +142,7 @@ export function ProjectActionsPanel({
     });
   }
 
-  const nextStep = allDone ? null : steps[nextStepIdx];
+  const primaryRun = runStates[primaryStep.key] ?? { state: "idle" };
 
   return (
     <div className={styles.workflow}>
@@ -163,32 +158,34 @@ export function ProjectActionsPanel({
           <button
             type="button"
             className={styles.primaryButton}
-            onClick={() => nextStep && handleRun(nextStep)}
-            disabled={allDone || isPending}
+            onClick={() => handleRun(primaryStep)}
+            disabled={isPending && primaryRun.state === "running"}
           >
-            {allDone
-              ? "Vše připraveno"
-              : nextStep && runStates[nextStep.key]?.state === "running"
-                ? "Spouštím…"
-                : "Prepare this week"}
+            {primaryRun.state === "running" ? "Spouštím…" : "Prepare this week"}
           </button>
         </div>
 
-        {nextStep ? (
-          <p className={styles.primaryHint}>
-            Spustí další krok:{" "}
-            <strong>
-              {nextStep.index}. {nextStep.title}
-            </strong>
-            . n8n krok zpracuje a nahlásí výsledek; poté pokračujte dalším
-            krokem.
-          </p>
-        ) : (
-          <p className={styles.primaryHint}>
-            Všechny kroky pro tento týden proběhly. Stav najdete níže a v
-            záložkách obsahu.
-          </p>
-        )}
+        <p className={styles.primaryHint}>
+          {allDone ? (
+            <>
+              Spustí znovu od kroku{" "}
+              <strong>
+                {primaryStep.index}. {primaryStep.title}
+              </strong>
+              . Kroky lze spouštět i jednotlivě a opakovaně — stav COMPLETED
+              níže je souhrn dat v projektu, ne limit pro tento týden.
+            </>
+          ) : (
+            <>
+              Spustí další krok:{" "}
+              <strong>
+                {primaryStep.index}. {primaryStep.title}
+              </strong>
+              . n8n krok zpracuje asynchronně; stejný krok můžete spustit znovu
+              kdykoli.
+            </>
+          )}
+        </p>
 
         <dl className={styles.summary}>
           <div className={styles.summaryItem}>
@@ -239,9 +236,8 @@ export function ProjectActionsPanel({
 
       {/* Guided sequence */}
       <ol className={styles.steps}>
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           const run = runStates[step.key] ?? { state: "idle" };
-          const runnable = isRunnable(idx);
           return (
             <li key={step.key} className={styles.step}>
               <div className={styles.stepIndex}>{step.index}</div>
@@ -263,15 +259,10 @@ export function ProjectActionsPanel({
                     type="button"
                     className={styles.button}
                     onClick={() => handleRun(step)}
-                    disabled={!runnable || (isPending && run.state === "running")}
+                    disabled={isPending && run.state === "running"}
                   >
                     {run.state === "running" ? "Spouštím…" : "Spustit"}
                   </button>
-                  {!runnable ? (
-                    <span className={styles.gate}>
-                      Nejdřív dokončete krok {step.index - 1}.
-                    </span>
-                  ) : null}
                   {run.state === "queued" ? (
                     <span className={styles.queued}>{run.message}</span>
                   ) : null}
