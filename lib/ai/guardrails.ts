@@ -6,6 +6,7 @@ import {
   type FunnelStage,
 } from "@/lib/ai/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import type { ContentStrategyPlanOutput } from "@/lib/ai/schemas/contentStrategyPlan";
 import type { WeeklyStrategyOutput } from "@/lib/ai/schemas/weeklyStrategy";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import { MIN_TREND_RELEVANCE } from "@/lib/ai/schemas/trendRelevanceScore";
@@ -118,6 +119,99 @@ export function checkWeeklyStrategyGuardrails(
   }
 
   return issues;
+}
+
+// --- Production strategy plan (no calendar week fields) --------------------
+
+export function checkContentStrategyPlanGuardrails(
+  plan: ContentStrategyPlanOutput,
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  if (plan.content_plan.length === 0) {
+    issues.push(issue("$.content_plan", "must contain at least one item"));
+  }
+
+  plan.content_plan.forEach((item, i) => {
+    if (!normalizeFunnelStage(item.funnel_stage)) {
+      issues.push(
+        issue(
+          `$.content_plan[${i}].funnel_stage`,
+          "required canonical funnel stage (consideration/retention are not allowed)",
+        ),
+      );
+    }
+  });
+
+  if (isConversionOnlyPlan(plan)) {
+    issues.push(
+      issue(
+        "$.funnel_distribution",
+        "must not be Conversion-only (include awareness / problem_aware / solution_aware)",
+      ),
+    );
+  }
+
+  return issues;
+}
+
+export function checkContentPlanLength(
+  plan: Pick<ContentStrategyPlanOutput, "content_plan">,
+  expectedCount: number,
+): ValidationIssue[] {
+  if (plan.content_plan.length !== expectedCount) {
+    return [
+      issue(
+        "$.content_plan",
+        `must contain exactly ${expectedCount} item(s), got ${plan.content_plan.length}`,
+      ),
+    ];
+  }
+  return [];
+}
+
+// Production planner — minimum distinct funnel stages by run size.
+export function requiredDistinctFunnelStages(packageCount: number): number {
+  if (packageCount <= 1) return 1;
+  if (packageCount <= 5) return 2;
+  return 3;
+}
+
+export function checkContentPlanFunnelDiversity(
+  plan: Pick<ContentStrategyPlanOutput, "content_plan">,
+  packageCount: number,
+): ValidationIssue[] {
+  const required = requiredDistinctFunnelStages(packageCount);
+  const stages = new Set<FunnelStage>();
+  for (const item of plan.content_plan) {
+    const stage = normalizeFunnelStage(item.funnel_stage);
+    if (stage) stages.add(stage);
+  }
+  if (stages.size >= required) return [];
+  return [
+    issue(
+      "$.content_plan",
+      `content_plan must include at least ${required} distinct funnel stages for packageCount=${packageCount}`,
+    ),
+  ];
+}
+
+export function checkContentPlanSources(
+  plan: Pick<ContentStrategyPlanOutput, "content_plan">,
+  ctx: WeeklyStrategySourceContext,
+): ValidationIssue[] {
+  return checkWeeklyStrategySources(
+    { content_plan: plan.content_plan } as WeeklyStrategyOutput,
+    ctx,
+  );
+}
+
+function isConversionOnlyPlan(
+  plan: Pick<ContentStrategyPlanOutput, "content_plan" | "funnel_distribution">,
+): boolean {
+  return isConversionOnly(
+    plan as WeeklyStrategyOutput,
+  );
 }
 
 function isConversionOnly(strategy: WeeklyStrategyOutput): boolean {

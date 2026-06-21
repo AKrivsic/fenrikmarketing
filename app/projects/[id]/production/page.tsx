@@ -7,6 +7,7 @@ import { buildDefaultProductionConfig } from "@/lib/projects/productionRun";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 300;
 
 interface ProductionTabPageProps {
   params: Promise<{ id: string }>;

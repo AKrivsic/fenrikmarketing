@@ -22,6 +22,16 @@ import {
   setProductionRunStatus,
   type ProductionRunView,
 } from "@/lib/api/production-run-admin";
+import { planContentStrategy } from "@/lib/ai/workflows/planContentStrategy";
+import {
+  isPersistableProductionPlatform,
+  primaryPlatformForPlan,
+  type ProductionPlan,
+} from "@/lib/projects/productionRun";
+import {
+  readProductionPlannerMax,
+  readProductionStrategyPlannerMode,
+} from "@/lib/production/strategyPlannerConfig";
 
 // Server actions for the one-button Content Production tab.
 //
@@ -41,6 +51,72 @@ function basePath(projectId: string): string {
 
 // Maps an n8n trigger failure to a Czech operator message (mirrors the Actions
 // tab's classification). The run is still recorded — as failed.
+function plannerErrorMessage(err: unknown): string {
+  if (err instanceof Error && err.message) {
+    return `Plánování strategie selhalo: ${err.message}`;
+  }
+  return "Plánování strategie selhalo.";
+}
+
+function strategyPlannerFailureMessage(result: {
+  error?: string;
+  validationErrors?: { path: string; message: string }[];
+}): string {
+  const detail = result.validationErrors?.[0]?.message;
+  if (detail) {
+    return `AI plán obsahu neprošel validací: ${detail}`;
+  }
+  return "AI plán obsahu se nepodařilo vygenerovat.";
+}
+
+async function prepareProductionStrategyInputs(args: {
+  projectId: string;
+  projectName: string;
+  goalType: string;
+  plan: ReturnType<typeof computeProductionPlan>;
+  config: ReturnType<typeof normalizeProductionConfig>;
+  runId: string;
+}): Promise<void> {
+  const mode = readProductionStrategyPlannerMode();
+  if (mode === "legacy") {
+    await seedProductionStrategyInputs(args);
+    return;
+  }
+
+  const { plan, config, runId, projectId, goalType } = args;
+  const primary = primaryPlatformForPlan(plan);
+  const persistable =
+    (primary && isPersistableProductionPlatform(primary) ? primary : null) ??
+    config.platforms.find(isPersistableProductionPlatform);
+  if (!persistable) {
+    throw new Error("Chybí persistovatelná platforma pro plán.");
+  }
+
+  const isVideo = plan.activeVideoPlatforms.includes(
+    persistable as ProductionPlan["activeVideoPlatforms"][number],
+  );
+  const format = isVideo ? "reel" : "post";
+
+  const result = await planContentStrategy({
+    mode: "production_run",
+    projectId,
+    productionRunId: runId,
+    packageCount: plan.packageCount,
+    platform: persistable,
+    format,
+    goalType,
+  });
+
+  if (!result.ok) {
+    throw new Error(strategyPlannerFailureMessage(result));
+  }
+  if (result.data.itemIds.length !== plan.packageCount) {
+    throw new Error(
+      `Očekáváno ${plan.packageCount} položek strategie, vytvořeno ${result.data.itemIds.length}.`,
+    );
+  }
+}
+
 function triggerErrorMessage(err: unknown): string {
   if (err instanceof N8nConfigError) {
     return "n8n není nakonfigurováno (chybí N8N_BASE_URL / N8N_WEBHOOK_SECRET).";
@@ -98,11 +174,21 @@ export async function startProductionRun(
     };
   }
 
+  const plannerMax = readProductionPlannerMax();
+  if (
+    readProductionStrategyPlannerMode() === "ai" &&
+    plan.packageCount > plannerMax
+  ) {
+    return {
+      ok: false,
+      error: `AI plánovač podporuje nejvýše ${plannerMax} packages na běh.`,
+    };
+  }
+
   const { runId } = await createProductionRun(projectId, config);
 
   try {
-    // Give the existing strategy-item-driven generator something to consume.
-    await seedProductionStrategyInputs({
+    await prepareProductionStrategyInputs({
       projectId,
       projectName: project.name,
       goalType: project.goal_type,
@@ -124,7 +210,13 @@ export async function startProductionRun(
 
     await setProductionRunStatus(runId, "running");
   } catch (err) {
-    await setProductionRunStatus(runId, "failed", triggerErrorMessage(err));
+    const message =
+      readProductionStrategyPlannerMode() === "ai" &&
+      !(err instanceof N8nConfigError) &&
+      !(err instanceof N8nRequestError)
+        ? plannerErrorMessage(err)
+        : triggerErrorMessage(err);
+    await setProductionRunStatus(runId, "failed", message);
   }
 
   revalidatePath(basePath(projectId));
