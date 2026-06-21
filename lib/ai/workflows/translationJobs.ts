@@ -9,10 +9,13 @@ import type {
 import { loadProjectOrThrow, WorkflowError } from "@/lib/ai/workflows/shared";
 import { runGenerateLanguageVariantsForItem } from "@/lib/ai/workflows/generateLanguageVariants";
 import {
-  isVideoPlatform,
   pendingVariantLanguages,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
+import {
+  isVideoContentPlatform,
+  parseContentControls,
+} from "@/lib/projects/contentControls";
 import { N8N_SECRET_HEADER } from "@/lib/n8n/callback";
 
 // Asynchronous "Generate translations" — queue + processor.
@@ -130,6 +133,9 @@ export async function enqueuePackageTranslations(
 
   const supabase: SupabaseClient = deps.client ?? createSupabaseAdminClient();
   const project: Project = await loadProjectOrThrow(supabase, projectId);
+  const platformContentTypes = parseContentControls(
+    project.publishing_rules,
+  ).platformContentTypes;
 
   // Gate 1: package belongs to the project.
   const { data: pkg, error: pkgErr } = await supabase
@@ -178,7 +184,7 @@ export async function enqueuePackageTranslations(
     "id" | "platform" | "status" | "language"
   >[];
   const videoPrimaryItems = primaryItems.filter((item) =>
-    isVideoPlatform(item.platform),
+    isVideoContentPlatform(item.platform, platformContentTypes),
   );
   if (videoPrimaryItems.length === 0) {
     throw new WorkflowError(

@@ -8,6 +8,7 @@
 // package).
 
 import assert from "node:assert/strict";
+import { DEFAULT_PLATFORM_CONTENT_TYPES } from "@/lib/projects/contentControls";
 import {
   computeProductionPlan,
   expandPlanToItemSlots,
@@ -16,6 +17,7 @@ import {
   planHasOutputs,
   platformOutputTotal,
   primaryPlatformForPlan,
+  resolveProductionPlatformKind,
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
 
@@ -251,6 +253,48 @@ check("multipliers: video=1, linkedin=1, x=3", () => {
   assert.equal(runGen.multipliers.youtube, 1);
   assert.equal(runGen.multipliers.linkedin, 1);
   assert.equal(runGen.multipliers.x, 3);
+});
+
+// --- 7. per-project content types (facebook text_only) ---------------------
+
+section("project platform_content_types (facebook text_only)");
+
+const fbTextTypes = {
+  ...DEFAULT_PLATFORM_CONTENT_TYPES,
+  facebook: "text_only" as const,
+};
+
+const mixedPlan = computeProductionPlan(
+  normalizeProductionConfig({
+    packageCount: 14,
+    platforms: ["tiktok", "instagram", "facebook"],
+    multipliers: { tiktok: 1, instagram: 1, facebook: 0.5 },
+    platformContentTypes: fbTextTypes,
+  }),
+);
+
+check("Facebook shows as text in the plan", () => {
+  const fb = mixedPlan.platformOutputs.find((p) => p.platform === "facebook");
+  assert.equal(fb?.kind, "text");
+  assert.equal(fb?.outputs, 7);
+});
+check("Facebook is not an active video platform", () => {
+  assert.equal(mixedPlan.activeVideoPlatforms.includes("facebook"), false);
+  assert.deepEqual(mixedPlan.activeVideoPlatforms, ["tiktok", "instagram"]);
+});
+
+const mixedRunGen = resolveRunGenerationPlan(
+  normalizeProductionConfig({
+    packageCount: 14,
+    platforms: ["tiktok", "instagram", "facebook"],
+    multipliers: { tiktok: 1, instagram: 1, facebook: 0.5 },
+    platformContentTypes: fbTextTypes,
+  }),
+);
+
+check("resolveRunGenerationPlan excludes facebook from videoPlatforms", () => {
+  assert.deepEqual(mixedRunGen.videoPlatforms, ["tiktok", "instagram"]);
+  assert.ok(mixedRunGen.targetPlatforms.includes("facebook"));
 });
 
 // --- summary ---------------------------------------------------------------

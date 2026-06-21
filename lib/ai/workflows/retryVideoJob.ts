@@ -203,20 +203,21 @@ export async function runRetryVideoJob(
     contentItemId,
     failedInput,
   });
-  if (!scenes) {
-    throw new WorkflowError(
-      "invalid_input",
-      "no reusable scenes found for this video (legacy render without a stored render_spec); a full re-render is required",
-    );
-  }
 
   // Build the new job input by reusing the failed job's input verbatim (text,
-  // voiceover, subtitles, language all preserved) and pinning the resolved
-  // reusable scenes so the worker reuses the existing stills.
+  // voiceover, subtitles, language all preserved). When reusable scene stills
+  // exist, pin them so the worker skips image generation. When they do not
+  // (early failure — e.g. TTS tail validation before render_spec was saved),
+  // omit scenes so the worker runs the full pipeline again.
   const baseInput = asRecord(failedInput) ?? {};
+  if (!scenes) {
+    warnings.push(
+      "no reusable scenes on the failed job; retry will run a full render (TTS + images)",
+    );
+  }
   const jobInput = {
     ...baseInput,
-    scenes,
+    ...(scenes ? { scenes } : {}),
     retry_of_video_job_id: videoJobId,
   } as unknown as Json;
 

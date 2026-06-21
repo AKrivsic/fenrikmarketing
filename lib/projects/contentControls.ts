@@ -34,9 +34,8 @@ export type FunnelMixPreset =
 // Per-platform content type selection (P3). "video" = the platform's output
 // should be produced as a video; "text_only" = copy only, no video.
 //
-// NOTE: This is a SETTING + PERSISTENCE layer only. The generation pipeline
-// (weekly strategy / content package / video jobs) does not yet read this map
-// — see the TODO in serializeContentControls. "x" is included per product
+// Read by content-package generation (resolveVideoPackagePlatforms) and the
+// production-run planner (computeProductionPlan). "x" is included per product
 // spec even though it is NOT part of the platform_type DB enum, so it can only
 // ever live in this jsonb config (never as projects.platforms / content_items).
 export type PlatformContentType = "video" | "text_only";
@@ -678,6 +677,20 @@ export function resolveVideoPackagePlatforms(
       platformContentTypes[key] ?? DEFAULT_PLATFORM_CONTENT_TYPES[key];
     return type === "video";
   });
+}
+
+// True when a single platform surface is configured as video (Content Controls).
+export function isVideoContentPlatform(
+  platform: string,
+  platformContentTypes: Record<ContentTypePlatform, PlatformContentType>,
+): boolean {
+  const key = platform as ContentTypePlatform;
+  if (!(CONTENT_TYPE_PLATFORMS as readonly string[]).includes(platform)) {
+    return false;
+  }
+  return (
+    platformContentTypes[key] ?? DEFAULT_PLATFORM_CONTENT_TYPES[key]
+  ) === "video";
 }
 
 // True when at least one selected package platform requires video — i.e. a

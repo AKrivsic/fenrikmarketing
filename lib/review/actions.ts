@@ -16,6 +16,7 @@ import {
 } from "@/lib/ai/workflows/translationJobs";
 import { runRegenerateLanguageVariant } from "@/lib/ai/workflows/regenerateLanguageVariant";
 import { runRetryVideoJob } from "@/lib/ai/workflows/retryVideoJob";
+import { WorkflowError } from "@/lib/ai/workflows/shared";
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
 import type { LanguageCode } from "@/lib/supabase/types";
 
@@ -274,7 +275,15 @@ export async function retryVideoRender(
     await runRetryVideoJob({ projectId, videoJobId }, { videoCallbackUrl });
     revalidateReview(projectId);
     return { ok: true };
-  } catch {
+  } catch (err) {
+    if (err instanceof WorkflowError) {
+      if (err.code === "invalid_input" && err.message.includes("only 'failed'")) {
+        return fail("Retry lze spustit jen u jobu ve stavu Selhalo.");
+      }
+      if (err.code === "not_found") {
+        return fail("Video job nebyl nalezen.");
+      }
+    }
     return fail("Opětovné spuštění renderu videa se nezdařilo.");
   }
 }

@@ -18,8 +18,11 @@ import {
 } from "@/lib/video-worker/client";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
 import {
+  isVideoContentPlatform,
+  parseContentControls,
+} from "@/lib/projects/contentControls";
+import {
   extractRenderSpecScenes,
-  isVideoPlatform,
   pendingVariantLanguages,
   resolveTargetLanguages,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
@@ -108,6 +111,9 @@ export async function runGenerateLanguageVariantsForItem(
   const startVideoJob = deps.startVideoJob ?? startVideoWorkerJob;
 
   const project: Project = await loadProjectOrThrow(supabase, projectId);
+  const platformContentTypes = parseContentControls(
+    project.publishing_rules,
+  ).platformContentTypes;
 
   // Gate 1: the source item must exist, belong to the project, be PRIMARY
   // (language NULL) and APPROVED.
@@ -137,12 +143,12 @@ export async function runGenerateLanguageVariantsForItem(
       "source item is not approved; approve it before generating variants",
     );
   }
-  // Review UX V2 — translations are video-only. Text-only platforms (LinkedIn /
-  // X / Google Business) stay English-only and are never localized.
-  if (!isVideoPlatform(source.platform)) {
+  // Review UX V2 — translations are video-only. Text-only platforms (per
+  // Content Controls) stay primary-language only and are never localized.
+  if (!isVideoContentPlatform(source.platform, platformContentTypes)) {
     throw new WorkflowError(
       "invalid_input",
-      "translations are only generated for video platforms (TikTok / Instagram / YouTube / Facebook)",
+      "translations are only generated for platforms configured as video in Content Controls",
     );
   }
   const packageId = source.package_id;
@@ -250,7 +256,10 @@ export async function runGenerateLanguageVariantsForItem(
 
   // Video platforms reuse the package primary render_spec scenes (no image gen).
   // Text-only platforms never produce a video job.
-  const wantsVideo = isVideoPlatform(source.platform);
+  const wantsVideo = isVideoContentPlatform(
+    source.platform,
+    platformContentTypes,
+  );
   let sourceVideoJobId: string | null = null;
   let scenes: Record<string, unknown>[] | null = null;
   if (wantsVideo) {

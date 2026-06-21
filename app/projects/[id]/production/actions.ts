@@ -8,6 +8,7 @@ import {
   N8nRequestError,
   sendN8nWebhook,
 } from "@/lib/n8n/client";
+import { parseContentControls } from "@/lib/projects/contentControls";
 import {
   computeProductionPlan,
   normalizeProductionConfig,
@@ -72,7 +73,14 @@ export async function startProductionRun(
     return { ok: false, error: "Projekt nenalezen." };
   }
 
-  const config = normalizeProductionConfig(rawConfig);
+  let config = normalizeProductionConfig(rawConfig);
+  const controls = parseContentControls(project.publishing_rules);
+  if (!config.platformContentTypes) {
+    config = {
+      ...config,
+      platformContentTypes: { ...controls.platformContentTypes },
+    };
+  }
   const plan = computeProductionPlan(config);
   if (!planHasOutputs(plan)) {
     return {

@@ -31,6 +31,37 @@ function tailTokensFromSentence(sentence: string): string[] {
 // When the script still yields one merged token (legacy paths), allow matching
 // it to 2–3 consecutive whisper tokens (e.g. inscrivez + vous → inscrivezvous).
 const MAX_TRANSCRIPT_TOKENS_PER_EXPECTED = 3;
+const MAX_EXPECTED_TOKENS_PER_MATCH = 3;
+const FUZZY_TOKEN_MIN_LENGTH = 8;
+
+function levenshtein(a: string, b: string): number {
+  if (a === b) return 0;
+  const rows = a.length + 1;
+  const cols = b.length + 1;
+  const dist: number[] = Array.from({ length: cols }, (_, i) => i);
+  for (let i = 1; i < rows; i++) {
+    let prev = i;
+    for (let j = 1; j < cols; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      const next = Math.min(dist[j] + 1, prev + 1, dist[j - 1] + cost);
+      dist[j - 1] = prev;
+      prev = next;
+    }
+    dist[cols - 1] = prev;
+  }
+  return dist[cols - 1];
+}
+
+function tokensEquivalent(expected: string, actual: string): boolean {
+  if (expected === actual) return true;
+  if (
+    expected.length >= FUZZY_TOKEN_MIN_LENGTH &&
+    actual.length >= FUZZY_TOKEN_MIN_LENGTH
+  ) {
+    return levenshtein(expected, actual) <= 1;
+  }
+  return false;
+}
 
 function matchesExpectedTokenAt(
   transcript: string[],
@@ -38,7 +69,7 @@ function matchesExpectedTokenAt(
   expectedToken: string,
 ): number {
   if (index >= transcript.length) return 0;
-  if (transcript[index] === expectedToken) return 1;
+  if (tokensEquivalent(expectedToken, transcript[index] ?? "")) return 1;
 
   let concat = "";
   for (
@@ -48,8 +79,8 @@ function matchesExpectedTokenAt(
     parts++
   ) {
     concat += transcript[index + parts - 1];
-    if (concat === expectedToken) return parts;
-    if (concat.length > expectedToken.length) break;
+    if (tokensEquivalent(expectedToken, concat)) return parts;
+    if (concat.length > expectedToken.length + 1) break;
   }
   return 0;
 }
@@ -97,12 +128,24 @@ export function validateScriptTailInTranscript(
     .filter((t) => t.length > 0);
 
   let ei = 0;
-  for (let ti = 0; ti < transcript.length && ei < expected.length; ti++) {
-    const consumed = matchesExpectedTokenAt(transcript, ti, expected[ei]);
-    if (consumed > 0) {
-      ei++;
-      ti += consumed - 1;
+  let ti = 0;
+  while (ti < transcript.length && ei < expected.length) {
+    let matched = false;
+    const maxWidth = Math.min(
+      MAX_EXPECTED_TOKENS_PER_MATCH,
+      expected.length - ei,
+    );
+    for (let width = maxWidth; width >= 1; width--) {
+      const expectedSlice = expected.slice(ei, ei + width).join("");
+      const consumed = matchesExpectedTokenAt(transcript, ti, expectedSlice);
+      if (consumed > 0) {
+        ei += width;
+        ti += consumed;
+        matched = true;
+        break;
+      }
     }
+    if (!matched) ti++;
   }
   return ei === expected.length;
 }

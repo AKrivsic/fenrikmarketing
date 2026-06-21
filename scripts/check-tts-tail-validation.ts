@@ -113,5 +113,42 @@ check(
   },
 );
 
+check("validateScriptTailInTranscript accepts sign up vs whisper signup", () => {
+  const words: WordTimestamp[] = [
+    { word: "the", start: 0, end: 0.2 },
+    { word: "preview", start: 0.2, end: 0.4 },
+    { word: "no", start: 0.4, end: 0.5 },
+    { word: "signup", start: 0.5, end: 0.9 },
+    { word: "needed", start: 0.9, end: 1.2 },
+  ];
+  assert.equal(
+    validateScriptTailInTranscript(
+      "Try the preview no sign up needed.",
+      words,
+    ),
+    true,
+  );
+});
+
+check(
+  "validateScriptTailInTranscript accepts fenric chat vs script fenrikchat",
+  () => {
+    const words: WordTimestamp[] = [
+      { word: "try", start: 0, end: 0.2 },
+      { word: "it", start: 0.2, end: 0.3 },
+      { word: "at", start: 0.3, end: 0.35 },
+      { word: "fenric", start: 0.35, end: 0.5 },
+      { word: "chat", start: 0.5, end: 0.7 },
+    ];
+    assert.equal(
+      validateScriptTailInTranscript(
+        "Opens fast. Try it at fenrikchat.",
+        words,
+      ),
+      true,
+    );
+  },
+);
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

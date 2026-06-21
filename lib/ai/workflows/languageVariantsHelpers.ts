@@ -31,12 +31,10 @@ export function allItemsApproved(statuses: ApprovalStatus[]): boolean {
   return statuses.length > 0 && statuses.every((s) => s === "approved");
 }
 
-// Platforms whose primary output is a video. Mirrors the product defaults in
-// DEFAULT_PLATFORM_CONTENT_TYPES (lib/projects/contentControls.ts): tiktok /
-// instagram / youtube / facebook produce a video, while linkedin / x /
-// google_business are text-only. Used by the item-level variant flow to decide
-// whether an approved primary item should also produce a localized video job.
-const VIDEO_PLATFORMS = new Set<string>([
+// Platforms whose primary output is a video under product DEFAULTS. Prefer
+// isVideoContentPlatform(project.platformContentTypes) when the project is
+// available.
+const DEFAULT_VIDEO_PLATFORMS = new Set<string>([
   "tiktok",
   "instagram",
   "youtube",
@@ -44,7 +42,7 @@ const VIDEO_PLATFORMS = new Set<string>([
 ]);
 
 export function isVideoPlatform(platform: string): boolean {
-  return VIDEO_PLATFORMS.has(platform);
+  return DEFAULT_VIDEO_PLATFORMS.has(platform);
 }
 
 // Target languages that do NOT yet have a variant for a given source item.

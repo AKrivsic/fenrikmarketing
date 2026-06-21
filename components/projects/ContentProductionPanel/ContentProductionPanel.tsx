@@ -15,6 +15,7 @@ import {
   PRODUCTION_PLATFORMS,
   computeProductionPlan,
   normalizeProductionConfig,
+  resolveProductionPlatformKind,
   type ProductionConfig,
   type ProductionPlatformId,
 } from "@/lib/projects/productionRun";
@@ -79,8 +80,18 @@ export function ContentProductionPanel({
     const platforms = PRODUCTION_PLATFORMS.filter(
       (d) => activePlatforms[d.id],
     ).map((d) => d.id);
-    return { packageCount, platforms, multipliers };
-  }, [packageCount, activePlatforms, multipliers]);
+    return {
+      packageCount,
+      platforms,
+      multipliers,
+      platformContentTypes: initialConfig.platformContentTypes,
+    };
+  }, [
+    packageCount,
+    activePlatforms,
+    multipliers,
+    initialConfig.platformContentTypes,
+  ]);
 
   const plan = useMemo(
     () => computeProductionPlan(normalizeProductionConfig(config)),
@@ -175,7 +186,11 @@ export function ContentProductionPanel({
         </div>
         {PRODUCTION_PLATFORMS.map((def) => {
           const isOn = activePlatforms[def.id];
-          const isVideo = def.kind === "video";
+          const isVideo =
+            resolveProductionPlatformKind(
+              def.id,
+              config.platformContentTypes,
+            ) === "video";
           // Video platforms are fixed at 1 output per package (one shared
           // package video); only text platforms expose an editable multiplier.
           const mult = isVideo

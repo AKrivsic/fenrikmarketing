@@ -1,7 +1,10 @@
 import type { PlatformType } from "@/lib/supabase/types";
 import {
+  DEFAULT_PLATFORM_CONTENT_TYPES,
   resolvePlatformTargets,
   type ContentControls,
+  type ContentTypePlatform,
+  type PlatformContentType,
 } from "@/lib/projects/contentControls";
 
 // ---------------------------------------------------------------------------
@@ -37,31 +40,22 @@ export type ProductionPlatformKind = "video" | "text";
 export interface ProductionPlatformDef {
   id: ProductionPlatformId;
   label: string;
-  kind: ProductionPlatformKind;
   // True when the platform is backed by the platform_type DB enum and so the
   // pipeline produces a real content_item for it (everything except "x").
   persistable: boolean;
 }
 
-// The platforms a package can publish to (per product spec). Video platforms
-// receive the shared package video; text platforms receive copy-only outputs.
+// The platforms a package can publish to (per product spec). Whether each
+// surface is video or text comes from the project's platform_content_types
+// (Content Controls), not from this list.
 export const PRODUCTION_PLATFORMS: readonly ProductionPlatformDef[] = [
-  { id: "tiktok", label: "TikTok", kind: "video", persistable: true },
-  { id: "instagram", label: "Instagram", kind: "video", persistable: true },
-  // facebook is a platform_type since migration 001 and is configured as a
-  // video platform in Content Controls (DEFAULT_PLATFORM_CONTENT_TYPES), so it
-  // shares the package video like the other video surfaces.
-  { id: "facebook", label: "Facebook", kind: "video", persistable: true },
-  { id: "youtube", label: "YouTube", kind: "video", persistable: true },
-  { id: "linkedin", label: "LinkedIn", kind: "text", persistable: true },
-  // x is a real platform_type since migration 016 → persistable content_items.
-  { id: "x", label: "X", kind: "text", persistable: true },
-  {
-    id: "google_business",
-    label: "Google Business",
-    kind: "text",
-    persistable: true,
-  },
+  { id: "tiktok", label: "TikTok", persistable: true },
+  { id: "instagram", label: "Instagram", persistable: true },
+  { id: "facebook", label: "Facebook", persistable: true },
+  { id: "youtube", label: "YouTube", persistable: true },
+  { id: "linkedin", label: "LinkedIn", persistable: true },
+  { id: "x", label: "X", persistable: true },
+  { id: "google_business", label: "Google Business", persistable: true },
 ] as const;
 
 export type ProductionPlatformId =
@@ -77,12 +71,14 @@ const PLATFORM_BY_ID = new Map<string, ProductionPlatformDef>(
   PRODUCTION_PLATFORMS.map((p) => [p.id, p]),
 );
 
+// Product-default video surfaces (used when pre-filling an empty production
+// panel). Per-project overrides live in platform_content_types.
 export const PRODUCTION_VIDEO_PLATFORMS = PRODUCTION_PLATFORMS.filter(
-  (p) => p.kind === "video",
+  (p) => DEFAULT_PLATFORM_CONTENT_TYPES[p.id] === "video",
 ).map((p) => p.id);
 
 export const PRODUCTION_TEXT_PLATFORMS = PRODUCTION_PLATFORMS.filter(
-  (p) => p.kind === "text",
+  (p) => DEFAULT_PLATFORM_CONTENT_TYPES[p.id] === "text_only",
 ).map((p) => p.id);
 
 export function isProductionPlatform(
@@ -95,10 +91,39 @@ export function productionPlatformLabel(platform: string): string {
   return PLATFORM_BY_ID.get(platform)?.label ?? platform;
 }
 
+function mergedPlatformContentTypes(
+  contentTypes?: Partial<Record<ContentTypePlatform, PlatformContentType>>,
+): Record<ContentTypePlatform, PlatformContentType> {
+  return {
+    ...DEFAULT_PLATFORM_CONTENT_TYPES,
+    ...(contentTypes ?? {}),
+  };
+}
+
+function contentTypesForConfig(
+  config: ProductionConfig,
+): Record<ContentTypePlatform, PlatformContentType> {
+  return mergedPlatformContentTypes(config.platformContentTypes);
+}
+
+// Resolves video vs text for a production platform from Content Controls.
+export function resolveProductionPlatformKind(
+  platform: ProductionPlatformId,
+  contentTypes?: Partial<Record<ContentTypePlatform, PlatformContentType>>,
+): ProductionPlatformKind {
+  const type = mergedPlatformContentTypes(contentTypes)[platform];
+  return type === "video" ? "video" : "text";
+}
+
+/** @deprecated Prefer resolveProductionPlatformKind with project content types. */
 export function productionPlatformKind(
   platform: string,
+  contentTypes?: Partial<Record<ContentTypePlatform, PlatformContentType>>,
 ): ProductionPlatformKind {
-  return PLATFORM_BY_ID.get(platform)?.kind ?? "text";
+  if (isProductionPlatform(platform)) {
+    return resolveProductionPlatformKind(platform, contentTypes);
+  }
+  return "text";
 }
 
 // True when a platform can produce a real content_item (everything except "x").
@@ -132,6 +157,11 @@ export interface ProductionConfig {
   packageCount: number;
   platforms: ProductionPlatformId[];
   multipliers: Partial<Record<ProductionPlatformId, number>>;
+  // Snapshot of publishing_rules.platform_content_types (merged with product
+  // defaults on read). Stored on each production run so replays stay stable.
+  platformContentTypes?: Partial<
+    Record<ContentTypePlatform, PlatformContentType>
+  >;
 }
 
 export interface ProductionPlatformOutput {
@@ -214,7 +244,27 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
         : clampMultiplier(provided);
   }
 
-  return { packageCount, platforms, multipliers };
+  const typesRaw =
+    record.platformContentTypes && typeof record.platformContentTypes === "object"
+      ? (record.platformContentTypes as Record<string, unknown>)
+      : null;
+  let platformContentTypes: ProductionConfig["platformContentTypes"];
+  if (typesRaw) {
+    platformContentTypes = {};
+    for (const def of PRODUCTION_PLATFORMS) {
+      const raw = typesRaw[def.id];
+      if (raw === "video" || raw === "text_only") {
+        platformContentTypes[def.id] = raw;
+      }
+    }
+  }
+
+  return {
+    packageCount,
+    platforms,
+    multipliers,
+    ...(platformContentTypes ? { platformContentTypes } : {}),
+  };
 }
 
 // Total outputs a platform produces across the whole run. Video platforms get
@@ -252,6 +302,7 @@ export function computeProductionPlan(config: ProductionConfig): ProductionPlan 
     PACKAGE_COUNT_MIN,
     PACKAGE_COUNT_MAX,
   );
+  const contentTypes = contentTypesForConfig(config);
 
   const platformOutputs: ProductionPlatformOutput[] = [];
   const activeVideoPlatforms: ProductionPlatformId[] = [];
@@ -261,20 +312,21 @@ export function computeProductionPlan(config: ProductionConfig): ProductionPlan 
   // Iterate in canonical order so the UI/run always lists platforms the same.
   for (const def of PRODUCTION_PLATFORMS) {
     if (!config.platforms.includes(def.id)) continue;
+    const kind = resolveProductionPlatformKind(def.id, contentTypes);
     // Video platforms are fixed at multiplier 1 (one shared video per package).
     const multiplier =
-      def.kind === "video"
+      kind === "video"
         ? 1
         : (config.multipliers[def.id] ?? DEFAULT_MULTIPLIERS[def.id]);
-    const outputs = platformOutputTotal(def.kind, packageCount, multiplier);
+    const outputs = platformOutputTotal(kind, packageCount, multiplier);
     platformOutputs.push({
       platform: def.id,
       label: def.label,
-      kind: def.kind,
+      kind,
       multiplier,
       outputs,
     });
-    if (def.kind === "video") {
+    if (kind === "video") {
       activeVideoPlatforms.push(def.id);
       videoOutputsTotal += outputs;
     } else {
@@ -353,6 +405,7 @@ export function buildDefaultProductionConfig(
   controls: ContentControls,
   platforms: PlatformType[],
 ): ProductionConfig {
+  const platformContentTypes = { ...controls.platformContentTypes };
   const entries = resolvePlatformTargets(controls, platforms);
   // Sparse target map by production-platform id (content-type platforms only;
   // youtube is never a content-type platform, so it has no stored target).
@@ -370,7 +423,7 @@ export function buildDefaultProductionConfig(
   let anyMax = 0;
   for (const [id, target] of targetById) {
     anyMax = Math.max(anyMax, target);
-    if (productionPlatformKind(id) === "video") {
+    if (resolveProductionPlatformKind(id, platformContentTypes) === "video") {
       videoMax = Math.max(videoMax, target);
     }
   }
@@ -408,7 +461,12 @@ export function buildDefaultProductionConfig(
     }
   }
 
-  return { packageCount, platforms: active, multipliers };
+  return {
+    packageCount,
+    platforms: active,
+    multipliers,
+    platformContentTypes,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -517,6 +575,7 @@ export function painPointFocusForIndex(
 export function resolveRunGenerationPlan(
   config: ProductionConfig,
 ): RunGenerationPlan {
+  const contentTypes = contentTypesForConfig(config);
   const targetPlatforms: ProductionPlatformId[] = [];
   const videoPlatforms: ProductionPlatformId[] = [];
   const multipliers = {} as Record<ProductionPlatformId, number>;
@@ -525,7 +584,8 @@ export function resolveRunGenerationPlan(
     if (!config.platforms.includes(def.id)) continue;
     if (!def.persistable) continue;
     targetPlatforms.push(def.id);
-    if (def.kind === "video") {
+    const kind = resolveProductionPlatformKind(def.id, contentTypes);
+    if (kind === "video") {
       videoPlatforms.push(def.id);
       multipliers[def.id] = 1;
     } else {
