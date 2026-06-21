@@ -37,7 +37,8 @@ export async function persistProductionStrategyPlan(
       project_id: projectId,
       name: plan.theme || `Production run ${productionRunId.slice(0, 8)}`,
       objective: goalType,
-      period_start: null,
+      // Align with legacy production_run strategies (calendar metadata only).
+      period_start: new Date().toISOString().slice(0, 10),
       period_end: null,
       strategy_brief: {
         source: "production_run",

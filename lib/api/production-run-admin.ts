@@ -219,7 +219,14 @@ export async function reconcileProductionRun(
   let progress: RealProgress | null = null;
   if (run.status !== "failed") {
     progress = await reconcileFromRealContent(supabase, run);
-    await syncRunItemsAndCounters(supabase, run, items, progress);
+    const markedStale = await failStaleProductionRunIfNeeded(
+      supabase,
+      run,
+      progress,
+    );
+    if (!markedStale) {
+      await syncRunItemsAndCounters(supabase, run, items, progress);
+    }
   }
 
   return buildView(run, items, progress);
@@ -269,6 +276,36 @@ export async function getLatestProductionRunView(
 // ---------------------------------------------------------------------------
 // internals
 // ---------------------------------------------------------------------------
+
+const STALE_PRODUCTION_RUN_MS = 12 * 60 * 1000;
+const STALE_PRODUCTION_RUN_MESSAGE =
+  "Generování se nezdařilo spustit (pipeline neprodukuje balíčky). Zkuste spustit běh znovu.";
+
+// When strategy items exist but n8n never produced a package (e.g. webhook workflow
+// error), stop showing an endless "running" run so the operator can retry.
+async function failStaleProductionRunIfNeeded(
+  supabase: SupabaseClient,
+  run: ProductionRunRow,
+  progress: RealProgress,
+): Promise<boolean> {
+  if (run.status !== "running" && run.status !== "queued") return false;
+  if (progress.packages.length > 0) return false;
+
+  const ageMs = Date.now() - new Date(run.updated_at).getTime();
+  if (ageMs < STALE_PRODUCTION_RUN_MS) return false;
+
+  const { count, error } = await supabase
+    .from("content_strategy_items")
+    .select("id", { count: "exact", head: true })
+    .eq("brief->>production_run_id", run.id);
+  if (error) throw error;
+  if ((count ?? 0) === 0) return false;
+
+  await setProductionRunStatus(run.id, "failed", STALE_PRODUCTION_RUN_MESSAGE);
+  run.status = "failed";
+  run.error_message = STALE_PRODUCTION_RUN_MESSAGE;
+  return true;
+}
 
 async function loadRun(
   supabase: SupabaseClient,
@@ -479,7 +516,12 @@ async function syncRunItemsAndCounters(
   const failed = progress.packages.filter((p) => p.status === "failed").length;
   // The run is done when every requested package reached a terminal state.
   const open = run.requested_total - generated - failed;
-  const nextStatus: ProductionRunStatus = open <= 0 ? "completed" : "running";
+  const nextStatus: ProductionRunStatus =
+    open <= 0
+      ? "completed"
+      : run.status === "queued" && progress.packages.length === 0
+        ? "queued"
+        : "running";
 
   const changed =
     run.generated_total !== generated ||

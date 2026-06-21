@@ -26,11 +26,105 @@
       }
     },
     {
+      "id": "n1b",
+      "name": "N1b — Production run?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [120, 0],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "production-run-id",
+              "leftValue": "={{ $('N1 — Webhook Trigger').first().json.body.payload.production_run_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n1c",
+      "name": "N1c — Weekly week_start?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [120, 160],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "week-start",
+              "leftValue": "={{ $('N1 — Webhook Trigger').first().json.body.payload.week_start }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n0",
+      "name": "N0 — Invalid payload",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [120, 320],
+      "parameters": {
+        "errorType": "errorMessage",
+        "errorMessage": "generate_content_package payload must include production_run_id or week_start"
+      }
+    },
+    {
+      "id": "n2p",
+      "name": "N2p — Read production strategy items",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [360, -120],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "content_strategy_items",
+        "returnAll": true,
+        "filterType": "string",
+        "filterString": "={{ 'project_id=eq.' + $('N1 — Webhook Trigger').first().json.body.project_id + '&brief->>production_run_id=eq.' + $('N1 — Webhook Trigger').first().json.body.payload.production_run_id + '&order=created_at.asc' }}"
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "REPLACE_SUPABASE_CRED",
+          "name": "Supabase (service role)"
+        }
+      }
+    },
+    {
       "id": "n2a",
       "name": "N2a — Read weekly strategy",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [120, 0],
+      "position": [360, 160],
       "parameters": {
         "operation": "getAll",
         "tableId": "content_strategies",
@@ -47,21 +141,20 @@
       }
     },
     {
-      "id": "n2",
-      "name": "N2 — Read strategy items",
+      "id": "n2w",
+      "name": "N2w — Read weekly strategy items",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [240, 0],
+      "position": [560, 160],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 1000,
-      "notes": "Weekly Prepare: when payload.week_start is set, load ALL items for $('N2a').id. Production Run: production_run_id branch. Legacy: limit 1 without week_start.",
       "parameters": {
         "operation": "getAll",
         "tableId": "content_strategy_items",
         "returnAll": true,
         "filterType": "string",
-        "filterString": "={{ ($('N1 — Webhook Trigger').first().json.body.payload && $('N1 — Webhook Trigger').first().json.body.payload.production_run_id) ? ('project_id=eq.' + $('N1 — Webhook Trigger').first().json.body.project_id + '&brief->>production_run_id=eq.' + $('N1 — Webhook Trigger').first().json.body.payload.production_run_id + '&order=created_at.asc') : (($('N1 — Webhook Trigger').first().json.body.payload && $('N1 — Webhook Trigger').first().json.body.payload.week_start) ? ('project_id=eq.' + $('N1 — Webhook Trigger').first().json.body.project_id + '&strategy_id=eq.' + $('N2a — Read weekly strategy').first().json.id + '&order=created_at.asc') : ('project_id=eq.' + $('N1 — Webhook Trigger').first().json.body.project_id + (($('N1 — Webhook Trigger').first().json.body.payload && $('N1 — Webhook Trigger').first().json.body.payload.funnel_stage) ? ('&funnel_stage=eq.' + $('N1 — Webhook Trigger').first().json.body.payload.funnel_stage) : '') + '&order=created_at.asc&limit=1')) }}"
+        "filterString": "={{ 'project_id=eq.' + $('N1 — Webhook Trigger').first().json.body.project_id + '&strategy_id=eq.' + $('N2a — Read weekly strategy').first().json.id + '&order=created_at.asc' }}"
       },
       "credentials": {
         "supabaseApi": {
@@ -75,7 +168,7 @@
       "name": "N2b — Loop over packages",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [464, 0],
+      "position": [760, 0],
       "parameters": { "batchSize": 1, "options": {} }
     },
     {
@@ -83,7 +176,7 @@
       "name": "N3 — Generate Content Package",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [704, 0],
+      "position": [1000, 0],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 2000,
@@ -110,7 +203,7 @@
       "name": "N4 — Start Video Job",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [944, 0],
+      "position": [1240, 0],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 2000,
@@ -133,11 +226,64 @@
       }
     },
     {
+      "id": "n5b",
+      "name": "N5b — Action run id?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1480, -160],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "action-run-id",
+              "leftValue": "={{ $('N1 — Webhook Trigger').first().json.body.payload.action_run_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n5",
+      "name": "N5 — Action run success",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1700, -160],
+      "parameters": {
+        "method": "POST",
+        "url": "https://fenrikmarketing.vercel.app/api/n8n/action-run-status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"run_id\": $('N1 — Webhook Trigger').first().json.body.payload.action_run_id, \"status\": \"success\", \"message\": \"Content packages generated.\", \"n8n_execution_id\": String($execution.id) } }}",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_CALLBACK_SECRET_CRED",
+          "name": "x-n8n-secret (N8N_CALLBACK_SECRET)"
+        }
+      }
+    },
+    {
       "id": "err1",
       "name": "Error Trigger",
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
-      "position": [240, 240],
+      "position": [240, 480],
       "parameters": {}
     },
     {
@@ -145,7 +291,7 @@
       "name": "Error — error-callback",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [480, 240],
+      "position": [480, 480],
       "retryOnFail": true,
       "maxTries": 5,
       "waitBetweenTries": 2000,
@@ -156,7 +302,7 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"workflow\": \"generate_content_package\", \"step\": ($json.execution && $json.execution.lastNodeExecuted) ? $json.execution.lastNodeExecuted : \"unknown\", \"error_type\": \"workflow_error\", \"error_message\": ($json.execution && $json.execution.error && $json.execution.error.message) ? $json.execution.error.message : \"Unknown error\", \"project_id\": ($json.execution && $json.execution.data && $json.execution.data.resultData && $json.execution.data.resultData.runData && $json.execution.data.resultData.runData['N1 — Webhook Trigger']) ? $json.execution.data.resultData.runData['N1 — Webhook Trigger'][0].data.main[0][0].json.body.project_id : \"\" } }}",
+        "jsonBody": "={{ { \"workflow\": \"generate_content_package\", \"step\": ($json.execution && $json.execution.lastNodeExecuted) ? $json.execution.lastNodeExecuted : \"unknown\", \"error_type\": \"workflow_error\", \"error_message\": ($json.execution && $json.execution.error && $json.execution.error.message) ? $json.execution.error.message : \"Unknown error\", \"project_id\": ($json.execution && $json.execution.data && $json.execution.data.resultData && $json.execution.data.resultData.runData && $json.execution.data.resultData.runData['N1 — Webhook Trigger']) ? $json.execution.data.resultData.runData['N1 — Webhook Trigger'][0].data.main[0][0].json.body.project_id : \"\", \"action_run_id\": ($json.execution && $json.execution.data && $json.execution.data.resultData && $json.execution.data.resultData.runData && $json.execution.data.resultData.runData['N1 — Webhook Trigger']) ? $json.execution.data.resultData.runData['N1 — Webhook Trigger'][0].data.main[0][0].json.body.payload.action_run_id : \"\" } }}",
         "options": {}
       },
       "credentials": {
@@ -169,18 +315,39 @@
   ],
   "connections": {
     "N1 — Webhook Trigger": {
-      "main": [[{ "node": "N2a — Read weekly strategy", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "N1b — Production run?", "type": "main", "index": 0 }]]
+    },
+    "N1b — Production run?": {
+      "main": [
+        [{ "node": "N2p — Read production strategy items", "type": "main", "index": 0 }],
+        [{ "node": "N1c — Weekly week_start?", "type": "main", "index": 0 }]
+      ]
+    },
+    "N1c — Weekly week_start?": {
+      "main": [
+        [{ "node": "N2a — Read weekly strategy", "type": "main", "index": 0 }],
+        [{ "node": "N0 — Invalid payload", "type": "main", "index": 0 }]
+      ]
+    },
+    "N2p — Read production strategy items": {
+      "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]
     },
     "N2a — Read weekly strategy": {
-      "main": [[{ "node": "N2 — Read strategy items", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "N2w — Read weekly strategy items", "type": "main", "index": 0 }]]
     },
-    "N2 — Read strategy items": {
+    "N2w — Read weekly strategy items": {
       "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]
     },
     "N2b — Loop over packages": {
       "main": [
-        [],
+        [{ "node": "N5b — Action run id?", "type": "main", "index": 0 }],
         [{ "node": "N3 — Generate Content Package", "type": "main", "index": 0 }]
+      ]
+    },
+    "N5b — Action run id?": {
+      "main": [
+        [{ "node": "N5 — Action run success", "type": "main", "index": 0 }],
+        []
       ]
     },
     "N3 — Generate Content Package": {
