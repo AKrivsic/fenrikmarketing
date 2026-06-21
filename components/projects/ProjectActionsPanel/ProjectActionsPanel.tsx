@@ -9,6 +9,8 @@ import {
   type ActionResult,
 } from "@/app/projects/[id]/actions";
 import type {
+  CurrentWeekStepDisplay,
+  ProjectCurrentWeekStatus,
   ProjectWorkflowStatus,
   WorkflowStatus,
 } from "@/lib/api/project-workflow-admin";
@@ -31,6 +33,7 @@ export interface PrepareWeekSummary {
 interface ProjectActionsPanelProps {
   projectId: string;
   status: ProjectWorkflowStatus;
+  currentWeek: ProjectCurrentWeekStatus;
   summary: PrepareWeekSummary;
 }
 
@@ -50,6 +53,13 @@ const STAGE_STATUS_LABEL: Record<WorkflowStatus, string> = {
   failed: "Failed",
 };
 
+const CURRENT_WEEK_LABEL: Record<CurrentWeekStepDisplay, string> = {
+  generated: "✅ Generated",
+  missing_strategy: "❌ Missing Strategy",
+  missing: "❌ Missing",
+  waiting: "⏳ Waiting",
+};
+
 interface StepDef {
   key: string;
   index: number;
@@ -58,15 +68,21 @@ interface StepDef {
   run: (projectId: string) => Promise<ActionResult>;
   stageStatus: WorkflowStatus;
   stageCount: number;
+  weekStatus?: CurrentWeekStepDisplay;
 }
 
-function isCompleted(s: WorkflowStatus): boolean {
-  return s === "completed";
+function isStepDone(step: StepDef): boolean {
+  if (step.key === "trends") {
+    return step.stageStatus === "completed";
+  }
+  if (step.weekStatus === undefined) return false;
+  return step.weekStatus === "generated";
 }
 
 export function ProjectActionsPanel({
   projectId,
   status,
+  currentWeek,
   summary,
 }: ProjectActionsPanelProps) {
   const [runStates, setRunStates] = useState<Record<string, StepRunState>>({});
@@ -92,34 +108,36 @@ export function ProjectActionsPanel({
           "Vytvoří týdenní obsahovou strategii. Nejlepší výsledky po naskenování trendů.",
         run: runWeeklyStrategy,
         stageStatus: status.weeklyStrategy.status,
-        stageCount: status.weeklyStrategy.count,
+        stageCount: currentWeek.strategyItemCount,
+        weekStatus: currentWeek.strategy,
       },
       {
         key: "packages",
         index: 3,
         title: "Generate content packages",
         explanation:
-          "Spustí generování balíčků v n8n podle týdenní strategie. Nemusí vygenerovat všechny chybějící balíčky najednou — výsledek ověřte v záložce Content Packages.",
+          "Spustí generování balíčků v n8n podle týdenní strategie pro aktuální týden. Bez strategie pro tento týden API vrátí chybu missing_weekly_strategy.",
         run: runGenerateContentPackages,
         stageStatus: status.contentPackages.status,
-        stageCount: status.contentPackages.count,
+        stageCount: currentWeek.packageCount,
+        weekStatus: currentWeek.packages,
       },
       {
         key: "publishing",
         index: 4,
         title: "Plan publishing",
         explanation:
-          "Naplánuje schválený obsah do publikačního kalendáře pro tento týden.",
+          "Naplánuje obsah do publikačního kalendáře pro tento týden. Vyžaduje strategii s period_start = aktuální týden.",
         run: runPublishingPlanner,
         stageStatus: status.publishingPlanner.status,
-        stageCount: status.publishingPlanner.count,
+        stageCount: currentWeek.scheduledCount,
+        weekStatus: currentWeek.publishing,
       },
     ],
-    [status],
+    [status, currentWeek],
   );
 
-  // Suggested next step for the primary button (first incomplete, or step 1 again).
-  const nextStepIdx = steps.findIndex((s) => !isCompleted(s.stageStatus));
+  const nextStepIdx = steps.findIndex((s) => !isStepDone(s));
   const allDone = nextStepIdx === -1;
   const primaryStep = allDone ? steps[0] : steps[nextStepIdx];
 
@@ -172,8 +190,8 @@ export function ProjectActionsPanel({
               <strong>
                 {primaryStep.index}. {primaryStep.title}
               </strong>
-              . Kroky lze spouštět i jednotlivě a opakovaně — stav COMPLETED
-              níže je souhrn dat v projektu, ne limit pro tento týden.
+              . Kroky lze spouštět i jednotlivě — stav „Current Week“ níže
+              vztahuje jen k týdnu {summary.weekStart}.
             </>
           ) : (
             <>
@@ -232,6 +250,24 @@ export function ProjectActionsPanel({
             </dd>
           </div>
         </dl>
+
+        <div className={styles.weekStatus}>
+          <h4 className={styles.weekStatusTitle}>Current Week Status</h4>
+          <ul className={styles.weekStatusList}>
+            <li>
+              <span className={styles.weekStatusKey}>Strategy</span>
+              <span>{CURRENT_WEEK_LABEL[currentWeek.strategy]}</span>
+            </li>
+            <li>
+              <span className={styles.weekStatusKey}>Packages</span>
+              <span>{CURRENT_WEEK_LABEL[currentWeek.packages]}</span>
+            </li>
+            <li>
+              <span className={styles.weekStatusKey}>Publishing</span>
+              <span>{CURRENT_WEEK_LABEL[currentWeek.publishing]}</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       {/* Guided sequence */}
@@ -244,13 +280,20 @@ export function ProjectActionsPanel({
               <div className={styles.stepBody}>
                 <div className={styles.stepHead}>
                   <span className={styles.stepTitle}>{step.title}</span>
-                  <span
-                    className={styles.badge}
-                    data-status={step.stageStatus}
-                  >
-                    {STAGE_STATUS_LABEL[step.stageStatus]}
-                    {step.stageCount > 0 ? ` (${step.stageCount})` : ""}
-                  </span>
+                  {step.weekStatus ? (
+                    <span className={styles.weekBadge}>
+                      {CURRENT_WEEK_LABEL[step.weekStatus]}
+                      {step.stageCount > 0 ? ` (${step.stageCount})` : ""}
+                    </span>
+                  ) : (
+                    <span
+                      className={styles.badge}
+                      data-status={step.stageStatus}
+                    >
+                      {STAGE_STATUS_LABEL[step.stageStatus]}
+                      {step.stageCount > 0 ? ` (${step.stageCount})` : ""}
+                    </span>
+                  )}
                 </div>
                 <p className={styles.stepExplanation}>{step.explanation}</p>
 

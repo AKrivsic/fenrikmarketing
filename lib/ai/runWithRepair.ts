@@ -29,6 +29,9 @@ export interface GenerateValidatedJsonInput<T> {
   }) => string;
   maxAttempts?: number;
   temperature?: number;
+  // Per-call Claude/OpenAI transport overrides forwarded to textProvider.complete.
+  timeoutMs?: number;
+  maxTransportAttempts?: number;
   // Optional override for the JSON repair provider. Defaults to the OpenAI
   // helper (getJsonRepairProvider); injectable for tests to avoid network.
   repairProvider?: TextProvider;
@@ -65,6 +68,8 @@ export async function generateValidatedJson<T>(
     retryPromptAppend,
     maxAttempts = 3,
     temperature,
+    timeoutMs,
+    maxTransportAttempts,
     repairProvider,
   } = input;
 
@@ -82,6 +87,8 @@ export async function generateValidatedJson<T>(
       prompt: effectivePrompt,
       json: true,
       temperature,
+      timeoutMs,
+      maxTransportAttempts,
     });
     lastRaw = completion.text;
 

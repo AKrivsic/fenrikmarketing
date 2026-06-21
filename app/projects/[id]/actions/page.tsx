@@ -7,6 +7,7 @@ import { ContentFlow } from "@/components/projects/ContentFlow/ContentFlow";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   getProjectContentFlow,
+  getProjectCurrentWeekStatus,
   getProjectWorkflowStatus,
 } from "@/lib/api/project-workflow-admin";
 import {
@@ -59,9 +60,10 @@ export default async function ActionsTabPage({ params }: ActionsTabPageProps) {
     notFound();
   }
 
-  const [status, flow] = await Promise.all([
+  const [status, flow, currentWeek] = await Promise.all([
     getProjectWorkflowStatus(id),
     getProjectContentFlow(id),
+    getProjectCurrentWeekStatus(id, currentWeekStart()),
   ]);
 
   const controls = parseContentControls(project.publishing_rules);
@@ -96,7 +98,12 @@ export default async function ActionsTabPage({ params }: ActionsTabPageProps) {
           existující n8n workflow; spuštění je asynchronní — n8n zpracuje a
           nahlásí výsledek, který se projeví ve stavech a v záložkách obsahu.
         </p>
-        <ProjectActionsPanel projectId={id} status={status} summary={summary} />
+        <ProjectActionsPanel
+          projectId={id}
+          status={status}
+          currentWeek={currentWeek}
+          summary={summary}
+        />
       </section>
 
       <section className={styles.block}>

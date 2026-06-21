@@ -1,8 +1,14 @@
 import { runGenerateContentPackage } from "@/lib/ai/workflows/generateContentPackage";
+import {
+  assertGenerateContentPackagePreconditions,
+  MissingWeeklyStrategyError,
+  missingWeeklyStrategyResponse,
+} from "@/lib/ai/workflows/weeklyStrategyGate";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { unauthorizedResponse, verifyN8nSecret } from "@/lib/n8n/callback";
 import {
   errorResponse,
+  optionalString,
   readJsonBody,
   requireString,
   workflowResponse,
@@ -32,15 +38,28 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJsonBody(request);
     const supabase = createSupabaseAdminClient();
+    const projectId = requireString(body, "project_id");
+    const strategyItemId = requireString(body, "strategy_item_id");
+    const weekStart = optionalString(body, "week_start");
+
+    await assertGenerateContentPackagePreconditions(supabase, {
+      projectId,
+      strategyItemId,
+      weekStart,
+    });
+
     const result = await runGenerateContentPackage(
       {
-        projectId: requireString(body, "project_id"),
-        strategyItemId: requireString(body, "strategy_item_id"),
+        projectId,
+        strategyItemId,
       },
       supabase,
     );
     return workflowResponse(result);
   } catch (err) {
+    if (err instanceof MissingWeeklyStrategyError) {
+      return missingWeeklyStrategyResponse();
+    }
     return errorResponse(err);
   }
 }

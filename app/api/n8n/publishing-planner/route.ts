@@ -8,6 +8,11 @@ import {
 } from "@/lib/n8n/callback";
 import { handlePublishingPlanCallback } from "@/lib/n8n/handlers";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
+import {
+  assertWeeklyStrategyForWeek,
+  MissingWeeklyStrategyError,
+  missingWeeklyStrategyResponse,
+} from "@/lib/ai/workflows/weeklyStrategyGate";
 import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
 import {
   parseContentControls,
@@ -43,6 +48,8 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const supabase = createSupabaseAdminClient();
+
+    await assertWeeklyStrategyForWeek(supabase, projectId, weekStart);
 
     // Project + publishing_rules (also validates existence).
     const { data: project, error: projErr } = await supabase
@@ -80,6 +87,9 @@ export async function POST(request: Request): Promise<Response> {
       { status: 202 },
     );
   } catch (err) {
+    if (err instanceof MissingWeeklyStrategyError) {
+      return missingWeeklyStrategyResponse();
+    }
     if (err instanceof CallbackValidationError) {
       return validationErrorResponse(err.message);
     }

@@ -45,10 +45,10 @@ export const WEEKLY_STRATEGY_SYSTEM =
   "coherent WEEKLY content strategy (never isolated posts). Funnel stages are " +
   "exactly: Awareness, Problem Aware, Solution Aware, Conversion. Balance the " +
   "funnel across these stages; it must never be Conversion-only. Every " +
-  "content_plan item MUST have a funnel_stage. Every content_plan item MUST " +
-  "have exactly one topic source: either evergreen_topic_id from the provided " +
-  "evergreen list or trend_id from the eligible trends list. Never omit both. " +
-  "Never invent UUIDs.";
+  "content_plan item MUST have a funnel_stage. Prefer evergreen_topic_id or " +
+  "trend_id when those lists provide IDs; eligible trends are optional bonus " +
+  "context only. When both lists are empty, derive topics from the Product Brain " +
+  "and omit trend_id and evergreen_topic_id. Never invent UUIDs.";
 
 function formatSourceLists(
   eligibleTrends: ScoredTrend[],
@@ -76,8 +76,10 @@ function topicSourceRules(
   const hasEvergreen = evergreenTopics.length > 0;
   if (!hasTrends && !hasEvergreen) {
     return (
-      "TOPIC SOURCE: No eligible trends or evergreen topics were provided — " +
-      "you cannot produce a valid content_plan."
+      "TOPIC SOURCE: Eligible trends and evergreen topics are (none). Trends are " +
+      "optional — do NOT wait for trends. Derive each content_plan item topic and " +
+      "angle from the Product Brain (product_is, pain_points, strengths, audience, " +
+      "recent content memory). Omit trend_id and evergreen_topic_id on every item."
     );
   }
   const lines = [
@@ -90,7 +92,13 @@ function topicSourceRules(
   if (hasEvergreen && !hasTrends) {
     lines.push("- Eligible trends are (none): every item MUST set evergreen_topic_id from the evergreen list.");
   } else if (hasTrends && !hasEvergreen) {
-    lines.push("- Evergreen topics are (none): every item MUST set trend_id from the eligible trends list.");
+    lines.push(
+      "- Evergreen topics are (none): prefer trend_id when it fits; otherwise derive topic from Product Brain and omit both IDs.",
+    );
+  } else if (hasTrends && hasEvergreen) {
+    lines.push(
+      "- Trends are optional bonus context; evergreen topics are the primary library when both exist.",
+    );
   }
   return lines.join("\n");
 }
@@ -116,7 +124,9 @@ export function buildWeeklyStrategyExpectedShape(
     "ALLOWED evergreen_topic_id values:",
     evergreenBlock,
     "",
-    "Each content_plan[] entry must include funnel_stage and exactly one of trend_id or evergreen_topic_id from the allowed lists.",
+    "Each content_plan[] entry must include funnel_stage. Set trend_id and/or " +
+      "evergreen_topic_id only when using IDs from the allowed lists below; otherwise " +
+      "omit both and use Product Brain topics.",
   ].join("\n");
 }
 
@@ -220,6 +230,12 @@ export function buildWeeklyStrategyPrompt(
       ? `Aim for about ${targets.totalOutputs} content_plan items distributed across platforms to roughly match the per-platform targets above (this is a TARGET; exact match not required).`
       : `Aim for about ${controls.postsPerWeek} content_plan items.`;
 
+  const productBrainOnly =
+    eligibleTrends.length === 0 && evergreenTopics.length === 0;
+  const sourceRule = productBrainOnly
+    ? "Every content_plan item must have topic + angle from Product Brain; omit trend_id and evergreen_topic_id."
+    : "Set trend_id and/or evergreen_topic_id when using list IDs; trends are optional bonus when evergreen topics exist.";
+
   return [
     projectBrainBlock(project),
     "",
@@ -234,7 +250,7 @@ export function buildWeeklyStrategyPrompt(
     "",
     `WEEK: ${weekStart} -> ${weekEnd}`,
     "",
-    "ELIGIBLE TRENDS (relevance_score >= 60; only reference these trend_id values):",
+    "ELIGIBLE TRENDS (optional bonus; relevance_score >= 60; only use these trend_id values when relevant):",
     trendsBlock,
     "",
     "EVERGREEN TOPICS (reference by evergreen_topic_id):",
@@ -264,8 +280,7 @@ export function buildWeeklyStrategyPrompt(
 }`,
     "Rules: funnel_distribution must not be Conversion-only. Use ONLY the " +
       `allowed platforms (${platforms.join(", ")}). ${volumeRule} ` +
-      "Every content_plan item must set exactly one of trend_id or " +
-      "evergreen_topic_id using only IDs from the lists above." +
+      sourceRule +
       (painPointFirst
         ? " Every item's topic MUST anchor to a real pain point (see PAIN POINT " +
           "FIRST): ~80% directly tied to one explicit pain point, ~20% supporting " +

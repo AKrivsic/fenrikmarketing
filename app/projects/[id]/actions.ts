@@ -519,6 +519,7 @@ export async function runGenerateContentPackages(
   return triggerWorkflow(
     projectId,
     AUTOMATION_WORKFLOWS.generateContentPackage,
+    { week_start: currentWeekStart() },
   );
 }
 

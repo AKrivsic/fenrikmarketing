@@ -1,4 +1,5 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { loadWeeklyStrategyIdForWeek } from "@/lib/ai/workflows/weeklyStrategyGate";
 import type { JobStatus } from "@/lib/supabase/types";
 
 // Project-scoped, read-only workflow visibility for the project owner. Uses the
@@ -102,6 +103,107 @@ export async function getProjectWorkflowStatus(
     contentPackages: presenceStatus(packages.count ?? 0),
     videos: videoStatus(videoStatuses),
     publishingPlanner: presenceStatus(publishing.count ?? 0),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Current week (UTC Monday week_start) — scoped status for Prepare This Week.
+// ---------------------------------------------------------------------------
+
+export type CurrentWeekStepDisplay =
+  | "generated"
+  | "missing_strategy"
+  | "missing"
+  | "waiting";
+
+export interface ProjectCurrentWeekStatus {
+  weekStart: string;
+  strategy: CurrentWeekStepDisplay;
+  packages: CurrentWeekStepDisplay;
+  publishing: CurrentWeekStepDisplay;
+  strategyItemCount: number;
+  packageCount: number;
+  scheduledCount: number;
+}
+
+export async function getProjectCurrentWeekStatus(
+  projectId: string,
+  weekStart: string,
+): Promise<ProjectCurrentWeekStatus> {
+  const supabase = createSupabaseAdminClient();
+  const strategyId = await loadWeeklyStrategyIdForWeek(
+    supabase,
+    projectId,
+    weekStart,
+  );
+
+  if (!strategyId) {
+    return {
+      weekStart,
+      strategy: "missing",
+      packages: "missing_strategy",
+      publishing: "missing_strategy",
+      strategyItemCount: 0,
+      packageCount: 0,
+      scheduledCount: 0,
+    };
+  }
+
+  const { data: items, error: itemErr } = await supabase
+    .from("content_strategy_items")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("strategy_id", strategyId);
+  if (itemErr) throw itemErr;
+  const itemIds = (items ?? []).map((row) => row.id as string);
+  const strategyItemCount = itemIds.length;
+
+  let packageCount = 0;
+  let scheduledCount = 0;
+
+  if (itemIds.length > 0) {
+    const { data: packages, error: pkgErr } = await supabase
+      .from("content_packages")
+      .select("id")
+      .eq("project_id", projectId)
+      .in("strategy_item_id", itemIds);
+    if (pkgErr) throw pkgErr;
+    const packageIds = (packages ?? []).map((row) => row.id as string);
+    packageCount = packageIds.length;
+
+    if (packageIds.length > 0) {
+      const { data: contentItems, error: ciErr } = await supabase
+        .from("content_items")
+        .select("id")
+        .eq("project_id", projectId)
+        .in("package_id", packageIds);
+      if (ciErr) throw ciErr;
+      const contentItemIds = (contentItems ?? []).map((row) => row.id as string);
+      if (contentItemIds.length > 0) {
+        const { count, error: schedErr } = await supabase
+          .from("publishing_schedule")
+          .select("*", { count: "exact", head: true })
+          .eq("project_id", projectId)
+          .in("content_item_id", contentItemIds);
+        if (schedErr) throw schedErr;
+        scheduledCount = count ?? 0;
+      }
+    }
+  }
+
+  const packages: CurrentWeekStepDisplay =
+    packageCount > 0 ? "generated" : "missing";
+  const publishing: CurrentWeekStepDisplay =
+    scheduledCount > 0 ? "generated" : packageCount > 0 ? "waiting" : "waiting";
+
+  return {
+    weekStart,
+    strategy: "generated",
+    packages,
+    publishing,
+    strategyItemCount,
+    packageCount,
+    scheduledCount,
   };
 }
 

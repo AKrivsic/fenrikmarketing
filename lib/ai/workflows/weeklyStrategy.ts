@@ -30,6 +30,12 @@ import {
 import { ensureScenarioPool } from "@/lib/ai/workflows/generateScenarios";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 
+// Weekly Strategy only — Claude can run ~60–90s+; default 60s transport timeout
+// is too tight. Cap transport retries so a single slow call does not burn the
+// full Vercel/n8n 300s budget (avoid 3 × 180s).
+const WEEKLY_STRATEGY_CLAUDE_TIMEOUT_MS = 180_000;
+const WEEKLY_STRATEGY_CLAUDE_MAX_TRANSPORT_ATTEMPTS = 1;
+
 export interface RunWeeklyStrategyInput {
   projectId: string;
   weekStart: string;
@@ -123,6 +129,9 @@ export async function runWeeklyStrategy(
   // so the plan avoids repeating prior themes/angles.
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
 
+  const allowProductBrainTopics =
+    eligibleTrends.length === 0 && evergreenTopics.length === 0;
+
   const strategyPrompt = buildWeeklyStrategyPrompt({
     project,
     weekStart,
@@ -145,6 +154,8 @@ export async function runWeeklyStrategy(
     validator: weeklyStrategySchema,
     expectedShape: strategyExpectedShape,
     repairGuardrailFailures: true,
+    timeoutMs: WEEKLY_STRATEGY_CLAUDE_TIMEOUT_MS,
+    maxTransportAttempts: WEEKLY_STRATEGY_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
     retryPromptAppend: ({ issues }) =>
       buildWeeklyStrategyRetryAppend(issues, eligibleTrends, evergreenTopics),
     // Basic strategy guardrails + source/platform/trend-score guardrails run
@@ -153,7 +164,10 @@ export async function runWeeklyStrategy(
     // generation_failed without ever persisting the strategy.
     guardrails: (value) => [
       ...checkWeeklyStrategyGuardrails(value),
-      ...checkWeeklyStrategySources(value, { trendScores }),
+      ...checkWeeklyStrategySources(value, {
+        trendScores,
+        allowProductBrainTopics,
+      }),
     ],
   });
 

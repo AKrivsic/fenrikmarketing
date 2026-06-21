@@ -153,6 +153,9 @@ function isConversionOnly(strategy: WeeklyStrategyOutput): boolean {
 export interface WeeklyStrategySourceContext {
   // trend_id -> relevance score (null/undefined when unscored).
   trendScores: Record<string, number | null | undefined>;
+  // When true, content_plan items may omit trend_id and evergreen_topic_id and
+  // anchor topics in Product Brain (no eligible trends or evergreen rows).
+  allowProductBrainTopics?: boolean;
 }
 
 export function checkWeeklyStrategySources(
@@ -167,10 +170,10 @@ export function checkWeeklyStrategySources(
       issues.push(issue(`$.content_plan[${i}].platform`, "platform is required"));
     }
 
-    // Each item must have a topic source (a trend or an evergreen topic);
-    // no isolated, source-less content.
+    // Each item must have a topic source (trend or evergreen), unless both
+    // lists were empty and Product Brain drives topics instead.
     const hasTopicSource = Boolean(item.trend_id || item.evergreen_topic_id);
-    if (!hasTopicSource) {
+    if (!hasTopicSource && !ctx.allowProductBrainTopics) {
       issues.push(
         issue(
           `$.content_plan[${i}].topic_source`,

@@ -53,6 +53,17 @@ export async function POST(request: Request): Promise<Response> {
     );
     return workflowResponse(result);
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (/timed out/i.test(message)) {
+      return Response.json(
+        {
+          ok: false,
+          error: "ai_timeout",
+          message,
+        },
+        { status: 504 },
+      );
+    }
     return errorResponse(err);
   }
 }

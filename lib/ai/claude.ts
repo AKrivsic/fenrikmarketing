@@ -65,8 +65,8 @@ export class ClaudeProvider implements TextProvider {
         }),
       },
       {
-        timeoutMs: HTTP_TIMEOUT_MS.ai,
-        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
+        timeoutMs: req.timeoutMs ?? HTTP_TIMEOUT_MS.ai,
+        maxAttempts: req.maxTransportAttempts ?? HTTP_MAX_ATTEMPTS.ai,
         label: "claude:messages",
       },
     );

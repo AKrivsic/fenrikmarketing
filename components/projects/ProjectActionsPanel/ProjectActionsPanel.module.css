@@ -87,6 +87,47 @@
   color: var(--color-text);
 }
 
+.weekStatus {
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.weekStatusTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.weekStatusList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+}
+
+.weekStatusList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.weekStatusKey {
+  color: var(--color-text-muted);
+}
+
+.weekBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 /* ---- Guided steps ------------------------------------------------------- */
 
 .steps {

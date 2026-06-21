@@ -386,7 +386,7 @@ Webhook trigger
   → (error branch → /api/n8n/error-callback)
 ```
 
-**Input guard rationale:** the strategy AI is expensive (~90s, see §15). If
+**Input guard rationale:** the strategy AI is expensive (often **60–90 s**, see §15). If
 there is nothing to plan from, the workflow must **end deterministically** as
 `NO_INPUT_DATA` rather than repeatedly invoking the AI/backend. The guard is a
 read-only existence check — it does **not** score, rank, or decide strategy.
@@ -594,11 +594,11 @@ The **Video Worker** is external (DigitalOcean/Docker) and calls
 The AI execution endpoints run as **Next.js / Vercel routes**, so their wall
 time counts against the Vercel function timeout:
 
-| Endpoint | Approx. runtime |
-|----------|-----------------|
-| `/api/n8n/weekly-strategy` | ~90 s |
-| `/api/n8n/generate-content-package` | ~160 s |
-| `/api/n8n/regenerate-content-package` | ~60 s |
+| Endpoint | Approx. runtime | Notes |
+|----------|-----------------|-------|
+| `/api/n8n/weekly-strategy` | often **60–90 s** (observed ~57 s); allow up to **~180 s** per Claude call | Route `maxDuration` **300 s**; Claude transport timeout **180 s** (weekly strategy only); HTTP **504** `ai_timeout` on Anthropic timeout |
+| `/api/n8n/generate-content-package` | ~160 s | Default Claude transport timeout **60 s** |
+| `/api/n8n/regenerate-content-package` | ~60 s | Default Claude transport timeout **60 s** |
 
 On **Vercel Hobby** these can exceed the platform timeout, surfacing to n8n as a
 non-2xx / timeout on the execution call.

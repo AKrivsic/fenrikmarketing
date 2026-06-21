@@ -109,6 +109,9 @@ export interface TextCompletionRequest {
   model?: string;
   // Hint that the response must be a single JSON document.
   json?: boolean;
+  // Optional per-call transport overrides (defaults in fetchWithRetry HTTP_*).
+  timeoutMs?: number;
+  maxTransportAttempts?: number;
 }
 
 export interface TextCompletionResult {
