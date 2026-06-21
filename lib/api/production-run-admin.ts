@@ -225,6 +225,30 @@ export async function reconcileProductionRun(
   return buildView(run, items, progress);
 }
 
+// When a video job finishes (or is retried), refresh the tagged production run
+// so run.failed_total / health badges reflect the newest job per content item.
+export async function reconcileProductionRunForContentItem(
+  projectId: string,
+  contentItemId: string | null | undefined,
+): Promise<void> {
+  if (!contentItemId) return;
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data?.generation_metadata || typeof data.generation_metadata !== "object") {
+    return;
+  }
+  const runId = (data.generation_metadata as Record<string, unknown>)
+    .production_run_id;
+  if (typeof runId !== "string" || !runId) return;
+  await reconcileProductionRun(runId);
+}
+
 // Read-only view of the latest run for a project (reconciled), or null.
 export async function getLatestProductionRunView(
   projectId: string,

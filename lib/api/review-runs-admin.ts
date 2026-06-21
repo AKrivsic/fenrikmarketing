@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { reconcileProductionRun } from "@/lib/api/production-run-admin";
 import {
   jobHasWarning,
   newestByContentItem,
@@ -139,11 +140,26 @@ async function buildRunCard(
   };
 }
 
+// Reconcile counters from real video_jobs before building cards. Retry/regen
+// creates newer jobs but production_runs.failed_total is only refreshed here
+// (or on production-tab poll) — stale totals otherwise keep the run red.
 async function buildRunCards(
   supabase: SupabaseClient,
   runs: ProductionRun[],
 ): Promise<ReviewRunCard[]> {
-  return Promise.all(runs.map((run) => buildRunCard(supabase, run)));
+  const cards: ReviewRunCard[] = [];
+  for (const run of runs) {
+    const view = await reconcileProductionRun(run.id);
+    const reconciled: ProductionRun = {
+      ...run,
+      status: view.status,
+      generated_total: view.generatedTotal,
+      failed_total: view.failedTotal,
+      updated_at: view.updatedAt,
+    };
+    cards.push(await buildRunCard(supabase, reconciled));
+  }
+  return cards;
 }
 
 // Global, read-only list of recent production runs (cross-project). Kept for the

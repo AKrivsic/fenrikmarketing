@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { reconcileProductionRunForContentItem } from "@/lib/api/production-run-admin";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { CallbackValidationError } from "@/lib/n8n/callback";
 
@@ -298,23 +299,31 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
       .eq("project_id", projectId);
     if (pkgErr) throw pkgErr;
   }
+
+  await reconcileProductionRunForContentItem(projectId, job.contentItemId);
 }
 
 async function resolveVideoJob(
   supabase: SupabaseClient,
   args: { projectId: string; contentPackageId: string; videoJobId?: string },
-): Promise<{ id: string; output: unknown } | null> {
+): Promise<{ id: string; contentItemId: string | null; output: unknown } | null> {
   const { projectId, contentPackageId, videoJobId } = args;
 
   if (videoJobId) {
     const { data, error } = await supabase
       .from("video_jobs")
-      .select("id, output")
+      .select("id, content_item_id, output")
       .eq("id", videoJobId)
       .eq("project_id", projectId)
       .maybeSingle();
     if (error) throw error;
-    return data ? { id: data.id as string, output: data.output } : null;
+    return data
+      ? {
+          id: data.id as string,
+          contentItemId: (data.content_item_id as string | null) ?? null,
+          output: data.output,
+        }
+      : null;
   }
 
   // No job id: resolve the package's content items first, then the latest job.
@@ -329,14 +338,20 @@ async function resolveVideoJob(
 
   const { data: jobs, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, output, created_at")
+    .select("id, content_item_id, output, created_at")
     .eq("project_id", projectId)
     .in("content_item_id", itemIds)
     .order("created_at", { ascending: false })
     .limit(1);
   if (jobErr) throw jobErr;
   const latest = (jobs ?? [])[0];
-  return latest ? { id: latest.id as string, output: latest.output } : null;
+  return latest
+    ? {
+        id: latest.id as string,
+        contentItemId: (latest.content_item_id as string | null) ?? null,
+        output: latest.output,
+      }
+    : null;
 }
 
 // ---------------------------------------------------------------------------
