@@ -24,6 +24,14 @@ import {
   validateContentControls,
 } from "@/lib/projects/contentControls";
 import {
+  createProjectActionRun,
+  failProjectActionRun,
+  getLatestProjectActionRun,
+  stepForAutomationWorkflow,
+  type ProjectActionRunView,
+} from "@/lib/api/project-action-runs";
+import { currentWeekStartUtc } from "@/lib/datetime/week";
+import {
   AUTOMATION_WORKFLOWS,
   N8nConfigError,
   N8nRequestError,
@@ -406,14 +414,7 @@ export async function updateContentControls(
 
 // Current week's Monday as YYYY-MM-DD (UTC), matching the planner's week model.
 function currentWeekStart(): string {
-  const now = new Date();
-  const day = now.getUTCDay(); // 0 = Sun ... 6 = Sat
-  const offsetToMonday = (day + 6) % 7;
-  const monday = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
-  monday.setUTCDate(monday.getUTCDate() - offsetToMonday);
-  return monday.toISOString().slice(0, 10);
+  return currentWeekStartUtc();
 }
 
 // Maps a thrown n8n error to a precise, user-facing result. We never collapse
@@ -492,13 +493,41 @@ async function triggerWorkflow(
       error: "Projekt nenalezen.",
     };
 
+  const step = stepForAutomationWorkflow(workflow);
+  const weekStart = currentWeekStart();
+  let runId: string | null = null;
+
   try {
-    await sendN8nWebhook({ workflow, projectId, payload });
+    if (step) {
+      runId = await createProjectActionRun({
+        projectId,
+        weekStart,
+        step,
+      });
+    }
+
+    const mergedPayload = {
+      ...(payload ?? {}),
+      ...(runId ? { action_run_id: runId } : {}),
+    };
+
+    await sendN8nWebhook({ workflow, projectId, payload: mergedPayload });
     revalidatePath(`/projects/${projectId}/actions`);
     return { ok: true, code: "accepted" };
   } catch (err) {
+    if (runId) {
+      const classified = classifyWorkflowError(workflow, err);
+      await failProjectActionRun(runId, classified.error);
+    }
     return classifyWorkflowError(workflow, err);
   }
+}
+
+export async function getProjectActionRunStatus(
+  projectId: string,
+): Promise<ProjectActionRunView | null> {
+  if (!projectId) return null;
+  return getLatestProjectActionRun(projectId, currentWeekStart());
 }
 
 export async function runTrendScan(projectId: string): Promise<ActionResult> {

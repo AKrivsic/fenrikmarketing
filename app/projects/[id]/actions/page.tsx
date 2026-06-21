@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
+import { CurrentRunPanel } from "@/components/projects/CurrentRunPanel/CurrentRunPanel";
 import {
   ProjectActionsPanel,
   type PrepareWeekSummary,
 } from "@/components/projects/ProjectActionsPanel/ProjectActionsPanel";
 import { ContentFlow } from "@/components/projects/ContentFlow/ContentFlow";
+import { getLatestProjectActionRun } from "@/lib/api/project-action-runs";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   getProjectContentFlow,
@@ -16,25 +18,13 @@ import {
   computeGenerationPlan,
   parseContentControls,
 } from "@/lib/projects/contentControls";
+import { currentWeekStartUtc, formatCurrentWeekLabel } from "@/lib/datetime/week";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 interface ActionsTabPageProps {
   params: Promise<{ id: string }>;
-}
-
-// Current week's Monday as YYYY-MM-DD (UTC) — mirrors the planner's week model
-// (currentWeekStart in actions.ts) so the displayed week matches what triggers.
-function currentWeekStart(): string {
-  const now = new Date();
-  const day = now.getUTCDay();
-  const offsetToMonday = (day + 6) % 7;
-  const monday = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
-  monday.setUTCDate(monday.getUTCDate() - offsetToMonday);
-  return monday.toISOString().slice(0, 10);
 }
 
 function platformLabel(platform: string): string {
@@ -54,16 +44,18 @@ function weekdayLabels(weekdays: number[]): string {
 
 export default async function ActionsTabPage({ params }: ActionsTabPageProps) {
   const { id } = await params;
+  const weekStart = currentWeekStartUtc();
 
   const project = await getProjectForAdmin(id);
   if (!project) {
     notFound();
   }
 
-  const [status, flow, currentWeek] = await Promise.all([
+  const [status, flow, currentWeek, actionRun] = await Promise.all([
     getProjectWorkflowStatus(id),
     getProjectContentFlow(id),
-    getProjectCurrentWeekStatus(id, currentWeekStart()),
+    getProjectCurrentWeekStatus(id, weekStart),
+    getLatestProjectActionRun(id, weekStart),
   ]);
 
   const controls = parseContentControls(project.publishing_rules);
@@ -86,11 +78,20 @@ export default async function ActionsTabPage({ params }: ActionsTabPageProps) {
       .map((e) => platformLabel(e.platform)),
     publishing: `${weekdayLabels(plan.publishingWeekdays)} ${plan.publishingTime}`,
     languages: plan.languagesAvailable.map((l) => l.toUpperCase()),
-    weekStart: currentWeekStart(),
+    weekStart,
+    weekLabel: formatCurrentWeekLabel(weekStart),
   };
 
   return (
     <div className={styles.tab}>
+      <section className={styles.block}>
+        <CurrentRunPanel
+          projectId={id}
+          weekStart={weekStart}
+          initialRun={actionRun}
+        />
+      </section>
+
       <section className={styles.block}>
         <h2 className={styles.title}>Prepare content for this project</h2>
         <p className={styles.note}>

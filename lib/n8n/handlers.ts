@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { completeProjectActionRun } from "@/lib/api/project-action-runs";
 import { reconcileProductionRunForContentItem } from "@/lib/api/production-run-admin";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { CallbackValidationError } from "@/lib/n8n/callback";
@@ -578,6 +579,7 @@ export async function handleAutomationErrorCallback(
   const projectId = optionalString(body, "project_id");
   const contentPackageId = optionalString(body, "content_package_id");
   const step = optionalString(body, "step");
+  const actionRunId = optionalString(body, "action_run_id");
 
   console.error(
     "[n8n automation error]",
@@ -588,7 +590,41 @@ export async function handleAutomationErrorCallback(
       error_message: errorMessage,
       project_id: projectId ?? null,
       content_package_id: contentPackageId ?? null,
+      action_run_id: actionRunId ?? null,
       received_at: new Date().toISOString(),
     }),
   );
+
+  if (actionRunId && actionRunId.length > 0) {
+    await completeProjectActionRun({
+      runId: actionRunId,
+      status: "failed",
+      error: errorMessage,
+      message: step ? `${step}: ${errorType}` : errorType,
+    });
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 7. Project Actions run status (Prepare this week).
+// ---------------------------------------------------------------------------
+const ACTION_RUN_STATUSES = ["success", "failed"] as const;
+
+export async function handleActionRunStatusCallback(
+  payload: unknown,
+): Promise<void> {
+  const body = asRecord(payload);
+  const runId = requireString(body, "run_id");
+  const status = requireEnum(body, "status", ACTION_RUN_STATUSES);
+  const message = optionalString(body, "message") ?? null;
+  const error = optionalString(body, "error") ?? null;
+  const n8nExecutionId = optionalString(body, "n8n_execution_id") ?? null;
+
+  await completeProjectActionRun({
+    runId,
+    status,
+    message,
+    error,
+    n8nExecutionId,
+  });
 }

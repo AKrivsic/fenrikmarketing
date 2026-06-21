@@ -13,7 +13,8 @@ import {
   MissingWeeklyStrategyError,
   missingWeeklyStrategyResponse,
 } from "@/lib/ai/workflows/weeklyStrategyGate";
-import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
+import { errorResponse, optionalString, readJsonBody, requireString } from "@/lib/ai/apiResponse";
+import { tryCompleteActionRunFromInlineApi } from "@/lib/api/project-action-runs";
 import {
   parseContentControls,
   type ContentControls,
@@ -39,10 +40,12 @@ export async function POST(request: Request): Promise<Response> {
     return unauthorizedResponse();
   }
 
+  let actionRunId: string | undefined;
   try {
     const body = await readJsonBody(request);
     const projectId = requireString(body, "project_id");
     const weekStart = requireString(body, "week_start");
+    actionRunId = optionalString(body, "action_run_id");
     if (!ISO_DATE.test(weekStart)) {
       throw new WorkflowError("invalid_input", "week_start must be YYYY-MM-DD");
     }
@@ -77,6 +80,11 @@ export async function POST(request: Request): Promise<Response> {
       items,
     });
 
+    await tryCompleteActionRunFromInlineApi(actionRunId, {
+      ok: true,
+      message: `Publishing plan created (${items.length} slots).`,
+    });
+
     return Response.json(
       {
         ok: true,
@@ -87,6 +95,10 @@ export async function POST(request: Request): Promise<Response> {
       { status: 202 },
     );
   } catch (err) {
+    await tryCompleteActionRunFromInlineApi(actionRunId, {
+      ok: false,
+      error: err instanceof Error ? err.message : String(err),
+    });
     if (err instanceof MissingWeeklyStrategyError) {
       return missingWeeklyStrategyResponse();
     }

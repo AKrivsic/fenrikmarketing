@@ -9,7 +9,8 @@ import { handleTrendScanCallback } from "@/lib/n8n/handlers";
 import { loadProjectOrThrow, WorkflowError } from "@/lib/ai/workflows/shared";
 import { scoreTrendRelevance } from "@/lib/ai/workflows/scoreTrend";
 import { MIN_TREND_RELEVANCE } from "@/lib/ai/schemas/trendRelevanceScore";
-import { errorResponse, readJsonBody, requireString } from "@/lib/ai/apiResponse";
+import { errorResponse, optionalString, readJsonBody, requireString } from "@/lib/ai/apiResponse";
+import { tryCompleteActionRunFromInlineApi } from "@/lib/api/project-action-runs";
 
 // Task 1 — scores each candidate with an AI call in a loop; a large batch can
 // run long. Request the platform's max function budget.
@@ -31,9 +32,11 @@ export async function POST(request: Request): Promise<Response> {
     return unauthorizedResponse();
   }
 
+  let actionRunId: string | undefined;
   try {
     const body = await readJsonBody(request);
     const projectId = requireString(body, "project_id");
+    actionRunId = optionalString(body, "action_run_id");
 
     const rawCandidates = body["candidates"];
     if (!Array.isArray(rawCandidates)) {
@@ -123,6 +126,11 @@ export async function POST(request: Request): Promise<Response> {
       rejected_trends: [],
     });
 
+    await tryCompleteActionRunFromInlineApi(actionRunId, {
+      ok: true,
+      message: `Trend scan finished (${acceptedTrends.length} accepted).`,
+    });
+
     return Response.json(
       {
         ok: true,
@@ -136,6 +144,10 @@ export async function POST(request: Request): Promise<Response> {
       { status: 202 },
     );
   } catch (err) {
+    await tryCompleteActionRunFromInlineApi(actionRunId, {
+      ok: false,
+      error: err instanceof Error ? err.message : String(err),
+    });
     if (err instanceof CallbackValidationError) {
       return validationErrorResponse(err.message);
     }

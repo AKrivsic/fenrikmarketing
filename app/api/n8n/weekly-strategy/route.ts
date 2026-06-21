@@ -4,10 +4,12 @@ import { unauthorizedResponse, verifyN8nSecret } from "@/lib/n8n/callback";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
 import {
   errorResponse,
+  optionalString,
   readJsonBody,
   requireString,
   workflowResponse,
 } from "@/lib/ai/apiResponse";
+import { tryCompleteActionRunFromInlineApi } from "@/lib/api/project-action-runs";
 
 // Task 1 — weekly strategy runs ~90s of AI inline. Request the platform's max
 // function budget so it is not cut at the lower default.
@@ -32,10 +34,12 @@ export async function POST(request: Request): Promise<Response> {
     return unauthorizedResponse();
   }
 
+  let actionRunId: string | undefined;
   try {
     const body = await readJsonBody(request);
     const projectId = requireString(body, "project_id");
     const weekStart = requireString(body, "week_start");
+    actionRunId = optionalString(body, "action_run_id");
     if (!ISO_DATE.test(weekStart)) {
       throw new WorkflowError("invalid_input", "week_start must be YYYY-MM-DD");
     }
@@ -51,10 +55,25 @@ export async function POST(request: Request): Promise<Response> {
       },
       supabase,
     );
+    if (result.ok) {
+      await tryCompleteActionRunFromInlineApi(actionRunId, {
+        ok: true,
+        message: "Weekly strategy generated.",
+      });
+    } else {
+      await tryCompleteActionRunFromInlineApi(actionRunId, {
+        ok: false,
+        error: result.error ?? "Weekly strategy validation failed",
+      });
+    }
     return workflowResponse(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     if (/timed out/i.test(message)) {
+      await tryCompleteActionRunFromInlineApi(actionRunId, {
+        ok: false,
+        error: `Weekly strategy failed: AI timeout.`,
+      });
       return Response.json(
         {
           ok: false,
@@ -64,6 +83,10 @@ export async function POST(request: Request): Promise<Response> {
         { status: 504 },
       );
     }
+    await tryCompleteActionRunFromInlineApi(actionRunId, {
+      ok: false,
+      error: message,
+    });
     return errorResponse(err);
   }
 }

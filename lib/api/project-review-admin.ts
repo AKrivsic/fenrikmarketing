@@ -1,4 +1,9 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { loadWeeklyStrategyIdForWeek } from "@/lib/ai/workflows/weeklyStrategyGate";
+import {
+  currentWeekStartUtc,
+  formatCurrentWeekLabel,
+} from "@/lib/datetime/week";
 import {
   listProjectContentByStatus,
   type ProjectContentEntry,
@@ -18,6 +23,7 @@ import type {
   ApprovalStatus,
   JobStatus,
   LanguageCode,
+  PackageStatus,
   PlatformType,
   TranslationJobStatus,
 } from "@/lib/supabase/types";
@@ -60,6 +66,13 @@ const REVIEW_STATUSES: ApprovalStatus[] = [
   "in_review",
   "approved",
   "published",
+];
+
+// Weekly Prepare (Actions / n8n week_start) packages — reviewable package headers.
+const WEEKLY_STRATEGY_PACKAGE_STATUSES: PackageStatus[] = [
+  "draft",
+  "ready",
+  "approved",
 ];
 
 const NO_PACKAGE_TITLE = "Bez balíčku";
@@ -201,6 +214,8 @@ export interface ReviewRunGroup {
   // synthetic bucket holding items with no/unknown production_run_id.
   run: ReviewRunCard | null;
   packages: ReviewPackageGroup[];
+  // Header when run is null (e.g. current weekly strategy from Actions).
+  sectionLabel?: string | null;
 }
 
 // Collects the package's video(s) keyed by resolved language. The video job is
@@ -651,6 +666,61 @@ async function loadTranslationJobsByPackage(
   return byPackage;
 }
 
+// UTC Monday week model — matches Actions triggers and n8n week_start payloads.
+function currentWeekStartUtcForReview(): string {
+  return currentWeekStartUtc();
+}
+
+interface WeeklyStrategyPackageRef {
+  id: string;
+  createdAt: string;
+}
+
+// Packages generated for the weekly strategy (Actions flow: no production_run_id).
+async function resolveCurrentWeeklyStrategyPackages(
+  projectId: string,
+  weekStart: string,
+): Promise<WeeklyStrategyPackageRef[]> {
+  const supabase = createSupabaseAdminClient();
+  const strategyId = await loadWeeklyStrategyIdForWeek(
+    supabase,
+    projectId,
+    weekStart,
+  );
+  if (!strategyId) return [];
+
+  const { data: itemRows, error: itemErr } = await supabase
+    .from("content_strategy_items")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("strategy_id", strategyId);
+  if (itemErr) throw itemErr;
+  const strategyItemIds = (itemRows ?? []).map((row) => row.id as string);
+
+  let query = supabase
+    .from("content_packages")
+    .select("id, created_at")
+    .eq("project_id", projectId)
+    .in("status", WEEKLY_STRATEGY_PACKAGE_STATUSES)
+    .order("created_at", { ascending: true });
+
+  if (strategyItemIds.length > 0) {
+    query = query.or(
+      `weekly_strategy_id.eq.${strategyId},strategy_item_id.in.(${strategyItemIds.join(",")})`,
+    );
+  } else {
+    query = query.eq("weekly_strategy_id", strategyId);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  return ((data ?? []) as { id: string; created_at: string }[]).map((row) => ({
+    id: row.id,
+    createdAt: row.created_at,
+  }));
+}
+
 // Fallback when the project has no production runs: recent packages only.
 async function resolveFallbackPackageIds(
   projectId: string,
@@ -670,6 +740,7 @@ export async function listProjectReviewGroups(
   projectId: string,
 ): Promise<ReviewRunGroup[]> {
   const startedAt = performance.now();
+  const weekStart = currentWeekStartUtcForReview();
 
   const runs = await listReviewRunsForProject(projectId, {
     limit: REVIEW_RUN_LIMIT,
@@ -677,10 +748,23 @@ export async function listProjectReviewGroups(
   logReviewTiming("runs", startedAt, `${runs.length} runs`);
 
   const runIds = runs.map((run) => run.id);
-  const packageIds =
+  const [runScopedPackageIds, weeklyPackages] = await Promise.all([
     runIds.length > 0
-      ? await resolvePackageIdsForReviewRuns(projectId, runIds)
-      : await resolveFallbackPackageIds(projectId);
+      ? resolvePackageIdsForReviewRuns(projectId, runIds)
+      : resolveFallbackPackageIds(projectId),
+    resolveCurrentWeeklyStrategyPackages(projectId, weekStart),
+  ]);
+
+  const runScopedSet = new Set(runScopedPackageIds);
+  const weeklyOnlyIds = weeklyPackages
+    .map((pkg) => pkg.id)
+    .filter((id) => !runScopedSet.has(id));
+  const weeklyOnlySet = new Set(weeklyOnlyIds);
+  const weeklyOnlyOrder = weeklyOnlyIds;
+
+  const packageIds = Array.from(
+    new Set([...runScopedPackageIds, ...weeklyOnlyIds]),
+  );
 
   logReviewTiming("packageIds", startedAt, `${packageIds.length} packages`);
 
@@ -705,6 +789,7 @@ export async function listProjectReviewGroups(
   // Bucket entries: run id → package id → items[] (insertion order preserved).
   // Items whose run id is null OR not in the fetched run list fall into noRun.
   const byRun = new Map<string, Map<string | null, ProjectContentEntry[]>>();
+  const weeklyStrategy = new Map<string | null, ProjectContentEntry[]>();
   const noRun = new Map<string | null, ProjectContentEntry[]>();
 
   for (const entry of entries) {
@@ -715,6 +800,11 @@ export async function listProjectReviewGroups(
     if (usesRun) {
       packageMap = byRun.get(runId) ?? new Map();
       byRun.set(runId, packageMap);
+    } else if (
+      entry.packageId !== null &&
+      weeklyOnlySet.has(entry.packageId)
+    ) {
+      packageMap = weeklyStrategy;
     } else {
       packageMap = noRun;
     }
@@ -726,8 +816,9 @@ export async function listProjectReviewGroups(
 
   function toPackageGroups(
     packageMap: Map<string | null, ProjectContentEntry[]>,
+    packageOrder?: string[],
   ): ReviewPackageGroup[] {
-    return Array.from(packageMap.entries()).map(([packageId, items]) =>
+    const groups = Array.from(packageMap.entries()).map(([packageId, items]) =>
       buildPackageGroup(
         packageId,
         (packageId ? packageTitleById.get(packageId) : null) ??
@@ -737,9 +828,24 @@ export async function listProjectReviewGroups(
         (packageId ? translationJobsByPackage.get(packageId) : null) ?? [],
       ),
     );
+    if (!packageOrder || packageOrder.length === 0) return groups;
+    const orderIndex = new Map(packageOrder.map((id, index) => [id, index]));
+    return groups.sort((a, b) => {
+      const ai = a.packageId ? (orderIndex.get(a.packageId) ?? 9999) : 9999;
+      const bi = b.packageId ? (orderIndex.get(b.packageId) ?? 9999) : 9999;
+      return ai - bi;
+    });
   }
 
   const groups: ReviewRunGroup[] = [];
+
+  if (weeklyStrategy.size > 0) {
+    groups.push({
+      run: null,
+      sectionLabel: formatCurrentWeekLabel(weekStart),
+      packages: toPackageGroups(weeklyStrategy, weeklyOnlyOrder),
+    });
+  }
 
   // One group per scoped run (newest first). Runs with no items in the loaded
   // package set still render their header (Export JSON stays reachable).

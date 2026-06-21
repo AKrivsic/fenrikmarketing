@@ -1,0 +1,81 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle, var(--color-bg));
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.week {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.weekHint {
+  margin: -0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.grid dt {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.grid dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+}
+
+.status[data-status="running"] {
+  color: var(--color-accent, #2563eb);
+}
+
+.status[data-status="success"] {
+  color: #15803d;
+}
+
+.status[data-status="failed"] {
+  color: #b91c1c;
+}
+
+.status[data-status="waiting"] {
+  color: var(--color-text-muted);
+}
+
+.message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #b91c1c;
+}
+
+.polling {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

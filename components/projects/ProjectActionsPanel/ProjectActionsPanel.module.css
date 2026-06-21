@@ -33,7 +33,13 @@
 
 .weekLabel {
   margin: 0.2rem 0 0;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.weekHint {
+  margin: 0.1rem 0 0;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
 }
 

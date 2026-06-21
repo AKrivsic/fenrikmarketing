@@ -58,7 +58,9 @@ export function ReviewRunSection({
             {open ? "▼" : "▶"}
           </span>
           <span className={styles.label}>
-            {run ? formatRunLabel(run.createdAt) : "Bez production runu"}
+            {run
+              ? formatRunLabel(run.createdAt)
+              : (group.sectionLabel ?? "Bez production runu")}
           </span>
           {run ? (
             <span className={`${styles.badge} ${HEALTH_CLASS[run.health]}`}>

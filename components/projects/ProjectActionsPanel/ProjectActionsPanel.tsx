@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import {
   runGenerateContentPackages,
   runPublishingPlanner,
@@ -28,6 +29,7 @@ export interface PrepareWeekSummary {
   publishing: string;
   languages: string[];
   weekStart: string;
+  weekLabel: string;
 }
 
 interface ProjectActionsPanelProps {
@@ -85,6 +87,7 @@ export function ProjectActionsPanel({
   currentWeek,
   summary,
 }: ProjectActionsPanelProps) {
+  const router = useRouter();
   const [runStates, setRunStates] = useState<Record<string, StepRunState>>({});
   const [isPending, startTransition] = useTransition();
 
@@ -157,6 +160,9 @@ export function ProjectActionsPanel({
             }
           : { state: "failed", message: result.error },
       }));
+      if (result.ok) {
+        router.refresh();
+      }
     });
   }
 
@@ -171,7 +177,8 @@ export function ProjectActionsPanel({
             <h3 className={styles.primaryTitle}>
               Prepare content for this project
             </h3>
-            <p className={styles.weekLabel}>Current week: {summary.weekStart}</p>
+            <p className={styles.weekLabel}>{summary.weekLabel}</p>
+            <p className={styles.weekHint}>Week starts Monday (UTC)</p>
           </div>
           <button
             type="button"
@@ -191,7 +198,7 @@ export function ProjectActionsPanel({
                 {primaryStep.index}. {primaryStep.title}
               </strong>
               . Kroky lze spouštět i jednotlivě — stav „Current Week“ níže
-              vztahuje jen k týdnu {summary.weekStart}.
+              vztahuje jen k týdnu {summary.weekLabel}.
             </>
           ) : (
             <>
