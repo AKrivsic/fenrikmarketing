@@ -70,5 +70,48 @@ check("validateScriptTailInTranscript rejects missing CTA tail", () => {
   );
 });
 
+const FR_CTA = "Inscrivez-vous gratuitement.";
+const FR_BODY =
+  "Fenrik lit tout le fil pour que vous ne répondiez jamais dans le vide.";
+
+check("extractExpectedTailTokens splits hyphenated French CTA", () => {
+  assert.deepEqual(extractExpectedTailTokens(`${FR_BODY} ${FR_CTA}`), [
+    "inscrivez",
+    "vous",
+    "gratuitement",
+  ]);
+});
+
+check("validateScriptTailInTranscript accepts FR hyphen CTA from whisper", () => {
+  const words: WordTimestamp[] = [
+    { word: "vide", start: 18, end: 18.4 },
+    { word: "Inscrivez", start: 18.5, end: 19 },
+    { word: "vous", start: 19, end: 19.3 },
+    { word: "gratuitement", start: 19.3, end: 20 },
+  ];
+  assert.equal(
+    validateScriptTailInTranscript(`${FR_BODY} ${FR_CTA}`, words),
+    true,
+  );
+});
+
+check(
+  "validateScriptTailInTranscript accepts merged FR token via concat fallback",
+  () => {
+    const words: WordTimestamp[] = [
+      { word: "inscrivez", start: 0, end: 0.4 },
+      { word: "vous", start: 0.4, end: 0.7 },
+      { word: "gratuitement", start: 0.7, end: 1.2 },
+    ];
+    assert.equal(
+      validateScriptTailInTranscript(
+        "Body. Inscrivezvous gratuitement.",
+        words,
+      ),
+      true,
+    );
+  },
+);
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

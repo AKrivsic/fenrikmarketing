@@ -17,6 +17,43 @@ function normalizeToken(token: string): string {
   return token.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 }
 
+// Whisper splits hyphenated words (e.g. FR "Inscrivez-vous" → inscrivez + vous).
+// Split on whitespace and dashes so script tokens align with transcript tokens.
+const TAIL_TOKEN_SPLIT = /[\s\-–—]+/;
+
+function tailTokensFromSentence(sentence: string): string[] {
+  return sentence
+    .split(TAIL_TOKEN_SPLIT)
+    .map(normalizeToken)
+    .filter((t) => t.length > 0);
+}
+
+// When the script still yields one merged token (legacy paths), allow matching
+// it to 2–3 consecutive whisper tokens (e.g. inscrivez + vous → inscrivezvous).
+const MAX_TRANSCRIPT_TOKENS_PER_EXPECTED = 3;
+
+function matchesExpectedTokenAt(
+  transcript: string[],
+  index: number,
+  expectedToken: string,
+): number {
+  if (index >= transcript.length) return 0;
+  if (transcript[index] === expectedToken) return 1;
+
+  let concat = "";
+  for (
+    let parts = 1;
+    parts <= MAX_TRANSCRIPT_TOKENS_PER_EXPECTED &&
+    index + parts <= transcript.length;
+    parts++
+  ) {
+    concat += transcript[index + parts - 1];
+    if (concat === expectedToken) return parts;
+    if (concat.length > expectedToken.length) break;
+  }
+  return 0;
+}
+
 // Last sentence (or whole script) → up to EXPECTED_TAIL_TOKEN_COUNT normalized tokens.
 export function extractExpectedTailTokens(
   voiceoverText: string,
@@ -32,10 +69,7 @@ export function extractExpectedTailTokens(
   const lastSentence =
     sentences.length > 0 ? sentences[sentences.length - 1] : normalized;
 
-  const tokens = lastSentence
-    .split(/\s+/)
-    .map(normalizeToken)
-    .filter((t) => t.length > 0);
+  const tokens = tailTokensFromSentence(lastSentence);
   return tokens.slice(-Math.min(maxTokens, tokens.length));
 }
 
@@ -63,13 +97,14 @@ export function validateScriptTailInTranscript(
     .filter((t) => t.length > 0);
 
   let ei = 0;
-  for (const token of transcript) {
-    if (token === expected[ei]) {
+  for (let ti = 0; ti < transcript.length && ei < expected.length; ti++) {
+    const consumed = matchesExpectedTokenAt(transcript, ti, expected[ei]);
+    if (consumed > 0) {
       ei++;
-      if (ei === expected.length) return true;
+      ti += consumed - 1;
     }
   }
-  return false;
+  return ei === expected.length;
 }
 
 export interface TtsTailValidationAttemptLog {
