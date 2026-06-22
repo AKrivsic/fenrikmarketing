@@ -13,6 +13,8 @@ import {
   readProductionRunId,
   readSourceContentItemId,
   readVideoOutput,
+  readVideoJobErrorMessage,
+  describeVideoJobFailure,
   type RenderDebug,
 } from "@/lib/api/content-shared";
 import { loadVariantEligibility } from "@/lib/api/variant-eligibility";
@@ -51,6 +53,7 @@ type VideoJobLite = {
   content_item_id: string | null;
   status: JobStatus;
   output: Json | null;
+  error_message: string | null;
   created_at: string;
 };
 
@@ -112,6 +115,9 @@ export interface ProjectContentEntry {
   // package video panel's Warning / subtitle-fallback indicators. Null when the
   // item has no video job or the job predates debug metadata.
   videoDebug: RenderDebug | null;
+  // Populated when the linked video job failed (headline is Czech; detail is raw).
+  videoFailureHeadline: string | null;
+  videoFailureDetail: string | null;
 }
 
 export interface ListProjectContentOptions {
@@ -155,7 +161,7 @@ export async function listProjectContentByStatus(
 
   const { data: jobRows, error: jobsError } = await supabase
     .from("video_jobs")
-    .select("id, content_item_id, status, output, created_at")
+    .select("id, content_item_id, status, output, error_message, created_at")
     .eq("project_id", projectId)
     .in(
       "content_item_id",
@@ -188,6 +194,14 @@ export async function listProjectContentByStatus(
   return items.map((item) => {
     const job = jobByItem.get(item.id);
     const output = job ? readVideoOutput(job.output) : null;
+    const failureRaw = job
+      ? readVideoJobErrorMessage({
+          error_message: job.error_message,
+          output: job.output,
+        })
+      : null;
+    const failure =
+      job?.status === "failed" ? describeVideoJobFailure(failureRaw) : null;
     const isVariant = isVariantItem(item);
 
     const publishInput = {
@@ -232,6 +246,8 @@ export async function listProjectContentByStatus(
       thumbnailUrl: output?.thumbnailUrl ?? null,
       subtitleUrl: output?.subtitleUrl ?? null,
       videoDebug: job ? readDebug(job.output) : null,
+      videoFailureHeadline: failure?.headline ?? null,
+      videoFailureDetail: failure?.detail ?? null,
     } satisfies ProjectContentEntry;
   });
 }
@@ -246,6 +262,8 @@ export interface ProjectVideoEntry {
   provider: string;
   model: string | null;
   errorMessage: string | null;
+  /** Raw worker/callback message when status is failed. */
+  errorDetail: string | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -342,6 +360,9 @@ export async function listProjectVideoJobs(
 
   return jobs.map((job) => {
     const output = readVideoOutput(job.output);
+    const failureRaw = readVideoJobErrorMessage(job);
+    const failure =
+      job.status === "failed" ? describeVideoJobFailure(failureRaw) : null;
     const item = job.content_item_id
       ? itemById.get(job.content_item_id)
       : undefined;
@@ -351,7 +372,8 @@ export async function listProjectVideoJobs(
       status: job.status,
       provider: job.provider,
       model: job.model,
-      errorMessage: job.error_message,
+      errorMessage: failure?.headline ?? null,
+      errorDetail: failure?.detail ?? null,
       createdAt: job.created_at,
       updatedAt: job.updated_at,
       completedAt: job.completed_at,

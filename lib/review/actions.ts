@@ -44,6 +44,7 @@ function revalidateReview(projectId: string): void {
   revalidatePath(`/projects/${projectId}/review`);
   revalidatePath(`/projects/${projectId}/approved`);
   revalidatePath(`/projects/${projectId}/published`);
+  revalidatePath(`/projects/${projectId}/videos`);
 }
 
 // Splits a free-text hashtag input into a normalized string[]. Hashtags are

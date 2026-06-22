@@ -281,6 +281,8 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
   const videoUpdate: Record<string, unknown> = { status, output };
   if (status === "completed") {
     videoUpdate.completed_at = new Date().toISOString();
+  } else if (status === "failed" && errorMessage) {
+    videoUpdate.error_message = errorMessage;
   }
 
   const { error: videoErr } = await supabase

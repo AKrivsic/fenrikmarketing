@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { retryVideoRender } from "@/lib/review/actions";
 import styles from "./RetryVideoRenderButton.module.css";
@@ -18,6 +19,7 @@ export function RetryVideoRenderButton({
   projectId,
   videoJobId,
 }: RetryVideoRenderButtonProps) {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -29,6 +31,7 @@ export function RetryVideoRenderButton({
       const result = await retryVideoRender(videoJobId, projectId);
       if (result.ok) {
         setNotice("Render videa byl znovu spuštěn.");
+        router.refresh();
       } else {
         setError(result.error);
       }

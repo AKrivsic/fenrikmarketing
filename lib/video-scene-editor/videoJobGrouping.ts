@@ -13,6 +13,8 @@ export interface ProjectVideoVersionEntry {
   hasSubtitle: boolean;
   hasThumbnail: boolean;
   isEditorRerender: boolean;
+  failureHeadline: string | null;
+  failureDetail: string | null;
   /** Short label for the version picker. */
   versionLabel: string;
 }
@@ -30,6 +32,7 @@ export interface ProjectVideoGroup {
   displayVideoUrl: string | null;
   displayThumbnailUrl: string | null;
   displayErrorMessage: string | null;
+  displayErrorDetail: string | null;
   /** Completed job that owns the scene editor (render_spec source). */
   editorSourceJobId: string | null;
   canEditScenes: boolean;
@@ -97,6 +100,8 @@ export function groupProjectVideoJobs(
       hasSubtitle: job.hasSubtitle,
       hasThumbnail: job.hasThumbnail,
       isEditorRerender: job.isEditorRerender,
+      failureHeadline: job.errorMessage,
+      failureDetail: job.errorDetail,
       versionLabel: formatVersionLabel(index, sorted.length, job),
     }));
 
@@ -112,6 +117,7 @@ export function groupProjectVideoJobs(
       displayVideoUrl: display.videoUrl,
       displayThumbnailUrl: display.thumbnailUrl,
       displayErrorMessage: display.errorMessage,
+      displayErrorDetail: display.errorDetail,
       editorSourceJobId: editorSource?.id ?? null,
       canEditScenes: editorSource !== null,
       activeRenderInFlight: active !== undefined,

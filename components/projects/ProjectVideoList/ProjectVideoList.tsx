@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { VideoSceneEditor } from "@/components/projects/VideoSceneEditor/VideoSceneEditor";
+import { FailedVideoJobEditor } from "@/components/projects/FailedVideoJobEditor/FailedVideoJobEditor";
+import { VideoJobFailureBlock } from "@/components/projects/VideoJobFailureBlock/VideoJobFailureBlock";
+import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
 import type { ProjectVideoGroup } from "@/lib/api/project-content-admin";
 import styles from "./ProjectVideoList.module.css";
 
@@ -50,11 +53,21 @@ function VideoGroupCard({
   group: ProjectVideoGroup;
 }) {
   const router = useRouter();
+  const [failedEditorOpen, setFailedEditorOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(group.displayJobId);
   const [editorRenderActive, setEditorRenderActive] = useState(false);
 
-  const rendering = group.activeRenderInFlight || editorRenderActive;
+  const [failedEditorRenderActive, setFailedEditorRenderActive] = useState(false);
+
+  const rendering =
+    group.activeRenderInFlight ||
+    editorRenderActive ||
+    failedEditorRenderActive;
+
+  useEffect(() => {
+    setSelectedJobId(group.displayJobId);
+  }, [group.displayJobId]);
 
   useEffect(() => {
     if (!rendering) return;
@@ -66,6 +79,8 @@ function VideoGroupCard({
 
   const selected =
     group.versions.find((v) => v.jobId === selectedJobId) ?? group.versions[0]!;
+
+  const previewVersion = resolvePreviewVersion(group, selected);
 
   return (
     <article className={styles.card}>
@@ -110,12 +125,40 @@ function VideoGroupCard({
       ) : null}
 
       <VideoPreview
-        videoUrl={selected.videoUrl}
-        thumbnailUrl={selected.thumbnailUrl}
+        videoUrl={previewVersion.videoUrl}
+        thumbnailUrl={previewVersion.thumbnailUrl}
       />
 
-      {group.displayStatus === "failed" && group.displayErrorMessage ? (
-        <p className={styles.error}>{group.displayErrorMessage}</p>
+      {selected.status === "failed" ? (
+        <>
+          <VideoJobFailureBlock
+            headline={selected.failureHeadline}
+            detail={selected.failureDetail}
+          />
+          <RetryVideoRenderButton
+            projectId={projectId}
+            videoJobId={selected.jobId}
+          />
+          <div className={styles.editorToggle}>
+            <button
+              type="button"
+              className={styles.editorBtn}
+              aria-expanded={failedEditorOpen}
+              onClick={() => setFailedEditorOpen((open) => !open)}
+            >
+              {failedEditorOpen
+                ? "Skrýt úpravu voiceoveru"
+                : "Upravit voiceover a znovu renderovat"}
+            </button>
+            {failedEditorOpen ? (
+              <FailedVideoJobEditor
+                projectId={projectId}
+                videoJobId={selected.jobId}
+                onRenderActivityChange={setFailedEditorRenderActive}
+              />
+            ) : null}
+          </div>
+        </>
       ) : null}
 
       <VideoDownloads
@@ -147,4 +190,16 @@ function VideoGroupCard({
       ) : null}
     </article>
   );
+}
+
+/** Prefer the card's active/display job when it has MP4; else newest version with video. */
+function resolvePreviewVersion(
+  group: ProjectVideoGroup,
+  selected: ProjectVideoGroup["versions"][number],
+): ProjectVideoGroup["versions"][number] {
+  const display =
+    group.versions.find((v) => v.jobId === group.displayJobId) ?? selected;
+  if (display.videoUrl) return display;
+  const withVideo = group.versions.find((v) => v.videoUrl != null);
+  return withVideo ?? selected;
 }

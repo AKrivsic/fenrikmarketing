@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
+import { FailedVideoJobEditor } from "@/components/projects/FailedVideoJobEditor/FailedVideoJobEditor";
 import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
+import { VideoJobFailureBlock } from "@/components/projects/VideoJobFailureBlock/VideoJobFailureBlock";
 import { isSubtitleFallback } from "@/lib/api/content-shared";
 import type { PackageVideo } from "@/lib/api/project-review-admin";
 import styles from "./PackageVideoPanel.module.css";
+import editorStyles from "@/components/projects/ProjectVideoList/ProjectVideoList.module.css";
 
 interface PackageVideoPanelProps {
   projectId: string;
@@ -82,9 +86,18 @@ export function PackageVideoPanel({
   projectId,
   videos,
 }: PackageVideoPanelProps) {
+  const router = useRouter();
   const [activeLanguage, setActiveLanguage] = useState<string | null>(
     videos[0]?.language ?? null,
   );
+  const [failedEditorOpen, setFailedEditorOpen] = useState(false);
+  const [renderPollActive, setRenderPollActive] = useState(false);
+
+  useEffect(() => {
+    if (!renderPollActive) return;
+    const interval = setInterval(() => router.refresh(), 5000);
+    return () => clearInterval(interval);
+  }, [renderPollActive, router]);
 
   if (videos.length === 0) {
     return (
@@ -161,8 +174,33 @@ export function PackageVideoPanel({
         ) : null}
       </div>
 
-      {active.status === "failed" ? (
-        <RetryVideoRenderButton projectId={projectId} videoJobId={active.jobId} />
+      {active.status === "failed" && active.jobId ? (
+        <>
+          <VideoJobFailureBlock
+            headline={active.failureHeadline}
+            detail={active.failureDetail}
+          />
+          <RetryVideoRenderButton projectId={projectId} videoJobId={active.jobId} />
+          <div className={editorStyles.editorToggle}>
+            <button
+              type="button"
+              className={editorStyles.editorBtn}
+              aria-expanded={failedEditorOpen}
+              onClick={() => setFailedEditorOpen((open) => !open)}
+            >
+              {failedEditorOpen
+                ? "Skrýt úpravu voiceoveru"
+                : "Upravit voiceover a znovu renderovat"}
+            </button>
+            {failedEditorOpen ? (
+              <FailedVideoJobEditor
+                projectId={projectId}
+                videoJobId={active.jobId}
+                onRenderActivityChange={setRenderPollActive}
+              />
+            ) : null}
+          </div>
+        </>
       ) : null}
 
       <VideoDownloads

@@ -1,10 +1,11 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   jobHasWarning,
-  listReviewRuns,
   readDebug,
+  readVideoJobErrorMessage,
   type RenderDebug,
-} from "@/lib/api/review-runs-admin";
+} from "@/lib/api/content-shared";
+import { listReviewRuns } from "@/lib/api/review-runs-admin";
 import type { Json } from "@/lib/supabase/types";
 
 // Read-only CROSS-PROJECT exceptions dashboard backing /review-queue. It surfaces
@@ -206,7 +207,7 @@ export async function listReviewExceptions(): Promise<ReviewExceptions> {
         projectId: job.project_id,
         projectName: null,
         title: "Failed video job",
-        detail: job.error_message,
+        detail: readVideoJobErrorMessage(job),
         badges: warningBadges(debug),
         createdAt: job.created_at,
         completedAt: null,

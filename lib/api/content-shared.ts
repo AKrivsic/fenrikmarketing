@@ -26,6 +26,40 @@ export function readVideoOutput(output: Json | null): {
   };
 }
 
+// Resolves the worker / callback failure text for a video_jobs row. Historically
+// failures were stored only under output.error_message; newer paths also mirror
+// into the error_message column.
+export function readVideoJobErrorMessage(job: {
+  error_message: string | null;
+  output: Json | null;
+}): string | null {
+  if (typeof job.error_message === "string" && job.error_message.trim()) {
+    return job.error_message.trim();
+  }
+  if (!job.output || typeof job.output !== "object" || Array.isArray(job.output)) {
+    return null;
+  }
+  const raw = (job.output as Record<string, unknown>).error_message;
+  return typeof raw === "string" && raw.trim() ? raw.trim() : null;
+}
+
+const VIDEO_JOB_FAILURE_HINTS: Record<string, string> = {
+  tts_tail_validation_failed:
+    "Hlas (TTS) neodpovídá konci voiceover skriptu — worker zastavil render dřív, než sestavil video.",
+};
+
+// User-facing headline + optional technical detail for failed renders.
+export function describeVideoJobFailure(raw: string | null): {
+  headline: string | null;
+  detail: string | null;
+} {
+  if (!raw) return { headline: null, detail: null };
+  const code = raw.split(":")[0]?.trim();
+  const headline =
+    (code && VIDEO_JOB_FAILURE_HINTS[code]) ?? "Render videa selhal.";
+  return { headline, detail: raw };
+}
+
 // Extracts variant metadata from a content_items.generation_metadata blob.
 export function readVariantMeta(metadata: Json | null): {
   kind: string | null;

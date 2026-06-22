@@ -28,6 +28,8 @@ export interface RetryVideoJobInput {
   projectId: string;
   // The failed video_jobs.id the user clicked "Retry video render" on.
   videoJobId: string;
+  /** When set, overrides voiceover_text on the new job input (failed-job editor). */
+  voiceoverText?: string;
 }
 
 export interface RetryVideoJobSummary {
@@ -215,9 +217,11 @@ export async function runRetryVideoJob(
       "no reusable scenes on the failed job; retry will run a full render (TTS + images)",
     );
   }
+  const voiceoverOverride = input.voiceoverText?.trim();
   const jobInput = {
     ...baseInput,
     ...(scenes ? { scenes } : {}),
+    ...(voiceoverOverride ? { voiceover_text: voiceoverOverride } : {}),
     retry_of_video_job_id: videoJobId,
   } as unknown as Json;
 

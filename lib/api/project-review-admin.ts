@@ -104,6 +104,8 @@ export interface PackageVideo {
   thumbnailUrl: string | null;
   subtitleUrl: string | null;
   debug: RenderDebug | null;
+  failureHeadline: string | null;
+  failureDetail: string | null;
 }
 
 // One language block inside the Translations section. Holds the localized video
@@ -237,6 +239,8 @@ function buildPackageVideos(items: ProjectContentEntry[]): PackageVideo[] {
       thumbnailUrl: item.thumbnailUrl,
       subtitleUrl: item.subtitleUrl,
       debug: item.videoDebug,
+      failureHeadline: item.videoFailureHeadline,
+      failureDetail: item.videoFailureDetail,
     });
   }
   return Array.from(byLanguage.values()).sort(

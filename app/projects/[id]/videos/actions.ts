@@ -15,6 +15,12 @@ import {
   type VideoSceneEditorState,
 } from "@/lib/ai/workflows/videoSceneEditor";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
+import {
+  loadFailedVideoJobEditorState,
+  rerunFailedVideoJobWithVoiceover,
+  updateFailedVideoJobEditorVoiceover as persistFailedVideoJobEditorVoiceover,
+  type FailedVideoJobEditorState,
+} from "@/lib/ai/workflows/failedVideoJobEditor";
 
 export type VideoSceneEditorActionResult<T> =
   | { ok: true; data: T }
@@ -31,6 +37,7 @@ function mapWorkflowError(err: unknown): string {
 
 function revalidateVideos(projectId: string): void {
   revalidatePath(`/projects/${projectId}/videos`);
+  revalidatePath(`/projects/${projectId}/review`);
   revalidatePath(`/projects/${projectId}`, "layout");
 }
 
@@ -216,6 +223,54 @@ export async function rerenderVideoFromSceneEditor(
     const videoCallbackUrl = await resolveVideoCallbackUrl();
     const summary = await runSceneEditorRerender(
       { projectId, videoJobId },
+      { videoCallbackUrl },
+    );
+    revalidateVideos(projectId);
+    return { ok: true, data: { videoJobId: summary.videoJobId } };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function fetchFailedVideoJobEditorState(
+  projectId: string,
+  videoJobId: string,
+): Promise<VideoSceneEditorActionResult<FailedVideoJobEditorState>> {
+  try {
+    const data = await loadFailedVideoJobEditorState({ projectId, videoJobId });
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function updateFailedVideoJobEditorVoiceover(
+  projectId: string,
+  videoJobId: string,
+  voiceoverText: string,
+): Promise<VideoSceneEditorActionResult<FailedVideoJobEditorState>> {
+  try {
+    const data = await persistFailedVideoJobEditorVoiceover({
+      projectId,
+      videoJobId,
+      voiceoverText,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function rerenderFailedVideoJob(
+  projectId: string,
+  videoJobId: string,
+  voiceoverText: string,
+): Promise<VideoSceneEditorActionResult<{ videoJobId: string }>> {
+  try {
+    const videoCallbackUrl = await resolveVideoCallbackUrl();
+    const summary = await rerunFailedVideoJobWithVoiceover(
+      { projectId, videoJobId, voiceoverText: voiceoverText.trim() },
       { videoCallbackUrl },
     );
     revalidateVideos(projectId);
