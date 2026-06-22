@@ -13,8 +13,24 @@ export const TTS_TAIL_VALIDATION_MAX_ATTEMPTS = 3;
 const EXPECTED_TAIL_TOKEN_COUNT = 6;
 const TRANSCRIPT_TAIL_LABEL_COUNT = 8;
 
+function foldDiacritics(token: string): string {
+  return token.normalize("NFD").replace(/\p{M}/gu, "");
+}
+
 function normalizeToken(token: string): string {
-  return token.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  return foldDiacritics(
+    token.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""),
+  );
+}
+
+// Comparison-only canonical forms (conservative; whitelist-style aliases).
+function canonicalMatchToken(token: string): string {
+  const n = normalizeToken(token);
+  if (/^(fenrik|fenric)chat$/.test(n)) return "fenrikchat";
+  if (n === "fenric") return "fenrik";
+  if (n === "signup") return "signup";
+  if (n === "inscrivezvous") return "inscrivezvous";
+  return n;
 }
 
 // Whisper splits hyphenated words (e.g. FR "Inscrivez-vous" → inscrivez + vous).
@@ -53,12 +69,14 @@ function levenshtein(a: string, b: string): number {
 }
 
 function tokensEquivalent(expected: string, actual: string): boolean {
-  if (expected === actual) return true;
+  const e = canonicalMatchToken(expected);
+  const a = canonicalMatchToken(actual);
+  if (e === a) return true;
   if (
-    expected.length >= FUZZY_TOKEN_MIN_LENGTH &&
-    actual.length >= FUZZY_TOKEN_MIN_LENGTH
+    e.length >= FUZZY_TOKEN_MIN_LENGTH &&
+    a.length >= FUZZY_TOKEN_MIN_LENGTH
   ) {
-    return levenshtein(expected, actual) <= 1;
+    return levenshtein(e, a) <= 1;
   }
   return false;
 }
@@ -169,13 +187,19 @@ export interface TtsTailValidationMeta {
 
 export class TtsTailValidationError extends Error {
   readonly code = "tts_tail_validation_failed";
+  readonly meta: TtsTailValidationMeta;
 
-  constructor(expectedTail: string[], transcriptTail: string[]) {
+  constructor(
+    expectedTail: string[],
+    transcriptTail: string[],
+    meta: TtsTailValidationMeta,
+  ) {
     super(
       "tts_tail_validation_failed: TTS output did not include expected script ending " +
         `(expected tail: ${expectedTail.join(" ")}, transcript tail: ${transcriptTail.join(" ")})`,
     );
     this.name = "TtsTailValidationError";
+    this.meta = meta;
   }
 }
 
@@ -245,5 +269,12 @@ export async function generateValidatedVoiceover(args: {
     await rm(voiceover.audioPath, { force: true }).catch(() => undefined);
   }
 
-  throw new TtsTailValidationError(expectedTail, lastTranscriptTail);
+  throw new TtsTailValidationError(expectedTail, lastTranscriptTail, {
+    tts_validation_attempts: TTS_TAIL_VALIDATION_MAX_ATTEMPTS,
+    tts_tail_validation_passed: false,
+    tts_tail_expected: expectedTail,
+    tts_tail_transcript: lastTranscriptTail,
+    tts_tail_retry_used: attemptLogs.length > 1,
+    tts_validation_log: attemptLogs,
+  });
 }

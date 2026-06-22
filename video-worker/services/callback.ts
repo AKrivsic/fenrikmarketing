@@ -57,6 +57,7 @@ export async function sendVideoCallback(
           video_job_id: parsed.video_job_id,
           status: parsed.status,
           error_message: parsed.error_message,
+          ...(parsed.debug ? { debug: parsed.debug } : {}),
         };
 
   let response: Response;

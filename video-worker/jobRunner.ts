@@ -12,7 +12,10 @@ import {
   type WorkerPayload,
 } from "@/lib/video-engine/schemas/workerPayloadSchema";
 import type { WorkerCallback } from "@/lib/video-engine/schemas/workerCallbackSchema";
-import { generateValidatedVoiceover } from "@/video-worker/services/ttsTailValidation";
+import {
+  generateValidatedVoiceover,
+  TtsTailValidationError,
+} from "@/video-worker/services/ttsTailValidation";
 import {
   generateSceneImages,
   type SceneImage,
@@ -519,12 +522,20 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     );
 
     try {
+      const failureDebug =
+        err instanceof TtsTailValidationError
+          ? {
+              ...err.meta,
+              tts_tail_validation_passed: false,
+            }
+          : undefined;
       await sendVideoCallback(
         payload.callback_url,
         {
           video_job_id: payload.video_job_id,
           status: "failed",
           error_message: errorMessage,
+          ...(failureDebug ? { debug: failureDebug } : {}),
         },
         transport,
       );

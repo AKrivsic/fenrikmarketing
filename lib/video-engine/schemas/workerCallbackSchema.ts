@@ -34,6 +34,17 @@ export const renderDebugSchema = z
     tts_tail_expected: z.array(z.string()).optional(),
     tts_tail_transcript: z.array(z.string()).optional(),
     tts_tail_retry_used: z.boolean().optional(),
+    tts_validation_log: z
+      .array(
+        z.object({
+          attempt: z.number(),
+          pass: z.boolean(),
+          durationSeconds: z.number().optional(),
+          expected_tail: z.array(z.string()),
+          transcript_tail: z.array(z.string()),
+        }),
+      )
+      .optional(),
   })
   .passthrough();
 
@@ -53,6 +64,7 @@ export const workerCallbackFailureSchema = z.object({
   video_job_id: z.string().min(1),
   status: z.literal("failed"),
   error_message: z.string().min(1),
+  debug: renderDebugSchema.optional(),
 });
 
 export const workerCallbackSchema = z.discriminatedUnion("status", [
