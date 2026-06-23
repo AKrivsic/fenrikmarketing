@@ -17,6 +17,7 @@ import {
   type VideoWorkerJobPayload,
 } from "@/lib/video-worker/client";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
+import { insertVariantVideoJobIfSlotAvailable } from "@/lib/ai/workflows/variantVideoSlot";
 import {
   isVideoContentPlatform,
   parseContentControls,
@@ -236,7 +237,8 @@ export async function runGenerateLanguageVariantsForItem(
     return summary;
   }
 
-  // Languages that already have a variant video job anywhere in the package.
+  // Languages that already have a variant video job anywhere in the package
+  // (fast path hint only — insert uses the race-safe DB slot RPC).
   const languagesWithVideo = new Set<LanguageCode>();
   const variantItemIds = Array.from(variantItemIdToLanguage.keys());
   if (variantItemIds.length > 0) {
@@ -378,8 +380,9 @@ export async function runGenerateLanguageVariantsForItem(
     summary.createdLanguages.push(language);
     summary.createdItemIds.push(variantItemId);
 
-    // Video job: only for video platforms with reusable scenes, and only when
-    // this package+language does not already have a variant video.
+    // Video job: only for video platforms with reusable scenes. One slot per
+    // package+language (RPC); parallel platform translation units must not each
+    // insert a render.
     if (!wantsVideo || !scenes) continue;
     if (languagesWithVideo.has(language)) {
       summary.skippedLanguages.push(language);
@@ -396,19 +399,20 @@ export async function runGenerateLanguageVariantsForItem(
       generated_from_language_variant: true,
     } as unknown as Json;
 
-    const { data: jobRow, error: jobInsertErr } = await supabase
-      .from("video_jobs")
-      .insert({
-        project_id: projectId,
-        content_item_id: variantItemId,
-        provider: "video_engine",
-        status: "queued",
-        input: jobInput,
-      })
-      .select("id")
-      .single();
-    if (jobInsertErr) throw jobInsertErr;
-    const videoJobId = jobRow.id as string;
+    const videoJobId = await insertVariantVideoJobIfSlotAvailable(supabase, {
+      projectId,
+      packageId,
+      language,
+      contentItemId: variantItemId,
+      input: jobInput,
+    });
+    if (!videoJobId) {
+      summary.warnings.push(
+        `language ${language}: variant video slot already taken for package; text item kept without new video job`,
+      );
+      languagesWithVideo.add(language);
+      continue;
+    }
     summary.createdVideoJobIds.push(videoJobId);
     languagesWithVideo.add(language);
 

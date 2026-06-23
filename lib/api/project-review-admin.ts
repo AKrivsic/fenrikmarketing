@@ -220,32 +220,11 @@ export interface ReviewRunGroup {
   sectionLabel?: string | null;
 }
 
-// Collects the package's video(s) keyed by resolved language. The video job is
-// linked to a single content item per language (the video-platform / primary
-// item for the primary language, the variant's video item for each variant
-// language), so the first item per language that carries a job wins. Items are
-// pre-sorted (primary before variants), so primaries naturally lead.
+import { buildPackageVideosFromEntries } from "@/lib/api/packageCanonicalVideo";
+
+// One canonical video per language (TikTok preferred when multiple platform jobs exist).
 function buildPackageVideos(items: ProjectContentEntry[]): PackageVideo[] {
-  const byLanguage = new Map<LanguageCode, PackageVideo>();
-  for (const item of items) {
-    if (!item.videoJobId) continue;
-    if (byLanguage.has(item.language)) continue;
-    byLanguage.set(item.language, {
-      language: item.language,
-      isPrimary: !item.isLanguageVariant,
-      jobId: item.videoJobId,
-      status: item.videoStatus,
-      videoUrl: item.videoUrl,
-      thumbnailUrl: item.thumbnailUrl,
-      subtitleUrl: item.subtitleUrl,
-      debug: item.videoDebug,
-      failureHeadline: item.videoFailureHeadline,
-      failureDetail: item.videoFailureDetail,
-    });
-  }
-  return Array.from(byLanguage.values()).sort(
-    (a, b) => Number(b.isPrimary) - Number(a.isPrimary),
-  );
+  return buildPackageVideosFromEntries(items);
 }
 
 // Resolves package titles for the packages referenced by the given entries.

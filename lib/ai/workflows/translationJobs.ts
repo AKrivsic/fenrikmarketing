@@ -8,6 +8,7 @@ import type {
 } from "@/lib/supabase/types";
 import { loadProjectOrThrow, WorkflowError } from "@/lib/ai/workflows/shared";
 import { runGenerateLanguageVariantsForItem } from "@/lib/ai/workflows/generateLanguageVariants";
+import { formatCompletedWithoutVariantError } from "@/lib/ai/workflows/translationJobGuards";
 import {
   pendingVariantLanguages,
   resolveTargetLanguages,
@@ -412,6 +413,30 @@ async function countPendingTranslationJobs(
   return count ?? 0;
 }
 
+export async function variantContentItemExistsForTranslationUnit(
+  supabase: SupabaseClient,
+  unit: {
+    projectId: string;
+    packageId: string;
+    sourceContentItemId: string;
+    language: LanguageCode;
+  },
+): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("id")
+    .eq("project_id", unit.projectId)
+    .eq("package_id", unit.packageId)
+    .eq("language", unit.language)
+    .eq(
+      "generation_metadata->>source_content_item_id",
+      unit.sourceContentItemId,
+    )
+    .maybeSingle();
+  if (error) throw error;
+  return Boolean(data);
+}
+
 export interface ProcessTranslationJobResult {
   // True when a unit was claimed and processed (completed or failed) in this call.
   processed: boolean;
@@ -438,7 +463,7 @@ export async function processNextTranslationJob(deps: {
 
   let status: "completed" | "failed" = "completed";
   try {
-    await runGenerateLanguageVariantsForItem(
+    const summary = await runGenerateLanguageVariantsForItem(
       {
         projectId: job.projectId,
         sourceContentItemId: job.sourceContentItemId,
@@ -446,10 +471,31 @@ export async function processNextTranslationJob(deps: {
       },
       { client: supabase, videoCallbackUrl: deps.videoCallbackUrl },
     );
-    await supabase
-      .from("translation_jobs")
-      .update({ status: "completed", error_message: null })
-      .eq("id", job.id);
+    const variantExists = await variantContentItemExistsForTranslationUnit(
+      supabase,
+      {
+        projectId: job.projectId,
+        packageId: job.packageId,
+        sourceContentItemId: job.sourceContentItemId,
+        language: job.language,
+      },
+    );
+    if (!variantExists) {
+      status = "failed";
+      const errorMessage = formatCompletedWithoutVariantError(summary);
+      await supabase
+        .from("translation_jobs")
+        .update({ status: "failed", error_message: errorMessage })
+        .eq("id", job.id);
+      console.error(
+        `[translation-jobs] unit ${job.id} (${job.platform} -> ${job.language}) ${errorMessage}`,
+      );
+    } else {
+      await supabase
+        .from("translation_jobs")
+        .update({ status: "completed", error_message: null })
+        .eq("id", job.id);
+    }
   } catch (err) {
     status = "failed";
     const detail = err instanceof Error ? err.message : "unknown error";
