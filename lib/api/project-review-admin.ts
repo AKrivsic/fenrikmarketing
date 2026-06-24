@@ -12,6 +12,8 @@ import {
   listReviewRunsForProject,
   type ReviewRunCard,
 } from "@/lib/api/review-runs-admin";
+import { loadRunCoverageReport } from "@/lib/production-runs/loadRunCoverage";
+import type { RunCoverageReport } from "@/lib/production-runs/runCoverage";
 import {
   isVideoPlatform,
   resolveTargetLanguages,
@@ -25,6 +27,7 @@ import type {
   LanguageCode,
   PackageStatus,
   PlatformType,
+  Project,
   TranslationJobStatus,
 } from "@/lib/supabase/types";
 
@@ -218,6 +221,8 @@ export interface ReviewRunGroup {
   packages: ReviewPackageGroup[];
   // Header when run is null (e.g. current weekly strategy from Actions).
   sectionLabel?: string | null;
+  // Run Coverage / Run Insights — computed from existing rows when run is set.
+  runInsights?: RunCoverageReport | null;
 }
 
 import { buildPackageVideosFromEntries } from "@/lib/api/packageCanonicalVideo";
@@ -725,6 +730,14 @@ export async function listProjectReviewGroups(
   const startedAt = performance.now();
   const weekStart = currentWeekStartUtcForReview();
 
+  const supabase = createSupabaseAdminClient();
+  const { data: projectRow, error: projectErr } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", projectId)
+    .maybeSingle();
+  if (projectErr) throw projectErr;
+
   const runs = await listReviewRunsForProject(projectId, {
     limit: REVIEW_RUN_LIMIT,
   });
@@ -822,6 +835,21 @@ export async function listProjectReviewGroups(
 
   const groups: ReviewRunGroup[] = [];
 
+  const runInsightsById = new Map<string, RunCoverageReport | null>();
+  if (projectRow) {
+    const project = projectRow as Project;
+    await Promise.all(
+      runs.map(async (run) => {
+        try {
+          const report = await loadRunCoverageReport(run.id, project, supabase);
+          runInsightsById.set(run.id, report);
+        } catch {
+          runInsightsById.set(run.id, null);
+        }
+      }),
+    );
+  }
+
   if (weeklyStrategy.size > 0) {
     groups.push({
       run: null,
@@ -837,6 +865,7 @@ export async function listProjectReviewGroups(
     groups.push({
       run,
       packages: packageMap ? toPackageGroups(packageMap) : [],
+      runInsights: runInsightsById.get(run.id) ?? null,
     });
   }
 

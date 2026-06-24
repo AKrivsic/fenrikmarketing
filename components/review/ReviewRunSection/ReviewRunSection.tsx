@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ReviewRunCard } from "@/components/review/ReviewRunCard/ReviewRunCard";
+import { RunInsightsPanel } from "@/components/review/RunInsightsPanel/RunInsightsPanel";
 import { ReviewPackageSection } from "@/components/review/ReviewPackageSection/ReviewPackageSection";
 import { formatCsDateTime } from "@/lib/datetime/formatCs";
 import type { ReviewRunGroup } from "@/lib/api/project-review-admin";
@@ -79,6 +80,9 @@ export function ReviewRunSection({
       {open ? (
         <div className={styles.body}>
           {run ? <ReviewRunCard run={run} /> : null}
+          {run && group.runInsights ? (
+            <RunInsightsPanel insights={group.runInsights} />
+          ) : null}
 
           {packagesWithItems.length > 0 ? (
             <div className={styles.packages}>
