@@ -232,7 +232,7 @@ export function computeSmartUsageMetadata(
       role && role !== "other" ? "supporting" : "decorative",
     video_suitability: "unknown",
     aspect_ratio,
-    safe_vertical_usage: orientation !== "landscape",
+    safe_vertical_usage: true,
   };
 }
 
