@@ -570,11 +570,15 @@ export function buildGenerateContentPackagePrompt(
     ...hookLines,
     ...visualBeatsLines,
     "",
-    "AVAILABLE ASSETS (asset_usage rules: STATIC must not be modified; " +
+    "AVAILABLE ASSETS (optional product library — using assets is NEVER mandatory; " +
+      "empty asset_usage is valid. asset_usage rules: STATIC must not be modified; " +
       "EDITABLE may have a variant; REFERENCE is inspiration only):",
     availableAssets.length
       ? availableAssets.map((a) => formatAvailableAssetPromptLine(a)).join("\n")
       : "(none)",
+    "ASSET LIBRARY RULES:",
+    "- Do not invent asset_usage entries; only reference ids listed above.",
+    "- Skip assets entirely when AI scenes alone tell the story better.",
     "",
     "",
     buildPlatformStyleBlock(targetPlatforms),
