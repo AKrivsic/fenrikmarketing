@@ -13,6 +13,7 @@ import {
 import { WorkflowError, type WorkflowResult } from "@/lib/ai/workflows/shared";
 import { getProjectForAdmin, updateProjectForAdmin } from "@/lib/api/projects-admin";
 import { FetchUrlError, fetchUrlText } from "@/lib/knowledge/fetchUrlText";
+import { ingestWebsiteVisualsBestEffort } from "@/lib/knowledge/ingestWebsiteVisuals";
 import {
   emptyKnowledge,
   parseProjectKnowledge,
@@ -294,6 +295,22 @@ export async function runProjectKnowledgeExtraction(
     duration_ms: Date.now() - t0,
     extracted: true,
   });
+
+  // Website visual ingestion (best-effort). Failure must not affect extraction.
+  try {
+    const ingest = await ingestWebsiteVisualsBestEffort(projectId, sourceUrl);
+    if (ingest.created > 0) {
+      console.log(`${LOG_PREFIX} website visuals ingested`, {
+        project_id: projectId,
+        created: ingest.created,
+      });
+    }
+  } catch (err) {
+    console.warn(`${LOG_PREFIX} website visuals ingest failed`, {
+      project_id: projectId,
+      error: errorMessage(err),
+    });
+  }
 
   return { ok: true, extracted: true };
 }
