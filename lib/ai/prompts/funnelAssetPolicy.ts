@@ -1,32 +1,32 @@
 import { FUNNEL_STAGE_LABELS, type FunnelStage } from "@/lib/ai/types";
 
-// Prompt-only guidance for how product assets may support each funnel stage.
-// Assets remain optional; this never forces asset_usage.
+// Prompt-only funnel guidance. Hard requirements live in PACKAGE ASSET COVERAGE
+// (sample / production series). Assets stay optional when no quality library exists.
 export function buildFunnelAssetPolicyBlock(funnelStage: FunnelStage): string {
   const label = FUNNEL_STAGE_LABELS[funnelStage];
   const stageGuidance: Record<FunnelStage, string> = {
     awareness: [
       "- Mostly AI-generated scenes.",
-      "- Use product assets only when they strengthen authenticity (never as a default).",
+      "- Product assets optional; at most an occasional product anchor.",
       "- Avoid logo-as-hero; keep the hook visual and story-led.",
     ].join("\n"),
     problem_aware: [
-      "- Occasionally use homepage or product UI as a subtle product anchor.",
-      "- Prefer one asset at most when it clarifies the problem context.",
+      "- Use product assets occasionally when they clarify the problem.",
+      "- Prefer one asset at most when it strengthens context.",
     ].join("\n"),
     solution_aware: [
-      "- Product UI / dashboard screenshots are encouraged when they show the solution.",
-      "- Still optional — the story comes first.",
+      "- product_ui / dashboard assets are recommended when they show the solution.",
+      "- Still story-first — do not turn every beat into a product screenshot.",
     ].join("\n"),
     conversion: [
-      "- Logo and product visuals are acceptable when they support the CTA.",
-      "- Use logo sparingly (often near the CTA framing, not the opening hook).",
+      "- Logo + product UI / homepage visuals are recommended near CTA framing.",
+      "- Use logo sparingly (often near the CTA, not the opening hook).",
     ].join("\n"),
   };
 
   return [
-    `FUNNEL ASSET POLICY (funnel_stage=${label} — guidance only, assets remain OPTIONAL):`,
+    `FUNNEL ASSET POLICY (funnel_stage=${label} — guidance; see PACKAGE ASSET COVERAGE for this package):`,
     stageGuidance[funnelStage],
-    "- Never invent asset_usage; empty asset_usage is always valid.",
+    "- Never invent asset_usage; empty asset_usage is valid when coverage says optional or avoid.",
   ].join("\n");
 }

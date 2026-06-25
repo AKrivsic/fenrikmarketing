@@ -23,6 +23,17 @@ import {
   sortAvailableAssetEntries,
   type AvailableAssetEntry,
 } from "@/lib/assets/sortAvailableAssetRefs";
+import {
+  assetCoverageGuardrailRequired,
+  assetCoverageGuardrailShouldUse,
+  type AssetCoverageDecision,
+} from "@/lib/assets/assetCoveragePolicy";
+import type { AssetQualityTier } from "@/lib/assets/assetIngestMetadata";
+import {
+  readSafeVerticalUsage,
+  readVideoSuitability,
+  shouldIncludeAssetInVideoWorker,
+} from "@/lib/assets/smartUsageMetadata";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -137,6 +148,13 @@ export async function loadAvailableAssets(
         suggested_usage: analysis?.suggestedUsage ?? null,
         trust_signal: trust,
         product_role: readProductRole(metadata),
+        asset_quality: readAssetQualityTier(metadata),
+        orientation: readMetadataString(metadata, "orientation"),
+        preferred_presentation: readMetadataString(metadata, "preferred_presentation"),
+        video_suitability: readMetadataString(metadata, "video_suitability"),
+        safe_vertical_usage: readSafeVerticalUsage(metadata),
+        aspect_ratio: readAspectRatio(metadata),
+        visual_importance: readMetadataString(metadata, "visual_importance"),
       },
     });
   }
@@ -152,6 +170,24 @@ function readMetadataString(metadata: unknown, key: string): string | null {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
 }
 
+function readAssetQualityTier(metadata: unknown): AssetQualityTier | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return null;
+  }
+  const value = (metadata as Record<string, unknown>).asset_quality;
+  if (value === "high" || value === "medium" || value === "low") return value;
+  return null;
+}
+
+function readAspectRatio(metadata: unknown): string | number | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return null;
+  }
+  const value = (metadata as Record<string, unknown>).aspect_ratio;
+  if (typeof value === "string" || typeof value === "number") return value;
+  return null;
+}
+
 // Combines structural content-package guardrails with asset-modification rules
 // (STATIC assets must not be modified).
 export function makePackageGuardrails(args: {
@@ -164,8 +200,16 @@ export function makePackageGuardrails(args: {
   // Whether a video block is mandatory (defaults to true). False for text-only
   // packages where no selected platform requires video.
   requireVideo?: boolean;
+  assetCoverage?: AssetCoverageDecision | null;
 }): (pkg: ContentPackageOutput) => ValidationIssue[] {
-  const { project, context, classById, requiredPlatforms, requireVideo } = args;
+  const {
+    project,
+    context,
+    classById,
+    requiredPlatforms,
+    requireVideo,
+    assetCoverage,
+  } = args;
   return (pkg) => {
     const issues = checkContentPackageGuardrails(pkg, {
       project,
@@ -188,6 +232,26 @@ export function makePackageGuardrails(args: {
       const wantsModification = usage.modify === "true" || usage.modify === "1";
       const assetIssue = checkAssetModification(cls, wantsModification);
       if (assetIssue) issues.push(assetIssue);
+    }
+
+    if (assetCoverage && assetCoverage.qualityAssetCount > 0) {
+      const usage = pkg.asset_usage ?? [];
+      if (assetCoverageGuardrailRequired(assetCoverage) && usage.length === 0) {
+        issues.push({
+          path: "$.asset_usage",
+          message:
+            "Sample mode requires at least one asset_usage when quality product assets exist.",
+        });
+      } else if (
+        assetCoverageGuardrailShouldUse(assetCoverage) &&
+        usage.length === 0
+      ) {
+        issues.push({
+          path: "$.asset_usage",
+          message:
+            "This package should include asset_usage (series coverage slot); add at least one quality product asset.",
+        });
+      }
     }
 
     return issues;
@@ -276,14 +340,22 @@ async function loadAssetImages(
   projectId: string,
   pkg: ContentPackageOutput,
 ): Promise<{ bucket: string; path: string; title: string }[]> {
+  const usages = pkg.asset_usage ?? [];
   const usageIds = Array.from(
-    new Set((pkg.asset_usage ?? []).map((u) => u.asset_id).filter(Boolean)),
+    new Set(usages.map((u) => u.asset_id).filter(Boolean)),
   );
   if (usageIds.length === 0) return [];
 
+  const usedAsById = new Map<string, string>();
+  for (const u of usages) {
+    if (u.asset_id && u.used_as?.trim()) {
+      usedAsById.set(u.asset_id, u.used_as.trim());
+    }
+  }
+
   const { data, error } = await supabase
     .from("assets")
-    .select("id, title, media_type, storage_bucket, storage_path")
+    .select("id, title, media_type, storage_bucket, storage_path, metadata")
     .eq("project_id", projectId)
     .in("id", usageIds)
     .eq("media_type", "image");
@@ -293,9 +365,26 @@ async function loadAssetImages(
   for (const row of data) {
     const bucket = row.storage_bucket as string | null;
     const path = row.storage_path as string | null;
-    if (bucket && path) {
-      result.push({ bucket, path, title: (row.title as string) ?? "" });
+    if (!bucket || !path) continue;
+
+    const metadata = (row.metadata as Json) ?? {};
+    const include = shouldIncludeAssetInVideoWorker({
+      metadata,
+      usedAs: usedAsById.get(row.id as string),
+    });
+    if (!include) {
+      console.warn(
+        "[content-package] asset omitted from video worker (unsafe fullscreen)",
+        JSON.stringify({
+          asset_id: row.id,
+          video_suitability: readVideoSuitability(metadata),
+          safe_vertical_usage: readSafeVerticalUsage(metadata),
+        }),
+      );
+      continue;
     }
+
+    result.push({ bucket, path, title: (row.title as string) ?? "" });
   }
   return result;
 }

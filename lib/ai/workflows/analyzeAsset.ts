@@ -19,6 +19,12 @@ import {
   mergeAssetAnalysis,
   type AssetAnalysisMetadata,
 } from "@/lib/assets/analysis";
+import { readImageDimensions } from "@/lib/knowledge/websiteImageRejectHeuristics";
+import { readProductRole } from "@/lib/assets/productRole";
+import {
+  mergeSmartUsageIntoMetadata,
+  smartUsageFromAssetMetadata,
+} from "@/lib/assets/smartUsageMetadata";
 
 const SIGNED_URL_TTL_SECONDS = 600;
 const MAX_TEXT_LENGTH = 8_000;
@@ -132,11 +138,20 @@ export async function analyzeUploadedAsset(asset: Asset): Promise<void> {
   }
 
   const mergedMetadata = mergeAssetAnalysis(asset.metadata, analysis);
+  let withSmartUsage: Json;
+  try {
+    withSmartUsage = await enrichAssetMetadataWithDimensionsAndSmartUsage({
+      ...asset,
+      metadata: mergedMetadata as Json,
+    });
+  } catch {
+    withSmartUsage = mergedMetadata as Json;
+  }
   try {
     const supabase = createSupabaseAdminClient();
     await supabase
       .from("assets")
-      .update({ metadata: mergedMetadata })
+      .update({ metadata: withSmartUsage })
       .eq("id", asset.id);
   } catch {
     // Persisting analysis is best-effort; the upload itself already succeeded.
@@ -148,7 +163,7 @@ export async function analyzeUploadedAsset(asset: Asset): Promise<void> {
   if (analysis.trust_signal) {
     await extractAndPersistProofStatements({
       ...asset,
-      metadata: mergedMetadata as Json,
+      metadata: withSmartUsage,
     });
   }
 }
@@ -215,4 +230,67 @@ async function computeAnalysis(
 
   // Non-image, non-readable (e.g. PDF/binary) — skipped, no OCR dependency.
   return fallbackAnalysis("skipped", "Not analyzed");
+}
+
+async function tryReadImageDimensionsFromStorage(
+  asset: Asset,
+): Promise<{ width: number; height: number } | null> {
+  if (!asset.storage_bucket || !asset.storage_path) return null;
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase.storage
+    .from(asset.storage_bucket)
+    .download(asset.storage_path);
+  if (error || !data) return null;
+  const bytes = new Uint8Array(await data.arrayBuffer());
+  return readImageDimensions(bytes, asset.mime_type ?? "") ?? null;
+}
+
+export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
+  asset: Asset,
+): Promise<Json> {
+  let metadata = asset.metadata;
+  const record =
+    metadata && typeof metadata === "object" && !Array.isArray(metadata)
+      ? { ...(metadata as Record<string, unknown>) }
+      : {};
+  if (
+    asset.media_type === "image" &&
+    (typeof record.width !== "number" || typeof record.height !== "number")
+  ) {
+    const dims = await tryReadImageDimensionsFromStorage(asset);
+    if (dims) {
+      record.width = dims.width;
+      record.height = dims.height;
+      record.resolution = dims.width * dims.height;
+      metadata = record as Json;
+    }
+  }
+  const analysisView = {
+    detected_content_type:
+      typeof record.detected_content_type === "string"
+        ? record.detected_content_type
+        : null,
+    ai_description:
+      typeof record.ai_description === "string" ? record.ai_description : null,
+  };
+  const smart = smartUsageFromAssetMetadata(metadata, {
+    width: typeof record.width === "number" ? record.width : null,
+    height: typeof record.height === "number" ? record.height : null,
+    mimeType: asset.mime_type,
+    productRole: readProductRole(metadata),
+    title: asset.title,
+    detectedContentType: analysisView.detected_content_type,
+    aiDescription: analysisView.ai_description,
+    ingestKind:
+      (record.ingest_kind as import("@/lib/knowledge/extractWebsiteImageCandidates").WebsiteImageCandidateKind) ??
+      null,
+    sourceUrl: typeof record.source_url === "string" ? record.source_url : null,
+    source:
+      record.source === "website_ingestion"
+        ? "website_ingestion"
+        : record.source === "component_capture"
+          ? "component_capture"
+          : "upload",
+  });
+  return mergeSmartUsageIntoMetadata(metadata, smart) as Json;
 }

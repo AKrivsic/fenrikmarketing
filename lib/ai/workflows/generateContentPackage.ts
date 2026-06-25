@@ -62,6 +62,7 @@ import {
   resolveGenerationMode,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
+import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 
 export interface GenerateContentPackageInput {
   projectId: string;
@@ -205,6 +206,14 @@ export async function runGenerateContentPackage(
     runInfo?.generationMode,
   );
 
+  const assetCoverage = resolvePackageAssetCoverage({
+    generationMode,
+    funnelStage: context.funnelStage,
+    packageIndex: context.packageIndex,
+    packageCount: runInfo?.packageCount ?? null,
+    availableAssets: assets.refs,
+  });
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -225,6 +234,7 @@ export async function runGenerateContentPackage(
       directives,
       packageDiversity,
       generationMode,
+      assetCoverage,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -233,6 +243,7 @@ export async function runGenerateContentPackage(
       classById: assets.classById,
       requiredPlatforms: targetPlatforms,
       requireVideo,
+      assetCoverage,
     }),
   });
 

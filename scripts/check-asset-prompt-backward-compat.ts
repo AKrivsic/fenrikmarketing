@@ -203,10 +203,8 @@ check("prompt includes FUNNEL ASSET POLICY for the stage", () => {
   assert.ok(emptyAssetsPrompt.includes("funnel_stage=Awareness"));
 });
 
-check("funnel policy block does not mandate asset_usage", () => {
+check("funnel policy block does not mandate asset_usage globally", () => {
   const block = buildFunnelAssetPolicyBlock("awareness");
-  assert.ok(/assets remain OPTIONAL/i.test(block));
-  assert.ok(block.includes("empty asset_usage is always valid"));
   assert.equal(/must include asset_usage/i.test(block), false);
   assert.equal(/required asset_usage/i.test(block), false);
 });

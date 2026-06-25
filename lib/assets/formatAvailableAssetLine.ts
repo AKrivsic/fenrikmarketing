@@ -14,7 +14,14 @@ export function assetRefHasPromptContext(ref: AssetRef): boolean {
       ref.ai_description ||
       ref.detected_content_type ||
       ref.suggested_usage ||
-      ref.trust_signal === true,
+      ref.trust_signal === true ||
+      ref.orientation ||
+      ref.preferred_presentation ||
+      ref.video_suitability ||
+      ref.safe_vertical_usage != null ||
+      ref.aspect_ratio != null ||
+      ref.visual_importance ||
+      ref.asset_quality,
   );
 }
 
@@ -26,7 +33,19 @@ export function formatAvailableAssetPromptLine(ref: AssetRef): string {
 
   const parts: string[] = [legacy];
   if (ref.product_role) parts.push(`  role=${ref.product_role}`);
+  if (ref.asset_quality) parts.push(`  quality=${ref.asset_quality}`);
   if (ref.trust_signal === true) parts.push(`  trust=true`);
+  if (ref.orientation) parts.push(`  orientation=${ref.orientation}`);
+  if (ref.preferred_presentation) {
+    parts.push(`  preferred_presentation=${ref.preferred_presentation}`);
+  }
+  if (ref.video_suitability) parts.push(`  video_suitability=${ref.video_suitability}`);
+  if (ref.safe_vertical_usage === true) parts.push(`  safe_vertical_usage=true`);
+  if (ref.safe_vertical_usage === false) parts.push(`  safe_vertical_usage=false`);
+  if (ref.aspect_ratio !== undefined && ref.aspect_ratio !== null) {
+    parts.push(`  aspect_ratio=${ref.aspect_ratio}`);
+  }
+  if (ref.visual_importance) parts.push(`  visual_importance=${ref.visual_importance}`);
   const kind = trimOrNull(ref.detected_content_type, 80);
   if (kind) parts.push(`  kind=${JSON.stringify(kind)}`);
   const desc = trimOrNull(ref.ai_description, 200);

@@ -24,7 +24,12 @@ import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
 import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
 import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
+import { buildSmartAssetUsageRulesBlock } from "@/lib/assets/smartUsageMetadata";
 import { buildFunnelAssetPolicyBlock } from "@/lib/ai/prompts/funnelAssetPolicy";
+import {
+  buildAssetCoveragePromptBlock,
+  type AssetCoverageDecision,
+} from "@/lib/assets/assetCoveragePolicy";
 import {
   DEFAULT_GENERATION_MODE,
   type GenerationMode,
@@ -50,6 +55,14 @@ export interface AssetRef {
   suggested_usage?: string | null;
   trust_signal?: boolean | null;
   product_role?: ProductRole | null;
+  /** From assets.metadata.asset_quality when present (ingest / analysis). */
+  asset_quality?: "high" | "medium" | "low" | null;
+  orientation?: string | null;
+  preferred_presentation?: string | null;
+  video_suitability?: string | null;
+  safe_vertical_usage?: boolean | null;
+  aspect_ratio?: string | number | null;
+  visual_importance?: string | null;
 }
 
 // Content Quality Sprint (Platform Styles) — per-platform output style. Pure
@@ -179,6 +192,8 @@ export interface GenerateContentPackagePromptInput {
   packageDiversity?: PackageDiversitySpec;
   /** Sample mode adds SAMPLE PACKAGE RULES; production leaves the prompt unchanged. */
   generationMode?: GenerationMode;
+  /** Per-package asset coverage (production series + sample). Omitted when not computed. */
+  assetCoverage?: AssetCoverageDecision;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -201,8 +216,9 @@ export function buildSamplePackageRulesBlock(): string {
     "",
     "It is better to use a relevant asset than a generic AI image.",
     "",
-    "Assets are still NOT mandatory.",
-    "If they are not quality or not relevant, do not use them.",
+    "Assets are still NOT mandatory when no quality product assets exist.",
+    "When quality product assets ARE listed, SAMPLE PACKAGE COVERAGE requires at least one asset_usage.",
+    "If assets are not quality or not relevant, do not use them.",
   ].join("\n");
 }
 
@@ -356,6 +372,11 @@ export function buildGenerateContentPackagePrompt(
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
   const recentAssetUsage = input.recentAssetUsageBlock?.trim() ?? "";
   const funnelAssetPolicy = buildFunnelAssetPolicyBlock(funnelStage);
+  const assetCoverageBlock =
+    input.assetCoverage &&
+    (input.assetCoverage.qualityAssetCount > 0 || generationMode === "sample")
+      ? buildAssetCoveragePromptBlock(input.assetCoverage, generationMode)
+      : "";
 
   // Content Quality V3 / Attention First V1 — deterministic creative directives.
   // Prefer the directive the workflow resolved (so prompt + storyboard + video
@@ -588,6 +609,7 @@ export function buildGenerateContentPackagePrompt(
     ...(recentAssetUsage ? ["", recentAssetUsage] : []),
     "",
     funnelAssetPolicy,
+    ...(assetCoverageBlock ? ["", assetCoverageBlock] : []),
     "",
     `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,
     `CTA type MUST be one of (goal=${project.goal_type}): ${allowedCtas.join(", ")}`,
@@ -608,6 +630,9 @@ export function buildGenerateContentPackagePrompt(
     availableAssets.length
       ? availableAssets.map((a) => formatAvailableAssetPromptLine(a)).join("\n")
       : "(none)",
+    "",
+    buildSmartAssetUsageRulesBlock(),
+    "",
     "ASSET LIBRARY RULES:",
     "- Do not invent asset_usage entries; only reference ids listed above.",
     "- Skip assets entirely when AI scenes alone tell the story better.",

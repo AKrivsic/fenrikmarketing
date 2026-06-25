@@ -41,6 +41,9 @@ import {
 import type { WebsiteImageCandidate } from "@/lib/knowledge/extractWebsiteImageCandidates";
 import { isSvgUrl } from "@/lib/knowledge/websiteImageParseHelpers";
 import { mergeAssetAnalysis, fallbackAnalysis } from "@/lib/assets/analysis";
+import { computeSmartUsageMetadata } from "@/lib/assets/smartUsageMetadata";
+import { enrichAssetMetadataWithDimensionsAndSmartUsage } from "@/lib/ai/workflows/analyzeAsset";
+import { maybeRunComponentCaptureFallback } from "@/lib/knowledge/componentCapture";
 
 const FETCH_HTML_TIMEOUT_MS = 12_000;
 const MAX_DOWNLOAD_ATTEMPTS = 24;
@@ -236,6 +239,18 @@ async function uploadIngestedImage(
     ...(productRole ? { product_role: productRole } : {}),
   };
 
+  const smart = computeSmartUsageMetadata({
+    width: dims?.width ?? null,
+    height: dims?.height ?? null,
+    mimeType,
+    productRole,
+    ingestKind: candidate.kind,
+    sourceUrl: candidate.url,
+    title,
+    source: "website_ingestion",
+  });
+  Object.assign(metadata, smart);
+
   const { data: created, error: insertError } = await supabase
     .from("assets")
     .insert({
@@ -300,6 +315,18 @@ async function persistSvgIngestAnalysisFallback(
         : "Vector graphic (SVG) from website ingestion.",
   });
   if (productRole) merged.product_role = productRole;
+  const smart = computeSmartUsageMetadata({
+    width: null,
+    height: null,
+    mimeType: "image/svg+xml",
+    productRole,
+    ingestKind: candidate.kind,
+    sourceUrl: candidate.url,
+    title,
+    detectedContentType: productRole === "logo" ? "logo" : "vector graphic",
+    source: "website_ingestion",
+  });
+  Object.assign(merged, smart);
 
   try {
     const supabase = createSupabaseAdminClient();
@@ -367,9 +394,19 @@ async function refineAssetAfterVision(assetId: string): Promise<Asset | null> {
     source: "website_ingestion",
   });
 
+  let metadataOut: Json = next as Json;
+  try {
+    metadataOut = await enrichAssetMetadataWithDimensionsAndSmartUsage({
+      ...(row as Asset),
+      metadata: next as Json,
+    });
+  } catch {
+    metadataOut = next as Json;
+  }
+
   const { data: updated } = await supabase
     .from("assets")
-    .update({ metadata: next as Json })
+    .update({ metadata: metadataOut })
     .eq("id", asset.id)
     .select("*")
     .single();
@@ -527,6 +564,12 @@ export async function ingestWebsiteVisualsBestEffort(
   report.finalAssets = created;
   report.finalRoles = finalRoles;
   logWebsiteIngestDebugReport(projectId, pageUrl, report);
+
+  try {
+    await maybeRunComponentCaptureFallback(projectId, pageUrl);
+  } catch {
+    // Silent fallback — HTML ingest result must not depend on capture worker.
+  }
 
   return {
     created,
