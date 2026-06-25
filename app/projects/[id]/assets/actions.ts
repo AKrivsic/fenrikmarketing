@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { uploadAsset } from "@/lib/api/assets";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import type { AssetClass } from "@/lib/ai/guardrails";
+import { normalizeProductRole } from "@/lib/assets/productRole";
 import type { MediaType } from "@/lib/supabase/types";
 
 export type ActionResult =
@@ -49,6 +50,10 @@ export async function uploadProjectAsset(
   const assetClass =
     typeof rawClass === "string" && isAssetClass(rawClass) ? rawClass : "static";
 
+  const rawRole = formData.get("productRole");
+  const productRole =
+    typeof rawRole === "string" ? normalizeProductRole(rawRole) : null;
+
   if (Object.keys(fieldErrors).length > 0) {
     return { ok: false, error: "Zkontroluj zvýrazněná pole.", fieldErrors };
   }
@@ -63,7 +68,10 @@ export async function uploadProjectAsset(
       title: finalTitle,
       mediaType: inferMediaType(uploadFile.type),
       assetMode: "source",
-      metadata: { asset_class: assetClass },
+      metadata: {
+        asset_class: assetClass,
+        ...(productRole ? { product_role: productRole } : {}),
+      },
     });
   } catch {
     return { ok: false, error: "Nahrání se nezdařilo." };

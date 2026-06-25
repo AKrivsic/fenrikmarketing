@@ -3,6 +3,10 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { uploadProjectAsset } from "@/app/projects/[id]/assets/actions";
+import {
+  PRODUCT_ROLE_LABELS,
+  PRODUCT_ROLES,
+} from "@/lib/assets/productRole";
 import styles from "./AssetUploadForm.module.css";
 
 interface AssetUploadFormProps {
@@ -20,6 +24,7 @@ export function AssetUploadForm({ projectId }: AssetUploadFormProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState("");
   const [assetClass, setAssetClass] = useState("static");
+  const [productRole, setProductRole] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
@@ -39,12 +44,14 @@ export function AssetUploadForm({ projectId }: AssetUploadFormProps) {
     formData.set("file", file);
     formData.set("title", title);
     formData.set("assetClass", assetClass);
+    if (productRole) formData.set("productRole", productRole);
 
     startTransition(async () => {
       const result = await uploadProjectAsset(projectId, formData);
       if (result.ok) {
         setTitle("");
         setAssetClass("static");
+        setProductRole("");
         if (fileRef.current) fileRef.current.value = "";
         router.refresh();
       } else {
@@ -93,6 +100,23 @@ export function AssetUploadForm({ projectId }: AssetUploadFormProps) {
             {ASSET_CLASS_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className={styles.field}>
+          <span className={styles.label}>Product role (volitelné)</span>
+          <select
+            className={styles.input}
+            value={productRole}
+            onChange={(e) => setProductRole(e.target.value)}
+            disabled={isPending}
+          >
+            <option value="">—</option>
+            {PRODUCT_ROLES.map((role) => (
+              <option key={role} value={role}>
+                {PRODUCT_ROLE_LABELS[role]}
               </option>
             ))}
           </select>

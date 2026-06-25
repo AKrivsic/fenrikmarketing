@@ -1,4 +1,5 @@
 import type { AssetView } from "@/lib/api/assets-admin";
+import { PRODUCT_ROLE_LABELS } from "@/lib/assets/productRole";
 import styles from "./AssetCard.module.css";
 
 interface AssetCardProps {
@@ -40,6 +41,11 @@ export function AssetCard({ asset }: AssetCardProps) {
           <span className={styles.metaItem}>{asset.assetClass}</span>
           {asset.trustSignal ? (
             <span className={styles.metaItem}>proof</span>
+          ) : null}
+          {asset.productRole ? (
+            <span className={styles.metaItem}>
+              {PRODUCT_ROLE_LABELS[asset.productRole]}
+            </span>
           ) : null}
         </div>
 

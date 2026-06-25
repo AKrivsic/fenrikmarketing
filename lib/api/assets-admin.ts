@@ -6,6 +6,7 @@ import {
   readAssetAnalysis,
   type AssetAnalysisStatus,
 } from "@/lib/assets/analysis";
+import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
 
 // Read-only asset library for the internal admin UI. Uses the service-role
 // admin client (RLS bypassed); keep this module server-only. No upload / edit /
@@ -33,6 +34,7 @@ export interface AssetView {
   suggestedUsage: string | null;
   trustSignal: boolean;
   analysisStatus: AssetAnalysisStatus | null;
+  productRole: ProductRole | null;
 }
 
 // Builds signed preview URLs for image assets only, batched per bucket so the
@@ -103,6 +105,7 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     suggestedUsage: analysis?.suggestedUsage ?? null,
     trustSignal: analysis?.trustSignal ?? false,
     analysisStatus: analysis?.analysisStatus ?? null,
+    productRole: readProductRole(asset.metadata),
   };
 }
 
