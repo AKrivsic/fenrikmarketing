@@ -39,6 +39,7 @@
     "check:product-role": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-product-role.ts",
     "check:available-assets-prompt": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-available-assets-prompt.ts",
     "check:recent-asset-usage": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-recent-asset-usage.ts",
+    "check:funnel-asset-policy": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-funnel-asset-policy.ts",
     "check:video-scene-editor": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-video-scene-editor.ts",
     "video-worker": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs video-worker/server.ts"
   },

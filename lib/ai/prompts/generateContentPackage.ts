@@ -24,6 +24,7 @@ import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
 import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
 import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
+import { buildFunnelAssetPolicyBlock } from "@/lib/ai/prompts/funnelAssetPolicy";
 import {
   type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
@@ -322,6 +323,7 @@ export function buildGenerateContentPackagePrompt(
   const websiteLinks = websiteLinkRulesBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
   const recentAssetUsage = input.recentAssetUsageBlock?.trim() ?? "";
+  const funnelAssetPolicy = buildFunnelAssetPolicyBlock(funnelStage);
 
   // Content Quality V3 / Attention First V1 — deterministic creative directives.
   // Prefer the directive the workflow resolved (so prompt + storyboard + video
@@ -552,6 +554,8 @@ export function buildGenerateContentPackagePrompt(
     ...(websiteLinks ? ["", websiteLinks] : []),
     ...(memory ? ["", memory] : []),
     ...(recentAssetUsage ? ["", recentAssetUsage] : []),
+    "",
+    funnelAssetPolicy,
     "",
     `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,
     `CTA type MUST be one of (goal=${project.goal_type}): ${allowedCtas.join(", ")}`,
