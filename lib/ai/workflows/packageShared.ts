@@ -19,6 +19,10 @@ import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 import { readAssetAnalysis } from "@/lib/assets/analysis";
 import { readProductRole } from "@/lib/assets/productRole";
+import {
+  sortAvailableAssetEntries,
+  type AvailableAssetEntry,
+} from "@/lib/assets/sortAvailableAssetRefs";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -110,7 +114,7 @@ export async function loadAvailableAssets(
     .eq("project_id", projectId);
   if (error) throw error;
 
-  const refs: AssetRef[] = [];
+  const entries: AvailableAssetEntry[] = [];
   const classById = new Map<string, AssetClass>();
   for (const a of data ?? []) {
     const cls = classifyAsset(
@@ -121,18 +125,22 @@ export async function loadAvailableAssets(
     const metadata = a.metadata as Json;
     const analysis = readAssetAnalysis(metadata);
     const trust = analysis?.trustSignal === true ? true : null;
-    refs.push({
-      id: a.id as string,
-      title: a.title as string,
-      media_type: a.media_type as string,
-      asset_class: cls,
-      ai_description: analysis?.aiDescription ?? null,
-      detected_content_type: readMetadataString(metadata, "detected_content_type"),
-      suggested_usage: analysis?.suggestedUsage ?? null,
-      trust_signal: trust,
-      product_role: readProductRole(metadata),
+    entries.push({
+      metadata,
+      ref: {
+        id: a.id as string,
+        title: a.title as string,
+        media_type: a.media_type as string,
+        asset_class: cls,
+        ai_description: analysis?.aiDescription ?? null,
+        detected_content_type: readMetadataString(metadata, "detected_content_type"),
+        suggested_usage: analysis?.suggestedUsage ?? null,
+        trust_signal: trust,
+        product_role: readProductRole(metadata),
+      },
     });
   }
+  const refs = sortAvailableAssetEntries(entries);
   return { refs, classById };
 }
 

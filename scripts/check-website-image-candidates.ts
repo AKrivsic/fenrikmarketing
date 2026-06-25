@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import {
   extractWebsiteImageCandidates,
-  rankWebsiteImageCandidates,
 } from "@/lib/knowledge/extractWebsiteImageCandidates";
+import { rankWebsiteImageCandidates } from "@/lib/knowledge/websiteImagePrioritize";
 
 const html = `
 <html><head>

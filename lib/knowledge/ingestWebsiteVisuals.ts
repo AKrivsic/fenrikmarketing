@@ -2,17 +2,48 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { Asset, Json, MediaType } from "@/lib/supabase/types";
 import { STORAGE_BUCKETS, buildAssetPath } from "@/lib/api/storage";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
+import {
+  computeAssetQualityTier,
+  ingestPriorityRank,
+} from "@/lib/assets/assetIngestMetadata";
 import { inferIngestProductRole } from "@/lib/assets/ingestProductRole";
+import {
+  inferProductRoleFromSignals,
+  readProductRoleLocked,
+  shouldApplyInferredProductRole,
+} from "@/lib/assets/inferProductRoleFromSignals";
+import { readProductRole } from "@/lib/assets/productRole";
+import { roleLabel } from "@/lib/knowledge/websiteIngestDebugReport";
+import {
+  bumpReportCount,
+  createEmptyIngestReport,
+  logWebsiteIngestDebugReport,
+  type WebsiteIngestDebugReport,
+} from "@/lib/knowledge/websiteIngestDebugReport";
 import { normalizeWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { FetchUrlError } from "@/lib/knowledge/fetchUrlText";
+import { extractWebsiteImageCandidates } from "@/lib/knowledge/extractWebsiteImageCandidates";
 import {
-  extractWebsiteImageCandidates,
-  rankWebsiteImageCandidates,
-  type WebsiteImageCandidate,
-} from "@/lib/knowledge/extractWebsiteImageCandidates";
+  dedupeWebsiteImageCandidates,
+  isDuplicateOfExisting,
+  normalizeAssetUrl,
+  sha256Hex,
+} from "@/lib/knowledge/websiteImageDedupe";
+import {
+  MAX_WEBSITE_INGEST_ASSETS,
+  prioritizeWebsiteImageCandidates,
+} from "@/lib/knowledge/websiteImagePrioritize";
+import {
+  readImageDimensions,
+  rejectDownloadedImage,
+  rejectWebsiteImageCandidate,
+} from "@/lib/knowledge/websiteImageRejectHeuristics";
+import type { WebsiteImageCandidate } from "@/lib/knowledge/extractWebsiteImageCandidates";
+import { isSvgUrl } from "@/lib/knowledge/websiteImageParseHelpers";
+import { mergeAssetAnalysis, fallbackAnalysis } from "@/lib/assets/analysis";
 
 const FETCH_HTML_TIMEOUT_MS = 12_000;
-const MAX_INGEST_IMAGES = 5;
+const MAX_DOWNLOAD_ATTEMPTS = 24;
 const MAX_IMAGE_BYTES = 3_000_000;
 
 const ALLOWED_MIME = new Set([
@@ -23,9 +54,38 @@ const ALLOWED_MIME = new Set([
   "image/gif",
   "image/x-icon",
   "image/vnd.microsoft.icon",
+  "image/svg+xml",
 ]);
 
+function looksLikeSvgMarkup(bytes: Uint8Array): boolean {
+  const head = new TextDecoder().decode(bytes.slice(0, 256)).toLowerCase();
+  return head.includes("<svg");
+}
+
+function normalizeDownloadMime(
+  url: string,
+  headerMime: string,
+  bytes: Uint8Array,
+): string | null {
+  const mime = headerMime.toLowerCase();
+  if (mime && ALLOWED_MIME.has(mime)) return mime;
+  if (isSvgUrl(url) || looksLikeSvgMarkup(bytes)) {
+    return "image/svg+xml";
+  }
+  if (
+    isSvgUrl(url) &&
+    (mime === "text/xml" ||
+      mime === "application/xml" ||
+      mime === "application/octet-stream" ||
+      mime === "")
+  ) {
+    return "image/svg+xml";
+  }
+  return null;
+}
+
 function extensionFromMime(mime: string): string {
+  if (mime.includes("svg")) return "svg";
   if (mime.includes("png")) return "png";
   if (mime.includes("webp")) return "webp";
   if (mime.includes("gif")) return "gif";
@@ -96,15 +156,40 @@ async function downloadImage(
       .split(";")[0]
       .trim()
       .toLowerCase();
-    if (!mimeType || !ALLOWED_MIME.has(mimeType)) return null;
     const buf = new Uint8Array(await response.arrayBuffer());
     if (buf.byteLength === 0 || buf.byteLength > MAX_IMAGE_BYTES) return null;
-    return { bytes: buf, mimeType };
+    const normalized = normalizeDownloadMime(url, mimeType, buf);
+    if (!normalized) return null;
+    return { bytes: buf, mimeType: normalized };
   } catch {
     return null;
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function loadExistingIngestKeys(
+  projectId: string,
+): Promise<{ urls: Set<string>; hashes: Set<string> }> {
+  const supabase = createSupabaseAdminClient();
+  const { data } = await supabase
+    .from("assets")
+    .select("metadata")
+    .eq("project_id", projectId);
+  const urls = new Set<string>();
+  const hashes = new Set<string>();
+  for (const row of data ?? []) {
+    const meta = row.metadata as Record<string, unknown> | null;
+    const raw = meta?.source_url;
+    if (typeof raw === "string" && raw.trim()) {
+      urls.add(normalizeAssetUrl(raw));
+    }
+    const hash = meta?.content_hash;
+    if (typeof hash === "string" && hash.trim()) {
+      hashes.add(hash);
+    }
+  }
+  return { urls, hashes };
 }
 
 async function uploadIngestedImage(
@@ -114,16 +199,40 @@ async function uploadIngestedImage(
   mimeType: string,
 ): Promise<Asset | null> {
   const supabase = createSupabaseAdminClient();
+  const title = titleForCandidate(candidate);
   const productRole = inferIngestProductRole(
     candidate.kind,
     candidate.url,
     candidate.alt,
+    title,
   );
+  const dims = readImageDimensions(bytes, mimeType);
+  const contentHash = sha256Hex(bytes);
+  const ingestPriority = ingestPriorityRank({
+    kind: candidate.kind,
+    productRole: productRole,
+  });
+  const assetQuality = computeAssetQualityTier({
+    productRole,
+    ingestPriority,
+    byteLength: bytes.byteLength,
+    width: dims?.width ?? null,
+    height: dims?.height ?? null,
+    source: "website_ingestion",
+  });
+
   const metadata: Record<string, unknown> = {
     asset_class: "static",
     source: "website_ingestion",
     ingest_kind: candidate.kind,
     source_url: candidate.url,
+    content_hash: contentHash,
+    ingest_priority: ingestPriority,
+    asset_quality: assetQuality,
+    ...(dims
+      ? { width: dims.width, height: dims.height, resolution: dims.width * dims.height }
+      : {}),
+    byte_length: bytes.byteLength,
     ...(productRole ? { product_role: productRole } : {}),
   };
 
@@ -131,7 +240,7 @@ async function uploadIngestedImage(
     .from("assets")
     .insert({
       project_id: projectId,
-      title: titleForCandidate(candidate),
+      title,
       media_type: "image" as MediaType,
       asset_mode: "source",
       tags: ["website_ingestion"],
@@ -167,10 +276,111 @@ async function uploadIngestedImage(
   return updated as Asset;
 }
 
+async function persistSvgIngestAnalysisFallback(
+  asset: Asset,
+  candidate: WebsiteImageCandidate,
+): Promise<void> {
+  const title = titleForCandidate(candidate);
+  const productRole = inferIngestProductRole(
+    candidate.kind,
+    candidate.url,
+    candidate.alt,
+    title,
+  );
+  const analysis = fallbackAnalysis(
+    "skipped",
+    "SVG website asset (vision skipped during ingest).",
+  );
+  const merged = mergeAssetAnalysis(asset.metadata, {
+    ...analysis,
+    detected_content_type: productRole === "logo" ? "logo" : "vector graphic",
+    ai_description:
+      productRole === "logo"
+        ? "Vector logo (SVG) from website ingestion."
+        : "Vector graphic (SVG) from website ingestion.",
+  });
+  if (productRole) merged.product_role = productRole;
+
+  try {
+    const supabase = createSupabaseAdminClient();
+    await supabase
+      .from("assets")
+      .update({ metadata: merged as Json })
+      .eq("id", asset.id);
+  } catch {
+    // Best-effort — upload already succeeded.
+  }
+}
+
+async function refineAssetAfterVision(assetId: string): Promise<Asset | null> {
+  const supabase = createSupabaseAdminClient();
+  const { data: row } = await supabase
+    .from("assets")
+    .select("*")
+    .eq("id", assetId)
+    .maybeSingle();
+  if (!row) return null;
+  const asset = row as Asset;
+  const metadata = asset.metadata as Record<string, unknown>;
+  const locked = readProductRoleLocked(metadata);
+  const kind = (metadata.ingest_kind as WebsiteImageCandidate["kind"]) ?? "img";
+  const sourceUrl =
+    typeof metadata.source_url === "string" ? metadata.source_url : "";
+
+  const inference = inferProductRoleFromSignals({
+    kind,
+    url: sourceUrl,
+    alt: null,
+    title: asset.title,
+    vision: {
+      detected_content_type:
+        typeof metadata.detected_content_type === "string"
+          ? metadata.detected_content_type
+          : null,
+      ai_description:
+        typeof metadata.ai_description === "string" ? metadata.ai_description : null,
+    },
+  });
+
+  const next: Record<string, unknown> = { ...metadata };
+  if (shouldApplyInferredProductRole(inference, locked) && inference.role) {
+    next.product_role = inference.role;
+  }
+
+  const resolvedRole = readProductRole(next as Json);
+  const width = typeof metadata.width === "number" ? metadata.width : null;
+  const height = typeof metadata.height === "number" ? metadata.height : null;
+  const byteLength =
+    typeof metadata.byte_length === "number" ? metadata.byte_length : 0;
+  const ingestPriority =
+    typeof metadata.ingest_priority === "number"
+      ? metadata.ingest_priority
+      : ingestPriorityRank({ kind, productRole: resolvedRole });
+
+  next.asset_quality = computeAssetQualityTier({
+    productRole: resolvedRole,
+    ingestPriority,
+    byteLength,
+    width,
+    height,
+    visionConfidence: inference.confidence,
+    source: "website_ingestion",
+  });
+
+  const { data: updated } = await supabase
+    .from("assets")
+    .update({ metadata: next as Json })
+    .eq("id", asset.id)
+    .select("*")
+    .single();
+  return (updated as Asset) ?? asset;
+}
+
 export interface IngestWebsiteVisualsResult {
   created: number;
   skipped: boolean;
   reason?: string;
+  debugReport?: WebsiteIngestDebugReport;
 }
 
 // Best-effort: fetches the project website HTML, ingests a few images as assets,
@@ -180,52 +390,148 @@ export async function ingestWebsiteVisualsBestEffort(
   projectId: string,
   sourceUrl: string,
 ): Promise<IngestWebsiteVisualsResult> {
+  const report = createEmptyIngestReport();
+
   if (!projectId || !sourceUrl?.trim()) {
-    return { created: 0, skipped: true, reason: "missing_input" };
+    return { created: 0, skipped: true, reason: "missing_input", debugReport: report };
   }
 
   const pageUrl = normalizeWebsiteUrl(sourceUrl);
   if (!pageUrl) {
-    return { created: 0, skipped: true, reason: "invalid_url" };
+    return { created: 0, skipped: true, reason: "invalid_url", debugReport: report };
   }
 
   let html: string;
   try {
     html = await fetchWebsiteHtml(pageUrl);
   } catch {
-    return { created: 0, skipped: true, reason: "fetch_html_failed" };
+    return { created: 0, skipped: true, reason: "fetch_html_failed", debugReport: report };
   }
 
-  const candidates = rankWebsiteImageCandidates(
-    extractWebsiteImageCandidates(html, pageUrl),
-    MAX_INGEST_IMAGES,
+  const extracted = extractWebsiteImageCandidates(html, pageUrl);
+  const filtered: WebsiteImageCandidate[] = [];
+  for (const candidate of extracted) {
+    const reason = rejectWebsiteImageCandidate(candidate, {
+      title: titleForCandidate(candidate),
+    });
+    if (reason) {
+      report.rejected += 1;
+      bumpReportCount(report, "rejectedBreakdown", reason);
+      continue;
+    }
+    filtered.push(candidate);
+  }
+
+  const { kept, duplicates } = dedupeWebsiteImageCandidates(filtered);
+  report.duplicates += duplicates;
+
+  const prioritized = prioritizeWebsiteImageCandidates(
+    kept,
+    MAX_DOWNLOAD_ATTEMPTS,
   );
-  if (candidates.length === 0) {
-    return { created: 0, skipped: true, reason: "no_candidates" };
+  if (prioritized.length === 0) {
+    logWebsiteIngestDebugReport(projectId, pageUrl, report);
+    return { created: 0, skipped: true, reason: "no_candidates", debugReport: report };
   }
 
+  const { urls: existingUrls, hashes: existingHashes } =
+    await loadExistingIngestKeys(projectId);
+  const seenHashes = new Set<string>(existingHashes);
   let created = 0;
-  for (const candidate of candidates) {
+  const finalRoles: string[] = [];
+
+  for (const candidate of prioritized) {
+    if (created >= MAX_WEBSITE_INGEST_ASSETS) break;
+
+    const dupReason = isDuplicateOfExisting(
+      candidate,
+      existingUrls,
+      null,
+      seenHashes,
+    );
+    if (dupReason) {
+      report.duplicates += 1;
+      bumpReportCount(report, "duplicateBreakdown", dupReason);
+      continue;
+    }
+
     const downloaded = await downloadImage(candidate.url);
-    if (!downloaded) continue;
+    if (!downloaded) {
+      report.rejected += 1;
+      bumpReportCount(report, "rejectedBreakdown", "download_failed");
+      continue;
+    }
+    report.downloaded += 1;
+
+    const postReject = rejectDownloadedImage({
+      bytes: downloaded.bytes,
+      mimeType: downloaded.mimeType,
+      candidate,
+    });
+    if (postReject) {
+      report.rejected += 1;
+      bumpReportCount(report, "rejectedBreakdown", postReject);
+      continue;
+    }
+
+    const hash = sha256Hex(downloaded.bytes);
+    const hashDup = isDuplicateOfExisting(
+      candidate,
+      existingUrls,
+      hash,
+      seenHashes,
+    );
+    if (hashDup) {
+      report.duplicates += 1;
+      bumpReportCount(report, "duplicateBreakdown", hashDup);
+      continue;
+    }
+
     const asset = await uploadIngestedImage(
       projectId,
       candidate,
       downloaded.bytes,
       downloaded.mimeType,
     );
-    if (!asset) continue;
+    if (!asset) {
+      report.rejected += 1;
+      bumpReportCount(report, "rejectedBreakdown", "upload_failed");
+      continue;
+    }
+
+    seenHashes.add(hash);
+    existingUrls.add(normalizeAssetUrl(candidate.url));
+
     try {
-      await analyzeUploadedAsset(asset);
+      if (downloaded.mimeType.includes("svg")) {
+        await persistSvgIngestAnalysisFallback(asset, candidate);
+      } else {
+        await analyzeUploadedAsset(asset);
+      }
     } catch {
       // analyzeUploadedAsset should not throw; swallow defensively.
     }
+
+    try {
+      const refined = await refineAssetAfterVision(asset.id);
+      const meta = (refined?.metadata ?? asset.metadata) as Record<string, unknown>;
+      const role = readProductRole(meta as Json);
+      finalRoles.push(roleLabel(role));
+    } catch {
+      finalRoles.push("Other");
+    }
+
     created += 1;
   }
+
+  report.finalAssets = created;
+  report.finalRoles = finalRoles;
+  logWebsiteIngestDebugReport(projectId, pageUrl, report);
 
   return {
     created,
     skipped: created === 0,
     reason: created === 0 ? "none_saved" : undefined,
+    debugReport: report,
   };
 }

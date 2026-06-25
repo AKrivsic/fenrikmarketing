@@ -132,8 +132,10 @@ export async function updateProjectAsset(
   };
   if (input.productRole) {
     nextMeta.product_role = input.productRole;
+    nextMeta.product_role_locked = true;
   } else {
     delete nextMeta.product_role;
+    delete nextMeta.product_role_locked;
   }
 
   const update: Record<string, unknown> = {

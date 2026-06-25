@@ -70,7 +70,9 @@ export async function uploadProjectAsset(
       assetMode: "source",
       metadata: {
         asset_class: assetClass,
-        ...(productRole ? { product_role: productRole } : {}),
+        ...(productRole
+          ? { product_role: productRole, product_role_locked: true }
+          : {}),
       },
     });
   } catch {
