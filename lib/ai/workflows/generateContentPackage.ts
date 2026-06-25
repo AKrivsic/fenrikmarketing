@@ -25,6 +25,10 @@ import {
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
 import { normalizePainPoints } from "@/lib/ai/prompts/context";
+import {
+  buildRecentAssetUsageBlock,
+  loadRecentAssetUsageContext,
+} from "@/lib/assets/loadRecentAssetUsage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { appendUrlToText, xUrlVariantIndices } from "@/lib/ai/websiteLinks";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
@@ -104,6 +108,9 @@ export async function runGenerateContentPackage(
     input.strategyItemId,
   );
   const assets = await loadAvailableAssets(supabase, input.projectId);
+  const recentAssetUsageBlock = buildRecentAssetUsageBlock(
+    await loadRecentAssetUsageContext(supabase, input.projectId),
+  );
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
@@ -198,6 +205,7 @@ export async function runGenerateContentPackage(
       format: context.format,
       availableAssets: assets.refs,
       memory,
+      recentAssetUsageBlock,
       targetPlatforms,
       requireVideo,
       videoPlatforms,

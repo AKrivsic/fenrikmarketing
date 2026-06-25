@@ -32,6 +32,10 @@ import {
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
+import {
+  buildRecentAssetUsageBlock,
+  loadRecentAssetUsageContext,
+} from "@/lib/assets/loadRecentAssetUsage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
@@ -102,6 +106,9 @@ export async function runRegenerateContentPackage(
     existing.strategy_item_id as string,
   );
   const assets = await loadAvailableAssets(supabase, projectId);
+  const recentAssetUsageBlock = buildRecentAssetUsageBlock(
+    await loadRecentAssetUsageContext(supabase, projectId),
+  );
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // regenerated package avoids repeating prior content.
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
@@ -155,6 +162,7 @@ export async function runRegenerateContentPackage(
       previousTitle: existing.title as string,
       feedback: input.feedback ?? null,
       memory,
+      recentAssetUsageBlock,
       targetPlatforms,
       requireVideo,
       videoPlatforms,

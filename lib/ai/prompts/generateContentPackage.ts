@@ -135,6 +135,8 @@ export interface GenerateContentPackagePromptInput {
   availableAssets: AssetRef[];
   // Phase 2E — recent hooks/topics/CTAs/scenarios to avoid repeating.
   memory?: AntiRepetitionMemory;
+  // Recent asset_usage log for optional rotation guidance (empty -> omitted).
+  recentAssetUsageBlock?: string;
   // Platform surfaces the package must produce. Defaults to the full required
   // set; callers pass the project's resolved platforms to respect
   // projects.platforms.
@@ -319,6 +321,7 @@ export function buildGenerateContentPackagePrompt(
   const scenarios = scenarioBlock(project);
   const websiteLinks = websiteLinkRulesBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
+  const recentAssetUsage = input.recentAssetUsageBlock?.trim() ?? "";
 
   // Content Quality V3 / Attention First V1 — deterministic creative directives.
   // Prefer the directive the workflow resolved (so prompt + storyboard + video
@@ -548,6 +551,7 @@ export function buildGenerateContentPackagePrompt(
     ...(scenarios ? ["", scenarios] : []),
     ...(websiteLinks ? ["", websiteLinks] : []),
     ...(memory ? ["", memory] : []),
+    ...(recentAssetUsage ? ["", recentAssetUsage] : []),
     "",
     `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,
     `CTA type MUST be one of (goal=${project.goal_type}): ${allowedCtas.join(", ")}`,
