@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { uploadAsset } from "@/lib/api/assets";
+import { updateProjectAsset, uploadAsset } from "@/lib/api/assets";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import type { AssetClass } from "@/lib/ai/guardrails";
 import { normalizeProductRole } from "@/lib/assets/productRole";
@@ -81,6 +81,56 @@ export async function uploadProjectAsset(
   // throws (failures are recorded as analysis_status "failed"), so a failed
   // analysis cannot break the successful upload.
   await analyzeUploadedAsset(asset);
+
+  revalidatePath(`/projects/${projectId}/assets`);
+  return { ok: true };
+}
+
+export async function updateProjectAssetFields(
+  projectId: string,
+  assetId: string,
+  formData: FormData,
+): Promise<ActionResult> {
+  if (!projectId || !assetId) {
+    return { ok: false, error: "Chybí identifikátor projektu nebo assetu." };
+  }
+
+  const fieldErrors: Record<string, string> = {};
+  const rawTitle = formData.get("title");
+  const title = typeof rawTitle === "string" ? rawTitle.trim() : "";
+  if (title.length === 0) fieldErrors.title = "Název je povinný.";
+
+  const rawClass = formData.get("assetClass");
+  const assetClass =
+    typeof rawClass === "string" && isAssetClass(rawClass) ? rawClass : null;
+  if (!assetClass) fieldErrors.assetClass = "Neplatná třída assetu.";
+
+  const rawRole = formData.get("productRole");
+  const productRole =
+    typeof rawRole === "string" && rawRole.trim().length > 0
+      ? normalizeProductRole(rawRole)
+      : null;
+  if (
+    typeof rawRole === "string" &&
+    rawRole.trim().length > 0 &&
+    !productRole
+  ) {
+    fieldErrors.productRole = "Neplatná product role.";
+  }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return { ok: false, error: "Zkontroluj zvýrazněná pole.", fieldErrors };
+  }
+
+  try {
+    await updateProjectAsset(projectId, assetId, {
+      title,
+      assetClass: assetClass as AssetClass,
+      productRole,
+    });
+  } catch {
+    return { ok: false, error: "Uložení se nezdařilo." };
+  }
 
   revalidatePath(`/projects/${projectId}/assets`);
   return { ok: true };

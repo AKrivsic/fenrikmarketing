@@ -1,6 +1,12 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Asset, AssetMode, Json, MediaType } from "@/lib/supabase/types";
 import { STORAGE_BUCKETS, buildAssetPath } from "@/lib/api/storage";
+import { assertAssetInProject } from "@/lib/api/guards";
+import type { AssetClass } from "@/lib/ai/guardrails";
+import {
+  normalizeProductRole,
+  type ProductRole,
+} from "@/lib/assets/productRole";
 
 export async function listAssets(projectId: string): Promise<Asset[]> {
   const supabase = await createSupabaseServerClient();
@@ -82,5 +88,69 @@ export async function uploadAsset(
     throw updateError;
   }
 
+  return updated as Asset;
+}
+
+export interface UpdateProjectAssetInput {
+  title: string;
+  assetClass: AssetClass;
+  productRole: ProductRole | null;
+  tags?: string[];
+}
+
+// Updates editable asset fields. Vision/analysis keys in metadata are merged,
+// never replaced wholesale.
+export async function updateProjectAsset(
+  projectId: string,
+  assetId: string,
+  input: UpdateProjectAssetInput,
+): Promise<Asset> {
+  const supabase = await createSupabaseServerClient();
+  await assertAssetInProject(supabase, assetId, projectId);
+
+  const { data: existing, error: loadError } = await supabase
+    .from("assets")
+    .select("*")
+    .eq("id", assetId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (loadError) throw loadError;
+  if (!existing) {
+    throw new Error(`asset ${assetId} not found`);
+  }
+
+  const priorMeta =
+    existing.metadata &&
+    typeof existing.metadata === "object" &&
+    !Array.isArray(existing.metadata)
+      ? { ...(existing.metadata as Record<string, unknown>) }
+      : {};
+
+  const nextMeta: Record<string, unknown> = {
+    ...priorMeta,
+    asset_class: input.assetClass,
+  };
+  if (input.productRole) {
+    nextMeta.product_role = input.productRole;
+  } else {
+    delete nextMeta.product_role;
+  }
+
+  const update: Record<string, unknown> = {
+    title: input.title.trim(),
+    metadata: nextMeta as Json,
+  };
+  if (input.tags !== undefined) {
+    update.tags = input.tags;
+  }
+
+  const { data: updated, error: updateError } = await supabase
+    .from("assets")
+    .update(update)
+    .eq("id", assetId)
+    .eq("project_id", projectId)
+    .select("*")
+    .single();
+  if (updateError) throw updateError;
   return updated as Asset;
 }

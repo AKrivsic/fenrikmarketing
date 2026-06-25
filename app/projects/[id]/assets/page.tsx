@@ -19,6 +19,7 @@ export default async function ProjectAssetsTabPage({
     <div className={styles.tab}>
       <AssetUploadForm projectId={id} />
       <AssetGrid
+        projectId={id}
         assets={assets}
         emptyText="Tento projekt zatím nemá žádné assety."
       />

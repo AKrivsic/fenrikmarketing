@@ -1,9 +1,16 @@
+"use client";
+
+import { useState } from "react";
+import { AssetEditForm } from "@/components/assets/AssetEditForm/AssetEditForm";
 import type { AssetView } from "@/lib/api/assets-admin";
 import { PRODUCT_ROLE_LABELS } from "@/lib/assets/productRole";
+import editStyles from "@/components/assets/AssetEditForm/AssetEditForm.module.css";
 import styles from "./AssetCard.module.css";
 
 interface AssetCardProps {
   asset: AssetView;
+  // When set, enables in-project edit. Global library omits this.
+  projectId?: string;
 }
 
 const EMPTY = "—";
@@ -12,7 +19,9 @@ function formatDate(value: string | null): string {
   return value ? new Date(value).toLocaleDateString() : EMPTY;
 }
 
-export function AssetCard({ asset }: AssetCardProps) {
+export function AssetCard({ projectId, asset }: AssetCardProps) {
+  const [editing, setEditing] = useState(false);
+
   return (
     <article className={styles.card}>
       <div className={styles.preview}>
@@ -92,6 +101,24 @@ export function AssetCard({ asset }: AssetCardProps) {
             <dd className={styles.statValue}>{formatDate(asset.createdAt)}</dd>
           </div>
         </dl>
+
+        {projectId ? (
+          editing ? (
+            <AssetEditForm
+              projectId={projectId}
+              asset={asset}
+              onDone={() => setEditing(false)}
+            />
+          ) : (
+            <button
+              type="button"
+              className={editStyles.editToggle}
+              onClick={() => setEditing(true)}
+            >
+              Upravit
+            </button>
+          )
+        ) : null}
       </div>
     </article>
   );

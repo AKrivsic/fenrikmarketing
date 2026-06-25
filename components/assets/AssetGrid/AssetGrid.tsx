@@ -5,11 +5,13 @@ import styles from "./AssetGrid.module.css";
 interface AssetGridProps {
   assets: AssetView[];
   emptyText?: string;
+  projectId?: string;
 }
 
 export function AssetGrid({
   assets,
   emptyText = "Zatím žádné assety.",
+  projectId,
 }: AssetGridProps) {
   if (assets.length === 0) {
     return (
@@ -22,7 +24,7 @@ export function AssetGrid({
   return (
     <div className={styles.grid}>
       {assets.map((asset) => (
-        <AssetCard key={asset.id} asset={asset} />
+        <AssetCard key={asset.id} projectId={projectId} asset={asset} />
       ))}
     </div>
   );
