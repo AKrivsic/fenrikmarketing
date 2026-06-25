@@ -23,6 +23,7 @@ import {
 import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
 import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
+import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
 import {
   type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
@@ -31,12 +32,19 @@ import {
   type FunnelStage,
 } from "@/lib/ai/types";
 
+import type { ProductRole } from "@/lib/assets/productRole";
+
 export interface AssetRef {
   id: string;
   title: string;
   // static | editable | reference
   asset_class: string;
   media_type: string;
+  ai_description?: string | null;
+  detected_content_type?: string | null;
+  suggested_usage?: string | null;
+  trust_signal?: boolean | null;
+  product_role?: ProductRole | null;
 }
 
 // Content Quality Sprint (Platform Styles) — per-platform output style. Pure
@@ -557,12 +565,7 @@ export function buildGenerateContentPackagePrompt(
     "AVAILABLE ASSETS (asset_usage rules: STATIC must not be modified; " +
       "EDITABLE may have a variant; REFERENCE is inspiration only):",
     availableAssets.length
-      ? availableAssets
-          .map(
-            (a) =>
-              `- id=${a.id} class=${a.asset_class} type=${a.media_type} "${a.title}"`,
-          )
-          .join("\n")
+      ? availableAssets.map((a) => formatAvailableAssetPromptLine(a)).join("\n")
       : "(none)",
     "",
     "",

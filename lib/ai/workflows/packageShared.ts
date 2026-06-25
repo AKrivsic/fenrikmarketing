@@ -17,6 +17,8 @@ import {
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
+import { readAssetAnalysis } from "@/lib/assets/analysis";
+import { readProductRole } from "@/lib/assets/productRole";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -116,14 +118,30 @@ export async function loadAvailableAssets(
       (a.metadata as Record<string, unknown> | null) ?? null,
     );
     classById.set(a.id as string, cls);
+    const metadata = a.metadata as Json;
+    const analysis = readAssetAnalysis(metadata);
+    const trust = analysis?.trustSignal === true ? true : null;
     refs.push({
       id: a.id as string,
       title: a.title as string,
       media_type: a.media_type as string,
       asset_class: cls,
+      ai_description: analysis?.aiDescription ?? null,
+      detected_content_type: readMetadataString(metadata, "detected_content_type"),
+      suggested_usage: analysis?.suggestedUsage ?? null,
+      trust_signal: trust,
+      product_role: readProductRole(metadata),
     });
   }
   return { refs, classById };
+}
+
+function readMetadataString(metadata: unknown, key: string): string | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return null;
+  }
+  const value = (metadata as Record<string, unknown>)[key];
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
 }
 
 // Combines structural content-package guardrails with asset-modification rules
