@@ -1,4 +1,5 @@
 import { runGenerateContentPackage } from "@/lib/ai/workflows/generateContentPackage";
+import { optionalGenerationModeFromBody } from "@/lib/ai/generationMode";
 import {
   assertGenerateContentPackagePreconditions,
   MissingWeeklyStrategyError,
@@ -52,6 +53,7 @@ export async function POST(request: Request): Promise<Response> {
       {
         projectId,
         strategyItemId,
+        generationMode: optionalGenerationModeFromBody(body),
       },
       supabase,
     );

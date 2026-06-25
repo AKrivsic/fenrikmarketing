@@ -31,6 +31,7 @@
     "check:word-timestamps": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-word-timestamps.ts",
     "check:tts-tail-validation": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-tts-tail-validation.ts",
     "check:package-diversity": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-package-diversity.ts",
+    "check:sample-mode": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-sample-mode.ts",
     "check:pain-point-first": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-pain-point-first.ts",
     "check:website-url": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-website-url.ts",
     "check:service-mix": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-service-mix.ts",

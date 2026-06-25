@@ -57,10 +57,17 @@ import {
 } from "@/lib/ai/workflows/packageShared";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
+import {
+  DEFAULT_GENERATION_MODE,
+  resolveGenerationMode,
+  type GenerationMode,
+} from "@/lib/ai/generationMode";
 
 export interface GenerateContentPackageInput {
   projectId: string;
   strategyItemId: string;
+  /** When omitted, resolved from the production run config or defaults to production. */
+  generationMode?: GenerationMode;
 }
 
 export interface ContentPackageData {
@@ -193,6 +200,11 @@ export async function runGenerateContentPackage(
         }
       : undefined;
 
+  const generationMode = resolveGenerationMode(
+    input.generationMode,
+    runInfo?.generationMode,
+  );
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -212,6 +224,7 @@ export async function runGenerateContentPackage(
       variantCounts,
       directives,
       packageDiversity,
+      generationMode,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -327,6 +340,7 @@ async function loadRunGenerationPlan(
   // Total packages requested in the run (M in "package N of M"). Used only by
   // the PACKAGE DIVERSITY prompt block.
   packageCount: number;
+  generationMode: GenerationMode;
 } | null> {
   const { data, error } = await supabase
     .from("production_runs")
@@ -344,7 +358,11 @@ async function loadRunGenerationPlan(
   const config = normalizeProductionConfig(rawConfig);
   const plan = resolveRunGenerationPlan(config);
   return plan.targetPlatforms.length > 0
-    ? { plan, packageCount: config.packageCount }
+    ? {
+        plan,
+        packageCount: config.packageCount,
+        generationMode: config.generationMode ?? DEFAULT_GENERATION_MODE,
+      }
     : null;
 }
 

@@ -142,7 +142,27 @@ export function ContentProductionPanel({
   const handleGenerate = useCallback(() => {
     setError(null);
     startTransition(async () => {
-      const result = await startProductionRun(projectId, config);
+      const result = await startProductionRun(projectId, {
+        ...config,
+        generationMode: "production",
+      });
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      runIdRef.current = result.runId;
+      const next = await getProductionRunStatus(result.runId);
+      setRun(next);
+    });
+  }, [projectId, config]);
+
+  const handleGenerateSample = useCallback(() => {
+    setError(null);
+    startTransition(async () => {
+      const result = await startProductionRun(projectId, {
+        ...config,
+        generationMode: "sample",
+      });
       if (!result.ok) {
         setError(result.error);
         return;
@@ -276,6 +296,18 @@ export function ContentProductionPanel({
             : active
               ? "Generování probíhá…"
               : "GENERATE CONTENT"}
+        </button>
+        <button
+          type="button"
+          className={styles.sampleButton}
+          onClick={handleGenerateSample}
+          disabled={generateDisabled}
+        >
+          {isPending
+            ? "Spouštím…"
+            : active
+              ? "Generování probíhá…"
+              : "GENERATE SAMPLE"}
         </button>
         {!canGenerate ? (
           <span className={styles.hint}>

@@ -7,6 +7,7 @@ import {
   requireString,
 } from "@/lib/ai/apiResponse";
 import { AUTOMATION_WORKFLOWS, sendN8nWebhook } from "@/lib/n8n/client";
+import { optionalGenerationModeFromBody } from "@/lib/ai/generationMode";
 
 export async function POST(request: Request): Promise<Response> {
   try {
@@ -33,6 +34,11 @@ export async function POST(request: Request): Promise<Response> {
     }
     const funnelStage = optionalString(body, "funnel_stage");
     if (funnelStage) payload.funnel_stage = funnelStage;
+
+    const generationMode = optionalGenerationModeFromBody(body);
+    if (generationMode !== undefined) {
+      payload.generation_mode = generationMode;
+    }
 
     await sendN8nWebhook({
       workflow: AUTOMATION_WORKFLOWS.generateContentPackage,

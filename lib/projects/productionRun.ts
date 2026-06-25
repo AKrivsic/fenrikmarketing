@@ -6,6 +6,11 @@ import {
   type ContentTypePlatform,
   type PlatformContentType,
 } from "@/lib/projects/contentControls";
+import {
+  DEFAULT_GENERATION_MODE,
+  parseGenerationMode,
+  type GenerationMode,
+} from "@/lib/ai/generationMode";
 
 // ---------------------------------------------------------------------------
 // Content Production V3 — Package Based Model (pure planning model, no IO).
@@ -150,6 +155,12 @@ export const PACKAGE_COUNT_MAX = 100;
 export const MULTIPLIER_MIN = 0;
 export const MULTIPLIER_MAX = 10;
 
+import {
+  DEFAULT_GENERATION_MODE,
+  parseGenerationMode,
+  type GenerationMode,
+} from "@/lib/ai/generationMode";
+
 // Submitted config. `platforms` is the set of active (selected) platforms;
 // `multipliers` holds the per-platform output multiplier (defaults applied for
 // any active platform without an explicit value).
@@ -162,6 +173,8 @@ export interface ProductionConfig {
   platformContentTypes?: Partial<
     Record<ContentTypePlatform, PlatformContentType>
   >;
+  /** Creative Engine mode for packages in this run. Defaults to production. */
+  generationMode?: GenerationMode;
 }
 
 export interface ProductionPlatformOutput {
@@ -259,11 +272,16 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
     }
   }
 
+  const generationMode = parseGenerationMode(
+    record.generation_mode ?? record.generationMode,
+  );
+
   return {
     packageCount,
     platforms,
     multipliers,
     ...(platformContentTypes ? { platformContentTypes } : {}),
+    ...(generationMode !== DEFAULT_GENERATION_MODE ? { generationMode } : {}),
   };
 }
 

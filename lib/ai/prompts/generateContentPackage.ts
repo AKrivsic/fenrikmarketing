@@ -26,6 +26,10 @@ import { angleLensForIndex } from "@/lib/projects/productionRun";
 import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
 import { buildFunnelAssetPolicyBlock } from "@/lib/ai/prompts/funnelAssetPolicy";
 import {
+  DEFAULT_GENERATION_MODE,
+  type GenerationMode,
+} from "@/lib/ai/generationMode";
+import {
   type AntiRepetitionMemory,
   CTA_TYPES_BY_GOAL,
   FUNNEL_STAGE_LABELS,
@@ -173,6 +177,33 @@ export interface GenerateContentPackagePromptInput {
   // Omitted for legacy / single-package generation, which keeps the prompt
   // byte-for-byte unchanged.
   packageDiversity?: PackageDiversitySpec;
+  /** Sample mode adds SAMPLE PACKAGE RULES; production leaves the prompt unchanged. */
+  generationMode?: GenerationMode;
+}
+
+export function buildSamplePackageRulesBlock(): string {
+  return [
+    "SAMPLE PACKAGE RULES",
+    "",
+    "This content serves as a sample for the product owner.",
+    "",
+    "The goal is NOT to create the best organic content.",
+    "",
+    "The goal is for the product owner to recognize themselves within seconds.",
+    "",
+    "If quality product assets exist:",
+    "- prefer product UI",
+    "- prefer homepage visuals",
+    "- prefer logo",
+    "- prefer hero image",
+    "",
+    "Do not hesitate to use 1–3 assets.",
+    "",
+    "It is better to use a relevant asset than a generic AI image.",
+    "",
+    "Assets are still NOT mandatory.",
+    "If they are not quality or not relevant, do not use them.",
+  ].join("\n");
 }
 
 // One sibling package already produced for the same production run, summarized
@@ -302,6 +333,7 @@ export function buildGenerateContentPackagePrompt(
   input: GenerateContentPackagePromptInput,
 ): string {
   const { project, funnelStage, topic, angle, availableAssets } = input;
+  const generationMode = input.generationMode ?? DEFAULT_GENERATION_MODE;
   const allowedCtas = CTA_TYPES_BY_GOAL[project.goal_type] ?? [];
   const funnelLabel = FUNNEL_STAGE_LABELS[funnelStage];
   const targetPlatforms =
@@ -579,7 +611,9 @@ export function buildGenerateContentPackagePrompt(
     "ASSET LIBRARY RULES:",
     "- Do not invent asset_usage entries; only reference ids listed above.",
     "- Skip assets entirely when AI scenes alone tell the story better.",
-    "",
+    ...(generationMode === "sample"
+      ? ["", buildSamplePackageRulesBlock()]
+      : []),
     "",
     buildPlatformStyleBlock(targetPlatforms),
     "",

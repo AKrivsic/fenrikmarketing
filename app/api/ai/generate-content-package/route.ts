@@ -1,4 +1,5 @@
 import { runGenerateContentPackage } from "@/lib/ai/workflows/generateContentPackage";
+import { optionalGenerationModeFromBody } from "@/lib/ai/generationMode";
 import {
   errorResponse,
   readJsonBody,
@@ -19,6 +20,7 @@ export async function POST(request: Request): Promise<Response> {
       // strategy_item_id is mandatory -> a package can never be created
       // without a weekly strategy context.
       strategyItemId: requireString(body, "strategy_item_id"),
+      generationMode: optionalGenerationModeFromBody(body),
     });
     return workflowResponse(result);
   } catch (err) {
