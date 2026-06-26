@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { AssetEditForm } from "@/components/assets/AssetEditForm/AssetEditForm";
+import { deleteProjectAssetAction } from "@/app/projects/[id]/assets/actions";
 import type { AssetView } from "@/lib/api/assets-admin";
 import { PRODUCT_ROLE_LABELS } from "@/lib/assets/productRole";
 import editStyles from "@/components/assets/AssetEditForm/AssetEditForm.module.css";
@@ -20,7 +22,28 @@ function formatDate(value: string | null): string {
 }
 
 export function AssetCard({ projectId, asset }: AssetCardProps) {
+  const router = useRouter();
   const [editing, setEditing] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [isDeleting, startDeleteTransition] = useTransition();
+
+  function handleDelete() {
+    if (!projectId) return;
+    const confirmed = window.confirm(
+      `Smazat asset „${asset.title}"? Tuto akci nelze vrátit (u použitých assetů zůstane soubor pro historická videa).`,
+    );
+    if (!confirmed) return;
+
+    setDeleteError(null);
+    startDeleteTransition(async () => {
+      const result = await deleteProjectAssetAction(projectId, asset.id);
+      if (!result.ok) {
+        setDeleteError(result.error);
+        return;
+      }
+      router.refresh();
+    });
+  }
 
   return (
     <article className={styles.card}>
@@ -110,15 +133,26 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
               onDone={() => setEditing(false)}
             />
           ) : (
-            <button
-              type="button"
-              className={editStyles.editToggle}
-              onClick={() => setEditing(true)}
-            >
-              Upravit
-            </button>
+            <div className={styles.actions}>
+              <button
+                type="button"
+                className={editStyles.editToggle}
+                onClick={() => setEditing(true)}
+              >
+                Upravit
+              </button>
+              <button
+                type="button"
+                className={styles.deleteButton}
+                onClick={handleDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Mažu…" : "Delete"}
+              </button>
+            </div>
           )
         ) : null}
+        {deleteError ? <p className={styles.deleteError}>{deleteError}</p> : null}
       </div>
     </article>
   );

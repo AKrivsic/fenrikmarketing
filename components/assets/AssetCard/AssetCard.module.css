@@ -124,3 +124,31 @@
   font-size: 0.85rem;
   color: var(--color-text);
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.deleteButton {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #b91c1c;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #b91c1c;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.deleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.deleteError {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}

@@ -19,6 +19,7 @@ import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 import { readAssetAnalysis } from "@/lib/assets/analysis";
 import { readProductRole } from "@/lib/assets/productRole";
+import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 import {
   sortAvailableAssetEntries,
   type AvailableAssetEntry,
@@ -128,12 +129,13 @@ export async function loadAvailableAssets(
   const entries: AvailableAssetEntry[] = [];
   const classById = new Map<string, AssetClass>();
   for (const a of data ?? []) {
+    const metadata = a.metadata as Json;
+    if (isAssetArchivedFromLibrary(metadata)) continue;
     const cls = classifyAsset(
       a.asset_mode as string,
       (a.metadata as Record<string, unknown> | null) ?? null,
     );
     classById.set(a.id as string, cls);
-    const metadata = a.metadata as Json;
     const analysis = readAssetAnalysis(metadata);
     const trust = analysis?.trustSignal === true ? true : null;
     entries.push({

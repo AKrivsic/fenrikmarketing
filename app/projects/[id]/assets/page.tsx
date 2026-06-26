@@ -1,5 +1,6 @@
 import { AssetGrid } from "@/components/assets/AssetGrid/AssetGrid";
 import { AssetUploadForm } from "@/components/assets/AssetUploadForm/AssetUploadForm";
+import { FetchWebsiteAssetsButton } from "@/components/assets/FetchWebsiteAssetsButton/FetchWebsiteAssetsButton";
 import { listProjectAssets } from "@/lib/api/assets-admin";
 import styles from "./page.module.css";
 
@@ -17,6 +18,7 @@ export default async function ProjectAssetsTabPage({
 
   return (
     <div className={styles.tab}>
+      <FetchWebsiteAssetsButton projectId={id} />
       <AssetUploadForm projectId={id} />
       <AssetGrid
         projectId={id}

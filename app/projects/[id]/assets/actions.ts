@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { updateProjectAsset, uploadAsset } from "@/lib/api/assets";
+import { updateProjectAsset, uploadAsset, deleteProjectAsset } from "@/lib/api/assets";
+import { refetchProjectWebsiteAssets } from "@/lib/api/refetchProjectWebsiteAssets";
+import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import type { AssetClass } from "@/lib/ai/guardrails";
 import { normalizeProductRole } from "@/lib/assets/productRole";
@@ -132,6 +134,59 @@ export async function updateProjectAssetFields(
     });
   } catch {
     return { ok: false, error: "Uložení se nezdařilo." };
+  }
+
+  revalidatePath(`/projects/${projectId}/assets`);
+  return { ok: true };
+}
+
+export type RefetchWebsiteAssetsActionResult =
+  | { ok: true; added: number; skipped: number; failed: number }
+  | { ok: false; error: string };
+
+export async function refetchProjectWebsiteAssetsAction(
+  projectId: string,
+): Promise<RefetchWebsiteAssetsActionResult> {
+  if (!projectId) return { ok: false, error: "Chybí identifikátor projektu." };
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) return { ok: false, error: "Projekt nebyl nalezen." };
+
+  const result = await refetchProjectWebsiteAssets(projectId);
+  if (!result.ok) {
+    if (result.error === "missing_website_url") {
+      return {
+        ok: false,
+        error: "Projekt nemá nastavenou website URL (knowledge.source_url).",
+      };
+    }
+    return { ok: false, error: "Načtení assetů z webu se nezdařilo." };
+  }
+
+  revalidatePath(`/projects/${projectId}/assets`);
+  return {
+    ok: true,
+    added: result.added,
+    skipped: result.skipped,
+    failed: result.failed,
+  };
+}
+
+export async function deleteProjectAssetAction(
+  projectId: string,
+  assetId: string,
+): Promise<ActionResult> {
+  if (!projectId || !assetId) {
+    return { ok: false, error: "Chybí identifikátor projektu nebo assetu." };
+  }
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) return { ok: false, error: "Projekt nebyl nalezen." };
+
+  try {
+    await deleteProjectAsset(projectId, assetId);
+  } catch {
+    return { ok: false, error: "Smazání assetu se nezdařilo." };
   }
 
   revalidatePath(`/projects/${projectId}/assets`);

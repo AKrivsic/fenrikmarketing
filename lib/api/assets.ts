@@ -7,6 +7,10 @@ import {
   normalizeProductRole,
   type ProductRole,
 } from "@/lib/assets/productRole";
+import {
+  isAssetArchivedFromLibrary,
+  withAssetArchivedMetadata,
+} from "@/lib/assets/libraryArchive";
 
 export async function listAssets(projectId: string): Promise<Asset[]> {
   const supabase = await createSupabaseServerClient();
@@ -17,7 +21,9 @@ export async function listAssets(projectId: string): Promise<Asset[]> {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return (data ?? []) as Asset[];
+  return ((data ?? []) as Asset[]).filter(
+    (asset) => !isAssetArchivedFromLibrary(asset.metadata),
+  );
 }
 
 export interface UploadAssetMetadata {
@@ -155,4 +161,120 @@ export async function updateProjectAsset(
     .single();
   if (updateError) throw updateError;
   return updated as Asset;
+}
+
+export type DeleteProjectAssetMode = "archived" | "removed";
+
+export interface DeleteProjectAssetResult {
+  mode: DeleteProjectAssetMode;
+}
+
+async function assetHasHistoricalReferences(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  projectId: string,
+  assetId: string,
+  usageCount: number,
+): Promise<boolean> {
+  if (usageCount > 0) return true;
+
+  const { count: usageRows, error: usageError } = await supabase
+    .from("asset_usage")
+    .select("id", { count: "exact", head: true })
+    .eq("project_id", projectId)
+    .eq("asset_id", assetId);
+  if (usageError) throw usageError;
+  if ((usageRows ?? 0) > 0) return true;
+
+  const { data: packages, error: pkgError } = await supabase
+    .from("content_packages")
+    .select("package_brief")
+    .eq("project_id", projectId);
+  if (pkgError) throw pkgError;
+
+  for (const row of packages ?? []) {
+    const brief = row.package_brief as Record<string, unknown> | null;
+    const usages = brief?.asset_usage;
+    if (!Array.isArray(usages)) continue;
+    for (const entry of usages) {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+      const id = (entry as Record<string, unknown>).asset_id;
+      if (id === assetId) return true;
+    }
+  }
+
+  const { data: videoJobs, error: videoError } = await supabase
+    .from("video_jobs")
+    .select("input")
+    .eq("project_id", projectId);
+  if (videoError) throw videoError;
+
+  const needle = assetId;
+  for (const job of videoJobs ?? []) {
+    const serialized = JSON.stringify(job.input ?? {});
+    if (serialized.includes(needle)) return true;
+  }
+
+  return false;
+}
+
+// Removes an asset from the active library. Historical packages / videos keep
+// storage when the asset was ever referenced (soft archive via metadata).
+export async function deleteProjectAsset(
+  projectId: string,
+  assetId: string,
+): Promise<DeleteProjectAssetResult> {
+  const supabase = await createSupabaseServerClient();
+  await assertAssetInProject(supabase, assetId, projectId);
+
+  const { data: existing, error: loadError } = await supabase
+    .from("assets")
+    .select("*")
+    .eq("id", assetId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (loadError) throw loadError;
+  if (!existing) {
+    throw new Error(`asset ${assetId} not found`);
+  }
+
+  const asset = existing as Asset;
+  if (isAssetArchivedFromLibrary(asset.metadata)) {
+    return { mode: "archived" };
+  }
+
+  const preserveStorage = await assetHasHistoricalReferences(
+    supabase,
+    projectId,
+    assetId,
+    asset.usage_count,
+  );
+
+  if (preserveStorage) {
+    const archivedAt = new Date().toISOString();
+    const { error: updateError } = await supabase
+      .from("assets")
+      .update({
+        metadata: withAssetArchivedMetadata(asset.metadata, archivedAt),
+      })
+      .eq("id", assetId)
+      .eq("project_id", projectId);
+    if (updateError) throw updateError;
+    return { mode: "archived" };
+  }
+
+  if (asset.storage_bucket && asset.storage_path) {
+    const { error: storageError } = await supabase.storage
+      .from(asset.storage_bucket)
+      .remove([asset.storage_path]);
+    if (storageError) throw storageError;
+  }
+
+  const { error: deleteError } = await supabase
+    .from("assets")
+    .delete()
+    .eq("id", assetId)
+    .eq("project_id", projectId);
+  if (deleteError) throw deleteError;
+
+  return { mode: "removed" };
 }

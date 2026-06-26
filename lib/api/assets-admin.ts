@@ -7,6 +7,7 @@ import {
   type AssetAnalysisStatus,
 } from "@/lib/assets/analysis";
 import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
+import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 
 // Read-only asset library for the internal admin UI. Uses the service-role
 // admin client (RLS bypassed); keep this module server-only. No upload / edit /
@@ -142,5 +143,8 @@ export async function listProjectAssets(
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return mapAssetsWithPreview(supabase, (data ?? []) as Asset[]);
+  const active = ((data ?? []) as Asset[]).filter(
+    (asset) => !isAssetArchivedFromLibrary(asset.metadata),
+  );
+  return mapAssetsWithPreview(supabase, active);
 }

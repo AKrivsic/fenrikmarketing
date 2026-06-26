@@ -4,6 +4,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import { smartUsageFromAssetMetadata } from "@/lib/assets/smartUsageMetadata";
 import { readProductRole, normalizeProductRole } from "@/lib/assets/productRole";
+import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 import { COMPONENT_CAPTURE_MAX_SCREENSHOTS } from "@/lib/knowledge/componentCaptureRules";
 import {
   assetLibraryHasTier1ProductVisual,
@@ -29,7 +30,9 @@ async function projectHasTier1ProductVisual(projectId: string): Promise<boolean>
     .select("metadata")
     .eq("project_id", projectId);
   return assetLibraryHasTier1ProductVisual(
-    (data ?? []).map((row) => ({ metadata: row.metadata as Json })),
+    (data ?? [])
+      .filter((row) => !isAssetArchivedFromLibrary(row.metadata as Json))
+      .map((row) => ({ metadata: row.metadata as Json })),
   );
 }
 
