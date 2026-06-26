@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { updateProjectAsset, uploadAsset, deleteProjectAsset } from "@/lib/api/assets";
 import { refetchProjectWebsiteAssets } from "@/lib/api/refetchProjectWebsiteAssets";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import type { AssetClass } from "@/lib/ai/guardrails";
 import { normalizeProductRole } from "@/lib/assets/productRole";
@@ -184,8 +185,10 @@ export async function deleteProjectAssetAction(
   if (!project) return { ok: false, error: "Projekt nebyl nalezen." };
 
   try {
-    await deleteProjectAsset(projectId, assetId);
-  } catch {
+    // Admin UI lists assets via service role; cookie gate has no Supabase user session.
+    await deleteProjectAsset(projectId, assetId, createSupabaseAdminClient());
+  } catch (err) {
+    console.error("[deleteProjectAssetAction]", { projectId, assetId, err });
     return { ok: false, error: "Smazání assetu se nezdařilo." };
   }
 

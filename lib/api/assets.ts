@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Asset, AssetMode, Json, MediaType } from "@/lib/supabase/types";
 import { STORAGE_BUCKETS, buildAssetPath } from "@/lib/api/storage";
@@ -170,7 +171,7 @@ export interface DeleteProjectAssetResult {
 }
 
 async function assetHasHistoricalReferences(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  supabase: SupabaseClient,
   projectId: string,
   assetId: string,
   usageCount: number,
@@ -222,11 +223,12 @@ async function assetHasHistoricalReferences(
 export async function deleteProjectAsset(
   projectId: string,
   assetId: string,
+  supabase?: SupabaseClient,
 ): Promise<DeleteProjectAssetResult> {
-  const supabase = await createSupabaseServerClient();
-  await assertAssetInProject(supabase, assetId, projectId);
+  const client = supabase ?? (await createSupabaseServerClient());
+  await assertAssetInProject(client, assetId, projectId);
 
-  const { data: existing, error: loadError } = await supabase
+  const { data: existing, error: loadError } = await client
     .from("assets")
     .select("*")
     .eq("id", assetId)
@@ -243,7 +245,7 @@ export async function deleteProjectAsset(
   }
 
   const preserveStorage = await assetHasHistoricalReferences(
-    supabase,
+    client,
     projectId,
     assetId,
     asset.usage_count,
@@ -251,7 +253,7 @@ export async function deleteProjectAsset(
 
   if (preserveStorage) {
     const archivedAt = new Date().toISOString();
-    const { error: updateError } = await supabase
+    const { error: updateError } = await client
       .from("assets")
       .update({
         metadata: withAssetArchivedMetadata(asset.metadata, archivedAt),
@@ -263,13 +265,13 @@ export async function deleteProjectAsset(
   }
 
   if (asset.storage_bucket && asset.storage_path) {
-    const { error: storageError } = await supabase.storage
+    const { error: storageError } = await client.storage
       .from(asset.storage_bucket)
       .remove([asset.storage_path]);
     if (storageError) throw storageError;
   }
 
-  const { error: deleteError } = await supabase
+  const { error: deleteError } = await client
     .from("assets")
     .delete()
     .eq("id", assetId)

@@ -107,5 +107,31 @@ check("tier1 component capture ignores archived assets", () => {
   assert.ok(src.includes("isAssetArchivedFromLibrary"));
 });
 
+check("delete action uses admin client (no Supabase user session on admin UI)", () => {
+  const actionSrc = readFileSync(
+    join(root, "app/projects/[id]/assets/actions.ts"),
+    "utf8",
+  );
+  const fn = actionSrc.slice(actionSrc.indexOf("export async function deleteProjectAssetAction"));
+  assert.ok(fn.includes("createSupabaseAdminClient"));
+  assert.ok(fn.includes("deleteProjectAsset(projectId, assetId, createSupabaseAdminClient())"));
+  assert.ok(fn.includes("[deleteProjectAssetAction]"));
+});
+
+check("AssetCard uses stable cs-CZ dates (hydration-safe)", () => {
+  const src = readFileSync(
+    join(root, "components/assets/AssetCard/AssetCard.tsx"),
+    "utf8",
+  );
+  assert.ok(src.includes("formatCsDate"));
+  assert.equal(src.includes("toLocaleDateString"), false);
+});
+
+check("listProjectAssets hides archived library rows", () => {
+  const src = readFileSync(join(root, "lib/api/assets-admin.ts"), "utf8");
+  const fn = src.slice(src.indexOf("export async function listProjectAssets"));
+  assert.ok(fn.includes("isAssetArchivedFromLibrary"));
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

@@ -6,6 +6,7 @@ import { AssetEditForm } from "@/components/assets/AssetEditForm/AssetEditForm";
 import { deleteProjectAssetAction } from "@/app/projects/[id]/assets/actions";
 import type { AssetView } from "@/lib/api/assets-admin";
 import { PRODUCT_ROLE_LABELS } from "@/lib/assets/productRole";
+import { formatCsDate } from "@/lib/datetime/formatCs";
 import editStyles from "@/components/assets/AssetEditForm/AssetEditForm.module.css";
 import styles from "./AssetCard.module.css";
 
@@ -16,10 +17,6 @@ interface AssetCardProps {
 }
 
 const EMPTY = "—";
-
-function formatDate(value: string | null): string {
-  return value ? new Date(value).toLocaleDateString() : EMPTY;
-}
 
 export function AssetCard({ projectId, asset }: AssetCardProps) {
   const router = useRouter();
@@ -35,13 +32,15 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
     if (!confirmed) return;
 
     setDeleteError(null);
-    startDeleteTransition(async () => {
-      const result = await deleteProjectAssetAction(projectId, asset.id);
-      if (!result.ok) {
-        setDeleteError(result.error);
-        return;
-      }
-      router.refresh();
+    startDeleteTransition(() => {
+      void (async () => {
+        const result = await deleteProjectAssetAction(projectId, asset.id);
+        if (!result.ok) {
+          setDeleteError(result.error);
+          return;
+        }
+        router.refresh();
+      })();
     });
   }
 
@@ -117,11 +116,15 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
           </div>
           <div className={styles.stat}>
             <dt className={styles.statLabel}>Last used</dt>
-            <dd className={styles.statValue}>{formatDate(asset.lastUsedAt)}</dd>
+            <dd className={styles.statValue}>
+              {formatCsDate(asset.lastUsedAt, EMPTY)}
+            </dd>
           </div>
           <div className={styles.stat}>
             <dt className={styles.statLabel}>Created</dt>
-            <dd className={styles.statValue}>{formatDate(asset.createdAt)}</dd>
+            <dd className={styles.statValue}>
+              {formatCsDate(asset.createdAt, EMPTY)}
+            </dd>
           </div>
         </dl>
 
