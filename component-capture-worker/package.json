@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "node --experimental-strip-types server.ts",
-    "check": "node --experimental-strip-types scripts/check-worker.ts",
-    "check:live": "node --experimental-strip-types scripts/check-live.ts"
+    "check": "node --experimental-strip-types scripts/check-worker.ts && node --experimental-strip-types scripts/check-capture-selection.ts",
+    "check:live": "node --experimental-strip-types scripts/check-live.ts",
+    "check:capture-selection": "node --experimental-strip-types scripts/check-capture-selection.ts"
   },
   "dependencies": {
     "express": "^5.1.0",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^20"
+    "@types/node": "^20",
+    "esbuild": "^0.28.1"
   }
 }

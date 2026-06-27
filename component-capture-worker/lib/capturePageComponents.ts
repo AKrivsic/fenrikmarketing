@@ -1,4 +1,13 @@
 import { chromium, type Browser, type Page } from "playwright";
+import { getCaptureSelectionBrowserScript } from "./captureSelectionBundle.ts";
+import type { ScoredCaptureCandidate } from "./captureSelection.ts";
+import {
+  buildSelectionDebug,
+  selectFinalCaptureCandidates,
+  type CaptureSelectionDebug,
+  type CaptureViewport,
+  type PooledCaptureCandidate,
+} from "./captureRanking.ts";
 
 export interface CaptureLimits {
   maxScreenshots: number;
@@ -13,166 +22,82 @@ export interface CapturedComponentScreenshot {
   width: number;
   height: number;
   imageBase64: string;
+  viewport?: CaptureViewport;
 }
 
 export const DEFAULT_CAPTURE_LIMITS: CaptureLimits = {
   maxScreenshots: 5,
   navigationTimeoutMs: 15_000,
-  totalTimeoutMs: 20_000,
+  totalTimeoutMs: 35_000,
 };
 
-const SKIP_CLASS_ID_RE =
-  /(?:nav|navbar|menu|footer|cookie|consent|gdpr|onetrust|banner|payment|visa|mastercard|paypal|stripe|checkout-badge)/i;
+export const DESKTOP_VIEWPORT = { width: 1280, height: 900 };
+export const MOBILE_VIEWPORT = { width: 390, height: 844 };
 
-const TARGET_CLASS_RE =
-  /(?:hero|feature|pricing|testimonial|comparison|dashboard|mockup|phone|app-screen|product|demo|screenshot)/i;
+const MOBILE_USER_AGENT =
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 
-interface DomCandidate {
-  captureId: string;
-  selectorHint: string;
-  label: string;
-  roleHint: string;
-  width: number;
-  height: number;
+export type { ScoredCaptureCandidate, CaptureSelectionDebug };
+
+async function collectCandidates(
+  page: Page,
+  idPrefix: string,
+): Promise<ScoredCaptureCandidate[]> {
+  const script = getCaptureSelectionBrowserScript();
+  return page.evaluate(
+    ({ code, prefix }) => {
+      const run = new Function(
+        "prefix",
+        `${code}; return __fenrikCaptureBundle.default(prefix);`,
+      ) as (prefix: string) => ScoredCaptureCandidate[];
+      return run(prefix);
+    },
+    { code: script, prefix: idPrefix },
+  );
 }
 
-async function collectCandidates(page: Page): Promise<DomCandidate[]> {
-  return page.evaluate(() => {
-    const CAPTURE_ATTR = "data-fenrik-capture-id";
-    const SKIP_TAGS = new Set(["NAV", "FOOTER", "HEADER", "SCRIPT", "STYLE", "NOSCRIPT"]);
-    const skipRe =
-      /(?:nav|navbar|menu|footer|cookie|consent|gdpr|onetrust|banner|payment|visa|mastercard|paypal|stripe)/i;
-    const targetRe =
-      /(?:hero|feature|pricing|testimonial|comparison|dashboard|mockup|phone|app|product|demo|screen)/i;
+function toPooled(
+  rows: ScoredCaptureCandidate[],
+  captureViewport: CaptureViewport,
+): PooledCaptureCandidate[] {
+  return rows.map((r) => ({
+    captureId: r.captureId,
+    selectorHint: r.selectorHint,
+    label: r.label,
+    roleHint: r.roleHint,
+    width: r.width,
+    height: r.height,
+    score: r.score,
+    captureViewport,
+    x: r.x,
+    y: r.y,
+  }));
+}
 
-    function hint(el: Element): string {
-      const id = el.id ? `#${el.id}` : "";
-      const cls =
-        typeof el.className === "string" && el.className.trim()
-          ? `.${el.className.trim().split(/\s+/).slice(0, 2).join(".")}`
-          : "";
-      return `${el.tagName.toLowerCase()}${id}${cls}`;
-    }
-
-    function labelFor(el: Element): string {
-      const aria = el.getAttribute("aria-label")?.trim();
-      if (aria) return aria.slice(0, 80);
-      const heading = el.querySelector("h1,h2,h3")?.textContent?.trim();
-      if (heading) return heading.slice(0, 80);
-      const cls = typeof el.className === "string" ? el.className : "";
-      if (targetRe.test(cls)) return cls.match(targetRe)?.[0] ?? "Product section";
-      return "Website component";
-    }
-
-    function roleFor(el: Element): string {
-      const blob = `${el.className} ${el.id} ${labelFor(el)}`.toLowerCase();
-      if (blob.includes("phone") || blob.includes("mockup")) return "product_ui";
-      if (blob.includes("dashboard")) return "dashboard";
-      if (blob.includes("pricing")) return "pricing_screenshot";
-      if (blob.includes("testimonial")) return "testimonial";
-      if (blob.includes("hero")) return "hero_image";
-      return "product_ui";
-    }
-
-    const viewportH = window.innerHeight;
-    const viewportW = window.innerWidth;
-    const minW = Math.max(220, viewportW * 0.25);
-    const minH = Math.max(160, viewportH * 0.12);
-
-    const nodes = Array.from(
-      document.querySelectorAll(
-        "section, article, main div, [class*='hero'], [class*='feature'], [class*='pricing'], [class*='testimonial'], [class*='dashboard'], [class*='mockup']",
-      ),
-    );
-
-    const scored: Array<{
-      el: Element;
-      selectorHint: string;
-      label: string;
-      roleHint: string;
-      score: number;
-      width: number;
-      height: number;
-    }> = [];
-
-    for (const el of nodes) {
-      if (SKIP_TAGS.has(el.tagName)) continue;
-      const rect = el.getBoundingClientRect();
-      if (rect.width < minW || rect.height < minH) continue;
-      if (rect.bottom < 0 || rect.top > viewportH * 4) continue;
-
-      const blob = `${el.tagName} ${el.className} ${el.id}`;
-      if (skipRe.test(blob)) continue;
-
-      const text = (el.textContent ?? "").replace(/\s+/g, " ").trim();
-      const textLen = text.length;
-      const imgs = el.querySelectorAll("img, picture, svg, canvas").length;
-      if (textLen > 2200 && imgs === 0) continue;
-      if (textLen > 5000) continue;
-
-      let score = rect.width * rect.height;
-      if (targetRe.test(blob)) score *= 1.8;
-      if (imgs > 0) score *= 1.4;
-      if (textLen > 1800) score *= 0.55;
-      if (el.tagName === "SECTION") score *= 1.1;
-
-      scored.push({
-        el,
-        selectorHint: hint(el),
-        label: labelFor(el),
-        roleHint: roleFor(el),
-        score,
-        width: Math.round(rect.width),
-        height: Math.round(rect.height),
-      });
-    }
-
-    scored.sort((a, b) => b.score - a.score);
-
-    const out: Array<{
-      captureId: string;
-      selectorHint: string;
-      label: string;
-      roleHint: string;
-      score: number;
-      width: number;
-      height: number;
-      x: number;
-      y: number;
-    }> = [];
-
-    for (const item of scored) {
-      const rect = item.el.getBoundingClientRect();
-      const overlaps = out.some(
-        (d) =>
-          Math.abs(d.x - rect.x) < 40 &&
-          Math.abs(d.y - rect.y) < 40 &&
-          Math.abs(d.width - item.width) < 60,
-      );
-      if (overlaps) continue;
-      const captureId = String(out.length);
-      item.el.setAttribute(CAPTURE_ATTR, captureId);
-      out.push({
-        captureId,
-        selectorHint: item.selectorHint,
-        label: item.label,
-        roleHint: item.roleHint,
-        score: item.score,
-        width: item.width,
-        height: item.height,
-        x: rect.x,
-        y: rect.y,
-      });
-      if (out.length >= 12) break;
-    }
-
-    return out.map(({ x: _x, y: _y, score: _s, ...rest }) => rest);
+async function prepareViewportPage(
+  browser: Browser,
+  pageUrl: string,
+  viewport: { width: number; height: number },
+  mobile: boolean,
+  limits: CaptureLimits,
+): Promise<Page> {
+  const page = await browser.newPage({
+    viewport,
+    userAgent: mobile ? MOBILE_USER_AGENT : undefined,
+    isMobile: mobile,
+    hasTouch: mobile,
   });
+  await page.goto(pageUrl, {
+    waitUntil: "domcontentloaded",
+    timeout: limits.navigationTimeoutMs,
+  });
+  await page.waitForTimeout(mobile ? 1000 : 800);
+  return page;
 }
 
 async function screenshotCandidate(
   page: Page,
-  candidate: DomCandidate,
+  candidate: PooledCaptureCandidate,
 ): Promise<CapturedComponentScreenshot | null> {
   const locator = page.locator(`[data-fenrik-capture-id="${candidate.captureId}"]`);
   const count = await locator.count();
@@ -200,13 +125,27 @@ async function screenshotCandidate(
     width: candidate.width,
     height: candidate.height,
     imageBase64: buffer.toString("base64"),
+    viewport: candidate.captureViewport,
   };
+}
+
+export interface CapturePageComponentsResult {
+  screenshots: CapturedComponentScreenshot[];
+  debug: CaptureSelectionDebug;
 }
 
 export async function capturePageComponents(
   pageUrl: string,
   limits: CaptureLimits = DEFAULT_CAPTURE_LIMITS,
 ): Promise<CapturedComponentScreenshot[]> {
+  const result = await capturePageComponentsWithDebug(pageUrl, limits);
+  return result.screenshots;
+}
+
+export async function capturePageComponentsWithDebug(
+  pageUrl: string,
+  limits: CaptureLimits = DEFAULT_CAPTURE_LIMITS,
+): Promise<CapturePageComponentsResult> {
   let browser: Browser | null = null;
   const started = Date.now();
 
@@ -215,27 +154,64 @@ export async function capturePageComponents(
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-    const page = await browser.newPage({
-      viewport: { width: 1280, height: 900 },
-    });
 
-    await page.goto(pageUrl, {
-      waitUntil: "domcontentloaded",
-      timeout: limits.navigationTimeoutMs,
-    });
-    await page.waitForTimeout(800);
+    const desktopPage = await prepareViewportPage(
+      browser,
+      pageUrl,
+      DESKTOP_VIEWPORT,
+      false,
+      limits,
+    );
+    const mobilePage = await prepareViewportPage(
+      browser,
+      pageUrl,
+      MOBILE_VIEWPORT,
+      true,
+      limits,
+    );
 
-    const candidates = await collectCandidates(page);
+    const [desktopRows, mobileRows] = await Promise.all([
+      collectCandidates(desktopPage, "d-"),
+      collectCandidates(mobilePage, "m-"),
+    ]);
+
+    const pool = [
+      ...toPooled(desktopRows, "desktop"),
+      ...toPooled(mobileRows, "mobile"),
+    ];
+
+    const finalCandidates = selectFinalCaptureCandidates(
+      pool,
+      limits.maxScreenshots,
+    );
+    const debug = buildSelectionDebug(pool, finalCandidates);
+
+    console.log(
+      JSON.stringify({
+        event: "capture_selection",
+        desktopCandidates: debug.desktopCandidates,
+        mobileCandidates: debug.mobileCandidates,
+        selectedDesktop: debug.selectedDesktop,
+        selectedMobile: debug.selectedMobile,
+        productProfile: debug.productProfile,
+        finalLabels: debug.finalLabels,
+        ms: Date.now() - started,
+      }),
+    );
+
     const shots: CapturedComponentScreenshot[] = [];
-
-    for (const candidate of candidates) {
+    for (const candidate of finalCandidates) {
       if (Date.now() - started > limits.totalTimeoutMs) break;
-      if (shots.length >= limits.maxScreenshots) break;
+      const page =
+        candidate.captureViewport === "mobile" ? mobilePage : desktopPage;
       const shot = await screenshotCandidate(page, candidate);
       if (shot) shots.push(shot);
     }
 
-    return shots;
+    await desktopPage.close().catch(() => undefined);
+    await mobilePage.close().catch(() => undefined);
+
+    return { screenshots: shots, debug };
   } finally {
     await browser?.close().catch(() => undefined);
   }
@@ -244,13 +220,15 @@ export async function capturePageComponents(
 export function roleHintFromText(text: string): string {
   const hay = text.toLowerCase();
   if (hay.includes("phone") || hay.includes("mockup") || hay.includes("mobile")) {
-    return "product_ui";
+    return "mobile_app";
   }
   if (hay.includes("dashboard")) return "dashboard";
   if (hay.includes("pricing")) return "pricing_screenshot";
   if (hay.includes("testimonial")) return "testimonial";
   if (hay.includes("hero")) return "hero_image";
-  if (hay.includes("feature")) return "product_ui";
-  if (hay.includes("comparison")) return "homepage_screenshot";
+  if (hay.includes("feature") || hay.includes("card") || hay.includes("reminder")) {
+    return "feature_card";
+  }
+  if (hay.includes("comparison")) return "feature_card";
   return "product_ui";
 }

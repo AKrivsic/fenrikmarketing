@@ -2,6 +2,9 @@
 //   npm run check:component-capture-integration
 
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   assetLibraryHasTier1ProductVisual,
   isComponentCaptureEnabled,
@@ -96,6 +99,7 @@ async function main(): Promise<void> {
           roleHint: "product_ui",
           width: 390,
           height: 844,
+          viewport: "mobile",
           selectorHint: "section.hero",
           imageBase64: PNG_1X1_BASE64,
         },
@@ -104,6 +108,14 @@ async function main(): Promise<void> {
     assert.equal(parsed.ok, true);
     assert.equal(parsed.screenshots?.length, 1);
     assert.equal(parsed.screenshots?.[0]?.label, "Phone mockup");
+    assert.equal(parsed.screenshots?.[0]?.viewport, "mobile");
+  });
+
+  await check("component capture persists capture_viewport in metadata", () => {
+    const root = join(fileURLToPath(import.meta.url), "..", "..");
+    const src = readFileSync(join(root, "lib/knowledge/componentCapture.ts"), "utf8");
+    assert.ok(src.includes("capture_viewport"));
+    assert.ok(src.includes("shot.viewport"));
   });
 
   await check("mock fetch integration success", async () => {

@@ -133,5 +133,11 @@ check("listProjectAssets hides archived library rows", () => {
   assert.ok(fn.includes("isAssetArchivedFromLibrary"));
 });
 
+check("component capture ingest stores capture_viewport metadata", () => {
+  const src = readFileSync(join(root, "lib/knowledge/componentCapture.ts"), "utf8");
+  assert.ok(src.includes("capture_viewport"));
+  assert.ok(src.includes('source: "component_capture"'));
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

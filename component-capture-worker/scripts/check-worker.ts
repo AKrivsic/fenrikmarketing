@@ -100,7 +100,7 @@ async function main(): Promise<void> {
   });
 
   await check("role hint phone mockup", () => {
-    assert.equal(roleHintFromText("Phone mockup section"), "product_ui");
+    assert.equal(roleHintFromText("Phone mockup section"), "mobile_app");
   });
 
   await check("auth rejects missing bearer", () => {

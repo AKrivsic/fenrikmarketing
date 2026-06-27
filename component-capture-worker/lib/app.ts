@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  capturePageComponents,
+  capturePageComponentsWithDebug,
   DEFAULT_CAPTURE_LIMITS,
   type CaptureLimits,
 } from "./capturePageComponents.ts";
@@ -68,12 +68,21 @@ export function createComponentCaptureApp() {
       const started = Date.now();
 
       try {
-        const screenshots = await capturePageComponents(validated.url, limits);
+        const { screenshots, debug } = await capturePageComponentsWithDebug(
+          validated.url,
+          limits,
+        );
         console.log(
           JSON.stringify({
             event: "capture_components",
             url_host: new URL(validated.url).hostname,
             count: screenshots.length,
+            desktopCandidates: debug.desktopCandidates,
+            mobileCandidates: debug.mobileCandidates,
+            selectedDesktop: debug.selectedDesktop,
+            selectedMobile: debug.selectedMobile,
+            productProfile: debug.productProfile,
+            finalLabels: debug.finalLabels,
             ms: Date.now() - started,
           }),
         );

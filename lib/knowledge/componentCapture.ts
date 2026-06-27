@@ -71,6 +71,10 @@ async function persistCaptureScreenshot(
     capture_page_url: pageUrl,
     capture_label: shot.label,
     ...(shot.selectorHint ? { capture_selector: shot.selectorHint } : {}),
+    ...(shot.roleHint ? { capture_role_hint: shot.roleHint } : {}),
+    ...(shot.viewport === "desktop" || shot.viewport === "mobile"
+      ? { capture_viewport: shot.viewport }
+      : {}),
     ...(roleHint ? { product_role: roleHint } : {}),
     width: shot.width,
     height: shot.height,

@@ -17,12 +17,15 @@ export function isComponentCaptureEnabled(): boolean {
   return process.env.ENABLE_COMPONENT_CAPTURE === "true";
 }
 
+export type ComponentCaptureViewport = "desktop" | "mobile";
+
 export interface ComponentCaptureScreenshotPayload {
   label: string;
   selectorHint?: string;
   width: number;
   height: number;
   roleHint?: string;
+  viewport?: ComponentCaptureViewport;
   imageBase64?: string;
   signedUrl?: string;
 }
@@ -85,6 +88,10 @@ export function parseComponentCaptureWorkerJson(
       selectorHint:
         typeof s.selectorHint === "string" ? s.selectorHint : undefined,
       roleHint: typeof s.roleHint === "string" ? s.roleHint : undefined,
+      viewport:
+        s.viewport === "desktop" || s.viewport === "mobile"
+          ? s.viewport
+          : undefined,
       imageBase64:
         typeof s.imageBase64 === "string" ? s.imageBase64 : undefined,
       signedUrl: typeof s.signedUrl === "string" ? s.signedUrl : undefined,

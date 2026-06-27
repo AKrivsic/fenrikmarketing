@@ -1,0 +1,338 @@
+import { isPortraitLike } from "./captureSelection.ts";
+import {
+  inferProductVisualProfile,
+  selectionLimitsForProfile,
+  type ProductVisualProfile,
+} from "./captureProductProfile.ts";
+
+export type CaptureViewport = "desktop" | "mobile";
+
+export interface PooledCaptureCandidate {
+  captureId: string;
+  selectorHint: string;
+  label: string;
+  roleHint: string;
+  width: number;
+  height: number;
+  score: number;
+  captureViewport: CaptureViewport;
+  x: number;
+  y: number;
+}
+
+export interface CaptureSelectionDebug {
+  desktopCandidates: number;
+  mobileCandidates: number;
+  selectedDesktop: number;
+  selectedMobile: number;
+  finalLabels: string[];
+  productProfile: ProductVisualProfile;
+}
+
+const DESKTOP_VIEWPORT_W = 1280;
+
+export function normalizeSectionKey(label: string, roleHint: string): string {
+  const l = label.toLowerCase().replace(/\s+/g, " ").trim();
+  const role = roleHint.toLowerCase();
+  if (l.includes("hero phone") || (role === "mobile_app" && isPortraitLike(300, 600))) {
+    return "phone_visual";
+  }
+  if (l.includes("app screen")) return "app_screen_visual";
+  if (l.includes("reminder")) return "reminder_cards";
+  if (l.includes("habit feed") || l.includes("feed")) return "habit_feed";
+  if (l.includes("comparison") || l.includes("habit of the day") || l.includes("other habit")) {
+    return "comparison_cards";
+  }
+  return `${role}:${l.slice(0, 48)}`;
+}
+
+function isWideDesktopSection(c: PooledCaptureCandidate): boolean {
+  if (c.captureViewport !== "desktop") return false;
+  if (c.width >= DESKTOP_VIEWPORT_W * 0.85 && c.height >= 520) return true;
+  if (c.width >= 1100 && c.height >= 450 && c.roleHint !== "dashboard") return true;
+  return false;
+}
+
+function isDesktopProductUi(c: PooledCaptureCandidate): boolean {
+  return (
+    c.captureViewport === "desktop" &&
+    !isWideDesktopSection(c) &&
+    (c.roleHint === "dashboard" ||
+      c.roleHint === "feature_card" ||
+      /dashboard|analytics|chart|table|admin/i.test(`${c.label} ${c.selectorHint}`))
+  );
+}
+
+export function isPhoneLike(c: PooledCaptureCandidate): boolean {
+  return (
+    c.roleHint === "mobile_app" ||
+    isPortraitLike(c.width, c.height) ||
+    /phone|mockup|app screen/i.test(c.label)
+  );
+}
+
+function isTextHeavy(c: PooledCaptureCandidate): boolean {
+  if (c.captureViewport !== "mobile") return false;
+  if (isPhoneLike(c) || c.roleHint === "feature_card" || c.roleHint === "dashboard") {
+    return false;
+  }
+  return c.height > 680 && c.width <= 400 && !isPortraitLike(c.width, c.height);
+}
+
+/** Social ranking with adaptive mobile/desktop bias from page signals. */
+export function socialRankScore(
+  c: PooledCaptureCandidate,
+  profile: ProductVisualProfile = "unknown",
+): number {
+  const limits = selectionLimitsForProfile(profile);
+  let rank = c.score;
+  const area = c.width * c.height;
+  const compact = area > 0 ? rank / Math.sqrt(area) : rank;
+
+  rank = compact * 180;
+
+  if (c.captureViewport === "mobile") rank *= limits.mobileRankMultiplier;
+  if (isPortraitLike(c.width, c.height)) {
+    rank *= profile === "saas_desktop" ? 1.08 : 1.32;
+  }
+  if (c.roleHint === "mobile_app") {
+    rank *= profile === "saas_desktop" ? 1.05 : 1.28;
+  }
+  if (c.roleHint === "feature_card" && c.captureViewport === "mobile") {
+    rank *= profile === "mobile_consumer" ? 1.18 : 1.08;
+  }
+  if (c.roleHint === "section_screenshot" && c.captureViewport === "mobile") {
+    rank *= 0.48;
+  }
+  if (c.roleHint === "dashboard" && c.captureViewport === "desktop") {
+    rank *= limits.desktopDashboardMultiplier;
+  }
+  if (isDesktopProductUi(c)) rank *= profile === "saas_desktop" ? 1.22 : 1.08;
+
+  if (isWideDesktopSection(c)) rank *= 0.42;
+  if (c.captureViewport === "desktop" && c.width >= 1200 && !isPhoneLike(c)) rank *= 0.55;
+
+  if (isTextHeavy(c)) rank *= 0.5;
+
+  return rank;
+}
+
+function isTinyMobileChip(c: PooledCaptureCandidate): boolean {
+  return (
+    c.captureViewport === "mobile" &&
+    c.height <= 200 &&
+    c.width <= 320 &&
+    c.roleHint === "feature_card"
+  );
+}
+
+function sameVisualPair(a: PooledCaptureCandidate, b: PooledCaptureCandidate): boolean {
+  const chipA = isTinyMobileChip(a);
+  const chipB = isTinyMobileChip(b);
+  if (chipA && chipB) return true;
+
+  if (normalizeSectionKey(a.label, a.roleHint) !== normalizeSectionKey(b.label, b.roleHint)) {
+    return false;
+  }
+  if (isPhoneLike(a) && isPhoneLike(b)) return true;
+  if (a.label === b.label) return true;
+  return false;
+}
+
+function preferForSocial(
+  a: PooledCaptureCandidate,
+  b: PooledCaptureCandidate,
+  profile: ProductVisualProfile,
+): PooledCaptureCandidate {
+  const limits = selectionLimitsForProfile(profile);
+  const scoreA = socialRankScore(a, profile);
+  const scoreB = socialRankScore(b, profile);
+  if (!sameVisualPair(a, b)) {
+    return scoreA >= scoreB ? a : b;
+  }
+
+  if (profile === "saas_desktop") {
+    if (isDesktopProductUi(a) && !isDesktopProductUi(b)) return a;
+    if (isDesktopProductUi(b) && !isDesktopProductUi(a)) return b;
+    if (!limits.preferMobileOnDuplicate) return scoreA >= scoreB ? a : b;
+  }
+
+  const mobileA = a.captureViewport === "mobile";
+  const mobileB = b.captureViewport === "mobile";
+  const portraitA = isPortraitLike(a.width, a.height);
+  const portraitB = isPortraitLike(b.width, b.height);
+
+  if (limits.preferMobileOnDuplicate && mobileA && !mobileB && !isTextHeavy(a)) {
+    if (portraitA || isPhoneLike(a)) return a;
+    if (scoreA >= scoreB * 0.85) return a;
+  }
+  if (limits.preferMobileOnDuplicate && mobileB && !mobileA && !isTextHeavy(b)) {
+    if (portraitB || isPhoneLike(b)) return b;
+    if (scoreB >= scoreA * 0.85) return b;
+  }
+
+  if (isPhoneLike(a) && isPhoneLike(b)) {
+    if (portraitA && !portraitB) return a;
+    if (portraitB && !portraitA) return b;
+  }
+
+  return scoreA >= scoreB ? a : b;
+}
+
+export function dedupeCrossViewport(
+  items: PooledCaptureCandidate[],
+  profile: ProductVisualProfile,
+): PooledCaptureCandidate[] {
+  const sorted = [...items].sort(
+    (a, b) => socialRankScore(b, profile) - socialRankScore(a, profile),
+  );
+  const kept: PooledCaptureCandidate[] = [];
+
+  for (const item of sorted) {
+    const dupIndex = kept.findIndex((k) => sameVisualPair(item, k));
+    if (dupIndex === -1) {
+      kept.push(item);
+      continue;
+    }
+    kept[dupIndex] = preferForSocial(item, kept[dupIndex], profile);
+  }
+
+  return kept;
+}
+
+function countViewport(
+  picked: PooledCaptureCandidate[],
+  viewport: CaptureViewport,
+): number {
+  return picked.filter((p) => p.captureViewport === viewport).length;
+}
+
+export function selectFinalCaptureCandidates(
+  pool: PooledCaptureCandidate[],
+  maxScreenshots: number,
+): PooledCaptureCandidate[] {
+  const profile = inferProductVisualProfile(pool);
+  const limits = selectionLimitsForProfile(profile);
+  const deduped = dedupeCrossViewport(pool, profile);
+  const ranked = [...deduped].sort(
+    (a, b) => socialRankScore(b, profile) - socialRankScore(a, profile),
+  );
+
+  const picked: PooledCaptureCandidate[] = [];
+  let wideDesktop = 0;
+  let mobileCount = 0;
+
+  const tryPick = (c: PooledCaptureCandidate): boolean => {
+    if (picked.length >= maxScreenshots) return false;
+    if (picked.some((p) => sameVisualPair(p, c))) return false;
+    if (
+      picked.some(
+        (p) => p.label.toLowerCase().trim() === c.label.toLowerCase().trim(),
+      )
+    ) {
+      return false;
+    }
+    if (isWideDesktopSection(c) && wideDesktop >= limits.maxWideDesktopSections) {
+      return false;
+    }
+    if (c.captureViewport === "mobile" && mobileCount >= limits.maxMobileInFinal) {
+      return false;
+    }
+    picked.push(c);
+    if (isWideDesktopSection(c)) wideDesktop += 1;
+    if (c.captureViewport === "mobile") mobileCount += 1;
+    return true;
+  };
+
+  for (const c of ranked) {
+    tryPick(c);
+    if (picked.length >= maxScreenshots) break;
+  }
+
+  const ensureDesktop = () => {
+    if (countViewport(picked, "desktop") >= limits.minDesktopInFinal) return;
+    const candidate = ranked.find(
+      (c) =>
+        c.captureViewport === "desktop" &&
+        !isWideDesktopSection(c) &&
+        !picked.some((p) => sameVisualPair(p, c)) &&
+        !picked.some(
+          (p) => p.label.toLowerCase().trim() === c.label.toLowerCase().trim(),
+        ) &&
+        (isDesktopProductUi(c) || c.roleHint === "feature_card" || isPhoneLike(c)),
+    );
+    if (!candidate) return;
+
+    if (picked.length < maxScreenshots) {
+      tryPick(candidate);
+      return;
+    }
+
+    const replaceIdx = picked.findIndex(
+      (p) =>
+        p.captureViewport === "mobile" &&
+        (isTinyMobileChip(p) ||
+          (profile === "saas_desktop" && p.roleHint === "section_screenshot")),
+    );
+    if (replaceIdx >= 0) {
+      if (picked[replaceIdx].captureViewport === "mobile") mobileCount -= 1;
+      picked[replaceIdx] = candidate;
+    }
+  };
+
+  if (profile === "saas_desktop" || profile === "unknown") {
+    while (
+      countViewport(picked, "desktop") < limits.minDesktopInFinal &&
+      picked.length > 0
+    ) {
+      const before = countViewport(picked, "desktop");
+      ensureDesktop();
+      if (countViewport(picked, "desktop") === before) break;
+    }
+  }
+
+  if (profile === "mobile_consumer" || profile === "unknown") {
+    const qualityMobile = ranked.filter(
+      (c) =>
+        c.captureViewport === "mobile" &&
+        (isPhoneLike(c) || isPortraitLike(c.width, c.height)) &&
+        !isTextHeavy(c),
+    );
+    const hasSocialVisual = picked.some(
+      (p) => isPhoneLike(p) || isPortraitLike(p.width, p.height),
+    );
+    if (qualityMobile.length > 0 && !hasSocialVisual) {
+      const bestMobile = qualityMobile[0];
+      if (!picked.some((p) => sameVisualPair(p, bestMobile))) {
+        const replaceIdx = picked.findIndex(
+          (p) => isWideDesktopSection(p) || isTinyMobileChip(p),
+        );
+        if (replaceIdx >= 0) {
+          if (picked[replaceIdx].captureViewport === "mobile") mobileCount -= 1;
+          picked[replaceIdx] = bestMobile;
+          if (bestMobile.captureViewport === "mobile") mobileCount += 1;
+        } else if (picked.length < maxScreenshots) {
+          tryPick(bestMobile);
+        }
+      }
+    }
+  }
+
+  return picked.slice(0, maxScreenshots);
+}
+
+export function buildSelectionDebug(
+  pool: PooledCaptureCandidate[],
+  final: PooledCaptureCandidate[],
+): CaptureSelectionDebug {
+  return {
+    desktopCandidates: pool.filter((c) => c.captureViewport === "desktop").length,
+    mobileCandidates: pool.filter((c) => c.captureViewport === "mobile").length,
+    selectedDesktop: final.filter((c) => c.captureViewport === "desktop").length,
+    selectedMobile: final.filter((c) => c.captureViewport === "mobile").length,
+    finalLabels: final.map((c) => c.label),
+    productProfile: inferProductVisualProfile(pool),
+  };
+}
+
+export { inferProductVisualProfile, type ProductVisualProfile };
