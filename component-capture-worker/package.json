@@ -10,12 +10,12 @@
     "check:capture-selection": "node --experimental-strip-types scripts/check-capture-selection.ts"
   },
   "dependencies": {
+    "esbuild": "^0.28.1",
     "express": "^5.1.0",
     "playwright": "^1.52.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^20",
-    "esbuild": "^0.28.1"
+    "@types/node": "^20"
   }
 }
