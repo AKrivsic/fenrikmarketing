@@ -248,6 +248,133 @@ check("desktop dashboard beats mobile text-heavy section (saas profile)", () => 
   );
 });
 
+check("infers saas_desktop when desktop UI signals dominate phone mockups", () => {
+  const pool = [
+    poolItem({
+      label: "Hero phone mockup",
+      width: 280,
+      height: 591,
+      roleHint: "mobile_app",
+      captureViewport: "desktop",
+    }),
+    poolItem({
+      label: "Analytics dashboard",
+      width: 960,
+      height: 540,
+      roleHint: "dashboard",
+      captureViewport: "desktop",
+      selectorHint: "div.analytics-panel",
+    }),
+    poolItem({
+      label: "Team workspace canvas",
+      width: 880,
+      height: 520,
+      roleHint: "product_ui",
+      captureViewport: "desktop",
+      selectorHint: "div.editor-canvas",
+    }),
+    poolItem({
+      label: "Mobile promo block",
+      width: 390,
+      height: 400,
+      roleHint: "product_ui",
+      captureViewport: "mobile",
+    }),
+  ];
+  assert.equal(inferProductVisualProfile(pool), "saas_desktop");
+});
+
+check("rejects basecamp-like text columns from final five", () => {
+  const pool = [
+    poolItem({
+      label: "All these questions have the same answer: Yes!",
+      width: 955,
+      height: 645,
+      score: 2_000_000,
+      roleHint: "product_ui",
+      selectorHint: "div.content.content--columns",
+      captureViewport: "desktop",
+      captureId: "text-1",
+    }),
+    poolItem({
+      label: "Product visual",
+      width: 346,
+      height: 363,
+      score: 400_000,
+      roleHint: "product_ui",
+      selectorHint: "figure",
+      captureViewport: "mobile",
+      captureId: "fig-1",
+    }),
+    poolItem({
+      label: "Billing panel",
+      width: 920,
+      height: 480,
+      score: 800_000,
+      roleHint: "dashboard",
+      selectorHint: "div.billing-plan-graphic",
+      captureViewport: "desktop",
+      captureId: "dash-1",
+    }),
+    poolItem({
+      label: "Workspace table",
+      width: 900,
+      height: 460,
+      score: 750_000,
+      roleHint: "dashboard",
+      captureViewport: "desktop",
+      captureId: "dash-2",
+    }),
+    poolItem({
+      label: "Editor canvas",
+      width: 880,
+      height: 440,
+      score: 700_000,
+      roleHint: "product_ui",
+      selectorHint: "div.canvas-editor",
+      captureViewport: "desktop",
+      captureId: "ui-1",
+    }),
+    poolItem({
+      label: "Feature card",
+      width: 360,
+      height: 280,
+      score: 500_000,
+      roleHint: "feature_card",
+      captureViewport: "mobile",
+      captureId: "card-1",
+    }),
+  ];
+  const final = selectFinalCaptureCandidates(pool, 5);
+  assert.ok(
+    !final.some((c) => c.selectorHint.includes("content--columns")),
+    "text column should not appear in final output",
+  );
+});
+
+check("oversized section_screenshot ranks below compact UI", () => {
+  const huge = poolItem({
+    label: "Whole marketing section",
+    width: 1280,
+    height: 1459,
+    score: 3_000_000,
+    roleHint: "section_screenshot",
+    captureViewport: "desktop",
+  });
+  const ui = poolItem({
+    label: "Design canvas",
+    width: 997,
+    height: 718,
+    score: 600_000,
+    roleHint: "product_ui",
+    selectorHint: "div.canvas-panel",
+    captureViewport: "desktop",
+  });
+  assert.ok(socialRankScore(ui, "saas_desktop") > socialRankScore(huge, "saas_desktop"));
+  const final = selectFinalCaptureCandidates([huge, ui], 1);
+  assert.equal(final[0]?.label, "Design canvas");
+});
+
 check("infers mobile_consumer for habit/phone pool", () => {
   const pool = [
     poolItem({

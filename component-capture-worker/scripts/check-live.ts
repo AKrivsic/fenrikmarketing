@@ -61,6 +61,46 @@ const strict =
     "expected at least one portrait / phone-like screenshot",
   );
 
+  const bannedSelectors = [
+    "section.border-y.border-border/60.bg-card/40",
+    "div.relative.mt-10.grid",
+    "div.mt-10.grid.gap-4",
+    "div.mt-10.grid.gap-5",
+  ];
+  for (const shot of shots) {
+    const hint = shot.selectorHint ?? "";
+    for (const banned of bannedSelectors) {
+      assert.ok(
+        !hint.includes(banned),
+        `banned mobile wrapper in output: ${hint}`,
+      );
+    }
+    if (hint.includes("div.relative.mt-10.grid") && shot.height >= 650) {
+      assert.fail(`tall comparison grid wrapper: ${hint} ${shot.width}x${shot.height}`);
+    }
+    if (hint.includes("div.mt-10.grid.gap-4") && shot.height >= 500) {
+      assert.fail(`tall reminder grid wrapper: ${hint} ${shot.height}`);
+    }
+  }
+
+  const compactCount = shots.filter((s) => s.height <= 520).length;
+  assert.ok(
+    compactCount >= 3,
+    `expected at least 3 compact components (h<=520), got ${compactCount}`,
+  );
+
+  console.log(
+    "hotd_final",
+    shots.map((s) => ({
+      label: s.label,
+      role: s.roleHint,
+      viewport: s.viewport,
+      w: s.width,
+      h: s.height,
+      selector: s.selectorHint,
+    })),
+  );
+
   const hugeSections = shots.filter(
     (s) => s.width >= 1200 && s.height >= 650,
   );

@@ -7,6 +7,7 @@
     "start": "node --experimental-strip-types server.ts",
     "check": "node --experimental-strip-types scripts/check-worker.ts && node --experimental-strip-types scripts/check-capture-selection.ts",
     "check:live": "node --experimental-strip-types scripts/check-live.ts",
+    "check:cross-site": "node --experimental-strip-types scripts/check-cross-site.ts",
     "check:capture-selection": "node --experimental-strip-types scripts/check-capture-selection.ts"
   },
   "dependencies": {
