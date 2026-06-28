@@ -25,7 +25,12 @@ export function FetchWebsiteAssetsButton({ projectId }: FetchWebsiteAssetsButton
         return;
       }
       setResult(
-        `Added ${response.added}, skipped ${response.skipped}, failed ${response.failed}.`,
+        [
+          `Added ${response.added}, skipped ${response.skipped}, failed ${response.failed}.`,
+          response.reason ? `(${response.reason})` : null,
+        ]
+          .filter(Boolean)
+          .join(" "),
       );
       router.refresh();
     });

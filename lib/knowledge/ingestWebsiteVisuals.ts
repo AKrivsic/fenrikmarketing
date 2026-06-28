@@ -18,6 +18,7 @@ import {
   bumpReportCount,
   createEmptyIngestReport,
   logWebsiteIngestDebugReport,
+  logWebsiteIngestResult,
   type WebsiteIngestDebugReport,
 } from "@/lib/knowledge/websiteIngestDebugReport";
 import { normalizeWebsiteUrl } from "@/lib/knowledge/websiteUrl";
@@ -43,7 +44,22 @@ import { isSvgUrl } from "@/lib/knowledge/websiteImageParseHelpers";
 import { mergeAssetAnalysis, fallbackAnalysis } from "@/lib/assets/analysis";
 import { computeSmartUsageMetadata } from "@/lib/assets/smartUsageMetadata";
 import { enrichAssetMetadataWithDimensionsAndSmartUsage } from "@/lib/ai/workflows/analyzeAsset";
-import { maybeRunComponentCaptureFallback } from "@/lib/knowledge/componentCapture";
+import {
+  isComponentCaptureEnabled,
+  maybeRunComponentCaptureFallback,
+  projectHasTier1ProductVisual,
+} from "@/lib/knowledge/componentCapture";
+import { resolveWebsiteVisualIngestReason } from "@/lib/knowledge/websiteVisualIngestReason";
+import type {
+  IngestWebsiteVisualsDeps,
+  IngestWebsiteVisualsResult,
+} from "@/lib/knowledge/websiteVisualIngestTypes";
+
+export type {
+  ComponentCaptureFallbackRunner,
+  IngestWebsiteVisualsDeps,
+  IngestWebsiteVisualsResult,
+} from "@/lib/knowledge/websiteVisualIngestTypes";
 
 const FETCH_HTML_TIMEOUT_MS = 12_000;
 const MAX_DOWNLOAD_ATTEMPTS = 24;
@@ -413,11 +429,128 @@ async function refineAssetAfterVision(assetId: string): Promise<Asset | null> {
   return (updated as Asset) ?? asset;
 }
 
-export interface IngestWebsiteVisualsResult {
-  created: number;
-  skipped: boolean;
-  reason?: string;
-  debugReport?: WebsiteIngestDebugReport;
+function buildIngestResult(args: {
+  projectId: string;
+  pageUrl: string;
+  report: WebsiteIngestDebugReport;
+  htmlCreated: number;
+  htmlCandidates: number;
+  prioritized: number;
+  capture: {
+    attempted: boolean;
+    saved: number;
+    skippedReason?: string;
+    enabled: boolean;
+  };
+}): IngestWebsiteVisualsResult {
+  const { report, htmlCreated, capture } = args;
+  const htmlDuplicates = report.duplicates;
+  const htmlRejected = report.rejected;
+  const componentCaptureSaved = capture.saved;
+  const created = htmlCreated + componentCaptureSaved;
+  const hadPrioritizedCandidates = args.prioritized > 0;
+
+  report.htmlCandidates = args.htmlCandidates;
+  report.prioritized = args.prioritized;
+  report.htmlCreated = htmlCreated;
+  report.componentCaptureAttempted = capture.attempted;
+  report.componentCaptureSaved = componentCaptureSaved;
+  report.componentCaptureSkippedReason = capture.skippedReason;
+  report.finalAssets = created;
+
+  const reason = resolveWebsiteVisualIngestReason({
+    htmlCreated,
+    captureSaved: componentCaptureSaved,
+    hadPrioritizedCandidates,
+    captureEnabled: capture.enabled,
+    captureSkippedReason: capture.skippedReason,
+  });
+
+  logWebsiteIngestDebugReport(args.projectId, args.pageUrl, report);
+  logWebsiteIngestResult(args.projectId, args.pageUrl, {
+    htmlCandidates: args.htmlCandidates,
+    prioritized: args.prioritized,
+    htmlCreated,
+    duplicates: htmlDuplicates,
+    rejected: htmlRejected,
+    reason,
+    componentCaptureAttempted: capture.attempted,
+    componentCaptureSaved,
+    componentCaptureSkippedReason: capture.skippedReason,
+  });
+
+  return {
+    created,
+    htmlCreated,
+    htmlDuplicates,
+    htmlRejected,
+    componentCaptureAttempted: capture.attempted,
+    componentCaptureSaved,
+    componentCaptureSkippedReason: capture.skippedReason,
+    skipped: created === 0,
+    reason,
+    debugReport: report,
+  };
+}
+
+async function invokeComponentCaptureFallback(
+  projectId: string,
+  pageUrl: string,
+  deps: IngestWebsiteVisualsDeps,
+): Promise<{
+  attempted: boolean;
+  saved: number;
+  skippedReason?: string;
+  enabled: boolean;
+  tier1Exists: boolean;
+  called: boolean;
+}> {
+  const enabled = isComponentCaptureEnabled();
+  const tier1Exists = enabled ? await projectHasTier1ProductVisual(projectId) : false;
+  const preSkipReason = !enabled
+    ? "disabled"
+    : tier1Exists
+      ? "tier1_exists"
+      : undefined;
+
+  console.info(
+    "[component_capture_decision]",
+    JSON.stringify({
+      projectId,
+      url: pageUrl,
+      enabled,
+      called: enabled && !tier1Exists,
+      tier1Exists,
+      skippedReason: preSkipReason,
+    }),
+  );
+
+  const run = deps.runComponentCaptureFallback ?? maybeRunComponentCaptureFallback;
+  let result: { attempted: boolean; saved: number; skippedReason?: string };
+  try {
+    result = await run(projectId, pageUrl);
+  } catch {
+    result = { attempted: true, saved: 0, skippedReason: "error" };
+  }
+
+  console.info(
+    "[component_capture_result]",
+    JSON.stringify({
+      projectId,
+      attempted: result.attempted,
+      saved: result.saved,
+      skippedReason: result.skippedReason,
+      error:
+        result.attempted && result.saved === 0 ? result.skippedReason : undefined,
+    }),
+  );
+
+  return {
+    ...result,
+    enabled,
+    tier1Exists,
+    called: enabled && !tier1Exists,
+  };
 }
 
 // Best-effort: fetches the project website HTML, ingests a few images as assets,
@@ -426,23 +559,55 @@ export interface IngestWebsiteVisualsResult {
 export async function ingestWebsiteVisualsBestEffort(
   projectId: string,
   sourceUrl: string,
+  deps: IngestWebsiteVisualsDeps = {},
 ): Promise<IngestWebsiteVisualsResult> {
   const report = createEmptyIngestReport();
 
   if (!projectId || !sourceUrl?.trim()) {
-    return { created: 0, skipped: true, reason: "missing_input", debugReport: report };
+    return {
+      created: 0,
+      htmlCreated: 0,
+      htmlDuplicates: 0,
+      htmlRejected: 0,
+      componentCaptureAttempted: false,
+      componentCaptureSaved: 0,
+      skipped: true,
+      reason: "missing_input",
+      debugReport: report,
+    };
   }
 
   const pageUrl = normalizeWebsiteUrl(sourceUrl);
   if (!pageUrl) {
-    return { created: 0, skipped: true, reason: "invalid_url", debugReport: report };
+    return {
+      created: 0,
+      htmlCreated: 0,
+      htmlDuplicates: 0,
+      htmlRejected: 0,
+      componentCaptureAttempted: false,
+      componentCaptureSaved: 0,
+      skipped: true,
+      reason: "invalid_url",
+      debugReport: report,
+    };
   }
 
+  const fetchHtml = deps.fetchWebsiteHtmlImpl ?? fetchWebsiteHtml;
   let html: string;
   try {
-    html = await fetchWebsiteHtml(pageUrl);
+    html = await fetchHtml(pageUrl);
   } catch {
-    return { created: 0, skipped: true, reason: "fetch_html_failed", debugReport: report };
+    return {
+      created: 0,
+      htmlCreated: 0,
+      htmlDuplicates: 0,
+      htmlRejected: 0,
+      componentCaptureAttempted: false,
+      componentCaptureSaved: 0,
+      skipped: true,
+      reason: "fetch_html_failed",
+      debugReport: report,
+    };
   }
 
   const extracted = extractWebsiteImageCandidates(html, pageUrl);
@@ -466,19 +631,28 @@ export async function ingestWebsiteVisualsBestEffort(
     kept,
     MAX_DOWNLOAD_ATTEMPTS,
   );
+
   if (prioritized.length === 0) {
-    logWebsiteIngestDebugReport(projectId, pageUrl, report);
-    return { created: 0, skipped: true, reason: "no_candidates", debugReport: report };
+    const capture = await invokeComponentCaptureFallback(projectId, pageUrl, deps);
+    return buildIngestResult({
+      projectId,
+      pageUrl,
+      report,
+      htmlCreated: 0,
+      htmlCandidates: extracted.length,
+      prioritized: 0,
+      capture,
+    });
   }
 
   const { urls: existingUrls, hashes: existingHashes } =
     await loadExistingIngestKeys(projectId);
   const seenHashes = new Set<string>(existingHashes);
-  let created = 0;
+  let htmlCreated = 0;
   const finalRoles: string[] = [];
 
   for (const candidate of prioritized) {
-    if (created >= MAX_WEBSITE_INGEST_ASSETS) break;
+    if (htmlCreated >= MAX_WEBSITE_INGEST_ASSETS) break;
 
     const dupReason = isDuplicateOfExisting(
       candidate,
@@ -558,23 +732,19 @@ export async function ingestWebsiteVisualsBestEffort(
       finalRoles.push("Other");
     }
 
-    created += 1;
+    htmlCreated += 1;
   }
 
-  report.finalAssets = created;
   report.finalRoles = finalRoles;
-  logWebsiteIngestDebugReport(projectId, pageUrl, report);
 
-  try {
-    await maybeRunComponentCaptureFallback(projectId, pageUrl);
-  } catch {
-    // Silent fallback — HTML ingest result must not depend on capture worker.
-  }
-
-  return {
-    created,
-    skipped: created === 0,
-    reason: created === 0 ? "none_saved" : undefined,
-    debugReport: report,
-  };
+  const capture = await invokeComponentCaptureFallback(projectId, pageUrl, deps);
+  return buildIngestResult({
+    projectId,
+    pageUrl,
+    report,
+    htmlCreated,
+    htmlCandidates: extracted.length,
+    prioritized: prioritized.length,
+    capture,
+  });
 }

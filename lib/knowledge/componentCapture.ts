@@ -23,7 +23,7 @@ export {
   type ComponentCaptureWorkerResponse,
 } from "@/lib/knowledge/componentCaptureClient";
 
-async function projectHasTier1ProductVisual(projectId: string): Promise<boolean> {
+export async function projectHasTier1ProductVisual(projectId: string): Promise<boolean> {
   const supabase = createSupabaseAdminClient();
   const { data } = await supabase
     .from("assets")
@@ -145,7 +145,11 @@ export async function maybeRunComponentCaptureFallback(
     deps,
   );
   if (!result.ok || !result.screenshots?.length) {
-    return { attempted: true, saved: 0 };
+    return {
+      attempted: true,
+      saved: 0,
+      skippedReason: result.error ?? "no_screenshots",
+    };
   }
 
   let saved = 0;

@@ -1,6 +1,10 @@
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
+import { summarizeRefetchFromIngest } from "@/lib/api/refetchIngestSummary";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { ingestWebsiteVisualsBestEffort } from "@/lib/knowledge/ingestWebsiteVisuals";
+
+export type { IngestWebsiteVisualsResult } from "@/lib/knowledge/websiteVisualIngestTypes";
+export { summarizeRefetchFromIngest } from "@/lib/api/refetchIngestSummary";
 
 export interface RefetchProjectWebsiteAssetsResult {
   ok: boolean;
@@ -8,6 +12,7 @@ export interface RefetchProjectWebsiteAssetsResult {
   added: number;
   skipped: number;
   failed: number;
+  reason?: string;
 }
 
 // Re-runs website visual ingestion only (HTML → assets). Does not fetch page
@@ -35,20 +40,13 @@ export async function refetchProjectWebsiteAssets(
     };
   }
 
+  console.info(
+    "[refetch_started]",
+    JSON.stringify({ projectId, websiteUrl }),
+  );
+
   const ingest = await ingestWebsiteVisualsBestEffort(projectId, websiteUrl);
-  const report = ingest.debugReport;
-  const added = ingest.created;
-  const skipped = report?.duplicates ?? 0;
-  const failed = report?.rejected ?? 0;
+  const summary = summarizeRefetchFromIngest(ingest);
 
-  if (ingest.skipped && added === 0) {
-    return {
-      ok: true,
-      added: 0,
-      skipped: skipped + 1,
-      failed,
-    };
-  }
-
-  return { ok: true, added, skipped, failed };
+  return { ok: true, ...summary };
 }

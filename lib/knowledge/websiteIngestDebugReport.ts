@@ -9,6 +9,12 @@ export interface WebsiteIngestDebugReport {
   finalRoles: string[];
   rejectedBreakdown: Record<string, number>;
   duplicateBreakdown: Record<string, number>;
+  htmlCandidates?: number;
+  prioritized?: number;
+  htmlCreated?: number;
+  componentCaptureAttempted?: boolean;
+  componentCaptureSaved?: number;
+  componentCaptureSkippedReason?: string;
 }
 
 export function createEmptyIngestReport(): WebsiteIngestDebugReport {
@@ -59,4 +65,22 @@ export function logWebsiteIngestDebugReport(
       duplicateBreakdown: report.duplicateBreakdown,
     }),
   );
+}
+
+export function logWebsiteIngestResult(
+  projectId: string,
+  url: string,
+  payload: {
+    htmlCandidates: number;
+    prioritized: number;
+    htmlCreated: number;
+    duplicates: number;
+    rejected: number;
+    reason?: string;
+    componentCaptureAttempted?: boolean;
+    componentCaptureSaved?: number;
+    componentCaptureSkippedReason?: string;
+  },
+): void {
+  console.info("[website_ingest_result]", JSON.stringify({ projectId, url, ...payload }));
 }

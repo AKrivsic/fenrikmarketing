@@ -47,12 +47,31 @@ check("refetch action wires ingest-only API", () => {
   assert.equal(actionSrc.includes("runProjectKnowledgeExtraction"), false);
 });
 
-check("website visual ingest still runs component capture fallback", () => {
+check("refetchProjectWebsiteAssets maps ingest summary without fake skipped", () => {
+  const refetchSrc = readFileSync(
+    join(root, "lib/api/refetchProjectWebsiteAssets.ts"),
+    "utf8",
+  );
+  assert.equal(refetchSrc.includes("skipped + 1"), false);
+  assert.ok(refetchSrc.includes("summarizeRefetchFromIngest"));
+  assert.ok(refetchSrc.includes("[refetch_started]"));
+  assert.ok(
+    readFileSync(join(root, "lib/api/refetchIngestSummary.ts"), "utf8").includes(
+      "htmlDuplicates",
+    ),
+  );
+});
+
+check("website visual ingest runs component capture on empty prioritized list", () => {
   const ingestSrc = readFileSync(
     join(root, "lib/knowledge/ingestWebsiteVisuals.ts"),
     "utf8",
   );
   assert.ok(ingestSrc.includes("maybeRunComponentCaptureFallback"));
+  const emptyBranch = ingestSrc.slice(
+    ingestSrc.indexOf("if (prioritized.length === 0)"),
+  );
+  assert.ok(emptyBranch.includes("invokeComponentCaptureFallback"));
 });
 
 check("archived metadata excluded from available asset refs (library filter)", () => {

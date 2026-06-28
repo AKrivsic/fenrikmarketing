@@ -142,7 +142,7 @@ export async function updateProjectAssetFields(
 }
 
 export type RefetchWebsiteAssetsActionResult =
-  | { ok: true; added: number; skipped: number; failed: number }
+  | { ok: true; added: number; skipped: number; failed: number; reason?: string }
   | { ok: false; error: string };
 
 export async function refetchProjectWebsiteAssetsAction(
@@ -170,6 +170,7 @@ export async function refetchProjectWebsiteAssetsAction(
     added: result.added,
     skipped: result.skipped,
     failed: result.failed,
+    reason: result.reason,
   };
 }
 
