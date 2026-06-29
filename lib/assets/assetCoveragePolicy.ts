@@ -179,9 +179,9 @@ function stanceForSlottedPackage(funnelStage: FunnelStage): AssetCoverageStance 
 
 function singlePackageProductionStance(
   funnelStage: FunnelStage,
-  assets: AssetRef[],
+  seriesAnchors: AssetRef[],
 ): AssetCoverageStance {
-  const anchors = filterSeriesAnchorAssets(assets);
+  const anchors = seriesAnchors;
   if (anchors.length === 0) return "optional";
   const hasUi = anchors.some(
     (a) => a.product_role === "product_ui" || a.product_role === "dashboard",
@@ -281,7 +281,7 @@ export function resolvePackageAssetCoverage(input: {
     return {
       stance: singlePackageProductionStance(
         input.funnelStage,
-        input.availableAssets,
+        seriesAnchors,
       ),
       qualityAssetCount: seriesAnchors.length,
       seriesSlotIndices,

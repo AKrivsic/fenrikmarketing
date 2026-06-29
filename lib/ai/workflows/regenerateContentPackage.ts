@@ -21,6 +21,7 @@ import {
   WorkflowError,
   type WorkflowResult,
 } from "@/lib/ai/workflows/shared";
+import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import {
   buildPackageBrief,
   buildPersistableItems,
@@ -125,6 +126,10 @@ export async function runRegenerateContentPackage(
   );
   const requireVideo = videoPlatforms.length > 0;
 
+  const preferredVideoUsageById = new Map(
+    assets.refs.map((ref) => [ref.id, resolvePreferredVideoUsageFromRef(ref)]),
+  );
+
   // Snapshot the current package (header + items) into content_versions as a
   // package-level snapshot (content_package_id) BEFORE regenerating.
   const existingItems = await loadPackageItems(supabase, packageId);
@@ -175,6 +180,7 @@ export async function runRegenerateContentPackage(
       classById: assets.classById,
       requiredPlatforms: targetPlatforms,
       requireVideo,
+      preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
     }),
   });
 

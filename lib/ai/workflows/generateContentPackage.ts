@@ -63,6 +63,7 @@ import {
   type GenerationMode,
 } from "@/lib/ai/generationMode";
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
+import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 
 export interface GenerateContentPackageInput {
   projectId: string;
@@ -206,6 +207,10 @@ export async function runGenerateContentPackage(
     runInfo?.generationMode,
   );
 
+  const preferredVideoUsageById = new Map(
+    assets.refs.map((ref) => [ref.id, resolvePreferredVideoUsageFromRef(ref)]),
+  );
+
   const assetCoverage = resolvePackageAssetCoverage({
     generationMode,
     funnelStage: context.funnelStage,
@@ -244,6 +249,7 @@ export async function runGenerateContentPackage(
       requiredPlatforms: targetPlatforms,
       requireVideo,
       assetCoverage,
+      preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
     }),
   });
 

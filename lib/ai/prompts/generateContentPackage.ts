@@ -43,6 +43,7 @@ import {
 } from "@/lib/ai/types";
 
 import type { ProductRole } from "@/lib/assets/productRole";
+import type { PreferredVideoUsage } from "@/lib/assets/preferredVideoUsage";
 
 export interface AssetRef {
   id: string;
@@ -63,6 +64,9 @@ export interface AssetRef {
   safe_vertical_usage?: boolean | null;
   aspect_ratio?: string | number | null;
   visual_importance?: string | null;
+  capture_viewport?: string | null;
+  /** Runtime-only: how this asset should appear in vertical video (not stored in DB). */
+  preferred_video_usage?: PreferredVideoUsage | null;
 }
 
 // Content Quality Sprint (Platform Styles) — per-platform output style. Pure
@@ -494,6 +498,11 @@ export function buildGenerateContentPackagePrompt(
         // default so generated stills stop skewing dark/moody, unless the
         // concept explicitly requires a darker look. Imagery only — never copy.
         visualStyleGuardrailBlock(),
+        "",
+        "DEVICE SCREENS IN GENERATED STILLS:",
+        "- If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be blank white or empty.",
+        "- Show a blurred generic interface, abstract dashboard shapes, or soft colorful UI blobs — unreadable, never a plain white display.",
+        "- Do not generate empty laptop/phone/monitor screens.",
       ]
     : [];
 

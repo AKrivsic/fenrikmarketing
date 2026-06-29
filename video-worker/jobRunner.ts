@@ -42,11 +42,12 @@ import {
   SHORT_PROFILE,
   TAIL_BUFFER_SECONDS,
 } from "@/lib/video-engine/storyboard";
+import {
+  MAX_SCENE_POOL,
+  mergeGeneratedAndAssetScenes,
+} from "@/lib/video-engine/scenePool";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
-// Cap the combined generated + reused still pool so a richer storyboard never
-// inflates cost: many beats cycle through a handful of stills.
-const MAX_SCENE_POOL = 8;
 
 function workerTempDir(): string {
   return (
@@ -90,6 +91,7 @@ interface AssetImageRef {
   bucket: string;
   path: string;
   title?: string;
+  video_usage?: string;
 }
 
 // Attention First V1 — the creative mode's ordered narrative beats, stamped onto
@@ -115,7 +117,12 @@ function parseAssetImages(input: Record<string, unknown>): AssetImageRef[] {
     const bucket = asString(record["bucket"]);
     const path = asString(record["path"]);
     if (bucket && path) {
-      refs.push({ bucket, path, title: asString(record["title"]) });
+      refs.push({
+        bucket,
+        path,
+        title: asString(record["title"]),
+        video_usage: asString(record["video_usage"]),
+      });
     }
   }
   return refs;
@@ -176,11 +183,14 @@ export function buildRenderSpec(input: Record<string, unknown>): RenderSpec {
     duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
     image_bucket: ref.bucket,
     image_path: ref.path,
+    ...(ref.video_usage ? { video_usage: ref.video_usage } : {}),
   }));
 
-  // Generated stills first (the hook usually opens on a branded generated
-  // image), reused assets appended. Pool is capped to control cost.
-  const scenes = [...generatedScenes, ...assetScenes].slice(0, MAX_SCENE_POOL);
+  const scenes = mergeGeneratedAndAssetScenes(
+    generatedScenes,
+    assetScenes,
+    MAX_SCENE_POOL,
+  );
 
   return {
     scenes,
@@ -241,6 +251,7 @@ async function buildRenderSpecOutput(args: {
       image_bucket: bucket,
       image_path: path,
       duration_seconds: scene.duration_seconds,
+      ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
     });
   }
 

@@ -86,6 +86,22 @@ const uiAsset: AssetRef = {
   media_type: "image",
   product_role: "product_ui",
   asset_quality: "high",
+  capture_viewport: "mobile",
+  safe_vertical_usage: true,
+  orientation: "portrait",
+  video_suitability: "primary_scene",
+};
+
+const desktopUiAsset: AssetRef = {
+  id: "a-desktop",
+  title: "Desktop app",
+  asset_class: "static",
+  media_type: "image",
+  product_role: "product_ui",
+  capture_viewport: "desktop",
+  safe_vertical_usage: false,
+  orientation: "landscape",
+  video_suitability: "screen_insert",
 };
 
 const heroAsset: AssetRef = {
@@ -281,6 +297,18 @@ check("logo-only library does not assign production series slots", () => {
   });
   assert.equal(decision.seriesSlotIndices.length, 0);
   assert.equal(decision.stance, "optional");
+});
+
+check("desktop tier-1 library still enables production series slots", () => {
+  const decision = resolvePackageAssetCoverage({
+    generationMode: "production",
+    funnelStage: "solution_aware",
+    packageIndex: 4,
+    packageCount: 9,
+    availableAssets: [desktopUiAsset],
+  });
+  assert.ok(decision.qualityAssetCount > 0);
+  assert.ok(decision.seriesSlotIndices.length > 0);
 });
 
 section("prompt + no assets backward compat");

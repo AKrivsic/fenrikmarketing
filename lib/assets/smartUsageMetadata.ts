@@ -2,6 +2,7 @@ import type { WebsiteImageCandidateKind } from "@/lib/knowledge/extractWebsiteIm
 import type { ProductRole } from "@/lib/assets/productRole";
 import { readProductRole } from "@/lib/assets/productRole";
 import type { Json } from "@/lib/supabase/types";
+import { resolvePreferredVideoUsageFromMetadata } from "@/lib/assets/preferredVideoUsage";
 
 export type AssetOrientation = "portrait" | "landscape" | "square" | "unknown";
 
@@ -353,25 +354,13 @@ export function usedAsIndicatesFramedPresentation(usedAs: string): boolean {
   return hints.some((h) => u.includes(h));
 }
 
-// Worker safety: reused asset stills are fullscreen crops today — only pass
-// assets that are safe for vertical fullscreen OR whose used_as asks for framing.
+// Worker inclusion: all referenced assets may be queued; fullscreen misuse is
+// blocked at generation guardrails. Metadata may later stamp preferred_video_usage.
 export function shouldIncludeAssetInVideoWorker(args: {
   metadata: unknown;
   usedAs: string | null | undefined;
 }): boolean {
-  const usedAs = args.usedAs?.trim() ?? "";
-  if (usedAs && usedAsIndicatesFramedPresentation(usedAs)) return true;
-
-  const suitability = readVideoSuitability(args.metadata);
-  const safeVertical = readSafeVerticalUsage(args.metadata);
-
-  if (suitability === "avoid_fullscreen") return false;
-  if (safeVertical === false) return false;
-  if (suitability === "branding_prop" || suitability === "background_only") {
-    return false;
-  }
-  if (suitability === "end_card" && !usedAs) return false;
-
+  void resolvePreferredVideoUsageFromMetadata(args.metadata);
   return true;
 }
 
@@ -387,8 +376,8 @@ export function buildSmartAssetUsageRulesBlock(): string {
     "- Sample content should show the product clearly, but in a visually appropriate way.",
     "- If an asset would look bad cropped, do not use it fullscreen.",
     "",
-    "ASSET_USAGE used_as (required detail when asset_usage is non-empty):",
-    '- Write used_as as a concrete placement instruction for video/editor (not a vague label).',
+    "- Match each asset_usage to the asset's Preferred usage line; never fullscreen a desktop/wide asset.",
+    "- Write used_as as a concrete placement instruction for video/editor (not a vague label).",
     '- BAD: "End-card hero image".',
     '- GOOD: "Show this landscape social preview image as a framed laptop/monitor screen in the final CTA beat; do not crop fullscreen."',
     '- GOOD: "Use logo as a small branding element on the end card, not as the main visual."',

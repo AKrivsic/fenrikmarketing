@@ -9,6 +9,11 @@ import {
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
+import {
+  shouldComposeAssetLayout,
+  writeComposedAssetSceneFile,
+} from "@/video-worker/services/assetSceneLayout";
+import { readFile } from "node:fs/promises";
 
 export interface GenerateSceneImagesInput {
   scenes: Scene[];
@@ -101,6 +106,23 @@ export async function generateSceneImages(
         storagePath: scene.image_path,
         localPath: imagePath,
       });
+
+      if (shouldComposeAssetLayout(scene.video_usage)) {
+        const raw = await readFile(imagePath);
+        await writeComposedAssetSceneFile({
+          assetBytes: raw,
+          videoUsage: scene.video_usage,
+          outputPath: imagePath,
+        });
+        console.log(
+          "[video-worker] Composed asset scene layout",
+          JSON.stringify({
+            scene_id: scene.id,
+            video_usage: scene.video_usage ?? "floating_card",
+          }),
+        );
+      }
+
       results.push({
         sceneId: scene.id,
         imagePath,

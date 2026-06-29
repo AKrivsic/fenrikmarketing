@@ -14,6 +14,8 @@ export const sceneSchema = z.object({
   duration_seconds: z.number().positive(),
   image_bucket: z.string().min(1).optional(),
   image_path: z.string().min(1).optional(),
+  /** How the renderer should treat this still (compositing hook; optional). */
+  video_usage: z.string().min(1).optional(),
 });
 
 export type Scene = z.infer<typeof sceneSchema>;

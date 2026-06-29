@@ -49,7 +49,7 @@ check("landscape OG / social preview metadata", () => {
   );
 });
 
-check("landscape OG excluded from video worker without framed used_as", () => {
+check("landscape OG may be queued for video worker (usage mode enforced at generation)", () => {
   const meta = computeSmartUsageMetadata({
     width: 1200,
     height: 630,
@@ -59,11 +59,11 @@ check("landscape OG excluded from video worker without framed used_as", () => {
   });
   assert.equal(
     shouldIncludeAssetInVideoWorker({ metadata: meta, usedAs: "Hero background" }),
-    false,
+    true,
   );
 });
 
-check("landscape OG allowed when used_as requests laptop framing", () => {
+check("landscape OG with laptop framing used_as is allowed in worker queue", () => {
   const meta = computeSmartUsageMetadata({
     width: 1200,
     height: 630,
@@ -86,6 +86,21 @@ check("landscape OG allowed when used_as requests laptop framing", () => {
   );
 });
 
+check("portrait mobile UI allowed in video worker", () => {
+  const meta = computeSmartUsageMetadata({
+    width: 390,
+    height: 844,
+    productRole: "product_ui",
+    title: "Mobile app screen",
+    detectedContentType: "app screen",
+    source: "upload",
+  });
+  assert.equal(
+    shouldIncludeAssetInVideoWorker({ metadata: meta, usedAs: "Phone screen insert" }),
+    true,
+  );
+});
+
 check("logo metadata favors branding / not primary fullscreen", () => {
   const meta = computeSmartUsageMetadata({
     width: 400,
@@ -101,10 +116,10 @@ check("logo metadata favors branding / not primary fullscreen", () => {
   );
   assert.equal(
     shouldIncludeAssetInVideoWorker({
-      metadata: meta,
+      metadata: { ...meta, safe_vertical_usage: false },
       usedAs: "Full-screen hero scene",
     }),
-    false,
+    true,
   );
 });
 

@@ -1,4 +1,8 @@
 import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import {
+  preferredUsagePromptHint,
+  resolvePreferredVideoUsageFromRef,
+} from "@/lib/assets/preferredVideoUsage";
 
 function trimOrNull(value: string | null | undefined, max: number): string | null {
   if (!value) return null;
@@ -21,15 +25,25 @@ export function assetRefHasPromptContext(ref: AssetRef): boolean {
       ref.safe_vertical_usage != null ||
       ref.aspect_ratio != null ||
       ref.visual_importance ||
-      ref.asset_quality,
+      ref.asset_quality ||
+      ref.preferred_video_usage ||
+      ref.capture_viewport,
   );
 }
 
-// Formats one asset for the AVAILABLE ASSETS prompt block. When no optional
-// fields are set, the line is byte-identical to the historical format.
+function preferredHintLine(ref: AssetRef): string {
+  const preferred =
+    ref.preferred_video_usage ?? resolvePreferredVideoUsageFromRef(ref);
+  return `  ${preferredUsagePromptHint(preferred)}`;
+}
+
+// Formats one asset for the AVAILABLE ASSETS prompt block. Every asset includes
+// a Preferred usage line (runtime classification, not stored in DB).
 export function formatAvailableAssetPromptLine(ref: AssetRef): string {
   const legacy = `- id=${ref.id} class=${ref.asset_class} type=${ref.media_type} "${ref.title}"`;
-  if (!assetRefHasPromptContext(ref)) return legacy;
+  if (!assetRefHasPromptContext(ref)) {
+    return `${legacy}\n${preferredHintLine(ref)}`;
+  }
 
   const parts: string[] = [legacy];
   if (ref.product_role) parts.push(`  role=${ref.product_role}`);
@@ -42,6 +56,7 @@ export function formatAvailableAssetPromptLine(ref: AssetRef): string {
   if (ref.video_suitability) parts.push(`  video_suitability=${ref.video_suitability}`);
   if (ref.safe_vertical_usage === true) parts.push(`  safe_vertical_usage=true`);
   if (ref.safe_vertical_usage === false) parts.push(`  safe_vertical_usage=false`);
+  if (ref.capture_viewport) parts.push(`  capture_viewport=${ref.capture_viewport}`);
   if (ref.aspect_ratio !== undefined && ref.aspect_ratio !== null) {
     parts.push(`  aspect_ratio=${ref.aspect_ratio}`);
   }
@@ -52,5 +67,6 @@ export function formatAvailableAssetPromptLine(ref: AssetRef): string {
   if (desc) parts.push(`  desc=${JSON.stringify(desc)}`);
   const usage = trimOrNull(ref.suggested_usage, 160);
   if (usage) parts.push(`  usage=${JSON.stringify(usage)}`);
+  parts.push(preferredHintLine(ref));
   return parts.join("\n");
 }

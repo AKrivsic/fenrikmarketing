@@ -26,11 +26,10 @@ const base: AssetRef = {
   media_type: "image",
 };
 
-check("legacy line when no optional fields", () => {
-  assert.equal(
-    formatAvailableAssetPromptLine(base),
-    '- id=uuid-1 class=static type=image "Shot"',
-  );
+check("minimal asset line includes preferred usage hint", () => {
+  const line = formatAvailableAssetPromptLine(base);
+  assert.ok(line.startsWith('- id=uuid-1 class=static type=image "Shot"'));
+  assert.ok(line.includes("Preferred usage:"));
   assert.equal(assetRefHasPromptContext(base), false);
 });
 

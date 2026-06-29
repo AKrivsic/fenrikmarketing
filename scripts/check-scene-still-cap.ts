@@ -208,16 +208,17 @@ check("7 image_prompts -> at most 5 generated scenes for a NEW job", () => {
   assert.equal(generatedSceneCount(spec), MAX_VIDEO_SCENE_STILLS);
 });
 
-check("asset reuse is preserved alongside the generated cap", () => {
+check("asset reuse is preserved early in the storyboard pool", () => {
   const seven = Array.from({ length: 7 }, (_v, i) => `purely visual scene ${i}`);
   const spec = buildRenderSpec({
     voiceover_text: "Here is how we help, quickly and simply, every time.",
     image_prompts: seven,
     asset_images: [{ bucket: "assets", path: "logo.png", title: "logo" }],
   });
-  assert.equal(generatedSceneCount(spec), MAX_VIDEO_SCENE_STILLS);
-  const reused = spec.scenes.filter((s) => s.image_path);
-  assert.equal(reused.length, 1);
+  assert.equal(generatedSceneCount(spec), 4);
+  const assetIdx = spec.scenes.findIndex((s) => s.id === "asset-1");
+  assert.equal(spec.scenes.filter((s) => s.image_path).length, 1);
+  assert.ok(assetIdx >= 0 && assetIdx <= 3);
 });
 
 check("reuse path (explicit render_spec scenes) is NOT re-truncated", () => {

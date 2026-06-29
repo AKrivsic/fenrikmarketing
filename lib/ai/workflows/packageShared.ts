@@ -30,11 +30,14 @@ import {
   type AssetCoverageDecision,
 } from "@/lib/assets/assetCoveragePolicy";
 import type { AssetQualityTier } from "@/lib/assets/assetIngestMetadata";
+import { readSafeVerticalUsage } from "@/lib/assets/smartUsageMetadata";
 import {
-  readSafeVerticalUsage,
-  readVideoSuitability,
-  shouldIncludeAssetInVideoWorker,
-} from "@/lib/assets/smartUsageMetadata";
+  assetUsageFullscreenViolation,
+  readCaptureViewport,
+  resolvePreferredVideoUsageFromMetadata,
+  resolveVideoUsageForRender,
+} from "@/lib/assets/preferredVideoUsage";
+import type { PreferredVideoUsage } from "@/lib/assets/preferredVideoUsage";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -157,6 +160,10 @@ export async function loadAvailableAssets(
         safe_vertical_usage: readSafeVerticalUsage(metadata),
         aspect_ratio: readAspectRatio(metadata),
         visual_importance: readMetadataString(metadata, "visual_importance"),
+        capture_viewport: readCaptureViewport(metadata),
+        preferred_video_usage: resolvePreferredVideoUsageFromMetadata(metadata, {
+          title: a.title as string,
+        }),
       },
     });
   }
@@ -203,6 +210,8 @@ export function makePackageGuardrails(args: {
   // packages where no selected platform requires video.
   requireVideo?: boolean;
   assetCoverage?: AssetCoverageDecision | null;
+  /** Preferred video usage per asset id (for fullscreen guardrail). */
+  preferredVideoUsageById?: ReadonlyMap<string, PreferredVideoUsage>;
 }): (pkg: ContentPackageOutput) => ValidationIssue[] {
   const {
     project,
@@ -211,6 +220,7 @@ export function makePackageGuardrails(args: {
     requiredPlatforms,
     requireVideo,
     assetCoverage,
+    preferredVideoUsageById,
   } = args;
   return (pkg) => {
     const issues = checkContentPackageGuardrails(pkg, {
@@ -228,6 +238,21 @@ export function makePackageGuardrails(args: {
         issues.push({
           path: "$.asset_usage",
           message: `asset ${usage.asset_id} not found in project`,
+        });
+        continue;
+      }
+      if (
+        requireVideo &&
+        preferredVideoUsageById &&
+        usage.used_as &&
+        assetUsageFullscreenViolation(
+          preferredVideoUsageById.get(usage.asset_id) ?? "reference",
+          usage.used_as,
+        )
+      ) {
+        issues.push({
+          path: "$.asset_usage",
+          message: `asset ${usage.asset_id} must not be used fullscreen in vertical video (preferred: ${preferredVideoUsageById.get(usage.asset_id) ?? "reference"}); use framed_screen / device insert in used_as`,
         });
         continue;
       }
@@ -341,7 +366,9 @@ async function loadAssetImages(
   supabase: SupabaseClient,
   projectId: string,
   pkg: ContentPackageOutput,
-): Promise<{ bucket: string; path: string; title: string }[]> {
+): Promise<
+  { bucket: string; path: string; title: string; video_usage: string }[]
+> {
   const usages = pkg.asset_usage ?? [];
   const usageIds = Array.from(
     new Set(usages.map((u) => u.asset_id).filter(Boolean)),
@@ -363,30 +390,28 @@ async function loadAssetImages(
     .eq("media_type", "image");
   if (error || !data) return [];
 
-  const result: { bucket: string; path: string; title: string }[] = [];
+  const result: { bucket: string; path: string; title: string; video_usage: string }[] =
+    [];
   for (const row of data) {
     const bucket = row.storage_bucket as string | null;
     const path = row.storage_path as string | null;
     if (!bucket || !path) continue;
 
     const metadata = (row.metadata as Json) ?? {};
-    const include = shouldIncludeAssetInVideoWorker({
-      metadata,
-      usedAs: usedAsById.get(row.id as string),
+    const preferred = resolvePreferredVideoUsageFromMetadata(metadata, {
+      title: row.title as string,
     });
-    if (!include) {
-      console.warn(
-        "[content-package] asset omitted from video worker (unsafe fullscreen)",
-        JSON.stringify({
-          asset_id: row.id,
-          video_suitability: readVideoSuitability(metadata),
-          safe_vertical_usage: readSafeVerticalUsage(metadata),
-        }),
-      );
-      continue;
-    }
+    const videoUsage = resolveVideoUsageForRender(
+      preferred,
+      usedAsById.get(row.id as string),
+    );
 
-    result.push({ bucket, path, title: (row.title as string) ?? "" });
+    result.push({
+      bucket,
+      path,
+      title: (row.title as string) ?? "",
+      video_usage: videoUsage,
+    });
   }
   return result;
 }

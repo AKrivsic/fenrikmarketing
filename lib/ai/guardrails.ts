@@ -434,6 +434,19 @@ export function checkContentPackageGuardrails(
         ),
       );
     }
+
+    const blankScreenPattern =
+      /\b(blank|empty)\s+(white\s+)?(screen|display|monitor)\b/i;
+    for (let i = 0; i < prompts.length; i++) {
+      if (blankScreenPattern.test(prompts[i])) {
+        issues.push(
+          issue(
+            `$.image_prompts[${i}]`,
+            "image_prompt must not describe a blank or empty device screen (use blurred UI instead)",
+          ),
+        );
+      }
+    }
   }
 
   return issues;

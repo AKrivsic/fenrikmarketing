@@ -26,6 +26,7 @@ export const persistedSceneSchema = z.object({
   image_bucket: z.string().min(1),
   image_path: z.string().min(1),
   duration_seconds: z.number().positive(),
+  video_usage: z.string().min(1).optional(),
 });
 
 export const renderSpecOutputSchema = z.object({
