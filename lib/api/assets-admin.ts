@@ -8,6 +8,10 @@ import {
 } from "@/lib/assets/analysis";
 import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
 import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
+import {
+  buildAssetLibraryPresentation,
+  type AssetLibrarySource,
+} from "@/lib/assets/assetLibraryPresentation";
 
 // Read-only asset library for the internal admin UI. Uses the service-role
 // admin client (RLS bypassed); keep this module server-only. No upload / edit /
@@ -36,6 +40,11 @@ export interface AssetView {
   trustSignal: boolean;
   analysisStatus: AssetAnalysisStatus | null;
   productRole: ProductRole | null;
+  source: AssetLibrarySource;
+  sourceLabel: string;
+  captureViewport: string | null;
+  dimensionsLabel: string | null;
+  preferredVideoUsage: string;
 }
 
 // Builds signed preview URLs for image assets only, batched per bucket so the
@@ -89,13 +98,20 @@ function toMetadataRecord(value: Json): Record<string, unknown> | null {
 
 function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
   const analysis = readAssetAnalysis(asset.metadata);
+  const assetClass = classifyAsset(asset.asset_mode, toMetadataRecord(asset.metadata));
+  const presentation = buildAssetLibraryPresentation({
+    metadata: asset.metadata,
+    tags: asset.tags ?? [],
+    title: asset.title,
+    assetClass,
+  });
   return {
     id: asset.id,
     projectId: asset.project_id,
     title: asset.title,
     mediaType: asset.media_type,
     assetMode: asset.asset_mode,
-    assetClass: classifyAsset(asset.asset_mode, toMetadataRecord(asset.metadata)),
+    assetClass,
     tags: asset.tags ?? [],
     usageCount: asset.usage_count,
     reuseScore: asset.reuse_score,
@@ -107,6 +123,11 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     trustSignal: analysis?.trustSignal ?? false,
     analysisStatus: analysis?.analysisStatus ?? null,
     productRole: readProductRole(asset.metadata),
+    source: presentation.source,
+    sourceLabel: presentation.sourceLabel,
+    captureViewport: presentation.captureViewport,
+    dimensionsLabel: presentation.dimensionsLabel,
+    preferredVideoUsage: presentation.preferredVideoUsage,
   };
 }
 
@@ -128,7 +149,10 @@ export async function listAssetsForAdmin(): Promise<AssetView[]> {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return mapAssetsWithPreview(supabase, (data ?? []) as Asset[]);
+  const active = ((data ?? []) as Asset[]).filter(
+    (asset) => !isAssetArchivedFromLibrary(asset.metadata),
+  );
+  return mapAssetsWithPreview(supabase, active);
 }
 
 // Assets scoped to a single project.

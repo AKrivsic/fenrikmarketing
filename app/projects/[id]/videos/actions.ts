@@ -2,18 +2,32 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { listProjectAssets } from "@/lib/api/assets-admin";
+import type { AssetView } from "@/lib/api/assets-admin";
 import {
   loadVideoSceneEditorState,
+  applyLibraryAssetAsSceneReplacement,
+  insertLibraryBrandAssetInEditor,
   insertBrandAssetInEditor,
   editSceneImageInEditor,
   regenerateSceneImageInEditor,
   restoreSceneImageVersionInEditor,
   runSceneEditorRerender,
+  type SceneEditorRenderAssetMode,
   updateSceneEditorVoiceoverText,
   updateSceneImagePromptInEditor,
   uploadSceneReplacementImage,
+  saveVideoVisualSourceInEditor,
+  setSceneProjectAssetInEditor,
+  setSceneVisualModeInEditor,
+  loadVideoWorkflowState,
+  type VideoWorkflowState,
   type VideoSceneEditorState,
 } from "@/lib/ai/workflows/videoSceneEditor";
+import type {
+  SceneVisualMode,
+  VideoVisualSource,
+} from "@/lib/video-scene-editor/videoWorkflowMetadata";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
 import {
   loadFailedVideoJobEditorState,
@@ -47,6 +61,93 @@ async function resolveVideoCallbackUrl(): Promise<string | undefined> {
     requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
   const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
   return host ? `${proto}://${host}/api/n8n/video-callback` : undefined;
+}
+
+export async function fetchProjectAssetsForPicker(
+  projectId: string,
+): Promise<VideoSceneEditorActionResult<AssetView[]>> {
+  if (!projectId) return fail("Chybí identifikátor projektu.");
+  try {
+    const data = await listProjectAssets(projectId);
+    return { ok: true, data };
+  } catch {
+    return fail("Načtení assetů se nezdařilo.");
+  }
+}
+
+export async function loadVideoWorkflowStateAction(
+  projectId: string,
+  contentItemId: string,
+): Promise<VideoSceneEditorActionResult<VideoWorkflowState>> {
+  if (!projectId || !contentItemId) {
+    return fail("Chybí identifikátor projektu nebo položky.");
+  }
+  try {
+    const data = await loadVideoWorkflowState({ projectId, contentItemId });
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function saveVideoVisualSourceAction(
+  projectId: string,
+  videoJobId: string,
+  visualSource: VideoVisualSource,
+  manualAssetIds?: string[],
+): Promise<VideoSceneEditorActionResult<VideoWorkflowState>> {
+  try {
+    const state = await saveVideoVisualSourceInEditor({
+      projectId,
+      videoJobId,
+      visualSource,
+      manualAssetIds,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data: state.workflow };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function setSceneVisualModeAction(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  mode: SceneVisualMode,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await setSceneVisualModeInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      mode,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function setSceneProjectAssetAction(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  assetId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await setSceneProjectAssetInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      assetId,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
 }
 
 export async function fetchVideoSceneEditorState(
@@ -118,6 +219,51 @@ export async function updateVideoSceneImagePrompt(
       videoJobId,
       sceneId,
       imagePrompt,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function applyLibraryAssetToVideoScene(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  assetId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  if (!assetId) return fail("Vyber asset z knihovny projektu.");
+  try {
+    const data = await applyLibraryAssetAsSceneReplacement({
+      projectId,
+      videoJobId,
+      sceneId,
+      assetId,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function insertLibraryAssetIntoVideoScene(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  assetId: string,
+  instruction: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  if (!assetId) return fail("Vyber asset z knihovny projektu.");
+  if (!instruction.trim()) return fail("Chybí instrukce pro vložení loga.");
+  try {
+    const data = await insertLibraryBrandAssetInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      assetId,
+      instruction,
     });
     revalidateVideos(projectId);
     return { ok: true, data };
@@ -218,11 +364,20 @@ export async function restoreVideoSceneImage(
 export async function rerenderVideoFromSceneEditor(
   projectId: string,
   videoJobId: string,
+  options?: {
+    renderAssetMode?: SceneEditorRenderAssetMode;
+    selectedAssetIds?: string[];
+  },
 ): Promise<VideoSceneEditorActionResult<{ videoJobId: string }>> {
   try {
     const videoCallbackUrl = await resolveVideoCallbackUrl();
     const summary = await runSceneEditorRerender(
-      { projectId, videoJobId },
+      {
+        projectId,
+        videoJobId,
+        renderAssetMode: options?.renderAssetMode,
+        selectedAssetIds: options?.selectedAssetIds,
+      },
       { videoCallbackUrl },
     );
     revalidateVideos(projectId);

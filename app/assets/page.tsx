@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/PageHeader/PageHeader";
-import { AssetGrid } from "@/components/assets/AssetGrid/AssetGrid";
+import { GlobalAssetsLibrary } from "@/components/assets/GlobalAssetsLibrary/GlobalAssetsLibrary";
 import { listAssetsForAdmin } from "@/lib/api/assets-admin";
 import styles from "./page.module.css";
 
@@ -11,7 +11,7 @@ export default async function AssetsPage() {
   return (
     <div className={styles.page}>
       <PageHeader title="Assets" description="Knihovna podkladů a výstupů." />
-      <AssetGrid assets={assets} />
+      <GlobalAssetsLibrary assets={assets} />
     </div>
   );
 }

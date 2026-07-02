@@ -169,6 +169,13 @@ export interface ProductionConfig {
   >;
   /** Creative Engine mode for packages in this run. Defaults to production. */
   generationMode?: GenerationMode;
+  /**
+   * Packages in this run where asset workflow is enabled for later manual use.
+   * Does not force asset_usage during generation (0 = unchanged).
+   */
+  packagesWithAssetSupport?: number;
+  /** @deprecated Use packagesWithAssetSupport */
+  packagesWithAssets?: number;
 }
 
 export interface ProductionPlatformOutput {
@@ -270,12 +277,23 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
     record.generation_mode ?? record.generationMode,
   );
 
+  const packagesWithAssetSupportRaw = clampInt(
+    record.packagesWithAssetSupport ?? record.packagesWithAssets,
+    0,
+    PACKAGE_COUNT_MAX,
+  );
+  const packagesWithAssetSupport = Math.min(
+    packagesWithAssetSupportRaw,
+    packageCount,
+  );
+
   return {
     packageCount,
     platforms,
     multipliers,
     ...(platformContentTypes ? { platformContentTypes } : {}),
     ...(generationMode !== DEFAULT_GENERATION_MODE ? { generationMode } : {}),
+    ...(packagesWithAssetSupport > 0 ? { packagesWithAssetSupport } : {}),
   };
 }
 

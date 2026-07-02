@@ -120,7 +120,7 @@ export function selectionLimitsForProfile(
         maxWideDesktopSections: 1,
         mobileRankMultiplier: 1.1,
         desktopDashboardMultiplier: 1.38,
-        preferMobileOnDuplicate: false,
+        preferMobileOnDuplicate: true,
       };
   }
 }

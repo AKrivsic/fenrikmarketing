@@ -358,6 +358,7 @@ async function loadRunGenerationPlan(
   // the PACKAGE DIVERSITY prompt block.
   packageCount: number;
   generationMode: GenerationMode;
+  packagesWithAssetSupport: number;
 } | null> {
   const { data, error } = await supabase
     .from("production_runs")
@@ -379,6 +380,7 @@ async function loadRunGenerationPlan(
         plan,
         packageCount: config.packageCount,
         generationMode: config.generationMode ?? DEFAULT_GENERATION_MODE,
+        packagesWithAssetSupport: config.packagesWithAssetSupport ?? 0,
       }
     : null;
 }

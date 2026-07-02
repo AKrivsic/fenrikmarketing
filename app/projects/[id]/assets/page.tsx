@@ -1,4 +1,4 @@
-import { AssetGrid } from "@/components/assets/AssetGrid/AssetGrid";
+import { ProjectAssetsLibrary } from "@/components/assets/ProjectAssetsLibrary/ProjectAssetsLibrary";
 import { AssetUploadForm } from "@/components/assets/AssetUploadForm/AssetUploadForm";
 import { FetchWebsiteAssetsButton } from "@/components/assets/FetchWebsiteAssetsButton/FetchWebsiteAssetsButton";
 import { listProjectAssets } from "@/lib/api/assets-admin";
@@ -20,7 +20,7 @@ export default async function ProjectAssetsTabPage({
     <div className={styles.tab}>
       <FetchWebsiteAssetsButton projectId={id} />
       <AssetUploadForm projectId={id} />
-      <AssetGrid
+      <ProjectAssetsLibrary
         projectId={id}
         assets={assets}
         emptyText="Tento projekt zatím nemá žádné assety."

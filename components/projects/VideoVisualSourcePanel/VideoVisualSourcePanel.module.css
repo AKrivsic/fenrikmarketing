@@ -1,0 +1,64 @@
+.panel {
+  margin-top: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.5rem;
+  align-items: start;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.optionLabel {
+  font-weight: 500;
+}
+
+.optionHint {
+  grid-column: 2;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.manualRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.manualCount {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.pickBtn {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.error {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}

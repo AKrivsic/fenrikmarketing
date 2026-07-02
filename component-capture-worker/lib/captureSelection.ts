@@ -10,6 +10,8 @@ export interface ScoredCaptureCandidate {
   score: number;
   x: number;
   y: number;
+  /** Truncated element text for cross-viewport similarity (not exposed in worker HTTP response). */
+  textSnippet?: string;
 }
 
 const CAPTURE_ATTR = "data-fenrik-capture-id";
@@ -550,6 +552,7 @@ export function runCaptureSelectionInPage(captureIdPrefix = ""): ScoredCaptureCa
     height: number;
     x: number;
     y: number;
+    textSnippet?: string;
   };
 
   const scored: Internal[] = [];
@@ -618,6 +621,7 @@ export function runCaptureSelectionInPage(captureIdPrefix = ""): ScoredCaptureCa
       continue;
     }
 
+    const snippetRaw = (captureEl.textContent ?? "").replace(/\s+/g, " ").trim();
     scored.push({
       el: captureEl,
       selectorHint: hint(captureEl),
@@ -628,6 +632,7 @@ export function runCaptureSelectionInPage(captureIdPrefix = ""): ScoredCaptureCa
       height: Math.round(capRect.height),
       x: capRect.x,
       y: capRect.y,
+      textSnippet: snippetRaw.slice(0, 280),
     });
   }
 
@@ -648,6 +653,7 @@ export function runCaptureSelectionInPage(captureIdPrefix = ""): ScoredCaptureCa
       score: item.score,
       x: item.x,
       y: item.y,
+      ...(item.textSnippet ? { textSnippet: item.textSnippet } : {}),
     });
     if (out.length >= 12) break;
   }

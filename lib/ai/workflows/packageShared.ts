@@ -362,6 +362,18 @@ export async function buildVideoJobInput(
 // Resolves the image-type assets referenced in pkg.asset_usage to durable
 // Storage references. Best-effort: any failure yields an empty list so video
 // jobs are never blocked by asset resolution.
+export async function resolvePackageAssetImages(
+  supabase: SupabaseClient,
+  projectId: string,
+  assetUsage: ContentPackageOutput["asset_usage"],
+): Promise<
+  { bucket: string; path: string; title: string; video_usage: string }[]
+> {
+  return loadAssetImages(supabase, projectId, {
+    asset_usage: assetUsage ?? [],
+  } as ContentPackageOutput);
+}
+
 async function loadAssetImages(
   supabase: SupabaseClient,
   projectId: string,

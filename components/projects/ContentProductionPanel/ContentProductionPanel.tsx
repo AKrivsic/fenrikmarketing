@@ -50,6 +50,11 @@ export function ContentProductionPanel({
   const [packageCount, setPackageCount] = useState<number>(
     initialConfig.packageCount,
   );
+  const [packagesWithAssetSupport, setPackagesWithAssetSupport] = useState<number>(
+    initialConfig.packagesWithAssetSupport ??
+      initialConfig.packagesWithAssets ??
+      0,
+  );
   const [activePlatforms, setActivePlatforms] = useState<
     Record<ProductionPlatformId, boolean>
   >(() => {
@@ -82,12 +87,14 @@ export function ContentProductionPanel({
     ).map((d) => d.id);
     return {
       packageCount,
+      packagesWithAssetSupport: Math.min(packagesWithAssetSupport, packageCount),
       platforms,
       multipliers,
       platformContentTypes: initialConfig.platformContentTypes,
     };
   }, [
     packageCount,
+    packagesWithAssetSupport,
     activePlatforms,
     multipliers,
     initialConfig.platformContentTypes,
@@ -125,7 +132,17 @@ export function ContentProductionPanel({
       ? Math.min(PACKAGE_COUNT_MAX, Math.max(PACKAGE_COUNT_MIN, parsed))
       : 0;
     setPackageCount(value);
+    setPackagesWithAssetSupport((prev) => Math.min(prev, value));
   }, []);
+
+  const onPackagesWithAssetSupport = useCallback(
+    (raw: string) => {
+      const parsed = Number.parseInt(raw, 10);
+      const value = Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
+      setPackagesWithAssetSupport(Math.min(value, packageCount));
+    },
+    [packageCount],
+  );
 
   const onTogglePlatform = useCallback((id: ProductionPlatformId) => {
     setActivePlatforms((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -181,7 +198,7 @@ export function ContentProductionPanel({
       {/* --- Packages per week --------------------------------------------- */}
       <div className={styles.primary}>
         <label className={styles.primaryLabel} htmlFor="packageCount">
-          Packages per week
+          Packages
         </label>
         <input
           id="packageCount"
@@ -194,6 +211,27 @@ export function ContentProductionPanel({
           disabled={active}
         />
         <span className={styles.primaryHint}>1 package = 1 téma = 1 video</span>
+      </div>
+
+      <div className={styles.primary}>
+        <label className={styles.primaryLabel} htmlFor="packagesWithAssetSupport">
+          Packages with Asset Support
+        </label>
+        <input
+          id="packagesWithAssetSupport"
+          type="number"
+          min={0}
+          max={packageCount}
+          className={styles.primaryInput}
+          value={packagesWithAssetSupport}
+          onChange={(e) => onPackagesWithAssetSupport(e.target.value)}
+          disabled={active}
+        />
+        <span className={styles.primaryHint}>
+          0 = beze změny. Vyšší číslo jen označí, u kolika packages je povolen
+          asset workflow pro pozdější ruční re-render — negeneruje se vynucené
+          asset_usage.
+        </span>
       </div>
 
       {/* --- Platforms + multipliers --------------------------------------- */}
@@ -263,6 +301,14 @@ export function ContentProductionPanel({
         <div className={styles.summaryItem}>
           <dt>Packages</dt>
           <dd className={styles.bigNumber}>{plan.packageCount}</dd>
+        </div>
+        <div className={styles.summaryItem}>
+          <dt>Packages with assets</dt>
+          <dd>
+            {config.packagesWithAssetSupport && config.packagesWithAssetSupport > 0
+              ? `${config.packagesWithAssetSupport} with asset support · ${Math.max(0, plan.packageCount - config.packagesWithAssetSupport)} standard`
+              : "asset support: automatic (unchanged)"}
+          </dd>
         </div>
         <div className={styles.summaryItem}>
           <dt>Videos</dt>

@@ -14,10 +14,15 @@ import {
 import {
   dedupeCrossViewport,
   inferProductVisualProfile,
+  sameVisualPair,
   selectFinalCaptureCandidates,
   socialRankScore,
   type PooledCaptureCandidate,
 } from "../lib/captureRanking.ts";
+import {
+  captureSemanticSimilarity,
+  labelSimilarity,
+} from "../lib/captureSemanticSimilarity.ts";
 
 let passed = 0;
 let failed = 0;
@@ -221,6 +226,170 @@ check("dedup desktop/mobile keeps mobile phone mockup", () => {
   const out = dedupeCrossViewport([desktop, mobile], "mobile_consumer");
   assert.equal(out.length, 1);
   assert.equal(out[0].captureViewport, "mobile");
+});
+
+check("same feature desktop + mobile prefers mobile (Consistency Score)", () => {
+  const desktop = poolItem({
+    label: "Analytics dashboard",
+    width: 960,
+    height: 540,
+    score: 900_000,
+    captureViewport: "desktop",
+    roleHint: "dashboard",
+    captureId: "d-score",
+    selectorHint: "div.dashboard-panel",
+    textSnippet: "Consistency Score 84 weekly trends habits completed",
+  });
+  const mobile = poolItem({
+    label: "App screen",
+    width: 320,
+    height: 620,
+    score: 400_000,
+    captureViewport: "mobile",
+    roleHint: "mobile_app",
+    captureId: "m-score",
+    selectorHint: "div.aspect-[9/19]",
+    textSnippet: "Consistency Score 84 your weekly habit streak",
+  });
+  assert.ok(sameVisualPair(desktop, mobile));
+  const out = dedupeCrossViewport([desktop, mobile], "unknown");
+  assert.equal(out.length, 1);
+  assert.equal(out[0].captureViewport, "mobile");
+});
+
+check("different features desktop pricing + mobile habit feed keeps both", () => {
+  const desktop = poolItem({
+    label: "Pricing",
+    width: 900,
+    height: 480,
+    score: 800_000,
+    captureViewport: "desktop",
+    roleHint: "pricing_screenshot",
+    captureId: "d-price",
+    textSnippet: "Pro plan $9 monthly billing annual pricing",
+  });
+  const mobile = poolItem({
+    label: "Habit feed cards",
+    width: 350,
+    height: 400,
+    score: 700_000,
+    captureViewport: "mobile",
+    roleHint: "feature_card",
+    captureId: "m-feed",
+    textSnippet: "Habit feed morning check-in streak cards",
+  });
+  assert.ok(!sameVisualPair(desktop, mobile));
+  assert.ok(captureSemanticSimilarity(desktop, mobile) < 0.72);
+  const out = dedupeCrossViewport([desktop, mobile], "mobile_consumer");
+  assert.equal(out.length, 2);
+});
+
+check("desktop-only pool unchanged", () => {
+  const a = poolItem({
+    label: "Pipeline metrics",
+    width: 920,
+    height: 480,
+    score: 800_000,
+    captureViewport: "desktop",
+    roleHint: "dashboard",
+    captureId: "d-1",
+  });
+  const b = poolItem({
+    label: "Team workspace",
+    width: 880,
+    height: 460,
+    score: 750_000,
+    captureViewport: "desktop",
+    roleHint: "dashboard",
+    captureId: "d-2",
+  });
+  const out = dedupeCrossViewport([a, b], "saas_desktop");
+  assert.equal(out.length, 2);
+  assert.ok(out.every((c) => c.captureViewport === "desktop"));
+});
+
+check("mobile-only pool unchanged", () => {
+  const a = poolItem({
+    label: "Morning reminder",
+    width: 360,
+    height: 178,
+    score: 600_000,
+    captureViewport: "mobile",
+    roleHint: "feature_card",
+    captureId: "m-1",
+  });
+  const b = poolItem({
+    label: "Habit feed cards",
+    width: 350,
+    height: 400,
+    score: 550_000,
+    captureViewport: "mobile",
+    roleHint: "feature_card",
+    captureId: "m-2",
+  });
+  const out = dedupeCrossViewport([a, b], "mobile_consumer");
+  assert.equal(out.length, 2);
+});
+
+check("label similarity matches distinctive shared headings", () => {
+  assert.ok(labelSimilarity("Consistency Score", "Consistency Score") >= 0.99);
+  assert.ok(labelSimilarity("Pricing plans", "Habit feed") < 0.35);
+});
+
+check("final selection drops desktop when mobile equivalent exists", () => {
+  const pool = [
+    poolItem({
+      label: "Product UI",
+      width: 980,
+      height: 520,
+      score: 1_000_000,
+      captureViewport: "desktop",
+      roleHint: "dashboard",
+      captureId: "d-ui",
+      textSnippet: "Onboarding welcome complete your profile setup steps",
+    }),
+    poolItem({
+      label: "App screen",
+      width: 300,
+      height: 640,
+      score: 450_000,
+      captureViewport: "mobile",
+      roleHint: "mobile_app",
+      captureId: "m-ui",
+      textSnippet: "Onboarding welcome complete your profile setup",
+    }),
+    poolItem({
+      label: "Billing panel",
+      width: 920,
+      height: 480,
+      score: 800_000,
+      roleHint: "dashboard",
+      captureViewport: "desktop",
+      captureId: "dash-1",
+    }),
+    poolItem({
+      label: "Editor canvas",
+      width: 880,
+      height: 440,
+      score: 700_000,
+      roleHint: "product_ui",
+      selectorHint: "div.canvas-editor",
+      captureViewport: "desktop",
+      captureId: "ui-1",
+    }),
+    poolItem({
+      label: "Feature card",
+      width: 360,
+      height: 280,
+      score: 500_000,
+      roleHint: "feature_card",
+      captureViewport: "mobile",
+      captureId: "card-1",
+    }),
+  ];
+  const final = selectFinalCaptureCandidates(pool, 5);
+  assert.ok(!final.some((c) => c.captureId === "d-ui"), "desktop duplicate should lose");
+  assert.ok(final.some((c) => c.captureId === "m-ui"), "mobile equivalent kept");
 });
 
 check("desktop dashboard beats mobile text-heavy section (saas profile)", () => {

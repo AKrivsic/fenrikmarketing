@@ -11,6 +11,8 @@ interface VideoSceneCardProps {
   scene: VideoSceneEditorSceneView;
   disabled: boolean;
   onUpload: (sceneId: string, file: File) => void;
+  onSceneVisualMode: (sceneId: string, mode: "ai" | "project_asset") => void;
+  onPickSceneProjectAsset: (sceneId: string) => void;
   onRegenerate: (sceneId: string, instruction: string) => void;
   onEditImage: (sceneId: string, instruction: string) => void;
   onInsertBrandAsset: (
@@ -18,6 +20,7 @@ interface VideoSceneCardProps {
     file: File,
     instruction: string,
   ) => void;
+  onChooseLibraryBrand: (sceneId: string, instruction: string) => void;
   onPromptSave: (sceneId: string, imagePrompt: string) => void;
   onRestore: (sceneId: string, versionId: string) => void;
 }
@@ -38,9 +41,12 @@ export function VideoSceneCard({
   scene,
   disabled,
   onUpload,
+  onSceneVisualMode,
+  onPickSceneProjectAsset,
   onRegenerate,
   onEditImage,
   onInsertBrandAsset,
+  onChooseLibraryBrand,
   onPromptSave,
   onRestore,
 }: VideoSceneCardProps) {
@@ -92,6 +98,43 @@ export function VideoSceneCard({
           <div className={styles.previewPlaceholder}>Náhled nedostupný</div>
         )}
       </div>
+
+      <fieldset className={styles.visualSourceBlock} disabled={disabled}>
+        <legend className={styles.sectionTitle}>Visual</legend>
+        <label className={styles.radioLabel}>
+          <input
+            type="radio"
+            name={`scene-visual-${scene.id}`}
+            checked={scene.visualMode === "ai"}
+            onChange={() => onSceneVisualMode(scene.id, "ai")}
+          />
+          AI
+        </label>
+        <label className={styles.radioLabel}>
+          <input
+            type="radio"
+            name={`scene-visual-${scene.id}`}
+            checked={scene.visualMode === "project_asset"}
+            onChange={() => onSceneVisualMode(scene.id, "project_asset")}
+          />
+          Project Asset
+        </label>
+        {scene.visualMode === "project_asset" ? (
+          <div className={styles.visualAssetRow}>
+            <button
+              type="button"
+              className={styles.secondaryBtn}
+              disabled={disabled}
+              onClick={() => onPickSceneProjectAsset(scene.id)}
+            >
+              Choose from Project Assets
+            </button>
+            {scene.projectAssetTitle ? (
+              <span className={styles.fileName}>{scene.projectAssetTitle}</span>
+            ) : null}
+          </div>
+        ) : null}
+      </fieldset>
 
       <label className={styles.instructionLabel}>
         Popis obrázku
@@ -184,6 +227,16 @@ export function VideoSceneCard({
           onClick={() => brandAssetRef.current?.click()}
         >
           Vybrat logo / asset
+        </button>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled || brandAssetInstruction.trim().length === 0}
+          onClick={() =>
+            onChooseLibraryBrand(scene.id, brandAssetInstruction.trim())
+          }
+        >
+          Choose from Project Assets
         </button>
         {brandAssetFile ? (
           <p className={styles.fileName}>{brandAssetFile.name}</p>

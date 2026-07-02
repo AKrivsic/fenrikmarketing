@@ -6,12 +6,14 @@ interface AssetGridProps {
   assets: AssetView[];
   emptyText?: string;
   projectId?: string;
+  onPreview?: (asset: AssetView) => void;
 }
 
 export function AssetGrid({
   assets,
   emptyText = "Zatím žádné assety.",
   projectId,
+  onPreview,
 }: AssetGridProps) {
   if (assets.length === 0) {
     return (
@@ -24,7 +26,12 @@ export function AssetGrid({
   return (
     <div className={styles.grid}>
       {assets.map((asset) => (
-        <AssetCard key={asset.id} projectId={projectId} asset={asset} />
+        <AssetCard
+          key={asset.id}
+          projectId={projectId}
+          asset={asset}
+          onPreview={onPreview}
+        />
       ))}
     </div>
   );

@@ -71,6 +71,7 @@ function toPooled(
     captureViewport,
     x: r.x,
     y: r.y,
+    ...(r.textSnippet ? { textSnippet: r.textSnippet } : {}),
   }));
 }
 

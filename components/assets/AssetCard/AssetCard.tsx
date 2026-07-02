@@ -14,11 +14,12 @@ interface AssetCardProps {
   asset: AssetView;
   // When set, enables in-project edit. Global library omits this.
   projectId?: string;
+  onPreview?: (asset: AssetView) => void;
 }
 
 const EMPTY = "—";
 
-export function AssetCard({ projectId, asset }: AssetCardProps) {
+export function AssetCard({ projectId, asset, onPreview }: AssetCardProps) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -46,23 +47,31 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
 
   return (
     <article className={styles.card}>
-      <div className={styles.preview}>
-        {asset.previewUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            className={styles.image}
-            src={asset.previewUrl}
-            alt={asset.title}
-            loading="lazy"
-          />
-        ) : (
-          <div className={styles.fallback}>
-            <span className={styles.fallbackType}>
-              {asset.mediaType.toUpperCase()}
-            </span>
-          </div>
-        )}
-      </div>
+      <button
+        type="button"
+        className={styles.previewButton}
+        disabled={!onPreview}
+        onClick={() => onPreview?.(asset)}
+        aria-label={`Náhled: ${asset.title}`}
+      >
+        <div className={styles.preview}>
+          {asset.previewUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              className={styles.image}
+              src={asset.previewUrl}
+              alt={asset.title}
+              loading="lazy"
+            />
+          ) : (
+            <div className={styles.fallback}>
+              <span className={styles.fallbackType}>
+                {asset.mediaType.toUpperCase()}
+              </span>
+            </div>
+          )}
+        </div>
+      </button>
 
       <div className={styles.body}>
         <h3 className={styles.title}>{asset.title}</h3>
@@ -104,6 +113,14 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
             <p className={styles.value}>{EMPTY}</p>
           )}
         </div>
+
+        <dl className={styles.detailList}>
+          <DetailItem label="Source" value={asset.sourceLabel} />
+          <DetailItem label="Viewport" value={asset.captureViewport ?? EMPTY} />
+          <DetailItem label="Dimensions" value={asset.dimensionsLabel ?? EMPTY} />
+          <DetailItem label="Preferred usage" value={asset.preferredVideoUsage} />
+          <DetailItem label="AI status" value={asset.analysisStatus ?? EMPTY} />
+        </dl>
 
         <dl className={styles.stats}>
           <div className={styles.stat}>
@@ -158,5 +175,14 @@ export function AssetCard({ projectId, asset }: AssetCardProps) {
         {deleteError ? <p className={styles.deleteError}>{deleteError}</p> : null}
       </div>
     </article>
+  );
+}
+
+function DetailItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className={styles.detailItem}>
+      <dt className={styles.detailLabel}>{label}</dt>
+      <dd className={styles.detailValue}>{value}</dd>
+    </div>
   );
 }

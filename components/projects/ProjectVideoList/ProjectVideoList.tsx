@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { VideoSceneEditor } from "@/components/projects/VideoSceneEditor/VideoSceneEditor";
+import { VideoVisualSourcePanel } from "@/components/projects/VideoVisualSourcePanel/VideoVisualSourcePanel";
 import { FailedVideoJobEditor } from "@/components/projects/FailedVideoJobEditor/FailedVideoJobEditor";
 import { VideoJobFailureBlock } from "@/components/projects/VideoJobFailureBlock/VideoJobFailureBlock";
 import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
@@ -168,6 +169,17 @@ function VideoGroupCard({
         hasSubtitle={selected.hasSubtitle}
         hasThumbnail={selected.hasThumbnail}
       />
+
+      {group.contentItemId &&
+      group.editorSourceJobId &&
+      selected.status === "completed" ? (
+        <VideoVisualSourcePanel
+          projectId={projectId}
+          contentItemId={group.contentItemId}
+          videoJobId={group.editorSourceJobId}
+          disabled={rendering}
+        />
+      ) : null}
 
       {group.canEditScenes && group.editorSourceJobId ? (
         <div className={styles.editorToggle}>

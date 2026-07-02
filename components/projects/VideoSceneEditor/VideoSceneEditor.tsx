@@ -3,18 +3,25 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import {
+  insertLibraryAssetIntoVideoScene,
   insertVideoSceneBrandAsset,
   editVideoSceneImage,
+  fetchProjectAssetsForPicker,
   fetchVideoSceneEditorState,
   regenerateVideoSceneImage,
   rerenderVideoFromSceneEditor,
   restoreVideoSceneImage,
   updateVideoSceneEditorVoiceover,
   updateVideoSceneImagePrompt,
+  setSceneProjectAssetAction,
+  setSceneVisualModeAction,
   uploadVideoSceneReplacement,
   type VideoSceneEditorActionResult,
 } from "@/app/projects/[id]/videos/actions";
+import { ProjectAssetPickerModal } from "@/components/assets/ProjectAssetPickerModal/ProjectAssetPickerModal";
+import type { AssetView } from "@/lib/api/assets-admin";
 import type { VideoSceneEditorState } from "@/lib/ai/workflows/videoSceneEditor";
+import type { SceneVisualMode } from "@/lib/video-scene-editor/videoWorkflowMetadata";
 import { VideoSceneCard } from "./VideoSceneCard";
 import styles from "./VideoSceneEditor.module.css";
 
@@ -23,6 +30,10 @@ interface VideoSceneEditorProps {
   videoJobId: string;
   onRenderActivityChange?: (active: boolean) => void;
 }
+
+type PickerContext =
+  | { kind: "scene_project_asset"; sceneId: string }
+  | { kind: "brand_insert"; sceneId: string; instruction: string };
 
 export function VideoSceneEditor({
   projectId,
@@ -34,6 +45,9 @@ export function VideoSceneEditor({
   const [voiceoverDraft, setVoiceoverDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [libraryAssets, setLibraryAssets] = useState<AssetView[]>([]);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerContext, setPickerContext] = useState<PickerContext | null>(null);
 
   const load = useCallback(() => {
     startTransition(async () => {
@@ -62,6 +76,17 @@ export function VideoSceneEditor({
     }, 5000);
     return () => clearInterval(interval);
   }, [state?.activeRenderInFlight, load, router]);
+
+  async function ensureLibraryAssets(): Promise<AssetView[]> {
+    if (libraryAssets.length > 0) return libraryAssets;
+    const result = await fetchProjectAssetsForPicker(projectId);
+    if (!result.ok) {
+      setError(result.error);
+      return [];
+    }
+    setLibraryAssets(result.data);
+    return result.data;
+  }
 
   function applyResult(
     result: VideoSceneEditorActionResult<VideoSceneEditorState>,
@@ -109,6 +134,77 @@ export function VideoSceneEditor({
       applyResult(result);
       router.refresh();
     });
+  }
+
+  function openPicker(context: PickerContext): void {
+    startTransition(async () => {
+      const assets = await ensureLibraryAssets();
+      if (assets.length === 0 && context.kind !== "brand_insert") {
+        setError("Projekt nemá žádné obrázky v knihovně.");
+        return;
+      }
+      setPickerContext(context);
+      setPickerOpen(true);
+    });
+  }
+
+  function handlePickerConfirm(assetIds: string[]): void {
+    const context = pickerContext;
+    setPickerOpen(false);
+    setPickerContext(null);
+    if (!context || assetIds.length === 0) return;
+
+    const assetId = assetIds[0]!;
+
+    if (context.kind === "scene_project_asset") {
+      startTransition(async () => {
+        const result = await setSceneProjectAssetAction(
+          projectId,
+          videoJobId,
+          context.sceneId,
+          assetId,
+        );
+        applyResult(result);
+        router.refresh();
+      });
+      return;
+    }
+
+    startTransition(async () => {
+      const result = await insertLibraryAssetIntoVideoScene(
+        projectId,
+        videoJobId,
+        context.sceneId,
+        assetId,
+        context.instruction,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleSceneVisualMode(sceneId: string, mode: SceneVisualMode): void {
+    startTransition(async () => {
+      const result = await setSceneVisualModeAction(
+        projectId,
+        videoJobId,
+        sceneId,
+        mode,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handlePickSceneProjectAsset(sceneId: string): void {
+    openPicker({ kind: "scene_project_asset", sceneId });
+  }
+
+  function handleChooseLibraryBrand(
+    sceneId: string,
+    instruction: string,
+  ): void {
+    openPicker({ kind: "brand_insert", sceneId, instruction });
   }
 
   function handleEditImage(sceneId: string, instruction: string): void {
@@ -205,13 +301,14 @@ export function VideoSceneEditor({
     !state.hasDraftChanges ||
     state.activeRenderInFlight;
 
+  const pickerMode = "single" as const;
+
   return (
     <section className={styles.editor} aria-label="Editor video scén">
       <div className={styles.toolbar}>
         <p className={styles.hint}>
-          Popis obrázku ovlivňuje still scény. Text voiceoveru ovlivňuje mluvené
-          slovo a titulky po re-renderu. Původní stills zůstávají v historii
-          verzí.
+          Visual Source nastavte nad editorem. U každé scény zvolte AI nebo
+          Project Asset. Re-render použije uložená nastavení bez změny promptů.
         </p>
         <button
           type="button"
@@ -266,14 +363,30 @@ export function VideoSceneEditor({
             scene={scene}
             disabled={pending || state.activeRenderInFlight}
             onUpload={handleUpload}
+            onSceneVisualMode={handleSceneVisualMode}
+            onPickSceneProjectAsset={handlePickSceneProjectAsset}
             onRegenerate={handleRegenerate}
             onEditImage={handleEditImage}
             onInsertBrandAsset={handleInsertBrandAsset}
+            onChooseLibraryBrand={handleChooseLibraryBrand}
             onPromptSave={handlePromptSave}
             onRestore={handleRestore}
           />
         ))}
       </div>
+
+      <ProjectAssetPickerModal
+        open={pickerOpen}
+        assets={libraryAssets}
+        mode={pickerMode}
+        title="Choose from Project Assets"
+        selectedIds={[]}
+        onClose={() => {
+          setPickerOpen(false);
+          setPickerContext(null);
+        }}
+        onConfirm={handlePickerConfirm}
+      />
     </section>
   );
 }

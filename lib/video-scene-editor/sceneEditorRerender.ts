@@ -2,6 +2,12 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { WorkflowErrorCode } from "@/lib/ai/workflows/shared";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
+import { resolvePackageAssetImages } from "@/lib/ai/workflows/packageShared";
+import {
+  readVideoAssetWorkflow,
+  workflowToRenderAssetMode,
+} from "@/lib/video-scene-editor/videoWorkflowMetadata";
+import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/types";
 import {
@@ -149,6 +155,31 @@ async function assertNoActiveRender(
   }
 }
 
+export type SceneEditorRenderAssetMode =
+  | "ai_only"
+  | "asset_enabled"
+  | "manual_assets";
+
+function parsePackageAssetUsage(brief: unknown): ContentPackageOutput["asset_usage"] {
+  if (!brief || typeof brief !== "object" || Array.isArray(brief)) return [];
+  const raw = (brief as Record<string, unknown>).asset_usage;
+  if (!Array.isArray(raw)) return [];
+  const usage: NonNullable<ContentPackageOutput["asset_usage"]> = [];
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+    const record = entry as Record<string, unknown>;
+    const asset_id = typeof record.asset_id === "string" ? record.asset_id : "";
+    const used_as = typeof record.used_as === "string" ? record.used_as : "";
+    if (!asset_id || !used_as) continue;
+    usage.push({
+      asset_id,
+      used_as,
+      modify: typeof record.modify === "string" ? record.modify : undefined,
+    });
+  }
+  return usage;
+}
+
 export interface SceneEditorRerenderSummary {
   videoJobId: string;
   dispatched: boolean;
@@ -162,7 +193,12 @@ export interface SceneEditorRerenderDeps {
 }
 
 export async function runSceneEditorRerender(
-  input: { projectId: string; videoJobId: string },
+  input: {
+    projectId: string;
+    videoJobId: string;
+    renderAssetMode?: SceneEditorRenderAssetMode;
+    selectedAssetIds?: string[];
+  },
   deps: SceneEditorRerenderDeps = {},
 ): Promise<SceneEditorRerenderSummary> {
   const supabase = deps.client ?? createSupabaseAdminClient();
@@ -202,6 +238,7 @@ export async function runSceneEditorRerender(
   await assertNoActiveRender(supabase, input.projectId, contentItemId);
 
   const generationMetadata = itemRow.generation_metadata as Json | null;
+  const workflow = readVideoAssetWorkflow(generationMetadata);
   const draft = readSceneEditorDraft(generationMetadata);
 
   const scenes = await loadBaselineScenes({
@@ -236,7 +273,7 @@ export async function runSceneEditorRerender(
     sourceVideoJobId: job.id,
     sourceJobInput: job.input,
   });
-  const jobInput = {
+  let jobInput = {
     ...baseInput,
     scenes: draftScenesToInputScenes(scenes),
     voiceover_text:
@@ -245,7 +282,60 @@ export async function runSceneEditorRerender(
         : readSourceVoiceoverText(job.input),
     scene_editor_rerender: true,
     scene_editor_source_video_job_id: job.id,
-  } as unknown as Json;
+  } as Record<string, unknown>;
+
+  const renderAssetMode =
+    input.renderAssetMode ?? workflowToRenderAssetMode(workflow);
+  if (renderAssetMode === "ai_only") {
+    jobInput = { ...jobInput, asset_images: [] };
+  } else if (renderAssetMode === "asset_enabled" && packageId) {
+    const { data: pkgRow, error: pkgLoadErr } = await supabase
+      .from("content_packages")
+      .select("package_brief")
+      .eq("id", packageId)
+      .eq("project_id", input.projectId)
+      .maybeSingle();
+    if (pkgLoadErr) throw pkgLoadErr;
+    const assetImages = await resolvePackageAssetImages(
+      supabase,
+      input.projectId,
+      parsePackageAssetUsage(pkgRow?.package_brief),
+    );
+    jobInput = { ...jobInput, asset_images: assetImages };
+  } else if (renderAssetMode === "manual_assets") {
+    const ids = (
+      input.selectedAssetIds ??
+      workflow.manual_asset_ids ??
+      []
+    ).filter(Boolean);
+    if (ids.length === 0) {
+      throw new SceneEditorRerenderError(
+        "invalid_input",
+        "selected assets mode requires at least one asset",
+      );
+    }
+    const assetUsage: NonNullable<ContentPackageOutput["asset_usage"]> = ids.map(
+      (asset_id) => ({
+        asset_id,
+        used_as: "selected asset",
+        modify: "false",
+      }),
+    );
+    const assetImages = await resolvePackageAssetImages(
+      supabase,
+      input.projectId,
+      assetUsage,
+    );
+    if (assetImages.length === 0) {
+      throw new SceneEditorRerenderError(
+        "invalid_input",
+        "none of the selected assets could be resolved as images",
+      );
+    }
+    jobInput = { ...jobInput, asset_images: assetImages };
+  }
+
+  const jobInputJson = jobInput as unknown as Json;
 
   const { data: insertedRow, error: insertErr } = await supabase
     .from("video_jobs")
@@ -254,7 +344,7 @@ export async function runSceneEditorRerender(
       content_item_id: contentItemId,
       provider: job.provider ?? "video_engine",
       status: "queued",
-      input: jobInput,
+      input: jobInputJson,
     })
     .select("id")
     .single();
@@ -279,7 +369,7 @@ export async function runSceneEditorRerender(
     contentPackageId: packageId,
     contentItemId,
     callbackUrl: deps.videoCallbackUrl,
-    input: jobInput as Record<string, unknown>,
+    input: jobInput,
     startVideoJob,
   });
   if (dispatch.warning) warnings.push(dispatch.warning);

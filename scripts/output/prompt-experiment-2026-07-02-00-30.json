@@ -1,0 +1,2052 @@
+{
+  "meta": {
+    "dry_run_only": true,
+    "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+    "strategy_item_count": 3,
+    "variants": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "generator_provider": "claude",
+    "judge_provider": "openai",
+    "generated_at": "2026-07-01T22:30:30.524Z"
+  },
+  "results": [
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "59fc4828-b4a0-4106-b46b-962bc0b9a78e",
+      "variant": "A",
+      "provider": "claude",
+      "prompt_token_estimate": 7802,
+      "title": "Ráno po hostech – hodina nestačí",
+      "hook": "Přiznám se: i já jsem si myslel, že ranní úklid před hostem je otázka hodiny. Pak jsem otevřel dveře bytu po předchozích hostech.",
+      "voiceover_text": "Přiznám se – myslel jsem, že hodina před příjezdem hosta vždycky stačí. Pak jsem otevřel dveře. Kuchyň, ložnice, koupelna. Každá místnost jiný problém. Hodina zmizela dřív, než jsem vzal mop. Host přijel, byt nebyl připravený. A já pochopil: otočka se neplánuje na hodinu. Plánuje se dopředu – nebo se pak čte v recenzi.",
+      "voiceover_word_count": 53,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka nezávisí na tom, kolik máte ráno štěstí."
+      },
+      "video_concept": "Vertikální short ve stylu první osoby – hostitel otevírá dveře bytu po předchozích hostech a vidí chaos. Kamera sleduje místnost po místnosti v rychlých střizích. Tempo graduje, napětí roste. Závěrečný beat je kontrast: stejný byt, čistý, připravený – a klid místo paniky. Žádný komentář navíc, jen obraz a voiceover.",
+      "image_prompts": [
+        "Bright daylight interior of a modern Prague apartment entrance hallway — shoes scattered on the floor, a jacket thrown over a chair, bags left near the door. Natural morning light from a window. Slightly chaotic but realistic, not staged. Clean modern decor underneath the mess. Vertical 9:16 composition.",
+        "Wide-angle view of a small modern kitchen in a Prague apartment — unwashed dishes stacked by the sink, a pan left on the stove, crumbs on the counter. Bright daylight streaming through the window. The space is clearly modern and well-designed but currently messy. Vertical 9:16 composition.",
+        "Close crop of a person's hand holding a smartphone, screen showing a blurred colorful chat interface with soft notification shapes — unreadable abstract UI blobs in warm tones. Background is a slightly out-of-focus apartment corridor. Soft natural light. Vertical 9:16 composition.",
+        "The same modern Prague apartment bedroom — now perfectly made bed with crisp white linen, clear nightstands, soft natural daylight filling the room. Calm, clean, bright. No people. A sense of quiet readiness. Vertical 9:16 composition.",
+        "A bright, clean modern Prague apartment living area — fresh flowers on the table, tidy kitchen visible in the background, sunlight through sheer curtains. Peaceful and inviting. Strong contrast to the earlier chaotic scenes. Vertical 9:16 composition."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Myslel jsem, že hodina stačí. Nestačila. A host to napsal. 🙃 Tohle je moment, kdy se rozhoduje, jakou recenzi dostaneš.",
+          "cta": "Znáš ten pocit? Napiš do DM – řekneme ti, jak to vyřešit.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitele",
+            "#airbnbtipy"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Přiznám se – věřil jsem, že ranní otočka bytu je otázka hodiny. Pak jsem otevřel dveře po předchozích hostech. Kuchyň, ložnice, koupelna – každá místnost jiný problém. Hodina zmizela ještě před mopetem. Host přijel. Byt nebyl připravený. Otočka se neplánuje na hodinu. Plánuje se dopředu – nebo se pak čte v recenzi. 🏠",
+          "cta": "Uložte si tento příspěvek, pokud spravujete Airbnb v Praze – a odkaz na řešení najdete v biu.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#uklidbyt",
+            "#prahabyty",
+            "#airbnbcleaning",
+            "#uklidovesluzby",
+            "#hostiteleairbnb"
+          ],
+          "format": "vertical_short_reels"
+        },
+        "facebook": {
+          "caption": "Myslel jsem, že hodina před příjezdem hosta vždycky stačí na úklid. Pak jsem otevřel dveře po předchozích hostech – a zjistil, že nestačí ani dvě. Otočka bytu se neplánuje na hodinu. Plánuje se dopředu, nebo se výsledek čte v recenzi. Pokud spravujete Airbnb v Praze a chcete mít jistotu, že byt je připravený včas – ozvěte se nám. 👇",
+          "cta": "Napište nám na cleanstay.cz – ať příští otočka nezávisí na tom, kolik máte ráno štěstí.",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha"
+          ],
+          "format": "video_post"
+        },
+        "google_business": {
+          "caption": "Profesionální Airbnb úklid v Praze – otočka bytu mezi hosty zvládnutá včas, bez stresu a bez překvapení. Pokrýváme celou Prahu, komunikujeme rychle a termíny dodržujeme.",
+          "cta": "Kontaktujte nás a domluvte si úklid.",
+          "hashtags": [],
+          "format": "google_update"
+        }
+      },
+      "raw_json": {
+        "title": "Ráno po hostech – hodina nestačí",
+        "funnel_stage": "Awareness",
+        "hook": "Přiznám se: i já jsem si myslel, že ranní úklid před hostem je otázka hodiny. Pak jsem otevřel dveře bytu po předchozích hostech.",
+        "voiceover_text": "Přiznám se – myslel jsem, že hodina před příjezdem hosta vždycky stačí. Pak jsem otevřel dveře. Kuchyň, ložnice, koupelna. Každá místnost jiný problém. Hodina zmizela dřív, než jsem vzal mop. Host přijel, byt nebyl připravený. A já pochopil: otočka se neplánuje na hodinu. Plánuje se dopředu – nebo se pak čte v recenzi.",
+        "subtitles": "Myslel jsem, že hodina stačí. | Pak jsem otevřel dveře. | Kuchyň. Ložnice. Koupelna. | Každá místnost – jiný problém. | Hodina zmizela dřív, než jsem vzal mop. | Otočka se neplánuje na hodinu. | Plánuje se dopředu – nebo se čte v recenzi.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka nezávisí na tom, kolik máte ráno štěstí."
+        },
+        "video": {
+          "concept": "Vertikální short ve stylu první osoby – hostitel otevírá dveře bytu po předchozích hostech a vidí chaos. Kamera sleduje místnost po místnosti v rychlých střizích. Tempo graduje, napětí roste. Závěrečný beat je kontrast: stejný byt, čistý, připravený – a klid místo paniky. Žádný komentář navíc, jen obraz a voiceover.",
+          "script": "BEAT 1 – OBSERVATION (0–4 s): Ruka otevírá dveře bytu. Záběr zevnitř: nepořádek v předsíni, boty, odložené věci. Voiceover: 'Přiznám se – myslel jsem, že hodina před příjezdem hosta vždycky stačí.'\n\nBEAT 2 – MEANING (4–12 s): Rychlé střihy – kuchyň s nádobím, ložnice s neustlanou postelí, koupelna. Každý záběr 1–2 sekundy. Voiceover: 'Pak jsem otevřel dveře. Kuchyň, ložnice, koupelna. Každá místnost jiný problém. Hodina zmizela dřív, než jsem vzal mop.'\n\nBEAT 3 – REVEAL (12–18 s): Záběr na telefon v ruce – rozmazaná notifikace příjezdu hosta. Pak střih: prázdná předsíň, ticho. Voiceover: 'Host přijel, byt nebyl připravený.'\n\nBEAT 4 – PAYOFF + CTA (18–23 s): Kontrast – stejný byt, světlý, čistý, připravený lůžko, prázdná kuchyňská linka. Klid. Voiceover: 'Otočka se neplánuje na hodinu. Plánuje se dopředu – nebo se pak čte v recenzi.' Jemný fade, text na obrazovce: CTA.",
+          "duration_seconds": "23"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Myslel jsem, že hodina stačí. Nestačila. A host to napsal. 🙃 Tohle je moment, kdy se rozhoduje, jakou recenzi dostaneš.",
+            "cta": "Znáš ten pocit? Napiš do DM – řekneme ti, jak to vyřešit.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitele",
+              "#airbnbtipy"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Přiznám se – věřil jsem, že ranní otočka bytu je otázka hodiny. Pak jsem otevřel dveře po předchozích hostech. Kuchyň, ložnice, koupelna – každá místnost jiný problém. Hodina zmizela ještě před mopetem. Host přijel. Byt nebyl připravený. Otočka se neplánuje na hodinu. Plánuje se dopředu – nebo se pak čte v recenzi. 🏠",
+            "cta": "Uložte si tento příspěvek, pokud spravujete Airbnb v Praze – a odkaz na řešení najdete v biu.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#uklidbyt",
+              "#prahabyty",
+              "#airbnbcleaning",
+              "#uklidovesluzby",
+              "#hostiteleairbnb"
+            ],
+            "format": "vertical_short_reels"
+          },
+          "facebook": {
+            "caption": "Myslel jsem, že hodina před příjezdem hosta vždycky stačí na úklid. Pak jsem otevřel dveře po předchozích hostech – a zjistil, že nestačí ani dvě. Otočka bytu se neplánuje na hodinu. Plánuje se dopředu, nebo se výsledek čte v recenzi. Pokud spravujete Airbnb v Praze a chcete mít jistotu, že byt je připravený včas – ozvěte se nám. 👇",
+            "cta": "Napište nám na cleanstay.cz – ať příští otočka nezávisí na tom, kolik máte ráno štěstí.",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha"
+            ],
+            "format": "video_post"
+          },
+          "google_business": {
+            "caption": "Profesionální Airbnb úklid v Praze – otočka bytu mezi hosty zvládnutá včas, bez stresu a bez překvapení. Pokrýváme celou Prahu, komunikujeme rychle a termíny dodržujeme.",
+            "cta": "Kontaktujte nás a domluvte si úklid.",
+            "hashtags": [],
+            "format": "google_update"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#uklidbyt",
+          "#prahabyty",
+          "#uklidovesluzby"
+        ],
+        "image_prompts": [
+          "Bright daylight interior of a modern Prague apartment entrance hallway — shoes scattered on the floor, a jacket thrown over a chair, bags left near the door. Natural morning light from a window. Slightly chaotic but realistic, not staged. Clean modern decor underneath the mess. Vertical 9:16 composition.",
+          "Wide-angle view of a small modern kitchen in a Prague apartment — unwashed dishes stacked by the sink, a pan left on the stove, crumbs on the counter. Bright daylight streaming through the window. The space is clearly modern and well-designed but currently messy. Vertical 9:16 composition.",
+          "Close crop of a person's hand holding a smartphone, screen showing a blurred colorful chat interface with soft notification shapes — unreadable abstract UI blobs in warm tones. Background is a slightly out-of-focus apartment corridor. Soft natural light. Vertical 9:16 composition.",
+          "The same modern Prague apartment bedroom — now perfectly made bed with crisp white linen, clear nightstands, soft natural daylight filling the room. Calm, clean, bright. No people. A sense of quiet readiness. Vertical 9:16 composition.",
+          "A bright, clean modern Prague apartment living area — fresh flowers on the table, tidy kitchen visible in the background, sunlight through sheer curtains. Peaceful and inviting. Strong contrast to the earlier chaotic scenes. Vertical 9:16 composition."
+        ],
+        "asset_usage": [],
+        "scenario": "Hostitel právě obdržel zprávu od nového hosta, že přijede za tři hodiny, ale předchozí hosté nechali byt v naprostém nepořádku."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "59fc4828-b4a0-4106-b46b-962bc0b9a78e",
+      "variant": "B",
+      "provider": "claude",
+      "prompt_token_estimate": 7803,
+      "title": "Ranní zpráva, která změní celý den",
+      "hook": "Přiznám se – i já jsem si myslel, že ráno bude klid. Pak přišla zpráva ve 7:42.",
+      "voiceover_text": "Přiznám se – i já jsem si myslel, že ráno bude klid. Pak přišla zpráva ve 7:42: host přijíždí ve dvanáct. Otevřu dveře bytu – a pochopím, že hodina na úklid nestačí. Tohle není výjimka. Je to přesně ten moment, kdy recenze vznikají – ještě dřív, než host vybalí kufr. Napište nám – ať vás příští ranní zpráva nezaskočí.",
+      "voiceover_word_count": 59,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať vás příští ranní zpráva nezaskočí."
+      },
+      "video_concept": "Vertikální short ve stylu tichého pozorování. Žádný komentář, žádné logo v úvodu – jen obraz situace, která se hostitelům děje každý týden. Kamera sleduje hostitelův pohled: telefon s příchozí zprávou, otevřené dveře bytu v ranním světle, stav po předchozích hostech – a pak ticho před bouří. Reveal přichází, když si divák uvědomí: tohle není smůla, tohle je systémový problém. Voiceover je klidný, přesný, bez dramatizace – nechá obraz nést emoce.",
+      "image_prompts": [
+        "Close-up of a person's hand holding a smartphone in soft morning daylight near a bright window, phone screen showing a blurred abstract notification glow — no readable text, no UI labels. Warm natural light, clean modern interior background slightly out of focus. Bright, trustworthy mood.",
+        "Wide-angle shot of an apartment entrance door being pushed open from the outside, revealing a lived-in interior: unmade bed visible in the background, a table with dishes, natural daylight flooding in through large windows. The scene feels honest and unposed, not staged. Bright, realistic morning light.",
+        "Detail shot of a wristwatch on a person's wrist showing an abstract blurred time display — no readable numbers — foreground sharp, background showing a messy but recognizable living space softly blurred. Daylight, neutral tones, calm but tense atmosphere.",
+        "A clean, freshly prepared Prague apartment interior: neatly made white bed with crisp linen, bright natural light through curtains, modern minimal furniture, no clutter. The scene radiates calm readiness and professionalism. Bright, airy, inviting mood."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Zpráva ve 7:42. Host ve 12:00. Byt po předchozích hostech. 😶 Tohle je ten moment, kdy vznikají špatné recenze – a není to smůla, je to systém. Poznáváš se?",
+          "cta": "Napiš nám do DM – ať příště otočka proběhne bez ranního stresu.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#hostitel",
+            "#uklidpraha",
+            "#airbnbcleaning",
+            "#cestovniruch"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Ráno, 7:42. Zpráva: host přijíždí v poledne. 🚪 Otevřeš dveře bytu – a víš okamžitě, že hodina nestačí.\n\nTenhle moment neznáš ze statistik. Znáš ho z vlastní zkušenosti. A přesně tady recenze vznikají – ještě dřív, než host vybalí kufr.\n\nProfesionální otočka Airbnb bytu v Praze znamená, že tohle ráno nemusíš řešit sám.",
+          "cta": "Napiš nám přes DM nebo odkaz v biu – ať příští checkout neznamená ranní chaos.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#cestovniruch",
+            "#prahabyty",
+            "#airbnbcleaning",
+            "#ukliddomacnosti",
+            "#prahalife",
+            "#hostitele",
+            "#cleanstay"
+          ],
+          "format": "vertical_short_reels"
+        },
+        "facebook": {
+          "caption": "Znáte to ráno? Zpráva v 7:42 – host přijíždí v poledne. Otevřete dveře bytu a okamžitě víte, že to stihnout sami nestačí. 😓\n\nTenhle moment není smůla – je to situace, která se opakuje každý týden stovkám hostitelů v Praze. A právě tady vznikají špatné recenze.\n\nZajistíme profesionální otočku vašeho Airbnb bytu v Praze – rychle, spolehlivě, bez ranního stresu. Napište nám a domluvte si úklid: https://cleanstay.cz",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha",
+            "#cleanstay"
+          ],
+          "format": "video_post"
+        },
+        "google_business": {
+          "caption": "Hostitel na Airbnb v Praze? Otočka bytu mezi rezervacemi je nejkritičtější moment – a hodina na úklid nestačí. Zajistíme rychlý, profesionální úklid vašeho bytu přesně mezi odjezdem a příjezdem hosta. Napište nám a domluvte si termín.",
+          "cta": "Navštivte náš web nebo nám napište pro domluvu úklidu.",
+          "hashtags": [],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Ranní zpráva, která změní celý den",
+        "funnel_stage": "Awareness",
+        "hook": "Přiznám se – i já jsem si myslel, že ráno bude klid. Pak přišla zpráva ve 7:42.",
+        "voiceover_text": "Přiznám se – i já jsem si myslel, že ráno bude klid. Pak přišla zpráva ve 7:42: host přijíždí ve dvanáct. Otevřu dveře bytu – a pochopím, že hodina na úklid nestačí. Tohle není výjimka. Je to přesně ten moment, kdy recenze vznikají – ještě dřív, než host vybalí kufr. Napište nám – ať vás příští ranní zpráva nezaskočí.",
+        "subtitles": "Přiznám se – i já jsem si myslel, že ráno bude klid.\nPak přišla zpráva ve 7:42.\nHost přijíždí ve dvanáct.\nOtevřu dveře bytu – a pochopím, že hodina na úklid nestačí.\nTohle není výjimka.\nJe to přesně ten moment, kdy recenze vznikají –\nještě dřív, než host vybalí kufr.\nNapište nám – ať vás příští ranní zpráva nezaskočí.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať vás příští ranní zpráva nezaskočí."
+        },
+        "video": {
+          "concept": "Vertikální short ve stylu tichého pozorování. Žádný komentář, žádné logo v úvodu – jen obraz situace, která se hostitelům děje každý týden. Kamera sleduje hostitelův pohled: telefon s příchozí zprávou, otevřené dveře bytu v ranním světle, stav po předchozích hostech – a pak ticho před bouří. Reveal přichází, když si divák uvědomí: tohle není smůla, tohle je systémový problém. Voiceover je klidný, přesný, bez dramatizace – nechá obraz nést emoce.",
+          "script": "BEAT 1 – OBSERVATION (0–5s)\nZáběr: ruka drží telefon, na rozmazané obrazovce svítí příchozí zpráva. Ranní světlo z okna. Ticho.\nVO: „Přiznám se – i já jsem si myslel, že ráno bude klid. Pak přišla zpráva ve 7:42.\"\n\nBEAT 2 – MEANING (5–12s)\nZáběr: hostitel otevírá dveře bytu. Kamera najíždí do interiéru – rozhozené povlečení, stůl po večeři, koupelna v pozadí. Denní světlo vše odhaluje bez příkras.\nVO: „Host přijíždí ve dvanáct. Otevřu dveře bytu – a pochopím, že hodina na úklid nestačí.\"\n\nBEAT 3 – REVEAL (12–20s)\nZáběr: hodinky na zápěstí – 8:05. Hostitel stojí uprostřed bytu, pohled se zastaví. Ticho.\nVO: „Tohle není výjimka. Je to přesně ten moment, kdy recenze vznikají – ještě dřív, než host vybalí kufr.\"\n\nBEAT 4 – CTA (20–23s)\nZáběr: čistý, připravený byt – postele ustlané, světlo, klid. Střih na logo v rohu.\nVO: „Napište nám – ať vás příští ranní zpráva nezaskočí.\"",
+          "duration_seconds": "23"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Zpráva ve 7:42. Host ve 12:00. Byt po předchozích hostech. 😶 Tohle je ten moment, kdy vznikají špatné recenze – a není to smůla, je to systém. Poznáváš se?",
+            "cta": "Napiš nám do DM – ať příště otočka proběhne bez ranního stresu.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#hostitel",
+              "#uklidpraha",
+              "#airbnbcleaning",
+              "#cestovniruch"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Ráno, 7:42. Zpráva: host přijíždí v poledne. 🚪 Otevřeš dveře bytu – a víš okamžitě, že hodina nestačí.\n\nTenhle moment neznáš ze statistik. Znáš ho z vlastní zkušenosti. A přesně tady recenze vznikají – ještě dřív, než host vybalí kufr.\n\nProfesionální otočka Airbnb bytu v Praze znamená, že tohle ráno nemusíš řešit sám.",
+            "cta": "Napiš nám přes DM nebo odkaz v biu – ať příští checkout neznamená ranní chaos.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#cestovniruch",
+              "#prahabyty",
+              "#airbnbcleaning",
+              "#ukliddomacnosti",
+              "#prahalife",
+              "#hostitele",
+              "#cleanstay"
+            ],
+            "format": "vertical_short_reels"
+          },
+          "facebook": {
+            "caption": "Znáte to ráno? Zpráva v 7:42 – host přijíždí v poledne. Otevřete dveře bytu a okamžitě víte, že to stihnout sami nestačí. 😓\n\nTenhle moment není smůla – je to situace, která se opakuje každý týden stovkám hostitelů v Praze. A právě tady vznikají špatné recenze.\n\nZajistíme profesionální otočku vašeho Airbnb bytu v Praze – rychle, spolehlivě, bez ranního stresu. Napište nám a domluvte si úklid: https://cleanstay.cz",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha",
+              "#cleanstay"
+            ],
+            "format": "video_post"
+          },
+          "google_business": {
+            "caption": "Hostitel na Airbnb v Praze? Otočka bytu mezi rezervacemi je nejkritičtější moment – a hodina na úklid nestačí. Zajistíme rychlý, profesionální úklid vašeho bytu přesně mezi odjezdem a příjezdem hosta. Napište nám a domluvte si termín.",
+            "cta": "Navštivte náš web nebo nám napište pro domluvu úklidu.",
+            "hashtags": [],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#cleanstay",
+          "#prahabyty",
+          "#airbnbcleaning",
+          "#otockabytu",
+          "#hostitele"
+        ],
+        "image_prompts": [
+          "Close-up of a person's hand holding a smartphone in soft morning daylight near a bright window, phone screen showing a blurred abstract notification glow — no readable text, no UI labels. Warm natural light, clean modern interior background slightly out of focus. Bright, trustworthy mood.",
+          "Wide-angle shot of an apartment entrance door being pushed open from the outside, revealing a lived-in interior: unmade bed visible in the background, a table with dishes, natural daylight flooding in through large windows. The scene feels honest and unposed, not staged. Bright, realistic morning light.",
+          "Detail shot of a wristwatch on a person's wrist showing an abstract blurred time display — no readable numbers — foreground sharp, background showing a messy but recognizable living space softly blurred. Daylight, neutral tones, calm but tense atmosphere.",
+          "A clean, freshly prepared Prague apartment interior: neatly made white bed with crisp linen, bright natural light through curtains, modern minimal furniture, no clutter. The scene radiates calm readiness and professionalism. Bright, airy, inviting mood."
+        ],
+        "asset_usage": [],
+        "scenario": "Hostitel právě obdržel zprávu od nového hosta, že přijede za tři hodiny, ale předchozí hosté nechali byt v naprostém nepořádku."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "59fc4828-b4a0-4106-b46b-962bc0b9a78e",
+      "variant": "C",
+      "provider": "claude",
+      "prompt_token_estimate": 4790,
+      "title": "Ráno, které hostitelé znají – a nikdy nechtěli zažít",
+      "hook": "Přiznám se – i já jsem si jednou myslel, že hodina na úklid vždycky stačí.",
+      "voiceover_text": "Přiznám se – i já jsem si jednou myslel, že hodina na úklid vždycky stačí. Pak přišlo ráno: host potvrdil příjezd na jedenáct, předchozí hosté nechali byt, jako by se tam přestěhovali. Hodina nestačí. Nestačí ani dvě. A host přijíždí. To není smůla – to je systém, který chybí. Napište nám a domluvte si úklid v Praze.",
+      "voiceover_word_count": 57,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští ráno patří klidu, ne panice."
+      },
+      "video_concept": "Rychlý vertikální short. Vizuální realita ranního chaosu v Airbnb bytě – bez komentáře, jen obraz. Hostitel kouká do telefonu, čte potvrzení příjezdu. Přejezd na byt: nepořádek po předchozích hostech. Hodiny na zdi ukazují, kolik zbývá času. Finální záběr: prázdný, čistý byt – kontrast. Žádná hudba na úvod, jen ticho a reálné zvuky prostředí, pak nástup klidné hudby při payoffu.",
+      "image_prompts": [
+        "Rozházený Airbnb byt ráno – nepořádek po hostech, hodiny na zdi ukazují 9:47",
+        "Hostitel s telefonem v ruce, čte potvrzení příjezdu, výraz napětí",
+        "Čistý, světlý byt po profesionálním úklidu – složené ručníky, upravená postel"
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Ráno, které každý Airbnb hostitel zná – ale nechce přiznat. Host přijíždí za hodinu. Byt vypadá, jako by se tam předchozí hosté nastěhovali napořád. Hodina nestačí. Tohle není smůla, tohle je chybějící systém. 👇",
+          "cta": "Napište nám – ať příští ráno patří klidu, ne panice.",
+          "hashtags": [
+            "#airbnb",
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitel",
+            "#airbnbhosting",
+            "#prahabyty",
+            "#uklidairbnb",
+            "#cestovani"
+          ],
+          "format": "Vertical video / Reels / Short – 25s"
+        },
+        "instagram": {
+          "caption": "Přiznám se – i já jsem si myslel, že hodina na úklid vždycky stačí.\n\nPak přišlo to ráno.\n\nHost potvrdil příjezd na 11:00. Předchozí hosté nechali byt, jako by se tam přestěhovali. Hodina nestačí. Nestačí ani dvě.\n\nA host přijíždí.\n\nTohle není výjimečná situace. Pro hostitele bez spolehlivého úklidového týmu je to jen otázka času.\n\nNapište nám – ať příští ráno patří klidu, ne panice.",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#prahaairbnb",
+            "#uklidairbnb",
+            "#airbnbcleaning",
+            "#pronajembyt",
+            "#prahabydleni"
+          ],
+          "format": "Reels (vertical video 9:16) – 25s + statický cover frame s textem"
+        },
+        "facebook": {
+          "caption": "Tohle ráno zná každý Airbnb hostitel – i když ho nechce přiznat.\n\nHost potvrdí příjezd na 11:00. Předchozí hosté nechali byt v takovém stavu, že hodina na úklid nestačí. Nestačí ani dvě. A hodiny tikají.\n\nNení to smůla. Je to problém, který se opakuje vždy, když chybí spolehlivý systém úklidu mezi rezervacemi.\n\nPokud spravujete byt nebo byty v Praze a tohle vám zní povědomě – rádi vám pomůžeme nastavit úklid tak, aby příjezd hosta nebyl stresový test.\n\nNapište nám a domluvte si úklid v Praze.",
+          "cta": "Napište nám – ať příští ráno patří klidu, ne panice.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#pronajembytpraha"
+          ],
+          "format": "Nativní příspěvek – text + video nebo statický obrázek"
+        },
+        "google_business": {
+          "caption": "Airbnb hostitelé v Praze to znají: host potvrdí příjezd ráno a byt po předchozích hostech není připravený. Hodina na úklid nestačí – a nová rezervace čeká. Zajišťujeme profesionální úklid Airbnb bytů v Praze, včetně rychlých otočk mezi rezervacemi. Spolehlivá komunikace, pokrytí celé Prahy.",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [],
+          "format": "Google Business příspěvek – text + 1 statický obrázek"
+        }
+      },
+      "raw_json": {
+        "title": "Ráno, které hostitelé znají – a nikdy nechtěli zažít",
+        "funnel_stage": "Awareness",
+        "hook": "Přiznám se – i já jsem si jednou myslel, že hodina na úklid vždycky stačí.",
+        "voiceover_text": "Přiznám se – i já jsem si jednou myslel, že hodina na úklid vždycky stačí. Pak přišlo ráno: host potvrdil příjezd na jedenáct, předchozí hosté nechali byt, jako by se tam přestěhovali. Hodina nestačí. Nestačí ani dvě. A host přijíždí. To není smůla – to je systém, který chybí. Napište nám a domluvte si úklid v Praze.",
+        "subtitles": "Přiznám se – i já jsem si myslel, že hodina stačí. / Pak přišlo ráno. / Host potvrdil příjezd na jedenáct. / Předchozí hosté nechali byt, jako by se tam přestěhovali. / Hodina nestačí. Ani dvě. / A host přijíždí. / To není smůla – to je chybějící systém. / Napište nám a domluvte si úklid v Praze.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští ráno patří klidu, ne panice."
+        },
+        "video": {
+          "concept": "Rychlý vertikální short. Vizuální realita ranního chaosu v Airbnb bytě – bez komentáře, jen obraz. Hostitel kouká do telefonu, čte potvrzení příjezdu. Přejezd na byt: nepořádek po předchozích hostech. Hodiny na zdi ukazují, kolik zbývá času. Finální záběr: prázdný, čistý byt – kontrast. Žádná hudba na úvod, jen ticho a reálné zvuky prostředí, pak nástup klidné hudby při payoffu.",
+          "script": "ZÁBĚR 1 (0–3s): Ruce drží telefon. Obrazovka: zpráva od hosta – 'Přijedu v 11:00, těším se!' Výraz v obličeji: klid, pak lehký záchvěv. VOICEOVER: 'Přiznám se – i já jsem si myslel, že hodina stačí.' ZÁBĚR 2 (3–10s): Rychlé střihy – rozházené ložní prádlo, nádobí v dřezu, odpadky, skvrny na stole. Hodiny na zdi: 9:47. VOICEOVER: 'Pak přišlo ráno. Předchozí hosté nechali byt, jako by se tam přestěhovali.' ZÁBĚR 3 (10–16s): Hostitel stojí uprostřed bytu, rozhlíží se. Hodiny: 10:02. VOICEOVER: 'Hodina nestačí. Nestačí ani dvě. A host přijíždí.' ZÁBĚR 4 (16–22s): Střih – čistý, upravený byt. Světlo, čisté povrchy, složené ručníky. VOICEOVER: 'To není smůla – to je systém, který chybí.' ZÁBĚR 5 (22–25s): Text na obrazovce + VOICEOVER: 'Napište nám a domluvte si úklid v Praze.'",
+          "duration_seconds": "25"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Ráno, které každý Airbnb hostitel zná – ale nechce přiznat. Host přijíždí za hodinu. Byt vypadá, jako by se tam předchozí hosté nastěhovali napořád. Hodina nestačí. Tohle není smůla, tohle je chybějící systém. 👇",
+            "cta": "Napište nám – ať příští ráno patří klidu, ne panice.",
+            "hashtags": [
+              "#airbnb",
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitel",
+              "#airbnbhosting",
+              "#prahabyty",
+              "#uklidairbnb",
+              "#cestovani"
+            ],
+            "format": "Vertical video / Reels / Short – 25s"
+          },
+          "instagram": {
+            "caption": "Přiznám se – i já jsem si myslel, že hodina na úklid vždycky stačí.\n\nPak přišlo to ráno.\n\nHost potvrdil příjezd na 11:00. Předchozí hosté nechali byt, jako by se tam přestěhovali. Hodina nestačí. Nestačí ani dvě.\n\nA host přijíždí.\n\nTohle není výjimečná situace. Pro hostitele bez spolehlivého úklidového týmu je to jen otázka času.\n\nNapište nám – ať příští ráno patří klidu, ne panice.",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#prahaairbnb",
+              "#uklidairbnb",
+              "#airbnbcleaning",
+              "#pronajembyt",
+              "#prahabydleni"
+            ],
+            "format": "Reels (vertical video 9:16) – 25s + statický cover frame s textem"
+          },
+          "facebook": {
+            "caption": "Tohle ráno zná každý Airbnb hostitel – i když ho nechce přiznat.\n\nHost potvrdí příjezd na 11:00. Předchozí hosté nechali byt v takovém stavu, že hodina na úklid nestačí. Nestačí ani dvě. A hodiny tikají.\n\nNení to smůla. Je to problém, který se opakuje vždy, když chybí spolehlivý systém úklidu mezi rezervacemi.\n\nPokud spravujete byt nebo byty v Praze a tohle vám zní povědomě – rádi vám pomůžeme nastavit úklid tak, aby příjezd hosta nebyl stresový test.\n\nNapište nám a domluvte si úklid v Praze.",
+            "cta": "Napište nám – ať příští ráno patří klidu, ne panice.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#pronajembytpraha"
+            ],
+            "format": "Nativní příspěvek – text + video nebo statický obrázek"
+          },
+          "google_business": {
+            "caption": "Airbnb hostitelé v Praze to znají: host potvrdí příjezd ráno a byt po předchozích hostech není připravený. Hodina na úklid nestačí – a nová rezervace čeká. Zajišťujeme profesionální úklid Airbnb bytů v Praze, včetně rychlých otočk mezi rezervacemi. Spolehlivá komunikace, pokrytí celé Prahy.",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [],
+            "format": "Google Business příspěvek – text + 1 statický obrázek"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#uklidairbnb",
+          "#prahabyty",
+          "#airbnbcleaning",
+          "#pronajembyt",
+          "#hostitel"
+        ],
+        "image_prompts": [
+          "Rozházený Airbnb byt ráno – nepořádek po hostech, hodiny na zdi ukazují 9:47",
+          "Hostitel s telefonem v ruce, čte potvrzení příjezdu, výraz napětí",
+          "Čistý, světlý byt po profesionálním úklidu – složené ručníky, upravená postel"
+        ],
+        "asset_usage": [],
+        "scenario": "Hostitel právě obdržel zprávu od nového hosta, že přijede za tři hodiny, ale předchozí hosté nechali byt v naprostém nepořádku."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "59fc4828-b4a0-4106-b46b-962bc0b9a78e",
+      "variant": "D",
+      "provider": "claude",
+      "prompt_token_estimate": 7712,
+      "title": "Ráno, které každý hostitel zná – ale nikdo o něm nemluví",
+      "hook": "Přiznám se: taky jsem si myslel, že hodina na úklid vždycky stačí.",
+      "voiceover_text": "Přiznám se: taky jsem si myslel, že hodina na úklid vždycky stačí. Pak přišlo to ráno – potvrzení od hosta ve 22:00, checkout předchozích v 10:00, příjezd nových ve 12:00. Dvě hodiny. A byt vypadal, jako by v něm byl festival. Hodina nestačila. Nestačily ani dvě. A host to napsal do recenze.",
+      "voiceover_word_count": 52,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka nestojí na tom, kolik hodin zbyde."
+      },
+      "video_concept": "Vertikální short ve stylu klidné observace s rychlými střihy. Začíná záběrem na klidný byt v noci – ticho, klid, pocit kontroly. Pak rychlý střih: ráno, chaos, špinavé nádobí, rozházené věci. Tempo se zrychluje. Poslední záběr: čistý, připravený byt – kontrast, který vše uzavře. Žádné logo v popředí, žádná reklama – jen příběh, který hostitelé poznají.",
+      "image_prompts": [
+        "A quiet, dimly lit modern Prague apartment at night, a smartphone resting on a coffee table with a softly glowing screen showing a blurred colorful interface, clean minimal decor, calm atmosphere, natural ambient light from the window, no text or readable content visible anywhere in the scene.",
+        "A bright Prague apartment interior in morning daylight completely in disarray — unmade bed visible through open bedroom door, dishes piled on the kitchen counter, towels on the floor, bags left open — wide shot showing the full scale of the mess, natural window light, no people, no text.",
+        "Close-up of a modern wall clock showing 11:47, soft morning light, slightly blurred background revealing the edge of a messy kitchen counter, warm daylight tones, no text or labels visible.",
+        "A spotlessly clean, bright and inviting Prague apartment interior — freshly made white bed, clear kitchen counters, sunlight streaming through large windows, fresh flowers on the table, calm and welcoming atmosphere, no people, no text."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Přiznám se – myslel jsem, že dvě hodiny stačí. Nestačily. A host to napsal. Tohle ráno zná každý hostitel v Praze.",
+          "cta": "Napište nám do DM – ať příští otočka proběhne bez stresu.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitel",
+            "#airbnbczech"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Přiznám se – i já jsem si myslel, že na otočku stačí hodina. 🕙\n\nPotvrzení od hosta ve 22:00. Checkout v 10:00. Příjezd ve 12:00. Byt vypadal jako po festivalu. A host to napsal do recenze.\n\nTohle ráno zná každý, kdo spravuje Airbnb v Praze. Otočka není jen úklid – je to závod s časem, který se nedá improvizovat.",
+          "cta": "Uložte si tento příspěvek – nebo napište nám do DM, ať příště máte klid.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#uklidbyt",
+            "#prahaairbnb",
+            "#uklidovesluzby",
+            "#otocka",
+            "#airbnbczech"
+          ],
+          "format": "vertical_short"
+        },
+        "facebook": {
+          "caption": "Přiznám se – taky jsem si myslel, že hodina na úklid vždycky stačí. Pak přišlo ráno, kdy checkout byl v 10:00 a nový host přijížděl ve 12:00. Byt vypadal, jako by v něm byl festival. Hodina nestačila, ani dvě – a host to napsal do recenze.\n\nPokud spravujete Airbnb v Praze, tohle ráno znáte. Nemusí se opakovat. 👉 https://cleanstay.cz",
+          "cta": "Napište nám a domluvte si úklid – ať příští otočka nestojí na tom, kolik hodin zbyde.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha"
+          ],
+          "format": "vertical_short"
+        },
+        "google_business": {
+          "caption": "Otočka Airbnb bytu v Praze mezi dvěma rezervacemi je závod s časem. Zajišťujeme profesionální úklid přesně na termín – spolehlivě, rychle a s pokrytím celé Prahy. Váš byt bude připravený dřív, než host zaklepe.",
+          "cta": "Kontaktujte nás a domluvte si úklid.",
+          "hashtags": [],
+          "format": "text_post"
+        }
+      },
+      "raw_json": {
+        "title": "Ráno, které každý hostitel zná – ale nikdo o něm nemluví",
+        "funnel_stage": "Awareness",
+        "hook": "Přiznám se: taky jsem si myslel, že hodina na úklid vždycky stačí.",
+        "voiceover_text": "Přiznám se: taky jsem si myslel, že hodina na úklid vždycky stačí. Pak přišlo to ráno – potvrzení od hosta ve 22:00, checkout předchozích v 10:00, příjezd nových ve 12:00. Dvě hodiny. A byt vypadal, jako by v něm byl festival. Hodina nestačila. Nestačily ani dvě. A host to napsal do recenze.",
+        "subtitles": "Přiznám se: taky jsem si myslel, že hodina stačí. | Pak přišlo to ráno. | Potvrzení ve 22:00. Checkout v 10:00. Příjezd ve 12:00. | Dvě hodiny. | A byt vypadal jako po festivalu. | Hodina nestačila. Ani dvě. | A host to napsal do recenze.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka nestojí na tom, kolik hodin zbyde."
+        },
+        "video": {
+          "concept": "Vertikální short ve stylu klidné observace s rychlými střihy. Začíná záběrem na klidný byt v noci – ticho, klid, pocit kontroly. Pak rychlý střih: ráno, chaos, špinavé nádobí, rozházené věci. Tempo se zrychluje. Poslední záběr: čistý, připravený byt – kontrast, který vše uzavře. Žádné logo v popředí, žádná reklama – jen příběh, který hostitelé poznají.",
+          "script": "BEAT 1 – OBSERVATION (0–4s): Záběr na tmavý, tichý byt v noci. Telefon na stole, obrazovka svítí. Voiceover: 'Přiznám se: taky jsem si myslel, že hodina na úklid vždycky stačí.'\n\nBEAT 2 – MEANING (4–12s): Rychlé střihy – ráno, rozházené věci po celém bytě, špinavé nádobí, zmačkané ložní prádlo. Tempo se zrychluje. Voiceover: 'Pak přišlo to ráno – potvrzení od hosta ve 22:00, checkout předchozích v 10:00, příjezd nových ve 12:00. Dvě hodiny. A byt vypadal, jako by v něm byl festival.'\n\nBEAT 3 – REVEAL (12–20s): Záběr na hodiny – 11:47. Byt stále v chaosu. Ticho. Voiceover: 'Hodina nestačila. Nestačily ani dvě. A host to napsal do recenze.'\n\nBEAT 4 – CTA (20–24s): Střih na čistý, světlý, připravený byt. Klid. Voiceover: 'Napište nám – ať příští otočka nestojí na tom, kolik hodin zbyde.'",
+          "duration_seconds": "24"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Přiznám se – myslel jsem, že dvě hodiny stačí. Nestačily. A host to napsal. Tohle ráno zná každý hostitel v Praze.",
+            "cta": "Napište nám do DM – ať příští otočka proběhne bez stresu.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitel",
+              "#airbnbczech"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Přiznám se – i já jsem si myslel, že na otočku stačí hodina. 🕙\n\nPotvrzení od hosta ve 22:00. Checkout v 10:00. Příjezd ve 12:00. Byt vypadal jako po festivalu. A host to napsal do recenze.\n\nTohle ráno zná každý, kdo spravuje Airbnb v Praze. Otočka není jen úklid – je to závod s časem, který se nedá improvizovat.",
+            "cta": "Uložte si tento příspěvek – nebo napište nám do DM, ať příště máte klid.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#uklidbyt",
+              "#prahaairbnb",
+              "#uklidovesluzby",
+              "#otocka",
+              "#airbnbczech"
+            ],
+            "format": "vertical_short"
+          },
+          "facebook": {
+            "caption": "Přiznám se – taky jsem si myslel, že hodina na úklid vždycky stačí. Pak přišlo ráno, kdy checkout byl v 10:00 a nový host přijížděl ve 12:00. Byt vypadal, jako by v něm byl festival. Hodina nestačila, ani dvě – a host to napsal do recenze.\n\nPokud spravujete Airbnb v Praze, tohle ráno znáte. Nemusí se opakovat. 👉 https://cleanstay.cz",
+            "cta": "Napište nám a domluvte si úklid – ať příští otočka nestojí na tom, kolik hodin zbyde.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha"
+            ],
+            "format": "vertical_short"
+          },
+          "google_business": {
+            "caption": "Otočka Airbnb bytu v Praze mezi dvěma rezervacemi je závod s časem. Zajišťujeme profesionální úklid přesně na termín – spolehlivě, rychle a s pokrytím celé Prahy. Váš byt bude připravený dřív, než host zaklepe.",
+            "cta": "Kontaktujte nás a domluvte si úklid.",
+            "hashtags": [],
+            "format": "text_post"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#otocka",
+          "#uklidbyt",
+          "#prahaairbnb",
+          "#airbnbczech",
+          "#uklidovesluzby"
+        ],
+        "image_prompts": [
+          "A quiet, dimly lit modern Prague apartment at night, a smartphone resting on a coffee table with a softly glowing screen showing a blurred colorful interface, clean minimal decor, calm atmosphere, natural ambient light from the window, no text or readable content visible anywhere in the scene.",
+          "A bright Prague apartment interior in morning daylight completely in disarray — unmade bed visible through open bedroom door, dishes piled on the kitchen counter, towels on the floor, bags left open — wide shot showing the full scale of the mess, natural window light, no people, no text.",
+          "Close-up of a modern wall clock showing 11:47, soft morning light, slightly blurred background revealing the edge of a messy kitchen counter, warm daylight tones, no text or labels visible.",
+          "A spotlessly clean, bright and inviting Prague apartment interior — freshly made white bed, clear kitchen counters, sunlight streaming through large windows, fresh flowers on the table, calm and welcoming atmosphere, no people, no text."
+        ],
+        "asset_usage": [],
+        "scenario": "Hostitel právě obdržel zprávu od nového hosta, že přijede za tři hodiny, ale předchozí hosté nechali byt v naprostém nepořádku."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "f9e86771-a03a-4a14-8311-e736790de307",
+      "variant": "A",
+      "provider": "claude",
+      "prompt_token_estimate": 7808,
+      "title": "Dva checkouty za den – a nová recenze píše se sama",
+      "hook": "Tomáš z Prahy říká, že jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Ale co se stane, když to tak není?",
+      "voiceover_text": "Tomáš říká: jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit. Jenže ne každý hostitel má tohle vyřešené. Dva checkouty za den, nový host přijíždí za dvě hodiny – a ty nestíháš. Přeskočíš koupelnu, nestihneš ložnici. Host to najde. A napíše to. Časový tlak nevzniká z lenosti – vzniká z toho, že to prostě nejde stihnout sám.",
+      "voiceover_word_count": 57,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka proběhne celá, i když máte dva checkouty za den."
+      },
+      "video_concept": "Rychlý vertikální short otevírá na skutečném proof pointu od Tomáše B. – jeho Airbnb je vždy připravené. Okamžitý twist: co se stane, když to tak není? Vizuálně eskalujeme časový tlak – hodiny, prázdný byt, příjezd hosta. Payoff: ne špína, ale čas je nepřítel. CTA jako klidné řešení.",
+      "image_prompts": [
+        "Bright, clean modern Airbnb bedroom in Prague, freshly made white bed, soft natural daylight through large windows, minimalist decor, warm and inviting atmosphere, photorealistic style.",
+        "The same Airbnb apartment interior now visibly rushed and unready — unmade bed with crumpled linen, bathroom door slightly open revealing untouched surfaces, bright daylight still present but the space feels hurried and incomplete, no people, photorealistic.",
+        "Close-up of a wall clock showing early afternoon time, soft natural light, slightly shallow depth of field, clean modern apartment wall in background, sense of urgency conveyed through the composition, photorealistic.",
+        "A person's hand holding a smartphone with a blurred, unreadable colorful app interface glowing on screen — abstract UI shapes suggesting a review or message, bright natural indoor light, photorealistic, no visible text or readable content on screen.",
+        "Bright, spotlessly clean Airbnb apartment — fresh white bedding, sunlit living area, welcoming and calm atmosphere, a small branded coaster or subtle branding prop on the coffee table, photorealistic, trustworthy and professional feel."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Tomáš má Airbnb vždy připravené. Ale co když máš dva checkouty za den a nový host přijíždí za 2 hodiny? 😬 Přeskočíš koupelnu, nestihneš ložnici – a host to napíše. Časový tlak je skutečný nepřítel, ne ty.",
+          "cta": "Napiš nám do DM – ať to příště zvládneš celé.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitele",
+            "#airbnbtipy"
+          ],
+          "format": "vertical_short_video"
+        },
+        "instagram": {
+          "caption": "Dva checkouty za den. Nový host přijíždí za dvě hodiny. 🕐 Přeskočíš koupelnu, nestihneš ložnici – a host to v recenzi nemlčí. Není to o lenosti. Je to o tom, že tohle prostě nejde stihnout sám. Tomáš B. z Prahy to vyřešil – jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit. Ty taky můžeš.",
+          "cta": "Napiš nám přes DM nebo klikni na odkaz v biu.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#uklidbyt",
+            "#prahaairbnb",
+            "#profesionalniuklid",
+            "#hostitele",
+            "#airbnbczech"
+          ],
+          "format": "vertical_short_video"
+        },
+        "facebook": {
+          "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – to je situace, kdy recenze vznikají. Ne proto, že by vám na čistotě nezáleželo, ale proto, že to sám prostě nestihnete celé. Přeskočená koupelna, neupravená ložnice – host si toho všimne a napíše to. Tomáš B. z Prahy tohle vyřešil: jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Napište nám a domluvte si úklid v Praze – https://cleanstay.cz",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha"
+          ],
+          "format": "video_post"
+        },
+        "google_business": {
+          "caption": "Spravujete Airbnb v Praze a nestíháte úklid mezi rezervacemi? Profesionální otočka bytu zajistí, že každý host přijde do čistého prostoru – i když máte dva checkouty za den. Zavolejte nebo napište a domluvte si úklid.",
+          "cta": "Navštivte náš web nebo nám napište pro domluvu úklidu.",
+          "hashtags": [],
+          "format": "google_business_post"
+        }
+      },
+      "raw_json": {
+        "title": "Dva checkouty za den – a nová recenze píše se sama",
+        "funnel_stage": "Problem Aware",
+        "hook": "Tomáš z Prahy říká, že jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Ale co se stane, když to tak není?",
+        "voiceover_text": "Tomáš říká: jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit. Jenže ne každý hostitel má tohle vyřešené. Dva checkouty za den, nový host přijíždí za dvě hodiny – a ty nestíháš. Přeskočíš koupelnu, nestihneš ložnici. Host to najde. A napíše to. Časový tlak nevzniká z lenosti – vzniká z toho, že to prostě nejde stihnout sám.",
+        "subtitles": "Tomáš říká: jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit. | Jenže ne každý hostitel má tohle vyřešené. | Dva checkouty za den – nový host přijíždí za dvě hodiny. | Přeskočíš koupelnu. Nestihneš ložnici. | Host to najde. A napíše to. | Časový tlak nevzniká z lenosti – prostě to nejde stihnout sám.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka proběhne celá, i když máte dva checkouty za den."
+        },
+        "video": {
+          "concept": "Rychlý vertikální short otevírá na skutečném proof pointu od Tomáše B. – jeho Airbnb je vždy připravené. Okamžitý twist: co se stane, když to tak není? Vizuálně eskalujeme časový tlak – hodiny, prázdný byt, příjezd hosta. Payoff: ne špína, ale čas je nepřítel. CTA jako klidné řešení.",
+          "script": "BEAT 1 – UNEXPECTED FACT (0–4s): Záběr na upravenou, světlou Airbnb ložnici. Voiceover: 'Tomáš říká: jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit.'\n\nBEAT 2 – TWIST / IMPLICATION (4–14s): Střih na prázdný, neuklidený byt – ložní prádlo zmačkané, koupelna netknutá. Hodiny na stěně ukazují čas. Voiceover: 'Jenže ne každý hostitel má tohle vyřešené. Dva checkouty za den – nový host přijíždí za dvě hodiny. Přeskočíš koupelnu. Nestihneš ložnici. Host to najde. A napíše to.'\n\nBEAT 3 – PROOF (14–20s): Záběr na telefon v ruce – rozmazaná obrazovka naznačuje recenzi. Voiceover: 'Časový tlak nevzniká z lenosti – prostě to nejde stihnout sám.'\n\nBEAT 4 – CTA (20–24s): Čistý, světlý byt. Logo jako branding prop v rohu. Voiceover utichl. Burned-in subtitle: 'Napište nám – ať příští otočka proběhne celá.'",
+          "duration_seconds": "24"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Tomáš má Airbnb vždy připravené. Ale co když máš dva checkouty za den a nový host přijíždí za 2 hodiny? 😬 Přeskočíš koupelnu, nestihneš ložnici – a host to napíše. Časový tlak je skutečný nepřítel, ne ty.",
+            "cta": "Napiš nám do DM – ať to příště zvládneš celé.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitele",
+              "#airbnbtipy"
+            ],
+            "format": "vertical_short_video"
+          },
+          "instagram": {
+            "caption": "Dva checkouty za den. Nový host přijíždí za dvě hodiny. 🕐 Přeskočíš koupelnu, nestihneš ložnici – a host to v recenzi nemlčí. Není to o lenosti. Je to o tom, že tohle prostě nejde stihnout sám. Tomáš B. z Prahy to vyřešil – jeho Airbnb je vždy připravené, bez nutnosti cokoliv řešit. Ty taky můžeš.",
+            "cta": "Napiš nám přes DM nebo klikni na odkaz v biu.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#uklidbyt",
+              "#prahaairbnb",
+              "#profesionalniuklid",
+              "#hostitele",
+              "#airbnbczech"
+            ],
+            "format": "vertical_short_video"
+          },
+          "facebook": {
+            "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – to je situace, kdy recenze vznikají. Ne proto, že by vám na čistotě nezáleželo, ale proto, že to sám prostě nestihnete celé. Přeskočená koupelna, neupravená ložnice – host si toho všimne a napíše to. Tomáš B. z Prahy tohle vyřešil: jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Napište nám a domluvte si úklid v Praze – https://cleanstay.cz",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha"
+            ],
+            "format": "video_post"
+          },
+          "google_business": {
+            "caption": "Spravujete Airbnb v Praze a nestíháte úklid mezi rezervacemi? Profesionální otočka bytu zajistí, že každý host přijde do čistého prostoru – i když máte dva checkouty za den. Zavolejte nebo napište a domluvte si úklid.",
+            "cta": "Navštivte náš web nebo nám napište pro domluvu úklidu.",
+            "hashtags": [],
+            "format": "google_business_post"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#hostitele",
+          "#profesionalniuklid",
+          "#airbnbczech",
+          "#uklidbyt",
+          "#prahaairbnb"
+        ],
+        "image_prompts": [
+          "Bright, clean modern Airbnb bedroom in Prague, freshly made white bed, soft natural daylight through large windows, minimalist decor, warm and inviting atmosphere, photorealistic style.",
+          "The same Airbnb apartment interior now visibly rushed and unready — unmade bed with crumpled linen, bathroom door slightly open revealing untouched surfaces, bright daylight still present but the space feels hurried and incomplete, no people, photorealistic.",
+          "Close-up of a wall clock showing early afternoon time, soft natural light, slightly shallow depth of field, clean modern apartment wall in background, sense of urgency conveyed through the composition, photorealistic.",
+          "A person's hand holding a smartphone with a blurred, unreadable colorful app interface glowing on screen — abstract UI shapes suggesting a review or message, bright natural indoor light, photorealistic, no visible text or readable content on screen.",
+          "Bright, spotlessly clean Airbnb apartment — fresh white bedding, sunlit living area, welcoming and calm atmosphere, a small branded coaster or subtle branding prop on the coffee table, photorealistic, trustworthy and professional feel."
+        ],
+        "asset_usage": [
+          {
+            "asset_id": "436bd92f-0291-4326-935b-1eea84e474ac",
+            "used_as": "Display the CleanStay logo as a small branding element in the bottom corner of the final CTA beat (Beat 4), not as the main visual — overlay on the clean apartment scene.",
+            "modify": "false"
+          }
+        ],
+        "scenario": "Hostitel spravující více bytů v Praze zjistí, že se mu překrývají odjezd jednoho hosta a příjezd druhého a nemá kapacitu zajistit úklid mezi rezervacemi."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "f9e86771-a03a-4a14-8311-e736790de307",
+      "variant": "B",
+      "provider": "claude",
+      "prompt_token_estimate": 7808,
+      "title": "Dvě otočky za den – a recenze napíše host, ne vy",
+      "hook": "Tomáš B. říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit – a přesně tohle většina hostitelů zažije jen jednou, než přijde ten den.",
+      "voiceover_text": "Tomáš říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit. Ale co se stane, když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte koupelnu, přeskočíte kuchyň, ručníky vypadají skoro dobře. Host to vidí jinak – a napíše to. Časový tlak neodpouští detaily. Napište nám – ať příští otočka nezávisí na tom, kolik hodin vám zbyde.",
+      "voiceover_word_count": 62,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka nezávisí na tom, kolik hodin vám zbyde."
+      },
+      "video_concept": "Vertikální short otevírá klidným záběrem připraveného bytu – kontrast s tím, co přijde. Pak rychlý střih: hodiny tikají, byt je v nepořádku po hostech, hostitel běhá s mopem. Záběry ukazují přeskočené detaily – ne jako hlavní téma, ale jako důkaz časového tlaku. Payoff: záběr hosta, který si prohlíží byt a sahá po telefonu. Závěr: čistý byt, klid, branding.",
+      "image_prompts": [
+        "Bright, sunlit modern Prague apartment living room, freshly made bed visible through open doorway, clean white linens, soft morning light through large windows — calm and inviting, no people, photorealistic.",
+        "Close-up of a wall clock showing late morning time, slightly out of focus, with a blurred background showing an unmade bed and towels on the floor — natural daylight, warm tones, sense of urgency without darkness.",
+        "A person's hands hurriedly folding a white towel on a bathroom counter, the sink area slightly wet and rushed-looking, bright bathroom lighting, photorealistic — conveys speed and imperfection, not horror.",
+        "A guest standing in a bright apartment hallway, looking around with a neutral expression, holding a phone loosely at their side — soft natural light, modern interior, photorealistic, no text visible anywhere.",
+        "Clean, perfectly prepared Prague apartment — fresh towels neatly folded, kitchen spotless, sunlight filling the room — a person relaxing on a sofa in the background, calm and confident atmosphere, photorealistic."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Dva checkouty za den a host přijíždí za 2 hodiny. Nestíháš koupelnu, přeskočíš kuchyň – a host to pak napíše do recenze. Časový tlak neodpouští. 👀",
+          "cta": "Napiš nám do DM – ať příští otočka proběhne celá.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitele",
+            "#airbnbcz"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Tomáš B. říká, že jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit. ✨ Ale co se stane, když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte koupelnu, přeskočíte kuchyň, ručníky vypadají skoro dobře. Host to vidí jinak – a napíše to. Recenze nevznikají ze špíny. Vznikají z nedostatku času.",
+          "cta": "Napište nám přes DM nebo odkaz v biu – ať příští otočka nezávisí na hodinách, které vám zbydou.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhosting",
+            "#hostitelepraha",
+            "#uklidovesluzby",
+            "#airbnbcz",
+            "#cestovani",
+            "#prahabyty"
+          ],
+          "format": "vertical_short_with_caption"
+        },
+        "facebook": {
+          "caption": "Máte za den dva checkouty a nový host přijíždí za dvě hodiny. Nestíháte koupelnu, přeskočíte kuchyň – a ručníky vypadají skoro dobře. Host to ale vidí jinak. A napíše to. Špatné recenze nevznikají ze zlého úmyslu – vznikají z nedostatku času. Tomáš B. z Prahy to vyřešil tak, že jeho Airbnb je teď vždy připravené bez nutnosti cokoli řešit. 🏠",
+          "cta": "Napište nám a domluvte si úklid v Praze: https://cleanstay.cz",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha"
+          ],
+          "format": "video_post"
+        },
+        "google_business": {
+          "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – přesně tady vznikají špatné recenze. Profesionální otočka Airbnb bytu v Praze zajistí, že žádný detail nezůstane přeskočený, i když na čas není. Kontaktujte nás a domluvte si úklid.",
+          "cta": "Napište nám nebo navštivte náš web a domluvte si termín.",
+          "hashtags": [],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Dvě otočky za den – a recenze napíše host, ne vy",
+        "funnel_stage": "Problem Aware",
+        "hook": "Tomáš B. říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit – a přesně tohle většina hostitelů zažije jen jednou, než přijde ten den.",
+        "voiceover_text": "Tomáš říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit. Ale co se stane, když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte koupelnu, přeskočíte kuchyň, ručníky vypadají skoro dobře. Host to vidí jinak – a napíše to. Časový tlak neodpouští detaily. Napište nám – ať příští otočka nezávisí na tom, kolik hodin vám zbyde.",
+        "subtitles": "Tomáš říká: jeho Airbnb je vždy připravené. / Ale co když máte dva checkouty za den? / Nový host přijíždí za dvě hodiny. / Nestíháte koupelnu. Přeskočíte kuchyň. / Ručníky vypadají skoro dobře. / Host to vidí jinak – a napíše to. / Časový tlak neodpouští detaily. / Napište nám – ať příští otočka nezávisí na čase, který vám zbyde.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka nezávisí na tom, kolik hodin vám zbyde."
+        },
+        "video": {
+          "concept": "Vertikální short otevírá klidným záběrem připraveného bytu – kontrast s tím, co přijde. Pak rychlý střih: hodiny tikají, byt je v nepořádku po hostech, hostitel běhá s mopem. Záběry ukazují přeskočené detaily – ne jako hlavní téma, ale jako důkaz časového tlaku. Payoff: záběr hosta, který si prohlíží byt a sahá po telefonu. Závěr: čistý byt, klid, branding.",
+          "script": "BEAT 1 – UNEXPECTED FACT (0–4s): Záběr krásně připraveného Airbnb bytu, světlý, čistý. VO: 'Tomáš říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit.' BEAT 2 – IMPLICATION (4–14s): Rychlý střih – oznámení na telefonu, dva checkouty, hodiny na zdi, hostitel s kbelíkem. Záběry nedokončeného úklidu – koupelna jen napůl, kuchyň přeskočená, ručníky složené narychlo. VO: 'Ale co když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte koupelnu, přeskočíte kuchyň. Ručníky vypadají skoro dobře. Host to vidí jinak – a napíše to.' BEAT 3 – PROOF (14–19s): Host si prohlíží byt, sahá po telefonu. VO: 'Časový tlak neodpouští detaily.' BEAT 4 – CTA (19–23s): Čistý, připravený byt, logo CleanStay v rohu. VO: 'Napište nám – ať příští otočka nezávisí na tom, kolik hodin vám zbyde.'",
+          "duration_seconds": "23"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Dva checkouty za den a host přijíždí za 2 hodiny. Nestíháš koupelnu, přeskočíš kuchyň – a host to pak napíše do recenze. Časový tlak neodpouští. 👀",
+            "cta": "Napiš nám do DM – ať příští otočka proběhne celá.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitele",
+              "#airbnbcz"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Tomáš B. říká, že jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit. ✨ Ale co se stane, když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte koupelnu, přeskočíte kuchyň, ručníky vypadají skoro dobře. Host to vidí jinak – a napíše to. Recenze nevznikají ze špíny. Vznikají z nedostatku času.",
+            "cta": "Napište nám přes DM nebo odkaz v biu – ať příští otočka nezávisí na hodinách, které vám zbydou.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhosting",
+              "#hostitelepraha",
+              "#uklidovesluzby",
+              "#airbnbcz",
+              "#cestovani",
+              "#prahabyty"
+            ],
+            "format": "vertical_short_with_caption"
+          },
+          "facebook": {
+            "caption": "Máte za den dva checkouty a nový host přijíždí za dvě hodiny. Nestíháte koupelnu, přeskočíte kuchyň – a ručníky vypadají skoro dobře. Host to ale vidí jinak. A napíše to. Špatné recenze nevznikají ze zlého úmyslu – vznikají z nedostatku času. Tomáš B. z Prahy to vyřešil tak, že jeho Airbnb je teď vždy připravené bez nutnosti cokoli řešit. 🏠",
+            "cta": "Napište nám a domluvte si úklid v Praze: https://cleanstay.cz",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha"
+            ],
+            "format": "video_post"
+          },
+          "google_business": {
+            "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – přesně tady vznikají špatné recenze. Profesionální otočka Airbnb bytu v Praze zajistí, že žádný detail nezůstane přeskočený, i když na čas není. Kontaktujte nás a domluvte si úklid.",
+            "cta": "Napište nám nebo navštivte náš web a domluvte si termín.",
+            "hashtags": [],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#hostitelepraha",
+          "#airbnbcz",
+          "#uklidovesluzby",
+          "#prahabyty"
+        ],
+        "image_prompts": [
+          "Bright, sunlit modern Prague apartment living room, freshly made bed visible through open doorway, clean white linens, soft morning light through large windows — calm and inviting, no people, photorealistic.",
+          "Close-up of a wall clock showing late morning time, slightly out of focus, with a blurred background showing an unmade bed and towels on the floor — natural daylight, warm tones, sense of urgency without darkness.",
+          "A person's hands hurriedly folding a white towel on a bathroom counter, the sink area slightly wet and rushed-looking, bright bathroom lighting, photorealistic — conveys speed and imperfection, not horror.",
+          "A guest standing in a bright apartment hallway, looking around with a neutral expression, holding a phone loosely at their side — soft natural light, modern interior, photorealistic, no text visible anywhere.",
+          "Clean, perfectly prepared Prague apartment — fresh towels neatly folded, kitchen spotless, sunlight filling the room — a person relaxing on a sofa in the background, calm and confident atmosphere, photorealistic."
+        ],
+        "asset_usage": [
+          {
+            "asset_id": "436bd92f-0291-4326-935b-1eea84e474ac",
+            "used_as": "Display the CleanStay logo as a small branding element in the bottom corner of the final CTA beat (last 4 seconds), not as the main visual — overlay on the clean apartment scene.",
+            "modify": "false"
+          }
+        ],
+        "scenario": ""
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "f9e86771-a03a-4a14-8311-e736790de307",
+      "variant": "C",
+      "provider": "claude",
+      "prompt_token_estimate": 4801,
+      "title": "Tomáš B. má Airbnb vždy připravené – a vy?",
+      "hook": "Tomáš B. z Prahy říká, že jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Ale co se stane, když na to jste sami?",
+      "voiceover_text": "Tomáš B. z Prahy říká: jeho Airbnb je vždy připravené, bez toho, aby musel cokoliv řešit. Teď si představte opak. Dva checkouty za den, nový host přijíždí za dvě hodiny, a vy sami nestíháte. Koupelna napůl, ložnice narychlo. Host to najde. A napíše to. Napište nám – ať příští otočka proběhne celá.",
+      "voiceover_word_count": 52,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka proběhne celá, ne narychlo."
+      },
+      "video_concept": "Rychlý vertikální short ve stylu split-reality: jedna strana obrazovky ukazuje klidného hostitele s připraveným bytem (Tomáš B. scénář), druhá strana ukazuje chaotického hostitele v časovém tlaku – polopřipravená koupelna, neustlaná postel, telefon s příchozí zprávou od hosta. Závěr: záběr na negativní recenzi na obrazovce, pak střih na čistý, připravený byt s logem služby.",
+      "image_prompts": [
+        "Klidný čistý pražský Airbnb byt – světlý pokoj, připravené lůžko, přirozené světlo",
+        "Hostitel v časovém tlaku – rozházený byt, telefon v ruce, pohled na hodinky",
+        "Telefon se záběrem na negativní recenzi, pak střih na profesionálně uklizený byt"
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Dva checkouty za den a nový host za dvě hodiny. Tohle je moment, kdy recenze vznikají – a ne vždy dobré. 👇",
+          "cta": "Napište nám – ať příští otočka proběhne celá, ne narychlo.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklid",
+            "#airbnbhostitel",
+            "#uklidpraha",
+            "#airbnbcleaning",
+            "#praha",
+            "#otocka"
+          ],
+          "format": "Vertical video – TikTok Short (9:16), 22s"
+        },
+        "instagram": {
+          "caption": "Tomáš B. z Prahy říká, že jeho Airbnb je vždy připravené – bez toho, aby musel cokoliv řešit. ✅\n\nAle co se stane, když na to jste sami?\n\nDva checkouty za den. Nový host přijíždí za dvě hodiny. Koupelna napůl, ložnice narychlo. Host to najde – a napíše to do recenze.\n\nČasový tlak je největší nepřítel dobrého hodnocení. Profesionální tým otočku zvládne celou, ne jen tu část, na kterou zbyl čas.",
+          "cta": "Napište nám – ať se příští recenze píše sama od sebe.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#otockabytu",
+            "#uklidbyt",
+            "#praha",
+            "#airbnbcleaning",
+            "#spravabytů"
+          ],
+          "format": "Vertical video – Instagram Reels (9:16), 22s"
+        },
+        "facebook": {
+          "caption": "Znáte ten pocit? Jeden host odjel ráno, druhý přijíždí odpoledne – a vy máte dvě hodiny na celý byt.\n\nKoupelna napůl, ložnice narychlo, kuchyň jak to jde. Myslíte, že host nepozná rozdíl?\n\nPozná. A napíše to.\n\nTomáš B. z Prahy to vyřešil jinak: jeho Airbnb je vždy připravené, bez toho, aby musel cokoliv řešit sám. Profesionální tým, jasný plán, žádný chaos.\n\nPokud spravujete Airbnb v Praze a víte, že otočky pod časovým tlakem jsou váš největší problém – napište nám.",
+          "cta": "Napište nám – ať příští otočka proběhne celá a host nenajde důvod stěžovat si.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#Praha",
+            "#uklidbytů"
+          ],
+          "format": "Text post s odkazem na video (sdílení Reels/TikTok) nebo nativní video upload"
+        },
+        "google_business": {
+          "caption": "Spravujete Airbnb v Praze a nestíháte otočky mezi rezervacemi? Časový tlak je nejčastější příčina špatných recenzí – ne nedbalost, ale prostě nedostatek času.\n\nZajišťujeme profesionální Airbnb úklid v Praze: rychlá komunikace, spolehlivý tým, otočka proběhne celá a včas.",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha",
+            "#uklidbytů",
+            "#Praha"
+          ],
+          "format": "Google Business Post – statický text s CTA tlačítkem"
+        }
+      },
+      "raw_json": {
+        "title": "Tomáš B. má Airbnb vždy připravené – a vy?",
+        "funnel_stage": "Problem Aware",
+        "hook": "Tomáš B. z Prahy říká, že jeho Airbnb je vždy připravené bez nutnosti cokoliv řešit. Ale co se stane, když na to jste sami?",
+        "voiceover_text": "Tomáš B. z Prahy říká: jeho Airbnb je vždy připravené, bez toho, aby musel cokoliv řešit. Teď si představte opak. Dva checkouty za den, nový host přijíždí za dvě hodiny, a vy sami nestíháte. Koupelna napůl, ložnice narychlo. Host to najde. A napíše to. Napište nám – ať příští otočka proběhne celá.",
+        "subtitles": "Tomáš B.: jeho Airbnb je vždy připravené. / Teď si představte opak. / Dva checkouty, nový host za dvě hodiny. / Vy sami nestíháte. / Koupelna napůl. Ložnice narychlo. / Host to najde. A napíše to. / Napište nám – ať příští otočka proběhne celá.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka proběhne celá, ne narychlo."
+        },
+        "video": {
+          "concept": "Rychlý vertikální short ve stylu split-reality: jedna strana obrazovky ukazuje klidného hostitele s připraveným bytem (Tomáš B. scénář), druhá strana ukazuje chaotického hostitele v časovém tlaku – polopřipravená koupelna, neustlaná postel, telefon s příchozí zprávou od hosta. Závěr: záběr na negativní recenzi na obrazovce, pak střih na čistý, připravený byt s logem služby.",
+          "script": "0:00–0:03 | HOOK: Titulkový text přes obrazovku: 'Jeho Airbnb je vždy připravené.' Záběr na klidný, čistý byt. Voiceover: 'Tomáš B. z Prahy říká: jeho Airbnb je vždy připravené, bez toho, aby musel cokoliv řešit.' | 0:03–0:08 | TWIST: Obrazovka se rozdělí – vlevo klid, vpravo chaos. Hostitel běhá po bytě, telefon zvoní. Voiceover: 'Teď si představte opak. Dva checkouty za den, nový host přijíždí za dvě hodiny, a vy sami nestíháte.' | 0:08–0:17 | IMPLICATION: Rychlé střihy – koupelna napůl uklizená, polštář bez povlaku, špinavý dřez. Voiceover: 'Koupelna napůl, ložnice narychlo. Host to najde. A napíše to.' | 0:17–0:22 | PAYOFF + CTA: Záběr na telefon s novou negativní recenzí, pak okamžitý střih na čistý připravený byt. Text přes obrazovku: 'Napište nám.' Voiceover: 'Napište nám – ať příští otočka proběhne celá.'",
+          "duration_seconds": "22"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Dva checkouty za den a nový host za dvě hodiny. Tohle je moment, kdy recenze vznikají – a ne vždy dobré. 👇",
+            "cta": "Napište nám – ať příští otočka proběhne celá, ne narychlo.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklid",
+              "#airbnbhostitel",
+              "#uklidpraha",
+              "#airbnbcleaning",
+              "#praha",
+              "#otocka"
+            ],
+            "format": "Vertical video – TikTok Short (9:16), 22s"
+          },
+          "instagram": {
+            "caption": "Tomáš B. z Prahy říká, že jeho Airbnb je vždy připravené – bez toho, aby musel cokoliv řešit. ✅\n\nAle co se stane, když na to jste sami?\n\nDva checkouty za den. Nový host přijíždí za dvě hodiny. Koupelna napůl, ložnice narychlo. Host to najde – a napíše to do recenze.\n\nČasový tlak je největší nepřítel dobrého hodnocení. Profesionální tým otočku zvládne celou, ne jen tu část, na kterou zbyl čas.",
+            "cta": "Napište nám – ať se příští recenze píše sama od sebe.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#otockabytu",
+              "#uklidbyt",
+              "#praha",
+              "#airbnbcleaning",
+              "#spravabytů"
+            ],
+            "format": "Vertical video – Instagram Reels (9:16), 22s"
+          },
+          "facebook": {
+            "caption": "Znáte ten pocit? Jeden host odjel ráno, druhý přijíždí odpoledne – a vy máte dvě hodiny na celý byt.\n\nKoupelna napůl, ložnice narychlo, kuchyň jak to jde. Myslíte, že host nepozná rozdíl?\n\nPozná. A napíše to.\n\nTomáš B. z Prahy to vyřešil jinak: jeho Airbnb je vždy připravené, bez toho, aby musel cokoliv řešit sám. Profesionální tým, jasný plán, žádný chaos.\n\nPokud spravujete Airbnb v Praze a víte, že otočky pod časovým tlakem jsou váš největší problém – napište nám.",
+            "cta": "Napište nám – ať příští otočka proběhne celá a host nenajde důvod stěžovat si.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#Praha",
+              "#uklidbytů"
+            ],
+            "format": "Text post s odkazem na video (sdílení Reels/TikTok) nebo nativní video upload"
+          },
+          "google_business": {
+            "caption": "Spravujete Airbnb v Praze a nestíháte otočky mezi rezervacemi? Časový tlak je nejčastější příčina špatných recenzí – ne nedbalost, ale prostě nedostatek času.\n\nZajišťujeme profesionální Airbnb úklid v Praze: rychlá komunikace, spolehlivý tým, otočka proběhne celá a včas.",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha",
+              "#uklidbytů",
+              "#Praha"
+            ],
+            "format": "Google Business Post – statický text s CTA tlačítkem"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#otockabytu",
+          "#uklidbyt",
+          "#praha",
+          "#airbnbcleaning",
+          "#spravabytů",
+          "#uklidbytů"
+        ],
+        "image_prompts": [
+          "Klidný čistý pražský Airbnb byt – světlý pokoj, připravené lůžko, přirozené světlo",
+          "Hostitel v časovém tlaku – rozházený byt, telefon v ruce, pohled na hodinky",
+          "Telefon se záběrem na negativní recenzi, pak střih na profesionálně uklizený byt"
+        ],
+        "asset_usage": [],
+        "scenario": "Hostitel spravující více bytů v Praze zjistí, že se mu překrývají odjezd jednoho hosta a příjezd druhého a nemá kapacitu zajistit úklid mezi rezervacemi."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "f9e86771-a03a-4a14-8311-e736790de307",
+      "variant": "D",
+      "provider": "claude",
+      "prompt_token_estimate": 7749,
+      "title": "Dvě otočky za den – a recenze, která přijde v noci",
+      "hook": "Tomáš B. říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit – a přesně tohle většina hostitelů zažívá přesně naopak.",
+      "voiceover_text": "Tomáš B. říká, že jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit. Ale co když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte. Vynecháte koupelnu, přehlédnete kuchyň. Host to najde. A recenzi napíše ještě ten večer. Čas netlačí špínu – tlačí vás k chybám. Napište nám – ať příští otočka proběhne celá, ne jen ta část, na kterou zbyde čas.",
+      "voiceover_word_count": 67,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští otočka proběhne celá, ne jen ta část, na kterou zbyde čas."
+      },
+      "video_concept": "Rychlý vertikální short ve stylu proof_shock. Otevírá se překvapivým kontrastem: citát spokojeného hostitele vs. realita hostitele pod časovým tlakem. Vizuální eskalace: klid → chaos → důsledek (recenze) → řešení. Tempo je rychlé, střihy krátké, energie naléhavá ale ne agresivní. Hlas je blunt, trochu frustrovaný z problému – ne z diváka.",
+      "image_prompts": [
+        "Bright, sunlit modern Prague apartment, freshly made bed with white linen, clean kitchen counter, open window with morning light streaming in — calm, pristine, no clutter. Photorealistic, warm daylight, trustworthy feel.",
+        "Close-up of a person's hands holding a smartphone, two chat notification bubbles visible on screen as soft blurred shapes, expression of mild stress on the face in background — natural indoor light, slightly tense but realistic mood.",
+        "Wide shot of a small apartment living area in mild disarray — unmade sofa bed, dishes left on table, a towel on the floor — no one present, daylight, matter-of-fact documentary style, not dramatic or dark.",
+        "A guest standing in a doorway of an apartment, looking around with a skeptical expression, rolling suitcase beside them — bright natural light from window, realistic Prague apartment interior, candid moment.",
+        "Clean, organized Prague apartment after professional cleaning — white towels folded on bed, kitchen sparkling, soft morning light — small CleanStay logo visible as a subtle branding element in lower corner, not dominant."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Dva checkouty za den, nový host za 2 hodiny – a ty nestíháš. Tohle není o špíně. Je to o čase, který prostě nemáš. 😤 Tomáš B. to vyřešil – a jeho Airbnb funguje bez toho, aby musel cokoli řešit.",
+          "cta": "Napiš nám do DM – ať to taky funguje bez tebe.",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#hostitel",
+            "#airbnbcz"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Dva checkouty za den. Nový host za dvě hodiny. A ty sám. 🕐\n\nNestihneš všechno – a host to pozná. Ne proto, že jsi líný. Ale proto, že čas prostě nestačí.\n\nTomáš B. z Prahy to vyřešil jednoduše: jeho Airbnb je vždy připravené, bez nutnosti cokoli řešit. Ty na to taky máš nárok.",
+          "cta": "Napiš nám přes DM nebo odkaz v biu – ať příští otočka proběhne celá. 🔗",
+          "hashtags": [
+            "#airbnbpraha",
+            "#uklidpraha",
+            "#airbnbhostitel",
+            "#uklidbyt",
+            "#prahaairbnb",
+            "#profesionalniuklid",
+            "#airbnbcz",
+            "#uklidovesluzby"
+          ],
+          "format": "vertical_short"
+        },
+        "facebook": {
+          "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – zní to zvladatelně, dokud to opravdu nastane. 😓 Nestíháte všechno, přehlédnete koupelnu nebo kuchyň – a host to napíše do recenze ještě ten večer. Čas netlačí špínu, tlačí vás k chybám. Tomáš B. z Prahy to vyřešil s námi – jeho Airbnb je vždy připravené bez nutnosti cokoli řešit.",
+          "cta": "Napište nám a domluvte si úklid v Praze – https://cleanstay.cz",
+          "hashtags": [
+            "#uklidpraha",
+            "#airbnbpraha"
+          ],
+          "format": "vertical_short_with_caption"
+        },
+        "google_business": {
+          "caption": "Dvě rezervace za den a příjezd hosta za dvě hodiny – na takový tlak profesionální úklid teprve ukáže svou hodnotu. Zajišťujeme Airbnb otočky v Praze rychle a spolehlivě, i při překrývajících se rezervacích. Kontaktujte nás a domluvte si pravidelný úklid.",
+          "cta": "Napište nám nebo navštivte náš web.",
+          "hashtags": [],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Dvě otočky za den – a recenze, která přijde v noci",
+        "funnel_stage": "Problem Aware",
+        "hook": "Tomáš B. říká, že jeho Airbnb je vždy připravené bez nutnosti cokoli řešit – a přesně tohle většina hostitelů zažívá přesně naopak.",
+        "voiceover_text": "Tomáš B. říká, že jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit. Ale co když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte. Vynecháte koupelnu, přehlédnete kuchyň. Host to najde. A recenzi napíše ještě ten večer. Čas netlačí špínu – tlačí vás k chybám. Napište nám – ať příští otočka proběhne celá, ne jen ta část, na kterou zbyde čas.",
+        "subtitles": "Tomáš B.: jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit. | Dva checkouty za den. Nový host za dvě hodiny. | Nestíháte. Vynecháte koupelnu. Přehlédnete kuchyň. | Host to najde. Recenzi napíše ještě ten večer. | Čas netlačí špínu – tlačí vás k chybám. | Napište nám – ať příští otočka proběhne celá.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští otočka proběhne celá, ne jen ta část, na kterou zbyde čas."
+        },
+        "video": {
+          "concept": "Rychlý vertikální short ve stylu proof_shock. Otevírá se překvapivým kontrastem: citát spokojeného hostitele vs. realita hostitele pod časovým tlakem. Vizuální eskalace: klid → chaos → důsledek (recenze) → řešení. Tempo je rychlé, střihy krátké, energie naléhavá ale ne agresivní. Hlas je blunt, trochu frustrovaný z problému – ne z diváka.",
+          "script": "BEAT 1 – UNEXPECTED FACT (0–4s): Záběr na čistý, připravený apartmán v ranním světle. VO: 'Tomáš B. říká, že jeho Airbnb je vždy připravené – bez nutnosti cokoli řešit.' BEAT 2 – IMPLICATION / TWIST (4–14s): Rychlý střih na hostitele, který se dívá na telefon – dvě zprávy, dva checkouty, čas tiká. Záběr na neuklizený byt – postel neustlaná, kuchyňský stůl špinavý. VO: 'Ale co když máte dva checkouty za den a nový host přijíždí za dvě hodiny? Nestíháte. Vynecháte koupelnu, přehlédnete kuchyň.' BEAT 3 – PROOF / PAYOFF (14–20s): Záběr na ruce hosta, který si prohlíží byt a kroutí hlavou. VO: 'Host to najde. A recenzi napíše ještě ten večer. Čas netlačí špínu – tlačí vás k chybám.' BEAT 4 – CTA (20–24s): Logo CleanStay v rohu, čistý apartmán v pozadí. VO: 'Napište nám – ať příští otočka proběhne celá, ne jen ta část, na kterou zbyde čas.'",
+          "duration_seconds": "24"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Dva checkouty za den, nový host za 2 hodiny – a ty nestíháš. Tohle není o špíně. Je to o čase, který prostě nemáš. 😤 Tomáš B. to vyřešil – a jeho Airbnb funguje bez toho, aby musel cokoli řešit.",
+            "cta": "Napiš nám do DM – ať to taky funguje bez tebe.",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#hostitel",
+              "#airbnbcz"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Dva checkouty za den. Nový host za dvě hodiny. A ty sám. 🕐\n\nNestihneš všechno – a host to pozná. Ne proto, že jsi líný. Ale proto, že čas prostě nestačí.\n\nTomáš B. z Prahy to vyřešil jednoduše: jeho Airbnb je vždy připravené, bez nutnosti cokoli řešit. Ty na to taky máš nárok.",
+            "cta": "Napiš nám přes DM nebo odkaz v biu – ať příští otočka proběhne celá. 🔗",
+            "hashtags": [
+              "#airbnbpraha",
+              "#uklidpraha",
+              "#airbnbhostitel",
+              "#uklidbyt",
+              "#prahaairbnb",
+              "#profesionalniuklid",
+              "#airbnbcz",
+              "#uklidovesluzby"
+            ],
+            "format": "vertical_short"
+          },
+          "facebook": {
+            "caption": "Dva checkouty za den a nový host přijíždí za dvě hodiny – zní to zvladatelně, dokud to opravdu nastane. 😓 Nestíháte všechno, přehlédnete koupelnu nebo kuchyň – a host to napíše do recenze ještě ten večer. Čas netlačí špínu, tlačí vás k chybám. Tomáš B. z Prahy to vyřešil s námi – jeho Airbnb je vždy připravené bez nutnosti cokoli řešit.",
+            "cta": "Napište nám a domluvte si úklid v Praze – https://cleanstay.cz",
+            "hashtags": [
+              "#uklidpraha",
+              "#airbnbpraha"
+            ],
+            "format": "vertical_short_with_caption"
+          },
+          "google_business": {
+            "caption": "Dvě rezervace za den a příjezd hosta za dvě hodiny – na takový tlak profesionální úklid teprve ukáže svou hodnotu. Zajišťujeme Airbnb otočky v Praze rychle a spolehlivě, i při překrývajících se rezervacích. Kontaktujte nás a domluvte si pravidelný úklid.",
+            "cta": "Napište nám nebo navštivte náš web.",
+            "hashtags": [],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#airbnbpraha",
+          "#uklidpraha",
+          "#airbnbhostitel",
+          "#uklidbyt",
+          "#profesionalniuklid",
+          "#airbnbcz",
+          "#uklidovesluzby",
+          "#prahaairbnb"
+        ],
+        "image_prompts": [
+          "Bright, sunlit modern Prague apartment, freshly made bed with white linen, clean kitchen counter, open window with morning light streaming in — calm, pristine, no clutter. Photorealistic, warm daylight, trustworthy feel.",
+          "Close-up of a person's hands holding a smartphone, two chat notification bubbles visible on screen as soft blurred shapes, expression of mild stress on the face in background — natural indoor light, slightly tense but realistic mood.",
+          "Wide shot of a small apartment living area in mild disarray — unmade sofa bed, dishes left on table, a towel on the floor — no one present, daylight, matter-of-fact documentary style, not dramatic or dark.",
+          "A guest standing in a doorway of an apartment, looking around with a skeptical expression, rolling suitcase beside them — bright natural light from window, realistic Prague apartment interior, candid moment.",
+          "Clean, organized Prague apartment after professional cleaning — white towels folded on bed, kitchen sparkling, soft morning light — small CleanStay logo visible as a subtle branding element in lower corner, not dominant."
+        ],
+        "asset_usage": [
+          {
+            "asset_id": "436bd92f-0291-4326-935b-1eea84e474ac",
+            "used_as": "Display the CleanStay logo as a small branding element in the lower corner of the final CTA beat (last 4 seconds). Do not fullscreen; keep it subtle and supporting.",
+            "modify": "false"
+          }
+        ],
+        "scenario": "Hostitel spravující více bytů v Praze zjistí, že se mu překrývají odjezd jednoho hosta a příjezd druhého a nemá kapacitu zajistit úklid mezi rezervacemi."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "1e1d992f-1fd0-490b-9d0d-45d2084b9db4",
+      "variant": "A",
+      "provider": "claude",
+      "prompt_token_estimate": 7809,
+      "title": "Manažer, který řeší úklid místo byznysu",
+      "hook": "Nejproduktivnější hodiny v kanceláři někdy skončí u telefonu s úklidovou firmou.",
+      "voiceover_text": "Nejproduktivnější hodiny v kanceláři někdy skončí u telefonu s úklidovou firmou. Tým si stěžuje na kuchyňku. Manažer to slyší, odkývá – a místo projektu obvolává dodavatele. Hodinu. Dvě. Každý týden znovu. To není problém úklidu. To je problém systému. Pravidelný úklid kanceláře v Praze, který prostě funguje. Napište nám – ať váš čas zůstane tam, kde má být.",
+      "voiceover_word_count": 58,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať váš čas zůstane tam, kde má být."
+      },
+      "video_concept": "Rychlý vertikální short sledující jeden konkrétní moment: manažer v moderní pražské kanceláři dostane stížnost od týmu, odloží rozdělanou práci a začne obvolávat úklidové firmy. Twist: kamera ukáže hodiny – dvě hodiny pryč. Payoff: titulky odhalí, že tohle se opakuje každý týden. Závěr klidný, řešení jednoduché.",
+      "image_prompts": [
+        "Bright modern Prague office in natural daylight. A focused male manager in his 30s sits at a clean desk with an open laptop showing blurred abstract colorful dashboard shapes. Papers and a coffee cup beside him. Wide shot, warm light, professional atmosphere. No text, no signs.",
+        "Same office, same manager — now turned away from the laptop, holding a smartphone to his ear with a slightly tense expression. A female colleague stands in the doorway gesturing toward the background. Soft natural light, realistic, no text or labels visible anywhere.",
+        "Close-up of a modern wall clock in a bright office corridor, hands positioned to suggest late morning. Slightly out-of-focus clean office interior behind it. Neutral tones, crisp daylight, no text or numbers readable.",
+        "Wide shot of a clean, organized modern office kitchen area — bright white surfaces, tidy countertop, no clutter. Empty and calm. Natural daylight through a window. No people, no text, no labels.",
+        "The same manager back at his desk, relaxed and focused on his laptop with blurred abstract UI on screen. The office behind him is visibly clean and bright. Calm, productive atmosphere. Natural light, no text or signs."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Manažer strávil dvě hodiny obvoláváním úklidových firem. Projekt stál. Tým čekal. A příští týden to bylo stejný. 👀",
+          "cta": "Znáte to? Napište do komentářů nebo rovnou do DM.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#officelife"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Nejproduktivnější hodiny v kanceláři – a manažer je tráví u telefonu s úklidovou firmou. 📋 Tým si stěžuje, projekt stojí, hodiny běží. Tohle není výjimka. Pro spoustu kanceláří v Praze je to každý týden. Pravidelný úklid, který prostě funguje, tento problém odstraní jednou provždy.",
+          "cta": "Uložte si příspěvek nebo napište přes DM – rádi domluvíme pravidelný úklid vaší kanceláře.",
+          "hashtags": [
+            "#uklid",
+            "#uklidkancelari",
+            "#Praha",
+            "#kancelar",
+            "#officemanager",
+            "#pravidelnýúklid",
+            "#uklidypraha",
+            "#cleanoffice",
+            "#produktivita"
+          ],
+          "format": "vertical_short_with_caption"
+        },
+        "facebook": {
+          "caption": "Kolik hodin týdně váš manažer skutečně věnuje řešení úklidu místo byznysu? Stížnost od týmu, telefony dodavatelům, domlouvání termínů – a projekt mezitím čeká. Zajišťujeme pravidelný úklid kanceláří po celé Praze, aby tohle nemusel řešit nikdo z vašeho týmu. Napište nám a domluvte si plán, který prostě funguje. 👉 https://cleanstay.cz",
+          "cta": "Napište nám přes zprávu nebo navštivte cleanstay.cz.",
+          "hashtags": [
+            "#uklidkancelari",
+            "#Praha"
+          ],
+          "format": "text_with_link"
+        },
+        "google_business": {
+          "caption": "Pravidelný úklid kanceláří v Praze – bez starostí pro management. Zajistíme čistou kuchyňku, toalety i pracovní prostory podle pevného rozvrhu, který váš tým ani nemusí řešit. Kontaktujte nás a domluvte si úklid přímo na míru vaší kanceláři.",
+          "cta": "Navštivte náš web nebo nám zavolejte.",
+          "hashtags": [],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Manažer, který řeší úklid místo byznysu",
+        "funnel_stage": "Problem Aware",
+        "hook": "Nejproduktivnější hodiny v kanceláři někdy skončí u telefonu s úklidovou firmou.",
+        "voiceover_text": "Nejproduktivnější hodiny v kanceláři někdy skončí u telefonu s úklidovou firmou. Tým si stěžuje na kuchyňku. Manažer to slyší, odkývá – a místo projektu obvolává dodavatele. Hodinu. Dvě. Každý týden znovu. To není problém úklidu. To je problém systému. Pravidelný úklid kanceláře v Praze, který prostě funguje. Napište nám – ať váš čas zůstane tam, kde má být.",
+        "subtitles": "Nejproduktivnější hodiny v kanceláři\nskončí u telefonu s úklidovou firmou.\n\nTým si stěžuje na kuchyňku.\nManažer to slyší – a odkývá.\n\nMísto projektu obvolává dodavatele.\nHodinu. Dvě. Každý týden znovu.\n\nTo není problém úklidu.\nTo je problém systému.\n\nPravidelný úklid kanceláře v Praze.\nNapište nám – ať váš čas zůstane tam, kde má být.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať váš čas zůstane tam, kde má být."
+        },
+        "video": {
+          "concept": "Rychlý vertikální short sledující jeden konkrétní moment: manažer v moderní pražské kanceláři dostane stížnost od týmu, odloží rozdělanou práci a začne obvolávat úklidové firmy. Twist: kamera ukáže hodiny – dvě hodiny pryč. Payoff: titulky odhalí, že tohle se opakuje každý týden. Závěr klidný, řešení jednoduché.",
+          "script": "BEAT 1 – SETUP (0–4 s): Záběr na manažera u stolu v světlé moderní kanceláři. Na stole rozdělaný projekt, notebook otevřený. Voiceover: 'Nejproduktivnější hodiny v kanceláři někdy skončí u telefonu s úklidovou firmou.'\n\nBEAT 2 – KONFLIKT (5–10 s): Kolega přijde ke dveřím, gestikuluje směrem ke kuchyňce. Manažer zavře notebook, vytáhne telefon. Voiceover: 'Tým si stěžuje na kuchyňku. Manažer to slyší – a místo projektu obvolává dodavatele. Hodinu. Dvě.'\n\nBEAT 3 – TWIST (11–16 s): Záběr na nástěnný kalendář nebo hodiny – vizuální skok v čase. Titulky: 'Každý týden znovu.' Voiceover: 'To není problém úklidu. To je problém systému.'\n\nBEAT 4 – RESOLUTION + CTA (17–22 s): Čistá, světlá kancelář, manažer zpět u rozdělaného projektu, soustředěný. Logo CleanStay v rohu. Voiceover: 'Pravidelný úklid kanceláře v Praze, který prostě funguje. Napište nám – ať váš čas zůstane tam, kde má být.'",
+          "duration_seconds": "22"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Manažer strávil dvě hodiny obvoláváním úklidových firem. Projekt stál. Tým čekal. A příští týden to bylo stejný. 👀",
+            "cta": "Znáte to? Napište do komentářů nebo rovnou do DM.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#officelife"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Nejproduktivnější hodiny v kanceláři – a manažer je tráví u telefonu s úklidovou firmou. 📋 Tým si stěžuje, projekt stojí, hodiny běží. Tohle není výjimka. Pro spoustu kanceláří v Praze je to každý týden. Pravidelný úklid, který prostě funguje, tento problém odstraní jednou provždy.",
+            "cta": "Uložte si příspěvek nebo napište přes DM – rádi domluvíme pravidelný úklid vaší kanceláře.",
+            "hashtags": [
+              "#uklid",
+              "#uklidkancelari",
+              "#Praha",
+              "#kancelar",
+              "#officemanager",
+              "#pravidelnýúklid",
+              "#uklidypraha",
+              "#cleanoffice",
+              "#produktivita"
+            ],
+            "format": "vertical_short_with_caption"
+          },
+          "facebook": {
+            "caption": "Kolik hodin týdně váš manažer skutečně věnuje řešení úklidu místo byznysu? Stížnost od týmu, telefony dodavatelům, domlouvání termínů – a projekt mezitím čeká. Zajišťujeme pravidelný úklid kanceláří po celé Praze, aby tohle nemusel řešit nikdo z vašeho týmu. Napište nám a domluvte si plán, který prostě funguje. 👉 https://cleanstay.cz",
+            "cta": "Napište nám přes zprávu nebo navštivte cleanstay.cz.",
+            "hashtags": [
+              "#uklidkancelari",
+              "#Praha"
+            ],
+            "format": "text_with_link"
+          },
+          "google_business": {
+            "caption": "Pravidelný úklid kanceláří v Praze – bez starostí pro management. Zajistíme čistou kuchyňku, toalety i pracovní prostory podle pevného rozvrhu, který váš tým ani nemusí řešit. Kontaktujte nás a domluvte si úklid přímo na míru vaší kanceláři.",
+            "cta": "Navštivte náš web nebo nám zavolejte.",
+            "hashtags": [],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#uklidkancelari",
+          "#uklidypraha",
+          "#Praha",
+          "#kancelar",
+          "#pravidelnýúklid",
+          "#officemanager",
+          "#cleanoffice"
+        ],
+        "image_prompts": [
+          "Bright modern Prague office in natural daylight. A focused male manager in his 30s sits at a clean desk with an open laptop showing blurred abstract colorful dashboard shapes. Papers and a coffee cup beside him. Wide shot, warm light, professional atmosphere. No text, no signs.",
+          "Same office, same manager — now turned away from the laptop, holding a smartphone to his ear with a slightly tense expression. A female colleague stands in the doorway gesturing toward the background. Soft natural light, realistic, no text or labels visible anywhere.",
+          "Close-up of a modern wall clock in a bright office corridor, hands positioned to suggest late morning. Slightly out-of-focus clean office interior behind it. Neutral tones, crisp daylight, no text or numbers readable.",
+          "Wide shot of a clean, organized modern office kitchen area — bright white surfaces, tidy countertop, no clutter. Empty and calm. Natural daylight through a window. No people, no text, no labels.",
+          "The same manager back at his desk, relaxed and focused on his laptop with blurred abstract UI on screen. The office behind him is visibly clean and bright. Calm, productive atmosphere. Natural light, no text or signs."
+        ],
+        "asset_usage": [
+          {
+            "asset_id": "436bd92f-0291-4326-935b-1eea84e474ac",
+            "used_as": "Display the CleanStay logo as a small branding element in the bottom corner of the final resolution beat (beat 4 end card). Do not use fullscreen; keep it as a subtle trust prop overlay.",
+            "modify": "false"
+          }
+        ],
+        "scenario": "Správce kancelářských prostor obdrží stížnost od zaměstnanců, že toalety a kuchyňka nejsou pravidelně uklízeny a hygiena se zhoršuje."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "1e1d992f-1fd0-490b-9d0d-45d2084b9db4",
+      "variant": "B",
+      "provider": "claude",
+      "prompt_token_estimate": 7809,
+      "title": "Zaměstnanci si stěžují – a manažer obvolává firmy místo byznysu",
+      "hook": "Nejproduktivnější hodina manažerova dne šla na hledání uklízečky.",
+      "voiceover_text": "Přišel e-mail od týmu: kuchyňka, toalety, hygiena. Manažer si řekl – vyřeším to sám. Dvě hodiny. Pět hovorů. Tři firmy, které neodpověděly. Projekt čekal. Klienti čekali. A kancelář vypadala stejně. Tohle není problém úklidu – je to problém času. Kolik hodin týdně vám tenhle kruh vezme?",
+      "voiceover_word_count": 46,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať váš příští manažerský den začne projektem, ne hledáním uklízečky."
+      },
+      "video_concept": "Vertikální short sledující jednu scénu: office manažer u stolu dostane stížnost od týmu, začne obvolávat firmy místo práce, čas plyne – a kancelář se nezměnila. Twist: problém nikdy nebyl špinavá kuchyňka, byl to ztracený čas. Payoff: jednoduchá otázka na diváka. Vizuálně čisté, světlé, kancelářské prostředí.",
+      "image_prompts": [
+        "Bright modern Prague office, daytime. A man in his 30s sits at a clean desk with a laptop showing a blurred colorful dashboard. He glances at his phone with a focused but slightly tense expression. Natural window light, open-plan office background, soft shadows.",
+        "Same office manager now leaning back in his chair, phone pressed to his ear, one hand rubbing his forehead. The laptop is open but untouched. A printed document sits on the desk. Warm daylight, slightly cluttered desk, realistic candid feel.",
+        "Wide shot of a modern Prague office kitchen area: a counter with unwashed cups, a slightly overflowing bin, a sticky note on the fridge. Bright fluorescent lighting, clean walls but clearly neglected surfaces. No people in frame.",
+        "Clock on the office wall showing late morning. The manager's desk is visible in the background — project papers still in the same place, laptop still open. The office looks unchanged. Crisp daylight, matter-of-fact composition.",
+        "Clean, bright, organized Prague office space — same room but now tidy, surfaces clear, kitchen area spotless in background. A man sits at his desk focused on his laptop, relaxed posture. Natural daylight, modern furniture, trustworthy atmosphere."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Manažer strávil dvě hodiny hledáním uklízečky. Projekt ten den neodevzdal. A kancelář vypadala stejně. 😶 Kolik hodin týdně ti tohle bere?",
+          "cta": "Napiš nám do DM – ať tohle řešíš naposledy.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#officelife",
+            "#casjepenize"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Nejproduktivnější hodina manažerova dne šla na hledání uklízečky. ☎️ Dvě hodiny. Pět hovorů. Tři firmy bez odpovědi. Projekt čekal – a kancelář vypadala stejně jako ráno. Tohle není problém úklidu. Je to problém ztraceného času. Kolik hodin týdně vám tenhle kruh vezme?",
+          "cta": "Odkaz v biu – nebo nám napište přímo.",
+          "hashtags": [
+            "#uklid",
+            "#uklídkanceláře",
+            "#Praha",
+            "#officecleaning",
+            "#prahaoffice",
+            "#firemniuklid",
+            "#casmanazera",
+            "#produktivita",
+            "#uklidypraha",
+            "#cleanoffice"
+          ],
+          "format": "vertical_short"
+        },
+        "facebook": {
+          "caption": "Ráno přišla stížnost od zaměstnanců na kuchyňku a toalety. Manažer to vzal do vlastních rukou – a dvě hodiny obvolával firmy místo toho, aby řešil byznys. Kancelář? Vypadala stejně. Tohle se opakuje každý měsíc – a nikdo to nepočítá jako ztrátu. Pokud chcete pravidelný úklid kanceláře v Praze bez starostí, napište nám. 👇",
+          "cta": "Napište nám na https://cleanstay.cz a domluvte si úklid kanceláře v Praze.",
+          "hashtags": [
+            "#uklídkanceláře",
+            "#Praha",
+            "#firemniuklid"
+          ],
+          "format": "text_post"
+        },
+        "google_business": {
+          "caption": "Pravidelný úklid kanceláří v Praze – bez nutnosti cokoliv řešit. Žádné obvolávání, žádné výpadky, žádné stížnosti od týmu. Domluvte si plán úklidu a věnujte čas tomu, na čem skutečně záleží.",
+          "cta": "Kontaktujte nás a domluvte si úklid kanceláře v Praze.",
+          "hashtags": [],
+          "format": "google_update"
+        }
+      },
+      "raw_json": {
+        "title": "Zaměstnanci si stěžují – a manažer obvolává firmy místo byznysu",
+        "funnel_stage": "Problem Aware",
+        "hook": "Nejproduktivnější hodina manažerova dne šla na hledání uklízečky.",
+        "voiceover_text": "Přišel e-mail od týmu: kuchyňka, toalety, hygiena. Manažer si řekl – vyřeším to sám. Dvě hodiny. Pět hovorů. Tři firmy, které neodpověděly. Projekt čekal. Klienti čekali. A kancelář vypadala stejně. Tohle není problém úklidu – je to problém času. Kolik hodin týdně vám tenhle kruh vezme?",
+        "subtitles": "Přišel e-mail od týmu: kuchyňka, toalety, hygiena. / Manažer si řekl – vyřeším to sám. / Dvě hodiny. Pět hovorů. Tři firmy, které neodpověděly. / Projekt čekal. Klienti čekali. / A kancelář vypadala stejně. / Tohle není problém úklidu – je to problém času. / Kolik hodin týdně vám tenhle kruh vezme?",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať váš příští manažerský den začne projektem, ne hledáním uklízečky."
+        },
+        "video": {
+          "concept": "Vertikální short sledující jednu scénu: office manažer u stolu dostane stížnost od týmu, začne obvolávat firmy místo práce, čas plyne – a kancelář se nezměnila. Twist: problém nikdy nebyl špinavá kuchyňka, byl to ztracený čas. Payoff: jednoduchá otázka na diváka. Vizuálně čisté, světlé, kancelářské prostředí.",
+          "script": "BEAT 1 – SETUP (0–4s): Záběr na manažera u pracovního stolu, otevřený laptop s rozmazaným rozhraním. Výraz soustředění – pak pohled na telefon.\n\nBEAT 2 – CONFLICT (4–12s): Manažer odkládá laptop, bere telefon, volá. Druhý hovor. Třetí. Na stole leží rozepsaný projekt. Hodiny na zdi ukazují, že čas běží.\n\nBEAT 3 – TWIST (12–18s): Střih zpět na kancelář – vypadá stejně jako ráno. Projekt stále nehotový. Manažer se dívá do prázdna.\n\nBEAT 4 – RESOLUTION + CTA (18–22s): Klidný záběr na čistou, upravenou kancelář – jiný den, jiný přístup. Titulky s CTA.",
+          "duration_seconds": "22"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Manažer strávil dvě hodiny hledáním uklízečky. Projekt ten den neodevzdal. A kancelář vypadala stejně. 😶 Kolik hodin týdně ti tohle bere?",
+            "cta": "Napiš nám do DM – ať tohle řešíš naposledy.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#officelife",
+              "#casjepenize"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Nejproduktivnější hodina manažerova dne šla na hledání uklízečky. ☎️ Dvě hodiny. Pět hovorů. Tři firmy bez odpovědi. Projekt čekal – a kancelář vypadala stejně jako ráno. Tohle není problém úklidu. Je to problém ztraceného času. Kolik hodin týdně vám tenhle kruh vezme?",
+            "cta": "Odkaz v biu – nebo nám napište přímo.",
+            "hashtags": [
+              "#uklid",
+              "#uklídkanceláře",
+              "#Praha",
+              "#officecleaning",
+              "#prahaoffice",
+              "#firemniuklid",
+              "#casmanazera",
+              "#produktivita",
+              "#uklidypraha",
+              "#cleanoffice"
+            ],
+            "format": "vertical_short"
+          },
+          "facebook": {
+            "caption": "Ráno přišla stížnost od zaměstnanců na kuchyňku a toalety. Manažer to vzal do vlastních rukou – a dvě hodiny obvolával firmy místo toho, aby řešil byznys. Kancelář? Vypadala stejně. Tohle se opakuje každý měsíc – a nikdo to nepočítá jako ztrátu. Pokud chcete pravidelný úklid kanceláře v Praze bez starostí, napište nám. 👇",
+            "cta": "Napište nám na https://cleanstay.cz a domluvte si úklid kanceláře v Praze.",
+            "hashtags": [
+              "#uklídkanceláře",
+              "#Praha",
+              "#firemniuklid"
+            ],
+            "format": "text_post"
+          },
+          "google_business": {
+            "caption": "Pravidelný úklid kanceláří v Praze – bez nutnosti cokoliv řešit. Žádné obvolávání, žádné výpadky, žádné stížnosti od týmu. Domluvte si plán úklidu a věnujte čas tomu, na čem skutečně záleží.",
+            "cta": "Kontaktujte nás a domluvte si úklid kanceláře v Praze.",
+            "hashtags": [],
+            "format": "google_update"
+          }
+        },
+        "hashtags": [
+          "#uklid",
+          "#uklídkanceláře",
+          "#Praha",
+          "#uklidypraha",
+          "#firemniuklid",
+          "#officecleaning",
+          "#casjepenize",
+          "#produktivita"
+        ],
+        "image_prompts": [
+          "Bright modern Prague office, daytime. A man in his 30s sits at a clean desk with a laptop showing a blurred colorful dashboard. He glances at his phone with a focused but slightly tense expression. Natural window light, open-plan office background, soft shadows.",
+          "Same office manager now leaning back in his chair, phone pressed to his ear, one hand rubbing his forehead. The laptop is open but untouched. A printed document sits on the desk. Warm daylight, slightly cluttered desk, realistic candid feel.",
+          "Wide shot of a modern Prague office kitchen area: a counter with unwashed cups, a slightly overflowing bin, a sticky note on the fridge. Bright fluorescent lighting, clean walls but clearly neglected surfaces. No people in frame.",
+          "Clock on the office wall showing late morning. The manager's desk is visible in the background — project papers still in the same place, laptop still open. The office looks unchanged. Crisp daylight, matter-of-fact composition.",
+          "Clean, bright, organized Prague office space — same room but now tidy, surfaces clear, kitchen area spotless in background. A man sits at his desk focused on his laptop, relaxed posture. Natural daylight, modern furniture, trustworthy atmosphere."
+        ],
+        "asset_usage": [],
+        "scenario": "Správce kancelářských prostor obdrží stížnost od zaměstnanců, že toalety a kuchyňka nejsou pravidelně uklízeny a hygiena se zhoršuje."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "1e1d992f-1fd0-490b-9d0d-45d2084b9db4",
+      "variant": "C",
+      "provider": "claude",
+      "prompt_token_estimate": 4802,
+      "title": "Manažer, který řeší úklid místo byznysu",
+      "hook": "Nejdražší hodiny v kanceláři nejsou ty, kdy nikdo nepracuje – jsou ty, kdy manažer obvolává úklidové firmy.",
+      "voiceover_text": "Přišla stížnost od týmu. Kuchyňka, toalety. Manažer odložil projekt a začal volat. Jedna firma nezvedá. Druhá nemá termín. Třetí pošle nabídku za týden. Dvě hodiny pryč. Projekt stojí. A kuchyňka pořád není čistá. Tohle není výjimka – tohle se opakuje každý měsíc. Napište nám a přestaňte řešit úklid místo práce.",
+      "voiceover_word_count": 50,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy."
+      },
+      "video_concept": "Vertikální rychlý střih. Scéna: kancelář, manažer u stolu, telefon v ruce. Obrazovka ukazuje příchozí zprávu od zaměstnance. Pak sérii záběrů – volání, čekání, odkládání telefonu, hodiny na zdi. Twist: záběr na projekt otevřený na monitoru – nedotčený. Závěr: klidná, čistá kancelář. Text na obrazovce: „Tohle může řešit někdo jiný.\"",
+      "image_prompts": [
+        "Office manager at desk, phone in hand, frustrated expression, unfinished project on screen",
+        "Clock on office wall showing two hours passed, phone calls unanswered",
+        "Clean bright office kitchen, calm and empty, natural light"
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Manažer dostal stížnost na kuchyňku. Odložil projekt a dvě hodiny obvolával firmy. Kuchyňka pořád špinavá. Projekt pořád stojí. Kolik hodin týdně řešíte úklid místo byznysu? 👇",
+          "cta": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#officemanager",
+            "#uklidPraha",
+            "#produktivita",
+            "#firemniuklid"
+          ],
+          "format": "vertical_video_short"
+        },
+        "instagram": {
+          "caption": "Stížnost od týmu na kuchyňku a toalety.\nManažer odložil projekt.\nZačal volat.\nDvě hodiny pryč – projekt stojí, kuchyňka pořád špinavá.\n\nTohle není výjimka. Opakuje se každý měsíc v desítkách kanceláří v Praze.\n\nKolik hodin týdně věnujete řešení úklidu místo byznysu?",
+          "cta": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#uklidPraha",
+            "#officemanager",
+            "#firemniuklid",
+            "#produktivita",
+            "#prahaoffice"
+          ],
+          "format": "vertical_video_reel"
+        },
+        "facebook": {
+          "caption": "Přišla zpráva od zaměstnance: kuchyňka a toalety jsou zase v nepořádku.\n\nManažer odložil rozdělaný projekt. Začal obvolávat úklidové firmy. Jedna nezvedá, druhá nemá termín, třetí pošle nabídku za týden.\n\nDvě hodiny pryč. Projekt stojí. A kuchyňka je pořád špinavá.\n\nTohle není výjimek – je to situace, která se opakuje každý měsíc. A pokaždé to stojí čas, který měl jít jinam.\n\nKolik hodin týdně řešíte úklid místo práce, která vaši firmu skutečně posouvá?\n\nNapište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+          "cta": "Napište nám a domluvte si pravidelný úklid kanceláře v Praze.",
+          "hashtags": [
+            "#uklidPraha",
+            "#kancelar",
+            "#firemniuklid",
+            "#Praha"
+          ],
+          "format": "text_post"
+        },
+        "google_business": {
+          "caption": "Stížnost zaměstnanců na hygienu kanceláře – a manažer stráví dvě hodiny obvoláváním firem místo práce na projektech. Zajišťujeme pravidelný úklid kancelářských prostor v Praze spolehlivě a bez nutnosti cokoliv řešit z vaší strany. Napište nám a domluvte si úklid v Praze.",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#uklidPraha",
+            "#kancelar",
+            "#firemniuklid"
+          ],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Manažer, který řeší úklid místo byznysu",
+        "funnel_stage": "Problem Aware",
+        "hook": "Nejdražší hodiny v kanceláři nejsou ty, kdy nikdo nepracuje – jsou ty, kdy manažer obvolává úklidové firmy.",
+        "voiceover_text": "Přišla stížnost od týmu. Kuchyňka, toalety. Manažer odložil projekt a začal volat. Jedna firma nezvedá. Druhá nemá termín. Třetí pošle nabídku za týden. Dvě hodiny pryč. Projekt stojí. A kuchyňka pořád není čistá. Tohle není výjimka – tohle se opakuje každý měsíc. Napište nám a přestaňte řešit úklid místo práce.",
+        "subtitles": "Přišla stížnost od týmu.\nKuchyňka, toalety.\nManažer odložil projekt – a začal volat.\nJedna firma nezvedá.\nDruhá nemá termín.\nTřetí pošle nabídku za týden.\nDvě hodiny pryč. Projekt stojí.\nA kuchyňka pořád není čistá.\nTohle není výjimka.\nTohle se opakuje každý měsíc.\nNapište nám a přestaňte řešit úklid místo práce.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy."
+        },
+        "video": {
+          "concept": "Vertikální rychlý střih. Scéna: kancelář, manažer u stolu, telefon v ruce. Obrazovka ukazuje příchozí zprávu od zaměstnance. Pak sérii záběrů – volání, čekání, odkládání telefonu, hodiny na zdi. Twist: záběr na projekt otevřený na monitoru – nedotčený. Závěr: klidná, čistá kancelář. Text na obrazovce: „Tohle může řešit někdo jiný.\"",
+          "script": "0–2 s: Záběr na telefon – příchozí zpráva od zaměstnance: 'Kuchyňka je zase v katastrofálním stavu.'\n2–5 s: Manažer odkládá dokument, bere telefon, začíná volat.\n5–10 s: Rychlý střih – vyzvánění, čekání, zavěšení, další číslo.\n10–15 s: Hodiny na zdi – uplynuly dvě hodiny. Monitor s projektem stojí.\n15–20 s: Text přes obraz: 'Tohle se opakuje každý měsíc.'\n20–23 s: Střih na čistou, klidnou kancelář. Text: 'Napište nám.'",
+          "duration_seconds": "23"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Manažer dostal stížnost na kuchyňku. Odložil projekt a dvě hodiny obvolával firmy. Kuchyňka pořád špinavá. Projekt pořád stojí. Kolik hodin týdně řešíte úklid místo byznysu? 👇",
+            "cta": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#officemanager",
+              "#uklidPraha",
+              "#produktivita",
+              "#firemniuklid"
+            ],
+            "format": "vertical_video_short"
+          },
+          "instagram": {
+            "caption": "Stížnost od týmu na kuchyňku a toalety.\nManažer odložil projekt.\nZačal volat.\nDvě hodiny pryč – projekt stojí, kuchyňka pořád špinavá.\n\nTohle není výjimka. Opakuje se každý měsíc v desítkách kanceláří v Praze.\n\nKolik hodin týdně věnujete řešení úklidu místo byznysu?",
+            "cta": "Napište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#uklidPraha",
+              "#officemanager",
+              "#firemniuklid",
+              "#produktivita",
+              "#prahaoffice"
+            ],
+            "format": "vertical_video_reel"
+          },
+          "facebook": {
+            "caption": "Přišla zpráva od zaměstnance: kuchyňka a toalety jsou zase v nepořádku.\n\nManažer odložil rozdělaný projekt. Začal obvolávat úklidové firmy. Jedna nezvedá, druhá nemá termín, třetí pošle nabídku za týden.\n\nDvě hodiny pryč. Projekt stojí. A kuchyňka je pořád špinavá.\n\nTohle není výjimek – je to situace, která se opakuje každý měsíc. A pokaždé to stojí čas, který měl jít jinam.\n\nKolik hodin týdně řešíte úklid místo práce, která vaši firmu skutečně posouvá?\n\nNapište nám – ať příští stížnost od týmu vyřídíme my, ne vy.",
+            "cta": "Napište nám a domluvte si pravidelný úklid kanceláře v Praze.",
+            "hashtags": [
+              "#uklidPraha",
+              "#kancelar",
+              "#firemniuklid",
+              "#Praha"
+            ],
+            "format": "text_post"
+          },
+          "google_business": {
+            "caption": "Stížnost zaměstnanců na hygienu kanceláře – a manažer stráví dvě hodiny obvoláváním firem místo práce na projektech. Zajišťujeme pravidelný úklid kancelářských prostor v Praze spolehlivě a bez nutnosti cokoliv řešit z vaší strany. Napište nám a domluvte si úklid v Praze.",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#uklidPraha",
+              "#kancelar",
+              "#firemniuklid"
+            ],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#uklidPraha",
+          "#kancelar",
+          "#firemniuklid",
+          "#Praha",
+          "#officemanager",
+          "#uklid",
+          "#produktivita",
+          "#prahaoffice"
+        ],
+        "image_prompts": [
+          "Office manager at desk, phone in hand, frustrated expression, unfinished project on screen",
+          "Clock on office wall showing two hours passed, phone calls unanswered",
+          "Clean bright office kitchen, calm and empty, natural light"
+        ],
+        "asset_usage": [],
+        "scenario": "Správce kancelářských prostor obdrží stížnost od zaměstnanců, že toalety a kuchyňka nejsou pravidelně uklízeny a hygiena se zhoršuje."
+      }
+    },
+    {
+      "project_id": "b094cd3f-ca98-4900-ad0b-2579be7e2624",
+      "strategy_item_id": "1e1d992f-1fd0-490b-9d0d-45d2084b9db4",
+      "variant": "D",
+      "provider": "claude",
+      "prompt_token_estimate": 7737,
+      "title": "Manažer, který místo projektu obvolával úklidové firmy",
+      "hook": "Nejdražší věc v kanceláři není nájem – je to hodina manažera strávená hledáním uklízečky.",
+      "voiceover_text": "Nejdražší věc v kanceláři není nájem. Je to hodina manažera strávená hledáním uklízečky. Tým napsal stížnost. Kuchyňka, toalety. Manažer odložil projekt a začal volat. Čtyři firmy, žádná odpověď. A to se opakuje každý měsíc. Přitom tohle není jeho práce. Napište nám – ať váš manažer příště řeší byznys, ne to, kdo přijde s mopem.",
+      "voiceover_word_count": 54,
+      "cta": {
+        "type": "contact",
+        "text": "Napište nám – ať váš manažer příště řeší byznys, ne to, kdo přijde s mopem."
+      },
+      "video_concept": "Vertikální short v rychlém střihu. Vizuální příběh jednoho dopoledne: manažer u stolu s otevřeným projektem, přichází zpráva od týmu, projekt mizí z obrazovky, začíná kolotoč telefonátů. Twist: kamera se oddálí a ukáže, že celá kancelář je prázdná – tým čeká, manažer stále volá. Závěrečný beat: klid, čistá kuchyňka, manažer konečně u projektu. Styl: světlý, moderní, kancelářské prostředí, přirozené denní světlo.",
+      "image_prompts": [
+        "Bright modern Prague office, natural daylight flooding through large windows. A focused man in his 30s sits at a clean desk with an open laptop showing blurred colorful dashboard shapes. Expression: calm, concentrated. Wide shot, clean minimal aesthetic, soft shadows.",
+        "Close-up of the same man's face: a slight frown, eyes shifting from the laptop. His hand rests on the desk mid-motion, as if interrupted. Warm office lighting, shallow depth of field, background colleagues visible but blurred.",
+        "Wide shot pulling back to reveal the open-plan office behind him: several colleagues sitting idle at their desks, arms crossed or looking at phones, waiting. The man in the foreground holds a phone to his ear, expression tense. Bright daylight, modern office furniture, nobody is working.",
+        "Empty, spotlessly clean office kitchen: white countertops, gleaming sink, tidy shelving. Bright natural light. No people. Calm, airy, orderly — a clear visual contrast to the previous scene of chaos.",
+        "The same man back at his desk, laptop open with soft abstract UI glowing on screen, posture relaxed, slight smile. Clean organized desk, bright office environment. A small CleanStay-branded card or paper visible as a subtle prop near the keyboard — not the focus, just present."
+      ],
+      "platform_outputs": {
+        "tiktok": {
+          "caption": "Manažer odložil projekt a začal obvolávat úklidové firmy. Čtyři hovory, žádná odpověď. A to se opakuje každý měsíc 😬 Tohle není jeho práce – a vy to víte taky.",
+          "cta": "Napište nám do DM – ať příště řeší projekty, ne mopy.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#officelife"
+          ],
+          "format": "vertical_short"
+        },
+        "instagram": {
+          "caption": "Nejdražší hodina v kanceláři není ta, kdy manažer pracuje.\nJe to ta, kdy obvolává úklidové firmy, protože tým napsal stížnost na kuchyňku. 📋\nProjekt čeká. Kolegové čekají. A tohle se opakuje každý měsíc – zbytečně.",
+          "cta": "Uložte si příspěvek, pokud to znáte – a napište nám přes DM nebo odkaz v biu.",
+          "hashtags": [
+            "#uklid",
+            "#kancelar",
+            "#Praha",
+            "#uklidkancelari",
+            "#officemanager",
+            "#prahabyznys",
+            "#cistotavkancelari",
+            "#uklidypraha"
+          ],
+          "format": "vertical_short"
+        },
+        "facebook": {
+          "caption": "Přišla stížnost od týmu – kuchyňka a toalety. Manažer odložil projekt a začal obvolávat firmy. Čtyři hovory, dvě odmítnutí, jedna nerelevantní nabídka. Celé dopoledne pryč. 😔 Tohle není výjimka – pro spoustu kanceláří v Praze je to rutina. Přitom stačí jedno nastavení a příště to manažer vůbec neřeší. Napište nám a domluvte si pravidelný úklid v Praze: https://cleanstay.cz",
+          "cta": "Napište nám a domluvte si úklid v Praze.",
+          "hashtags": [
+            "#uklidypraha",
+            "#kancelar"
+          ],
+          "format": "text_post_with_video"
+        },
+        "google_business": {
+          "caption": "Stížnosti zaměstnanců na hygienu kuchyňky nebo toalet řeší v Praze zbytečně často sám office manažer – místo práce na projektech. Nabízíme pravidelný úklid kanceláří v Praze s jasným harmonogramem a rychlou komunikací, takže to příště nemusí řešit nikdo z vašeho týmu.",
+          "cta": "Zavolejte nám nebo navštivte náš web a domluvte si úklid.",
+          "hashtags": [],
+          "format": "google_post"
+        }
+      },
+      "raw_json": {
+        "title": "Manažer, který místo projektu obvolával úklidové firmy",
+        "funnel_stage": "Problem Aware",
+        "hook": "Nejdražší věc v kanceláři není nájem – je to hodina manažera strávená hledáním uklízečky.",
+        "voiceover_text": "Nejdražší věc v kanceláři není nájem. Je to hodina manažera strávená hledáním uklízečky. Tým napsal stížnost. Kuchyňka, toalety. Manažer odložil projekt a začal volat. Čtyři firmy, žádná odpověď. A to se opakuje každý měsíc. Přitom tohle není jeho práce. Napište nám – ať váš manažer příště řeší byznys, ne to, kdo přijde s mopem.",
+        "subtitles": "Nejdražší věc v kanceláři není nájem.\nJe to hodina manažera strávená hledáním uklízečky.\nTým napsal stížnost. Kuchyňka, toalety.\nManažer odložil projekt a začal volat.\nČtyři firmy, žádná odpověď.\nA to se opakuje každý měsíc.\nPřitom tohle není jeho práce.\nNapište nám – ať váš manažer příště řeší byznys, ne to, kdo přijde s mopem.",
+        "cta": {
+          "type": "contact",
+          "text": "Napište nám – ať váš manažer příště řeší byznys, ne to, kdo přijde s mopem."
+        },
+        "video": {
+          "concept": "Vertikální short v rychlém střihu. Vizuální příběh jednoho dopoledne: manažer u stolu s otevřeným projektem, přichází zpráva od týmu, projekt mizí z obrazovky, začíná kolotoč telefonátů. Twist: kamera se oddálí a ukáže, že celá kancelář je prázdná – tým čeká, manažer stále volá. Závěrečný beat: klid, čistá kuchyňka, manažer konečně u projektu. Styl: světlý, moderní, kancelářské prostředí, přirozené denní světlo.",
+          "script": "BEAT 1 – SETUP (0–5s): Záběr na manažera u čistého stolu, otevřený laptop s abstraktním dashboardem. Soustředěný, pracuje. BEAT 2 – KONFLIKT (5–12s): Rychlý střih – telefon se rozsvítí, zpráva od týmu. Manažer se zamračí, odloží práci. Začíná volat. Na obrazovce rozmazané číslice, výraz frustrace. BEAT 3 – TWIST (12–18s): Kamera se oddálí – kancelář za ním je prázdná, kolegové čekají u svých stolů, nikdo nepracuje. Hodiny na zdi. BEAT 4 – RESOLUTION + CTA (18–22s): Střih do čisté, světlé kuchyňky. Manažer zpátky u laptopuu, projekt otevřený. Klid. Voiceover uzavírá CTA.",
+          "duration_seconds": "22"
+        },
+        "platform_outputs": {
+          "tiktok": {
+            "caption": "Manažer odložil projekt a začal obvolávat úklidové firmy. Čtyři hovory, žádná odpověď. A to se opakuje každý měsíc 😬 Tohle není jeho práce – a vy to víte taky.",
+            "cta": "Napište nám do DM – ať příště řeší projekty, ne mopy.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#officelife"
+            ],
+            "format": "vertical_short"
+          },
+          "instagram": {
+            "caption": "Nejdražší hodina v kanceláři není ta, kdy manažer pracuje.\nJe to ta, kdy obvolává úklidové firmy, protože tým napsal stížnost na kuchyňku. 📋\nProjekt čeká. Kolegové čekají. A tohle se opakuje každý měsíc – zbytečně.",
+            "cta": "Uložte si příspěvek, pokud to znáte – a napište nám přes DM nebo odkaz v biu.",
+            "hashtags": [
+              "#uklid",
+              "#kancelar",
+              "#Praha",
+              "#uklidkancelari",
+              "#officemanager",
+              "#prahabyznys",
+              "#cistotavkancelari",
+              "#uklidypraha"
+            ],
+            "format": "vertical_short"
+          },
+          "facebook": {
+            "caption": "Přišla stížnost od týmu – kuchyňka a toalety. Manažer odložil projekt a začal obvolávat firmy. Čtyři hovory, dvě odmítnutí, jedna nerelevantní nabídka. Celé dopoledne pryč. 😔 Tohle není výjimka – pro spoustu kanceláří v Praze je to rutina. Přitom stačí jedno nastavení a příště to manažer vůbec neřeší. Napište nám a domluvte si pravidelný úklid v Praze: https://cleanstay.cz",
+            "cta": "Napište nám a domluvte si úklid v Praze.",
+            "hashtags": [
+              "#uklidypraha",
+              "#kancelar"
+            ],
+            "format": "text_post_with_video"
+          },
+          "google_business": {
+            "caption": "Stížnosti zaměstnanců na hygienu kuchyňky nebo toalet řeší v Praze zbytečně často sám office manažer – místo práce na projektech. Nabízíme pravidelný úklid kanceláří v Praze s jasným harmonogramem a rychlou komunikací, takže to příště nemusí řešit nikdo z vašeho týmu.",
+            "cta": "Zavolejte nám nebo navštivte náš web a domluvte si úklid.",
+            "hashtags": [],
+            "format": "google_post"
+          }
+        },
+        "hashtags": [
+          "#uklidypraha",
+          "#uklid",
+          "#kancelar",
+          "#Praha",
+          "#officemanager",
+          "#cistotavkancelari"
+        ],
+        "image_prompts": [
+          "Bright modern Prague office, natural daylight flooding through large windows. A focused man in his 30s sits at a clean desk with an open laptop showing blurred colorful dashboard shapes. Expression: calm, concentrated. Wide shot, clean minimal aesthetic, soft shadows.",
+          "Close-up of the same man's face: a slight frown, eyes shifting from the laptop. His hand rests on the desk mid-motion, as if interrupted. Warm office lighting, shallow depth of field, background colleagues visible but blurred.",
+          "Wide shot pulling back to reveal the open-plan office behind him: several colleagues sitting idle at their desks, arms crossed or looking at phones, waiting. The man in the foreground holds a phone to his ear, expression tense. Bright daylight, modern office furniture, nobody is working.",
+          "Empty, spotlessly clean office kitchen: white countertops, gleaming sink, tidy shelving. Bright natural light. No people. Calm, airy, orderly — a clear visual contrast to the previous scene of chaos.",
+          "The same man back at his desk, laptop open with soft abstract UI glowing on screen, posture relaxed, slight smile. Clean organized desk, bright office environment. A small CleanStay-branded card or paper visible as a subtle prop near the keyboard — not the focus, just present."
+        ],
+        "asset_usage": [
+          {
+            "asset_id": "436bd92f-0291-4326-935b-1eea84e474ac",
+            "used_as": "Display the CleanStay logo as a small branding element in the bottom corner of the final CTA beat (end card), not as a main visual or fullscreen element.",
+            "modify": "false"
+          }
+        ],
+        "scenario": "Správce kancelářských prostor obdrží stížnost od zaměstnanců, že toalety a kuchyňka nejsou pravidelně uklízeny a hygiena se zhoršuje."
+      }
+    }
+  ],
+  "judge": [
+    {
+      "strategy_item_id": "59fc4828-b4a0-4106-b46b-962bc0b9a78e",
+      "ranking": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "scores": {
+        "Output 1": {
+          "hook_strength": 8,
+          "curiosity": 7,
+          "specificity": 8,
+          "emotional_pull": 7,
+          "scroll_stop": 8,
+          "conversion_fit": 9,
+          "clarity": 8,
+          "overall": 8
+        },
+        "Output 2": {
+          "hook_strength": 7,
+          "curiosity": 8,
+          "specificity": 7,
+          "emotional_pull": 6,
+          "scroll_stop": 7,
+          "conversion_fit": 8,
+          "clarity": 7,
+          "overall": 7
+        },
+        "Output 3": {
+          "hook_strength": 6,
+          "curiosity": 7,
+          "specificity": 6,
+          "emotional_pull": 6,
+          "scroll_stop": 6,
+          "conversion_fit": 7,
+          "clarity": 8,
+          "overall": 6
+        },
+        "Output 4": {
+          "hook_strength": 5,
+          "curiosity": 6,
+          "specificity": 5,
+          "emotional_pull": 5,
+          "scroll_stop": 5,
+          "conversion_fit": 6,
+          "clarity": 6,
+          "overall": 5
+        }
+      },
+      "winner_variant": "A",
+      "reasoning_short": "Output 1 has the strongest hook and emotional pull, effectively engaging viewers and prompting action.",
+      "label_to_variant": {
+        "Output 1": "A",
+        "Output 2": "C",
+        "Output 3": "D",
+        "Output 4": "B"
+      }
+    },
+    {
+      "strategy_item_id": "f9e86771-a03a-4a14-8311-e736790de307",
+      "ranking": [
+        4,
+        2,
+        3,
+        1
+      ],
+      "scores": {
+        "Output 1": {
+          "hook_strength": 7,
+          "curiosity": 6,
+          "specificity": 7,
+          "emotional_pull": 5,
+          "scroll_stop": 6,
+          "conversion_fit": 5,
+          "clarity": 7,
+          "overall": 6
+        },
+        "Output 2": {
+          "hook_strength": 8,
+          "curiosity": 7,
+          "specificity": 8,
+          "emotional_pull": 6,
+          "scroll_stop": 7,
+          "conversion_fit": 6,
+          "clarity": 8,
+          "overall": 7
+        },
+        "Output 3": {
+          "hook_strength": 7,
+          "curiosity": 6,
+          "specificity": 7,
+          "emotional_pull": 5,
+          "scroll_stop": 6,
+          "conversion_fit": 5,
+          "clarity": 7,
+          "overall": 6
+        },
+        "Output 4": {
+          "hook_strength": 9,
+          "curiosity": 8,
+          "specificity": 9,
+          "emotional_pull": 7,
+          "scroll_stop": 8,
+          "conversion_fit": 8,
+          "clarity": 9,
+          "overall": 8
+        }
+      },
+      "winner_variant": "D",
+      "reasoning_short": "Output 4 has the strongest hook and emotional pull, effectively creating urgency and clarity, making it the most engaging and conversion-friendly.",
+      "label_to_variant": {
+        "Output 1": "A",
+        "Output 2": "B",
+        "Output 3": "C",
+        "Output 4": "D"
+      }
+    },
+    {
+      "strategy_item_id": "1e1d992f-1fd0-490b-9d0d-45d2084b9db4",
+      "ranking": [
+        2,
+        4,
+        1,
+        3
+      ],
+      "scores": {
+        "Output 1": {
+          "hook_strength": 7,
+          "curiosity": 6,
+          "specificity": 7,
+          "emotional_pull": 6,
+          "scroll_stop": 7,
+          "conversion_fit": 8,
+          "clarity": 7,
+          "overall": 7
+        },
+        "Output 2": {
+          "hook_strength": 8,
+          "curiosity": 7,
+          "specificity": 8,
+          "emotional_pull": 7,
+          "scroll_stop": 8,
+          "conversion_fit": 9,
+          "clarity": 8,
+          "overall": 8
+        },
+        "Output 3": {
+          "hook_strength": 6,
+          "curiosity": 5,
+          "specificity": 6,
+          "emotional_pull": 5,
+          "scroll_stop": 6,
+          "conversion_fit": 7,
+          "clarity": 6,
+          "overall": 6
+        },
+        "Output 4": {
+          "hook_strength": 9,
+          "curiosity": 8,
+          "specificity": 9,
+          "emotional_pull": 8,
+          "scroll_stop": 9,
+          "conversion_fit": 9,
+          "clarity": 9,
+          "overall": 9
+        }
+      },
+      "winner_variant": "B",
+      "reasoning_short": "Output 2 has the strongest hook and emotional appeal, effectively driving curiosity and conversion fit.",
+      "label_to_variant": {
+        "Output 1": "D",
+        "Output 2": "B",
+        "Output 3": "A",
+        "Output 4": "C"
+      }
+    }
+  ],
+  "summary": {
+    "variant_wins": {
+      "A": 1,
+      "B": 1,
+      "C": 0,
+      "D": 1
+    },
+    "avg_scores_by_variant": {
+      "A": {
+        "hook_strength": 7,
+        "curiosity": 6,
+        "specificity": 7,
+        "emotional_pull": 5.7,
+        "scroll_stop": 6.7,
+        "conversion_fit": 7,
+        "clarity": 7,
+        "overall": 6.7
+      },
+      "B": {
+        "hook_strength": 7,
+        "curiosity": 6.7,
+        "specificity": 7,
+        "emotional_pull": 6,
+        "scroll_stop": 6.7,
+        "conversion_fit": 7,
+        "clarity": 7.3,
+        "overall": 6.7
+      },
+      "C": {
+        "hook_strength": 7.7,
+        "curiosity": 7.3,
+        "specificity": 7.7,
+        "emotional_pull": 6.3,
+        "scroll_stop": 7.3,
+        "conversion_fit": 7.3,
+        "clarity": 7.7,
+        "overall": 7.3
+      },
+      "D": {
+        "hook_strength": 7.3,
+        "curiosity": 7,
+        "specificity": 7.3,
+        "emotional_pull": 6.3,
+        "scroll_stop": 7,
+        "conversion_fit": 7.7,
+        "clarity": 8,
+        "overall": 7
+      }
+    }
+  }
+}

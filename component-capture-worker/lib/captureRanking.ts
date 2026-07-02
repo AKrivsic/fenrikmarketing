@@ -9,6 +9,13 @@ import {
   isWideMarketingGridWrapper,
 } from "./captureCandidateFilters.ts";
 import {
+  captureSemanticSimilarity,
+  hasDistinctiveTextOverlap,
+  isCrossViewportPair,
+  isHighSemanticDuplicate,
+  type SemanticCaptureSignals,
+} from "./captureSemanticSimilarity.ts";
+import {
   inferProductVisualProfile,
   selectionLimitsForProfile,
   type ProductVisualProfile,
@@ -27,6 +34,15 @@ export interface PooledCaptureCandidate {
   captureViewport: CaptureViewport;
   x: number;
   y: number;
+  textSnippet?: string;
+}
+
+export interface CaptureDedupeLogEntry {
+  kept: string;
+  removed: string;
+  reason: string;
+  similarity: number;
+  preferredViewport: CaptureViewport;
 }
 
 export interface CaptureSelectionDebug {
@@ -188,10 +204,16 @@ function isTinyMobileChip(c: PooledCaptureCandidate): boolean {
   );
 }
 
-function sameVisualPair(a: PooledCaptureCandidate, b: PooledCaptureCandidate): boolean {
+function asSemanticSignals(c: PooledCaptureCandidate): SemanticCaptureSignals {
+  return c;
+}
+
+function legacySameVisualPair(a: PooledCaptureCandidate, b: PooledCaptureCandidate): boolean {
   const chipA = isTinyMobileChip(a);
   const chipB = isTinyMobileChip(b);
-  if (chipA && chipB) return true;
+  if (chipA && chipB) {
+    return a.label.trim() === b.label.trim();
+  }
 
   if (normalizeSectionKey(a.label, a.roleHint) !== normalizeSectionKey(b.label, b.roleHint)) {
     return false;
@@ -199,6 +221,48 @@ function sameVisualPair(a: PooledCaptureCandidate, b: PooledCaptureCandidate): b
   if (isPhoneLike(a) && isPhoneLike(b)) return true;
   if (a.label === b.label) return true;
   return false;
+}
+
+/** Same product surface across viewports or overlapping DOM captures. */
+export function sameVisualPair(a: PooledCaptureCandidate, b: PooledCaptureCandidate): boolean {
+  if (legacySameVisualPair(a, b)) return true;
+  const sigA = asSemanticSignals(a);
+  const sigB = asSemanticSignals(b);
+  const similarity = captureSemanticSimilarity(sigA, sigB);
+  if (similarity >= 0.72 && hasDistinctiveTextOverlap(sigA, sigB)) return true;
+  if (isCrossViewportPair(a, b) && similarity >= 0.58 && isPhoneLike(a) !== isPhoneLike(b)) {
+    const mobile = a.captureViewport === "mobile" ? a : b;
+    const desktop = a.captureViewport === "desktop" ? a : b;
+    if (
+      isPhoneLike(mobile) &&
+      (desktop.roleHint === "dashboard" ||
+        desktop.roleHint === "product_ui" ||
+        desktop.roleHint === "pricing_screenshot" ||
+        isDesktopProductUi(desktop))
+    ) {
+      const textSim = captureSemanticSimilarity(
+        { ...asSemanticSignals(mobile), label: mobile.textSnippet ?? mobile.label },
+        { ...asSemanticSignals(desktop), label: desktop.textSnippet ?? desktop.label },
+      );
+      if (textSim >= 0.55) return true;
+    }
+  }
+  return false;
+}
+
+function duplicateReason(
+  a: PooledCaptureCandidate,
+  b: PooledCaptureCandidate,
+  similarity: number,
+): string {
+  if (legacySameVisualPair(a, b)) return "legacy_visual_pair";
+  if (isHighSemanticDuplicate(a, b)) return "semantic_similarity";
+  if (isCrossViewportPair(a, b)) return "cross_viewport_product_surface";
+  return "ranking_dedupe";
+}
+
+function logCaptureDedupe(entry: CaptureDedupeLogEntry): void {
+  console.log(JSON.stringify({ event: "capture_dedupe", ...entry }));
 }
 
 function preferForSocial(
@@ -213,10 +277,45 @@ function preferForSocial(
     return scoreA >= scoreB ? a : b;
   }
 
-  if (profile === "saas_desktop") {
+  const similarity = captureSemanticSimilarity(asSemanticSignals(a), asSemanticSignals(b));
+  const crossViewport = isCrossViewportPair(a, b);
+
+  if (crossViewport) {
+    const mobile = a.captureViewport === "mobile" ? a : b;
+    const desktop = a.captureViewport === "desktop" ? a : b;
+    const mobileUsable = !isTextHeavy(mobile) && !isMobileOversizedWrapper(mobile);
+    const strongSameFeature =
+      isHighSemanticDuplicate(a, b) || legacySameVisualPair(a, b);
+
+    if (mobileUsable && strongSameFeature) {
+      return mobile;
+    }
+    if (
+      mobileUsable &&
+      isPhoneLike(mobile) &&
+      (isDesktopProductUi(desktop) ||
+        desktop.roleHint === "dashboard" ||
+        desktop.roleHint === "pricing_screenshot") &&
+      similarity >= 0.55
+    ) {
+      return mobile;
+    }
+    if (
+      mobileUsable &&
+      limits.preferMobileOnDuplicate &&
+      (isPhoneLike(mobile) || isPortraitLike(mobile.width, mobile.height)) &&
+      similarity >= 0.5
+    ) {
+      return mobile;
+    }
+    if (profile === "saas_desktop" && similarity < 0.72 && isDesktopProductUi(desktop)) {
+      return desktop;
+    }
+  }
+
+  if (profile === "saas_desktop" && !crossViewport) {
     if (isDesktopProductUi(a) && !isDesktopProductUi(b)) return a;
     if (isDesktopProductUi(b) && !isDesktopProductUi(a)) return b;
-    if (!limits.preferMobileOnDuplicate) return scoreA >= scoreB ? a : b;
   }
 
   const mobileA = a.captureViewport === "mobile";
@@ -256,7 +355,21 @@ export function dedupeCrossViewport(
       kept.push(item);
       continue;
     }
-    kept[dupIndex] = preferForSocial(item, kept[dupIndex], profile);
+    const existing = kept[dupIndex];
+    const winner = preferForSocial(item, existing, profile);
+    const loser = winner === item ? existing : item;
+    const similarity = captureSemanticSimilarity(
+      asSemanticSignals(winner),
+      asSemanticSignals(loser),
+    );
+    logCaptureDedupe({
+      kept: winner.captureId,
+      removed: loser.captureId,
+      reason: duplicateReason(winner, loser, similarity),
+      similarity: Math.round(similarity * 1000) / 1000,
+      preferredViewport: winner.captureViewport,
+    });
+    kept[dupIndex] = winner;
   }
 
   return kept;
@@ -289,7 +402,9 @@ export function selectFinalCaptureCandidates(
     if (picked.some((p) => sameVisualPair(p, c))) return false;
     if (
       picked.some(
-        (p) => p.label.toLowerCase().trim() === c.label.toLowerCase().trim(),
+        (p) =>
+          p.label.toLowerCase().trim() === c.label.toLowerCase().trim() &&
+          !isCrossViewportPair(p, c),
       )
     ) {
       return false;
@@ -323,7 +438,9 @@ export function selectFinalCaptureCandidates(
         !isWideDesktopSection(c) &&
         !picked.some((p) => sameVisualPair(p, c)) &&
         !picked.some(
-          (p) => p.label.toLowerCase().trim() === c.label.toLowerCase().trim(),
+          (p) =>
+            p.label.toLowerCase().trim() === c.label.toLowerCase().trim() &&
+            !isCrossViewportPair(p, c),
         ) &&
         (isDesktopProductUi(c) || c.roleHint === "feature_card" || isPhoneLike(c)),
     );

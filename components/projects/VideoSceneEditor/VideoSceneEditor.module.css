@@ -38,6 +38,42 @@
   cursor: not-allowed;
 }
 
+.renderControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.renderModeLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.renderModeSelect {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.pickAssetsBtn {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pickAssetsBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .notice {
   margin: 0;
   font-size: 0.8rem;
@@ -245,6 +281,36 @@
   gap: 0.5rem;
   padding: 0.65rem 0;
   border-top: 1px dashed var(--color-border);
+}
+
+.visualSourceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.65rem 0;
+  border-top: 1px dashed var(--color-border);
+  border: none;
+  margin: 0;
+}
+
+.visualSourceBlock legend {
+  padding: 0;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.visualAssetRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1.25rem;
 }
 
 .sectionTitle {
