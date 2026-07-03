@@ -24,9 +24,10 @@ export function applySceneImageWorkerResult(args: {
   }
 
   const target = args.scenes[index]!;
+  const { video_usage: _omit, ...base } = target;
   const updatedScenes = [...args.scenes];
   updatedScenes[index] = {
-    ...target,
+    ...base,
     image_bucket: args.image_bucket,
     image_path: args.image_path,
   };

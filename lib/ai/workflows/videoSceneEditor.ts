@@ -3,6 +3,10 @@ import { assertAssetInProject, assertContentItemInProject } from "@/lib/api/guar
 import { STORAGE_BUCKETS, buildVideoRenderPath } from "@/lib/api/storage";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
+import {
+  resolvePreferredVideoUsageFromMetadata,
+  resolveVideoUsageForRender,
+} from "@/lib/assets/preferredVideoUsage";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/types";
 import { regenerateSceneImageViaWorker } from "@/lib/video-worker/regenerateSceneImageClient";
@@ -20,6 +24,7 @@ import {
 import {
   mergeSceneEditorDraft,
   readSceneEditorDraft,
+  clearSceneEditorDraft,
   type SceneEditorDraft,
   type SceneEditorDraftScene,
 } from "@/lib/video-scene-editor/metadata";
@@ -93,8 +98,18 @@ function scenesToDraftScenes(
       image_bucket,
       image_path,
       duration_seconds,
+      ...(typeof scene.video_usage === "string" && scene.video_usage.trim().length > 0
+        ? { video_usage: String(scene.video_usage).trim() }
+        : {}),
     };
   });
+}
+
+function draftSceneWithoutVideoUsage(
+  scene: SceneEditorDraftScene,
+): SceneEditorDraftScene {
+  const { video_usage: _omit, ...rest } = scene;
+  return rest;
 }
 
 async function loadSourceJob(
@@ -847,7 +862,7 @@ export async function uploadSceneReplacementImage(
 
   const updated = [...scenes];
   updated[index] = {
-    ...updated[index],
+    ...draftSceneWithoutVideoUsage(updated[index]!),
     image_bucket: STORAGE_BUCKETS.videoRenders,
     image_path: storagePath,
   };
@@ -901,6 +916,29 @@ async function loadProjectImageAssetStorage(
   return { bucket, path };
 }
 
+async function resolveVideoUsageForProjectAsset(
+  supabase: SupabaseClient,
+  projectId: string,
+  assetId: string,
+): Promise<string> {
+  await assertAssetInProject(supabase, assetId, projectId);
+  const { data, error } = await supabase
+    .from("assets")
+    .select("title, metadata")
+    .eq("id", assetId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) {
+    throw new WorkflowError("not_found", "asset not found");
+  }
+  const preferred = resolvePreferredVideoUsageFromMetadata(
+    (data.metadata as Json) ?? {},
+    { title: (data.title as string) ?? "" },
+  );
+  return resolveVideoUsageForRender(preferred, undefined);
+}
+
 export async function applyLibraryAssetAsSceneReplacement(
   input: {
     projectId: string;
@@ -912,6 +950,11 @@ export async function applyLibraryAssetAsSceneReplacement(
 ): Promise<VideoSceneEditorState> {
   const supabase = deps.client ?? createSupabaseAdminClient();
   const storage = await loadProjectImageAssetStorage(
+    supabase,
+    input.projectId,
+    input.assetId,
+  );
+  const video_usage = await resolveVideoUsageForProjectAsset(
     supabase,
     input.projectId,
     input.assetId,
@@ -961,9 +1004,10 @@ export async function applyLibraryAssetAsSceneReplacement(
 
   const updated = [...scenes];
   updated[index] = {
-    ...updated[index],
+    ...draftSceneWithoutVideoUsage(updated[index]!),
     image_bucket: storage.bucket,
     image_path: storage.path,
+    video_usage,
   };
 
   const historyBase =
@@ -1611,7 +1655,7 @@ export async function restoreSceneImageVersionInEditor(
 
   const updated = [...scenes];
   updated[index] = {
-    ...updated[index],
+    ...draftSceneWithoutVideoUsage(updated[index]!),
     image_bucket: version.image_bucket,
     image_path: version.image_path,
     image_prompt: version.image_prompt,
@@ -2035,6 +2079,135 @@ export async function insertVideoSceneWithUpload(
     input.videoJobId,
     deps,
   );
+}
+
+/** Replaces the content-item scene draft with render_spec from a completed video job. */
+export async function resetSceneEditorFromVideoJob(
+  input: { projectId: string; videoJobId: string },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError(
+      "invalid_input",
+      "only completed video versions can be loaded into the editor",
+    );
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  await assertNoActiveRender(supabase, input.projectId, contentItemId);
+
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError(
+      "invalid_input",
+      "this video version has no render_spec scenes",
+    );
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const voiceoverText = readSourceVoiceoverText(job.input);
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const draft = buildSceneEditorDraft({
+    sourceVideoJobId: job.id,
+    scenes: baselineScenes,
+    existing: null,
+    baselineScenes,
+    baselineVoiceoverText: voiceoverText,
+  });
+  draft.voiceover_text = voiceoverText;
+
+  const { error: updateErr } = await supabase
+    .from("content_items")
+    .update({
+      generation_metadata: mergeSceneEditorDraft(
+        itemRow.generation_metadata as Json | null,
+        draft,
+      ),
+    })
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId);
+  if (updateErr) throw updateErr;
+
+  return loadVideoSceneEditorState(
+    { projectId: input.projectId, videoJobId: job.id },
+    deps,
+  );
+}
+
+export async function deleteProjectVideoJobVersion(
+  input: { projectId: string; videoJobId: string },
+  deps: VideoSceneEditorDeps = {},
+): Promise<void> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status === "queued" || job.status === "processing") {
+    throw new WorkflowError(
+      "invalid_input",
+      "cannot delete a video that is still rendering",
+    );
+  }
+  const contentItemId = job.content_item_id;
+  if (contentItemId) {
+    await assertNoActiveRender(supabase, input.projectId, contentItemId);
+
+    const { count, error: countErr } = await supabase
+      .from("video_jobs")
+      .select("id", { count: "exact", head: true })
+      .eq("project_id", input.projectId)
+      .eq("content_item_id", contentItemId);
+    if (countErr) throw countErr;
+    if ((count ?? 0) <= 1) {
+      throw new WorkflowError(
+        "invalid_input",
+        "cannot delete the only video version for this content item",
+      );
+    }
+
+    const { data: itemRow, error: itemErr } = await supabase
+      .from("content_items")
+      .select("generation_metadata")
+      .eq("id", contentItemId)
+      .eq("project_id", input.projectId)
+      .maybeSingle();
+    if (itemErr) throw itemErr;
+    if (itemRow) {
+      const draft = readSceneEditorDraft(
+        itemRow.generation_metadata as Json | null,
+      );
+      if (draft?.source_video_job_id === job.id) {
+        const cleared = clearSceneEditorDraft(
+          itemRow.generation_metadata as Json | null,
+        );
+        const { error: metaErr } = await supabase
+          .from("content_items")
+          .update({ generation_metadata: cleared })
+          .eq("id", contentItemId)
+          .eq("project_id", input.projectId);
+        if (metaErr) throw metaErr;
+      }
+    }
+  }
+
+  const { error: deleteErr } = await supabase
+    .from("video_jobs")
+    .delete()
+    .eq("id", job.id)
+    .eq("project_id", input.projectId);
+  if (deleteErr) throw deleteErr;
 }
 
 export type {

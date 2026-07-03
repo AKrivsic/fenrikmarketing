@@ -18,6 +18,8 @@ import {
   moveSceneInEditor,
   duplicateSceneInEditor,
   insertVideoSceneWithUpload,
+  resetSceneEditorFromVideoJob,
+  deleteProjectVideoJobVersion,
   type SceneEditorRenderAssetMode,
   updateSceneEditorVoiceoverText,
   updateSceneImagePromptInEditor,
@@ -474,6 +476,32 @@ export async function addVideoSceneWithUpload(
     });
     revalidateVideos(projectId);
     return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function loadSceneEditorFromVideoVersion(
+  projectId: string,
+  videoJobId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await resetSceneEditorFromVideoJob({ projectId, videoJobId });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function deleteVideoVersion(
+  projectId: string,
+  videoJobId: string,
+): Promise<VideoSceneEditorActionResult<{ deletedJobId: string }>> {
+  try {
+    await deleteProjectVideoJobVersion({ projectId, videoJobId });
+    revalidateVideos(projectId);
+    return { ok: true, data: { deletedJobId: videoJobId } };
   } catch (err) {
     return fail(mapWorkflowError(err));
   }

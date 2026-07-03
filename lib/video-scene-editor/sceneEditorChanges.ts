@@ -12,6 +12,7 @@ function draftScenesToInputScenes(
     duration_seconds: scene.duration_seconds,
     image_bucket: scene.image_bucket,
     image_path: scene.image_path,
+    ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
   }));
 }
 

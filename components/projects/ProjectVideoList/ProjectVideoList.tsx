@@ -1,7 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import {
+  deleteVideoVersion,
+  loadSceneEditorFromVideoVersion,
+} from "@/app/projects/[id]/videos/actions";
 import { VideoPreview } from "@/components/review/VideoPreview/VideoPreview";
 import { VideoDownloads } from "@/components/projects/VideoDownloads/VideoDownloads";
 import { VideoSceneEditor } from "@/components/projects/VideoSceneEditor/VideoSceneEditor";
@@ -58,6 +62,10 @@ function VideoGroupCard({
   const [editorOpen, setEditorOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(group.displayJobId);
   const [editorRenderActive, setEditorRenderActive] = useState(false);
+  const [versionActionError, setVersionActionError] = useState<string | null>(
+    null,
+  );
+  const [pending, startTransition] = useTransition();
 
   const [failedEditorRenderActive, setFailedEditorRenderActive] = useState(false);
 
@@ -82,6 +90,56 @@ function VideoGroupCard({
     group.versions.find((v) => v.jobId === selectedJobId) ?? group.versions[0]!;
 
   const previewVersion = resolvePreviewVersion(group, selected);
+
+  const editorSourceVersion = group.editorSourceJobId
+    ? group.versions.find((v) => v.jobId === group.editorSourceJobId)
+    : undefined;
+  const editorDiffersFromPicker =
+    group.editorSourceJobId != null &&
+    selectedJobId !== group.editorSourceJobId &&
+    selected.status === "completed";
+
+  function handleLoadEditorFromSelected(): void {
+    if (
+      !window.confirm(
+        "Načíst scény a voiceover z vybrané verze do editoru? Rozpracovaný draft se přepíše.",
+      )
+    ) {
+      return;
+    }
+    startTransition(async () => {
+      setVersionActionError(null);
+      const result = await loadSceneEditorFromVideoVersion(
+        projectId,
+        selected.jobId,
+      );
+      if (!result.ok) {
+        setVersionActionError(result.error);
+        return;
+      }
+      setEditorOpen(true);
+      router.refresh();
+    });
+  }
+
+  function handleDeleteSelectedVersion(): void {
+    if (
+      !window.confirm(
+        "Smazat vybranou verzi videa? Soubory renderu zůstanou ve storage, záznam jobu se odstraní.",
+      )
+    ) {
+      return;
+    }
+    startTransition(async () => {
+      setVersionActionError(null);
+      const result = await deleteVideoVersion(projectId, selected.jobId);
+      if (!result.ok) {
+        setVersionActionError(result.error);
+        return;
+      }
+      router.refresh();
+    });
+  }
 
   return (
     <article className={styles.card}>
@@ -123,6 +181,42 @@ function VideoGroupCard({
             ))}
           </select>
         </label>
+      ) : null}
+
+      {group.versions.length > 1 && selected.status === "completed" ? (
+        <div className={styles.versionActions}>
+          {editorDiffersFromPicker ? (
+            <p className={styles.versionNotice}>
+              Editor scén je navázaný na{" "}
+              {editorSourceVersion?.versionLabel ?? "jinou verzi"}, ne na
+              vybranou {selected.versionLabel}. Re-render tedy nevychází z
+              náhledu výše.
+            </p>
+          ) : null}
+          <div className={styles.versionActionRow}>
+            <button
+              type="button"
+              className={styles.editorBtn}
+              disabled={pending || rendering}
+              onClick={handleLoadEditorFromSelected}
+            >
+              Načíst tuto verzi do editoru
+            </button>
+            <button
+              type="button"
+              className={styles.deleteVersionBtn}
+              disabled={
+                pending || rendering || group.versions.length <= 1
+              }
+              onClick={handleDeleteSelectedVersion}
+            >
+              Smazat tuto verzi
+            </button>
+          </div>
+          {versionActionError ? (
+            <p className={styles.error}>{versionActionError}</p>
+          ) : null}
+        </div>
       ) : null}
 
       <VideoPreview

@@ -5,6 +5,7 @@ export function normalizedSceneInput(scene: Record<string, unknown>) {
     image_bucket: String(scene.image_bucket ?? ""),
     image_path: String(scene.image_path ?? ""),
     duration_seconds: Number(scene.duration_seconds ?? 0),
+    video_usage: String(scene.video_usage ?? ""),
   };
 }
 
@@ -15,6 +16,7 @@ export function sceneDraftsEqual(
     image_bucket: string;
     image_path: string;
     duration_seconds: number;
+    video_usage?: string;
   }>,
   right: Array<{
     id: string;
@@ -22,6 +24,7 @@ export function sceneDraftsEqual(
     image_bucket: string;
     image_path: string;
     duration_seconds: number;
+    video_usage?: string;
   }>,
 ): boolean {
   if (left.length !== right.length) return false;

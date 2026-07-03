@@ -142,6 +142,12 @@ async function main(): Promise<void> {
     assert.equal(shouldComposeAssetLayout("fullscreen"), false);
   });
 
+  await check("missing video_usage skips layout on reuse path", async () => {
+    assert.equal(shouldComposeAssetLayout(undefined), false);
+    assert.equal(shouldComposeAssetLayout(""), false);
+    assert.equal(shouldComposeAssetLayout("   "), false);
+  });
+
   await check("render_spec keeps video_usage on asset scene", async () => {
     const spec = buildRenderSpec({
       voiceover_text: "Narration long enough for the render path to run.",

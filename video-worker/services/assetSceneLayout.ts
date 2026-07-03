@@ -34,6 +34,9 @@ export function normalizeAssetLayoutMode(
 }
 
 export function shouldComposeAssetLayout(videoUsage?: string | null): boolean {
+  const raw = videoUsage?.trim() ?? "";
+  // Reused AI scene stills omit video_usage — use storage pixels as-is (no frames).
+  if (!raw) return false;
   return normalizeAssetLayoutMode(videoUsage) !== "fullscreen";
 }
 

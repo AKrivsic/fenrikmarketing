@@ -70,6 +70,9 @@ function scenesToDraftScenes(
       image_bucket,
       image_path,
       duration_seconds,
+      ...(typeof scene.video_usage === "string" && scene.video_usage.trim().length > 0
+        ? { video_usage: scene.video_usage.trim() }
+        : {}),
     };
   });
 }
@@ -83,6 +86,7 @@ function draftScenesToInputScenes(
     duration_seconds: scene.duration_seconds,
     image_bucket: scene.image_bucket,
     image_path: scene.image_path,
+    ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
   }));
 }
 

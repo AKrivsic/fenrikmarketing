@@ -126,3 +126,41 @@
   background: var(--color-bg);
   color: var(--color-text);
 }
+
+.versionActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.versionNotice {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.versionActionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.deleteVersionBtn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #fecdca;
+  background: #fff5f5;
+  color: #b42318;
+  cursor: pointer;
+}
+
+.deleteVersionBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

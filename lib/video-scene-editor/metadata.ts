@@ -8,6 +8,8 @@ export interface SceneEditorDraftScene {
   image_bucket: string;
   image_path: string;
   duration_seconds: number;
+  /** When set, the worker composes product-asset layout (frames/cards) on re-render. */
+  video_usage?: string;
 }
 
 export interface SceneEditorDraft {
@@ -98,6 +100,9 @@ function parseDraftScene(value: unknown): SceneEditorDraftScene | null {
     image_bucket,
     image_path,
     duration_seconds,
+    ...(typeof row.video_usage === "string" && row.video_usage.trim().length > 0
+      ? { video_usage: row.video_usage.trim() }
+      : {}),
   };
 }
 
