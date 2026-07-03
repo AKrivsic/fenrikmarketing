@@ -172,8 +172,12 @@ export async function setProductionRunStatus(
 ): Promise<void> {
   const supabase = createSupabaseAdminClient();
   const update: Record<string, unknown> = { status };
-  if (status === "failed") {
-    update.error_message = errorMessage ?? "Generování se nepodařilo spustit.";
+  if (status === "failed" || status === "cancelled") {
+    update.error_message =
+      errorMessage ??
+      (status === "cancelled"
+        ? "Zastaveno operátorem."
+        : "Generování se nepodařilo spustit.");
   }
   const { error } = await supabase
     .from("production_runs")
@@ -200,6 +204,43 @@ export async function getActiveProductionRun(
   return data ? { id: data.id as string, status: data.status } : null;
 }
 
+export const PRODUCTION_RUN_CANCELLED_MESSAGE = "Zastaveno operátorem.";
+
+// Operator stop: reconcile progress, close the run, and leave generated packages
+// in place. Remaining queued slots are marked failed so counters stay honest.
+export async function cancelProductionRun(
+  runId: string,
+  projectId: string,
+): Promise<void> {
+  const supabase = createSupabaseAdminClient();
+  const run = await loadRun(supabase, runId);
+  if (run.project_id !== projectId) {
+    throw new Error("Production run does not belong to this project.");
+  }
+  if (run.status !== "queued" && run.status !== "running") {
+    throw new Error("Pouze aktivní běh lze zastavit.");
+  }
+
+  await reconcileProductionRun(runId);
+
+  const { error: itemErr } = await supabase
+    .from("production_run_items")
+    .update({
+      status: "failed",
+      error_message: PRODUCTION_RUN_CANCELLED_MESSAGE,
+    })
+    .eq("production_run_id", runId)
+    .in("status", ["queued", "running"])
+    .is("content_package_id", null);
+  if (itemErr) throw itemErr;
+
+  await setProductionRunStatus(
+    runId,
+    "cancelled",
+    PRODUCTION_RUN_CANCELLED_MESSAGE,
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Reconcile — pair real generated PACKAGES onto the run's package items, then
 // refresh the run counters/status. Safe to call repeatedly (idempotent): only
@@ -214,17 +255,21 @@ export async function reconcileProductionRun(
   const run = await loadRun(supabase, runId);
   const items = await loadRunItems(supabase, runId);
 
-  // Terminal trigger failures are returned as-is. Otherwise reconcile from the
-  // real content_items the pipeline produced for this run.
+  // Terminal trigger failures are returned as-is. Cancelled runs still reconcile
+  // counters as in-flight videos finish, but never return to "running".
   let progress: RealProgress | null = null;
   if (run.status !== "failed") {
     progress = await reconcileFromRealContent(supabase, run);
-    const markedStale = await failStaleProductionRunIfNeeded(
-      supabase,
-      run,
-      progress,
-    );
-    if (!markedStale) {
+    if (run.status !== "cancelled") {
+      const markedStale = await failStaleProductionRunIfNeeded(
+        supabase,
+        run,
+        progress,
+      );
+      if (!markedStale) {
+        await syncRunItemsAndCounters(supabase, run, items, progress);
+      }
+    } else {
       await syncRunItemsAndCounters(supabase, run, items, progress);
     }
   }
@@ -514,30 +559,37 @@ async function syncRunItemsAndCounters(
     (p) => p.status === "completed",
   ).length;
   const failed = progress.packages.filter((p) => p.status === "failed").length;
+  const cancelledSlots =
+    run.status === "cancelled"
+      ? Math.max(0, run.requested_total - progress.packages.length)
+      : 0;
+  const failedWithCancelled = failed + cancelledSlots;
   // The run is done when every requested package reached a terminal state.
-  const open = run.requested_total - generated - failed;
+  const open = run.requested_total - generated - failedWithCancelled;
   const nextStatus: ProductionRunStatus =
-    open <= 0
-      ? "completed"
-      : run.status === "queued" && progress.packages.length === 0
-        ? "queued"
-        : "running";
+    run.status === "cancelled"
+      ? "cancelled"
+      : open <= 0
+        ? "completed"
+        : run.status === "queued" && progress.packages.length === 0
+          ? "queued"
+          : "running";
 
   const changed =
     run.generated_total !== generated ||
-    run.failed_total !== failed ||
+    run.failed_total !== failedWithCancelled ||
     run.status !== nextStatus;
   if (!changed) return;
 
   run.generated_total = generated;
-  run.failed_total = failed;
+  run.failed_total = failedWithCancelled;
   run.status = nextStatus;
 
   const { error } = await supabase
     .from("production_runs")
     .update({
       generated_total: generated,
-      failed_total: failed,
+      failed_total: failedWithCancelled,
       status: nextStatus,
     })
     .eq("id", run.id);

@@ -2,6 +2,7 @@ import { runGenerateContentPackage } from "@/lib/ai/workflows/generateContentPac
 import { optionalGenerationModeFromBody } from "@/lib/ai/generationMode";
 import {
   assertGenerateContentPackagePreconditions,
+  isProductionRunCancelledForStrategyItem,
   MissingWeeklyStrategyError,
   missingWeeklyStrategyResponse,
 } from "@/lib/ai/workflows/weeklyStrategyGate";
@@ -48,6 +49,20 @@ export async function POST(request: Request): Promise<Response> {
       strategyItemId,
       weekStart,
     });
+
+    if (
+      await isProductionRunCancelledForStrategyItem(
+        supabase,
+        projectId,
+        strategyItemId,
+      )
+    ) {
+      return Response.json({
+        success: true,
+        skipped: true,
+        reason: "production_run_cancelled",
+      });
+    }
 
     const result = await runGenerateContentPackage(
       {

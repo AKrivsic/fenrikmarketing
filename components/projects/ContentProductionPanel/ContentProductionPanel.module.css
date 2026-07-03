@@ -269,6 +269,34 @@
   border-color: #b42318;
 }
 
+.statusBadge[data-status="cancelled"] {
+  color: #6941c6;
+  border-color: #6941c6;
+}
+
+.stopButton {
+  margin-left: auto;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #b42318;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #b42318;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stopButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.cancelNote {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
 .statusTotals {
   font-size: 0.82rem;
   color: var(--color-text-muted);

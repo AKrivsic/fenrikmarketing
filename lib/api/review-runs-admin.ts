@@ -65,6 +65,9 @@ function runHealth(
   failed: number,
   warningsCount: number,
 ): ReviewHealth {
+  if (status === "cancelled") {
+    return failed > 0 || warningsCount > 0 ? "yellow" : "green";
+  }
   if (status === "failed" || failed > 0) return "red";
   if (warningsCount > 0) return "yellow";
   return "green";

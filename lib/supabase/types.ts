@@ -216,7 +216,12 @@ export interface VideoJob {
 }
 
 // Production runs (migration 015). The "Generate Content" one-button flow.
-export type ProductionRunStatus = "queued" | "running" | "completed" | "failed";
+export type ProductionRunStatus =
+  | "queued"
+  | "running"
+  | "completed"
+  | "failed"
+  | "cancelled";
 export type ProductionContentType = "video" | "text";
 
 export interface ProductionRun {

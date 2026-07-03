@@ -58,6 +58,34 @@ function readProductionRunId(brief: unknown): string | null {
   return typeof value === "string" && value.length > 0 ? value : null;
 }
 
+/** True when n8n should skip generating another package for this strategy item. */
+export async function isProductionRunCancelledForStrategyItem(
+  supabase: SupabaseClient,
+  projectId: string,
+  strategyItemId: string,
+): Promise<boolean> {
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_strategy_items")
+    .select("brief")
+    .eq("id", strategyItemId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) return false;
+
+  const runId = readProductionRunId(itemRow.brief);
+  if (!runId) return false;
+
+  const { data: runRow, error: runErr } = await supabase
+    .from("production_runs")
+    .select("status")
+    .eq("id", runId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (runErr) throw runErr;
+  return runRow?.status === "cancelled";
+}
+
 // Weekly Prepare flow: strategy for week_start must exist and the item must
 // belong to it. Production-run items (brief.production_run_id) skip this gate.
 export async function assertGenerateContentPackagePreconditions(

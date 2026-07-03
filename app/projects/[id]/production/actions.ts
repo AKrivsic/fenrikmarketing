@@ -15,6 +15,7 @@ import {
   planHasOutputs,
 } from "@/lib/projects/productionRun";
 import {
+  cancelProductionRun,
   createProductionRun,
   getActiveProductionRun,
   reconcileProductionRun,
@@ -43,6 +44,10 @@ import {
 
 export type StartProductionResult =
   | { ok: true; runId: string }
+  | { ok: false; error: string };
+
+export type StopProductionResult =
+  | { ok: true }
   | { ok: false; error: string };
 
 function basePath(projectId: string): string {
@@ -231,4 +236,29 @@ export async function getProductionRunStatus(
 ): Promise<ProductionRunView | null> {
   if (!runId) return null;
   return reconcileProductionRun(runId);
+}
+
+export async function stopProductionRun(
+  projectId: string,
+  runId: string,
+): Promise<StopProductionResult> {
+  if (!projectId || !runId) {
+    return { ok: false, error: "Chybí identifikátor projektu nebo běhu." };
+  }
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) {
+    return { ok: false, error: "Projekt nenalezen." };
+  }
+
+  try {
+    await cancelProductionRun(runId, projectId);
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Běh se nepodařilo zastavit.";
+    return { ok: false, error: message };
+  }
+
+  revalidatePath(basePath(projectId));
+  return { ok: true };
 }

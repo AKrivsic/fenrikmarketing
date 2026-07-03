@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import {
   getProductionRunStatus,
   startProductionRun,
+  stopProductionRun,
 } from "@/app/projects/[id]/production/actions";
 import {
   DEFAULT_MULTIPLIERS,
@@ -34,6 +35,7 @@ const RUN_STATUS_LABEL: Record<ProductionRunStatus, string> = {
   running: "Probíhá",
   completed: "Hotovo",
   failed: "Selhalo",
+  cancelled: "Zastaveno",
 };
 
 const POLL_INTERVAL_MS = 3000;
@@ -189,6 +191,25 @@ export function ContentProductionPanel({
       setRun(next);
     });
   }, [projectId, config]);
+
+  const handleStopRun = useCallback(() => {
+    const runId = runIdRef.current ?? run?.id;
+    if (!runId) return;
+    const confirmed = window.confirm(
+      "Opravdu zastavit tento běh?\n\nUž vygenerované balíčky zůstanou v projektu. Další balíčky z tohoto běhu se negenerují a můžete spustit nový běh.",
+    );
+    if (!confirmed) return;
+    setError(null);
+    startTransition(async () => {
+      const result = await stopProductionRun(projectId, runId);
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      const next = await getProductionRunStatus(runId);
+      setRun(next);
+    });
+  }, [projectId, run?.id]);
 
   const canGenerate = plan.packageCount > 0 && plan.platformOutputs.length > 0;
   const generateDisabled = isPending || active || !canGenerate;
@@ -364,12 +385,24 @@ export function ContentProductionPanel({
       </div>
 
       {/* --- Status / progress --------------------------------------------- */}
-      {run ? <RunStatus run={run} /> : null}
+      {run ? (
+        <RunStatus run={run} active={active} onStop={handleStopRun} stopping={isPending} />
+      ) : null}
     </div>
   );
 }
 
-function RunStatus({ run }: { run: ProductionRunView }) {
+function RunStatus({
+  run,
+  active,
+  onStop,
+  stopping,
+}: {
+  run: ProductionRunView;
+  active: boolean;
+  onStop: () => void;
+  stopping: boolean;
+}) {
   return (
     <div className={styles.status}>
       <div className={styles.statusHead}>
@@ -383,7 +416,24 @@ function RunStatus({ run }: { run: ProductionRunView }) {
             : ""}
           {run.failedTotal > 0 ? ` · ${run.failedTotal} selhalo` : ""}
         </span>
+        {active ? (
+          <button
+            type="button"
+            className={styles.stopButton}
+            onClick={onStop}
+            disabled={stopping}
+          >
+            {stopping ? "Zastavuji…" : "Zastavit běh"}
+          </button>
+        ) : null}
       </div>
+
+      {run.status === "cancelled" ? (
+        <p className={styles.cancelNote}>
+          Běh byl zastaven. Už vygenerované balíčky zůstávají v projektu; můžete
+          spustit nový běh.
+        </p>
+      ) : null}
 
       {run.errorMessage ? (
         <p className={styles.error}>{run.errorMessage}</p>
