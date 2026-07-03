@@ -13,6 +13,11 @@ import {
   regenerateSceneImageInEditor,
   restoreSceneImageVersionInEditor,
   runSceneEditorRerender,
+  updateSceneDurationInEditor,
+  removeSceneFromEditor,
+  moveSceneInEditor,
+  duplicateSceneInEditor,
+  insertVideoSceneWithUpload,
   type SceneEditorRenderAssetMode,
   updateSceneEditorVoiceoverText,
   updateSceneImagePromptInEditor,
@@ -353,6 +358,119 @@ export async function restoreVideoSceneImage(
       videoJobId,
       sceneId,
       versionId,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function updateVideoSceneDuration(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  durationSeconds: number,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await updateSceneDurationInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      durationSeconds,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function removeVideoScene(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await removeSceneFromEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function moveVideoScene(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  direction: "up" | "down",
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await moveSceneInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      direction,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function duplicateVideoScene(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await duplicateSceneInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function addVideoSceneWithUpload(
+  projectId: string,
+  videoJobId: string,
+  formData: FormData,
+  afterSceneId?: string | null,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  const file = formData.get("file");
+  const imagePromptRaw = formData.get("imagePrompt");
+  const durationRaw = formData.get("durationSeconds");
+  if (!(file instanceof File)) {
+    return fail("Chybí obrázek nové scény.");
+  }
+  const imagePrompt =
+    typeof imagePromptRaw === "string" ? imagePromptRaw.trim() : "";
+  if (!imagePrompt) {
+    return fail("Chybí popis (prompt) nové scény.");
+  }
+  const durationSeconds =
+    typeof durationRaw === "string" && durationRaw.trim().length > 0
+      ? Number(durationRaw)
+      : undefined;
+  try {
+    const data = await insertVideoSceneWithUpload({
+      projectId,
+      videoJobId,
+      afterSceneId,
+      file,
+      imagePrompt,
+      durationSeconds,
     });
     revalidateVideos(projectId);
     return { ok: true, data };

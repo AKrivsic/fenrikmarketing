@@ -116,6 +116,32 @@ export function getSceneVisualSetting(
   return workflow.scene_visual?.[sceneId] ?? { mode: "ai" };
 }
 
+export function omitSceneVisualSetting(
+  generationMetadata: Json | null | undefined,
+  sceneId: string,
+): Json {
+  const workflow = readVideoAssetWorkflow(generationMetadata);
+  if (!workflow.scene_visual?.[sceneId]) {
+    return (generationMetadata ?? {}) as Json;
+  }
+  const scene_visual = { ...workflow.scene_visual };
+  delete scene_visual[sceneId];
+  return mergeVideoAssetWorkflow(generationMetadata, { scene_visual });
+}
+
+export function copySceneVisualSetting(
+  generationMetadata: Json | null | undefined,
+  fromSceneId: string,
+  toSceneId: string,
+): Json {
+  const workflow = readVideoAssetWorkflow(generationMetadata);
+  const source = workflow.scene_visual?.[fromSceneId];
+  if (!source) return (generationMetadata ?? {}) as Json;
+  return mergeVideoAssetWorkflow(generationMetadata, {
+    scene_visual: { [toSceneId]: { ...source } },
+  });
+}
+
 /** Maps stored workflow to scene-editor re-render asset mode (optional override). */
 export function workflowToRenderAssetMode(
   workflow: VideoAssetWorkflowMetadata,

@@ -126,6 +126,7 @@ function VideoGroupCard({
       ) : null}
 
       <VideoPreview
+        key={selectedJobId}
         videoUrl={previewVersion.videoUrl}
         thumbnailUrl={previewVersion.thumbnailUrl}
       />
@@ -204,11 +205,12 @@ function VideoGroupCard({
   );
 }
 
-/** Prefer the card's active/display job when it has MP4; else newest version with video. */
+/** Show the picker selection when it has MP4; else fall back to display / any completed render. */
 function resolvePreviewVersion(
   group: ProjectVideoGroup,
   selected: ProjectVideoGroup["versions"][number],
 ): ProjectVideoGroup["versions"][number] {
+  if (selected.videoUrl) return selected;
   const display =
     group.versions.find((v) => v.jobId === group.displayJobId) ?? selected;
   if (display.videoUrl) return display;

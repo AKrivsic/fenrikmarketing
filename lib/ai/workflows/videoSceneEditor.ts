@@ -20,6 +20,7 @@ import {
 import {
   mergeSceneEditorDraft,
   readSceneEditorDraft,
+  type SceneEditorDraft,
   type SceneEditorDraftScene,
 } from "@/lib/video-scene-editor/metadata";
 import {
@@ -46,13 +47,24 @@ import {
 import { validateSceneImageUpload } from "@/lib/video-scene-editor/validateUpload";
 import { saveEditorVoiceoverText } from "@/lib/video-scene-editor/saveEditorVoiceover";
 import {
+  copySceneVisualSetting,
   getSceneVisualSetting,
   mergeVideoAssetWorkflow,
+  omitSceneVisualSetting,
   readVideoAssetWorkflow,
   type SceneVisualMode,
   type VideoAssetWorkflowMetadata,
   type VideoVisualSource,
 } from "@/lib/video-scene-editor/videoWorkflowMetadata";
+import {
+  MIN_SCENES_IN_VIDEO,
+  MAX_SCENES_IN_VIDEO,
+  MIN_SCENE_DURATION_SECONDS,
+  MAX_SCENE_DURATION_SECONDS,
+  DEFAULT_SCENE_DURATION_SECONDS,
+  newEditorSceneId,
+  normalizeSceneDurationSeconds,
+} from "@/lib/video-scene-editor/sceneTimeline";
 
 function scenesToDraftScenes(
   scenes: Record<string, unknown>[],
@@ -151,6 +163,7 @@ async function persistDraft(
     imageVersions?: Record<string, SceneImageVersion[]>;
     voiceoverText?: string;
     brandAssetInsertInstructions?: Record<string, string>;
+    transformMetadata?: (metadata: Json) => Json;
   },
 ): Promise<void> {
   const existing = readSceneEditorDraft(args.generationMetadata);
@@ -170,13 +183,17 @@ async function persistDraft(
   if (args.brandAssetInsertInstructions) {
     draft.brand_asset_insert_instructions = args.brandAssetInsertInstructions;
   }
+  let generation_metadata = mergeSceneEditorDraft(
+    args.generationMetadata,
+    draft,
+  );
+  if (args.transformMetadata) {
+    generation_metadata = args.transformMetadata(generation_metadata);
+  }
   const { error } = await supabase
     .from("content_items")
     .update({
-      generation_metadata: mergeSceneEditorDraft(
-        args.generationMetadata,
-        draft,
-      ),
+      generation_metadata,
     })
     .eq("id", args.contentItemId)
     .eq("project_id", args.projectId);
@@ -675,6 +692,77 @@ async function assertNoActiveRender(
       "a video render is already queued or processing for this item",
     );
   }
+}
+
+interface SceneEditorMutationContext {
+  supabase: SupabaseClient;
+  job: Awaited<ReturnType<typeof loadSourceJob>>;
+  contentItemId: string;
+  generationMetadata: Json | null;
+  scenes: SceneEditorDraftScene[];
+  baselineScenes: SceneEditorDraftScene[];
+  existingDraft: SceneEditorDraft | null;
+}
+
+async function loadSceneEditorMutationContext(
+  supabase: SupabaseClient,
+  projectId: string,
+  videoJobId: string,
+): Promise<SceneEditorMutationContext> {
+  const job = await loadSourceJob(supabase, projectId, videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  await assertNoActiveRender(supabase, projectId, contentItemId);
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const generationMetadata = itemRow.generation_metadata as Json | null;
+  const scenes = await loadBaselineScenes(supabase, {
+    projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    generationMetadata,
+    jobOutput: job.output,
+  });
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  if (!baselineFromOutput) {
+    throw new WorkflowError("invalid_input", "missing render_spec baseline");
+  }
+  const baselineScenes = scenesToDraftScenes(baselineFromOutput);
+  const existingDraft = readSceneEditorDraft(generationMetadata);
+
+  return {
+    supabase,
+    job,
+    contentItemId,
+    generationMetadata,
+    scenes,
+    baselineScenes,
+    existingDraft,
+  };
+}
+
+async function finishSceneEditorMutation(
+  ctx: SceneEditorMutationContext,
+  projectId: string,
+  videoJobId: string,
+  deps: VideoSceneEditorDeps,
+): Promise<VideoSceneEditorState> {
+  return loadVideoSceneEditorState({ projectId, videoJobId }, deps);
 }
 
 export async function uploadSceneReplacementImage(
@@ -1615,6 +1703,336 @@ export async function updateSceneEditorVoiceoverText(
 
   return loadVideoSceneEditorState(
     { projectId: input.projectId, videoJobId: input.videoJobId },
+    deps,
+  );
+}
+
+export async function updateSceneDurationInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+    durationSeconds: number;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const duration_seconds = normalizeSceneDurationSeconds(input.durationSeconds);
+  if (duration_seconds === null) {
+    throw new WorkflowError(
+      "invalid_input",
+      `scene duration must be between ${MIN_SCENE_DURATION_SECONDS} and ${MAX_SCENE_DURATION_SECONDS} seconds`,
+    );
+  }
+
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const ctx = await loadSceneEditorMutationContext(
+    supabase,
+    input.projectId,
+    input.videoJobId,
+  );
+  const index = ctx.scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const updated = [...ctx.scenes];
+  updated[index] = { ...updated[index]!, duration_seconds };
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId: ctx.contentItemId,
+    sourceVideoJobId: ctx.job.id,
+    scenes: updated,
+    generationMetadata: ctx.generationMetadata,
+    baselineScenes: ctx.baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(ctx.job.input),
+    imageVersions: ctx.existingDraft?.image_versions,
+    brandAssetInsertInstructions:
+      ctx.existingDraft?.brand_asset_insert_instructions,
+  });
+
+  return finishSceneEditorMutation(
+    ctx,
+    input.projectId,
+    input.videoJobId,
+    deps,
+  );
+}
+
+export async function removeSceneFromEditor(
+  input: { projectId: string; videoJobId: string; sceneId: string },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const ctx = await loadSceneEditorMutationContext(
+    supabase,
+    input.projectId,
+    input.videoJobId,
+  );
+  if (ctx.scenes.length <= MIN_SCENES_IN_VIDEO) {
+    throw new WorkflowError(
+      "invalid_input",
+      "video must keep at least one scene",
+    );
+  }
+  const index = ctx.scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const updated = ctx.scenes.filter((s) => s.id !== input.sceneId);
+  const historyBase =
+    ctx.existingDraft?.image_versions ??
+    seedSceneImageHistory(ctx.baselineScenes);
+  const imageVersions = { ...historyBase };
+  delete imageVersions[input.sceneId];
+
+  const instructions = {
+    ...(ctx.existingDraft?.brand_asset_insert_instructions ?? {}),
+  };
+  delete instructions[input.sceneId];
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId: ctx.contentItemId,
+    sourceVideoJobId: ctx.job.id,
+    scenes: updated,
+    generationMetadata: ctx.generationMetadata,
+    baselineScenes: ctx.baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(ctx.job.input),
+    imageVersions,
+    brandAssetInsertInstructions: instructions,
+    transformMetadata: (meta) => omitSceneVisualSetting(meta, input.sceneId),
+  });
+
+  return finishSceneEditorMutation(
+    ctx,
+    input.projectId,
+    input.videoJobId,
+    deps,
+  );
+}
+
+export async function moveSceneInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+    direction: "up" | "down";
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const ctx = await loadSceneEditorMutationContext(
+    supabase,
+    input.projectId,
+    input.videoJobId,
+  );
+  const index = ctx.scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+  const targetIndex = input.direction === "up" ? index - 1 : index + 1;
+  if (targetIndex < 0 || targetIndex >= ctx.scenes.length) {
+    throw new WorkflowError("invalid_input", "scene cannot move further");
+  }
+
+  const updated = [...ctx.scenes];
+  const [moved] = updated.splice(index, 1);
+  updated.splice(targetIndex, 0, moved!);
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId: ctx.contentItemId,
+    sourceVideoJobId: ctx.job.id,
+    scenes: updated,
+    generationMetadata: ctx.generationMetadata,
+    baselineScenes: ctx.baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(ctx.job.input),
+    imageVersions: ctx.existingDraft?.image_versions,
+    brandAssetInsertInstructions:
+      ctx.existingDraft?.brand_asset_insert_instructions,
+  });
+
+  return finishSceneEditorMutation(
+    ctx,
+    input.projectId,
+    input.videoJobId,
+    deps,
+  );
+}
+
+export async function duplicateSceneInEditor(
+  input: { projectId: string; videoJobId: string; sceneId: string },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const ctx = await loadSceneEditorMutationContext(
+    supabase,
+    input.projectId,
+    input.videoJobId,
+  );
+  if (ctx.scenes.length >= MAX_SCENES_IN_VIDEO) {
+    throw new WorkflowError(
+      "invalid_input",
+      `video cannot exceed ${MAX_SCENES_IN_VIDEO} scenes`,
+    );
+  }
+  const index = ctx.scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const source = ctx.scenes[index]!;
+  const newScene: SceneEditorDraftScene = {
+    id: newEditorSceneId(),
+    image_prompt: source.image_prompt,
+    image_bucket: source.image_bucket,
+    image_path: source.image_path,
+    duration_seconds: source.duration_seconds,
+  };
+  const updated = [...ctx.scenes];
+  updated.splice(index + 1, 0, newScene);
+
+  const historyBase =
+    ctx.existingDraft?.image_versions ??
+    seedSceneImageHistory(ctx.baselineScenes);
+  const imageVersions = appendSceneImageVersion(
+    historyBase,
+    newScene.id,
+    sceneVersionFromDraftScene(newScene, "original", { isOriginal: true }),
+  );
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId: ctx.contentItemId,
+    sourceVideoJobId: ctx.job.id,
+    scenes: updated,
+    generationMetadata: ctx.generationMetadata,
+    baselineScenes: ctx.baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(ctx.job.input),
+    imageVersions,
+    brandAssetInsertInstructions:
+      ctx.existingDraft?.brand_asset_insert_instructions,
+    transformMetadata: (meta) =>
+      copySceneVisualSetting(meta, input.sceneId, newScene.id),
+  });
+
+  return finishSceneEditorMutation(
+    ctx,
+    input.projectId,
+    input.videoJobId,
+    deps,
+  );
+}
+
+export async function insertVideoSceneWithUpload(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    afterSceneId?: string | null;
+    file: File;
+    imagePrompt: string;
+    durationSeconds?: number;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const validationError = validateSceneImageUpload({
+    type: input.file.type,
+    size: input.file.size,
+  });
+  if (validationError) {
+    throw new WorkflowError("invalid_input", validationError);
+  }
+  const image_prompt = input.imagePrompt.trim();
+  if (!image_prompt) {
+    throw new WorkflowError("invalid_input", "image prompt is required");
+  }
+  const duration_seconds = normalizeSceneDurationSeconds(
+    input.durationSeconds ?? DEFAULT_SCENE_DURATION_SECONDS,
+  );
+  if (duration_seconds === null) {
+    throw new WorkflowError("invalid_input", "invalid scene duration");
+  }
+
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const ctx = await loadSceneEditorMutationContext(
+    supabase,
+    input.projectId,
+    input.videoJobId,
+  );
+  if (ctx.scenes.length >= MAX_SCENES_IN_VIDEO) {
+    throw new WorkflowError(
+      "invalid_input",
+      `video cannot exceed ${MAX_SCENES_IN_VIDEO} scenes`,
+    );
+  }
+
+  const newSceneId = newEditorSceneId();
+  const ext =
+    input.file.type === "image/png"
+      ? "png"
+      : input.file.type === "image/jpeg" || input.file.type === "image/jpg"
+        ? "jpg"
+        : "bin";
+  const storagePath = buildVideoRenderPath(
+    input.projectId,
+    ctx.job.id,
+    `scene-editor-${newSceneId}-${Date.now()}.${ext}`,
+  );
+
+  const { error: uploadError } = await supabase.storage
+    .from(STORAGE_BUCKETS.videoRenders)
+    .upload(storagePath, input.file, {
+      contentType: input.file.type || undefined,
+      upsert: false,
+    });
+  if (uploadError) throw uploadError;
+
+  const newScene: SceneEditorDraftScene = {
+    id: newSceneId,
+    image_prompt,
+    image_bucket: STORAGE_BUCKETS.videoRenders,
+    image_path: storagePath,
+    duration_seconds,
+  };
+
+  const updated = [...ctx.scenes];
+  const insertIndex =
+    input.afterSceneId != null && input.afterSceneId.length > 0
+      ? (() => {
+          const idx = updated.findIndex((s) => s.id === input.afterSceneId);
+          return idx >= 0 ? idx + 1 : updated.length;
+        })()
+      : updated.length;
+  updated.splice(insertIndex, 0, newScene);
+
+  const historyBase =
+    ctx.existingDraft?.image_versions ??
+    seedSceneImageHistory(ctx.baselineScenes);
+  const imageVersions = appendSceneImageVersion(
+    historyBase,
+    newScene.id,
+    sceneVersionFromDraftScene(newScene, "upload"),
+  );
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId: ctx.contentItemId,
+    sourceVideoJobId: ctx.job.id,
+    scenes: updated,
+    generationMetadata: ctx.generationMetadata,
+    baselineScenes: ctx.baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(ctx.job.input),
+    imageVersions,
+    brandAssetInsertInstructions:
+      ctx.existingDraft?.brand_asset_insert_instructions,
+  });
+
+  return finishSceneEditorMutation(
+    ctx,
+    input.projectId,
+    input.videoJobId,
     deps,
   );
 }

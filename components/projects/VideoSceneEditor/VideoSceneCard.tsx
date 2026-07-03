@@ -3,12 +3,19 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { VideoSceneEditorSceneView } from "@/lib/ai/workflows/videoSceneEditor";
 import { DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION } from "@/lib/video-scene-editor/constants";
+import {
+  MAX_SCENE_DURATION_SECONDS,
+  MIN_SCENE_DURATION_SECONDS,
+} from "@/lib/video-scene-editor/constants";
 import styles from "./VideoSceneEditor.module.css";
 
 interface VideoSceneCardProps {
   projectId: string;
   videoJobId: string;
   scene: VideoSceneEditorSceneView;
+  sceneCount: number;
+  isFirst: boolean;
+  isLast: boolean;
   disabled: boolean;
   onUpload: (sceneId: string, file: File) => void;
   onSceneVisualMode: (sceneId: string, mode: "ai" | "project_asset") => void;
@@ -23,6 +30,11 @@ interface VideoSceneCardProps {
   onChooseLibraryBrand: (sceneId: string, instruction: string) => void;
   onPromptSave: (sceneId: string, imagePrompt: string) => void;
   onRestore: (sceneId: string, versionId: string) => void;
+  onDurationSave: (sceneId: string, durationSeconds: number) => void;
+  onMoveUp: (sceneId: string) => void;
+  onMoveDown: (sceneId: string) => void;
+  onDuplicate: (sceneId: string) => void;
+  onRemove: (sceneId: string) => void;
 }
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -39,6 +51,9 @@ export function VideoSceneCard({
   projectId,
   videoJobId,
   scene,
+  sceneCount,
+  isFirst,
+  isLast,
   disabled,
   onUpload,
   onSceneVisualMode,
@@ -49,6 +64,11 @@ export function VideoSceneCard({
   onChooseLibraryBrand,
   onPromptSave,
   onRestore,
+  onDurationSave,
+  onMoveUp,
+  onMoveDown,
+  onDuplicate,
+  onRemove,
 }: VideoSceneCardProps) {
   const inputId = useId();
   const brandAssetInputId = useId();
@@ -63,7 +83,12 @@ export function VideoSceneCard({
   );
   const [brandAssetFile, setBrandAssetFile] = useState<File | null>(null);
   const [promptDraft, setPromptDraft] = useState(scene.image_prompt);
+  const [durationDraft, setDurationDraft] = useState(String(scene.duration_seconds));
   const [historyOpen, setHistoryOpen] = useState(false);
+
+  useEffect(() => {
+    setDurationDraft(String(scene.duration_seconds));
+  }, [scene.duration_seconds, scene.id]);
 
   useEffect(() => {
     setBrandAssetInstruction(
@@ -78,13 +103,83 @@ export function VideoSceneCard({
   };
 
   const promptDirty = promptDraft.trim() !== scene.image_prompt.trim();
+  const parsedDuration = Number(durationDraft);
+  const durationDirty =
+    Number.isFinite(parsedDuration) &&
+    Math.round(parsedDuration * 10) / 10 !== scene.duration_seconds;
 
   return (
     <article className={styles.sceneCard}>
       <header className={styles.sceneHeader}>
         <span className={styles.sceneNumber}>Scéna {scene.sceneNumber}</span>
-        <span className={styles.sceneDuration}>{scene.duration_seconds}s</span>
       </header>
+
+      <div className={styles.timelineRow}>
+        <label className={styles.durationLabel}>
+          Délka (s)
+          <input
+            type="number"
+            className={styles.durationInput}
+            min={MIN_SCENE_DURATION_SECONDS}
+            max={MAX_SCENE_DURATION_SECONDS}
+            step={0.5}
+            value={durationDraft}
+            disabled={disabled}
+            onChange={(e) => setDurationDraft(e.target.value)}
+          />
+        </label>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled || !durationDirty}
+          onClick={() => onDurationSave(scene.id, parsedDuration)}
+        >
+          Uložit délku
+        </button>
+      </div>
+
+      <div className={styles.timelineActions}>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled || isFirst}
+          onClick={() => onMoveUp(scene.id)}
+        >
+          ↑ Výš
+        </button>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled || isLast}
+          onClick={() => onMoveDown(scene.id)}
+        >
+          ↓ Níž
+        </button>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={disabled}
+          onClick={() => onDuplicate(scene.id)}
+        >
+          Duplikovat
+        </button>
+        <button
+          type="button"
+          className={styles.dangerBtn}
+          disabled={disabled || sceneCount <= 1}
+          onClick={() => {
+            if (
+              window.confirm(
+                "Odebrat tuto scénu z časové osy? Po uložení změn spusť re-render.",
+              )
+            ) {
+              onRemove(scene.id);
+            }
+          }}
+        >
+          Odebrat
+        </button>
+      </div>
 
       <div className={styles.previewWrap}>
         {scene.previewUrl ? (

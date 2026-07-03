@@ -144,6 +144,68 @@
   color: var(--color-text-muted);
 }
 
+.timelineRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.durationLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.durationInput {
+  width: 5rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.timelineActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.dangerBtn {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #fecdca;
+  background: #fff5f5;
+  color: #b42318;
+  cursor: pointer;
+}
+
+.dangerBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.addSceneBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.addSceneTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .previewWrap {
   aspect-ratio: 1;
   border-radius: var(--radius-sm);

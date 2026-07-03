@@ -11,6 +11,11 @@ import {
   regenerateVideoSceneImage,
   rerenderVideoFromSceneEditor,
   restoreVideoSceneImage,
+  updateVideoSceneDuration,
+  removeVideoScene,
+  moveVideoScene,
+  duplicateVideoScene,
+  addVideoSceneWithUpload,
   updateVideoSceneEditorVoiceover,
   updateVideoSceneImagePrompt,
   setSceneProjectAssetAction,
@@ -22,6 +27,7 @@ import { ProjectAssetPickerModal } from "@/components/assets/ProjectAssetPickerM
 import type { AssetView } from "@/lib/api/assets-admin";
 import type { VideoSceneEditorState } from "@/lib/ai/workflows/videoSceneEditor";
 import type { SceneVisualMode } from "@/lib/video-scene-editor/videoWorkflowMetadata";
+import { DEFAULT_SCENE_DURATION_SECONDS } from "@/lib/video-scene-editor/constants";
 import { VideoSceneCard } from "./VideoSceneCard";
 import styles from "./VideoSceneEditor.module.css";
 
@@ -48,6 +54,12 @@ export function VideoSceneEditor({
   const [libraryAssets, setLibraryAssets] = useState<AssetView[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerContext, setPickerContext] = useState<PickerContext | null>(null);
+  const [newScenePrompt, setNewScenePrompt] = useState("");
+  const [newSceneDuration, setNewSceneDuration] = useState(
+    String(DEFAULT_SCENE_DURATION_SECONDS),
+  );
+  const [newSceneFile, setNewSceneFile] = useState<File | null>(null);
+  const addSceneInputId = "add-video-scene-file";
 
   const load = useCallback(() => {
     startTransition(async () => {
@@ -285,6 +297,82 @@ export function VideoSceneEditor({
     });
   }
 
+  function handleDurationSave(sceneId: string, durationSeconds: number): void {
+    startTransition(async () => {
+      const result = await updateVideoSceneDuration(
+        projectId,
+        videoJobId,
+        sceneId,
+        durationSeconds,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleMoveScene(sceneId: string, direction: "up" | "down"): void {
+    startTransition(async () => {
+      const result = await moveVideoScene(
+        projectId,
+        videoJobId,
+        sceneId,
+        direction,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleDuplicateScene(sceneId: string): void {
+    startTransition(async () => {
+      const result = await duplicateVideoScene(
+        projectId,
+        videoJobId,
+        sceneId,
+      );
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleRemoveScene(sceneId: string): void {
+    startTransition(async () => {
+      const result = await removeVideoScene(projectId, videoJobId, sceneId);
+      applyResult(result);
+      router.refresh();
+    });
+  }
+
+  function handleAddScene(): void {
+    if (!newSceneFile) {
+      setError("Vyber obrázek pro novou scénu.");
+      return;
+    }
+    const formData = new FormData();
+    formData.set("file", newSceneFile);
+    formData.set("imagePrompt", newScenePrompt.trim());
+    formData.set("durationSeconds", newSceneDuration.trim());
+    startTransition(async () => {
+      const result = await addVideoSceneWithUpload(
+        projectId,
+        videoJobId,
+        formData,
+      );
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      setError(null);
+      setNewSceneFile(null);
+      setNewScenePrompt("");
+      setNewSceneDuration(String(DEFAULT_SCENE_DURATION_SECONDS));
+      setState(result.data);
+      setVoiceoverDraft(result.data.voiceoverText);
+      onRenderActivityChange?.(result.data.activeRenderInFlight);
+      router.refresh();
+    });
+  }
+
   if (error && !state) {
     return <p className={styles.error}>{error}</p>;
   }
@@ -308,7 +396,8 @@ export function VideoSceneEditor({
       <div className={styles.toolbar}>
         <p className={styles.hint}>
           Visual Source nastavte nad editorem. U každé scény zvolte AI nebo
-          Project Asset. Re-render použije uložená nastavení bez změny promptů.
+          Project Asset. Délku, pořadí a počet scén upravíte níže — re-render
+          použije uloženou časovou osu a nastavení vizuálů.
         </p>
         <button
           type="button"
@@ -355,12 +444,15 @@ export function VideoSceneEditor({
       </div>
 
       <div className={styles.sceneList}>
-        {state.scenes.map((scene) => (
+        {state.scenes.map((scene, index) => (
           <VideoSceneCard
-            key={`${scene.id}-${scene.image_path}-${scene.image_prompt}`}
+            key={`${scene.id}-${scene.image_path}-${scene.image_prompt}-${index}`}
             projectId={projectId}
             videoJobId={videoJobId}
             scene={scene}
+            sceneCount={state.scenes.length}
+            isFirst={index === 0}
+            isLast={index === state.scenes.length - 1}
             disabled={pending || state.activeRenderInFlight}
             onUpload={handleUpload}
             onSceneVisualMode={handleSceneVisualMode}
@@ -371,8 +463,79 @@ export function VideoSceneEditor({
             onChooseLibraryBrand={handleChooseLibraryBrand}
             onPromptSave={handlePromptSave}
             onRestore={handleRestore}
+            onDurationSave={handleDurationSave}
+            onMoveUp={(id) => handleMoveScene(id, "up")}
+            onMoveDown={(id) => handleMoveScene(id, "down")}
+            onDuplicate={handleDuplicateScene}
+            onRemove={handleRemoveScene}
           />
         ))}
+      </div>
+
+      <div className={styles.addSceneBlock}>
+        <h3 className={styles.addSceneTitle}>Přidat scénu na konec</h3>
+        <p className={styles.fieldHint}>
+          Nahraj obrázek (PNG/JPEG), popis a délku. Po přidání uprav voiceover
+          podle potřeby a spusť re-render.
+        </p>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          disabled={pending || state.activeRenderInFlight}
+          onClick={() => document.getElementById(addSceneInputId)?.click()}
+        >
+          Vybrat obrázek
+        </button>
+        {newSceneFile ? (
+          <p className={styles.fileName}>{newSceneFile.name}</p>
+        ) : null}
+        <input
+          id={addSceneInputId}
+          type="file"
+          accept="image/png,image/jpeg"
+          className={styles.hiddenInput}
+          disabled={pending || state.activeRenderInFlight}
+          onChange={(event) => {
+            setNewSceneFile(event.target.files?.[0] ?? null);
+            event.target.value = "";
+          }}
+        />
+        <label className={styles.instructionLabel}>
+          Popis obrázku
+          <textarea
+            className={styles.promptEdit}
+            rows={3}
+            value={newScenePrompt}
+            disabled={pending || state.activeRenderInFlight}
+            onChange={(e) => setNewScenePrompt(e.target.value)}
+          />
+        </label>
+        <label className={styles.durationLabel}>
+          Délka (s)
+          <input
+            type="number"
+            className={styles.durationInput}
+            min={1}
+            max={30}
+            step={0.5}
+            value={newSceneDuration}
+            disabled={pending || state.activeRenderInFlight}
+            onChange={(e) => setNewSceneDuration(e.target.value)}
+          />
+        </label>
+        <button
+          type="button"
+          className={styles.primaryBtn}
+          disabled={
+            pending ||
+            state.activeRenderInFlight ||
+            !newSceneFile ||
+            newScenePrompt.trim().length === 0
+          }
+          onClick={handleAddScene}
+        >
+          Přidat scénu
+        </button>
       </div>
 
       <ProjectAssetPickerModal
