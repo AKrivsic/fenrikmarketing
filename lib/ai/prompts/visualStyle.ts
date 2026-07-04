@@ -46,3 +46,14 @@ export function visualStyleGuardrailBlock(): string {
       "captions, copy or any product fact.",
   ].join("\n");
 }
+
+/** Framing for generated stills that are composed for vertical short video. */
+export function videoSceneCompositionBlock(): string {
+  return [
+    "VERTICAL SCENE COMPOSITION (every image_prompt — generated stills are portrait 9:16):",
+    "- Portrait composition; vertical, mobile-first framing.",
+    "- Subject centered in a 9:16 frame with natural headroom and footroom.",
+    "- Keep important visual elements away from the extreme top/bottom/side edges.",
+    "- Do not compose as a wide landscape or square crop — think full-screen phone vertical video.",
+  ].join("\n");
+}

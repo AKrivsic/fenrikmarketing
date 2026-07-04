@@ -15,6 +15,7 @@ import {
   VISUAL_STYLE_AVOID,
   VISUAL_STYLE_HEADER,
   VISUAL_STYLE_PREFER,
+  videoSceneCompositionBlock,
   visualStyleGuardrailBlock,
 } from "@/lib/ai/prompts/visualStyle";
 import { buildGenerateContentPackagePrompt } from "@/lib/ai/prompts/generateContentPackage";
@@ -95,6 +96,15 @@ check("declares it never changes CTA / copy", () => {
   assert.ok(/never changes the CTA/i.test(visualStyleGuardrailBlock()));
 });
 
+section("videoSceneCompositionBlock");
+
+check("includes portrait / vertical framing guidance", () => {
+  const block = videoSceneCompositionBlock();
+  assert.ok(/portrait composition/i.test(block));
+  assert.ok(/9:16/i.test(block));
+  assert.ok(/headroom/i.test(block));
+});
+
 // --- injection into image-prompt generation ---------------------------------
 
 section("generateContentPackage prompt injection");
@@ -110,6 +120,7 @@ check("video packages inject the visual guardrail", () => {
   });
   assert.ok(prompt.includes(VISUAL_STYLE_HEADER));
   assert.ok(prompt.includes("image_prompts"));
+  assert.ok(prompt.includes("VERTICAL SCENE COMPOSITION"));
 });
 
 check("text-only packages do NOT inject the visual guardrail", () => {

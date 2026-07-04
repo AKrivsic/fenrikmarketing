@@ -7,6 +7,7 @@ import {
   HTTP_MAX_ATTEMPTS,
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
+import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 import {
   downloadStorageObjectToFile,
@@ -93,7 +94,7 @@ export async function editSceneImage(
     sourceImageBytes: sourceBytes,
     mimeType: mimeFromPath(input.imagePath),
     instruction,
-    size: "1024x1024",
+    size: VIDEO_SCENE_IMAGE_SIZE,
   });
 
   const bytes = await resolveImageBytes(edited.imageBase64, edited.imageUrl);

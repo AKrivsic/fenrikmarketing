@@ -7,6 +7,7 @@ import {
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
+import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 import {
@@ -142,7 +143,7 @@ export async function generateSceneImages(
     const safePrompt = sanitizeImagePrompt(scene.image_prompt);
     const generated = await provider.generateImage({
       prompt: safePrompt,
-      size: "1024x1024",
+      size: VIDEO_SCENE_IMAGE_SIZE,
     });
     const bytes = await resolveImageBytes(
       generated.imageBase64,

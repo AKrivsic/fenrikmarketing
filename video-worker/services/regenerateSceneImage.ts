@@ -6,6 +6,7 @@ import {
   HTTP_MAX_ATTEMPTS,
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
+import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 import { uploadVideoArtifact } from "@/video-worker/services/storage";
 
@@ -68,7 +69,7 @@ export async function regenerateSceneImage(
   const provider = getImageProvider();
   const generated = await provider.generateImage({
     prompt: combinedPrompt,
-    size: "1024x1024",
+    size: VIDEO_SCENE_IMAGE_SIZE,
   });
   const bytes = await resolveImageBytes(
     generated.imageBase64,

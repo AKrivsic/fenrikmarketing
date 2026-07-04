@@ -20,7 +20,10 @@ import {
   VOICEOVER_TARGET_MAX_WORDS,
   VOICEOVER_TARGET_MIN_WORDS,
 } from "@/lib/ai/guardrails";
-import { visualStyleGuardrailBlock } from "@/lib/ai/prompts/visualStyle";
+import {
+  videoSceneCompositionBlock,
+  visualStyleGuardrailBlock,
+} from "@/lib/ai/prompts/visualStyle";
 import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
 import { angleLensForIndex } from "@/lib/projects/productionRun";
 import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
@@ -498,6 +501,8 @@ export function buildGenerateContentPackagePrompt(
         // default so generated stills stop skewing dark/moody, unless the
         // concept explicitly requires a darker look. Imagery only — never copy.
         visualStyleGuardrailBlock(),
+        "",
+        videoSceneCompositionBlock(),
         "",
         "DEVICE SCREENS IN GENERATED STILLS:",
         "- If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be blank white or empty.",

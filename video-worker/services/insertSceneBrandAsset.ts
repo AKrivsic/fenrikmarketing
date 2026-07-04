@@ -8,6 +8,7 @@ import {
   HTTP_TIMEOUT_MS,
 } from "@/lib/http/fetchWithRetry";
 import { normalizeBrandAssetInsertInstruction } from "@/lib/video-scene-editor/brandAssetInstruction";
+import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
 import {
   downloadStorageObjectToFile,
   uploadVideoArtifact,
@@ -109,7 +110,7 @@ export async function insertSceneBrandAsset(
     sourceImageBytes: sceneBytes,
     mimeType: mimeFromPath(input.sceneImagePath),
     instruction,
-    size: "1024x1024",
+    size: VIDEO_SCENE_IMAGE_SIZE,
     additionalImages: [
       {
         imageBytes: assetBytes,
