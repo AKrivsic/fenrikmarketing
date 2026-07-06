@@ -37,6 +37,7 @@ import {
 import {
   getFiverrPromoVideoJobStatus,
   runFiverrPromoPackageGeneration,
+  formatFiverrPromoError,
   type FiverrPromoGenerationResult,
 } from "@/lib/internal/fiverrPromoPackage";
 
@@ -314,15 +315,14 @@ export async function generateFiverrPromoPackage(
     const data = await runFiverrPromoPackageGeneration({
       projectId,
       projectName: project.name,
+      goalType: project.goal_type,
       videoCallbackUrl: callbackUrl,
       dispatchVideo: true,
     });
     revalidateFiverrPromoPaths(projectId);
     return { ok: true, data };
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Generování Fiverr promo selhalo.";
-    return { ok: false, error: message };
+    return { ok: false, error: formatFiverrPromoError(err) };
   }
 }
 

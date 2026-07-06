@@ -67,7 +67,7 @@ async function main(): Promise<void> {
 
   const { data: project, error: projectErr } = await supabase
     .from("projects")
-    .select("id, name")
+    .select("id, name, goal_type")
     .eq("id", args.projectId)
     .single();
   if (projectErr) throw projectErr;
@@ -80,6 +80,7 @@ async function main(): Promise<void> {
   const result = await runFiverrPromoPackageGeneration({
     projectId: args.projectId,
     projectName: (project.name as string) || "Fenrik Studio",
+    goalType: project.goal_type as import("@/lib/supabase/types").GoalType,
     dispatchVideo: args.dispatchVideo,
     videoCallbackUrl: args.dispatchVideo
       ? `${base}/api/n8n/video-callback`

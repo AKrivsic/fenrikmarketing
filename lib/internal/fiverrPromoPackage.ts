@@ -4,7 +4,7 @@ import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVari
 import { readVideoOutput } from "@/lib/api/content-shared";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { FunnelStage } from "@/lib/ai/types";
-import type { ContentFormat } from "@/lib/supabase/types";
+import type { ContentFormat, GoalType } from "@/lib/supabase/types";
 
 export const FIVERR_PROMO_PACKAGE_TITLE = "Fiverr Gig Promo Video";
 export const FIVERR_PROMO_SOURCE = "internal_fiverr_promo";
@@ -60,6 +60,7 @@ export async function seedFiverrPromoStrategyItem(
   supabase: SupabaseClient,
   projectId: string,
   projectName: string,
+  goalType: GoalType,
 ): Promise<string> {
   const now = new Date();
   const today = now.toISOString().slice(0, 10);
@@ -70,7 +71,7 @@ export async function seedFiverrPromoStrategyItem(
     .insert({
       project_id: projectId,
       name: `Fiverr promo ${today}`,
-      objective: "conversion",
+      objective: goalType,
       period_start: today,
       period_end: today,
       strategy_brief: {
@@ -170,9 +171,39 @@ async function loadVideoJobStatus(
   };
 }
 
+export function formatFiverrPromoError(err: unknown): string {
+  if (err instanceof Error && err.message.trim()) {
+    return err.message;
+  }
+  if (err && typeof err === "object" && "message" in err) {
+    const msg = (err as { message: unknown }).message;
+    if (typeof msg === "string" && msg.trim()) {
+      return msg;
+    }
+  }
+  return "Generování Fiverr promo selhalo.";
+}
+
+function formatGenerationFailure(
+  result: {
+    error?: string;
+    validationErrors?: { path: string; message: string }[];
+  },
+): string {
+  const detail = result.validationErrors?.[0]?.message;
+  if (detail) {
+    return `Generování Fiverr promo selhalo: ${detail}`;
+  }
+  if (result.error && result.error !== "generation_failed") {
+    return `Generování Fiverr promo selhalo: ${result.error}`;
+  }
+  return "Generování Fiverr promo se nepodařilo (AI validace nebo provider).";
+}
+
 export async function runFiverrPromoPackageGeneration(args: {
   projectId: string;
   projectName: string;
+  goalType: GoalType;
   videoCallbackUrl?: string;
   dispatchVideo?: boolean;
   supabase?: SupabaseClient;
@@ -183,6 +214,7 @@ export async function runFiverrPromoPackageGeneration(args: {
     supabase,
     args.projectId,
     args.projectName,
+    args.goalType,
   );
 
   const result = await runGenerateContentPackage(
@@ -195,12 +227,7 @@ export async function runFiverrPromoPackageGeneration(args: {
   );
 
   if (!result.ok) {
-    const detail = result.validationErrors?.[0]?.message;
-    throw new Error(
-      detail
-        ? `Generování Fiverr promo selhalo: ${detail}`
-        : "Generování Fiverr promo se nepodařilo.",
-    );
+    throw new Error(formatGenerationFailure(result));
   }
 
   const { packageId, strategyItemId: resolvedStrategyItemId, videoJobId } =
