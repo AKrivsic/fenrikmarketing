@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   AUTOMATION_WORKFLOWS,
@@ -33,6 +34,11 @@ import {
   readProductionPlannerMax,
   readProductionStrategyPlannerMode,
 } from "@/lib/production/strategyPlannerConfig";
+import {
+  getFiverrPromoVideoJobStatus,
+  runFiverrPromoPackageGeneration,
+  type FiverrPromoGenerationResult,
+} from "@/lib/internal/fiverrPromoPackage";
 
 // Server actions for the one-button Content Production tab.
 //
@@ -48,6 +54,10 @@ export type StartProductionResult =
 
 export type StopProductionResult =
   | { ok: true }
+  | { ok: false; error: string };
+
+export type GenerateFiverrPromoResult =
+  | { ok: true; data: FiverrPromoGenerationResult }
   | { ok: false; error: string };
 
 function basePath(projectId: string): string {
@@ -261,4 +271,64 @@ export async function stopProductionRun(
 
   revalidatePath(basePath(projectId));
   return { ok: true };
+}
+
+async function resolveVideoCallbackUrl(): Promise<string | undefined> {
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
+  return host ? `${proto}://${host}/api/n8n/video-callback` : undefined;
+}
+
+function revalidateFiverrPromoPaths(projectId: string): void {
+  revalidatePath(basePath(projectId));
+  revalidatePath(`/projects/${projectId}/content-packages`);
+  revalidatePath(`/projects/${projectId}/review`);
+  revalidatePath(`/projects/${projectId}/videos`);
+}
+
+/** Internal admin: one Fiverr gig promo content package (new strategy item each click). */
+export async function generateFiverrPromoPackage(
+  projectId: string,
+): Promise<GenerateFiverrPromoResult> {
+  if (!projectId) {
+    return { ok: false, error: "Chybí identifikátor projektu." };
+  }
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) {
+    return { ok: false, error: "Projekt nenalezen." };
+  }
+
+  const active = await getActiveProductionRun(projectId);
+  if (active) {
+    return {
+      ok: false,
+      error: "Production běh probíhá. Počkejte na dokončení nebo ho zastavte.",
+    };
+  }
+
+  try {
+    const callbackUrl = await resolveVideoCallbackUrl();
+    const data = await runFiverrPromoPackageGeneration({
+      projectId,
+      projectName: project.name,
+      videoCallbackUrl: callbackUrl,
+      dispatchVideo: true,
+    });
+    revalidateFiverrPromoPaths(projectId);
+    return { ok: true, data };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Generování Fiverr promo selhalo.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function pollFiverrPromoVideoJob(
+  projectId: string,
+  videoJobId: string,
+): Promise<{ status: string; mp4Url: string | null } | null> {
+  return getFiverrPromoVideoJobStatus(projectId, videoJobId);
 }

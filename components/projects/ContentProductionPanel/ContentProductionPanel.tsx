@@ -22,6 +22,7 @@ import {
 } from "@/lib/projects/productionRun";
 import type { ProductionRunView } from "@/lib/api/production-run-admin";
 import type { ProductionRunStatus } from "@/lib/supabase/types";
+import { FiverrPromoGeneratePanel } from "@/components/projects/FiverrPromoGeneratePanel/FiverrPromoGeneratePanel";
 import styles from "./ContentProductionPanel.module.css";
 
 interface ContentProductionPanelProps {
@@ -79,6 +80,7 @@ export function ContentProductionPanel({
 
   const [run, setRun] = useState<ProductionRunView | null>(initialRun);
   const [error, setError] = useState<string | null>(null);
+  const [promoBusy, setPromoBusy] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const runIdRef = useRef<string | null>(initialRun?.id ?? null);
@@ -212,7 +214,7 @@ export function ContentProductionPanel({
   }, [projectId, run?.id]);
 
   const canGenerate = plan.packageCount > 0 && plan.platformOutputs.length > 0;
-  const generateDisabled = isPending || active || !canGenerate;
+  const generateDisabled = isPending || active || !canGenerate || promoBusy;
 
   return (
     <div className={styles.panel}>
@@ -388,6 +390,13 @@ export function ContentProductionPanel({
       {run ? (
         <RunStatus run={run} active={active} onStop={handleStopRun} stopping={isPending} />
       ) : null}
+
+      <FiverrPromoGeneratePanel
+        projectId={projectId}
+        productionBusy={active}
+        productionStarting={isPending}
+        onBusyChange={setPromoBusy}
+      />
     </div>
   );
 }
