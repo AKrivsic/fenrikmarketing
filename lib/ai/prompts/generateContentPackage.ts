@@ -497,16 +497,22 @@ export function buildGenerateContentPackagePrompt(
         "models render these as garbled noise. All messaging is delivered through",
         "the voiceover and burned-in subtitles, NOT inside the generated image.",
         "",
-        // Visual Style Guardrail V1 (Part 3) — global bright/clean/daylight
-        // default so generated stills stop skewing dark/moody, unless the
-        // concept explicitly requires a darker look. Imagery only — never copy.
+        "SCENE MEANING (priority over look):",
+        "For each image prompt, first determine what a viewer should understand within one second.",
+        "The image should communicate the main idea of the current scene using the Project Brain, Strategy Item and voiceover beat.",
+        "Prioritize meaning over visual style.",
+        "Describe concrete subjects, actions, environments and objects that naturally communicate that message.",
+        "Do not default to generic modern offices, decorative abstract shapes or empty environments unless they are essential to the scene.",
+        "",
+        // Visual Style Guardrail V1 (Part 3) — anti dark/cinematic default;
+        // scene-appropriate lighting and composition. Imagery only — never copy.
         visualStyleGuardrailBlock(),
         "",
         videoSceneCompositionBlock(),
         "",
         "DEVICE SCREENS IN GENERATED STILLS:",
         "- If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be blank white or empty.",
-        "- Show a blurred generic interface, abstract dashboard shapes, or soft colorful UI blobs — unreadable, never a plain white display.",
+        "- The content displayed on a screen should visually reinforce the purpose of the current scene using recognizable interface layouts, imagery or structure without relying on readable text.",
         "- Do not generate empty laptop/phone/monitor screens.",
       ]
     : [];
