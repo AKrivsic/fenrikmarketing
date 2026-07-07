@@ -1,0 +1,26 @@
+# Dependencies installed in Dockerfile
+node_modules
+
+# Git & local env
+.git
+.env*
+!.env.example
+
+# Playwright test outputs (browser in base image; no local reports)
+playwright-report
+test-results
+blob-report
+playwright/.cache
+
+# Logs
+*.log
+npm-debug.log*
+
+# Screenshots / captures from local runs (not COPY'd into image today)
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Scripts are dev-only checks; image copies server.ts + lib/ only
+scripts

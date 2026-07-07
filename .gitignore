@@ -43,3 +43,29 @@ yarn-error.log*
 next-env.d.ts
 
 .cursor/
+
+# --- Video worker runtime (TTS, subtitles, scene stills, render intermediates) ---
+.video-worker-tmp/
+
+# --- Local script exports (production audits, prompt experiments, markdown dumps) ---
+scripts/output/
+
+# --- Test / coverage / Playwright ---
+coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# --- Caches & logs ---
+.turbo
+.cache
+*.log
+logs/
+
+# --- Generated media (scoped — do not use repo-wide *.png; public/ has brand assets) ---
+.video-worker-tmp/**/*
+scripts/output/**/*
+**/.video-worker-tmp/
+**/test-results/
+**/playwright-report/

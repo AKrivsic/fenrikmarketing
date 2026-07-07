@@ -1,0 +1,63 @@
+# Dependencies & VCS (never needed in image)
+node_modules
+**/node_modules
+.git
+.gitignore
+
+# Next.js build output & cache
+.next
+out
+build
+.turbo
+*.tsbuildinfo
+
+# Local env & IDE
+.env*
+!.env.example
+.cursor
+.vercel
+.DS_Store
+
+# Video worker / render temp (runtime only; worker uses VIDEO_WORKER_TEMP_DIR or empty dir in container)
+.video-worker-tmp
+**/.video-worker-tmp
+
+# Script exports, audits, experiments
+scripts/output
+
+# Tests & coverage
+coverage
+playwright-report
+test-results
+blob-report
+playwright/.cache
+
+# Logs & debug
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Generated / heavy media (not part of app build)
+*.mp4
+*.mp3
+*.wav
+*.srt
+*.webm
+*.mov
+
+# Generated raster images outside public/ (keep public/ for static assets in Next build)
+*.png
+*.jpg
+*.jpeg
+*.webp
+!public/**
+!**/public/**
+
+# Large one-off audit JSON (keep source TypeScript)
+scripts/output/**
+
+# Agent skills cache (not needed for Next/video-worker image)
+.agents
