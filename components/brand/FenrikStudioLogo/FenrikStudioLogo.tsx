@@ -1,6 +1,6 @@
 import styles from "./FenrikStudioLogo.module.css";
 
-export const FENRIK_LOGO_SRC = "/fenrik-logo.png";
+export const FENRIK_LOGO_SRC = "/fenrik-logo.webp";
 
 export type FenrikStudioLogoVariant = "nav" | "landing" | "header" | "login";
 

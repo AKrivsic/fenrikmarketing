@@ -22,8 +22,8 @@ export const metadata: Metadata = {
   description:
     "Send us your website and get a free sample content package with ready-to-post videos and social posts.",
   icons: {
-    icon: "/fenrik-logo.png",
-    apple: "/fenrik-logo.png",
+    icon: "/fenrik-logo.webp",
+    apple: "/fenrik-logo.webp",
   },
 };
 
