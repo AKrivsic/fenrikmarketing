@@ -26,8 +26,8 @@ export function FenrikStudioLogo({
     <img
       src={FENRIK_LOGO_SRC}
       alt="Fenrik Studio"
-      width={1536}
-      height={1024}
+      width={685}
+      height={249}
       className={[styles.logo, variantClass, className].filter(Boolean).join(" ")}
       decoding="async"
     />

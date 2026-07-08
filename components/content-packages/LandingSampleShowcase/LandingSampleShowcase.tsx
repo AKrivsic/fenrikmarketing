@@ -34,7 +34,7 @@ export function LandingSampleShowcase({ sample }: LandingSampleShowcaseProps) {
           <video
             className={styles.video}
             src={sample.videoUrl}
-            poster={sample.posterUrl ?? undefined}
+            poster="/sample-video-poster.webp"
             controls
             playsInline
             preload="metadata"

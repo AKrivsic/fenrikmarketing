@@ -2,12 +2,8 @@ import {
   resolveLandingSampleSelection,
   type LandingSampleSelection,
 } from "@/lib/api/landing-sample-resolve";
-import { STORAGE_BUCKETS, buildVideoRenderPath } from "@/lib/api/storage";
 import { buildPublishReadyText } from "@/lib/publishing/publishReadyText";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { ContentItem } from "@/lib/supabase/types";
-
-const PREVIEW_TTL_SECONDS = 3600;
 
 /** Same-origin stream so browsers can range-fetch the MP4 reliably. */
 export const LANDING_SAMPLE_VIDEO_PATH = "/api/public/landing-sample-video";
@@ -72,30 +68,8 @@ function pickPlatformItem(
   return candidates[0] ?? null;
 }
 
-async function signPosterUrl(
-  projectId: string,
-  videoJobId: string,
-): Promise<string | null> {
-  try {
-    const supabase = createSupabaseAdminClient();
-    const storagePath = buildVideoRenderPath(
-      projectId,
-      videoJobId,
-      "thumbnail.png",
-    );
-    const { data, error } = await supabase.storage
-      .from(STORAGE_BUCKETS.videoRenders)
-      .createSignedUrl(storagePath, PREVIEW_TTL_SECONDS);
-    if (!error && data?.signedUrl) return data.signedUrl;
-  } catch {
-    // Optional poster — video still works without it.
-  }
-  return null;
-}
-
 function previewFromSelection(
   selection: LandingSampleSelection,
-  posterUrl: string | null,
 ): LandingSamplePreview {
   const items = selection.items;
   const tiktok = pickPlatformItem(items, "tiktok");
@@ -112,7 +86,7 @@ function previewFromSelection(
 
   return {
     videoUrl: LANDING_SAMPLE_VIDEO_PATH,
-    posterUrl,
+    posterUrl: null,
     tikTokCaption: tiktok ? itemPublishText(tiktok) : itemPublishText(anchor),
     instagramCaption: instagram
       ? itemPublishText(instagram)
@@ -169,11 +143,7 @@ export async function getLandingSamplePreview(): Promise<LandingSamplePreview> {
     const selection = await resolveLandingSampleSelection();
     if (!selection) return fallback;
 
-    const posterUrl = await signPosterUrl(
-      selection.projectId,
-      selection.videoJobId,
-    );
-    return previewFromSelection(selection, posterUrl);
+    return previewFromSelection(selection);
   } catch {
     return fallback;
   }

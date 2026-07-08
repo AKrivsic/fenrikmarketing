@@ -16,15 +16,15 @@
 }
 
 .header {
-  max-height: 112px;
+  max-height: 48px;
   width: auto;
-  max-width: min(100%, 320px);
+  max-width: min(100%, 220px);
 }
 
 @media (max-width: 640px) {
   .header {
-    max-height: 88px;
-    max-width: min(100%, 260px);
+    max-height: 40px;
+    max-width: min(100%, 180px);
   }
 }
 
