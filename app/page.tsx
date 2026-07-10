@@ -5,7 +5,8 @@ import { SampleRequestForm } from "@/components/content-packages/SampleRequestFo
 import { getLandingSamplePreview } from "@/lib/api/landing-sample";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+// Must match LANDING_SAMPLE_REVALIDATE_SECONDS in lib/api/landing-sample-config.ts
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Content Packages",

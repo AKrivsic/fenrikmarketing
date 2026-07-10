@@ -1,8 +1,10 @@
+import { unstable_cache } from "next/cache";
 import { readVideoOutput } from "@/lib/api/content-shared";
 import {
   landingSampleExcludedPackageIds,
   landingSamplePinnedPackageId,
   landingSamplePinnedVideoJobId,
+  LANDING_SAMPLE_REVALIDATE_SECONDS,
 } from "@/lib/api/landing-sample-config";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { ContentItem } from "@/lib/supabase/types";
@@ -244,13 +246,21 @@ async function resolveAutomaticSelection(
   };
 }
 
-export async function resolveLandingSampleSelection(): Promise<LandingSampleSelection | null> {
+function landingSampleSelectionCacheKey(): string[] {
+  return [
+    "landing-sample-selection",
+    landingSamplePinnedVideoJobId() ?? "",
+    landingSamplePinnedPackageId() ?? "",
+    process.env.LANDING_SAMPLE_EXCLUDE_PACKAGE_IDS ?? "",
+  ];
+}
+
+async function resolveLandingSampleSelectionUncached(): Promise<LandingSampleSelection | null> {
   const supabase = createSupabaseAdminClient();
 
   const pinnedJobId = landingSamplePinnedVideoJobId();
   if (pinnedJobId) {
-    const pinned = await resolvePinnedVideoJob(supabase, pinnedJobId);
-    if (pinned) return pinned;
+    return resolvePinnedVideoJob(supabase, pinnedJobId);
   }
 
   const pinnedPackageId = landingSamplePinnedPackageId();
@@ -260,4 +270,19 @@ export async function resolveLandingSampleSelection(): Promise<LandingSampleSele
   }
 
   return resolveAutomaticSelection(supabase);
+}
+
+const getCachedLandingSampleSelection = unstable_cache(
+  async (): Promise<LandingSampleSelection | null> =>
+    resolveLandingSampleSelectionUncached(),
+  landingSampleSelectionCacheKey(),
+  { revalidate: LANDING_SAMPLE_REVALIDATE_SECONDS },
+);
+
+export async function resolveLandingSampleSelection(): Promise<LandingSampleSelection | null> {
+  try {
+    return await getCachedLandingSampleSelection();
+  } catch {
+    return resolveLandingSampleSelectionUncached();
+  }
 }

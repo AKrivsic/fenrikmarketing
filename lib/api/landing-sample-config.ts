@@ -1,5 +1,8 @@
 // Public landing sample — env overrides only (no secrets). See .env.example.
 
+/** ISR + Data Cache TTL for landing sample resolution (page and video API). */
+export const LANDING_SAMPLE_REVALIDATE_SECONDS = 3600;
+
 /** Scene-editor / voiceover-length tests — never use on the marketing landing. */
 export const DEFAULT_LANDING_EXCLUDED_PACKAGE_IDS = [
   "42b6c920-eec8-4436-aa6b-584adbdadb51",
