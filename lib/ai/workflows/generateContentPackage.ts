@@ -65,6 +65,12 @@ import {
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 
+// Generate Content Package — Claude can exceed the default 60s transport budget;
+// align with weekly/production strategy. Single transport attempt per validation
+// try so n8n/Vercel 300s is not spent on stacked HTTP retries.
+const GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS = 180_000;
+const GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS = 1;
+
 export interface GenerateContentPackageInput {
   projectId: string;
   strategyItemId: string;
@@ -251,6 +257,8 @@ export async function runGenerateContentPackage(
       assetCoverage,
       preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
     }),
+    timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+    maxTransportAttempts: GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
   });
 
   if (!generated.ok) {
