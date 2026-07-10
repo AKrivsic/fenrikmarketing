@@ -10,8 +10,26 @@ import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
 import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 import {
   buildAssetLibraryPresentation,
+  readAssetDimensions,
+  readAssetLibrarySource,
   type AssetLibrarySource,
 } from "@/lib/assets/assetLibraryPresentation";
+import {
+  computeAspectRatio,
+  computeOrientation,
+  readSafeVerticalUsage,
+  readVideoSuitability,
+  type AssetOrientation,
+  type VideoSuitability,
+} from "@/lib/assets/smartUsageMetadata";
+import {
+  readPreferredVideoUsageFromMetadata,
+  resolvePreferredVideoUsageFromMetadata,
+} from "@/lib/assets/preferredVideoUsage";
+import {
+  readManualOverrides,
+  type ManualOverridesMap,
+} from "@/lib/assets/manualOverrides";
 
 // Read-only asset library for the internal admin UI. Uses the service-role
 // admin client (RLS bypassed); keep this module server-only. No upload / edit /
@@ -25,31 +43,32 @@ export interface AssetView {
   title: string;
   mediaType: MediaType;
   assetMode: AssetMode;
-  // The static/editable/reference classification (metadata.asset_class), derived
-  // via the same guardrails convention used by content generation.
   assetClass: AssetClass;
   tags: string[];
-  usageCount: number;
-  reuseScore: number;
-  lastUsedAt: string | null;
   createdAt: string;
   previewUrl: string | null;
-  // Phase 2B asset analysis (read from metadata; null when not yet analyzed).
   aiDescription: string | null;
   suggestedUsage: string | null;
   trustSignal: boolean;
   analysisStatus: AssetAnalysisStatus | null;
   productRole: ProductRole | null;
+  productRoleLocked: boolean;
   source: AssetLibrarySource;
   sourceLabel: string;
   captureViewport: string | null;
+  captureViewportAutomatic: boolean;
   dimensionsLabel: string | null;
+  orientation: AssetOrientation | null;
+  aspectRatio: string | number | null;
+  assetQuality: string | null;
+  videoSuitability: VideoSuitability | null;
+  safeVerticalUsage: boolean | null;
   preferredVideoUsage: string;
+  preferredVideoUsageAutomatic: boolean;
+  storedPreferredVideoUsage: string | null;
+  manualOverrides: ManualOverridesMap;
 }
 
-// Builds signed preview URLs for image assets only, batched per bucket so the
-// number of storage calls is bounded by the number of buckets (no N+1).
-// Previews are best-effort: any failure leaves previewUrl = null.
 async function buildImagePreviewUrls(
   supabase: SupabaseClient,
   assets: Asset[],
@@ -63,7 +82,6 @@ async function buildImagePreviewUrls(
     pathsByBucket.set(asset.storage_bucket, paths);
   }
 
-  // Keyed by `${bucket}\n${path}` -> signed URL.
   const urlByBucketPath = new Map<string, string>();
 
   for (const [bucket, paths] of pathsByBucket) {
@@ -77,7 +95,6 @@ async function buildImagePreviewUrls(
     }
   }
 
-  // Re-map to asset id for easy lookup.
   const urlByAssetId = new Map<string, string>();
   for (const asset of assets) {
     if (asset.media_type !== "image") continue;
@@ -105,6 +122,32 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     title: asset.title,
     assetClass,
   });
+  const record = toMetadataRecord(asset.metadata);
+  const dims = readAssetDimensions(asset.metadata);
+  const orientationRaw = record?.orientation;
+  const orientation: AssetOrientation | null =
+    orientationRaw === "portrait" ||
+    orientationRaw === "landscape" ||
+    orientationRaw === "square"
+      ? orientationRaw
+      : dims.width && dims.height
+        ? computeOrientation(dims.width, dims.height)
+        : null;
+  const aspectRatio =
+    dims.width && dims.height
+      ? computeAspectRatio(dims.width, dims.height)
+      : typeof record?.aspect_ratio === "string" ||
+          typeof record?.aspect_ratio === "number"
+        ? record.aspect_ratio
+        : null;
+  const storedPreferred = readPreferredVideoUsageFromMetadata(asset.metadata);
+  const resolvedPreferred = resolvePreferredVideoUsageFromMetadata(asset.metadata, {
+    title: asset.title,
+  });
+  const overrides = readManualOverrides(asset.metadata);
+  const captureAutomatic = overrides.capture_viewport !== true;
+  const preferredAutomatic = overrides.preferred_video_usage !== true;
+
   return {
     id: asset.id,
     projectId: asset.project_id,
@@ -113,9 +156,6 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     assetMode: asset.asset_mode,
     assetClass,
     tags: asset.tags ?? [],
-    usageCount: asset.usage_count,
-    reuseScore: asset.reuse_score,
-    lastUsedAt: asset.last_used_at,
     createdAt: asset.created_at,
     previewUrl,
     aiDescription: analysis?.aiDescription ?? null,
@@ -123,11 +163,22 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     trustSignal: analysis?.trustSignal ?? false,
     analysisStatus: analysis?.analysisStatus ?? null,
     productRole: readProductRole(asset.metadata),
+    productRoleLocked: record?.product_role_locked === true,
     source: presentation.source,
     sourceLabel: presentation.sourceLabel,
     captureViewport: presentation.captureViewport,
+    captureViewportAutomatic: captureAutomatic,
     dimensionsLabel: presentation.dimensionsLabel,
-    preferredVideoUsage: presentation.preferredVideoUsage,
+    orientation,
+    aspectRatio,
+    assetQuality:
+      typeof record?.asset_quality === "string" ? record.asset_quality : null,
+    videoSuitability: readVideoSuitability(asset.metadata),
+    safeVerticalUsage: readSafeVerticalUsage(asset.metadata),
+    preferredVideoUsage: resolvedPreferred,
+    preferredVideoUsageAutomatic: preferredAutomatic,
+    storedPreferredVideoUsage: storedPreferred,
+    manualOverrides: overrides,
   };
 }
 
@@ -140,7 +191,6 @@ async function mapAssetsWithPreview(
   return assets.map((asset) => toAssetView(asset, previews.get(asset.id) ?? null));
 }
 
-// Global asset library across all projects.
 export async function listAssetsForAdmin(): Promise<AssetView[]> {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
@@ -155,7 +205,6 @@ export async function listAssetsForAdmin(): Promise<AssetView[]> {
   return mapAssetsWithPreview(supabase, active);
 }
 
-// Assets scoped to a single project.
 export async function listProjectAssets(
   projectId: string,
 ): Promise<AssetView[]> {
@@ -172,3 +221,5 @@ export async function listProjectAssets(
   );
   return mapAssetsWithPreview(supabase, active);
 }
+
+export { readAssetLibrarySource };

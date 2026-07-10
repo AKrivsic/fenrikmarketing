@@ -1,24 +1,171 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--color-border);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+}
+
+.section + .section {
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.sectionIntro {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.modeRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+.modeRow:disabled .modeOption {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.modeToggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  font-size: 0.85rem;
+}
+
+.modeOption {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.modeOption:has(input:disabled) {
+  cursor: not-allowed;
+}
+
+.hintLabel {
+  font-weight: 600;
+}
+
+.hintValue {
+  color: var(--color-text);
+}
+
+.hintMuted {
+  color: var(--color-text-muted);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.readOnlyList {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.readOnlyRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 0.35rem 0.5rem;
+  font-size: 0.82rem;
+  align-items: baseline;
+}
+
+.readOnlyValue {
+  margin: 0;
+  word-break: break-word;
+}
+
+.readOnlyLabel {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.input:disabled,
+.textarea:disabled,
+select.input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  min-width: 0;
 }
 
-.label {
+.label,
+.modeRow legend {
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-text-muted);
+  padding: 0;
+}
+
+.modeRow legend {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
 }
 
 .input {
@@ -30,6 +177,7 @@
   color: var(--color-text);
   font-family: inherit;
   font-size: 0.9rem;
+  min-width: 0;
 }
 
 .fieldError {
@@ -45,7 +193,11 @@
 
 .buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .cancel,

@@ -12,6 +12,10 @@ import {
   isAssetArchivedFromLibrary,
   withAssetArchivedMetadata,
 } from "@/lib/assets/libraryArchive";
+import {
+  mergeAssetMetadataForSave,
+  type ApplyAssetMetadataUpdateInput,
+} from "@/lib/assets/applyAssetMetadataUpdate";
 
 export async function listAssets(projectId: string): Promise<Asset[]> {
   const supabase = await createSupabaseServerClient();
@@ -41,10 +45,11 @@ export async function uploadAsset(
   projectId: string,
   file: File,
   metadata: UploadAssetMetadata,
+  supabase?: SupabaseClient,
 ): Promise<Asset> {
-  const supabase = await createSupabaseServerClient();
+  const client = supabase ?? (await createSupabaseServerClient());
 
-  const { data: created, error: insertError } = await supabase
+  const { data: created, error: insertError } = await client
     .from("assets")
     .insert({
       project_id: projectId,
@@ -63,7 +68,7 @@ export async function uploadAsset(
 
   const path = buildAssetPath(projectId, asset.id, file.name);
 
-  const { error: uploadError } = await supabase.storage
+  const { error: uploadError } = await client.storage
     .from(STORAGE_BUCKETS.projectAssets)
     .upload(path, file, {
       contentType: file.type || undefined,
@@ -72,11 +77,11 @@ export async function uploadAsset(
 
   if (uploadError) {
     // Roll back the orphaned row so a failed upload leaves no dangling asset.
-    await supabase.from("assets").delete().eq("id", asset.id);
+    await client.from("assets").delete().eq("id", asset.id);
     throw uploadError;
   }
 
-  const { data: updated, error: updateError } = await supabase
+  const { data: updated, error: updateError } = await client
     .from("assets")
     .update({
       storage_bucket: STORAGE_BUCKETS.projectAssets,
@@ -90,8 +95,8 @@ export async function uploadAsset(
     // The file is already in Storage but the row could not be finalized.
     // Remove both so a failed upload leaves neither an orphaned object nor
     // a dangling asset row.
-    await supabase.storage.from(STORAGE_BUCKETS.projectAssets).remove([path]);
-    await supabase.from("assets").delete().eq("id", asset.id);
+    await client.storage.from(STORAGE_BUCKETS.projectAssets).remove([path]);
+    await client.from("assets").delete().eq("id", asset.id);
     throw updateError;
   }
 
@@ -103,6 +108,7 @@ export interface UpdateProjectAssetInput {
   assetClass: AssetClass;
   productRole: ProductRole | null;
   tags?: string[];
+  metadata?: ApplyAssetMetadataUpdateInput;
 }
 
 // Updates editable asset fields. Vision/analysis keys in metadata are merged,
@@ -111,11 +117,12 @@ export async function updateProjectAsset(
   projectId: string,
   assetId: string,
   input: UpdateProjectAssetInput,
+  supabase?: SupabaseClient,
 ): Promise<Asset> {
-  const supabase = await createSupabaseServerClient();
-  await assertAssetInProject(supabase, assetId, projectId);
+  const client = supabase ?? (await createSupabaseServerClient());
+  await assertAssetInProject(client, assetId, projectId);
 
-  const { data: existing, error: loadError } = await supabase
+  const { data: existing, error: loadError } = await client
     .from("assets")
     .select("*")
     .eq("id", assetId)
@@ -145,6 +152,14 @@ export async function updateProjectAsset(
     delete nextMeta.product_role_locked;
   }
 
+  if (input.metadata) {
+    const merged = mergeAssetMetadataForSave(nextMeta as Json, input.metadata);
+    if (merged.error) {
+      throw new Error(merged.error.message);
+    }
+    Object.assign(nextMeta, merged.metadata);
+  }
+
   const update: Record<string, unknown> = {
     title: input.title.trim(),
     metadata: nextMeta as Json,
@@ -153,7 +168,7 @@ export async function updateProjectAsset(
     update.tags = input.tags;
   }
 
-  const { data: updated, error: updateError } = await supabase
+  const { data: updated, error: updateError } = await client
     .from("assets")
     .update(update)
     .eq("id", assetId)

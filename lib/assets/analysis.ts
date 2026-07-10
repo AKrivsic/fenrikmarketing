@@ -1,5 +1,9 @@
 import type { AssetClass } from "@/lib/ai/guardrails";
 import type { Json } from "@/lib/supabase/types";
+import {
+  MANUAL_OVERRIDE_FIELDS,
+  readManualOverrides,
+} from "@/lib/assets/manualOverrides";
 
 // Phase 2B — lightweight AI analysis stored INSIDE assets.metadata (no new
 // columns, no new tables). The user-chosen metadata.asset_class is never
@@ -29,7 +33,21 @@ export function mergeAssetAnalysis(
     existing && typeof existing === "object" && !Array.isArray(existing)
       ? { ...(existing as Record<string, unknown>) }
       : {};
-  return { ...base, ...analysis };
+  const overrides = readManualOverrides(base);
+  const merged: Record<string, unknown> = { ...base };
+  for (const [key, value] of Object.entries(analysis) as [
+    keyof AssetAnalysisMetadata,
+    AssetAnalysisMetadata[keyof AssetAnalysisMetadata],
+  ][]) {
+    if (
+      (MANUAL_OVERRIDE_FIELDS as readonly string[]).includes(key) &&
+      overrides[key as (typeof MANUAL_OVERRIDE_FIELDS)[number]] === true
+    ) {
+      continue;
+    }
+    merged[key] = value;
+  }
+  return merged;
 }
 
 // A minimal "not analyzed / failed" block used when analysis is skipped or

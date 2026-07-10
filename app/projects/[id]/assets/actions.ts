@@ -9,6 +9,11 @@ import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import type { AssetClass } from "@/lib/ai/guardrails";
 import { normalizeProductRole } from "@/lib/assets/productRole";
 import type { MediaType } from "@/lib/supabase/types";
+import type { ApplyAssetMetadataUpdateInput } from "@/lib/assets/applyAssetMetadataUpdate";
+import {
+  isCaptureViewportEditValue,
+  isVideoUsageRenderValue,
+} from "@/lib/assets/assetAdminOptions";
 
 export type ActionResult =
   | { ok: true }
@@ -18,6 +23,73 @@ const ASSET_CLASSES: AssetClass[] = ["static", "editable", "reference"];
 
 function isAssetClass(value: string): value is AssetClass {
   return (ASSET_CLASSES as string[]).includes(value);
+}
+
+function readFormMode(
+  formData: FormData,
+  key: string,
+): "automatic" | "manual" | null {
+  const raw = formData.get(key);
+  if (raw === "automatic" || raw === "manual") return raw;
+  return null;
+}
+
+function parseMetadataUpdates(formData: FormData): {
+  metadata: ApplyAssetMetadataUpdateInput;
+  fieldErrors: Record<string, string>;
+} {
+  const fieldErrors: Record<string, string> = {};
+  const metadata: ApplyAssetMetadataUpdateInput = {};
+
+  const aiMode = readFormMode(formData, "aiDescriptionMode");
+  if (aiMode === "manual") {
+    const raw = formData.get("aiDescription");
+    metadata.aiDescription = {
+      mode: "manual",
+      value: typeof raw === "string" ? raw : "",
+    };
+  } else if (aiMode === "automatic") {
+    metadata.aiDescription = { mode: "automatic" };
+  }
+
+  const usageMode = readFormMode(formData, "suggestedUsageMode");
+  if (usageMode === "manual") {
+    const raw = formData.get("suggestedUsage");
+    metadata.suggestedUsage = {
+      mode: "manual",
+      value: typeof raw === "string" ? raw : "",
+    };
+  } else if (usageMode === "automatic") {
+    metadata.suggestedUsage = { mode: "automatic" };
+  }
+
+  const viewportMode = readFormMode(formData, "captureViewportMode");
+  if (viewportMode === "manual") {
+    const raw = formData.get("captureViewport");
+    const value = typeof raw === "string" ? raw.trim() : "";
+    if (!isCaptureViewportEditValue(value)) {
+      fieldErrors.captureViewport = "Neplatný capture viewport.";
+    } else {
+      metadata.captureViewport = { mode: "manual", value };
+    }
+  } else if (viewportMode === "automatic") {
+    metadata.captureViewport = { mode: "automatic" };
+  }
+
+  const preferredMode = readFormMode(formData, "preferredVideoUsageMode");
+  if (preferredMode === "manual") {
+    const raw = formData.get("preferredVideoUsage");
+    const value = typeof raw === "string" ? raw.trim() : "";
+    if (!isVideoUsageRenderValue(value)) {
+      fieldErrors.preferredVideoUsage = "Neplatná hodnota preferred video usage.";
+    } else {
+      metadata.preferredVideoUsage = { mode: "manual", value };
+    }
+  } else if (preferredMode === "automatic") {
+    metadata.preferredVideoUsage = { mode: "automatic" };
+  }
+
+  return { metadata, fieldErrors };
 }
 
 // Maps a browser MIME type onto the media_type enum. Anything that is not
@@ -67,17 +139,23 @@ export async function uploadProjectAsset(
 
   let asset;
   try {
-    asset = await uploadAsset(projectId, uploadFile, {
-      title: finalTitle,
-      mediaType: inferMediaType(uploadFile.type),
-      assetMode: "source",
-      metadata: {
-        asset_class: assetClass,
-        ...(productRole
-          ? { product_role: productRole, product_role_locked: true }
-          : {}),
+    // Admin UI is cookie-gated; there is no Supabase user session for RLS.
+    asset = await uploadAsset(
+      projectId,
+      uploadFile,
+      {
+        title: finalTitle,
+        mediaType: inferMediaType(uploadFile.type),
+        assetMode: "source",
+        metadata: {
+          asset_class: assetClass,
+          ...(productRole
+            ? { product_role: productRole, product_role_locked: true }
+            : {}),
+        },
       },
-    });
+      createSupabaseAdminClient(),
+    );
   } catch {
     return { ok: false, error: "Nahrání se nezdařilo." };
   }
@@ -127,13 +205,41 @@ export async function updateProjectAssetFields(
     return { ok: false, error: "Zkontroluj zvýrazněná pole.", fieldErrors };
   }
 
+  const { metadata, fieldErrors: metaFieldErrors } = parseMetadataUpdates(formData);
+  if (Object.keys(metaFieldErrors).length > 0) {
+    return {
+      ok: false,
+      error: "Zkontroluj zvýrazněná pole.",
+      fieldErrors: metaFieldErrors,
+    };
+  }
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) return { ok: false, error: "Projekt nebyl nalezen." };
+
   try {
-    await updateProjectAsset(projectId, assetId, {
-      title,
-      assetClass: assetClass as AssetClass,
-      productRole,
-    });
-  } catch {
+    // Admin UI lists/edits assets via service role; cookie gate has no Supabase session.
+    await updateProjectAsset(
+      projectId,
+      assetId,
+      {
+        title,
+        assetClass: assetClass as AssetClass,
+        productRole,
+        metadata,
+      },
+      createSupabaseAdminClient(),
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "";
+    if (message.includes("preferred video usage")) {
+      return {
+        ok: false,
+        error: "Zkontroluj zvýrazněná pole.",
+        fieldErrors: { preferredVideoUsage: message },
+      };
+    }
+    console.error("[updateProjectAssetFields]", { projectId, assetId, err });
     return { ok: false, error: "Uložení se nezdařilo." };
   }
 

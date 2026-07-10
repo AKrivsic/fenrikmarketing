@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { AssetEditForm } from "@/components/assets/AssetEditForm/AssetEditForm";
 import { deleteProjectAssetAction } from "@/app/projects/[id]/assets/actions";
 import type { AssetView } from "@/lib/api/assets-admin";
+import {
+  formatCaptureViewportLabel,
+  formatPreferredVideoUsageLabel,
+} from "@/lib/assets/assetAdminDisplay";
 import { PRODUCT_ROLE_LABELS } from "@/lib/assets/productRole";
 import { formatCsDate } from "@/lib/datetime/formatCs";
 import editStyles from "@/components/assets/AssetEditForm/AssetEditForm.module.css";
@@ -116,27 +120,19 @@ export function AssetCard({ projectId, asset, onPreview }: AssetCardProps) {
 
         <dl className={styles.detailList}>
           <DetailItem label="Source" value={asset.sourceLabel} />
-          <DetailItem label="Viewport" value={asset.captureViewport ?? EMPTY} />
+          <DetailItem label="Viewport" value={formatCaptureViewportLabel(asset.captureViewport) ?? asset.captureViewport ?? EMPTY} />
           <DetailItem label="Dimensions" value={asset.dimensionsLabel ?? EMPTY} />
-          <DetailItem label="Preferred usage" value={asset.preferredVideoUsage} />
+          <DetailItem
+            label="Preferred usage"
+            value={
+              formatPreferredVideoUsageLabel(asset.preferredVideoUsage) ??
+              asset.preferredVideoUsage
+            }
+          />
           <DetailItem label="AI status" value={asset.analysisStatus ?? EMPTY} />
         </dl>
 
         <dl className={styles.stats}>
-          <div className={styles.stat}>
-            <dt className={styles.statLabel}>Usage</dt>
-            <dd className={styles.statValue}>{asset.usageCount}</dd>
-          </div>
-          <div className={styles.stat}>
-            <dt className={styles.statLabel}>Reuse score</dt>
-            <dd className={styles.statValue}>{asset.reuseScore.toFixed(2)}</dd>
-          </div>
-          <div className={styles.stat}>
-            <dt className={styles.statLabel}>Last used</dt>
-            <dd className={styles.statValue}>
-              {formatCsDate(asset.lastUsedAt, EMPTY)}
-            </dd>
-          </div>
           <div className={styles.stat}>
             <dt className={styles.statLabel}>Created</dt>
             <dd className={styles.statValue}>

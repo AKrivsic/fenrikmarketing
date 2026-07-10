@@ -37,7 +37,7 @@ import {
   resolvePreferredVideoUsageFromMetadata,
   resolveVideoUsageForRender,
 } from "@/lib/assets/preferredVideoUsage";
-import type { PreferredVideoUsage } from "@/lib/assets/preferredVideoUsage";
+import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -211,7 +211,7 @@ export function makePackageGuardrails(args: {
   requireVideo?: boolean;
   assetCoverage?: AssetCoverageDecision | null;
   /** Preferred video usage per asset id (for fullscreen guardrail). */
-  preferredVideoUsageById?: ReadonlyMap<string, PreferredVideoUsage>;
+  preferredVideoUsageById?: ReadonlyMap<string, VideoUsageRenderMode>;
 }): (pkg: ContentPackageOutput) => ValidationIssue[] {
   const {
     project,

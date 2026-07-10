@@ -46,7 +46,7 @@ import {
 } from "@/lib/ai/types";
 
 import type { ProductRole } from "@/lib/assets/productRole";
-import type { PreferredVideoUsage } from "@/lib/assets/preferredVideoUsage";
+import type { PreferredVideoUsage, VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 
 export interface AssetRef {
   id: string;
@@ -68,8 +68,8 @@ export interface AssetRef {
   aspect_ratio?: string | number | null;
   visual_importance?: string | null;
   capture_viewport?: string | null;
-  /** Runtime-only: how this asset should appear in vertical video (not stored in DB). */
-  preferred_video_usage?: PreferredVideoUsage | null;
+  /** Stamped or computed preferred usage for vertical video. */
+  preferred_video_usage?: VideoUsageRenderMode | PreferredVideoUsage | null;
 }
 
 // Content Quality Sprint (Platform Styles) — per-platform output style. Pure

@@ -137,6 +137,25 @@ check("delete action uses admin client (no Supabase user session on admin UI)", 
   assert.ok(fn.includes("[deleteProjectAssetAction]"));
 });
 
+check("update and upload asset actions use admin client (no Supabase user session)", () => {
+  const actionSrc = readFileSync(
+    join(root, "app/projects/[id]/assets/actions.ts"),
+    "utf8",
+  );
+  const updateFn = actionSrc.slice(
+    actionSrc.indexOf("export async function updateProjectAssetFields"),
+  );
+  assert.ok(updateFn.includes("updateProjectAsset("));
+  assert.ok(updateFn.includes("createSupabaseAdminClient()"));
+  assert.ok(updateFn.includes("[updateProjectAssetFields]"));
+
+  const uploadFn = actionSrc.slice(
+    actionSrc.indexOf("export async function uploadProjectAsset"),
+  );
+  assert.ok(uploadFn.includes("uploadAsset("));
+  assert.ok(uploadFn.includes("createSupabaseAdminClient()"));
+});
+
 check("AssetCard uses stable cs-CZ dates (hydration-safe)", () => {
   const src = readFileSync(
     join(root, "components/assets/AssetCard/AssetCard.tsx"),

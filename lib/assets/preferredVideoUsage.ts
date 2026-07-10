@@ -69,6 +69,13 @@ function readDimensions(
   };
 }
 
+export function isVideoUsageRenderMode(value: unknown): value is VideoUsageRenderMode {
+  return (
+    typeof value === "string" &&
+    (VIDEO_USAGE_RENDER_VALUES as readonly string[]).includes(value)
+  );
+}
+
 function isPreferredVideoUsage(value: unknown): value is PreferredVideoUsage {
   return (
     typeof value === "string" &&
@@ -79,10 +86,11 @@ function isPreferredVideoUsage(value: unknown): value is PreferredVideoUsage {
 /** Future: component-capture worker may stamp this on metadata. */
 export function readPreferredVideoUsageFromMetadata(
   metadata: unknown,
-): PreferredVideoUsage | null {
+): VideoUsageRenderMode | null {
   const record = readRecord(metadata);
   if (!record) return null;
   const raw = record.preferred_video_usage;
+  if (isVideoUsageRenderMode(raw)) return raw;
   return isPreferredVideoUsage(raw) ? raw : null;
 }
 
@@ -162,7 +170,7 @@ export function computePreferredVideoUsage(
 export function resolvePreferredVideoUsageFromMetadata(
   metadata: unknown,
   fallbacks: { title?: string | null } = {},
-): PreferredVideoUsage {
+): VideoUsageRenderMode {
   const stamped = readPreferredVideoUsageFromMetadata(metadata);
   if (stamped) return stamped;
 
@@ -192,7 +200,15 @@ export function resolvePreferredVideoUsageFromMetadata(
   });
 }
 
-export function resolvePreferredVideoUsageFromRef(ref: AssetRef): PreferredVideoUsage {
+export function resolvePreferredVideoUsageFromRef(
+  ref: AssetRef,
+): VideoUsageRenderMode {
+  if (
+    ref.preferred_video_usage &&
+    isVideoUsageRenderMode(ref.preferred_video_usage)
+  ) {
+    return ref.preferred_video_usage;
+  }
   if (ref.preferred_video_usage && isPreferredVideoUsage(ref.preferred_video_usage)) {
     return ref.preferred_video_usage;
   }
@@ -243,17 +259,29 @@ export function usedAsRequestsFullscreenScene(usedAs: string): boolean {
 }
 
 export function assetUsageFullscreenViolation(
-  preferred: PreferredVideoUsage,
+  preferred: VideoUsageRenderMode,
   usedAs: string,
 ): boolean {
   if (preferred === "fullscreen") return false;
   return usedAsRequestsFullscreenScene(usedAs);
 }
 
-export function preferredUsagePromptHint(preferred: PreferredVideoUsage): string {
+export function preferredUsagePromptHint(preferred: VideoUsageRenderMode): string {
   if (preferred === "fullscreen") return "Preferred usage: fullscreen";
   if (preferred === "framed_screen") {
     return "Preferred usage: framed_screen (laptop/monitor/tablet insert — NOT fullscreen)";
+  }
+  if (preferred === "framed_phone") {
+    return "Preferred usage: framed_phone (phone mockup — NOT fullscreen crop)";
+  }
+  if (preferred === "framed_laptop") {
+    return "Preferred usage: framed_laptop (laptop mockup — NOT fullscreen)";
+  }
+  if (preferred === "framed_monitor") {
+    return "Preferred usage: framed_monitor (monitor mockup — NOT fullscreen)";
+  }
+  if (preferred === "comparison") {
+    return "Preferred usage: comparison (side-by-side or compare framing)";
   }
   if (preferred === "background") {
     return "Preferred usage: background (subtle backdrop — NOT fullscreen product crop)";
@@ -268,9 +296,17 @@ export function preferredUsagePromptHint(preferred: PreferredVideoUsage): string
 }
 
 function mapPreferredToRenderMode(
-  preferred: PreferredVideoUsage,
+  preferred: VideoUsageRenderMode,
   usedAs: string,
 ): VideoUsageRenderMode {
+  if (
+    preferred === "framed_phone" ||
+    preferred === "framed_laptop" ||
+    preferred === "framed_monitor" ||
+    preferred === "comparison"
+  ) {
+    return preferred;
+  }
   const u = usedAs.toLowerCase();
   if (preferred === "fullscreen" && !usedAsIndicatesFramedPresentation(usedAs)) {
     return "fullscreen";
@@ -291,7 +327,7 @@ function mapPreferredToRenderMode(
 }
 
 export function resolveVideoUsageForRender(
-  preferred: PreferredVideoUsage,
+  preferred: VideoUsageRenderMode,
   usedAs: string | null | undefined,
 ): VideoUsageRenderMode {
   const used = usedAs?.trim() ?? "";
