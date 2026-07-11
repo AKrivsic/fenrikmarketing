@@ -214,6 +214,8 @@ export interface GenerateValidatedVoiceoverResult {
 export async function generateValidatedVoiceover(args: {
   text: string;
   language?: unknown;
+  voice?: string;
+  instructions?: string;
 }): Promise<GenerateValidatedVoiceoverResult> {
   const expectedTail = extractExpectedTailTokens(args.text);
   const attemptLogs: TtsTailValidationAttemptLog[] = [];
@@ -224,7 +226,11 @@ export async function generateValidatedVoiceover(args: {
     attempt <= TTS_TAIL_VALIDATION_MAX_ATTEMPTS;
     attempt++
   ) {
-    const voiceover = await generateVoiceover({ text: args.text });
+    const voiceover = await generateVoiceover({
+      text: args.text,
+      ...(args.voice ? { voice: args.voice } : {}),
+      ...(args.instructions ? { instructions: args.instructions } : {}),
+    });
     const transcription = await transcribeWordTimestamps({
       audioPath: voiceover.audioPath,
       language: args.language,

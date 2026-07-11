@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { sceneSchema } from "./sceneSchema";
+import { SCENE_TYPES } from "@/lib/scene-types/sceneType";
 
 // The render specification: everything the Video Worker needs to assemble one
 // video. This is the eventual shape of a job's `input`. MVP scope: ordered
@@ -27,6 +28,10 @@ export const persistedSceneSchema = z.object({
   image_path: z.string().min(1),
   duration_seconds: z.number().positive(),
   video_usage: z.string().min(1).optional(),
+  asset_id: z.string().min(1).optional(),
+  type: z.enum(SCENE_TYPES).optional(),
+  payload_snapshot: z.record(z.string(), z.unknown()).optional(),
+  renderer_version: z.string().min(1).optional(),
 });
 
 export const renderSpecOutputSchema = z.object({

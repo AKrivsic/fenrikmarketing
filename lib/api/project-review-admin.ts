@@ -109,6 +109,8 @@ export interface PackageVideo {
   debug: RenderDebug | null;
   failureHeadline: string | null;
   failureDetail: string | null;
+  hasChecklistScene: boolean;
+  presentationAnalyzerWarningCount: number;
 }
 
 // One language block inside the Translations section. Holds the localized video

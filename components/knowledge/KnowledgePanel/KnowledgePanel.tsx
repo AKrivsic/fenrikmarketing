@@ -15,10 +15,13 @@ import {
   type ProjectKnowledge,
 } from "@/lib/knowledge/types";
 import styles from "./KnowledgePanel.module.css";
+import { PresentationVoiceSettings } from "@/components/knowledge/PresentationVoiceSettings/PresentationVoiceSettings";
+import type { Json } from "@/lib/supabase/types";
 
 interface KnowledgePanelProps {
   projectId: string;
   knowledge: ProjectKnowledge;
+  knowledgeJson: Json;
   // Maps source asset id -> title, used to label asset-derived proof. Assets
   // that no longer exist simply render without a source label.
   assetTitlesById?: Record<string, string>;
@@ -67,6 +70,7 @@ const CARDS: CardConfig[] = [
 export function KnowledgePanel({
   projectId,
   knowledge,
+  knowledgeJson,
   assetTitlesById = {},
 }: KnowledgePanelProps) {
   const router = useRouter();
@@ -166,6 +170,11 @@ export function KnowledgePanel({
           </Link>
         </div>
       ) : null}
+
+      <PresentationVoiceSettings
+        projectId={projectId}
+        knowledgeJson={knowledgeJson}
+      />
 
       {knowledge.scenarios.length > 0 ? (
         <section className={styles.scenarios}>

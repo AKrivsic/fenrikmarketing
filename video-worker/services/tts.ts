@@ -6,6 +6,8 @@ import { getSpeechProvider } from "@/lib/ai";
 
 export interface GenerateVoiceoverInput {
   text: string;
+  voice?: string;
+  instructions?: string;
 }
 
 export interface GenerateVoiceoverResult {
@@ -154,7 +156,12 @@ export async function generateVoiceover(
   }
 
   const speech = getSpeechProvider();
-  const result = await speech.synthesize({ text, format: "mp3" });
+  const result = await speech.synthesize({
+    text,
+    format: "mp3",
+    ...(input.voice ? { voice: input.voice } : {}),
+    ...(input.instructions ? { instructions: input.instructions } : {}),
+  });
 
   const dir = workerTempDir();
   await mkdir(dir, { recursive: true });

@@ -354,6 +354,9 @@ export class OpenAISpeechProvider implements SpeechProvider {
           voice: req.voice ?? "alloy",
           input: req.text,
           format: req.format ?? "mp3",
+          ...(req.instructions && req.instructions.trim().length > 0
+            ? { instructions: req.instructions.trim() }
+            : {}),
         }),
       },
       {

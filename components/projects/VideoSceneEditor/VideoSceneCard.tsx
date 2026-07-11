@@ -103,6 +103,10 @@ export function VideoSceneCard({
   };
 
   const promptDirty = promptDraft.trim() !== scene.image_prompt.trim();
+  const isChecklistScene = scene.sceneType === "CHECKLIST";
+  const isQuoteScene = scene.sceneType === "QUOTE";
+  const isStatisticScene = scene.sceneType === "STATISTIC";
+  const isCtaScene = scene.sceneType === "CTA";
   const parsedDuration = Number(durationDraft);
   const durationDirty =
     Number.isFinite(parsedDuration) &&
@@ -194,6 +198,84 @@ export function VideoSceneCard({
         )}
       </div>
 
+      {isQuoteScene ? (
+        <div className={styles.visualSourceBlock}>
+          <span className={styles.sectionTitle}>Quote (read-only)</span>
+          {scene.quoteText ? (
+            <p className={styles.fileName}>&ldquo;{scene.quoteText}&rdquo;</p>
+          ) : null}
+          {scene.quoteAttribution ? (
+            <p className={styles.fieldHint}>— {scene.quoteAttribution}</p>
+          ) : null}
+          <p className={styles.fieldHint}>
+            Typed quote graphic — image prompt editing is disabled for this scene.
+          </p>
+        </div>
+      ) : isStatisticScene ? (
+        <div className={styles.visualSourceBlock}>
+          <span className={styles.sectionTitle}>Statistic (read-only)</span>
+          {scene.statisticValue ? (
+            <p className={styles.fileName}>
+              {scene.statisticValue}
+              {scene.statisticUnit ? scene.statisticUnit : ""}
+            </p>
+          ) : null}
+          {scene.statisticLabel ? (
+            <p className={styles.fieldHint}>{scene.statisticLabel}</p>
+          ) : null}
+          {scene.statisticSourceLine ? (
+            <p className={styles.fieldHint}>{scene.statisticSourceLine}</p>
+          ) : null}
+          {scene.statisticProofId ? (
+            <p className={styles.fieldHint}>proof: {scene.statisticProofId}</p>
+          ) : null}
+          <p className={styles.fieldHint}>
+            Typed statistic graphic — image prompt editing is disabled for this scene.
+          </p>
+        </div>
+      ) : isCtaScene ? (
+        <div className={styles.visualSourceBlock}>
+          <span className={styles.sectionTitle}>CTA (read-only)</span>
+          {scene.ctaHeadline ? (
+            <p className={styles.fileName}>{scene.ctaHeadline}</p>
+          ) : null}
+          {scene.ctaSubline ? (
+            <p className={styles.fieldHint}>{scene.ctaSubline}</p>
+          ) : null}
+          {scene.ctaButtonLabel ? (
+            <p className={styles.fieldHint}>Button: {scene.ctaButtonLabel}</p>
+          ) : null}
+          {scene.ctaShowLogo !== null ? (
+            <p className={styles.fieldHint}>
+              Logo: {scene.ctaShowLogo ? "shown" : "hidden"}
+            </p>
+          ) : null}
+          <p className={styles.fieldHint}>
+            Typed CTA end card — image prompt editing is disabled for this scene.
+          </p>
+        </div>
+      ) : isChecklistScene ? (
+        <div className={styles.visualSourceBlock}>
+          <span className={styles.sectionTitle}>Checklist (read-only)</span>
+          {scene.checklistTitle ? (
+            <p className={styles.fileName}>{scene.checklistTitle}</p>
+          ) : null}
+          {scene.checklistItems && scene.checklistItems.length > 0 ? (
+            <ul>
+              {scene.checklistItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.fieldHint}>Checklist payload unavailable.</p>
+          )}
+          <p className={styles.fieldHint}>
+            Typed checklist graphic — image prompt editing is disabled for this
+            scene type.
+          </p>
+        </div>
+      ) : (
+        <>
       <fieldset className={styles.visualSourceBlock} disabled={disabled}>
         <legend className={styles.sectionTitle}>Visual</legend>
         <label className={styles.radioLabel}>
@@ -400,6 +482,8 @@ export function VideoSceneCard({
       >
         Vygenerovat nový obrázek
       </button>
+        </>
+      )}
 
       {scene.imageVersions.length > 1 ? (
         <div className={styles.history}>

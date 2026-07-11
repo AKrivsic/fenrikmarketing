@@ -18,6 +18,7 @@ import {
   type RenderDebug,
 } from "@/lib/api/content-shared";
 import { loadVariantEligibility } from "@/lib/api/variant-eligibility";
+import { readVideoJobPresentationHints } from "@/lib/scene-types/presentation/videoJobPresentationMeta";
 import {
   buildPublishReadyText,
   buildPublishTitle,
@@ -52,6 +53,7 @@ type VideoJobLite = {
   id: string;
   content_item_id: string | null;
   status: JobStatus;
+  input: Json | null;
   output: Json | null;
   error_message: string | null;
   created_at: string;
@@ -118,6 +120,10 @@ export interface ProjectContentEntry {
   // Populated when the linked video job failed (headline is Czech; detail is raw).
   videoFailureHeadline: string | null;
   videoFailureDetail: string | null;
+  /** True when the linked job's final worker scenes include CHECKLIST. */
+  videoHasChecklistScene: boolean;
+  /** Count of presentation_analyzer warnings on the linked job (if any). */
+  videoPresentationWarningCount: number;
 }
 
 export interface ListProjectContentOptions {
@@ -161,7 +167,9 @@ export async function listProjectContentByStatus(
 
   const { data: jobRows, error: jobsError } = await supabase
     .from("video_jobs")
-    .select("id, content_item_id, status, output, error_message, created_at")
+    .select(
+      "id, content_item_id, status, input, output, error_message, created_at",
+    )
     .eq("project_id", projectId)
     .in(
       "content_item_id",
@@ -202,6 +210,9 @@ export async function listProjectContentByStatus(
       : null;
     const failure =
       job?.status === "failed" ? describeVideoJobFailure(failureRaw) : null;
+    const presentationHints = job
+      ? readVideoJobPresentationHints(job.input)
+      : null;
     const isVariant = isVariantItem(item);
 
     const publishInput = {
@@ -248,6 +259,10 @@ export async function listProjectContentByStatus(
       videoDebug: job ? readDebug(job.output) : null,
       videoFailureHeadline: failure?.headline ?? null,
       videoFailureDetail: failure?.detail ?? null,
+      videoHasChecklistScene:
+        presentationHints?.hasChecklistInFinalScenes ?? false,
+      videoPresentationWarningCount:
+        presentationHints?.presentationAnalyzerWarningCount ?? 0,
     } satisfies ProjectContentEntry;
   });
 }
@@ -280,6 +295,8 @@ export interface ProjectVideoEntry {
   /** True when this completed job has a persisted render_spec.scenes[] to edit. */
   canEditScenes: boolean;
   isEditorRerender: boolean;
+  hasChecklistScene: boolean;
+  presentationAnalyzerWarningCount: number;
 }
 
 export type { ProjectVideoGroup };
@@ -366,6 +383,7 @@ export async function listProjectVideoJobs(
     const item = job.content_item_id
       ? itemById.get(job.content_item_id)
       : undefined;
+    const presentationHints = readVideoJobPresentationHints(job.input);
 
     return {
       id: job.id,
@@ -392,6 +410,9 @@ export async function listProjectVideoJobs(
         job.content_item_id !== null &&
         extractRenderSpecScenes(job.output) !== null,
       isEditorRerender: readEditorRerenderFlag(job.input),
+      hasChecklistScene: presentationHints.hasChecklistInFinalScenes,
+      presentationAnalyzerWarningCount:
+        presentationHints.presentationAnalyzerWarningCount,
     } satisfies ProjectVideoEntry;
   });
 }

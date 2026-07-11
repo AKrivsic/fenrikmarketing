@@ -44,6 +44,7 @@ export default async function KnowledgePage({ params }: KnowledgePageProps) {
       <KnowledgePanel
         projectId={id}
         knowledge={knowledge}
+        knowledgeJson={(project.knowledge ?? {}) as Json}
         assetTitlesById={assetTitlesById}
       />
     </div>

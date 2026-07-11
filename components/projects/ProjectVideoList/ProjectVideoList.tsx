@@ -155,6 +155,9 @@ function VideoGroupCard({
           {group.versions.length > 1 ? (
             <span className={styles.tag}>{group.versions.length} verzí</span>
           ) : null}
+          {group.displayHasChecklistScene ? (
+            <span className={styles.checklistTag}>CHECKLIST</span>
+          ) : null}
         </div>
         <span
           className={styles.status}

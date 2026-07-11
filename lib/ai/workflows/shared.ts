@@ -11,12 +11,12 @@ export type WorkflowErrorCode =
   | "unauthorized";
 
 export class WorkflowError extends Error {
-  constructor(
-    public readonly code: WorkflowErrorCode,
-    message: string,
-  ) {
+  readonly code: WorkflowErrorCode;
+
+  constructor(code: WorkflowErrorCode, message: string) {
     super(message);
     this.name = "WorkflowError";
+    this.code = code;
   }
 }
 

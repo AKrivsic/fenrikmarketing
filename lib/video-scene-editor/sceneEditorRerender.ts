@@ -3,6 +3,8 @@ import type { WorkflowErrorCode } from "@/lib/ai/workflows/shared";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
 import { resolvePackageAssetImages } from "@/lib/ai/workflows/packageShared";
+import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
+import { applySemanticMotionPreservationFromSourceJob } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
 import {
   readVideoAssetWorkflow,
   workflowToRenderAssetMode,
@@ -73,6 +75,21 @@ function scenesToDraftScenes(
       ...(typeof scene.video_usage === "string" && scene.video_usage.trim().length > 0
         ? { video_usage: scene.video_usage.trim() }
         : {}),
+      ...(typeof scene.asset_id === "string" && scene.asset_id.trim().length > 0
+        ? { asset_id: scene.asset_id.trim() }
+        : {}),
+      ...(typeof scene.type === "string" && scene.type.trim().length > 0
+        ? { type: scene.type.trim() }
+        : {}),
+      ...(scene.payload_snapshot &&
+      typeof scene.payload_snapshot === "object" &&
+      !Array.isArray(scene.payload_snapshot)
+        ? { payload_snapshot: scene.payload_snapshot as Record<string, unknown> }
+        : {}),
+      ...(typeof scene.renderer_version === "string" &&
+      scene.renderer_version.trim().length > 0
+        ? { renderer_version: scene.renderer_version.trim() }
+        : {}),
     };
   });
 }
@@ -87,6 +104,14 @@ function draftScenesToInputScenes(
     image_bucket: scene.image_bucket,
     image_path: scene.image_path,
     ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
+    ...(scene.asset_id ? { asset_id: scene.asset_id } : {}),
+    ...(scene.type ? { type: scene.type } : {}),
+    ...(scene.payload_snapshot
+      ? { payload_snapshot: scene.payload_snapshot }
+      : {}),
+    ...(scene.renderer_version
+      ? { renderer_version: scene.renderer_version }
+      : {}),
   }));
 }
 
@@ -286,6 +311,8 @@ export async function runSceneEditorRerender(
         : readSourceVoiceoverText(job.input),
     scene_editor_rerender: true,
     scene_editor_source_video_job_id: job.id,
+    explicit_scene_plan: true,
+    asset_images: [],
   } as Record<string, unknown>;
 
   const renderAssetMode =
@@ -338,6 +365,16 @@ export async function runSceneEditorRerender(
     }
     jobInput = { ...jobInput, asset_images: assetImages };
   }
+
+  jobInput = await attachTtsToVideoJobInput(
+    supabase,
+    input.projectId,
+    applySemanticMotionPreservationFromSourceJob({
+      jobInput,
+      sourceJobOutput: job.output,
+    }),
+    baseInput,
+  );
 
   const jobInputJson = jobInput as unknown as Json;
 

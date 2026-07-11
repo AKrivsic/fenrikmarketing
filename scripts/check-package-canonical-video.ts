@@ -67,6 +67,8 @@ function entry(
     videoDebug: null,
     videoFailureHeadline: partial.videoFailureHeadline ?? null,
     videoFailureDetail: partial.videoFailureDetail ?? null,
+    videoHasChecklistScene: partial.videoHasChecklistScene ?? false,
+    videoPresentationWarningCount: partial.videoPresentationWarningCount ?? 0,
   };
 }
 

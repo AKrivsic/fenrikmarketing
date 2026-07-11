@@ -38,6 +38,17 @@
   text-transform: capitalize;
 }
 
+.checklistTag {
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #4f46e5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .status {
   padding: 0.125rem 0.5rem;
   border: 1px solid var(--color-border);

@@ -16,10 +16,14 @@ import {
   generateValidatedVoiceover,
   TtsTailValidationError,
 } from "@/video-worker/services/ttsTailValidation";
+import { resolveTtsOptionsFromJobInput } from "@/lib/voice/resolveTtsOptions";
 import {
   generateSceneImages,
   type SceneImage,
 } from "@/video-worker/services/images";
+import { assertWorkerScenesRenderable } from "@/lib/scene-types/assertWorkerScenes";
+import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
+import { IMAGE_SCENE_RENDERER_VERSION } from "@/lib/scene-types/renderers/imageSceneRenderer";
 import { writeSrtFile } from "@/video-worker/services/subtitles";
 import {
   buildPhraseCues,
@@ -41,7 +45,11 @@ import {
   MAX_VIDEO_SCENE_STILLS,
   SHORT_PROFILE,
   TAIL_BUFFER_SECONDS,
+  type StoredSemanticMotionBeat,
 } from "@/lib/video-engine/storyboard";
+import { parseStoredSemanticMotionFromJobInput } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
+import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
+import { effectiveSceneType } from "@/lib/scene-types/sceneType";
 import {
   MAX_SCENE_POOL,
   mergeGeneratedAndAssetScenes,
@@ -215,8 +223,16 @@ async function buildRenderSpecOutput(args: {
   images: SceneImage[];
   projectId: string;
   videoJobId: string;
+  semanticMotionBeats?: {
+    beat_id: string;
+    scene_id: string;
+    motion_intent: string;
+    motion_primitive: string;
+    motion_intensity: string;
+    motion_version: string;
+  }[];
 }): Promise<RenderSpecOutput> {
-  const { spec, images, projectId, videoJobId } = args;
+  const { spec, images, projectId, videoJobId, semanticMotionBeats } = args;
   const imageBySceneId = new Map(images.map((img) => [img.sceneId, img]));
 
   const scenes: PersistedScene[] = [];
@@ -252,6 +268,10 @@ async function buildRenderSpecOutput(args: {
       image_path: path,
       duration_seconds: scene.duration_seconds,
       ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
+      ...(scene.asset_id ? { asset_id: scene.asset_id } : {}),
+      type: scene.type ?? DEFAULT_SCENE_TYPE,
+      ...(scene.payload_snapshot ? { payload_snapshot: scene.payload_snapshot } : {}),
+      renderer_version: scene.renderer_version ?? IMAGE_SCENE_RENDERER_VERSION,
     });
   }
 
@@ -259,7 +279,17 @@ async function buildRenderSpecOutput(args: {
     version: 1,
     scenes,
     ...(spec.duration_seconds ? { duration_seconds: spec.duration_seconds } : {}),
-    metadata: { rendered_at: new Date().toISOString() },
+    metadata: {
+      rendered_at: new Date().toISOString(),
+      ...(semanticMotionBeats && semanticMotionBeats.length > 0
+        ? {
+            semantic_motion: {
+              version: semanticMotionBeats[0]?.motion_version,
+              beats: semanticMotionBeats,
+            },
+          }
+        : {}),
+    },
   };
 }
 
@@ -285,11 +315,20 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
 
   try {
     const spec = buildRenderSpec(payload.input);
+    assertWorkerScenesRenderable(spec.scenes);
     const dir = workerTempDir();
+
+    const ttsOptions = resolveTtsOptionsFromJobInput(
+      payload.input as Record<string, unknown>,
+    );
 
     const validatedVoiceover = await generateValidatedVoiceover({
       text: spec.voiceover_text,
       language: payload.input["language"],
+      voice: ttsOptions.voice,
+      ...(ttsOptions.instructions
+        ? { instructions: ttsOptions.instructions }
+        : {}),
     });
     const voiceover = validatedVoiceover.voiceover;
     tempFiles.add(voiceover.audioPath);
@@ -299,6 +338,14 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       scenes: spec.scenes,
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
+      visualProfile:
+        typeof payload.input["visual_profile"] === "string"
+          ? payload.input["visual_profile"]
+          : undefined,
+      visualProfileVersion:
+        typeof payload.input["visual_profile_version"] === "string"
+          ? payload.input["visual_profile_version"]
+          : undefined,
     });
     for (const image of images) tempFiles.add(image.imagePath);
 
@@ -308,17 +355,35 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // the beat + subtitle timeline is audio-driven (audio = master clock), not a
     // words-per-second estimate. When the probe failed, durationSeconds is
     // undefined and the builder falls back to the legacy estimate.
+    const explicitScenePlan =
+      payload.input["explicit_scene_plan"] === true ||
+      (Array.isArray(payload.input["scenes"]) &&
+        renderSchema.safeParse({
+          scenes: payload.input["scenes"],
+          voiceover_text: spec.voiceover_text,
+        }).success);
+
+    const visualProfile = parseVisualProfile(
+      typeof payload.input["visual_profile"] === "string"
+        ? payload.input["visual_profile"]
+        : "",
+    );
+
     const storyboard = buildStoryboard({
       voiceoverText: spec.voiceover_text,
       sceneIds: spec.scenes.map((scene) => scene.id),
       hook: asString(payload.input["hook"]) ?? null,
       audioDurationSeconds: voiceover.durationSeconds,
-      // Attention First V1 — the creative mode's narrative beats drive the role
-      // arc (story/shock/contrarian/... instead of a fixed marketing arc).
       modeBeats: parseModeBeats(payload.input),
-      // Content Quality Sprint 2 — hold the final beat for the tail buffer; the
-      // renderer pads the audio by the same amount so the hold survives -shortest.
       tailBufferSeconds: TAIL_BUFFER_SECONDS,
+      explicitSceneOrder: explicitScenePlan,
+      scenes: spec.scenes.map((scene) => ({
+        id: scene.id,
+        type: effectiveSceneType(scene.type, "IMAGE"),
+      })),
+      visualProfile,
+      semanticMotion: payload.input["semantic_motion"] !== false,
+      storedSemanticMotion: parseStoredSemanticMotionFromJobInput(payload.input),
     });
 
     // Subtitle Quality Sprint — phrase captions. The narration is segmented into
@@ -405,6 +470,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       motion: beat.motion,
       transition: beat.transition,
       durationSeconds: beat.durationSeconds,
+      ...(beat.motion_intensity ? { motion_intensity: beat.motion_intensity } : {}),
     }));
 
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
@@ -508,6 +574,14 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       images,
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
+      semanticMotionBeats: storyboard.map((beat) => ({
+        beat_id: beat.id,
+        scene_id: beat.sceneId,
+        motion_intent: beat.motion_intent ?? "EXPLAIN",
+        motion_primitive: beat.motion,
+        motion_intensity: beat.motion_intensity ?? "LOW",
+        motion_version: beat.motion_version ?? "semantic-motion@1",
+      })),
     });
 
     const callback: WorkerCallback = {

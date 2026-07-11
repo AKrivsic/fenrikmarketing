@@ -9,6 +9,11 @@ import {
   type Validator,
 } from "@/lib/ai/validateAiOutput";
 import { REQUIRED_PACKAGE_PLATFORMS } from "@/lib/ai/types";
+import {
+  generatedVisualScenesArrayValidator,
+  type PackageVisualSceneEntry,
+} from "@/lib/content-package/generatedVisualScene";
+import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 
 const platformOutputSchema = vObject({
   caption: vNonEmptyString(),
@@ -66,6 +71,13 @@ const assetUsageSchema = vObject({
   modify: vOptional(vString()),
 });
 
+const visualScenesSchema = vOptional(
+  generatedVisualScenesArrayValidator({
+    min: 1,
+    max: MAX_VIDEO_SCENE_STILLS,
+  }) as Validator<PackageVisualSceneEntry[]>,
+);
+
 export const contentPackageSchema = vObject({
   title: vNonEmptyString(),
   funnel_stage: vFunnelStage(),
@@ -77,6 +89,7 @@ export const contentPackageSchema = vObject({
   platform_outputs: platformOutputsSchema,
   hashtags: vOptional(vArray(vString())),
   image_prompts: vOptional(vArray(vString())),
+  visual_scenes: visualScenesSchema,
   asset_usage: vOptional(vArray(assetUsageSchema)),
   // Phase 2E — the SCENARIO POOL line the package drew on (verbatim), or empty
   // when none was used. Captured so anti-repetition memory can avoid reusing the
@@ -115,11 +128,15 @@ export function buildContentPackageSchema(
     platform_outputs: buildPlatformOutputsSchema(effective),
     hashtags: vOptional(vArray(vString())),
     image_prompts: vOptional(vArray(vString())),
+    visual_scenes: visualScenesSchema,
     asset_usage: vOptional(vArray(assetUsageSchema)),
     scenario: vOptional(vString()),
   }) as unknown as Validator<ContentPackageOutput>;
 }
 
-export type ContentPackageOutput = Infer<typeof contentPackageSchema>;
+export type ContentPackageOutput = Infer<typeof contentPackageSchema> & {
+  /** Phase 5 — compact rollout / frequency log (optional, not LLM-generated). */
+  presentation_generation?: Record<string, unknown>;
+};
 export type PlatformOutput = Infer<typeof platformOutputSchema>;
 export type PackageAssetUsage = Infer<typeof assetUsageSchema>;

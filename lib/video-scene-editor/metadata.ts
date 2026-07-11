@@ -8,8 +8,11 @@ export interface SceneEditorDraftScene {
   image_bucket: string;
   image_path: string;
   duration_seconds: number;
-  /** When set, the worker composes product-asset layout (frames/cards) on re-render. */
   video_usage?: string;
+  asset_id?: string;
+  type?: string;
+  payload_snapshot?: Record<string, unknown>;
+  renderer_version?: string;
 }
 
 export interface SceneEditorDraft {
@@ -102,6 +105,21 @@ function parseDraftScene(value: unknown): SceneEditorDraftScene | null {
     duration_seconds,
     ...(typeof row.video_usage === "string" && row.video_usage.trim().length > 0
       ? { video_usage: row.video_usage.trim() }
+      : {}),
+    ...(typeof row.asset_id === "string" && row.asset_id.trim().length > 0
+      ? { asset_id: row.asset_id.trim() }
+      : {}),
+    ...(typeof row.type === "string" && row.type.trim().length > 0
+      ? { type: row.type.trim() }
+      : {}),
+    ...(row.payload_snapshot &&
+    typeof row.payload_snapshot === "object" &&
+    !Array.isArray(row.payload_snapshot)
+      ? { payload_snapshot: row.payload_snapshot as Record<string, unknown> }
+      : {}),
+    ...(typeof row.renderer_version === "string" &&
+    row.renderer_version.trim().length > 0
+      ? { renderer_version: row.renderer_version.trim() }
       : {}),
   };
 }

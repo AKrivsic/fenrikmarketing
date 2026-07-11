@@ -113,3 +113,15 @@
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
 }
+
+.metaBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.checklistBadge {
+  background-color: #4f46e5;
+  letter-spacing: 0.04em;
+}

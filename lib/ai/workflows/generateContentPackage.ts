@@ -55,7 +55,28 @@ import {
   normalizeImagePrompts,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
+import {
+  normalizeVisualScenePlan,
+  syncLegacyFieldsFromVisualScenes,
+} from "@/lib/content-package/visualScenePlan";
+import { derivePromptPresentationTypes } from "@/lib/scene-types/presentation/promptPresentationTypes";
+import { assetSignalsFromRef } from "@/lib/scene-types/presentation/projectSignals";
+import { applyPresentationFrequencyToPackage } from "@/lib/scene-types/presentation/presentationFrequencyGuardrail";
+import { countChecklistEntries } from "@/lib/scene-types/presentation/checklistFrequencyGuardrail";
+import { countPhoneEntries } from "@/lib/scene-types/presentation/phoneFrequencyGuardrail";
+import { countQuoteEntries } from "@/lib/scene-types/presentation/quoteFrequencyGuardrail";
+import { countStatisticEntries } from "@/lib/scene-types/presentation/statisticFrequencyGuardrail";
+import { countCtaEntries } from "@/lib/scene-types/presentation/ctaFrequencyGuardrail";
+import { resolveChecklistGenerationMode } from "@/lib/scene-types/checklistGenerationMode";
+import { resolveChecklistAllowlistStatus } from "@/lib/scene-types/checklistProductionRollout";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import { loadSceneTypeProjectHistory } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
+import { buildSceneTypeHistoryRestraintBlock } from "@/lib/scene-types/presentation/sceneTypeHistoryPrompt";
+import {
+  resolveVisualProfileForPackage,
+  visualProfileFieldsForPersistence,
+} from "@/lib/visual-profile/packageVisualProfile";
+import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -64,6 +85,7 @@ import {
 } from "@/lib/ai/generationMode";
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
+import { collectAssetUsageFromPackage } from "@/lib/content-package/visualScenePlan";
 
 // Generate Content Package — Claude can exceed the default 60s transport budget;
 // align with weekly/production strategy. Single transport attempt per validation
@@ -129,6 +151,17 @@ export async function runGenerateContentPackage(
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
+  const sceneTypeHistory = await loadSceneTypeProjectHistory(
+    supabase,
+    input.projectId,
+    { currentWeeklyStrategyId: context.weeklyStrategyId },
+  );
+  const sceneTypeHistoryBlock =
+    buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
+  const resolvedVisualProfile = resolveVisualProfileForPackage({ project });
+  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
+    resolvedVisualProfile.profile,
+  );
 
   // Production Run V3: when this item was seeded by a production run, the run's
   // selected platforms + multipliers drive generation (incl. youtube / x and
@@ -225,6 +258,12 @@ export async function runGenerateContentPackage(
     availableAssets: assets.refs,
   });
 
+  const promptPresentationTypes = derivePromptPresentationTypes({
+    projectId: input.projectId,
+    project,
+    assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
+  });
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -246,6 +285,9 @@ export async function runGenerateContentPackage(
       packageDiversity,
       generationMode,
       assetCoverage,
+      promptPresentationTypes,
+      sceneTypeHistoryBlock,
+      visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -283,6 +325,58 @@ export async function runGenerateContentPackage(
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persistence, so the stored package_brief and the queued video job
   // both carry the exact render-ready list (≤5 generated stills per video).
+  normalizeVisualScenePlan(generated.value, {
+    workflow: "generate",
+    strategy_item_id: context.strategyItemId,
+  });
+  const requestedChecklistCount = countChecklistEntries(
+    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
+  );
+  const requestedPhoneCount = countPhoneEntries(
+    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
+  );
+  const requestedQuoteCount = countQuoteEntries(
+    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
+  );
+  const requestedStatisticCount = countStatisticEntries(
+    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
+  );
+  const requestedCtaCount = countCtaEntries(
+    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
+  );
+  const frequencyDecisions = applyPresentationFrequencyToPackage(generated.value);
+  if (frequencyDecisions.length > 0) {
+    syncLegacyFieldsFromVisualScenes(generated.value);
+  }
+  generated.value.presentation_generation = {
+    mode: resolveChecklistGenerationMode(),
+    project_id: input.projectId,
+    ...visualProfileFieldsForPersistence(resolvedVisualProfile),
+    checklist_allowlist_status: resolveChecklistAllowlistStatus(input.projectId),
+    requested_checklist_count: requestedChecklistCount,
+    requested_phone_count: requestedPhoneCount,
+    requested_quote_count: requestedQuoteCount,
+    requested_statistic_count: requestedStatisticCount,
+    requested_cta_count: requestedCtaCount,
+    downgraded_checklist_count: frequencyDecisions.filter(
+      (d) => d.rule === "checklist_video_limit_exceeded",
+    ).length,
+    downgraded_phone_count: frequencyDecisions.filter(
+      (d) => d.rule === "phone_video_limit_exceeded",
+    ).length,
+    downgraded_quote_count: frequencyDecisions.filter(
+      (d) => d.rule === "quote_video_limit_exceeded",
+    ).length,
+    downgraded_statistic_count: frequencyDecisions.filter(
+      (d) => d.rule === "statistic_video_limit_exceeded",
+    ).length,
+    downgraded_cta_count: frequencyDecisions.filter(
+      (d) =>
+        d.rule === "cta_video_limit_exceeded" || d.rule === "cta_not_final_scene",
+    ).length,
+    frequency_decisions: frequencyDecisions,
+    prompt_presentation_types: promptPresentationTypes,
+  };
   normalizeImagePrompts(generated.value, {
     workflow: "generate",
     strategy_item_id: context.strategyItemId,
@@ -695,12 +789,16 @@ async function persistNewPackage(
       supabase,
       projectId,
       pkg,
-      directives
-        ? {
-            creative_mode: directives.mode.id,
-            creative_mode_beats: directives.mode.narrativeBeats,
-          }
-        : {},
+      {
+        ...(directives
+          ? {
+              creative_mode: directives.mode.id,
+              creative_mode_beats: directives.mode.narrativeBeats,
+            }
+          : {}),
+        package_id: packageId,
+        weekly_strategy_id: context.weeklyStrategyId,
+      },
     );
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")
@@ -751,7 +849,7 @@ export async function recordAssetUsage(
   contentItemId: string | null,
   pkg: ContentPackageOutput,
 ): Promise<void> {
-  const usage = pkg.asset_usage ?? [];
+  const usage = collectAssetUsageFromPackage(pkg);
   if (usage.length === 0) return;
   const rows = usage.map((u) => ({
     project_id: projectId,

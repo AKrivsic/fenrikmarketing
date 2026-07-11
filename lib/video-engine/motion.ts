@@ -7,9 +7,27 @@ import type { MotionType, TransitionType } from "@/lib/video-engine/storyboard";
 // so the expressions can be reasoned about (and unit-tested) in isolation.
 
 // How much the camera zooms within a beat (1.0 = none). Kept subtle.
-const ZOOM_AMPLITUDE = 0.12;
+const ZOOM_AMPLITUDE_LOW = 0.12;
+const ZOOM_AMPLITUDE_MEDIUM = 0.16;
 // Constant zoom used by pan/drift motions so there is room to move inside frame.
-const PAN_ZOOM = 1.12;
+const PAN_ZOOM_LOW = 1.12;
+const PAN_ZOOM_MEDIUM = 1.16;
+
+export type MotionIntensityLevel = "LOW" | "MEDIUM";
+
+function amplitudeForIntensity(intensity?: MotionIntensityLevel): {
+  zoom: number;
+  pan: number;
+} {
+  if (intensity === "MEDIUM") {
+    return { zoom: ZOOM_AMPLITUDE_MEDIUM, pan: PAN_ZOOM_MEDIUM };
+  }
+  return { zoom: ZOOM_AMPLITUDE_LOW, pan: PAN_ZOOM_LOW };
+}
+
+export interface BuildZoompanOptions {
+  intensity?: MotionIntensityLevel;
+}
 
 export interface ZoompanExpr {
   z: string;
@@ -23,13 +41,23 @@ export interface ZoompanExpr {
 export function buildZoompanExpr(
   motion: MotionType,
   frames: number,
+  options?: BuildZoompanOptions,
 ): ZoompanExpr {
   const n = Math.max(1, Math.round(frames));
   const centeredX = "iw/2-(iw/zoom/2)";
   const centeredY = "ih/2-(ih/zoom/2)";
+  const { zoom: ZOOM_AMPLITUDE, pan: PAN_ZOOM } = amplitudeForIntensity(
+    options?.intensity,
+  );
   const zMax = (1 + ZOOM_AMPLITUDE).toFixed(3);
 
   switch (motion) {
+    case "static":
+      return {
+        z: "1",
+        x: centeredX,
+        y: centeredY,
+      };
     case "zoom_in":
       // Clamp so an over-running frame counter can never zoom past the cap.
       return {
@@ -66,6 +94,12 @@ export function buildZoompanExpr(
         z: `${PAN_ZOOM}`,
         x: centeredX,
         y: `(ih-ih/zoom)*on/${n}`,
+      };
+    default:
+      return {
+        z: "1",
+        x: centeredX,
+        y: centeredY,
       };
   }
 }

@@ -184,6 +184,8 @@ export interface SpeechRequest {
   voice?: string;
   model?: string;
   format?: string;
+  /** gpt-4o-mini-tts delivery style; omitted for legacy/default API behaviour. */
+  instructions?: string;
 }
 
 export interface SpeechResult {

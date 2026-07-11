@@ -267,6 +267,8 @@ function makeVideoEntry(
     hasThumbnail: false,
     canEditScenes: false,
     isEditorRerender: false,
+    hasChecklistScene: false,
+    presentationAnalyzerWarningCount: 0,
     ...overrides,
   };
 }
@@ -778,7 +780,8 @@ check("n8n handlers unchanged (no scene editor hooks)", () => {
 
 check("ProjectVideoList polls only while queued/processing render in flight", () => {
   const src = readRepo("components/projects/ProjectVideoList/ProjectVideoList.tsx");
-  assert.match(src, /activeRenderInFlight \|\| editorRenderActive/);
+  assert.match(src, /group\.activeRenderInFlight/);
+  assert.match(src, /editorRenderActive/);
   assert.match(src, /if \(!rendering\) return/);
   assert.doesNotMatch(
     src,
@@ -922,6 +925,34 @@ await checkAsync(
     assert.equal(workerCalls[0].content_item_id, ITEM_ID);
     const workerScenes = workerCalls[0].input.scenes as Record<string, unknown>[];
     assert.equal(workerScenes[0].image_prompt, "Red desk scene");
+  },
+);
+
+await checkAsync(
+  "re-render preserves tts_voice from source job input",
+  async () => {
+    const store = buildStoreWithDraft();
+    const source = store.videoJobs[0]!;
+    source.input = {
+      ...(source.input as Record<string, unknown>),
+      tts_voice: "nova",
+      tts_instructions: "Steady pace.",
+    };
+
+    const summary = await runSceneEditorRerender(
+      { projectId: PROJECT_ID, videoJobId: SOURCE_JOB_ID },
+      {
+        client: createMockSupabaseClient(store),
+        videoCallbackUrl: CALLBACK_URL,
+        startVideoJob: async () => {},
+      },
+    );
+
+    const newJob = store.videoJobs.find((j) => j.id === summary.videoJobId);
+    assert.ok(newJob);
+    const input = newJob.input as Record<string, unknown>;
+    assert.equal(input.tts_voice, "nova");
+    assert.equal(input.tts_instructions, "Steady pace.");
   },
 );
 

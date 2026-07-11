@@ -15,6 +15,14 @@ import {
   type ProjectKnowledge,
 } from "@/lib/knowledge/types";
 import type { Json, ProjectUpdate } from "@/lib/supabase/types";
+import {
+  mergePresentationIntoKnowledge,
+  validatePresentationSave,
+} from "@/lib/voice/presentationSettings";
+import {
+  mergeVisualProfileIntoKnowledge,
+  validateVisualProfileSave,
+} from "@/lib/visual-profile/presentationVisualProfile";
 
 export type KnowledgeActionResult =
   | { ok: true; ready: boolean }
@@ -116,6 +124,49 @@ export async function approveKnowledgeCard(
     return { ok: true, ready };
   } catch {
     return fail("Schválení se nezdařilo.");
+  }
+}
+
+export async function updateProjectPresentationVoice(
+  projectId: string,
+  input: {
+    voiceSelection: string;
+    ttsInstructions: string;
+    visualProfileSelection?: string;
+  },
+): Promise<KnowledgeActionResult> {
+  if (!projectId) return fail("Chybí identifikátor projektu.");
+
+  const validated = validatePresentationSave(input);
+  if (!validated.ok) return fail(validated.error);
+
+  const profileValidated = validateVisualProfileSave({
+    visualProfileSelection: input.visualProfileSelection ?? "auto",
+  });
+  if (!profileValidated.ok) return fail(profileValidated.error);
+
+  const project = await getProjectForAdmin(projectId);
+  if (!project) return fail("Projekt nebyl nalezen.");
+
+  let knowledge = mergePresentationIntoKnowledge(
+    (project.knowledge ?? {}) as Json,
+    validated.presentation,
+  );
+  knowledge = mergeVisualProfileIntoKnowledge(
+    knowledge,
+    profileValidated.choice,
+  );
+
+  try {
+    await updateProjectForAdmin(projectId, { knowledge });
+    revalidatePath(`/projects/${projectId}/knowledge`);
+    const readyKnowledge = await loadKnowledge(projectId);
+    return {
+      ok: true,
+      ready: readyKnowledge ? isKnowledgeReady(readyKnowledge) : false,
+    };
+  } catch {
+    return fail("Uložení hlasu se nezdařilo.");
   }
 }
 

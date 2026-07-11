@@ -32,6 +32,17 @@ import {
   normalizeImagePrompts,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
+import { normalizeVisualScenePlan, syncLegacyFieldsFromVisualScenes } from "@/lib/content-package/visualScenePlan";
+import { derivePromptPresentationTypes } from "@/lib/scene-types/presentation/promptPresentationTypes";
+import { assetSignalsFromRef } from "@/lib/scene-types/presentation/projectSignals";
+import { applyPresentationFrequencyToPackage } from "@/lib/scene-types/presentation/presentationFrequencyGuardrail";
+import { countChecklistEntries } from "@/lib/scene-types/presentation/checklistFrequencyGuardrail";
+import { countPhoneEntries } from "@/lib/scene-types/presentation/phoneFrequencyGuardrail";
+import { countQuoteEntries } from "@/lib/scene-types/presentation/quoteFrequencyGuardrail";
+import { countStatisticEntries } from "@/lib/scene-types/presentation/statisticFrequencyGuardrail";
+import { countCtaEntries } from "@/lib/scene-types/presentation/ctaFrequencyGuardrail";
+import { resolveChecklistGenerationMode } from "@/lib/scene-types/checklistGenerationMode";
+import type { PackageVisualSceneEntry } from "@/lib/content-package/generatedVisualScene";
 import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
 import {
   buildRecentAssetUsageBlock,
@@ -39,6 +50,12 @@ import {
 } from "@/lib/assets/loadRecentAssetUsage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import { loadSceneTypeProjectHistory } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
+import { buildSceneTypeHistoryRestraintBlock } from "@/lib/scene-types/presentation/sceneTypeHistoryPrompt";
+import {
+  resolveVisualProfileForPackage,
+} from "@/lib/visual-profile/packageVisualProfile";
+import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
 import {
@@ -113,6 +130,19 @@ export async function runRegenerateContentPackage(
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // regenerated package avoids repeating prior content.
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
+  const sceneTypeHistory = await loadSceneTypeProjectHistory(supabase, projectId, {
+    excludePackageId: packageId,
+    currentWeeklyStrategyId: context.weeklyStrategyId,
+  });
+  const sceneTypeHistoryBlock =
+    buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
+  const resolvedVisualProfile = resolveVisualProfileForPackage({
+    project,
+    pkg: undefined,
+  });
+  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
+    resolvedVisualProfile.profile,
+  );
 
   // Respect projects.platforms (falls back to the full required set).
   const targetPlatforms = resolvePackagePlatforms(project.platforms);
@@ -153,6 +183,12 @@ export async function runRegenerateContentPackage(
     ),
   );
 
+  const promptPresentationTypes = derivePromptPresentationTypes({
+    projectId,
+    project,
+    assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
+  });
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildRegeneratePackageSystem(requireVideo),
@@ -172,6 +208,9 @@ export async function runRegenerateContentPackage(
       requireVideo,
       videoPlatforms,
       directives,
+      promptPresentationTypes,
+      sceneTypeHistoryBlock,
+      visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -207,6 +246,52 @@ export async function runRegenerateContentPackage(
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persisting the brief and queuing the video job, so the stored brief
   // matches exactly what the worker renders and no extra image gens are queued.
+  normalizeVisualScenePlan(pkg, { workflow: "regenerate", package_id: packageId });
+  const requestedChecklistCount = countChecklistEntries(
+    (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
+  );
+  const requestedPhoneCount = countPhoneEntries(
+    (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
+  );
+  const requestedQuoteCount = countQuoteEntries(
+    (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
+  );
+  const requestedStatisticCount = countStatisticEntries(
+    (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
+  );
+  const requestedCtaCount = countCtaEntries(
+    (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
+  );
+  const frequencyDecisions = applyPresentationFrequencyToPackage(pkg);
+  if (frequencyDecisions.length > 0) {
+    syncLegacyFieldsFromVisualScenes(pkg);
+  }
+  pkg.presentation_generation = {
+    mode: resolveChecklistGenerationMode(),
+    requested_checklist_count: requestedChecklistCount,
+    requested_phone_count: requestedPhoneCount,
+    requested_quote_count: requestedQuoteCount,
+    requested_statistic_count: requestedStatisticCount,
+    requested_cta_count: requestedCtaCount,
+    downgraded_checklist_count: frequencyDecisions.filter(
+      (d) => d.rule === "checklist_video_limit_exceeded",
+    ).length,
+    downgraded_phone_count: frequencyDecisions.filter(
+      (d) => d.rule === "phone_video_limit_exceeded",
+    ).length,
+    downgraded_quote_count: frequencyDecisions.filter(
+      (d) => d.rule === "quote_video_limit_exceeded",
+    ).length,
+    downgraded_statistic_count: frequencyDecisions.filter(
+      (d) => d.rule === "statistic_video_limit_exceeded",
+    ).length,
+    downgraded_cta_count: frequencyDecisions.filter(
+      (d) =>
+        d.rule === "cta_video_limit_exceeded" || d.rule === "cta_not_final_scene",
+    ).length,
+    frequency_decisions: frequencyDecisions,
+    prompt_presentation_types: promptPresentationTypes,
+  };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.
   const funnelStage =
@@ -255,6 +340,8 @@ export async function runRegenerateContentPackage(
       regenerated: true,
       creative_mode: directives.mode.id,
       creative_mode_beats: directives.mode.narrativeBeats,
+      package_id: packageId,
+      weekly_strategy_id: context.weeklyStrategyId,
     });
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")

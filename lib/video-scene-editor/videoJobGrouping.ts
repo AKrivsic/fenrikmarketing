@@ -15,6 +15,8 @@ export interface ProjectVideoVersionEntry {
   isEditorRerender: boolean;
   failureHeadline: string | null;
   failureDetail: string | null;
+  hasChecklistScene: boolean;
+  presentationAnalyzerWarningCount: number;
   /** Short label for the version picker. */
   versionLabel: string;
 }
@@ -37,6 +39,7 @@ export interface ProjectVideoGroup {
   editorSourceJobId: string | null;
   canEditScenes: boolean;
   activeRenderInFlight: boolean;
+  displayHasChecklistScene: boolean;
   versions: ProjectVideoVersionEntry[];
 }
 
@@ -102,6 +105,8 @@ export function groupProjectVideoJobs(
       isEditorRerender: job.isEditorRerender,
       failureHeadline: job.errorMessage,
       failureDetail: job.errorDetail,
+      hasChecklistScene: job.hasChecklistScene,
+      presentationAnalyzerWarningCount: job.presentationAnalyzerWarningCount,
       versionLabel: formatVersionLabel(index, sorted.length, job),
     }));
 
@@ -121,6 +126,7 @@ export function groupProjectVideoJobs(
       editorSourceJobId: editorSource?.id ?? null,
       canEditScenes: editorSource !== null,
       activeRenderInFlight: active !== undefined,
+      displayHasChecklistScene: display.hasChecklistScene,
       versions,
     });
   }

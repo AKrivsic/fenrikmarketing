@@ -12,6 +12,8 @@ export interface CanonicalPackageVideo {
   debug: ProjectContentEntry["videoDebug"];
   failureHeadline: string | null;
   failureDetail: string | null;
+  hasChecklistScene: boolean;
+  presentationAnalyzerWarningCount: number;
 }
 
 // Lower score wins when picking the canonical package video for a language.
@@ -81,6 +83,8 @@ export function buildPackageVideosFromEntries(
       debug: item.videoDebug,
       failureHeadline: item.videoFailureHeadline,
       failureDetail: item.videoFailureDetail,
+      hasChecklistScene: item.videoHasChecklistScene,
+      presentationAnalyzerWarningCount: item.videoPresentationWarningCount,
     });
   }
 

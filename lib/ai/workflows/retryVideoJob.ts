@@ -8,6 +8,11 @@ import {
 } from "@/lib/video-worker/client";
 import { claimAndDispatchVariantVideoJob } from "@/lib/ai/workflows/dispatchVariantVideoJob";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
+import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
+import {
+  applySemanticMotionPreservationFromSourceJob,
+  resolveSourceJobOutputForSemanticMotion,
+} from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
 
 // Retry a FAILED video render/upload for ONE language without touching any
 // generated text, content_items or scene images.
@@ -119,7 +124,7 @@ export async function runRetryVideoJob(
   // Load the job the user is retrying, strictly scoped to the project.
   const { data: jobRow, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, project_id, content_item_id, provider, status, input")
+    .select("id, project_id, content_item_id, provider, status, input, output")
     .eq("id", videoJobId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -135,6 +140,7 @@ export async function runRetryVideoJob(
   const contentItemId = (jobRow.content_item_id as string | null) ?? null;
   const provider = (jobRow.provider as string | null) ?? "video_engine";
   const failedInput = jobRow.input;
+  const failedOutput = jobRow.output;
 
   // Only a FAILED render is retried here. A queued/processing job is still in
   // flight, and a completed one already succeeded — re-rendering either would be
@@ -218,12 +224,28 @@ export async function runRetryVideoJob(
     );
   }
   const voiceoverOverride = input.voiceoverText?.trim();
-  const jobInput = {
-    ...baseInput,
-    ...(scenes ? { scenes } : {}),
-    ...(voiceoverOverride ? { voiceover_text: voiceoverOverride } : {}),
-    retry_of_video_job_id: videoJobId,
-  } as unknown as Json;
+  const motionSourceOutput = await resolveSourceJobOutputForSemanticMotion(
+    supabase,
+    {
+      projectId,
+      contentItemId,
+      primaryOutput: failedOutput,
+    },
+  );
+  let jobInput = await attachTtsToVideoJobInput(
+    supabase,
+    projectId,
+    applySemanticMotionPreservationFromSourceJob({
+      jobInput: {
+        ...baseInput,
+        ...(scenes ? { scenes } : {}),
+        ...(voiceoverOverride ? { voiceover_text: voiceoverOverride } : {}),
+        retry_of_video_job_id: videoJobId,
+      },
+      sourceJobOutput: motionSourceOutput,
+    }),
+    baseInput,
+  );
 
   const { data: insertedRow, error: insertErr } = await supabase
     .from("video_jobs")
@@ -232,7 +254,7 @@ export async function runRetryVideoJob(
       content_item_id: contentItemId,
       provider,
       status: "queued",
-      input: jobInput,
+      input: jobInput as unknown as Json,
     })
     .select("id")
     .single();

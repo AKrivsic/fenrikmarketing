@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { rename, rm } from "node:fs/promises";
-import { buildZoompanExpr, xfadeTransitionName } from "@/lib/video-engine/motion";
-import { SHORT_PROFILE, type MotionType, type TransitionType } from "@/lib/video-engine/storyboard";
+import { buildZoompanExpr, xfadeTransitionName, type MotionIntensityLevel } from "@/lib/video-engine/motion";
+import { SHORT_PROFILE, type MotionType, type TransitionType, coerceMotionType } from "@/lib/video-engine/storyboard";
 import {
   probeAudioDurationSeconds,
   probeMediaStreams,
@@ -14,6 +14,7 @@ export interface RenderBeat {
   motion: MotionType;
   transition: TransitionType;
   durationSeconds: number;
+  motion_intensity?: MotionIntensityLevel;
 }
 
 export interface RenderMp4Input {
@@ -226,14 +227,16 @@ function beatVideoChain(
   width: number,
   height: number,
   fps: number,
-  // When false, the clip is not trimmed (single-still fallback relies on the
-  // output -t / -shortest to bound it to the audio so the voiceover is never cut).
   trim = true,
+  motionIntensity?: MotionIntensityLevel,
 ): { chain: string; label: string } {
+  const safeMotion = coerceMotionType(motion);
   const bigW = Math.round(width * SCALE_HEADROOM);
   const bigH = Math.round(height * SCALE_HEADROOM);
   const frames = Math.max(1, Math.round(durationSeconds * fps));
-  const { z, x, y } = buildZoompanExpr(motion, frames);
+  const { z, x, y } = buildZoompanExpr(safeMotion, frames, {
+    intensity: motionIntensity,
+  });
   const label = `v${inputIndex}`;
 
   const chain =
@@ -386,6 +389,8 @@ export function buildMultiBeatArgs(
       width,
       height,
       fps,
+      true,
+      beat.motion_intensity,
     );
     chains.push(chain);
     beatLabels.push(label);

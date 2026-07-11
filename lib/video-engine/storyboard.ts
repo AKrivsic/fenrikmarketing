@@ -1,3 +1,10 @@
+import type { MotionIntensity, MotionIntent } from "@/lib/video-engine/semanticMotion/motionIntent";
+import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
+import {
+  resolveBeatMotionPlan,
+} from "@/lib/video-engine/semanticMotion/resolveSceneMotion";
+import { effectiveSceneType, type SceneType } from "@/lib/scene-types/sceneType";
+
 // Video Quality V2 — Storyboard builder.
 //
 // Turns a content package's narration + a small pool of stills into a richer
@@ -28,7 +35,8 @@ export type MotionType =
   | "pan_left"
   | "pan_right"
   | "drift_up"
-  | "drift_down";
+  | "drift_down"
+  | "static";
 
 // Light, non-gimmicky transitions only (Task 3).
 export type TransitionType = "fade" | "slide" | "push" | "none";
@@ -44,6 +52,9 @@ export interface StoryboardBeat {
   // Subtitle/narration segment shown during this beat.
   text: string;
   durationSeconds: number;
+  motion_intent?: MotionIntent;
+  motion_intensity?: MotionIntensity;
+  motion_version?: string;
 }
 
 export interface VideoProfile {
@@ -102,7 +113,7 @@ export const TAIL_BUFFER_SECONDS = 1.5;
 // roughly matches the voiceover without probing the audio file).
 const WORDS_PER_SECOND = 2.6;
 
-// Motion rotation so consecutive beats never share the same movement.
+// Legacy rotation (fallback when semantic motion is disabled).
 const MOTION_CYCLE: MotionType[] = [
   "zoom_in",
   "pan_right",
@@ -111,6 +122,36 @@ const MOTION_CYCLE: MotionType[] = [
   "pan_left",
   "drift_down",
 ];
+
+export interface StoryboardSceneContext {
+  id: string;
+  type?: SceneType | string | null;
+}
+
+export function coerceMotionType(value: unknown): MotionType {
+  if (typeof value !== "string") return "static";
+  const v = value.trim() as MotionType;
+  switch (v) {
+    case "zoom_in":
+    case "zoom_out":
+    case "pan_left":
+    case "pan_right":
+    case "drift_up":
+    case "drift_down":
+    case "static":
+      return v;
+    default:
+      return "static";
+  }
+}
+
+export interface StoredSemanticMotionBeat {
+  beat_id: string;
+  motion_intent?: MotionIntent;
+  motion_primitive?: MotionType;
+  motion_intensity?: MotionIntensity;
+  motion_version?: string;
+}
 
 export interface BuildStoryboardInput {
   voiceoverText: string;
@@ -135,7 +176,16 @@ export interface BuildStoryboardInput {
   // to 0 (no tail) so existing callers and the audio-master invariant are
   // unchanged; the worker passes TAIL_BUFFER_SECONDS.
   tailBufferSeconds?: number;
+  /** When true, map beats across scene ids in plan order (no early cycling). */
+  explicitSceneOrder?: boolean;
   profile?: VideoProfile;
+  /** Scene types for semantic motion (explicit plan). */
+  scenes?: StoryboardSceneContext[];
+  visualProfile?: VisualProfile | null;
+  /** When false, use legacy index-based motion (old jobs / tests). */
+  semanticMotion?: boolean;
+  /** Prior render semantic motion (retries / re-render stability). */
+  storedSemanticMotion?: StoredSemanticMotionBeat[];
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -234,11 +284,46 @@ function buildRoles(count: number, modeBeats?: string[]): BeatRole[] {
 
 // Light transition pattern: mostly fade, with an occasional slide/push for
 // variety. Never gimmicky.
-function transitionFor(index: number): TransitionType {
+function transitionFor(index: number, motionIntent?: MotionIntent): TransitionType {
   if (index === 0) return "none";
+  if (motionIntent === "HOLD" || motionIntent === "CLOSE") return "fade";
   if (index % 5 === 0) return "push";
   if (index % 3 === 0) return "slide";
   return "fade";
+}
+
+function sceneIndexForId(
+  sceneId: string,
+  scenes: StoryboardSceneContext[],
+): number {
+  const idx = scenes.findIndex((s) => s.id === sceneId);
+  return idx >= 0 ? idx : 0;
+}
+
+function sceneTypeForId(
+  sceneId: string,
+  scenes: StoryboardSceneContext[],
+): SceneType {
+  const row = scenes.find((s) => s.id === sceneId);
+  return effectiveSceneType(row?.type, "IMAGE");
+}
+
+export function sceneIdForStoryboardBeat(
+  beatIndex: number,
+  numBeats: number,
+  sceneIds: string[],
+  explicitSceneOrder: boolean,
+): string {
+  const n = sceneIds.length;
+  if (n === 0) return "scene-1";
+  if (!explicitSceneOrder) {
+    return sceneIds[beatIndex % n] ?? sceneIds[0];
+  }
+  if (n > numBeats) {
+    const idx = Math.floor((beatIndex * n) / numBeats);
+    return sceneIds[Math.min(idx, n - 1)] ?? sceneIds[0];
+  }
+  return sceneIds[beatIndex % n] ?? sceneIds[0];
 }
 
 // Task 1 — deterministically builds the beat timeline.
@@ -295,16 +380,74 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
   }
 
   const beats: StoryboardBeat[] = [];
+  const explicitOrder = input.explicitSceneOrder === true;
+  const sceneContexts = input.scenes ?? sceneIds.map((id) => ({ id }));
+  const useSemantic = input.semanticMotion !== false;
+  const visualProfile = input.visualProfile ?? null;
+  const storedMotionPlan =
+    input.storedSemanticMotion &&
+    input.storedSemanticMotion.length === numBeats
+      ? input.storedSemanticMotion
+      : undefined;
+  let previousPrimitive: MotionType | null = null;
+
   for (let i = 0; i < numBeats; i++) {
+    const sceneId = sceneIdForStoryboardBeat(
+      i,
+      numBeats,
+      sceneIds,
+      explicitOrder,
+    );
+    const role = roles[i] ?? "body";
+
+    let motion: MotionType;
+    let motion_intent: MotionIntent | undefined;
+    let motion_intensity: MotionIntensity | undefined;
+    let motion_version: string | undefined;
+
+    if (useSemantic) {
+      const plan = resolveBeatMotionPlan({
+        beatIndex: i,
+        beatCount: numBeats,
+        sceneId,
+        sceneType: sceneTypeForId(sceneId, sceneContexts),
+        sceneIndex: sceneIndexForId(sceneId, sceneContexts),
+        sceneCount: sceneContexts.length,
+        narrativeRole: role,
+        visualProfile,
+        previousPrimitive,
+      });
+      motion = plan.motion_primitive;
+      motion_intent = plan.motion_intent;
+      motion_intensity = plan.motion_intensity;
+      motion_version = plan.motion_version;
+
+      const beatId = `beat-${i + 1}`;
+      const stored = storedMotionPlan?.find((b) => b.beat_id === beatId);
+      if (stored?.motion_primitive) {
+        motion = coerceMotionType(stored.motion_primitive);
+        if (stored.motion_intent) motion_intent = stored.motion_intent;
+        if (stored.motion_intensity) motion_intensity = stored.motion_intensity;
+        if (stored.motion_version) motion_version = stored.motion_version;
+      }
+
+      previousPrimitive = motion;
+    } else {
+      motion =
+        i === 0 ? "zoom_in" : MOTION_CYCLE[i % MOTION_CYCLE.length] ?? "drift_up";
+    }
+
     beats.push({
       id: `beat-${i + 1}`,
-      sceneId: sceneIds[i % sceneIds.length],
-      role: roles[i],
-      // Hook always opens punchy with a zoom-in; the rest rotate.
-      motion: i === 0 ? "zoom_in" : MOTION_CYCLE[i % MOTION_CYCLE.length],
-      transition: transitionFor(i),
+      sceneId,
+      role,
+      motion,
+      transition: transitionFor(i, motion_intent),
       text: segments[i] ?? "",
       durationSeconds: Math.round(perBeat * 100) / 100,
+      ...(motion_intent ? { motion_intent } : {}),
+      ...(motion_intensity ? { motion_intensity } : {}),
+      ...(motion_version ? { motion_version } : {}),
     });
   }
 

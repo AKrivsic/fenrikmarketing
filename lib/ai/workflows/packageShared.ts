@@ -38,6 +38,19 @@ import {
   resolveVideoUsageForRender,
 } from "@/lib/assets/preferredVideoUsage";
 import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
+import {
+  hasExplicitVisualScenePlan,
+  validateVisualScenePlanGuardrails,
+} from "@/lib/content-package/visualScenePlan";
+import {
+  compileVisualScenesToWorkerScenes,
+  normalizePackageVisualScenes,
+} from "@/lib/scene-types/compileScenePlan";
+import {
+  mergePackagePresentationGenerationBrief,
+  prepareAnalyzedVisualScenesForPackage,
+} from "@/lib/scene-types/presentation/prepareVisualScenesForVideo";
+import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -232,6 +245,17 @@ export function makePackageGuardrails(args: {
       requireVideo,
     });
 
+    if (hasExplicitVisualScenePlan(pkg)) {
+      issues.push(
+        ...validateVisualScenePlanGuardrails({
+          pkg,
+          classById,
+          requireVideo,
+          preferredVideoUsageById,
+        }),
+      );
+    }
+
     for (const usage of pkg.asset_usage ?? []) {
       const cls = classById.get(usage.asset_id);
       if (!cls) {
@@ -328,8 +352,9 @@ export function buildPackageBrief(pkg: ContentPackageOutput): Json {
     hashtags: pkg.hashtags ?? [],
     image_prompts: pkg.image_prompts ?? [],
     asset_usage: pkg.asset_usage ?? [],
-    // Phase 2E — record the scenario used so anti-repetition memory can read it.
+    visual_scenes: pkg.visual_scenes ?? null,
     scenario: pkg.scenario ?? null,
+    presentation_generation: pkg.presentation_generation ?? null,
   } as unknown as Json;
 }
 
@@ -344,8 +369,9 @@ export async function buildVideoJobInput(
   pkg: ContentPackageOutput,
   extra: Record<string, unknown> = {},
 ): Promise<Json> {
-  const assetImages = await loadAssetImages(supabase, projectId, pkg);
-  return {
+  const ttsFields = await loadTtsFieldsForVideoJob(supabase, projectId);
+
+  const base = {
     concept: pkg.video.concept,
     script: pkg.video.script,
     voiceover_text: pkg.voiceover_text,
@@ -354,9 +380,82 @@ export async function buildVideoJobInput(
     scenario: pkg.scenario ?? null,
     cta: pkg.cta?.text ?? null,
     image_prompts: pkg.image_prompts ?? [],
-    asset_images: assetImages,
+    ...ttsFields,
     ...extra,
+  };
+
+  if (hasExplicitVisualScenePlan(pkg)) {
+    const packageId =
+      typeof extra.package_id === "string" ? extra.package_id : null;
+    const weeklyStrategyId =
+      typeof extra.weekly_strategy_id === "string"
+        ? extra.weekly_strategy_id
+        : null;
+    const prepared = await prepareAnalyzedVisualScenesForPackage({
+      supabase,
+      projectId,
+      pkg,
+      excludePackageId: packageId,
+      weeklyStrategyId,
+    });
+    prepared.presentationLog = {
+      ...prepared.presentationLog,
+      ...(packageId ? { package_id: packageId } : {}),
+    };
+    mergePackagePresentationGenerationBrief(pkg, prepared.presentationLog);
+    const scenes = await compileVisualScenesToWorkerScenes(
+      supabase,
+      projectId,
+      prepared.scenes,
+    );
+    return {
+      ...base,
+      scenes,
+      voiceover_text: pkg.voiceover_text,
+      explicit_scene_plan: true,
+      visual_scenes: pkg.visual_scenes ?? [],
+      asset_images: [],
+      ...(prepared.presentationLog.visual_profile
+        ? {
+            visual_profile: prepared.presentationLog.visual_profile,
+            visual_profile_version:
+              prepared.presentationLog.visual_profile_version ?? null,
+          }
+        : {}),
+      ...(prepared.decisions.length > 0 ||
+      prepared.presentationLog.requested_checklist_count > 0
+        ? {
+            presentation_analyzer: {
+              allowed_scene_types: prepared.allowedSceneTypes,
+              decisions: prepared.decisions,
+              presentation_generation: prepared.presentationLog,
+              ...(prepared.warnings.length > 0
+                ? { warnings: prepared.warnings }
+                : {}),
+            },
+          }
+        : {}),
+    } as unknown as Json;
+  }
+
+  const assetImages = await loadAssetImages(supabase, projectId, pkg);
+  return {
+    ...base,
+    asset_images: assetImages,
   } as unknown as Json;
+}
+
+async function loadTtsFieldsForVideoJob(
+  supabase: SupabaseClient,
+  projectId: string,
+): Promise<Record<string, string>> {
+  const merged = await attachTtsToVideoJobInput(supabase, projectId, {});
+  const out: Record<string, string> = {};
+  if (typeof merged.tts_voice === "string") out.tts_voice = merged.tts_voice;
+  if (typeof merged.tts_instructions === "string") {
+    out.tts_instructions = merged.tts_instructions;
+  }
+  return out;
 }
 
 // Resolves the image-type assets referenced in pkg.asset_usage to durable

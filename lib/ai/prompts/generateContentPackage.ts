@@ -34,6 +34,21 @@ import {
   type AssetCoverageDecision,
 } from "@/lib/assets/assetCoveragePolicy";
 import {
+  buildPresentationGenerationBlock,
+  buildPresentationJsonShapeLines,
+} from "@/lib/ai/prompts/presentationGeneration";
+import type { PromptPresentationType } from "@/lib/scene-types/presentation/promptPresentationTypes";
+import {
+  promptAllowsPhone,
+  promptAllowsQuote,
+  promptAllowsStatistic,
+} from "@/lib/scene-types/presentation/promptPresentationTypes";
+import { buildPhoneEligibleAssetsPromptBlock } from "@/lib/scene-types/presentation/phonePromptAssets";
+import { buildApprovedQuotesPromptBlock } from "@/lib/scene-types/presentation/quotePromptCandidates";
+import { buildApprovedStatisticsPromptBlock } from "@/lib/scene-types/presentation/statisticPromptCandidates";
+import { buildProofIndex } from "@/lib/scene-types/presentation/proofIndex";
+import type { Json } from "@/lib/supabase/types";
+import {
   DEFAULT_GENERATION_MODE,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
@@ -197,10 +212,16 @@ export interface GenerateContentPackagePromptInput {
   // Omitted for legacy / single-package generation, which keeps the prompt
   // byte-for-byte unchanged.
   packageDiversity?: PackageDiversitySpec;
+  /** Phase 5 — presentation types the model may emit (IMAGE and optionally CHECKLIST). */
+  promptPresentationTypes?: readonly PromptPresentationType[];
   /** Sample mode adds SAMPLE PACKAGE RULES; production leaves the prompt unchanged. */
   generationMode?: GenerationMode;
   /** Per-package asset coverage (production series + sample). Omitted when not computed. */
   assetCoverage?: AssetCoverageDecision;
+  /** Recent typed-scene usage for cross-package restraint (prompt-only guidance). */
+  sceneTypeHistoryBlock?: string;
+  /** Profile-aware image prompt guidance (generation-time). */
+  visualProfileImagePromptBlock?: string;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -371,6 +392,10 @@ export function buildGenerateContentPackagePrompt(
   // Mixed only matters for video packages: ≥1 video platform AND ≥1 text-only.
   const isMixed =
     requireVideo && videoPlatforms.length > 0 && textOnlyPlatforms.length > 0;
+  const promptPresentationTypes: PromptPresentationType[] =
+    input.promptPresentationTypes && input.promptPresentationTypes.length > 0
+      ? [...input.promptPresentationTypes]
+      : ["IMAGE"];
 
   const painPointFirst = painPointFirstBlock(project);
   const proof = proofBlock(project);
@@ -508,6 +533,9 @@ export function buildGenerateContentPackagePrompt(
         // scene-appropriate lighting and composition. Imagery only — never copy.
         visualStyleGuardrailBlock(),
         "",
+        ...(input.visualProfileImagePromptBlock
+          ? [input.visualProfileImagePromptBlock, ""]
+          : []),
         videoSceneCompositionBlock(),
         "",
         "DEVICE SCREENS IN GENERATED STILLS:",
@@ -576,13 +604,18 @@ export function buildGenerateContentPackagePrompt(
     ...(requireVideo
       ? [
           `  "video": { "concept": "string", "script": "string", "duration_seconds": "string" },`,
+          `  "visual_scenes": [`,
+          ...buildPresentationJsonShapeLines({
+            allowedTypes: promptPresentationTypes,
+          }).map((line) => `  ${line}`),
+          `  ],`,
         ]
       : []),
+    ...(requireVideo ? [`  "image_prompts": ["string"],`] : []),
     `  "platform_outputs": {`,
     platformOutputsBlock,
     `  },`,
     `  "hashtags": ["string"],`,
-    ...(requireVideo ? [`  "image_prompts": ["string"],`] : []),
     `  "asset_usage": [ { "asset_id": "uuid", "used_as": "string", "modify": "true|false" } ],`,
     `  "scenario": "the SCENARIO POOL line you drew on (verbatim), or \"\" if none"`,
     "}",
@@ -650,8 +683,49 @@ export function buildGenerateContentPackagePrompt(
     availableAssets.length
       ? availableAssets.map((a) => formatAvailableAssetPromptLine(a)).join("\n")
       : "(none)",
+    ...(promptAllowsPhone(promptPresentationTypes)
+      ? (() => {
+          const phoneBlock = buildPhoneEligibleAssetsPromptBlock(availableAssets);
+          return phoneBlock ? ["", phoneBlock] : [];
+        })()
+      : []),
+    ...(promptAllowsQuote(promptPresentationTypes)
+      ? (() => {
+          const block = buildApprovedQuotesPromptBlock(
+            buildProofIndex((project.knowledge as Json | null | undefined) ?? null),
+          );
+          return block ? ["", block] : [];
+        })()
+      : []),
+    ...(promptAllowsStatistic(promptPresentationTypes)
+      ? (() => {
+          const block = buildApprovedStatisticsPromptBlock(
+            buildProofIndex((project.knowledge as Json | null | undefined) ?? null),
+          );
+          return block ? ["", block] : [];
+        })()
+      : []),
     "",
     buildSmartAssetUsageRulesBlock(),
+    "",
+    ...(input.sceneTypeHistoryBlock
+      ? [input.sceneTypeHistoryBlock, ""]
+      : []),
+    buildPresentationGenerationBlock({
+      allowedTypes: promptPresentationTypes,
+    }),
+    "",
+    "VISUAL SCENE PLAN (ordered dramaturgy — canonical for video when present):",
+    "- Plan the video as visual_scenes: an ORDERED list where each entry is ONE on-screen beat.",
+    "- Choose scene count for a 20–40s short (typically 3–5 scenes). Do not pad to a maximum.",
+    "- Each scene is either source=\"ai\" (with image_prompt) OR source=\"asset\" (with asset_id + used_as). Never both.",
+    "- Assets are OPTIONAL. AI-only packages are valid (all ai scenes).",
+    "- Place an asset ONLY where it strengthens the story at that moment in the voiceover.",
+    "- Do NOT list assets separately from scene order. Do NOT use an asset just because it exists.",
+    "- Avoid back-to-back asset scenes unless the story truly needs it.",
+    "- Respect each asset's product role, ai_description, suggested_usage, and Preferred usage line.",
+    "- Only use asset_id values from AVAILABLE ASSETS above.",
+    "- When you include visual_scenes, also keep image_prompts (ai prompts only, same order) and asset_usage (asset scenes only) for compatibility.",
     "",
     "ASSET LIBRARY RULES:",
     "- Do not invent asset_usage entries; only reference ids listed above.",

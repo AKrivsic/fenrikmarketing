@@ -21,6 +21,9 @@ import {
   extractRenderSpecScenes,
   pickVideoJobItem,
 } from "@/lib/ai/workflows/languageVariantsHelpers";
+import { prepareRenderScenesForLanguageVariant } from "@/lib/scene-types/languageVariantScenes";
+import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
+import { applySemanticMotionPreservationFromSourceJob } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
 
 export interface RegenerateLanguageVariantInput {
   projectId: string;
@@ -158,7 +161,7 @@ export async function runRegenerateLanguageVariant(
   const primaryItemIds = primaryItems.map((item) => item.id);
   const { data: jobRows, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, output, created_at")
+    .select("id, input, output, created_at")
     .eq("project_id", projectId)
     .in("content_item_id", primaryItemIds)
     .eq("status", "completed")
@@ -166,11 +169,15 @@ export async function runRegenerateLanguageVariant(
   if (jobErr) throw jobErr;
 
   let sourceVideoJobId: string | null = null;
+  let sourceVideoJobInput: Record<string, unknown> | null = null;
+  let sourceVideoJobOutput: unknown = null;
   let scenes: Record<string, unknown>[] | null = null;
   for (const job of jobRows ?? []) {
     const candidate = extractRenderSpecScenes((job as { output: unknown }).output);
     if (candidate) {
       sourceVideoJobId = (job as { id: string }).id;
+      sourceVideoJobInput = asRecord((job as { input: unknown }).input);
+      sourceVideoJobOutput = (job as { output: unknown }).output;
       scenes = candidate;
       break;
     }
@@ -274,15 +281,34 @@ export async function runRegenerateLanguageVariant(
   const videoItem = pickVideoJobItem(variantItems);
   if (!videoItem) return summary;
 
-  const jobInput = {
-    concept: videoConcept,
-    script: videoScript,
-    voiceover_text: localized.data.localized.voiceover_text,
-    subtitles: localized.data.localized.subtitles,
+  const localizedVoiceover = localized.data.localized.voiceover_text;
+  const preparedScenes = prepareRenderScenesForLanguageVariant({
     scenes,
-    language: targetLanguage,
-    regenerated_language_variant: true,
-  } as unknown as Json;
+    voiceoverText: localizedVoiceover,
+  });
+  for (const warning of preparedScenes.warnings) {
+    summary.warnings.push(warning);
+  }
+
+  let jobInput = await attachTtsToVideoJobInput(
+    supabase,
+    projectId,
+    {
+      concept: videoConcept,
+      script: videoScript,
+      voiceover_text: localizedVoiceover,
+      subtitles: localized.data.localized.subtitles,
+      scenes: preparedScenes.scenes,
+      language: targetLanguage,
+      regenerated_language_variant: true,
+      ...(sourceVideoJobId ? { source_video_job_id: sourceVideoJobId } : {}),
+    },
+    sourceVideoJobInput,
+  );
+  jobInput = applySemanticMotionPreservationFromSourceJob({
+    jobInput: jobInput as Record<string, unknown>,
+    sourceJobOutput: sourceVideoJobOutput,
+  }) as typeof jobInput;
 
   const { data: jobRow, error: jobInsertErr } = await supabase
     .from("video_jobs")
@@ -291,7 +317,7 @@ export async function runRegenerateLanguageVariant(
       content_item_id: videoItem.id,
       provider: "video_engine",
       status: "queued",
-      input: jobInput,
+      input: jobInput as unknown as Json,
     })
     .select("id")
     .single();

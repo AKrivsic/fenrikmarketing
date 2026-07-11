@@ -172,6 +172,24 @@ export function PackageVideoPanel({
             <div className={styles.metaValue}>{duration}</div>
           </div>
         ) : null}
+        {active.hasChecklistScene ? (
+          <div className={styles.metaItem}>
+            <span className={styles.metaLabel}>Scéna</span>
+            <div className={styles.metaBadgeRow}>
+              <span className={`${styles.badge} ${styles.checklistBadge}`}>
+                CHECKLIST
+              </span>
+              {active.presentationAnalyzerWarningCount > 0 ? (
+                <span
+                  className={`${styles.badge} ${TONE_CLASS.yellow}`}
+                  title="Presentation analyzer warnings"
+                >
+                  {active.presentationAnalyzerWarningCount} warn
+                </span>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {active.status === "failed" && active.jobId ? (

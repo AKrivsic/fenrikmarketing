@@ -13,6 +13,10 @@ import { regenerateSceneImageViaWorker } from "@/lib/video-worker/regenerateScen
 import { editSceneImageViaWorker } from "@/lib/video-worker/editSceneImageClient";
 import { insertSceneBrandAssetViaWorker } from "@/lib/video-worker/insertSceneBrandAssetClient";
 import { applySceneImageWorkerResult } from "@/lib/video-scene-editor/applySceneImageWorkerResult";
+import { parseChecklistScenePayload } from "@/lib/scene-types/checklist/checklistScenePayload";
+import { parseQuoteScenePayload } from "@/lib/scene-types/quote/quoteScenePayload";
+import { parseStatisticScenePayload } from "@/lib/scene-types/statistic/statisticScenePayload";
+import { parseCtaScenePayload } from "@/lib/scene-types/cta/ctaScenePayload";
 import { buildSceneEditorBrandAssetPath } from "@/lib/video-scene-editor/brandAssetStorage";
 import { validateBrandAssetUpload } from "@/lib/video-scene-editor/validateBrandAssetUpload";
 import {
@@ -71,6 +75,133 @@ import {
   normalizeSceneDurationSeconds,
 } from "@/lib/video-scene-editor/sceneTimeline";
 
+export function typedPresentationViewFromDraftScene(scene: SceneEditorDraftScene): {
+  sceneType: string | null;
+  checklistTitle: string | null;
+  checklistItems: string[] | null;
+  quoteText: string | null;
+  quoteAttribution: string | null;
+  statisticValue: string | null;
+  statisticUnit: string | null;
+  statisticLabel: string | null;
+  statisticSourceLine: string | null;
+  statisticProofId: string | null;
+  ctaHeadline: string | null;
+  ctaSubline: string | null;
+  ctaButtonLabel: string | null;
+  ctaShowLogo: boolean | null;
+} {
+  const sceneType =
+    typeof scene.type === "string" && scene.type.trim().length > 0
+      ? scene.type.trim()
+      : null;
+
+  if (sceneType === "CHECKLIST" && scene.payload_snapshot) {
+    const parsed = parseChecklistScenePayload(scene.payload_snapshot);
+    if (parsed.ok) {
+      return {
+        sceneType,
+        checklistTitle: parsed.data.title ?? null,
+        checklistItems: parsed.data.items,
+        quoteText: null,
+        quoteAttribution: null,
+        statisticValue: null,
+        statisticUnit: null,
+        statisticLabel: null,
+        statisticSourceLine: null,
+        statisticProofId: null,
+        ctaHeadline: null,
+        ctaSubline: null,
+        ctaButtonLabel: null,
+        ctaShowLogo: null,
+      };
+    }
+  }
+
+  if (sceneType === "QUOTE" && scene.payload_snapshot) {
+    const parsed = parseQuoteScenePayload(scene.payload_snapshot);
+    if (parsed.ok) {
+      return {
+        sceneType,
+        checklistTitle: null,
+        checklistItems: null,
+        quoteText: parsed.data.quote,
+        quoteAttribution: parsed.data.attribution,
+        statisticValue: null,
+        statisticUnit: null,
+        statisticLabel: null,
+        statisticSourceLine: null,
+        statisticProofId: null,
+        ctaHeadline: null,
+        ctaSubline: null,
+        ctaButtonLabel: null,
+        ctaShowLogo: null,
+      };
+    }
+  }
+
+  if (sceneType === "STATISTIC" && scene.payload_snapshot) {
+    const parsed = parseStatisticScenePayload(scene.payload_snapshot);
+    if (parsed.ok) {
+      return {
+        sceneType,
+        checklistTitle: null,
+        checklistItems: null,
+        quoteText: null,
+        quoteAttribution: null,
+        statisticValue: parsed.data.value,
+        statisticUnit: parsed.data.unit ?? null,
+        statisticLabel: parsed.data.label,
+        statisticSourceLine: parsed.data.source_line ?? null,
+        statisticProofId: parsed.data.proof_id,
+        ctaHeadline: null,
+        ctaSubline: null,
+        ctaButtonLabel: null,
+        ctaShowLogo: null,
+      };
+    }
+  }
+
+  if (sceneType === "CTA" && scene.payload_snapshot) {
+    const parsed = parseCtaScenePayload(scene.payload_snapshot);
+    if (parsed.ok) {
+      return {
+        sceneType,
+        checklistTitle: null,
+        checklistItems: null,
+        quoteText: null,
+        quoteAttribution: null,
+        statisticValue: null,
+        statisticUnit: null,
+        statisticLabel: null,
+        statisticSourceLine: null,
+        statisticProofId: null,
+        ctaHeadline: parsed.data.headline,
+        ctaSubline: parsed.data.subline ?? null,
+        ctaButtonLabel: parsed.data.button_label ?? null,
+        ctaShowLogo: parsed.data.show_logo ?? null,
+      };
+    }
+  }
+
+  return {
+    sceneType,
+    checklistTitle: null,
+    checklistItems: null,
+    quoteText: null,
+    quoteAttribution: null,
+    statisticValue: null,
+    statisticUnit: null,
+    statisticLabel: null,
+    statisticSourceLine: null,
+    statisticProofId: null,
+    ctaHeadline: null,
+    ctaSubline: null,
+    ctaButtonLabel: null,
+    ctaShowLogo: null,
+  };
+}
+
 function scenesToDraftScenes(
   scenes: Record<string, unknown>[],
 ): SceneEditorDraftScene[] {
@@ -100,6 +231,20 @@ function scenesToDraftScenes(
       duration_seconds,
       ...(typeof scene.video_usage === "string" && scene.video_usage.trim().length > 0
         ? { video_usage: String(scene.video_usage).trim() }
+        : {}),
+      ...(typeof scene.type === "string" && scene.type.trim().length > 0
+        ? { type: String(scene.type).trim() }
+        : {}),
+      ...(scene.payload_snapshot &&
+      typeof scene.payload_snapshot === "object" &&
+      !Array.isArray(scene.payload_snapshot)
+        ? {
+            payload_snapshot: scene.payload_snapshot as Record<string, unknown>,
+          }
+        : {}),
+      ...(typeof scene.renderer_version === "string" &&
+      scene.renderer_version.trim().length > 0
+        ? { renderer_version: String(scene.renderer_version).trim() }
         : {}),
     };
   });
@@ -241,6 +386,20 @@ export interface VideoSceneEditorSceneView {
   visualMode: SceneVisualMode;
   projectAssetId: string | null;
   projectAssetTitle: string | null;
+  sceneType: string | null;
+  checklistTitle: string | null;
+  checklistItems: string[] | null;
+  quoteText: string | null;
+  quoteAttribution: string | null;
+  statisticValue: string | null;
+  statisticUnit: string | null;
+  statisticLabel: string | null;
+  statisticSourceLine: string | null;
+  statisticProofId: string | null;
+  ctaHeadline: string | null;
+  ctaSubline: string | null;
+  ctaButtonLabel: string | null;
+  ctaShowLogo: boolean | null;
 }
 
 export interface VideoWorkflowState {
@@ -420,6 +579,7 @@ export async function loadVideoSceneEditorState(
             getSceneVisualSetting(workflowMeta, scene.id).project_asset_id ??
               "",
           ) ?? null,
+        ...typedPresentationViewFromDraftScene(scene),
       };
     }),
     hasDraftChanges,
