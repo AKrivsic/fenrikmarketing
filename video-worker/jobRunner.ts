@@ -21,6 +21,7 @@ import {
   generateSceneImages,
   type SceneImage,
 } from "@/video-worker/services/images";
+import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
 import { assertWorkerScenesRenderable } from "@/lib/scene-types/assertWorkerScenes";
 import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
 import { IMAGE_SCENE_RENDERER_VERSION } from "@/lib/scene-types/renderers/imageSceneRenderer";
@@ -315,7 +316,11 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
 
   try {
     const spec = buildRenderSpec(payload.input);
-    assertWorkerScenesRenderable(spec.scenes);
+    ensureSceneRendererRegistry();
+    assertWorkerScenesRenderable(spec.scenes, {
+      projectId: payload.project_id,
+      videoJobId: payload.video_job_id,
+    });
     const dir = workerTempDir();
 
     const ttsOptions = resolveTtsOptionsFromJobInput(

@@ -21,6 +21,7 @@ import {
 } from "@/lib/scene-types/renderers/types";
 import { createImageSceneRenderer } from "@/lib/scene-types/renderers/imageSceneRenderer";
 import { assertWorkerScenesRenderable } from "@/lib/scene-types/assertWorkerScenes";
+import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
 
 let passed = 0;
 let failed = 0;
@@ -216,10 +217,12 @@ check("CHECKLIST without rollout downgrades to IMAGE at worker", () => {
   );
 });
 
-check("worker assert passes legacy IMAGE scenes", () => {
-  assertWorkerScenesRenderable([
-    { id: "scene-1", image_prompt: "a", duration_seconds: 3 },
-  ]);
+check("worker assert passes legacy IMAGE scenes after registry init", () => {
+  ensureSceneRendererRegistry();
+  assertWorkerScenesRenderable(
+    [{ id: "scene-1", image_prompt: "a", duration_seconds: 3 }],
+    { projectId: "p", videoJobId: "j" },
+  );
 });
 
 check("SCENE_TYPES_ENABLED defaults off", () => {
