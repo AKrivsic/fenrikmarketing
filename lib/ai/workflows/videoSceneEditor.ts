@@ -1168,6 +1168,7 @@ export async function applyLibraryAssetAsSceneReplacement(
     image_bucket: storage.bucket,
     image_path: storage.path,
     video_usage,
+    asset_id: input.assetId,
   };
 
   const historyBase =

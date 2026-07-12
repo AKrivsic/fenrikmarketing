@@ -7,7 +7,9 @@ import type { AssetView } from "@/lib/api/assets-admin";
 import {
   formatAnalysisStatusLabel,
   formatAssetQualityLabel,
+  formatCaptureViewportLabel,
   formatOrientationLabel,
+  formatPreferredVideoUsageLabel,
   formatTechnicalDisplayValue,
   formatVideoSuitabilityLabel,
   preferredVideoUsageHintForMode,
@@ -287,9 +289,14 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
           </label>
         ) : (
           <p className={styles.hint}>
-            Viewport se odvodí z ingestu nebo zůstane nevyplněný.
+            {asset.captureViewport
+              ? `Auto inferred: ${formatCaptureViewportLabel(asset.captureViewport) ?? asset.captureViewport}`
+              : "Auto inferred: empty (not a UI screenshot or insufficient signals)"}
           </p>
         )}
+        <p className={styles.hint}>
+          Mobile app screenshots are normally framed to preserve the full interface.
+        </p>
 
         <ModeToggle
           fieldKey="preferred-video-usage"
@@ -320,6 +327,11 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
             ) : null}
           </label>
         ) : null}
+        <p className={styles.hint}>
+          {preferredVideoUsageMode === "manual"
+            ? `Manual override: ${formatPreferredVideoUsageLabel(preferredVideoUsage) ?? preferredVideoUsage}`
+            : `Resolved automatically: ${formatPreferredVideoUsageLabel(asset.preferredVideoUsage) ?? asset.preferredVideoUsage}`}
+        </p>
         {preferredHint ? <p className={styles.hint}>{preferredHint}</p> : null}
       </section>
 

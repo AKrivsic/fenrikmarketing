@@ -20,7 +20,13 @@ import {
   type AssetAnalysisMetadata,
 } from "@/lib/assets/analysis";
 import { readImageDimensions } from "@/lib/knowledge/websiteImageRejectHeuristics";
-import { readProductRole } from "@/lib/assets/productRole";
+import {
+  inferProductRoleFromSignals,
+  readProductRoleLocked,
+  shouldApplyInferredProductRole,
+} from "@/lib/assets/inferProductRoleFromSignals";
+import { inferCaptureViewport } from "@/lib/assets/inferCaptureViewport";
+import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
 import {
   mergeSmartUsageIntoMetadata,
   smartUsageFromAssetMetadata,
@@ -249,7 +255,7 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
   asset: Asset,
 ): Promise<Json> {
   let metadata = asset.metadata;
-  const record =
+  let record =
     metadata && typeof metadata === "object" && !Array.isArray(metadata)
       ? { ...(metadata as Record<string, unknown>) }
       : {};
@@ -265,6 +271,9 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
       metadata = record as Json;
     }
   }
+
+  record = applyInferredProductRoleIfAllowed(record, asset.title);
+
   const analysisView = {
     detected_content_type:
       typeof record.detected_content_type === "string"
@@ -273,11 +282,11 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
     ai_description:
       typeof record.ai_description === "string" ? record.ai_description : null,
   };
-  const smart = smartUsageFromAssetMetadata(metadata, {
+  const smart = smartUsageFromAssetMetadata(record as Json, {
     width: typeof record.width === "number" ? record.width : null,
     height: typeof record.height === "number" ? record.height : null,
     mimeType: asset.mime_type,
-    productRole: readProductRole(metadata),
+    productRole: readProductRole(record),
     title: asset.title,
     detectedContentType: analysisView.detected_content_type,
     aiDescription: analysisView.ai_description,
@@ -292,5 +301,46 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
           ? "component_capture"
           : "upload",
   });
-  return mergeSmartUsageIntoMetadata(metadata, smart) as Json;
+  let merged = mergeSmartUsageIntoMetadata(record as Json, smart);
+
+  const inferredViewport = inferCaptureViewport({
+    metadata: merged,
+    smart,
+    title: asset.title,
+  });
+  if (inferredViewport) {
+    merged = { ...merged, capture_viewport: inferredViewport };
+  }
+
+  return merged as Json;
+}
+
+/** Applies vision/heuristic product_role when upload did not lock a role. */
+export function applyInferredProductRoleIfAllowed(
+  record: Record<string, unknown>,
+  title: string,
+): Record<string, unknown> {
+  if (readProductRoleLocked(record)) return record;
+  if (readProductRole(record)) return record;
+
+  const inference = inferProductRoleFromSignals({
+    kind: undefined,
+    url: typeof record.source_url === "string" ? record.source_url : "",
+    alt: null,
+    title,
+    vision: {
+      detected_content_type:
+        typeof record.detected_content_type === "string"
+          ? record.detected_content_type
+          : null,
+      ai_description:
+        typeof record.ai_description === "string" ? record.ai_description : null,
+    },
+  });
+
+  if (!shouldApplyInferredProductRole(inference, false) || !inference.role) {
+    return record;
+  }
+  const next = { ...record, product_role: inference.role as ProductRole };
+  return next;
 }

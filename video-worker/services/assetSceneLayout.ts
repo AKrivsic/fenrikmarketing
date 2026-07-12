@@ -116,6 +116,20 @@ function cardShadowSvg(cardX: number, cardY: number, cardW: number, cardH: numbe
   return Buffer.from(svg);
 }
 
+function clampOverlayPosition(
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+): { left: number; top: number } {
+  const maxLeft = Math.max(0, CANVAS_W - width);
+  const maxTop = Math.max(0, CANVAS_H - height);
+  return {
+    left: Math.min(maxLeft, Math.max(0, left)),
+    top: Math.min(maxTop, Math.max(0, top)),
+  };
+}
+
 async function resizedAsset(asset: Buffer, w: number, h: number): Promise<Buffer> {
   return sharp(asset).resize(w, h, { fit: "inside" }).png().toBuffer();
 }
@@ -158,7 +172,7 @@ export async function composeAssetSceneStill(
     case "framed_screen":
       maxW = Math.round(CANVAS_W * 0.9);
       maxH = Math.round(CANVAS_H * 0.52);
-      offsetY = -Math.round(CANVAS_H * 0.04);
+      offsetY = 0;
       break;
     case "framed_phone":
       maxW = Math.round(CANVAS_W * 0.72);
@@ -181,8 +195,14 @@ export async function composeAssetSceneStill(
 
   const fit = fitContain(assetW, assetH, maxW, maxH);
   const assetPng = await resizedAsset(input.assetBytes, fit.width, fit.height);
-  const left = Math.round((CANVAS_W - fit.width) / 2);
-  const top = Math.round((CANVAS_H - fit.height) / 2 + offsetY);
+  const centeredLeft = Math.round((CANVAS_W - fit.width) / 2);
+  const centeredTop = Math.round((CANVAS_H - fit.height) / 2 + offsetY);
+  const { left, top } = clampOverlayPosition(
+    centeredLeft,
+    centeredTop,
+    fit.width,
+    fit.height,
+  );
 
   const layers: sharp.OverlayOptions[] = [
     { input: assetPng, left, top },

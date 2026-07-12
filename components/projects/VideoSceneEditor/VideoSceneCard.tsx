@@ -185,13 +185,23 @@ export function VideoSceneCard({
         </button>
       </div>
 
-      <div className={styles.previewWrap}>
+      <div
+        className={
+          scene.projectAssetId || scene.visualMode === "project_asset"
+            ? `${styles.previewWrap} ${styles.previewWrapProjectAsset}`
+            : styles.previewWrap
+        }
+      >
         {scene.previewUrl ? (
           // eslint-disable-next-line @next/next/no-img-element -- signed storage URL
           <img
             src={scene.previewUrl}
             alt={`Náhled scény ${scene.sceneNumber}`}
-            className={styles.preview}
+            className={
+              scene.projectAssetId || scene.visualMode === "project_asset"
+                ? `${styles.preview} ${styles.previewProjectAsset}`
+                : styles.preview
+            }
           />
         ) : (
           <div className={styles.previewPlaceholder}>Náhled nedostupný</div>

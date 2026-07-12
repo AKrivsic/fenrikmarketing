@@ -10,6 +10,7 @@ export interface SceneEditorDraftScene {
   duration_seconds: number;
   video_usage?: string;
   asset_id?: string;
+  video_usage_locked?: boolean;
   type?: string;
   payload_snapshot?: Record<string, unknown>;
   renderer_version?: string;
@@ -109,6 +110,7 @@ function parseDraftScene(value: unknown): SceneEditorDraftScene | null {
     ...(typeof row.asset_id === "string" && row.asset_id.trim().length > 0
       ? { asset_id: row.asset_id.trim() }
       : {}),
+    ...(row.video_usage_locked === true ? { video_usage_locked: true } : {}),
     ...(typeof row.type === "string" && row.type.trim().length > 0
       ? { type: row.type.trim() }
       : {}),

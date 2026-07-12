@@ -8,6 +8,7 @@ import type {
   MotionIntensity,
 } from "@/lib/video-engine/semanticMotion/motionIntent";
 import { SEMANTIC_MOTION_VERSION } from "@/lib/video-engine/semanticMotion/motionIntent";
+import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
 
 export interface SceneMotionContext {
   sceneId: string;
@@ -20,6 +21,8 @@ export interface SceneMotionContext {
   visualProfile?: VisualProfile | null;
   /** Valid explicit hint from structured metadata only. */
   motionHint?: MotionIntent | null;
+  /** Render usage for reused product assets (framed UI stills). */
+  videoUsage?: string | null;
 }
 
 export interface ResolvedSceneMotion {
@@ -227,6 +230,18 @@ export function resolveSceneMotionIntent(
   ctx: SceneMotionContext,
 ): ResolvedSceneMotion {
   try {
+    if (
+      ctx.sceneType === DEFAULT_SCENE_TYPE &&
+      isFramedProductVideoUsage(ctx.videoUsage)
+    ) {
+      return {
+        motion_intent: "HOLD",
+        motion_primitive: "static",
+        motion_intensity: "LOW",
+        motion_version: SEMANTIC_MOTION_VERSION,
+      };
+    }
+
     const profile =
       ctx.visualProfile && parseVisualProfile(ctx.visualProfile)
         ? ctx.visualProfile
@@ -285,6 +300,7 @@ export interface BeatMotionPlanInput {
   narrativeRole: string;
   visualProfile?: VisualProfile | null;
   previousPrimitive?: MotionType | null;
+  videoUsage?: string | null;
 }
 
 export function resolveBeatMotionPlan(
@@ -299,6 +315,7 @@ export function resolveBeatMotionPlan(
     beatCount: input.beatCount,
     narrativeRole: input.narrativeRole,
     visualProfile: input.visualProfile,
+    videoUsage: input.videoUsage,
   });
 
   if (

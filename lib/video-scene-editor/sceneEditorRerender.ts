@@ -22,6 +22,10 @@ import {
 } from "@/lib/video-scene-editor/metadata";
 import { hasSceneEditorRerenderChanges } from "@/lib/video-scene-editor/sceneEditorChanges";
 import {
+  refreshDraftScenesVideoUsage,
+  type AssetRowForVideoUsage,
+} from "@/lib/video-scene-editor/resolveDraftSceneVideoUsage";
+import {
   baselineVoiceoverForEditor,
   readSourceVoiceoverText,
   resolveDraftVoiceoverText,
@@ -90,6 +94,7 @@ function scenesToDraftScenes(
       scene.renderer_version.trim().length > 0
         ? { renderer_version: scene.renderer_version.trim() }
         : {}),
+      ...(scene.video_usage_locked === true ? { video_usage_locked: true } : {}),
     };
   });
 }
@@ -105,6 +110,7 @@ function draftScenesToInputScenes(
     image_path: scene.image_path,
     ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
     ...(scene.asset_id ? { asset_id: scene.asset_id } : {}),
+    ...(scene.video_usage_locked ? { video_usage_locked: true } : {}),
     ...(scene.type ? { type: scene.type } : {}),
     ...(scene.payload_snapshot
       ? { payload_snapshot: scene.payload_snapshot }
@@ -113,6 +119,33 @@ function draftScenesToInputScenes(
       ? { renderer_version: scene.renderer_version }
       : {}),
   }));
+}
+
+async function loadAssetMetadataForDraftScenes(
+  supabase: SupabaseClient,
+  projectId: string,
+  scenes: SceneEditorDraftScene[],
+): Promise<Map<string, AssetRowForVideoUsage>> {
+  const ids = Array.from(
+    new Set(scenes.map((s) => s.asset_id).filter((id): id is string => Boolean(id))),
+  );
+  const map = new Map<string, AssetRowForVideoUsage>();
+  if (ids.length === 0) return map;
+
+  const { data, error } = await supabase
+    .from("assets")
+    .select("id, title, metadata")
+    .eq("project_id", projectId)
+    .in("id", ids);
+  if (error) throw error;
+  for (const row of data ?? []) {
+    map.set(row.id as string, {
+      id: row.id as string,
+      title: (row.title as string) ?? null,
+      metadata: (row.metadata as Json) ?? {},
+    });
+  }
+  return map;
 }
 
 async function loadSourceJob(
@@ -302,9 +335,15 @@ export async function runSceneEditorRerender(
     sourceVideoJobId: job.id,
     sourceJobInput: job.input,
   });
+  const assetsById = await loadAssetMetadataForDraftScenes(
+    supabase,
+    input.projectId,
+    scenes,
+  );
+  const scenesForRender = refreshDraftScenesVideoUsage(scenes, assetsById);
   let jobInput = {
     ...baseInput,
-    scenes: draftScenesToInputScenes(scenes),
+    scenes: draftScenesToInputScenes(scenesForRender),
     voiceover_text:
       resolvedVoiceover.length > 0
         ? resolvedVoiceover

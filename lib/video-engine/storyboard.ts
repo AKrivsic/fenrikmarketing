@@ -126,6 +126,7 @@ const MOTION_CYCLE: MotionType[] = [
 export interface StoryboardSceneContext {
   id: string;
   type?: SceneType | string | null;
+  video_usage?: string | null;
 }
 
 export function coerceMotionType(value: unknown): MotionType {
@@ -300,6 +301,15 @@ function sceneIndexForId(
   return idx >= 0 ? idx : 0;
 }
 
+function videoUsageForSceneId(
+  sceneId: string,
+  scenes: StoryboardSceneContext[],
+): string | null {
+  const row = scenes.find((s) => s.id === sceneId);
+  const raw = row?.video_usage;
+  return typeof raw === "string" && raw.trim().length > 0 ? raw.trim() : null;
+}
+
 function sceneTypeForId(
   sceneId: string,
   scenes: StoryboardSceneContext[],
@@ -419,6 +429,7 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
         narrativeRole: role,
         visualProfile,
         previousPrimitive,
+        videoUsage: videoUsageForSceneId(sceneId, sceneContexts),
       });
       motion = plan.motion_primitive;
       motion_intent = plan.motion_intent;

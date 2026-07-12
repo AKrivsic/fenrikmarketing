@@ -392,6 +392,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       scenes: spec.scenes.map((scene) => ({
         id: scene.id,
         type: effectiveSceneType(scene.type, "IMAGE"),
+        ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
       })),
       visualProfile,
       semanticMotion: payload.input["semantic_motion"] !== false,

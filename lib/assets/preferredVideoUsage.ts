@@ -2,6 +2,10 @@ import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
 import type { ProductRole } from "@/lib/assets/productRole";
 import { readProductRole } from "@/lib/assets/productRole";
 import {
+  isPortraitMarketingPhoto,
+  isUiScreenshotContent,
+} from "@/lib/assets/uiScreenshotSignals";
+import {
   computeOrientation,
   readSafeVerticalUsage,
   readVideoSuitability,
@@ -56,6 +60,15 @@ export function readCaptureViewport(metadata: unknown): CaptureViewport | null {
     : null;
 }
 
+function readPreferredPresentation(metadata: unknown): string | null {
+  const record = readRecord(metadata);
+  if (!record) return null;
+  const value = record.preferred_presentation;
+  return typeof value === "string" && value.trim().length > 0
+    ? value.trim()
+    : null;
+}
+
 function readDimensions(
   metadata: unknown,
 ): { width: number | null; height: number | null } {
@@ -83,7 +96,7 @@ function isPreferredVideoUsage(value: unknown): value is PreferredVideoUsage {
   );
 }
 
-/** Future: component-capture worker may stamp this on metadata. */
+/** Stamped manual preferred_video_usage in metadata (checked before compute). */
 export function readPreferredVideoUsageFromMetadata(
   metadata: unknown,
 ): VideoUsageRenderMode | null {
@@ -116,30 +129,51 @@ export interface PreferredVideoUsageInput {
   height: number | null;
   title?: string | null;
   detectedContentType?: string | null;
+  aiDescription?: string | null;
+  preferredPresentation?: string | null;
 }
 
+function isPortraitOrientation(input: PreferredVideoUsageInput): boolean {
+  return (
+    input.orientation === "portrait" ||
+    Boolean(
+      input.width &&
+        input.height &&
+        computeOrientation(input.width, input.height) === "portrait",
+    )
+  );
+}
+
+function uiContext(input: PreferredVideoUsageInput) {
+  return {
+    productRole: input.productRole,
+    detectedContentType: input.detectedContentType,
+    aiDescription: input.aiDescription,
+    title: input.title,
+    preferredPresentation: input.preferredPresentation ?? null,
+  };
+}
+
+/** Maps asset metadata to a render-time usage mode (manual stamp handled outside). */
 export function computePreferredVideoUsage(
   input: PreferredVideoUsageInput,
-): PreferredVideoUsage {
-  if (input.captureViewport === "mobile") return "fullscreen";
+): VideoUsageRenderMode {
+  const portrait = isPortraitOrientation(input);
+  const ui = isUiScreenshotContent(uiContext(input));
 
-  const portrait =
-    input.orientation === "portrait" ||
-    (input.width &&
-      input.height &&
-      computeOrientation(input.width, input.height) === "portrait");
+  if (input.preferredPresentation === "phone_screen") {
+    return "framed_phone";
+  }
 
-  if (input.safeVerticalUsage === true && portrait) return "fullscreen";
-  if (input.productRole === "logo") return "proof";
-  if (input.productRole === "hero_image") return "background";
-  if (input.productRole === "decorative") return "floating_card";
+  if (input.captureViewport === "mobile" && ui) {
+    return "framed_phone";
+  }
 
-  const hay = titleHaystack([input.title, input.detectedContentType]);
   if (
-    input.productRole === null &&
-    (hay.includes("feature card") || hay.includes("feature_card"))
+    input.productRole === "product_ui" &&
+    (portrait || input.captureViewport === "mobile")
   ) {
-    return "floating_card";
+    return "framed_phone";
   }
 
   if (
@@ -150,10 +184,25 @@ export function computePreferredVideoUsage(
     return "framed_screen";
   }
 
-  if (input.captureViewport === "desktop") return "framed_screen";
+  if (input.productRole === "logo") return "proof";
+  if (input.productRole === "hero_image") return "background";
+  if (input.productRole === "decorative") return "floating_card";
 
-  if (input.productRole === "product_ui" && portrait) return "fullscreen";
-  if (input.productRole === "product_ui") return "framed_screen";
+  if (input.captureViewport === "desktop" && ui) {
+    return "framed_screen";
+  }
+
+  const hay = titleHaystack([input.title, input.detectedContentType]);
+  if (
+    input.productRole === null &&
+    (hay.includes("feature card") || hay.includes("feature_card"))
+  ) {
+    return "floating_card";
+  }
+
+  if (input.productRole === "product_ui") {
+    return portrait ? "framed_phone" : "framed_screen";
+  }
 
   if (
     input.productRole === "testimonial" ||
@@ -163,6 +212,15 @@ export function computePreferredVideoUsage(
   }
 
   if (input.videoSuitability === "background_only") return "background";
+
+  if (input.safeVerticalUsage === true && portrait) {
+    if (isPortraitMarketingPhoto(uiContext(input))) {
+      return "fullscreen";
+    }
+    if (!ui) {
+      return "fullscreen";
+    }
+  }
 
   return "reference";
 }
@@ -197,6 +255,9 @@ export function resolvePreferredVideoUsageFromMetadata(
       typeof record?.detected_content_type === "string"
         ? record.detected_content_type
         : null,
+    aiDescription:
+      typeof record?.ai_description === "string" ? record.ai_description : null,
+    preferredPresentation: readPreferredPresentation(metadata),
   });
 }
 
@@ -226,6 +287,11 @@ export function resolvePreferredVideoUsageFromRef(
     height: null,
     title: ref.title,
     detectedContentType: ref.detected_content_type,
+    aiDescription: ref.ai_description ?? null,
+    preferredPresentation:
+      typeof ref.preferred_presentation === "string"
+        ? ref.preferred_presentation
+        : null,
   });
 }
 
@@ -335,4 +401,20 @@ export function resolveVideoUsageForRender(
     return mapPreferredToRenderMode(preferred, used);
   }
   return mapPreferredToRenderMode(preferred, used);
+}
+
+/** Beat motion should stay static for framed product UI stills. */
+export function isFramedProductVideoUsage(
+  videoUsage?: string | null,
+): boolean {
+  const raw = videoUsage?.trim().toLowerCase() ?? "";
+  if (!raw) return false;
+  return (
+    raw === "framed_phone" ||
+    raw === "framed_screen" ||
+    raw === "framed_laptop" ||
+    raw === "framed_monitor" ||
+    raw === "floating_card" ||
+    raw === "comparison"
+  );
 }

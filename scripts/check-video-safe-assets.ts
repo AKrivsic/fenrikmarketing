@@ -74,8 +74,8 @@ const directives: CreativeDirectives = {
 
 section("preferred_video_usage classification");
 
-check("mobile capture_viewport -> fullscreen", () => {
-  assert.equal(resolvePreferredVideoUsageFromRef(mobileUi), "fullscreen");
+check("mobile product_ui portrait -> framed_phone", () => {
+  assert.equal(resolvePreferredVideoUsageFromRef(mobileUi), "framed_phone");
 });
 
 check("desktop dashboard -> framed_screen", () => {
@@ -137,7 +137,7 @@ check("video prompt lists desktop and mobile assets", () => {
   });
   assert.ok(prompt.includes("mobile-ui"));
   assert.ok(prompt.includes("desktop-ui"));
-  assert.ok(prompt.includes("Preferred usage: fullscreen"));
+  assert.ok(prompt.includes("framed_phone"));
   assert.ok(prompt.includes("framed_screen"));
 });
 

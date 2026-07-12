@@ -12,8 +12,13 @@ export interface ProductRoleInference {
 
 const VISION_ROLE_HINTS: { pattern: RegExp; role: ProductRole }[] = [
   { pattern: /\blogo\b/i, role: "logo" },
+  {
+    pattern:
+      /\b(mobile app|app screen|app ui|phone screen|application interface)\b/i,
+    role: "product_ui",
+  },
   { pattern: /\bdashboard\b/i, role: "dashboard" },
-  { pattern: /\bproduct\s*ui\b|\bapp\s*screen\b|\binterface\b/i, role: "product_ui" },
+  { pattern: /\bproduct\s*ui\b|\buser interface\b/i, role: "product_ui" },
   { pattern: /\bpricing\b/i, role: "pricing_screenshot" },
   { pattern: /\bhomepage\b|\blanding\b/i, role: "homepage_screenshot" },
   { pattern: /\bhero\b|\bbanner\b/i, role: "hero_image" },
@@ -50,7 +55,17 @@ function filenameFromUrl(url: string): string {
 
 function matchRoleInHaystack(text: string): ProductRole | null {
   if (/\blogo\b|logo\.(svg|png|jpg|webp)/i.test(text)) return "logo";
-  if (/\bdashboard\b/.test(text)) return "dashboard";
+  if (
+    /\b(mobile app|app screen|app ui|phone screen|application interface|card recommendation)\b/.test(
+      text,
+    )
+  ) {
+    return "product_ui";
+  }
+  if (/\bdesktop analytics\b|\banalytics dashboard\b/.test(text)) {
+    return "dashboard";
+  }
+  if (/\bdashboard\b/.test(text) && !/\bmobile\b/.test(text)) return "dashboard";
   if (/\bpricing\b/.test(text)) return "pricing_screenshot";
   if (/\bproduct[-_]?ui\b|\bscreenshot\b|\bapp[-_]?screen\b/.test(text)) {
     return "product_ui";
