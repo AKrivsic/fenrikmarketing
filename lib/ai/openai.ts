@@ -1,4 +1,7 @@
 import {
+  ImageProviderHttpError,
+} from "@/lib/ai/imageProviderHttpError";
+import {
   fetchWithRetry,
   HTTP_MAX_ATTEMPTS,
   HTTP_TIMEOUT_MS,
@@ -235,7 +238,7 @@ export class OpenAIImageProvider implements ImageProvider {
 
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
-      throw new Error(`OpenAI image request failed (${res.status}): ${detail}`);
+      throw ImageProviderHttpError.fromOpenAIResponse(res.status, detail);
     }
 
     const data = (await res.json()) as ImageResponse;

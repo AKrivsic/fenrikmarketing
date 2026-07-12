@@ -1,4 +1,5 @@
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
+import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageGenerationMeta";
 import {
   DEFAULT_SCENE_TYPE,
   effectiveSceneType,
@@ -22,6 +23,7 @@ export interface SceneRasterPrepareResult {
   imagePath: string;
   reusedBucket?: string;
   reusedPath?: string;
+  imageGenerationWarning?: SceneImageGenerationWarning;
 }
 
 export interface SceneRenderer {

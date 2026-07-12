@@ -276,12 +276,19 @@ async function buildRenderSpecOutput(args: {
     });
   }
 
+  const imageWarnings = images
+    .map((img) => img.imageGenerationWarning)
+    .filter((w): w is NonNullable<typeof w> => w != null);
+
   return {
     version: 1,
     scenes,
     ...(spec.duration_seconds ? { duration_seconds: spec.duration_seconds } : {}),
     metadata: {
       rendered_at: new Date().toISOString(),
+      ...(imageWarnings.length > 0
+        ? { image_generation_warnings: imageWarnings }
+        : {}),
       ...(semanticMotionBeats && semanticMotionBeats.length > 0
         ? {
             semantic_motion: {

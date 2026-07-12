@@ -1,47 +1,18 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getImageProvider } from "@/lib/ai";
-import {
-  fetchWithRetry,
-  HTTP_MAX_ATTEMPTS,
-  HTTP_TIMEOUT_MS,
-} from "@/lib/http/fetchWithRetry";
 import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
-import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
+import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageGenerationMeta";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
 import { visualProfileImagePromptSuffix } from "@/lib/visual-profile/imagePromptProfile";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
+import { generateSceneImageWithModerationFallback } from "@/video-worker/services/generateSceneImageWithModerationFallback";
 import {
   shouldComposeAssetLayout,
   writeComposedAssetSceneFile,
 } from "@/video-worker/services/assetSceneLayout";
-
-async function resolveImageBytes(
-  imageBase64: string | undefined,
-  imageUrl: string | undefined,
-): Promise<Buffer> {
-  if (imageBase64) {
-    return Buffer.from(imageBase64, "base64");
-  }
-  if (imageUrl) {
-    const res = await fetchWithRetry(
-      imageUrl,
-      { method: "GET" },
-      {
-        timeoutMs: HTTP_TIMEOUT_MS.ai,
-        maxAttempts: HTTP_MAX_ATTEMPTS.ai,
-        label: "image-download",
-      },
-    );
-    if (!res.ok) {
-      throw new Error(`failed to download generated image (${res.status})`);
-    }
-    return Buffer.from(await res.arrayBuffer());
-  }
-  throw new Error("image provider returned neither imageBase64 nor imageUrl");
-}
 
 function workerTempDir(): string {
   return (
@@ -58,6 +29,7 @@ export async function prepareImageSceneRaster(
   imagePath: string;
   reusedBucket?: string;
   reusedPath?: string;
+  imageGenerationWarning?: SceneImageGenerationWarning;
 }> {
   const dir = workerTempDir();
   await mkdir(dir, { recursive: true });
@@ -105,7 +77,10 @@ export async function prepareImageSceneRaster(
 
   console.log(
     "[video-worker] Generating scene image",
-    JSON.stringify({ scene_id: scene.id }),
+    JSON.stringify({
+      video_job_id: ctx.videoJobId,
+      scene_id: scene.id,
+    }),
   );
   const provider = getImageProvider();
   const profile = parseVisualProfile(ctx.visualProfile ?? "");
@@ -114,14 +89,30 @@ export async function prepareImageSceneRaster(
     ? `${scene.image_prompt.trim()} ${profileSuffix}`
     : scene.image_prompt;
   const safePrompt = sanitizeImagePrompt(promptWithProfile);
-  const generated = await provider.generateImage({
-    prompt: safePrompt,
-    size: VIDEO_SCENE_IMAGE_SIZE,
+  const { meta } = await generateSceneImageWithModerationFallback({
+    provider,
+    ctx,
+    sceneId: scene.id,
+    primaryPrompt: safePrompt,
+    profileSuffix,
+    outputPath: imagePath,
   });
-  const bytes = await resolveImageBytes(
-    generated.imageBase64,
-    generated.imageUrl,
-  );
-  await writeFile(imagePath, bytes);
-  return { sceneId: scene.id, imagePath };
+
+  const hasWarning =
+    meta.original_generation_blocked ||
+    meta.safe_retry_attempted ||
+    meta.local_fallback_used;
+
+  return {
+    sceneId: scene.id,
+    imagePath,
+    ...(hasWarning
+      ? {
+          imageGenerationWarning: {
+            scene_id: scene.id,
+            ...meta,
+          },
+        }
+      : {}),
+  };
 }
