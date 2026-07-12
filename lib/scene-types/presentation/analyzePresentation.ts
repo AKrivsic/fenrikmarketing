@@ -456,6 +456,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       decisions.push({
         scene_id: sceneId,
@@ -487,6 +488,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       const notAllowlisted =
         mode === "enabled" && !isProjectAllowlistedForChecklist(input.projectId);
@@ -529,6 +531,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       decisions.push({
         scene_id: sceneId,
@@ -559,6 +562,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       decisions.push({
         scene_id: sceneId,
@@ -589,6 +593,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       decisions.push({
         scene_id: sceneId,
@@ -619,6 +624,7 @@ export function analyzePresentation(
         scene: working,
         narration,
         projectName: input.projectName,
+        requestedType: requested,
       });
       decisions.push({
         scene_id: sceneId,
@@ -637,6 +643,7 @@ export function analyzePresentation(
       scene: working,
       narration,
       projectName: input.projectName,
+      requestedType: requested,
     });
     decisions.push({
       scene_id: sceneId,

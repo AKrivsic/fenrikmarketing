@@ -50,6 +50,24 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
+function specialTypesFromAnalyzerDecisions(
+  pg: Record<string, unknown>,
+): SpecialSceneType[] | null {
+  const decisions = pg.analyzer_decisions;
+  if (!Array.isArray(decisions) || decisions.length === 0) return null;
+  const out = new Set<SpecialSceneType>();
+  for (const entry of decisions) {
+    const rec = asRecord(entry);
+    if (!rec) continue;
+    const finalType =
+      typeof rec.final_type === "string"
+        ? normalizeSceneType(rec.final_type)
+        : null;
+    if (finalType && isSpecialSceneType(finalType)) out.add(finalType);
+  }
+  return out.size > 0 ? [...out] : null;
+}
+
 function specialTypesFromPackageBrief(
   brief: Record<string, unknown>,
 ): SpecialSceneType[] {
@@ -65,16 +83,14 @@ function specialTypesFromPackageBrief(
     if (out.size > 0) return [...out];
   }
 
-  const visualScenes = brief.visual_scenes;
-  if (!Array.isArray(visualScenes)) return [];
-  const out = new Set<SpecialSceneType>();
-  for (const entry of visualScenes) {
-    const rec = asRecord(entry);
-    if (!rec) continue;
-    const normalized = normalizeSceneType(rec.type);
-    if (normalized && isSpecialSceneType(normalized)) out.add(normalized);
+  if (pg) {
+    const fromAnalyzer = specialTypesFromAnalyzerDecisions(pg);
+    if (fromAnalyzer) return fromAnalyzer;
   }
-  return [...out];
+
+  // Do not infer shipped scene types from model-requested visual_scenes alone —
+  // a requested CTA/CHECKLIST may have been downgraded to IMAGE before render.
+  return [];
 }
 
 export function buildSceneTypeProjectHistory(args: {

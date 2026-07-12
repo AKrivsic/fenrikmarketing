@@ -2,7 +2,7 @@ import type {
   ImageScenePayload,
   VisualScene,
 } from "@/lib/scene-types/visualScene";
-import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
+import { DEFAULT_SCENE_TYPE, type SceneType } from "@/lib/scene-types/sceneType";
 import { normalizePresentationText } from "@/lib/scene-types/presentation/textMatch";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -94,11 +94,24 @@ function extractExistingImagePayload(
   return null;
 }
 
+function buildAiPromptForDowngradedCtaScene(): string {
+  return (
+    "Vertical 9:16 portrait composition. Calm, minimal end-card still: a clean " +
+    "light-toned desk or neutral surface, soft even natural light, generous headroom " +
+    "and footroom for on-screen CTA text overlay. Mood is resolved and inviting, not " +
+    "busy. No readable text, logos, or watermarks in the image."
+  );
+}
+
 function buildAiPromptFromNarration(args: {
   narration: string;
   scene: VisualScene;
   projectName?: string;
+  requestedType?: SceneType;
 }): string {
+  if (args.requestedType === "CTA") {
+    return buildAiPromptForDowngradedCtaScene();
+  }
   const hint = args.scene.narration_hint?.trim();
   const base = hint && hint.length > 0 ? hint : args.narration.trim();
   const cleaned = base.replace(/\s+/g, " ").slice(0, 280);
@@ -120,10 +133,13 @@ export function downgradeSceneToImage(args: {
   scene: VisualScene;
   narration: string;
   projectName?: string;
+  /** Original typed scene before downgrade (e.g. CTA) — shapes fallback imagery. */
+  requestedType?: SceneType;
 }): VisualScene {
   const existing = extractExistingImagePayload(args.scene);
   const id = args.scene.id ?? "scene-1";
-  if (existing) {
+  const requestedType = args.requestedType ?? args.scene.type;
+  if (existing && requestedType !== "CTA") {
     return {
       ...args.scene,
       id,
@@ -136,6 +152,7 @@ export function downgradeSceneToImage(args: {
     narration: args.narration,
     scene: args.scene,
     projectName: args.projectName,
+    requestedType,
   });
 
   return {

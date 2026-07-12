@@ -69,11 +69,20 @@ export function validateCtaSceneEligibility(args: {
     };
   }
 
-  if (!ctaFieldAlignsWithReference(args.payload.headline, args.reference)) {
+  const actionFields = [
+    args.payload.headline,
+    args.payload.subline ?? "",
+    args.payload.button_label ?? "",
+  ].filter((f) => typeof f === "string" && f.trim().length > 0) as string[];
+
+  const actionAligns = actionFields.some((field) =>
+    ctaFieldAlignsWithReference(field, args.reference),
+  );
+  if (!actionAligns) {
     return {
       ok: false,
       rule: "cta_action_mismatch",
-      reason: "headline does not match package or project CTA",
+      reason: "no CTA field matches package or project CTA action",
     };
   }
 
@@ -98,10 +107,7 @@ export function validateCtaSceneEligibility(args: {
     }
     const buttonOk =
       ctaFieldAlignsWithReference(args.payload.button_label, args.reference) ||
-      ctaFieldAlignsWithReference(
-        args.payload.button_label,
-        { text: args.payload.headline, source: args.reference.source },
-      );
+      actionAligns;
     if (!buttonOk) {
       return {
         ok: false,

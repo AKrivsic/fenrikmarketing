@@ -21,6 +21,7 @@ import {
   VOICEOVER_TARGET_MIN_WORDS,
 } from "@/lib/ai/guardrails";
 import {
+  deviceScreenInteractionBlock,
   videoSceneCompositionBlock,
   visualStyleGuardrailBlock,
 } from "@/lib/ai/prompts/visualStyle";
@@ -537,6 +538,8 @@ export function buildGenerateContentPackagePrompt(
           ? [input.visualProfileImagePromptBlock, ""]
           : []),
         videoSceneCompositionBlock(),
+        "",
+        deviceScreenInteractionBlock(),
         "",
         "DEVICE SCREENS IN GENERATED STILLS:",
         "- If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be blank white or empty.",

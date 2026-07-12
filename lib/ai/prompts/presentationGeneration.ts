@@ -144,6 +144,7 @@ export function buildPresentationGenerationBlock(args: {
       "- At most ONE CTA scene in the entire video.",
       "- CTA should normally be the FINAL visual scene only.",
       "- Match headline and button to the package CTA / Project Brain default CTA — same action, no new offers.",
+      "- Put the package CTA action in headline OR subline OR button_label (at least one must paraphrase the package CTA); do not use a decorative hook-only headline with no CTA action in any field.",
       "- Prefer typed CTA only when the scene is final, the package CTA is explicit,",
       "  and a clean branded closing card communicates the action better than another IMAGE.",
       "- Do not invent discounts, urgency, guarantees, free trials, pricing, or scarcity.",

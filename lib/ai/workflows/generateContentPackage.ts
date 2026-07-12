@@ -813,6 +813,11 @@ async function persistNewPackage(
       .single();
     if (videoErr) throw videoErr;
     videoJobId = videoRow.id as string;
+    const { error: briefErr } = await supabase
+      .from("content_packages")
+      .update({ package_brief: buildPackageBrief(pkg) })
+      .eq("id", packageId);
+    if (briefErr) throw briefErr;
   }
 
   // Record asset_usage for referenced assets (linked to the primary item; the

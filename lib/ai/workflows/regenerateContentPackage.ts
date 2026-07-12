@@ -356,6 +356,12 @@ export async function runRegenerateContentPackage(
       .single();
     if (videoErr) throw videoErr;
     videoJobId = videoRow.id as string;
+    const { error: briefErr } = await supabase
+      .from("content_packages")
+      .update({ package_brief: buildPackageBrief(pkg) })
+      .eq("id", packageId)
+      .eq("project_id", projectId);
+    if (briefErr) throw briefErr;
   }
 
   await recordAssetUsage(supabase, projectId, primaryItemId, pkg);

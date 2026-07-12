@@ -135,6 +135,7 @@ export function applySceneTypeHistoryGuardrail(args: {
       scene,
       narration,
       projectName: args.projectName,
+      requestedType: decision.requested_type,
     });
     scenes[i] = downgraded;
 

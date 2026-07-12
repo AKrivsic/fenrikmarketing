@@ -46,6 +46,17 @@ export function visualStyleGuardrailBlock(): string {
   ].join("\n");
 }
 
+/** Framing for phones, laptops, and monitors in generated stills. */
+export function deviceScreenInteractionBlock(): string {
+  return [
+    "DEVICE & SCREEN REALISM (every image_prompt that shows a person using a device):",
+    "- Smartphone: screen faces the viewer OR use over-the-shoulder with the user's eyes on the screen; thumb on the side of the phone in a natural grip; never describe facial expression in an extreme hand-only close-up.",
+    "- Laptop: lid open, screen facing the user; prefer over-the-shoulder or three-quarter front so the user looks at the screen; hands on keyboard or trackpad in a natural typing position.",
+    "- Monitor or tablet: viewed from the user's side or over-the-shoulder — never a straight-on back-of-monitor shot; user gaze toward the screen when visible.",
+    "- Do not show a closed laptop while the person is actively working; do not show a phone back panel when the scene is about reading or swiping on-screen content.",
+  ].join("\n");
+}
+
 /** Framing for generated stills that are composed for vertical short video. */
 export function videoSceneCompositionBlock(): string {
   return [
