@@ -53,6 +53,8 @@ export function validateCtaSceneEligibility(args: {
     };
   }
 
+  const reference = args.reference;
+
   const combined = [
     args.payload.headline,
     args.payload.subline ?? "",
@@ -76,7 +78,7 @@ export function validateCtaSceneEligibility(args: {
   ].filter((f) => typeof f === "string" && f.trim().length > 0) as string[];
 
   const actionAligns = actionFields.some((field) =>
-    ctaFieldAlignsWithReference(field, args.reference),
+    ctaFieldAlignsWithReference(field, reference),
   );
   if (!actionAligns) {
     return {
@@ -106,7 +108,7 @@ export function validateCtaSceneEligibility(args: {
       };
     }
     const buttonOk =
-      ctaFieldAlignsWithReference(args.payload.button_label, args.reference) ||
+      ctaFieldAlignsWithReference(args.payload.button_label, reference) ||
       actionAligns;
     if (!buttonOk) {
       return {
