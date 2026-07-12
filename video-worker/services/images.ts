@@ -11,8 +11,6 @@ export interface GenerateSceneImagesInput {
   visualProfileVersion?: string;
 }
 
-import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageGenerationMeta";
-
 export interface SceneImage {
   sceneId: string;
   imagePath: string;
