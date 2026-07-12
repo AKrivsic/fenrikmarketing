@@ -55,11 +55,19 @@ export function resolveVisualProfileForPackage(args: {
 
 export function visualProfileFieldsForPersistence(
   resolved: ResolvedVisualProfile,
-): Record<string, string> {
-  return {
+): Record<string, string | Record<string, number> | string[]> {
+  const out: Record<string, string | Record<string, number> | string[]> = {
     visual_profile: resolved.profile,
     visual_profile_version: resolved.version,
+    visual_profile_source: resolved.source,
   };
+  if (resolved.scores && resolved.source === "auto") {
+    out.visual_profile_scores = resolved.scores;
+  }
+  if (resolved.reasons?.length && resolved.source === "auto") {
+    out.visual_profile_reasons = resolved.reasons;
+  }
+  return out;
 }
 
 export function readVisualProfileFromJobInput(

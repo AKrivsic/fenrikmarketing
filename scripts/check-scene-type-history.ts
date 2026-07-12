@@ -174,10 +174,10 @@ check("prompt block mentions restraint and recent patterns", () => {
   assert.match(block, /PHONE/);
 });
 
-check("presentation block includes calendar restraint lines", () => {
+check("presentation block includes restraint lines", () => {
   const block = buildPresentationGenerationBlock({ allowedTypes: ["IMAGE"] });
-  assert.match(block, /content calendar/);
   assert.match(block, /not recurring templates/);
+  assert.match(block, /recent project history/);
 });
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

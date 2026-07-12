@@ -231,15 +231,15 @@ async function main(): Promise<void> {
     }
   });
 
-  await check("10 prompt anti-diversity rules present", () => {
+  await check("10 prompt rubric and restraint present", () => {
     const block = buildPresentationGenerationBlock({
       allowedTypes: ["IMAGE", "CHECKLIST"],
     });
-    assert.match(block, /IMAGE is the default presentation type/);
+    assert.match(block, /IMAGE is the safe default/);
+    assert.match(block, /Decision rubric/);
     assert.match(block, /At most ONE CHECKLIST scene/);
-    assert.match(block, /Do not use CHECKLIST to create visual variety/);
+    assert.match(block, /Do not use typed scenes merely for decoration/);
     assert.match(block, /Order of work/);
-    assert.match(block, /Do not alternate scene types for visual variety/);
     assert.match(block, /forbidden: PHONE, QUOTE, STATISTIC, CTA/);
   });
 

@@ -3,11 +3,11 @@ import {
   DEFAULT_VISUAL_PROFILE,
   parseVisualProfile,
   visualProfileOverrideFromKnowledge,
-  VISUAL_PROFILES,
   VISUAL_PROFILE_UI_AUTO,
   VISUAL_PROFILE_VERSION,
   type VisualProfile,
 } from "@/lib/visual-profile/visualProfile";
+import { scoreVisualProfileAuto } from "@/lib/visual-profile/scoreVisualProfile";
 
 export type VisualProfileResolutionSource =
   | "override"
@@ -19,6 +19,8 @@ export interface ResolvedVisualProfile {
   profile: VisualProfile;
   source: VisualProfileResolutionSource;
   version: string;
+  scores?: Record<VisualProfile, number>;
+  reasons?: string[];
 }
 
 export interface VisualProfileProjectContext {
@@ -39,61 +41,10 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
-function toneSeed(toneOfVoice: Json | null | undefined): string {
-  if (typeof toneOfVoice === "string") return toneOfVoice.trim().toLowerCase();
-  const rec = asRecord(toneOfVoice);
-  if (!rec) return "";
-  const parts: string[] = [];
-  for (const key of ["style", "tone", "voice", "summary"]) {
-    const v = rec[key];
-    if (typeof v === "string" && v.trim()) parts.push(v.trim().toLowerCase());
-  }
-  return parts.join(" ");
-}
-
-function audienceSeed(targetAudience: Json | null | undefined): string {
-  if (typeof targetAudience === "string") return targetAudience.trim().toLowerCase();
-  const rec = asRecord(targetAudience);
-  if (!rec) return "";
-  const parts: string[] = [];
-  for (const key of ["description", "summary", "primary"]) {
-    const v = rec[key];
-    if (typeof v === "string" && v.trim()) parts.push(v.trim().toLowerCase());
-  }
-  return parts.join(" ");
-}
-
-function stableHash(input: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
 export function resolveVisualProfileAuto(
   ctx: VisualProfileProjectContext,
 ): VisualProfile {
-  const tone = toneSeed(ctx.toneOfVoice);
-  const audience = audienceSeed(ctx.targetAudience);
-  const strengths = (ctx.productStrengths ?? []).slice(0, 4).join("|");
-  const productIs = (ctx.productIs ?? []).slice(0, 3).join("|");
-  const goal = (ctx.goalType ?? "").trim().toLowerCase();
-
-  const seed = [
-    ctx.projectId,
-    goal,
-    tone,
-    audience,
-    strengths,
-    productIs,
-  ]
-    .filter(Boolean)
-    .join("::");
-
-  const index = stableHash(seed) % VISUAL_PROFILES.length;
-  return VISUAL_PROFILES[index] ?? DEFAULT_VISUAL_PROFILE;
+  return scoreVisualProfileAuto(ctx).profile;
 }
 
 export function resolveVisualProfile(
@@ -133,9 +84,14 @@ export function resolveVisualProfile(
     };
   }
 
+  const scored = scoreVisualProfileAuto(ctx);
   return {
-    profile: resolveVisualProfileAuto(ctx),
+    profile: scored.profile,
     source: "auto",
     version: VISUAL_PROFILE_VERSION,
+    scores: scored.scores,
+    reasons: scored.reasons,
   };
 }
+
+export { DEFAULT_VISUAL_PROFILE };

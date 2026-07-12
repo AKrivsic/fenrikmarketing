@@ -369,7 +369,7 @@ export async function buildVideoJobInput(
   pkg: ContentPackageOutput,
   extra: Record<string, unknown> = {},
 ): Promise<Json> {
-  const ttsFields = await loadTtsFieldsForVideoJob(supabase, projectId);
+  const ttsFields = await loadTtsFieldsForVideoJob(supabase, projectId, pkg, extra);
 
   const base = {
     concept: pkg.video.concept,
@@ -420,6 +420,20 @@ export async function buildVideoJobInput(
             visual_profile: prepared.presentationLog.visual_profile,
             visual_profile_version:
               prepared.presentationLog.visual_profile_version ?? null,
+            visual_profile_source:
+              prepared.presentationLog.visual_profile_source ?? null,
+            ...(prepared.presentationLog.visual_profile_scores
+              ? {
+                  visual_profile_scores:
+                    prepared.presentationLog.visual_profile_scores,
+                }
+              : {}),
+            ...(prepared.presentationLog.visual_profile_reasons
+              ? {
+                  visual_profile_reasons:
+                    prepared.presentationLog.visual_profile_reasons,
+                }
+              : {}),
           }
         : {}),
       ...(prepared.decisions.length > 0 ||
@@ -448,8 +462,27 @@ export async function buildVideoJobInput(
 async function loadTtsFieldsForVideoJob(
   supabase: SupabaseClient,
   projectId: string,
+  pkg: ContentPackageOutput,
+  extra: Record<string, unknown>,
 ): Promise<Record<string, string>> {
-  const merged = await attachTtsToVideoJobInput(supabase, projectId, {});
+  const narrativeRoles = Array.isArray(extra.creative_mode_beats)
+    ? (extra.creative_mode_beats as unknown[]).filter(
+        (b): b is string => typeof b === "string",
+      )
+    : undefined;
+  const merged = await attachTtsToVideoJobInput(
+    supabase,
+    projectId,
+    {},
+    null,
+    {
+      funnelStage:
+        typeof pkg.funnel_stage === "string" ? pkg.funnel_stage : null,
+      creativeMode:
+        typeof extra.creative_mode === "string" ? extra.creative_mode : null,
+      narrativeRoles,
+    },
+  );
   const out: Record<string, string> = {};
   if (typeof merged.tts_voice === "string") out.tts_voice = merged.tts_voice;
   if (typeof merged.tts_instructions === "string") {

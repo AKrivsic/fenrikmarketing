@@ -71,6 +71,7 @@ export function mergeTtsIntoJobInput(
 export async function fetchProjectTtsOptions(
   supabase: SupabaseClient,
   projectId: string,
+  videoContext?: import("@/lib/voice/buildVideoTtsDelivery").VideoTtsDeliveryContext,
 ): Promise<ResolvedTtsOptions> {
   const { data, error } = await supabase
     .from("projects")
@@ -84,6 +85,7 @@ export async function fetchProjectTtsOptions(
       language: "en" as LanguageCode,
       toneOfVoice: {},
       knowledge: {},
+      videoContext,
     });
   }
 
@@ -92,6 +94,7 @@ export async function fetchProjectTtsOptions(
     language: data.language as Project["language"],
     toneOfVoice: (data.tone_of_voice as Json) ?? {},
     knowledge: (data.knowledge as Json) ?? {},
+    videoContext,
   });
 }
 
@@ -100,7 +103,8 @@ export async function attachTtsToVideoJobInput(
   projectId: string,
   jobInput: Record<string, unknown>,
   sourceInput?: Record<string, unknown> | null,
+  videoContext?: import("@/lib/voice/buildVideoTtsDelivery").VideoTtsDeliveryContext,
 ): Promise<Record<string, unknown>> {
-  const projectTts = await fetchProjectTtsOptions(supabase, projectId);
+  const projectTts = await fetchProjectTtsOptions(supabase, projectId, videoContext);
   return mergeTtsIntoJobInput(jobInput, { sourceInput, projectTts });
 }

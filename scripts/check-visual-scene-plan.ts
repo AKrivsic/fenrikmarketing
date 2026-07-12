@@ -197,13 +197,26 @@ check("explicit scenes skip legacy merge", () => {
   assert.equal(spec.scenes.some((s) => s.id === "asset-1"), false);
 });
 
-check("explicit storyboard order uses each scene before cycling", () => {
+check("explicit storyboard order clamps extra beats to final scene", () => {
   const ids = ["scene-1", "scene-2", "scene-3"];
   const beats = 5;
   const mapped = Array.from({ length: beats }, (_, i) =>
     sceneIdForStoryboardBeat(i, beats, ids, true),
   );
-  assert.deepEqual(mapped, ["scene-1", "scene-2", "scene-3", "scene-1", "scene-2"]);
+  assert.deepEqual(mapped, [
+    "scene-1",
+    "scene-2",
+    "scene-3",
+    "scene-3",
+    "scene-3",
+  ]);
+});
+
+check("four scenes five beats uses scene-4 on final beat", () => {
+  const ids = ["scene-1", "scene-2", "scene-3", "scene-4"];
+  const beats = 5;
+  const last = sceneIdForStoryboardBeat(4, beats, ids, true);
+  assert.equal(last, "scene-4");
 });
 
 check("worker jobRunner sets explicitSceneOrder when flagged", () => {

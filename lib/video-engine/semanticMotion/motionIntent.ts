@@ -13,7 +13,7 @@ export const MOTION_INTENSITIES = ["LOW", "MEDIUM"] as const;
 
 export type MotionIntensity = (typeof MOTION_INTENSITIES)[number];
 
-export const SEMANTIC_MOTION_VERSION = "semantic-motion@1";
+export const SEMANTIC_MOTION_VERSION = "semantic-motion@2";
 
 export function isMotionIntent(value: string): value is MotionIntent {
   return (MOTION_INTENTS as readonly string[]).includes(value);

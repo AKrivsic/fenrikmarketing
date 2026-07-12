@@ -1,4 +1,9 @@
 import type { Json } from "@/lib/supabase/types";
+import {
+  buildVideoTtsDeliveryHints,
+  mergeTtsInstructionText,
+  type VideoTtsDeliveryContext,
+} from "@/lib/voice/buildVideoTtsDelivery";
 
 const MAX_TTS_INSTRUCTIONS_LENGTH = 500;
 
@@ -37,4 +42,42 @@ export function buildTtsInstructions(args: {
     `Read the script exactly; do not add or skip words.`;
 
   return text.slice(0, MAX_TTS_INSTRUCTIONS_LENGTH);
+}
+
+function toneInstructionFromNotes(args: {
+  toneOfVoice: Json;
+  language: string;
+}): string | undefined {
+  const notes = toneNotesFromProject(args.toneOfVoice);
+  if (notes.length === 0) return undefined;
+  const tone = notes.join("; ");
+  return (
+    `Speak naturally for a short vertical social video. ` +
+    `Language: ${args.language}. ` +
+    `Tone: ${tone}. ` +
+    `Read the script exactly; do not add or skip words.`
+  ).slice(0, MAX_TTS_INSTRUCTIONS_LENGTH);
+}
+
+export function buildTtsInstructionsForVideoJob(args: {
+  toneOfVoice: Json;
+  explicitInstructions?: string | null;
+  language: string;
+  videoContext?: VideoTtsDeliveryContext;
+}): string | undefined {
+  const toneDerived = toneInstructionFromNotes({
+    toneOfVoice: args.toneOfVoice,
+    language: args.language,
+  });
+  const videoHints = buildVideoTtsDeliveryHints({
+    funnelStage: args.videoContext?.funnelStage,
+    creativeMode: args.videoContext?.creativeMode,
+    narrativeRoles: args.videoContext?.narrativeRoles,
+    language: args.language,
+  });
+  return mergeTtsInstructionText({
+    projectInstructions: args.explicitInstructions,
+    toneDerived: args.explicitInstructions?.trim() ? undefined : toneDerived,
+    videoHints,
+  });
 }

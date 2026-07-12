@@ -5,6 +5,7 @@ import {
   VISUAL_PROFILE_UI_AUTO,
 } from "@/lib/visual-profile/visualProfile";
 import { resolveVisualProfile } from "@/lib/visual-profile/resolveVisualProfile";
+import { scoreVisualProfileAuto } from "@/lib/visual-profile/scoreVisualProfile";
 import { applyProfileToBrandTokens } from "@/lib/visual-profile/applyProfileToBrandTokens";
 import { resolveChecklistBrandTokens } from "@/lib/scene-types/checklist/brandTokens";
 import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
@@ -78,13 +79,52 @@ check("5 same project always same AUTO profile", () => {
   assert.equal(r1.profile, r2.profile);
 });
 
-check("6 different project ids may differ", () => {
-  const profiles = new Set(
-    ["p1", "p2", "p3", "p4", "p5", "p6"].map(
-      (id) => resolveVisualProfile({ ...baseCtx, projectId: id }).profile,
-    ),
-  );
-  assert.ok(profiles.size >= 1);
+check("6 AUTO does not use projectId hash", () => {
+  const src = scoreVisualProfileAuto.toString();
+  assert.ok(!src.includes("projectId"));
+  const a = resolveVisualProfile({ ...baseCtx, projectId: "p1" });
+  const b = resolveVisualProfile({ ...baseCtx, projectId: "p2" });
+  assert.equal(a.profile, b.profile);
+});
+
+check("6b Fenrik Studio semantic AUTO with scores", () => {
+  const fenrikCtx = {
+    projectId: "163c1822-ad30-4cee-8826-dfacd9c188b9",
+    knowledge: null,
+    goalType: "lead_generation",
+    toneOfVoice: {
+      notes: [
+        "Conversational and direct",
+        "Relatable and empathetic to everyday work frustrations",
+        "Concise — short sentences, minimal fluff",
+        "Slightly informal with occasional emoji use",
+        "Confident without being aggressive",
+        "Practical",
+        "Results-oriented",
+        "Avoids marketing jargon",
+      ],
+    },
+    targetAudience: {
+      summary:
+        "SaaS companies and AI tool makers needing social content|Agencies, consultants, and freelancers|Ecommerce brands and local businesses",
+    },
+    productStrengths: [
+      "First content package delivered free with no payment required",
+      "Uses client's own website URL as the sole input to create content",
+      "Each video includes captions and posts for all major social channels",
+      "Scalable packages: 5 videos ($199), 10 videos ($349), 20 videos ($599)",
+    ],
+    productIs: [
+      "A content production service that turns websites or products into ready-to-post social content",
+      "Delivers short-form AI videos for TikTok, Instagram, Facebook, LinkedIn, and YouTube Shorts",
+      "Provides platform-ready captions, posts, and hashtags for every channel",
+    ],
+  };
+  const r = resolveVisualProfile(fenrikCtx);
+  assert.equal(r.source, "auto");
+  assert.ok(r.scores && Object.values(r.scores).some((n) => n > 0));
+  assert.ok(r.reasons && r.reasons.length > 0);
+  assert.equal(resolveVisualProfile(fenrikCtx).profile, r.profile);
 });
 
 check("7 resolver has no industry hardcoding in source", () => {
@@ -138,7 +178,7 @@ check("14 CTA corner radius differs BOLD vs MINIMAL", () => {
 check("15 job input reads stored profile", () => {
   const read = readVisualProfileFromJobInput({
     visual_profile: "PREMIUM",
-    visual_profile_version: "visual-profile@1",
+    visual_profile_version: "visual-profile@2",
   });
   assert.equal(read.profile, "PREMIUM");
 });

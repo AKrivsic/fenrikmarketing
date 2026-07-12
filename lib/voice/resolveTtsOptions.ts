@@ -5,7 +5,8 @@ import {
   normalizeOpenAiTtsVoice,
   type OpenAiTtsVoice,
 } from "@/lib/voice/openaiTtsVoices";
-import { buildTtsInstructions } from "@/lib/voice/buildTtsInstructions";
+import { buildTtsInstructions, buildTtsInstructionsForVideoJob } from "@/lib/voice/buildTtsInstructions";
+import type { VideoTtsDeliveryContext } from "@/lib/voice/buildVideoTtsDelivery";
 import { parseKnowledgePresentation } from "@/lib/voice/knowledgePresentation";
 
 export interface ResolvedTtsOptions {
@@ -18,6 +19,7 @@ export interface ResolveTtsOptionsInput {
   language: LanguageCode;
   toneOfVoice: Json;
   knowledge: Json;
+  videoContext?: VideoTtsDeliveryContext;
 }
 
 export function resolveTtsOptions(
@@ -29,11 +31,18 @@ export function resolveTtsOptions(
     language: input.language,
     presentation,
   });
-  const instructions = buildTtsInstructions({
-    toneOfVoice: input.toneOfVoice,
-    explicitInstructions: presentation.tts_instructions,
-    language: input.language,
-  });
+  const instructions = input.videoContext
+    ? buildTtsInstructionsForVideoJob({
+        toneOfVoice: input.toneOfVoice,
+        explicitInstructions: presentation.tts_instructions,
+        language: input.language,
+        videoContext: input.videoContext,
+      })
+    : buildTtsInstructions({
+        toneOfVoice: input.toneOfVoice,
+        explicitInstructions: presentation.tts_instructions,
+        language: input.language,
+      });
 
   return {
     voice,
@@ -56,21 +65,20 @@ function resolveVoice(args: {
   presentation: ReturnType<typeof parseKnowledgePresentation>;
 }): OpenAiTtsVoice {
   const preferred = args.presentation.preferred_voice?.trim().toLowerCase();
-  if (preferred && preferred !== "auto") {
-    return normalizeOpenAiTtsVoice(preferred, DEFAULT_OPENAI_TTS_VOICE);
-  }
 
-  if (
+  const useAutomatic =
+    !preferred ||
     preferred === "auto" ||
-    args.presentation.voice_selection === "deterministic"
-  ) {
+    args.presentation.voice_selection === "deterministic";
+
+  if (useAutomatic) {
     return deterministicOpenAiTtsVoice({
       projectId: args.projectId,
       language: args.language,
     });
   }
 
-  return DEFAULT_OPENAI_TTS_VOICE;
+  return normalizeOpenAiTtsVoice(preferred, DEFAULT_OPENAI_TTS_VOICE);
 }
 
 /** Reads optional TTS fields already stored on a video_jobs.input blob. */

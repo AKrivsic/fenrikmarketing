@@ -27,33 +27,37 @@ export function buildPresentationGenerationBlock(args: {
   const lines = [
     "PRESENTATION (visual beat types — narrative first, presentation second):",
     "",
-    "Scene Types are sparse tools across your content calendar — not recurring templates.",
-    "IMAGE is the default and may dominate many videos in a row.",
-    "Do not force CHECKLIST, PHONE, QUOTE, STATISTIC, or CTA merely for variety.",
+    "Scene Types are sparse tools — not recurring templates.",
+    "IMAGE is the safe default for any beat.",
+    "",
+    "For each narrative beat, choose the scene type that communicates that beat most clearly.",
+    "Use a typed scene when it is materially clearer, more readable, or more credible than a generated still.",
+    "Do not use typed scenes merely for decoration or variety.",
+    "Do not force one typed scene per video.",
+    "There is no quota for CHECKLIST, PHONE, QUOTE, STATISTIC, or CTA.",
+    "",
+    "Decision rubric (apply per beat):",
+    "1) Does a typed scene communicate this specific beat better than IMAGE?",
+    "2) Is all required payload data available and supported?",
+    "3) Has this type already been overused in recent project history (if noted)?",
+    "If typed is clearly better, use it. Otherwise use IMAGE.",
     "",
     "Order of work:",
     "1. Write the narrative and voiceover.",
     "2. Break it into meaningful visual beats (visual_scenes).",
-    "3. Choose the most natural presentation for each beat.",
+    "3. Choose the best presentation for each beat.",
     "",
     `Allowed presentation types for this project: ${allowedLine}.`,
     "",
-    "IMAGE is the default presentation type.",
-    "Use IMAGE when one strong visual can communicate the beat clearly.",
-    "It is valid and often preferable for EVERY scene to be IMAGE.",
-    "",
-    "Do not alternate scene types for visual variety or pacing.",
-    "There is no quota for CHECKLIST, PHONE, QUOTE, STATISTIC, or CTA.",
+    "IMAGE: use when one strong visual communicates the beat clearly.",
   ];
 
   if (allowsChecklist) {
     lines.push(
       "",
-      "Do not use CHECKLIST to create visual variety.",
-      "",
-      "Use CHECKLIST only when the narration genuinely contains 2–5 concrete items",
-      "(steps, mistakes, requirements, inclusions, or actions) the viewer should",
-      "read together on screen.",
+      "Prefer CHECKLIST over IMAGE when narration contains 2–5 concrete parallel items, steps,",
+      "mistakes, inclusions, requirements, or actions the viewer should read together.",
+      "Do not use CHECKLIST for vague benefits or abstract concepts.",
       "",
       "CHECKLIST rules:",
       "- At most ONE CHECKLIST scene in the entire video.",
@@ -140,8 +144,11 @@ export function buildPresentationGenerationBlock(args: {
       "- At most ONE CTA scene in the entire video.",
       "- CTA should normally be the FINAL visual scene only.",
       "- Match headline and button to the package CTA / Project Brain default CTA — same action, no new offers.",
+      "- Prefer typed CTA only when the scene is final, the package CTA is explicit,",
+      "  and a clean branded closing card communicates the action better than another IMAGE.",
       "- Do not invent discounts, urgency, guarantees, free trials, pricing, or scarcity.",
-      "- Do not add CTA automatically to every video or merely to vary scene types.",
+      "- Awareness and problem-aware videos may finish without typed CTA.",
+      "- Solution-aware and conversion videos are more likely CTA candidates when history allows.",
       "- Voiceover and subtitles may carry the CTA without a dedicated CTA scene.",
       "- IMAGE-only videos remain valid.",
       "",
@@ -179,8 +186,8 @@ export function buildPresentationGenerationBlock(args: {
     '{ "source": "ai", "image_prompt": "..." }',
     'or { "source": "asset", "asset_id": "...", "used_as": "..." }.',
     "",
-    "EXAMPLE A — IMAGE-only local service (restaurant / salon / cleaning):",
-    "Narration describes atmosphere and one core promise — all beats stay IMAGE:",
+    "EXAMPLE A — valid IMAGE-only organic video:",
+    "Narration flows as one story with no list or proof beat that needs on-screen text:",
     'visual_scenes: [ { "source": "ai", "image_prompt": "..." }, { "source": "ai", "image_prompt": "..." } ]',
     "",
   );
@@ -193,27 +200,40 @@ export function buildPresentationGenerationBlock(args: {
       '  [ { "source": "ai", "image_prompt": "..." },',
       '    { "type": "CHECKLIST", "payload": { "title": "Before publishing", "items": ["Check the hook", "Confirm the CTA", "Review the visual"] } } ]',
       "",
-      "EXAMPLE C — do NOT force CHECKLIST:",
+      "EXAMPLE C — invalid forced CHECKLIST (stay IMAGE):",
       'Narration: "We help teams work faster, stay organized, and grow revenue."',
-      "Correct: all IMAGE scenes — there is no concrete list in the script.",
+      "Correct: all IMAGE scenes — benefits are vague, not a concrete parallel list.",
     );
   } else {
     lines.push(
-      "EXAMPLE B — broad benefits (stay IMAGE-only):",
+      "EXAMPLE C — vague benefits (stay IMAGE-only):",
       'Narration: "We help teams work faster, stay organized, and grow revenue."',
       "Correct: all IMAGE scenes.",
+    );
+  }
+
+  if (allowsCta) {
+    lines.push(
+      "",
+      "EXAMPLE D — solution-aware video may end with typed CTA (optional):",
+      "Final beat states a clear product action; closing card matches package CTA:",
+      'visual_scenes: [ { "source": "ai", "image_prompt": "..." },',
+      '  { "type": "CTA", "payload": { "headline": "Book a demo", "button_label": "Book now", "show_logo": true } } ]',
+      "",
+      "EXAMPLE E — invalid decorative CTA (stay IMAGE):",
+      "Awareness video with soft CTA in voiceover only — no typed CTA scene needed.",
     );
   }
 
   if (allowsPhone) {
     lines.push(
       "",
-      "EXAMPLE D — valid PHONE (script is about the mobile product UI):",
+      "EXAMPLE F — valid PHONE (script is about the mobile product UI):",
       'Narration: "Open the app and tap New chat to reply from your phone."',
       'visual_scenes: [ { "source": "ai", "image_prompt": "..." },',
       '  { "type": "PHONE", "payload": { "asset_id": "<mobile-ui-asset-id>", "caption": "New chat" } } ]',
       "",
-      "EXAMPLE E — do NOT force PHONE:",
+      "EXAMPLE G — do NOT force PHONE:",
       'Narration: "We serve fresh pasta in a cozy dining room."',
       "Correct: all IMAGE scenes — the beat is not a mobile interface.",
     );

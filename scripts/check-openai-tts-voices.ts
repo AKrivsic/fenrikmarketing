@@ -7,7 +7,7 @@ import {
   deterministicOpenAiTtsVoice,
   normalizeOpenAiTtsVoice,
 } from "@/lib/voice/openaiTtsVoices";
-import { buildTtsInstructions } from "@/lib/voice/buildTtsInstructions";
+import { buildTtsInstructions, buildTtsInstructionsForVideoJob } from "@/lib/voice/buildTtsInstructions";
 import { resolveTtsOptions } from "@/lib/voice/resolveTtsOptions";
 import { resolveTtsOptionsFromJobInput } from "@/lib/voice/resolveTtsOptions";
 import {
@@ -34,15 +34,28 @@ function check(name: string, fn: () => void): void {
   }
 }
 
-check("default voice is alloy when presentation is empty", () => {
+check("missing presentation uses deterministic Automatic voice", () => {
   const opts = resolveTtsOptions({
     projectId: "proj-1",
     language: "en",
     toneOfVoice: {},
     knowledge: {},
   });
-  assert.equal(opts.voice, DEFAULT_OPENAI_TTS_VOICE);
+  assert.equal(
+    opts.voice,
+    deterministicOpenAiTtsVoice({ projectId: "proj-1", language: "en" }),
+  );
   assert.equal(opts.instructions, undefined);
+});
+
+check("explicit alloy uses alloy", () => {
+  const opts = resolveTtsOptions({
+    projectId: "proj-1",
+    language: "en",
+    toneOfVoice: {},
+    knowledge: { presentation: { preferred_voice: "alloy" } },
+  });
+  assert.equal(opts.voice, DEFAULT_OPENAI_TTS_VOICE);
 });
 
 check("preferred_voice overrides default", () => {
@@ -176,15 +189,77 @@ check("merge fills missing voice from project resolver", () => {
   assert.equal(merged.tts_instructions, undefined);
 });
 
-check("legacy source without tts fields resolves project alloy", () => {
+check("explicit tts_instructions merge with video delivery hints", () => {
+  const instructions = buildTtsInstructionsForVideoJob({
+    toneOfVoice: { notes: ["warm"] },
+    explicitInstructions: "Calm and precise.",
+    language: "en",
+    videoContext: {
+      funnelStage: "Awareness",
+      creativeMode: "observation",
+      narrativeRoles: ["observation", "meaning", "reveal", "cta"],
+    },
+  });
+  assert.ok(instructions?.includes("Calm and precise."));
+  assert.ok(instructions?.includes("conversational"));
+});
+
+check("video delivery changes instructions not voice", () => {
+  const a = resolveTtsOptions({
+    projectId: "stable-id",
+    language: "en",
+    toneOfVoice: { notes: ["practical"] },
+    knowledge: {},
+    videoContext: { funnelStage: "Problem Aware", creativeMode: "mistake" },
+  });
+  const b = resolveTtsOptions({
+    projectId: "stable-id",
+    language: "en",
+    toneOfVoice: { notes: ["practical"] },
+    knowledge: {},
+    videoContext: { funnelStage: "Conversion", creativeMode: "humor" },
+  });
+  assert.equal(a.voice, b.voice);
+  assert.notEqual(a.instructions, b.instructions);
+});
+
+check("empty knowledge maps to Automatic in UI", () => {
+  assert.equal(voiceUiSelectionFromKnowledge({}), "auto");
+});
+
+check("presentation save stores explicit alloy", () => {
+  const result = validatePresentationSave({
+    voiceSelection: "alloy",
+    ttsInstructions: "",
+  });
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.equal(result.presentation.preferred_voice, "alloy");
+  assert.equal(
+    voiceUiSelectionFromKnowledge(
+      mergePresentationIntoKnowledge({}, result.presentation),
+    ),
+    "alloy",
+  );
+});
+
+check("legacy source without tts fields resolves project voice", () => {
   const merged = mergeTtsIntoJobInput(
     { voiceover_text: "Script" },
     {
       sourceInput: { voiceover_text: "Script" },
-      projectTts: { voice: DEFAULT_OPENAI_TTS_VOICE },
+      projectTts: {
+        voice: deterministicOpenAiTtsVoice({
+          projectId: "legacy-proj",
+          language: "en",
+        }),
+      },
     },
   );
-  assert.equal(merged.tts_voice, DEFAULT_OPENAI_TTS_VOICE);
+  assert.equal(
+    merged.tts_voice,
+    deterministicOpenAiTtsVoice({ projectId: "legacy-proj", language: "en" }),
+  );
   assert.equal(hasExplicitTtsVoice(merged), true);
 });
 

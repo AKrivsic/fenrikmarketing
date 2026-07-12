@@ -36,20 +36,69 @@ const TEXT_HEAVY_TYPES = new Set<SceneType>([
   "CTA",
 ]);
 
-function roleDefaultIntent(role: string): MotionIntent {
+function roleDefaultIntent(role: string, ctx: SceneMotionContext): MotionIntent {
   const r = role.trim().toLowerCase();
+  const isFirstBeat = ctx.beatIndex === 0;
+  const isLastBeat = ctx.beatCount > 0 && ctx.beatIndex === ctx.beatCount - 1;
+
   if (r === "hook" || r.includes("opening") || r.startsWith("hook")) {
     return "ATTENTION";
   }
-  if (r.includes("twist") || r.includes("reveal")) return "REVEAL";
-  if (r.includes("proof")) return "EMPHASIS";
-  if (r === "cta" || r.includes("close") || r.includes("resolution")) {
+  if (isFirstBeat && (r === "observation" || r === "situation" || r === "mistake")) {
+    return "ATTENTION";
+  }
+  if (isFirstBeat && r.includes("unexpected") && !r.includes("turn")) {
+    return "ATTENTION";
+  }
+
+  if (
+    r === "cta" ||
+    r.includes("close") ||
+    r.includes("resolution") ||
+    r === "closing" ||
+    r === "final"
+  ) {
     return "CLOSE";
   }
-  if (r.includes("payoff")) return "EMPHASIS";
-  if (r.includes("problem") || r.includes("setup") || r === "body") {
+  if (isLastBeat && (r === "cta" || r.includes("clos"))) {
+    return "CLOSE";
+  }
+
+  if (
+    r.includes("twist") ||
+    r.includes("reveal") ||
+    r === "unexpected_turn" ||
+    r === "correct_approach" ||
+    r === "solution" ||
+    r.includes("product_reveal") ||
+    r === "transformation"
+  ) {
+    return "REVEAL";
+  }
+
+  if (
+    r === "punchline" ||
+    r.includes("proof") ||
+    r.includes("payoff") ||
+    r === "key_point" ||
+    r === "statistic"
+  ) {
+    return "EMPHASIS";
+  }
+
+  if (
+    r === "observation" ||
+    r === "meaning" ||
+    r.includes("problem") ||
+    r.includes("setup") ||
+    r === "why_backfires" ||
+    r === "body" ||
+    r === "context" ||
+    r.includes("explanation")
+  ) {
     return "EXPLAIN";
   }
+
   return "EXPLAIN";
 }
 
@@ -84,7 +133,7 @@ function intentFromContext(ctx: SceneMotionContext): MotionIntent {
     return fromType;
   }
 
-  const fromRole = roleDefaultIntent(ctx.narrativeRole);
+  const fromRole = roleDefaultIntent(ctx.narrativeRole, ctx);
   if (ctx.sceneIndex === ctx.sceneCount - 1 && ctx.sceneType === DEFAULT_SCENE_TYPE) {
     return fromRole === "ATTENTION" ? "CLOSE" : fromRole;
   }

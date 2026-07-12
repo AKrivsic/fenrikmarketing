@@ -8,7 +8,7 @@ export const VISUAL_PROFILES = [
 
 export type VisualProfile = (typeof VISUAL_PROFILES)[number];
 
-export const VISUAL_PROFILE_VERSION = "visual-profile@1";
+export const VISUAL_PROFILE_VERSION = "visual-profile@2";
 
 export const VISUAL_PROFILE_UI_AUTO = "auto";
 

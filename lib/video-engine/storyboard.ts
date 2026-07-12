@@ -323,7 +323,10 @@ export function sceneIdForStoryboardBeat(
     const idx = Math.floor((beatIndex * n) / numBeats);
     return sceneIds[Math.min(idx, n - 1)] ?? sceneIds[0];
   }
-  return sceneIds[beatIndex % n] ?? sceneIds[0];
+  if (numBeats > n && beatIndex >= n) {
+    return sceneIds[n - 1] ?? sceneIds[0];
+  }
+  return sceneIds[Math.min(beatIndex, n - 1)] ?? sceneIds[0];
 }
 
 // Task 1 — deterministically builds the beat timeline.

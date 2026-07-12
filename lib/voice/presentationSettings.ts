@@ -27,10 +27,9 @@ export function voiceUiSelectionFromKnowledge(
 ): VoiceUiSelection {
   const presentation = parseKnowledgePresentation(knowledge);
   const pref = presentation.preferred_voice?.trim().toLowerCase();
-  if (!pref || pref === DEFAULT_OPENAI_TTS_VOICE) return VOICE_UI_DEFAULT;
-  if (pref === VOICE_UI_AUTO) return VOICE_UI_AUTO;
+  if (!pref || pref === VOICE_UI_AUTO) return VOICE_UI_AUTO;
   if (isOpenAiTtsVoice(pref)) return pref;
-  return VOICE_UI_DEFAULT;
+  return VOICE_UI_AUTO;
 }
 
 export function ttsInstructionsFromKnowledge(
@@ -57,9 +56,9 @@ export function validatePresentationSave(input: {
   }
 
   const presentation: KnowledgePresentation = {};
-  if (voiceSelection === VOICE_UI_AUTO) {
+  if (voiceSelection === VOICE_UI_AUTO || voiceSelection === VOICE_UI_DEFAULT) {
     presentation.preferred_voice = VOICE_UI_AUTO;
-  } else if (voiceSelection !== VOICE_UI_DEFAULT && isOpenAiTtsVoice(voiceSelection)) {
+  } else if (isOpenAiTtsVoice(voiceSelection)) {
     presentation.preferred_voice = voiceSelection;
   }
 
@@ -110,12 +109,12 @@ export const SUPPORTED_VOICE_OPTIONS: readonly {
   value: VoiceUiSelection;
   label: string;
 }[] = [
-  { value: VOICE_UI_DEFAULT, label: "Default (alloy)" },
-  { value: VOICE_UI_AUTO, label: "Automatic" },
+  { value: VOICE_UI_AUTO, label: "Automatic (recommended)" },
+  { value: DEFAULT_OPENAI_TTS_VOICE, label: "Alloy" },
   ...OPENAI_TTS_VOICES.filter((v) => v !== DEFAULT_OPENAI_TTS_VOICE).map(
     (voice) => ({
       value: voice as VoiceUiSelection,
-      label: voice,
+      label: voice.charAt(0).toUpperCase() + voice.slice(1),
     }),
   ),
 ];

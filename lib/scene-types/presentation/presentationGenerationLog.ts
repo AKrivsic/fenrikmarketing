@@ -50,6 +50,9 @@ export interface PresentationGenerationLog {
   final_worker_scene_types: SceneType[];
   visual_profile?: string;
   visual_profile_version?: string;
+  visual_profile_source?: string;
+  visual_profile_scores?: Record<string, number>;
+  visual_profile_reasons?: string[];
 }
 
 export function buildPresentationGenerationLog(args: {
@@ -235,6 +238,9 @@ export function compactPresentationLogForBrief(
     history_decisions: log.history_decisions ?? [],
     visual_profile: log.visual_profile ?? null,
     visual_profile_version: log.visual_profile_version ?? null,
+    visual_profile_source: log.visual_profile_source ?? null,
+    visual_profile_scores: log.visual_profile_scores ?? null,
+    visual_profile_reasons: log.visual_profile_reasons ?? null,
     final_worker_scene_types: log.final_worker_scene_types,
     frequency_decisions: log.frequency_decisions,
   };

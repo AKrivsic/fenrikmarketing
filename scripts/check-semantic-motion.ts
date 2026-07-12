@@ -329,6 +329,59 @@ check("26 invalid motion metadata coerces to static", () => {
   assert.equal(expr.z, "1");
 });
 
+check("28 opening observation → ATTENTION", () => {
+  const r = resolveSceneMotionIntent(
+    ctx({ narrativeRole: "observation", beatIndex: 0 }),
+  );
+  assert.equal(r.motion_intent, "ATTENTION");
+});
+
+check("29 non-first observation → EXPLAIN", () => {
+  const r = resolveSceneMotionIntent(
+    ctx({ narrativeRole: "observation", beatIndex: 1, sceneIndex: 1 }),
+  );
+  assert.equal(r.motion_intent, "EXPLAIN");
+});
+
+check("30 why_backfires and meaning → EXPLAIN", () => {
+  assert.equal(
+    resolveSceneMotionIntent(ctx({ narrativeRole: "why_backfires", beatIndex: 2 }))
+      .motion_intent,
+    "EXPLAIN",
+  );
+  assert.equal(
+    resolveSceneMotionIntent(ctx({ narrativeRole: "meaning", beatIndex: 2 }))
+      .motion_intent,
+    "EXPLAIN",
+  );
+});
+
+check("31 unexpected_turn and correct_approach → REVEAL", () => {
+  assert.equal(
+    resolveSceneMotionIntent(ctx({ narrativeRole: "unexpected_turn", beatIndex: 2 }))
+      .motion_intent,
+    "REVEAL",
+  );
+  assert.equal(
+    resolveSceneMotionIntent(
+      ctx({ narrativeRole: "correct_approach", beatIndex: 2 }),
+    ).motion_intent,
+    "REVEAL",
+  );
+});
+
+check("32 punchline → EMPHASIS", () => {
+  const r = resolveSceneMotionIntent(
+    ctx({ narrativeRole: "punchline", beatIndex: 2 }),
+  );
+  assert.equal(r.motion_intent, "EMPHASIS");
+});
+
+check("33 semantic motion version bumped", () => {
+  const r = resolveSceneMotionIntent(ctx({ narrativeRole: "hook" }));
+  assert.equal(r.motion_version, "semantic-motion@2");
+});
+
 check("27 build succeeds (checked via npm run build in CI script bundle)", () => {
   assert.ok(true);
 });
