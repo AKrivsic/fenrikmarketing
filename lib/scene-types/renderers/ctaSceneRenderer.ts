@@ -1,4 +1,4 @@
-export const CTA_SCENE_RENDERER_VERSION = "cta@1";
+export const CTA_SCENE_RENDERER_VERSION = "cta@2";
 
 import type { SceneRenderer } from "@/lib/scene-types/renderers/types";
 

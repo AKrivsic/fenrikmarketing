@@ -391,12 +391,17 @@ export async function buildVideoJobInput(
       typeof extra.weekly_strategy_id === "string"
         ? extra.weekly_strategy_id
         : null;
+    const productionRunId =
+      typeof extra.production_run_id === "string"
+        ? extra.production_run_id
+        : null;
     const prepared = await prepareAnalyzedVisualScenesForPackage({
       supabase,
       projectId,
       pkg,
       excludePackageId: packageId,
       weeklyStrategyId,
+      productionRunId,
     });
     prepared.presentationLog = {
       ...prepared.presentationLog,

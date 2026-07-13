@@ -53,6 +53,15 @@ export interface PresentationGenerationLog {
   visual_profile_source?: string;
   visual_profile_scores?: Record<string, number>;
   visual_profile_reasons?: string[];
+  series_context_considered?: boolean;
+  recent_creative_fingerprints?: Record<string, unknown>[];
+  cta_selected?: boolean;
+  cta_decision_reason?: string | null;
+  cta_composition_id?: string | null;
+  visual_beat_count?: number;
+  target_visual_beat_count?: number;
+  sparse_plan_adjustment?: boolean;
+  scene_type_diversity_notes?: string[];
 }
 
 export function buildPresentationGenerationLog(args: {
@@ -243,5 +252,14 @@ export function compactPresentationLogForBrief(
     visual_profile_reasons: log.visual_profile_reasons ?? null,
     final_worker_scene_types: log.final_worker_scene_types,
     frequency_decisions: log.frequency_decisions,
+    series_context_considered: log.series_context_considered ?? false,
+    recent_creative_fingerprints: log.recent_creative_fingerprints ?? [],
+    cta_selected: log.cta_selected ?? false,
+    cta_decision_reason: log.cta_decision_reason ?? null,
+    cta_composition_id: log.cta_composition_id ?? null,
+    visual_beat_count: log.visual_beat_count ?? null,
+    target_visual_beat_count: log.target_visual_beat_count ?? null,
+    sparse_plan_adjustment: log.sparse_plan_adjustment ?? false,
+    scene_type_diversity_notes: log.scene_type_diversity_notes ?? [],
   };
 }

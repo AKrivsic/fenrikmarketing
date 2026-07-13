@@ -221,6 +221,8 @@ export interface GenerateContentPackagePromptInput {
   assetCoverage?: AssetCoverageDecision;
   /** Recent typed-scene usage for cross-package restraint (prompt-only guidance). */
   sceneTypeHistoryBlock?: string;
+  /** Series-aware creative fingerprints for weekly/monthly runs. */
+  seriesCreativeContextBlock?: string;
   /** Profile-aware image prompt guidance (generation-time). */
   visualProfileImagePromptBlock?: string;
 }
@@ -713,6 +715,9 @@ export function buildGenerateContentPackagePrompt(
     "",
     ...(input.sceneTypeHistoryBlock
       ? [input.sceneTypeHistoryBlock, ""]
+      : []),
+    ...(input.seriesCreativeContextBlock
+      ? [input.seriesCreativeContextBlock, ""]
       : []),
     buildPresentationGenerationBlock({
       allowedTypes: promptPresentationTypes,

@@ -73,6 +73,10 @@ import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemo
 import { loadSceneTypeProjectHistory } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
 import { buildSceneTypeHistoryRestraintBlock } from "@/lib/scene-types/presentation/sceneTypeHistoryPrompt";
 import {
+  loadSeriesCreativeContext,
+} from "@/lib/series/loadSeriesCreativeContext";
+import { buildSeriesCreativeContextBlock } from "@/lib/series/seriesDiversityPrompt";
+import {
   resolveVisualProfileForPackage,
   visualProfileFieldsForPersistence,
 } from "@/lib/visual-profile/packageVisualProfile";
@@ -158,6 +162,15 @@ export async function runGenerateContentPackage(
   );
   const sceneTypeHistoryBlock =
     buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
+  const seriesCreative = await loadSeriesCreativeContext({
+    supabase,
+    projectId: input.projectId,
+    weeklyStrategyId: context.weeklyStrategyId,
+    productionRunId: context.productionRunId,
+  });
+  const seriesCreativeContextBlock = buildSeriesCreativeContextBlock({
+    series: seriesCreative,
+  });
   const resolvedVisualProfile = resolveVisualProfileForPackage({ project });
   const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
     resolvedVisualProfile.profile,
@@ -287,6 +300,7 @@ export async function runGenerateContentPackage(
       assetCoverage,
       promptPresentationTypes,
       sceneTypeHistoryBlock,
+      seriesCreativeContextBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),

@@ -8,6 +8,10 @@ import {
   parseCtaScenePayload,
   ctaPlaceholderImagePrompt,
 } from "@/lib/scene-types/cta/ctaScenePayload";
+import {
+  pickCtaComposition,
+  type CtaCompositionId,
+} from "@/lib/scene-types/cta/ctaComposition";
 import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
@@ -18,22 +22,23 @@ function workerTempDir(): string {
   );
 }
 
-async function loadLogoPng(
+async function loadAssetPng(
   projectId: string,
-  logoAssetId: string,
+  assetId: string,
+  suffix: string,
 ): Promise<Buffer | null> {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
     .from("assets")
     .select("storage_bucket, storage_path, media_type")
     .eq("project_id", projectId)
-    .eq("id", logoAssetId)
+    .eq("id", assetId)
     .maybeSingle();
   if (error || !data) return null;
   const bucket = data.storage_bucket as string | null;
   const path = data.storage_path as string | null;
   if (!bucket || !path || data.media_type !== "image") return null;
-  const tmp = join(workerTempDir(), `cta-logo-${logoAssetId}.png`);
+  const tmp = join(workerTempDir(), `cta-${suffix}-${assetId}.png`);
   await mkdir(workerTempDir(), { recursive: true });
   await downloadStorageObjectToFile({
     bucket,
@@ -78,16 +83,39 @@ export async function prepareCtaSceneRaster(
   let logoPng: Buffer | null = null;
   if (parsed.data.show_logo !== false && tokens.logoAssetId) {
     try {
-      logoPng = await loadLogoPng(ctx.projectId, tokens.logoAssetId);
+      logoPng = await loadAssetPng(ctx.projectId, tokens.logoAssetId, "logo");
     } catch {
       logoPng = null;
     }
   }
 
+  let heroPng: Buffer | null = null;
+  if (parsed.data.asset_id) {
+    try {
+      heroPng = await loadAssetPng(ctx.projectId, parsed.data.asset_id, "hero");
+    } catch {
+      heroPng = null;
+    }
+  }
+
+  const composition: CtaCompositionId =
+    parsed.data.composition ??
+    pickCtaComposition({
+      packageId: ctx.videoJobId,
+      payload: parsed.data,
+      funnelStage: null,
+      recentCompositionIds: [],
+      hasLogoAsset: Boolean(logoPng),
+      hasHeroAsset: Boolean(heroPng),
+      precedingSceneIsAsset: false,
+    });
+
   const { png, metadata } = await composeCtaRasterPng({
     payload: parsed.data,
     tokens,
     logoPng,
+    heroPng,
+    composition,
   });
 
   const dir = workerTempDir();

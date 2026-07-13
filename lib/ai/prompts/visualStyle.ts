@@ -54,6 +54,7 @@ export function deviceScreenInteractionBlock(): string {
     "- Laptop: lid open, screen facing the user; prefer over-the-shoulder or three-quarter front so the user looks at the screen; hands on keyboard or trackpad in a natural typing position.",
     "- Monitor or tablet: viewed from the user's side or over-the-shoulder — never a straight-on back-of-monitor shot; user gaze toward the screen when visible.",
     "- Do not show a closed laptop while the person is actively working; do not show a phone back panel when the scene is about reading or swiping on-screen content.",
+    "- When compositing a product screenshot or hero asset, frame it inside a believable device (phone/laptop) or over-the-shoulder use — not a raw fullscreen paste unless the beat is intentionally a UI hero.",
   ].join("\n");
 }
 

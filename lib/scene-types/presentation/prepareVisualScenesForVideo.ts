@@ -53,6 +53,13 @@ import {
   resolveVisualProfileForPackage,
   visualProfileFieldsForPersistence,
 } from "@/lib/visual-profile/packageVisualProfile";
+import {
+  loadSeriesCreativeContext,
+  seriesContextSummariesForLog,
+} from "@/lib/series/loadSeriesCreativeContext";
+import { expandSparseVisualPlan } from "@/lib/series/visualDensity";
+import { applyTypedCtaSeriesPolicyToVisualScenes } from "@/lib/series/typedCtaPolicy";
+import { enrichAcceptedCtaScenes } from "@/lib/series/enrichCtaScenes";
 
 export interface PreparedVisualScenesResult {
   scenes: VisualScene[];
@@ -68,10 +75,47 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
   pkg: ContentPackageOutput;
   excludePackageId?: string | null;
   weeklyStrategyId?: string | null;
+  productionRunId?: string | null;
 }): Promise<PreparedVisualScenesResult> {
   const { supabase, projectId, pkg } = args;
 
-  const rawEntries = (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[];
+  const series = await loadSeriesCreativeContext({
+    supabase,
+    projectId,
+    weeklyStrategyId: args.weeklyStrategyId ?? null,
+    productionRunId: args.productionRunId ?? null,
+    excludePackageId: args.excludePackageId ?? null,
+  });
+
+  const history = await loadSceneTypeProjectHistory(supabase, projectId, {
+    excludePackageId: args.excludePackageId ?? null,
+    currentWeeklyStrategyId: args.weeklyStrategyId ?? null,
+  });
+
+  let planEntries = (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[];
+  const density = expandSparseVisualPlan({
+    visualScenes: planEntries,
+    voiceoverText: pkg.voiceover_text,
+    durationSeconds: pkg.video?.duration_seconds,
+  });
+  planEntries = density.scenes;
+  if (density.density.sparse_plan_adjustment) {
+    pkg.visual_scenes = planEntries as ContentPackageOutput["visual_scenes"];
+  }
+
+  const typedCtaPolicy = applyTypedCtaSeriesPolicyToVisualScenes({
+    visualScenes: planEntries,
+    voiceoverText: pkg.voiceover_text,
+    funnelStage: pkg.funnel_stage,
+    history,
+    series,
+  });
+  planEntries = typedCtaPolicy.scenes;
+  if (typedCtaPolicy.guardrailDecisions.length > 0) {
+    pkg.visual_scenes = planEntries as ContentPackageOutput["visual_scenes"];
+  }
+
+  const rawEntries = planEntries;
   const requestedChecklistCount = countChecklistEntries(rawEntries);
   const requestedPhoneCount = countPhoneEntries(rawEntries);
   const requestedQuoteCount = countQuoteEntries(rawEntries);
@@ -176,11 +220,6 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     projectId,
   });
 
-  const history = await loadSceneTypeProjectHistory(supabase, projectId, {
-    excludePackageId: args.excludePackageId ?? null,
-    currentWeeklyStrategyId: args.weeklyStrategyId ?? null,
-  });
-
   const afterHistory = applySceneTypeHistoryGuardrail({
     analyzed,
     history,
@@ -188,9 +227,35 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     projectName: typeof projectRow?.name === "string" ? projectRow.name : undefined,
   });
 
-  const finalWorkerSceneTypes = afterHistory.scenes.map(
+  const resolvedProfile = resolveVisualProfileForPackage({
+    project: {
+      id: projectId,
+      knowledge: projectRow?.knowledge ?? null,
+      goal_type: projectRow?.goal_type as Project["goal_type"],
+      tone_of_voice: projectRow?.tone_of_voice ?? null,
+      target_audience: projectRow?.target_audience ?? null,
+      product_strengths: (projectRow?.product_strengths as string[]) ?? [],
+      product_is: (projectRow?.product_is as string[]) ?? [],
+    },
+    pkg,
+  });
+
+  const logoAssetAvailable = assetSignals.length > 0;
+
+  const enrichedCta = enrichAcceptedCtaScenes({
+    scenes: afterHistory.scenes,
+    packageId: args.excludePackageId ?? null,
+    funnelStage: pkg.funnel_stage,
+    series,
+    visualProfile: resolvedProfile.profile,
+    logoAssetAvailable,
+  });
+
+  const finalWorkerSceneTypes = enrichedCta.scenes.map(
     (s) => s.type as SceneType,
   );
+
+  const acceptedCta = enrichedCta.scenes.some((s) => s.type === "CTA");
 
   const presentationLog: PresentationGenerationLog = {
     ...buildPresentationGenerationLog({
@@ -205,28 +270,29 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
       analyzerDecisions: afterHistory.decisions,
       finalWorkerSceneTypes,
     }),
-    ...visualProfileFieldsForPersistence(
-      resolveVisualProfileForPackage({
-        project: {
-          id: projectId,
-          knowledge: projectRow?.knowledge ?? null,
-          goal_type: projectRow?.goal_type as Project["goal_type"],
-          tone_of_voice: projectRow?.tone_of_voice ?? null,
-          target_audience: projectRow?.target_audience ?? null,
-          product_strengths: (projectRow?.product_strengths as string[]) ?? [],
-          product_is: (projectRow?.product_is as string[]) ?? [],
-        },
-        pkg,
-      }),
+    ...visualProfileFieldsForPersistence(resolvedProfile),
+    series_context_considered: true,
+    recent_creative_fingerprints: seriesContextSummariesForLog(series),
+    cta_selected: acceptedCta,
+    cta_decision_reason: typedCtaPolicy.policy.reason,
+    cta_composition_id: enrichedCta.compositionIds[0] ?? null,
+    visual_beat_count: density.density.visual_beat_count,
+    target_visual_beat_count: density.density.target_visual_beat_count,
+    sparse_plan_adjustment: density.density.sparse_plan_adjustment,
+    scene_type_diversity_notes: typedCtaPolicy.guardrailDecisions.map(
+      (d) => `${d.rule}: ${d.reason}`,
     ),
   };
 
   return {
-    scenes: afterHistory.scenes,
+    scenes: enrichedCta.scenes,
     decisions: afterHistory.decisions,
     warnings: [
       ...afterHistory.warnings,
       ...frequencyDecisions.map(
+        (d) => `${d.scene_id}: ${d.rule} — ${d.reason}`,
+      ),
+      ...typedCtaPolicy.guardrailDecisions.map(
         (d) => `${d.scene_id}: ${d.rule} — ${d.reason}`,
       ),
     ],

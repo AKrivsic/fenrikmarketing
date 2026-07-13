@@ -5,6 +5,20 @@ export const ctaScenePayloadSchema = z.object({
   subline: z.string().trim().max(120).optional(),
   button_label: z.string().trim().max(48).optional(),
   show_logo: z.boolean().optional(),
+  show_button: z.boolean().optional(),
+  composition: z
+    .enum([
+      "classic_card",
+      "text_only",
+      "logo_message",
+      "headline_action_line",
+      "minimal_statement",
+      "split_asset_text",
+      "asset_overlay",
+      "product_screenshot_overlay",
+    ])
+    .optional(),
+  asset_id: z.string().uuid().optional(),
 });
 
 export type CtaScenePayload = z.infer<typeof ctaScenePayloadSchema>;
