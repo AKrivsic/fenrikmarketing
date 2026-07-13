@@ -4,9 +4,18 @@ import { STORAGE_BUCKETS, buildVideoRenderPath } from "@/lib/api/storage";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
 import {
-  resolvePreferredVideoUsageFromMetadata,
-  resolveVideoUsageForRender,
-} from "@/lib/assets/preferredVideoUsage";
+  PRESENTATION_TEMPLATE_LABELS,
+  type PresentationTemplate,
+} from "@/lib/assets/presentationTemplate";
+import { buildFinalLayoutPreviewPng } from "@/lib/video-scene-editor/previewFinalLayout";
+import type { FinalLayoutPreviewInfo } from "@/lib/video-scene-editor/previewFinalLayout";
+import {
+  parseScenePresentationOverride,
+  resolveScenePresentation,
+  scenePresentationOverrideField,
+  type ScenePresentationOverride,
+} from "@/lib/video-scene-editor/scenePresentationOverride";
+import { downloadStorageObjectBytes } from "@/video-worker/services/storage";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/types";
 import { regenerateSceneImageViaWorker } from "@/lib/video-worker/regenerateSceneImageClient";
@@ -386,6 +395,10 @@ export interface VideoSceneEditorSceneView {
   visualMode: SceneVisualMode;
   projectAssetId: string | null;
   projectAssetTitle: string | null;
+  presentationTemplate: string | null;
+  presentationGuardNote: string | null;
+  videoUsage: string | null;
+  presentationOverride: ScenePresentationOverride;
   sceneType: string | null;
   checklistTitle: string | null;
   checklistItems: string[] | null;
@@ -502,7 +515,7 @@ export async function loadVideoSceneEditorState(
   const workflowMeta = readVideoAssetWorkflow(
     itemRow.generation_metadata as Json | null,
   );
-  const assetTitleById = await loadAssetTitlesById(
+  const assetById = await loadAssetTitlesById(
     supabase,
     input.projectId,
     collectWorkflowAssetIds(workflowMeta),
@@ -575,10 +588,11 @@ export async function loadVideoSceneEditorState(
           getSceneVisualSetting(workflowMeta, scene.id).project_asset_id ??
           null,
         projectAssetTitle:
-          assetTitleById.get(
+          assetById.get(
             getSceneVisualSetting(workflowMeta, scene.id).project_asset_id ??
               "",
-          ) ?? null,
+          )?.title ?? null,
+        ...presentationViewForEditorScene(scene, assetById),
         ...typedPresentationViewFromDraftScene(scene),
       };
     }),
@@ -606,18 +620,67 @@ async function loadAssetTitlesById(
   supabase: SupabaseClient,
   projectId: string,
   assetIds: string[],
-): Promise<Map<string, string>> {
-  const map = new Map<string, string>();
+): Promise<Map<string, { title: string; metadata: Json }>> {
+  const map = new Map<string, { title: string; metadata: Json }>();
   if (assetIds.length === 0) return map;
   const { data } = await supabase
     .from("assets")
-    .select("id, title")
+    .select("id, title, metadata")
     .eq("project_id", projectId)
     .in("id", assetIds);
   for (const row of data ?? []) {
-    map.set(row.id as string, row.title as string);
+    map.set(row.id as string, {
+      title: (row.title as string) ?? "",
+      metadata: (row.metadata as Json) ?? {},
+    });
   }
   return map;
+}
+
+function presentationViewForEditorScene(
+  scene: SceneEditorDraftScene,
+  assetById: Map<string, { title: string; metadata: Json }>,
+): {
+  presentationTemplate: string | null;
+  presentationGuardNote: string | null;
+  videoUsage: string | null;
+  presentationOverride: ScenePresentationOverride;
+} {
+  const assetId = scene.asset_id;
+  if (!assetId) {
+    return {
+      presentationTemplate: null,
+      presentationGuardNote: null,
+      videoUsage: scene.video_usage ?? null,
+      presentationOverride: parseScenePresentationOverride(
+        scene.presentation_override,
+      ),
+    };
+  }
+  const row = assetById.get(assetId);
+  if (!row) {
+    return {
+      presentationTemplate: null,
+      presentationGuardNote: null,
+      videoUsage: scene.video_usage ?? null,
+      presentationOverride: parseScenePresentationOverride(
+        scene.presentation_override,
+      ),
+    };
+  }
+  const resolved = resolveScenePresentation({
+    assetMetadata: row.metadata,
+    assetTitle: row.title,
+    scene,
+  });
+  return {
+    presentationTemplate: PRESENTATION_TEMPLATE_LABELS[resolved.template],
+    presentationGuardNote: resolved.guardNote ?? null,
+    videoUsage: resolved.videoUsage,
+    presentationOverride: parseScenePresentationOverride(
+      scene.presentation_override,
+    ),
+  };
 }
 
 async function persistVideoAssetWorkflow(
@@ -1080,7 +1143,11 @@ async function resolveVideoUsageForProjectAsset(
   supabase: SupabaseClient,
   projectId: string,
   assetId: string,
-): Promise<string> {
+): Promise<{
+  videoUsage: string;
+  template: PresentationTemplate;
+  guardNote?: string;
+}> {
   await assertAssetInProject(supabase, assetId, projectId);
   const { data, error } = await supabase
     .from("assets")
@@ -1092,11 +1159,16 @@ async function resolveVideoUsageForProjectAsset(
   if (!data) {
     throw new WorkflowError("not_found", "asset not found");
   }
-  const preferred = resolvePreferredVideoUsageFromMetadata(
-    (data.metadata as Json) ?? {},
-    { title: (data.title as string) ?? "" },
-  );
-  return resolveVideoUsageForRender(preferred, undefined);
+  const resolved = resolveScenePresentation({
+    assetMetadata: (data.metadata as Json) ?? {},
+    assetTitle: (data.title as string) ?? "",
+    scene: { image_prompt: "", presentation_override: "automatic" },
+  });
+  return {
+    videoUsage: resolved.videoUsage,
+    template: resolved.template,
+    guardNote: resolved.guardNote,
+  };
 }
 
 export async function applyLibraryAssetAsSceneReplacement(
@@ -1114,7 +1186,7 @@ export async function applyLibraryAssetAsSceneReplacement(
     input.projectId,
     input.assetId,
   );
-  const video_usage = await resolveVideoUsageForProjectAsset(
+  const resolved = await resolveVideoUsageForProjectAsset(
     supabase,
     input.projectId,
     input.assetId,
@@ -1167,7 +1239,7 @@ export async function applyLibraryAssetAsSceneReplacement(
     ...draftSceneWithoutVideoUsage(updated[index]!),
     image_bucket: storage.bucket,
     image_path: storage.path,
-    video_usage,
+    video_usage: resolved.videoUsage,
     asset_id: input.assetId,
   };
 
@@ -2394,6 +2466,204 @@ export async function runSceneEditorRerender(
     }
     throw err;
   }
+}
+
+export async function setScenePresentationOverrideInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+    override: ScenePresentationOverride;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<VideoSceneEditorState> {
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const scenes = await loadBaselineScenes(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    jobOutput: job.output,
+  });
+  const index = scenes.findIndex((s) => s.id === input.sceneId);
+  if (index < 0) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const scene = scenes[index]!;
+  const assetId = scene.asset_id;
+  let nextVideoUsage = scene.video_usage;
+  if (assetId) {
+    const { data: assetRow } = await supabase
+      .from("assets")
+      .select("title, metadata")
+      .eq("id", assetId)
+      .eq("project_id", input.projectId)
+      .maybeSingle();
+    if (assetRow) {
+      const draftScene = {
+        ...scene,
+        ...scenePresentationOverrideField(input.override),
+      };
+      const resolved = resolveScenePresentation({
+        assetMetadata: (assetRow.metadata as Json) ?? {},
+        assetTitle: (assetRow.title as string) ?? "",
+        scene: draftScene,
+      });
+      nextVideoUsage = resolved.videoUsage;
+    }
+  }
+
+  const updated = [...scenes];
+  updated[index] = {
+    ...scene,
+    ...scenePresentationOverrideField(input.override),
+    ...(nextVideoUsage ? { video_usage: nextVideoUsage } : {}),
+  };
+
+  const baselineFromOutput = extractRenderSpecScenes(job.output);
+  const baselineScenes = baselineFromOutput
+    ? scenesToDraftScenes(baselineFromOutput)
+    : updated;
+  const draft = readSceneEditorDraft(itemRow.generation_metadata as Json | null);
+  const envelope = buildSceneEditorDraft({
+    sourceVideoJobId: job.id,
+    scenes: updated,
+    existing: draft,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+  });
+
+  await persistDraft(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    scenes: updated,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    baselineScenes,
+    baselineVoiceoverText: readSourceVoiceoverText(job.input),
+    imageVersions: envelope.image_versions,
+  });
+
+  return loadVideoSceneEditorState(
+    { projectId: input.projectId, videoJobId: input.videoJobId },
+    deps,
+  );
+}
+
+export interface FinalLayoutPreviewPayload {
+  pngBase64: string;
+  info: FinalLayoutPreviewInfo;
+  elapsedMs: number;
+}
+
+export async function previewFinalLayoutInEditor(
+  input: {
+    projectId: string;
+    videoJobId: string;
+    sceneId: string;
+  },
+  deps: VideoSceneEditorDeps = {},
+): Promise<FinalLayoutPreviewPayload> {
+  const started = Date.now();
+  const supabase = deps.client ?? createSupabaseAdminClient();
+  const job = await loadSourceJob(supabase, input.projectId, input.videoJobId);
+  if (job.status !== "completed") {
+    throw new WorkflowError("invalid_input", "only completed videos can be edited");
+  }
+  const contentItemId = job.content_item_id;
+  if (!contentItemId) {
+    throw new WorkflowError("invalid_input", "video job has no content item");
+  }
+
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_items")
+    .select("generation_metadata")
+    .eq("id", contentItemId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) {
+    throw new WorkflowError("not_found", `content item ${contentItemId} not found`);
+  }
+
+  const workflow = readVideoAssetWorkflow(itemRow.generation_metadata as Json);
+  const visual = workflow.scene_visual?.[input.sceneId];
+  if (visual?.mode !== "project_asset") {
+    throw new WorkflowError(
+      "invalid_input",
+      "final layout preview is only available for Project Asset scenes",
+    );
+  }
+
+  const scenes = await loadBaselineScenes(supabase, {
+    projectId: input.projectId,
+    contentItemId,
+    sourceVideoJobId: job.id,
+    generationMetadata: itemRow.generation_metadata as Json | null,
+    jobOutput: job.output,
+  });
+  const scene = scenes.find((s) => s.id === input.sceneId);
+  if (!scene) {
+    throw new WorkflowError("not_found", `scene ${input.sceneId} not found`);
+  }
+
+  const assetId = scene.asset_id ?? visual.project_asset_id;
+  if (!assetId) {
+    throw new WorkflowError(
+      "invalid_input",
+      "choose a project asset before previewing final layout",
+    );
+  }
+
+  await assertAssetInProject(supabase, assetId, input.projectId);
+  const { data: assetRow, error: assetErr } = await supabase
+    .from("assets")
+    .select("title, metadata")
+    .eq("id", assetId)
+    .eq("project_id", input.projectId)
+    .maybeSingle();
+  if (assetErr) throw assetErr;
+  if (!assetRow) {
+    throw new WorkflowError("not_found", "asset not found");
+  }
+
+  const assetBytes = await downloadStorageObjectBytes(
+    scene.image_bucket,
+    scene.image_path,
+  );
+
+  const { png, info } = await buildFinalLayoutPreviewPng({
+    assetBytes,
+    assetMetadata: (assetRow.metadata as Json) ?? {},
+    assetTitle: (assetRow.title as string) ?? "",
+    scene,
+  });
+
+  return {
+    pngBase64: png.toString("base64"),
+    info,
+    elapsedMs: Date.now() - started,
+  };
 }
 
 export async function videoJobHasEditableScenes(

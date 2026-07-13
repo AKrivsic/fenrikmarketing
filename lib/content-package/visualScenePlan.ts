@@ -401,7 +401,10 @@ export async function resolveVisualPlanToRenderScenes(
     const videoUsage =
       item.video_usage && isVideoUsageRenderMode(item.video_usage)
         ? item.video_usage
-        : resolveVideoUsageForRender(preferred, item.used_as);
+        : resolveVideoUsageForRender(preferred, item.used_as, {
+            metadata: asset.metadata,
+            title: asset.title,
+          });
 
     scenes.push({
       id,

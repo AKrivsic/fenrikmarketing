@@ -27,6 +27,10 @@ import {
   resolvePreferredVideoUsageFromMetadata,
 } from "@/lib/assets/preferredVideoUsage";
 import {
+  PRESENTATION_TEMPLATE_LABELS,
+  resolvePresentationFromMetadata,
+} from "@/lib/assets/presentationTemplate";
+import {
   readManualOverrides,
   type ManualOverridesMap,
 } from "@/lib/assets/manualOverrides";
@@ -66,6 +70,8 @@ export interface AssetView {
   preferredVideoUsage: string;
   preferredVideoUsageAutomatic: boolean;
   storedPreferredVideoUsage: string | null;
+  presentationTemplateLabel: string | null;
+  presentationGuardNote: string | null;
   manualOverrides: ManualOverridesMap;
 }
 
@@ -147,6 +153,9 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
   const overrides = readManualOverrides(asset.metadata);
   const captureAutomatic = overrides.capture_viewport !== true;
   const preferredAutomatic = overrides.preferred_video_usage !== true;
+  const presentationResolved = resolvePresentationFromMetadata(asset.metadata, {
+    title: asset.title,
+  });
 
   return {
     id: asset.id,
@@ -178,6 +187,9 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     preferredVideoUsage: resolvedPreferred,
     preferredVideoUsageAutomatic: preferredAutomatic,
     storedPreferredVideoUsage: storedPreferred,
+    presentationTemplateLabel:
+      PRESENTATION_TEMPLATE_LABELS[presentationResolved.template],
+    presentationGuardNote: presentationResolved.guardNote ?? null,
     manualOverrides: overrides,
   };
 }

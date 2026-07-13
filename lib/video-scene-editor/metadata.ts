@@ -1,6 +1,9 @@
 import type { Json } from "@/lib/supabase/types";
 import { SCENE_EDITOR_METADATA_KEY } from "@/lib/video-scene-editor/constants";
 import type { SceneImageVersion } from "@/lib/video-scene-editor/imageHistory";
+import {
+  isScenePresentationOverride,
+} from "@/lib/video-scene-editor/scenePresentationOverride";
 
 export interface SceneEditorDraftScene {
   id: string;
@@ -11,6 +14,7 @@ export interface SceneEditorDraftScene {
   video_usage?: string;
   asset_id?: string;
   video_usage_locked?: boolean;
+  presentation_override?: string;
   type?: string;
   payload_snapshot?: Record<string, unknown>;
   renderer_version?: string;
@@ -111,6 +115,10 @@ function parseDraftScene(value: unknown): SceneEditorDraftScene | null {
       ? { asset_id: row.asset_id.trim() }
       : {}),
     ...(row.video_usage_locked === true ? { video_usage_locked: true } : {}),
+    ...(typeof row.presentation_override === "string" &&
+    isScenePresentationOverride(row.presentation_override)
+      ? { presentation_override: row.presentation_override }
+      : {}),
     ...(typeof row.type === "string" && row.type.trim().length > 0
       ? { type: row.type.trim() }
       : {}),

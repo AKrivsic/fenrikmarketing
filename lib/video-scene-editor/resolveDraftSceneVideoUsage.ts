@@ -1,10 +1,9 @@
 import type { Json } from "@/lib/supabase/types";
 import {
   isVideoUsageRenderMode,
-  resolvePreferredVideoUsageFromMetadata,
-  resolveVideoUsageForRender,
   type VideoUsageRenderMode,
 } from "@/lib/assets/preferredVideoUsage";
+import { resolveScenePresentation } from "@/lib/video-scene-editor/scenePresentationOverride";
 import type { SceneEditorDraftScene } from "@/lib/video-scene-editor/metadata";
 
 export interface AssetRowForVideoUsage {
@@ -15,26 +14,23 @@ export interface AssetRowForVideoUsage {
 
 /**
  * Re-resolves render video_usage from current asset metadata (e.g. before re-render).
- * Skips scenes with video_usage_locked or missing asset_id.
+ * Double-framing guard always applies, even when video_usage_locked.
  */
 export function resolveVideoUsageForDraftScene(
   scene: SceneEditorDraftScene,
   asset: AssetRowForVideoUsage | null,
 ): VideoUsageRenderMode | undefined {
-  if (scene.video_usage_locked === true) {
-    return isVideoUsageRenderMode(scene.video_usage)
-      ? scene.video_usage
-      : undefined;
-  }
   if (!scene.asset_id || !asset || asset.id !== scene.asset_id) {
     return isVideoUsageRenderMode(scene.video_usage)
       ? scene.video_usage
       : undefined;
   }
-  const preferred = resolvePreferredVideoUsageFromMetadata(asset.metadata, {
-    title: asset.title ?? "",
+  const { videoUsage } = resolveScenePresentation({
+    assetMetadata: asset.metadata,
+    assetTitle: asset.title ?? "",
+    scene,
   });
-  return resolveVideoUsageForRender(preferred, undefined);
+  return videoUsage;
 }
 
 export function refreshDraftScenesVideoUsage(

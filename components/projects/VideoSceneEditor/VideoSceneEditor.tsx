@@ -20,12 +20,17 @@ import {
   updateVideoSceneImagePrompt,
   setSceneProjectAssetAction,
   setSceneVisualModeAction,
+  previewFinalLayoutAction,
+  setScenePresentationOverrideAction,
   uploadVideoSceneReplacement,
+  type FinalLayoutPreviewPayload,
   type VideoSceneEditorActionResult,
 } from "@/app/projects/[id]/videos/actions";
 import { ProjectAssetPickerModal } from "@/components/assets/ProjectAssetPickerModal/ProjectAssetPickerModal";
+import { FinalLayoutPreviewModal } from "./FinalLayoutPreviewModal";
 import type { AssetView } from "@/lib/api/assets-admin";
 import type { VideoSceneEditorState } from "@/lib/ai/workflows/videoSceneEditor";
+import type { ScenePresentationOverride } from "@/lib/video-scene-editor/scenePresentationOverride";
 import type { SceneVisualMode } from "@/lib/video-scene-editor/videoWorkflowMetadata";
 import { DEFAULT_SCENE_DURATION_SECONDS } from "@/lib/video-scene-editor/constants";
 import { VideoSceneCard } from "./VideoSceneCard";
@@ -54,6 +59,11 @@ export function VideoSceneEditor({
   const [libraryAssets, setLibraryAssets] = useState<AssetView[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerContext, setPickerContext] = useState<PickerContext | null>(null);
+  const [layoutPreviewOpen, setLayoutPreviewOpen] = useState(false);
+  const [layoutPreviewLoading, setLayoutPreviewLoading] = useState(false);
+  const [layoutPreviewError, setLayoutPreviewError] = useState<string | null>(null);
+  const [layoutPreviewPayload, setLayoutPreviewPayload] =
+    useState<FinalLayoutPreviewPayload | null>(null);
   const [newScenePrompt, setNewScenePrompt] = useState("");
   const [newSceneDuration, setNewSceneDuration] = useState(
     String(DEFAULT_SCENE_DURATION_SECONDS),
@@ -210,6 +220,42 @@ export function VideoSceneEditor({
 
   function handlePickSceneProjectAsset(sceneId: string): void {
     openPicker({ kind: "scene_project_asset", sceneId });
+  }
+
+  function handlePreviewFinalLayout(sceneId: string): void {
+    setLayoutPreviewOpen(true);
+    setLayoutPreviewLoading(true);
+    setLayoutPreviewError(null);
+    setLayoutPreviewPayload(null);
+    startTransition(async () => {
+      const result = await previewFinalLayoutAction(
+        projectId,
+        videoJobId,
+        sceneId,
+      );
+      setLayoutPreviewLoading(false);
+      if (!result.ok) {
+        setLayoutPreviewError(result.error);
+        return;
+      }
+      setLayoutPreviewPayload(result.data);
+    });
+  }
+
+  function handlePresentationOverrideChange(
+    sceneId: string,
+    override: ScenePresentationOverride,
+  ): void {
+    startTransition(async () => {
+      const result = await setScenePresentationOverrideAction(
+        projectId,
+        videoJobId,
+        sceneId,
+        override,
+      );
+      applyResult(result);
+      router.refresh();
+    });
   }
 
   function handleChooseLibraryBrand(
@@ -468,6 +514,8 @@ export function VideoSceneEditor({
             onMoveDown={(id) => handleMoveScene(id, "down")}
             onDuplicate={handleDuplicateScene}
             onRemove={handleRemoveScene}
+            onPreviewFinalLayout={handlePreviewFinalLayout}
+            onPresentationOverrideChange={handlePresentationOverrideChange}
           />
         ))}
       </div>
@@ -537,6 +585,18 @@ export function VideoSceneEditor({
           Přidat scénu
         </button>
       </div>
+
+      <FinalLayoutPreviewModal
+        open={layoutPreviewOpen}
+        payload={layoutPreviewPayload}
+        loading={layoutPreviewLoading}
+        error={layoutPreviewError}
+        onClose={() => {
+          setLayoutPreviewOpen(false);
+          setLayoutPreviewPayload(null);
+          setLayoutPreviewError(null);
+        }}
+      />
 
       <ProjectAssetPickerModal
         open={pickerOpen}

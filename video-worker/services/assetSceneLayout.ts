@@ -1,8 +1,16 @@
 import sharp from "sharp";
 import { SHORT_PROFILE } from "@/lib/video-engine/storyboard";
+import {
+  fitContainInBox,
+  layoutBoxForTemplate,
+  videoUsageImpliesPresentationTemplate,
+  type PresentationTemplate,
+} from "@/lib/assets/presentationTemplate";
+import { readDeviceFrameMetadata } from "@/lib/assets/deviceFrameMetadata";
 
 export type AssetLayoutMode =
   | "fullscreen"
+  | "ui_hero"
   | "framed_screen"
   | "framed_phone"
   | "floating_card"
@@ -12,12 +20,11 @@ export type AssetLayoutMode =
 const CANVAS_W = SHORT_PROFILE.width;
 const CANVAS_H = SHORT_PROFILE.height;
 
-export function normalizeAssetLayoutMode(
-  videoUsage?: string | null,
-): AssetLayoutMode {
+export function videoUsageToLayoutMode(videoUsage?: string | null): AssetLayoutMode {
   const raw = videoUsage?.trim() ?? "";
   if (!raw) return "floating_card";
   if (raw === "fullscreen") return "fullscreen";
+  if (raw === "ui_hero") return "ui_hero";
   if (raw === "framed_phone") return "framed_phone";
   if (raw === "floating_card") return "floating_card";
   if (raw === "background") return "background";
@@ -33,40 +40,27 @@ export function normalizeAssetLayoutMode(
   return "floating_card";
 }
 
+export function normalizeAssetLayoutMode(
+  videoUsage?: string | null,
+): AssetLayoutMode {
+  return videoUsageToLayoutMode(videoUsage);
+}
+
 export function shouldComposeAssetLayout(videoUsage?: string | null): boolean {
   const raw = videoUsage?.trim() ?? "";
-  // Reused AI scene stills omit video_usage — use storage pixels as-is (no frames).
   if (!raw) return false;
   return normalizeAssetLayoutMode(videoUsage) !== "fullscreen";
 }
 
-function fitContain(
-  assetW: number,
-  assetH: number,
-  maxW: number,
-  maxH: number,
-): { width: number; height: number } {
-  const scale = Math.min(maxW / assetW, maxH / assetH, 1);
-  return {
-    width: Math.max(1, Math.round(assetW * scale)),
-    height: Math.max(1, Math.round(assetH * scale)),
-  };
-}
-
-async function blurredCoverBackground(asset: Buffer): Promise<Buffer> {
-  return sharp(asset)
-    .resize(CANVAS_W, CANVAS_H, { fit: "cover", position: "centre" })
-    .blur(28)
-    .modulate({ brightness: 0.5, saturation: 0.85 })
-    .toBuffer();
-}
-
-async function neutralGradientBackground(): Promise<Buffer> {
+async function neutralGradientBackground(
+  top = "#1e293b",
+  bottom = "#0f172a",
+): Promise<Buffer> {
   const svg = `<svg width="${CANVAS_W}" height="${CANVAS_H}" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1e293b"/>
-        <stop offset="100%" stop-color="#0f172a"/>
+        <stop offset="0%" stop-color="${top}"/>
+        <stop offset="100%" stop-color="${bottom}"/>
       </linearGradient>
     </defs>
     <rect width="100%" height="100%" fill="url(#g)"/>
@@ -74,7 +68,12 @@ async function neutralGradientBackground(): Promise<Buffer> {
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
-function browserChromeSvg(screenX: number, screenY: number, screenW: number, screenH: number): Buffer {
+function browserChromeSvg(
+  screenX: number,
+  screenY: number,
+  screenW: number,
+  screenH: number,
+): Buffer {
   const pad = 12;
   const barH = 40;
   const outerX = screenX - pad;
@@ -91,20 +90,30 @@ function browserChromeSvg(screenX: number, screenY: number, screenW: number, scr
   return Buffer.from(svg);
 }
 
-function phoneFrameSvg(screenX: number, screenY: number, screenW: number, screenH: number): Buffer {
-  const pad = 12;
+function phoneFrameSvg(
+  screenX: number,
+  screenY: number,
+  screenW: number,
+  screenH: number,
+): Buffer {
+  const pad = 10;
   const outerX = screenX - pad;
-  const outerY = screenY - pad - 10;
+  const outerY = screenY - pad - 8;
   const outerW = screenW + pad * 2;
-  const outerH = screenH + pad * 2 + 20;
+  const outerH = screenH + pad * 2 + 16;
   const svg = `<svg width="${CANVAS_W}" height="${CANVAS_H}" xmlns="http://www.w3.org/2000/svg">
-    <rect x="${outerX}" y="${outerY}" width="${outerW}" height="${outerH}" rx="40" ry="40" fill="none" stroke="#334155" stroke-width="14"/>
-    <rect x="${outerX + outerW / 2 - 36}" y="${outerY + 16}" width="72" height="5" rx="2.5" fill="#475569"/>
+    <rect x="${outerX}" y="${outerY}" width="${outerW}" height="${outerH}" rx="36" ry="36" fill="none" stroke="#334155" stroke-width="10"/>
+    <rect x="${outerX + outerW / 2 - 32}" y="${outerY + 14}" width="64" height="4" rx="2" fill="#475569"/>
   </svg>`;
   return Buffer.from(svg);
 }
 
-function cardShadowSvg(cardX: number, cardY: number, cardW: number, cardH: number): Buffer {
+function cardShadowSvg(
+  cardX: number,
+  cardY: number,
+  cardW: number,
+  cardH: number,
+): Buffer {
   const svg = `<svg width="${CANVAS_W}" height="${CANVAS_H}" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
@@ -130,8 +139,15 @@ function clampOverlayPosition(
   };
 }
 
-async function resizedAsset(asset: Buffer, w: number, h: number): Promise<Buffer> {
-  return sharp(asset).resize(w, h, { fit: "inside" }).png().toBuffer();
+async function resizedAsset(
+  asset: Buffer,
+  w: number,
+  h: number,
+): Promise<Buffer> {
+  return sharp(asset)
+    .resize(w, h, { fit: "inside", kernel: sharp.kernel.lanczos3 })
+    .png()
+    .toBuffer();
 }
 
 async function composeOnCanvas(
@@ -141,9 +157,26 @@ async function composeOnCanvas(
   return sharp(base).composite(layers).png().toBuffer();
 }
 
+function templateForMode(mode: AssetLayoutMode): PresentationTemplate {
+  switch (mode) {
+    case "ui_hero":
+      return "UI_HERO";
+    case "framed_phone":
+      return "DEVICE_MOCKUP";
+    case "framed_screen":
+      return "DESKTOP_FRAME";
+    case "floating_card":
+    case "card":
+      return "FLOATING_PROOF";
+    default:
+      return "UI_HERO";
+  }
+}
+
 export interface ComposeAssetSceneInput {
   assetBytes: Buffer;
   videoUsage?: string | null;
+  assetMetadata?: unknown;
 }
 
 /** Builds a 9:16 still for FFmpeg from a product asset and usage mode. */
@@ -159,44 +192,29 @@ export async function composeAssetSceneStill(
   const assetW = meta.width ?? CANVAS_W;
   const assetH = meta.height ?? CANVAS_H;
 
-  const bg =
-    mode === "background" || mode === "framed_screen" || mode === "framed_phone"
-      ? await blurredCoverBackground(input.assetBytes)
-      : await neutralGradientBackground();
+  const template = templateForMode(mode);
+  const box = layoutBoxForTemplate(template);
+  const fit = fitContainInBox(
+    assetW,
+    assetH,
+    box.maxW,
+    box.maxH,
+    box.allowUpscale,
+  );
 
-  let maxW: number;
-  let maxH: number;
-  let offsetY = 0;
+  const frameMeta = readDeviceFrameMetadata(input.assetMetadata ?? {});
+  const skipPhoneChrome =
+    frameMeta.contains_phone_frame || frameMeta.contains_device_frame;
+  const skipBrowserChrome =
+    frameMeta.contains_browser_frame || frameMeta.contains_laptop_frame;
 
-  switch (mode) {
-    case "framed_screen":
-      maxW = Math.round(CANVAS_W * 0.9);
-      maxH = Math.round(CANVAS_H * 0.52);
-      offsetY = 0;
-      break;
-    case "framed_phone":
-      maxW = Math.round(CANVAS_W * 0.72);
-      maxH = Math.round(CANVAS_H * 0.78);
-      break;
-    case "background":
-      maxW = Math.round(CANVAS_W * 0.86);
-      maxH = Math.round(CANVAS_H * 0.58);
-      break;
-    case "card":
-      maxW = Math.round(CANVAS_W * 0.8);
-      maxH = Math.round(CANVAS_H * 0.55);
-      break;
-    case "floating_card":
-    default:
-      maxW = Math.round(CANVAS_W * 0.86);
-      maxH = Math.round(CANVAS_H * 0.7);
-      break;
-  }
+  const bg = await neutralGradientBackground();
 
-  const fit = fitContain(assetW, assetH, maxW, maxH);
   const assetPng = await resizedAsset(input.assetBytes, fit.width, fit.height);
   const centeredLeft = Math.round((CANVAS_W - fit.width) / 2);
-  const centeredTop = Math.round((CANVAS_H - fit.height) / 2 + offsetY);
+  const centeredTop = Math.round(
+    (CANVAS_H - fit.height) / 2 + box.offsetY,
+  );
   const { left, top } = clampOverlayPosition(
     centeredLeft,
     centeredTop,
@@ -204,17 +222,15 @@ export async function composeAssetSceneStill(
     fit.height,
   );
 
-  const layers: sharp.OverlayOptions[] = [
-    { input: assetPng, left, top },
-  ];
+  const layers: sharp.OverlayOptions[] = [{ input: assetPng, left, top }];
 
-  if (mode === "framed_screen") {
+  if (mode === "framed_screen" && !skipBrowserChrome) {
     layers.push({
       input: browserChromeSvg(left, top, fit.width, fit.height),
       left: 0,
       top: 0,
     });
-  } else if (mode === "framed_phone") {
+  } else if (mode === "framed_phone" && !skipPhoneChrome) {
     layers.push({
       input: phoneFrameSvg(left, top, fit.width, fit.height),
       left: 0,
@@ -225,29 +241,53 @@ export async function composeAssetSceneStill(
     mode === "card" ||
     mode === "background"
   ) {
-    layers.unshift({
-      input: cardShadowSvg(
-        left - 8,
-        top - 8,
-        fit.width + 16,
-        fit.height + 16,
-      ),
-      left: 0,
-      top: 0,
-    });
+    if (!frameMeta.contains_card_frame) {
+      layers.unshift({
+        input: cardShadowSvg(
+          left - 8,
+          top - 8,
+          fit.width + 16,
+          fit.height + 16,
+        ),
+        left: 0,
+        top: 0,
+      });
+    }
   }
 
   return composeOnCanvas(bg, layers);
 }
 
+export function estimateComposedUiHeightRatio(args: {
+  assetWidth: number;
+  assetHeight: number;
+  videoUsage?: string | null;
+}): number {
+  const mode = normalizeAssetLayoutMode(args.videoUsage);
+  const template =
+    videoUsageImpliesPresentationTemplate(args.videoUsage ?? "") ??
+    templateForMode(mode);
+  const box = layoutBoxForTemplate(template);
+  const fit = fitContainInBox(
+    args.assetWidth,
+    args.assetHeight,
+    box.maxW,
+    box.maxH,
+    box.allowUpscale,
+  );
+  return fit.height / CANVAS_H;
+}
+
 export async function writeComposedAssetSceneFile(args: {
   assetBytes: Buffer;
   videoUsage?: string | null;
+  assetMetadata?: unknown;
   outputPath: string;
 }): Promise<void> {
   const out = await composeAssetSceneStill({
     assetBytes: args.assetBytes,
     videoUsage: args.videoUsage,
+    assetMetadata: args.assetMetadata,
   });
   await sharp(out).png().toFile(args.outputPath);
 }

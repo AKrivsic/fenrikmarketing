@@ -232,22 +232,24 @@ export interface DownloadStorageObjectInput {
 export async function downloadStorageObjectToFile(
   input: DownloadStorageObjectInput,
 ): Promise<{ localPath: string }> {
-  const supabase = createSupabaseAdminClient();
-  const { data, error } = await supabase.storage
-    .from(input.bucket)
-    .download(input.storagePath);
+  const bytes = await downloadStorageObjectBytes(input.bucket, input.storagePath);
+  await mkdir(dirname(input.localPath), { recursive: true });
+  await writeFile(input.localPath, bytes);
+  return { localPath: input.localPath };
+}
 
+export async function downloadStorageObjectBytes(
+  bucket: string,
+  storagePath: string,
+): Promise<Buffer> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase.storage.from(bucket).download(storagePath);
   if (error || !data) {
     throw new Error(
-      `downloadStorageObjectToFile failed (${input.bucket}/${input.storagePath}): ${
+      `downloadStorageObjectBytes failed (${bucket}/${storagePath}): ${
         error?.message ?? "missing object"
       }`,
     );
   }
-
-  const bytes = Buffer.from(await data.arrayBuffer());
-  await mkdir(dirname(input.localPath), { recursive: true });
-  await writeFile(input.localPath, bytes);
-
-  return { localPath: input.localPath };
+  return Buffer.from(await data.arrayBuffer());
 }

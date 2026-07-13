@@ -74,15 +74,15 @@ const directives: CreativeDirectives = {
 
 section("preferred_video_usage classification");
 
-check("mobile product_ui portrait -> framed_phone", () => {
-  assert.equal(resolvePreferredVideoUsageFromRef(mobileUi), "framed_phone");
+check("mobile product_ui portrait -> ui_hero", () => {
+  assert.equal(resolvePreferredVideoUsageFromRef(mobileUi), "ui_hero");
 });
 
 check("desktop dashboard -> framed_screen", () => {
   assert.equal(resolvePreferredVideoUsageFromRef(desktopShot), "framed_screen");
 });
 
-check("hero_image -> background", () => {
+check("hero_image -> fullscreen", () => {
   assert.equal(
     computePreferredVideoUsage({
       productRole: "hero_image",
@@ -93,7 +93,7 @@ check("hero_image -> background", () => {
       width: 1200,
       height: 630,
     }),
-    "background",
+    "fullscreen",
   );
 });
 
@@ -137,7 +137,7 @@ check("video prompt lists desktop and mobile assets", () => {
   });
   assert.ok(prompt.includes("mobile-ui"));
   assert.ok(prompt.includes("desktop-ui"));
-  assert.ok(prompt.includes("framed_phone"));
+  assert.ok(prompt.includes("ui_hero"));
   assert.ok(prompt.includes("framed_screen"));
 });
 

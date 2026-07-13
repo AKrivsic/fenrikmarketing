@@ -295,8 +295,14 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
           </p>
         )}
         <p className={styles.hint}>
-          Mobile app screenshots are normally framed to preserve the full interface.
+          Product UI is shown large (UI Hero) by default — no extra phone frame unless the scene asks for it.
         </p>
+        {asset.presentationTemplateLabel ? (
+          <p className={styles.hint}>
+            Resolved layout: {asset.presentationTemplateLabel}
+            {asset.presentationGuardNote ? ` — ${asset.presentationGuardNote}` : ""}
+          </p>
+        ) : null}
 
         <ModeToggle
           fieldKey="preferred-video-usage"

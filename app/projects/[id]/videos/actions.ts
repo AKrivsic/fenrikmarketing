@@ -27,10 +27,14 @@ import {
   saveVideoVisualSourceInEditor,
   setSceneProjectAssetInEditor,
   setSceneVisualModeInEditor,
+  previewFinalLayoutInEditor,
+  setScenePresentationOverrideInEditor,
+  type FinalLayoutPreviewPayload,
   loadVideoWorkflowState,
   type VideoWorkflowState,
   type VideoSceneEditorState,
 } from "@/lib/ai/workflows/videoSceneEditor";
+import type { ScenePresentationOverride } from "@/lib/video-scene-editor/scenePresentationOverride";
 import type {
   SceneVisualMode,
   VideoVisualSource,
@@ -42,6 +46,8 @@ import {
   updateFailedVideoJobEditorVoiceover as persistFailedVideoJobEditorVoiceover,
   type FailedVideoJobEditorState,
 } from "@/lib/ai/workflows/failedVideoJobEditor";
+
+export type { FinalLayoutPreviewPayload };
 
 export type VideoSceneEditorActionResult<T> =
   | { ok: true; data: T }
@@ -576,6 +582,43 @@ export async function rerenderFailedVideoJob(
     );
     revalidateVideos(projectId);
     return { ok: true, data: { videoJobId: summary.videoJobId } };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function previewFinalLayoutAction(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+): Promise<VideoSceneEditorActionResult<FinalLayoutPreviewPayload>> {
+  try {
+    const data = await previewFinalLayoutInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+    });
+    return { ok: true, data };
+  } catch (err) {
+    return fail(mapWorkflowError(err));
+  }
+}
+
+export async function setScenePresentationOverrideAction(
+  projectId: string,
+  videoJobId: string,
+  sceneId: string,
+  override: ScenePresentationOverride,
+): Promise<VideoSceneEditorActionResult<VideoSceneEditorState>> {
+  try {
+    const data = await setScenePresentationOverrideInEditor({
+      projectId,
+      videoJobId,
+      sceneId,
+      override,
+    });
+    revalidateVideos(projectId);
+    return { ok: true, data };
   } catch (err) {
     return fail(mapWorkflowError(err));
   }

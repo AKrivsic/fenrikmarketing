@@ -26,6 +26,8 @@ import {
   shouldApplyInferredProductRole,
 } from "@/lib/assets/inferProductRoleFromSignals";
 import { inferCaptureViewport } from "@/lib/assets/inferCaptureViewport";
+import { enrichMetadataWithDeviceFrameDetection } from "@/lib/assets/deviceFrameMetadata";
+import { stampDefaultPresentationTemplate } from "@/lib/assets/presentationTemplate";
 import { readProductRole, type ProductRole } from "@/lib/assets/productRole";
 import {
   mergeSmartUsageIntoMetadata,
@@ -301,7 +303,9 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
           ? "component_capture"
           : "upload",
   });
-  let merged = mergeSmartUsageIntoMetadata(record as Json, smart);
+  let merged: Record<string, unknown> = {
+    ...(mergeSmartUsageIntoMetadata(record as Json, smart) as Record<string, unknown>),
+  };
 
   const inferredViewport = inferCaptureViewport({
     metadata: merged,
@@ -311,6 +315,14 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
   if (inferredViewport) {
     merged = { ...merged, capture_viewport: inferredViewport };
   }
+
+  merged = enrichMetadataWithDeviceFrameDetection(
+    merged as Json,
+    asset.title,
+  ) as unknown as Record<string, unknown>;
+  merged = stampDefaultPresentationTemplate(
+    merged as Json,
+  ) as unknown as Record<string, unknown>;
 
   return merged as Json;
 }

@@ -548,6 +548,7 @@ async function loadAssetImages(
     const videoUsage = resolveVideoUsageForRender(
       preferred,
       usedAsById.get(row.id as string),
+      { metadata, title: (row.title as string) ?? "" },
     );
 
     result.push({

@@ -1,0 +1,129 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(15, 23, 42, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.panel {
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #0f172a);
+  border-radius: 12px;
+  max-width: min(1100px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  width: 100%;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.closeBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr minmax(220px, 280px);
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+@media (max-width: 800px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.previewColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.previewImage {
+  max-height: min(70vh, 720px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  cursor: zoom-in;
+}
+
+.previewImage:active {
+  cursor: zoom-out;
+  max-height: none;
+  max-width: none;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.infoPanel {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.infoRow dt {
+  margin: 0;
+  font-weight: 500;
+  color: var(--color-text-muted, #64748b);
+}
+
+.infoRow dd {
+  margin: 0;
+  text-align: right;
+}
+
+.guardNote {
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.65rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.status,
+.error {
+  padding: 1rem 1.25rem;
+  margin: 0;
+}
+
+.error {
+  color: #b91c1c;
+}

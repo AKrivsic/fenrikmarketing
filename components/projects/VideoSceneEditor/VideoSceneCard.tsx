@@ -2,6 +2,11 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import type { VideoSceneEditorSceneView } from "@/lib/ai/workflows/videoSceneEditor";
+import {
+  SCENE_PRESENTATION_OVERRIDE_LABELS,
+  SCENE_PRESENTATION_OVERRIDE_VALUES,
+  type ScenePresentationOverride,
+} from "@/lib/video-scene-editor/scenePresentationOverride";
 import { DEFAULT_BRAND_ASSET_INSERT_INSTRUCTION } from "@/lib/video-scene-editor/constants";
 import {
   MAX_SCENE_DURATION_SECONDS,
@@ -35,6 +40,11 @@ interface VideoSceneCardProps {
   onMoveDown: (sceneId: string) => void;
   onDuplicate: (sceneId: string) => void;
   onRemove: (sceneId: string) => void;
+  onPreviewFinalLayout: (sceneId: string) => void;
+  onPresentationOverrideChange: (
+    sceneId: string,
+    override: ScenePresentationOverride,
+  ) => void;
 }
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -69,6 +79,8 @@ export function VideoSceneCard({
   onMoveDown,
   onDuplicate,
   onRemove,
+  onPreviewFinalLayout,
+  onPresentationOverrideChange,
 }: VideoSceneCardProps) {
   const inputId = useId();
   const brandAssetInputId = useId();
@@ -320,6 +332,45 @@ export function VideoSceneCard({
               <span className={styles.fileName}>{scene.projectAssetTitle}</span>
             ) : null}
           </div>
+        ) : null}
+        {scene.visualMode === "project_asset" && scene.presentationTemplate ? (
+          <p className={styles.presentationHint}>
+            Layout: {scene.presentationTemplate}
+            {scene.videoUsage ? ` (${scene.videoUsage})` : ""}
+          </p>
+        ) : null}
+        {scene.presentationGuardNote ? (
+          <p className={styles.presentationGuard}>{scene.presentationGuardNote}</p>
+        ) : null}
+        <label className={styles.presentationField}>
+          Presentation
+          <select
+            className={styles.presentationSelect}
+            value={scene.presentationOverride}
+            disabled={disabled || scene.visualMode !== "project_asset"}
+            onChange={(e) =>
+              onPresentationOverrideChange(
+                scene.id,
+                e.target.value as ScenePresentationOverride,
+              )
+            }
+          >
+            {SCENE_PRESENTATION_OVERRIDE_VALUES.map((value) => (
+              <option key={value} value={value}>
+                {SCENE_PRESENTATION_OVERRIDE_LABELS[value]}
+              </option>
+            ))}
+          </select>
+        </label>
+        {scene.visualMode === "project_asset" && scene.projectAssetId ? (
+          <button
+            type="button"
+            className={styles.secondaryBtn}
+            disabled={disabled}
+            onClick={() => onPreviewFinalLayout(scene.id)}
+          >
+            Preview Final Layout
+          </button>
         ) : null}
       </fieldset>
 

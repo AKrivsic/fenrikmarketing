@@ -84,7 +84,7 @@ check("automatic preferred_video_usage removes stamp and override", () => {
   });
   assert.equal(metadata.preferred_video_usage, undefined);
   assert.equal(isManualOverride(metadata, "preferred_video_usage"), false);
-  assert.equal(resolvePreferredVideoUsageFromMetadata(metadata), "framed_phone");
+  assert.equal(resolvePreferredVideoUsageFromMetadata(metadata), "ui_hero");
 });
 
 check("invalid preferred_video_usage is rejected", () => {

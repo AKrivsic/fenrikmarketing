@@ -52,7 +52,7 @@ function section(title: string): void {
 
 section("A. preferredVideoUsage");
 
-check("product_ui + phone_screen + portrait + safe_vertical -> framed_phone", () => {
+check("product_ui + phone_screen + portrait + safe_vertical -> ui_hero", () => {
   assert.equal(
     computePreferredVideoUsage({
       productRole: "product_ui",
@@ -64,11 +64,11 @@ check("product_ui + phone_screen + portrait + safe_vertical -> framed_phone", ()
       height: 626,
       preferredPresentation: "phone_screen",
     }),
-    "framed_phone",
+    "ui_hero",
   );
 });
 
-check("mobile viewport + UI screenshot -> framed_phone", () => {
+check("mobile viewport + UI screenshot -> ui_hero", () => {
   assert.equal(
     computePreferredVideoUsage({
       productRole: null,
@@ -81,7 +81,7 @@ check("mobile viewport + UI screenshot -> framed_phone", () => {
       detectedContentType: "screenshot",
       aiDescription: "Mobile app UI showing cards",
     }),
-    "framed_phone",
+    "ui_hero",
   );
 });
 
@@ -266,10 +266,10 @@ async function main(): Promise<void> {
     .png()
     .toBuffer();
 
-  await checkAsync("framed_phone portrait asset fully inside canvas", async () => {
+  await checkAsync("ui_hero portrait asset fully inside canvas", async () => {
     const out = await composeAssetSceneStill({
       assetBytes: portrait,
-      videoUsage: "framed_phone",
+      videoUsage: "ui_hero",
     });
     const meta = await sharp(out).metadata();
     assert.equal(meta.width, SHORT_PROFILE.width);
@@ -338,10 +338,10 @@ async function main(): Promise<void> {
       ],
     ]);
     const refreshed = refreshDraftScenesVideoUsage(scenes, assets);
-    assert.equal(refreshed[0]?.video_usage, "framed_phone");
+    assert.equal(refreshed[0]?.video_usage, "ui_hero");
   });
 
-  check("video_usage_locked preserves override on refresh", () => {
+  check("locked framed_phone + phone-framed asset -> ui_hero (no double frame)", () => {
     const scenes: SceneEditorDraftScene[] = [
       {
         id: "scene-1",
@@ -350,7 +350,7 @@ async function main(): Promise<void> {
         image_path: "p",
         duration_seconds: 4,
         asset_id: "asset-1",
-        video_usage: "fullscreen",
+        video_usage: "framed_phone",
         video_usage_locked: true,
       },
     ];
@@ -359,21 +359,23 @@ async function main(): Promise<void> {
         "asset-1",
         {
           id: "asset-1",
-          title: "X",
+          title: "RightCard",
           metadata: {
             product_role: "product_ui",
-            preferred_presentation: "phone_screen",
+            contains_phone_frame: true,
+            contains_device_frame: true,
+            ai_description: "App in black phone mockup",
           } as Json,
         },
       ],
     ]);
     const refreshed = refreshDraftScenesVideoUsage(scenes, assets);
-    assert.equal(refreshed[0]?.video_usage, "fullscreen");
+    assert.equal(refreshed[0]?.video_usage, "ui_hero");
   });
 
   section("RightCard classification smoke");
 
-  check("RightCard-like metadata resolves framed_phone", () => {
+  check("RightCard-like metadata resolves ui_hero", () => {
     const meta = {
       width: 300,
       height: 626,
@@ -388,7 +390,7 @@ async function main(): Promise<void> {
     };
     assert.equal(
       resolvePreferredVideoUsageFromMetadata(meta, { title: "RightCard" }),
-      "framed_phone",
+      "ui_hero",
     );
   });
 

@@ -2,9 +2,9 @@ import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
 import type { ProductRole } from "@/lib/assets/productRole";
 import { readProductRole } from "@/lib/assets/productRole";
 import {
-  isPortraitMarketingPhoto,
-  isUiScreenshotContent,
-} from "@/lib/assets/uiScreenshotSignals";
+  resolvePresentationFromMetadata,
+  resolvePresentationTemplate,
+} from "@/lib/assets/presentationTemplate";
 import {
   computeOrientation,
   readSafeVerticalUsage,
@@ -29,6 +29,7 @@ export type PreferredVideoUsage = (typeof PREFERRED_VIDEO_USAGE_VALUES)[number];
 /** Render-time usage (superset — renderer may treat framed_* alike until compositing). */
 export const VIDEO_USAGE_RENDER_VALUES = [
   "fullscreen",
+  "ui_hero",
   "framed_screen",
   "framed_phone",
   "framed_laptop",
@@ -133,96 +134,26 @@ export interface PreferredVideoUsageInput {
   preferredPresentation?: string | null;
 }
 
-function isPortraitOrientation(input: PreferredVideoUsageInput): boolean {
-  return (
-    input.orientation === "portrait" ||
-    Boolean(
-      input.width &&
-        input.height &&
-        computeOrientation(input.width, input.height) === "portrait",
-    )
-  );
-}
-
-function uiContext(input: PreferredVideoUsageInput) {
-  return {
-    productRole: input.productRole,
-    detectedContentType: input.detectedContentType,
-    aiDescription: input.aiDescription,
-    title: input.title,
-    preferredPresentation: input.preferredPresentation ?? null,
-  };
-}
-
 /** Maps asset metadata to a render-time usage mode (manual stamp handled outside). */
 export function computePreferredVideoUsage(
   input: PreferredVideoUsageInput,
 ): VideoUsageRenderMode {
-  const portrait = isPortraitOrientation(input);
-  const ui = isUiScreenshotContent(uiContext(input));
+  const metadata = {
+    product_role: input.productRole,
+    capture_viewport: input.captureViewport,
+    safe_vertical_usage: input.safeVerticalUsage,
+    video_suitability: input.videoSuitability,
+    orientation: input.orientation,
+    width: input.width,
+    height: input.height,
+    detected_content_type: input.detectedContentType,
+    ai_description: input.aiDescription,
+    preferred_presentation: input.preferredPresentation,
+    title: input.title,
+  };
 
-  if (input.preferredPresentation === "phone_screen") {
-    return "framed_phone";
-  }
-
-  if (input.captureViewport === "mobile" && ui) {
-    return "framed_phone";
-  }
-
-  if (
-    input.productRole === "product_ui" &&
-    (portrait || input.captureViewport === "mobile")
-  ) {
-    return "framed_phone";
-  }
-
-  if (
-    input.productRole === "dashboard" ||
-    input.productRole === "pricing_screenshot" ||
-    input.productRole === "homepage_screenshot"
-  ) {
-    return "framed_screen";
-  }
-
-  if (input.productRole === "logo") return "proof";
-  if (input.productRole === "hero_image") return "background";
-  if (input.productRole === "decorative") return "floating_card";
-
-  if (input.captureViewport === "desktop" && ui) {
-    return "framed_screen";
-  }
-
-  const hay = titleHaystack([input.title, input.detectedContentType]);
-  if (
-    input.productRole === null &&
-    (hay.includes("feature card") || hay.includes("feature_card"))
-  ) {
-    return "floating_card";
-  }
-
-  if (input.productRole === "product_ui") {
-    return portrait ? "framed_phone" : "framed_screen";
-  }
-
-  if (
-    input.productRole === "testimonial" ||
-    input.productRole === "certificate"
-  ) {
-    return "proof";
-  }
-
-  if (input.videoSuitability === "background_only") return "background";
-
-  if (input.safeVerticalUsage === true && portrait) {
-    if (isPortraitMarketingPhoto(uiContext(input))) {
-      return "fullscreen";
-    }
-    if (!ui) {
-      return "fullscreen";
-    }
-  }
-
-  return "reference";
+  const { videoUsage } = resolvePresentationTemplate({ metadata });
+  return videoUsage;
 }
 
 export function resolvePreferredVideoUsageFromMetadata(
@@ -334,6 +265,9 @@ export function assetUsageFullscreenViolation(
 
 export function preferredUsagePromptHint(preferred: VideoUsageRenderMode): string {
   if (preferred === "fullscreen") return "Preferred usage: fullscreen";
+  if (preferred === "ui_hero") {
+    return "Preferred usage: ui_hero (large product UI, no extra device frame)";
+  }
   if (preferred === "framed_screen") {
     return "Preferred usage: framed_screen (laptop/monitor/tablet insert — NOT fullscreen)";
   }
@@ -395,7 +329,15 @@ function mapPreferredToRenderMode(
 export function resolveVideoUsageForRender(
   preferred: VideoUsageRenderMode,
   usedAs: string | null | undefined,
+  options?: { metadata?: unknown; title?: string | null },
 ): VideoUsageRenderMode {
+  if (options?.metadata) {
+    const { videoUsage } = resolvePresentationFromMetadata(options.metadata, {
+      title: options.title ?? null,
+      scene: { usedAs: usedAs ?? undefined },
+    });
+    return videoUsage;
+  }
   const used = usedAs?.trim() ?? "";
   if (assetUsageFullscreenViolation(preferred, used)) {
     return mapPreferredToRenderMode(preferred, used);
@@ -410,6 +352,7 @@ export function isFramedProductVideoUsage(
   const raw = videoUsage?.trim().toLowerCase() ?? "";
   if (!raw) return false;
   return (
+    raw === "ui_hero" ||
     raw === "framed_phone" ||
     raw === "framed_screen" ||
     raw === "framed_laptop" ||
