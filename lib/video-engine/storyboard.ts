@@ -464,7 +464,7 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
 
       if (
         isFramedProductVideoUsage(beatVideoUsage) ||
-        productUiRequiresStaticMotion(beatAssetMetadata)
+        productUiRequiresStaticMotion(beatAssetMetadata, beatVideoUsage)
       ) {
         motion = "static";
         motion_intent = "HOLD";

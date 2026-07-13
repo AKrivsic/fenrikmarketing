@@ -27,6 +27,7 @@ export function isVideoUsageRenderValue(
 
 export const VIDEO_USAGE_ADMIN_LABELS: Record<VideoUsageRenderMode, string> = {
   fullscreen: "Fullscreen",
+  fullscreen_contain: "Fullscreen contain",
   ui_hero: "UI Hero (large, no frame)",
   framed_screen: "Framed screen",
   framed_phone: "Framed phone",
@@ -42,6 +43,8 @@ export const VIDEO_USAGE_ADMIN_LABELS: Record<VideoUsageRenderMode, string> = {
 export const VIDEO_USAGE_ADMIN_HINTS: Record<VideoUsageRenderMode, string> = {
   fullscreen:
     "Asset může vyplnit celou vertikální scénu.",
+  fullscreen_contain:
+    "Celý asset na scéně bez ořezu (contain), bez Ken-Burns — typicky product UI.",
   ui_hero:
     "Velké product UI bez dalšího telefonu nebo browser rámečku.",
   framed_screen:

@@ -29,6 +29,7 @@ export type PreferredVideoUsage = (typeof PREFERRED_VIDEO_USAGE_VALUES)[number];
 /** Render-time usage (superset — renderer may treat framed_* alike until compositing). */
 export const VIDEO_USAGE_RENDER_VALUES = [
   "fullscreen",
+  "fullscreen_contain",
   "ui_hero",
   "framed_screen",
   "framed_phone",
@@ -353,6 +354,7 @@ export function isFramedProductVideoUsage(
   if (!raw) return false;
   return (
     raw === "ui_hero" ||
+    raw === "fullscreen_contain" ||
     raw === "framed_phone" ||
     raw === "framed_screen" ||
     raw === "framed_laptop" ||

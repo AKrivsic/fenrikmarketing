@@ -1,8 +1,8 @@
 import type { Json } from "@/lib/supabase/types";
 import { readDeviceFrameMetadata } from "@/lib/assets/deviceFrameMetadata";
 import {
-  PRESENTATION_TEMPLATE_LABELS,
   type PresentationTemplate,
+  userFacingPresentationLabel,
 } from "@/lib/assets/presentationTemplate";
 import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
 import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
@@ -37,7 +37,7 @@ export interface BuildFinalLayoutPreviewInput {
 }
 
 function backgroundLabelForTemplate(template: PresentationTemplate): string {
-  if (template === "FULLSCREEN_PHOTO") return "None (raw asset)";
+  if (template === "FULLSCREEN_PHOTO") return "Letterbox (contain)";
   return "Gradient";
 }
 
@@ -45,7 +45,7 @@ function motionLabelForVideoUsage(
   videoUsage: string,
   assetMetadata: unknown,
 ): string {
-  if (productUiRequiresStaticMotion(assetMetadata)) return "Static";
+  if (productUiRequiresStaticMotion(assetMetadata, videoUsage)) return "Static";
   if (videoUsage === "fullscreen") {
     return "Ken-Burns in video (preview shows raw still)";
   }
@@ -72,7 +72,10 @@ export function buildFinalLayoutPreviewInfo(args: {
       : null;
 
   return {
-    presentationLabel: PRESENTATION_TEMPLATE_LABELS[args.presentation.template],
+    presentationLabel: userFacingPresentationLabel({
+      template: args.presentation.template,
+      videoUsage: args.presentation.videoUsage,
+    }),
     template: args.presentation.template,
     videoUsage: args.presentation.videoUsage,
     effectiveUiAreaPercent,

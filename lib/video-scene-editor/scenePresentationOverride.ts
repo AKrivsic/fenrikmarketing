@@ -2,7 +2,6 @@ import {
   type PresentationTemplate,
   resolvePresentationTemplate,
 } from "@/lib/assets/presentationTemplate";
-import { readDeviceFrameMetadata } from "@/lib/assets/deviceFrameMetadata";
 import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 import type { SceneEditorDraftScene } from "@/lib/video-scene-editor/metadata";
 
@@ -27,7 +26,7 @@ export const SCENE_PRESENTATION_OVERRIDE_LABELS: Record<
   DEVICE_MOCKUP: "Device Mockup",
   DESKTOP_FRAME: "Desktop Frame",
   FLOATING_PROOF: "Floating Proof",
-  FULLSCREEN_PHOTO: "Fullscreen",
+  FULLSCREEN_PHOTO: "Fullscreen contain",
 };
 
 export function isScenePresentationOverride(
@@ -75,14 +74,10 @@ export function resolveScenePresentation(args: {
     scene: { imagePrompt: args.scene.image_prompt },
     requestedTemplate: userRequestedTemplate,
   });
-  const frame = readDeviceFrameMetadata(args.assetMetadata);
   const doubleFramingPrevented =
-    (userRequestedTemplate !== null &&
-      userRequestedTemplate !== resolved.template) ||
-    (frame.contains_device_frame &&
-      resolved.template === "UI_HERO" &&
-      (userRequestedTemplate === "DEVICE_MOCKUP" ||
-        userRequestedTemplate === null));
+    userRequestedTemplate !== null &&
+    userRequestedTemplate !== resolved.template &&
+    userRequestedTemplate !== "FULLSCREEN_PHOTO";
   return {
     template: resolved.template,
     videoUsage: resolved.videoUsage,

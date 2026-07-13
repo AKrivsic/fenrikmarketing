@@ -37,6 +37,20 @@ export const PRESENTATION_TEMPLATE_LABELS: Record<PresentationTemplate, string> 
   FULLSCREEN_PHOTO: "Fullscreen photo",
 };
 
+/** User-visible presentation name (may differ from template key for Product UI fullscreen). */
+export function userFacingPresentationLabel(args: {
+  template: PresentationTemplate;
+  videoUsage?: string | null;
+}): string {
+  if (args.template === "FULLSCREEN_PHOTO") {
+    const raw = args.videoUsage?.trim().toLowerCase() ?? "";
+    if (raw === "fullscreen_contain") return "Fullscreen contain";
+    if (raw === "fullscreen") return "Fullscreen";
+    return PRESENTATION_TEMPLATE_LABELS.FULLSCREEN_PHOTO;
+  }
+  return PRESENTATION_TEMPLATE_LABELS[args.template];
+}
+
 /** Minimum share of canvas height the composed UI should occupy for primary product beats. */
 export const MIN_EFFECTIVE_UI_HEIGHT_RATIO = 0.6;
 
@@ -122,6 +136,7 @@ export function videoUsageImpliesPresentationTemplate(
 ): PresentationTemplate | null {
   const raw = usage?.trim().toLowerCase() ?? "";
   if (raw === "ui_hero") return "UI_HERO";
+  if (raw === "fullscreen_contain") return "FULLSCREEN_PHOTO";
   if (raw === "framed_phone") return "DEVICE_MOCKUP";
   if (
     raw === "framed_screen" ||
@@ -154,6 +169,17 @@ export function presentationTemplateToVideoUsage(
     default:
       return "ui_hero";
   }
+}
+
+/** Maps presentation template to render usage (Product UI fullscreen → contain, no Ken-Burns). */
+export function videoUsageForPresentationTemplate(
+  template: PresentationTemplate,
+  metadata: unknown,
+): VideoUsageRenderMode {
+  if (template === "FULLSCREEN_PHOTO") {
+    return isReliableProductUiAsset(metadata) ? "fullscreen_contain" : "fullscreen";
+  }
+  return presentationTemplateToVideoUsage(template);
 }
 
 export function preventDoubleFraming(
@@ -385,8 +411,9 @@ export function resolvePresentationTemplate(
   guardNote?: string;
 } {
   const frame = readDeviceFrameMetadata(input.metadata);
+  const userRequested = input.requestedTemplate ?? null;
   let candidate =
-    input.requestedTemplate ??
+    userRequested ??
     (typeof readRecord(input.metadata)?.presentation_template === "string"
       ? (readRecord(input.metadata)!.presentation_template as PresentationTemplate)
       : null) ??
@@ -396,12 +423,24 @@ export function resolvePresentationTemplate(
   candidate = guarded.template;
   candidate = applyReadabilityDowngrade(input.metadata, candidate);
 
-  const videoUsage = presentationTemplateToVideoUsage(candidate);
-  const guardedProduct = applyProductUiPresentationGuard(input.metadata, {
-    template: candidate,
-    videoUsage,
-    guardNote: guarded.guardNote,
-  });
+  if (userRequested === "FULLSCREEN_PHOTO") {
+    return {
+      template: "FULLSCREEN_PHOTO",
+      videoUsage: videoUsageForPresentationTemplate("FULLSCREEN_PHOTO", input.metadata),
+      guardNote: guarded.guardNote,
+    };
+  }
+
+  let videoUsage = videoUsageForPresentationTemplate(candidate, input.metadata);
+  const guardedProduct = applyProductUiPresentationGuard(
+    input.metadata,
+    {
+      template: candidate,
+      videoUsage,
+      guardNote: guarded.guardNote,
+    },
+    { userRequestedTemplate: userRequested },
+  );
   return {
     template: guardedProduct.template,
     videoUsage: guardedProduct.videoUsage,
@@ -435,17 +474,25 @@ export function resolvePresentationFromMetadata(
 
   if (options.lockedVideoUsage && isVideoUsageRenderMode(options.lockedVideoUsage)) {
     const frame = readDeviceFrameMetadata(metadata);
-    const guarded = preventDoubleFraming(
-      frame,
-      videoUsageImpliesPresentationTemplate(options.lockedVideoUsage) ?? resolved.template,
-    );
+    const lockedTemplate =
+      videoUsageImpliesPresentationTemplate(options.lockedVideoUsage) ?? resolved.template;
+    const guarded = preventDoubleFraming(frame, lockedTemplate);
     const template = applyReadabilityDowngrade(metadata, guarded.template);
+    if (lockedTemplate === "FULLSCREEN_PHOTO" || template === "FULLSCREEN_PHOTO") {
+      return {
+        template: "FULLSCREEN_PHOTO",
+        videoUsage: videoUsageForPresentationTemplate("FULLSCREEN_PHOTO", metadata),
+        guardNote: guarded.guardNote,
+      };
+    }
     const resolvedInner = {
       template,
-      videoUsage: presentationTemplateToVideoUsage(template),
+      videoUsage: videoUsageForPresentationTemplate(template, metadata),
       guardNote: guarded.guardNote,
     };
-    const guardedProduct = applyProductUiPresentationGuard(metadata, resolvedInner);
+    const guardedProduct = applyProductUiPresentationGuard(metadata, resolvedInner, {
+      userRequestedTemplate: lockedTemplate,
+    });
     return {
       template: guardedProduct.template,
       videoUsage: guardedProduct.videoUsage,

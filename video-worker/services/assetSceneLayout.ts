@@ -10,6 +10,7 @@ import { readDeviceFrameMetadata } from "@/lib/assets/deviceFrameMetadata";
 
 export type AssetLayoutMode =
   | "fullscreen"
+  | "fullscreen_contain"
   | "ui_hero"
   | "framed_screen"
   | "framed_phone"
@@ -24,6 +25,7 @@ export function videoUsageToLayoutMode(videoUsage?: string | null): AssetLayoutM
   const raw = videoUsage?.trim() ?? "";
   if (!raw) return "floating_card";
   if (raw === "fullscreen") return "fullscreen";
+  if (raw === "fullscreen_contain") return "fullscreen_contain";
   if (raw === "ui_hero") return "ui_hero";
   if (raw === "framed_phone") return "framed_phone";
   if (raw === "floating_card") return "floating_card";
@@ -159,6 +161,8 @@ async function composeOnCanvas(
 
 function templateForMode(mode: AssetLayoutMode): PresentationTemplate {
   switch (mode) {
+    case "fullscreen_contain":
+      return "FULLSCREEN_PHOTO";
     case "ui_hero":
       return "UI_HERO";
     case "framed_phone":
@@ -191,6 +195,23 @@ export async function composeAssetSceneStill(
   const meta = await sharp(input.assetBytes).metadata();
   const assetW = meta.width ?? CANVAS_W;
   const assetH = meta.height ?? CANVAS_H;
+
+  if (mode === "fullscreen_contain") {
+    const fit = fitContainInBox(assetW, assetH, CANVAS_W, CANVAS_H, true);
+    const bg = await neutralGradientBackground();
+    const assetPng = await resizedAsset(input.assetBytes, fit.width, fit.height);
+    const left = Math.round((CANVAS_W - fit.width) / 2);
+    const top = Math.round((CANVAS_H - fit.height) / 2);
+    const { left: clampedLeft, top: clampedTop } = clampOverlayPosition(
+      left,
+      top,
+      fit.width,
+      fit.height,
+    );
+    return composeOnCanvas(bg, [
+      { input: assetPng, left: clampedLeft, top: clampedTop },
+    ]);
+  }
 
   const template = templateForMode(mode);
   const box = layoutBoxForTemplate(template);
@@ -264,6 +285,16 @@ export function estimateComposedUiHeightRatio(args: {
   videoUsage?: string | null;
 }): number {
   const mode = normalizeAssetLayoutMode(args.videoUsage);
+  if (mode === "fullscreen_contain") {
+    const fit = fitContainInBox(
+      args.assetWidth,
+      args.assetHeight,
+      CANVAS_W,
+      CANVAS_H,
+      true,
+    );
+    return fit.height / CANVAS_H;
+  }
   const template =
     videoUsageImpliesPresentationTemplate(args.videoUsage ?? "") ??
     templateForMode(mode);

@@ -16,7 +16,7 @@ import {
 import {
   resolveBeatMotionPlan,
 } from "@/lib/video-engine/semanticMotion/resolveSceneMotion";
-import { buildFinalLayoutPreviewInfo } from "@/lib/video-scene-editor/previewFinalLayout";
+import { buildFinalLayoutPreviewInfo, buildFinalLayoutPreviewPng } from "@/lib/video-scene-editor/previewFinalLayout";
 import { resolveScenePresentation } from "@/lib/video-scene-editor/scenePresentationOverride";
 import {
   MIN_EFFECTIVE_UI_HEIGHT_RATIO,
@@ -26,6 +26,7 @@ import {
   resolvePresentationTemplate,
   sceneIntentRequestsDeviceMockup,
   presentationTemplateToVideoUsage,
+  userFacingPresentationLabel,
 } from "@/lib/assets/presentationTemplate";
 import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
 import { refreshDraftScenesVideoUsage } from "@/lib/video-scene-editor/resolveDraftSceneVideoUsage";
@@ -236,7 +237,52 @@ check("product_ui + mobile never FULLSCREEN_PHOTO (safe_vertical)", () => {
   assert.equal(videoUsage, "ui_hero");
 });
 
-check("old fullscreen draft coerces to ui_hero on refresh", () => {
+check("old fullscreen draft without override coerces to ui_hero on refresh", () => {
+  const assetMeta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "Mobile app UI",
+  };
+  const scenes: SceneEditorDraftScene[] = [
+    {
+      id: "s1",
+      image_prompt: "Beat",
+      image_bucket: "b",
+      image_path: "p.png",
+      duration_seconds: 4,
+      video_usage: "fullscreen",
+      asset_id: "a1",
+    },
+  ];
+  const refreshed = refreshDraftScenesVideoUsage(
+    scenes,
+    new Map([["a1", { id: "a1", title: "RC", metadata: assetMeta }]]),
+  );
+  assert.equal(refreshed[0]?.video_usage, "ui_hero");
+});
+
+check("manual Fullscreen override keeps Fullscreen presentation", () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "Mobile app UI",
+  };
+  const resolved = resolveScenePresentation({
+    assetMetadata: meta,
+    scene: { image_prompt: "beat", presentation_override: "FULLSCREEN_PHOTO" },
+  });
+  assert.equal(resolved.template, "FULLSCREEN_PHOTO");
+  assert.equal(resolved.videoUsage, "fullscreen_contain");
+  assert.equal(resolved.userRequestedTemplate, "FULLSCREEN_PHOTO");
+});
+
+check("manual Fullscreen override refreshes to fullscreen_contain", () => {
   const assetMeta = {
     product_role: "product_ui",
     capture_viewport: "mobile",
@@ -261,7 +307,7 @@ check("old fullscreen draft coerces to ui_hero on refresh", () => {
     scenes,
     new Map([["a1", { id: "a1", title: "RC", metadata: assetMeta }]]),
   );
-  assert.equal(refreshed[0]?.video_usage, "ui_hero");
+  assert.equal(refreshed[0]?.video_usage, "fullscreen_contain");
 });
 
 check("product_ui fullscreen override still static motion", () => {
@@ -271,7 +317,7 @@ check("product_ui fullscreen override still static motion", () => {
     height: 626,
     capture_viewport: "mobile",
   };
-  assert.equal(productUiRequiresStaticMotion(meta), true);
+  assert.equal(productUiRequiresStaticMotion(meta, "fullscreen_contain"), true);
   const plan = resolveBeatMotionPlan({
     beatIndex: 0,
     beatCount: 3,
@@ -280,7 +326,7 @@ check("product_ui fullscreen override still static motion", () => {
     sceneIndex: 0,
     sceneCount: 1,
     narrativeRole: "hook",
-    videoUsage: "fullscreen",
+    videoUsage: "fullscreen_contain",
     assetMetadata: meta,
   });
   assert.equal(plan.motion_primitive, "static");
@@ -343,19 +389,91 @@ check("preview info matches static UI Hero for RightCard", () => {
   assert.equal(info.videoUsage, "ui_hero");
   assert.equal(info.motionLabel, "Static");
   assert.equal(info.deviceFrameDetected, true);
-  assert.equal(presentation.doubleFramingPrevented, true);
+  assert.equal(presentation.doubleFramingPrevented, false);
   assert.ok(info.effectiveUiAreaPercent !== null && info.effectiveUiAreaPercent >= 60);
 });
 
-check("applyProductUiPresentationGuard coerces fullscreen", () => {
-  const meta = { product_role: "product_ui", capture_viewport: "mobile" };
-  const out = applyProductUiPresentationGuard(meta, {
-    template: "FULLSCREEN_PHOTO",
-    videoUsage: "fullscreen",
+checkAsync("manual Fullscreen preview shows Fullscreen and composed contain", async () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "Mobile app UI",
+  };
+  const buf = await sharp({
+    create: {
+      width: 298,
+      height: 626,
+      channels: 3,
+      background: { r: 30, g: 30, b: 30 },
+    },
+  })
+    .png()
+    .toBuffer();
+  const { png, info, presentation } = await buildFinalLayoutPreviewPng({
+    assetBytes: buf,
+    assetMetadata: meta,
+    scene: { image_prompt: "beat", presentation_override: "FULLSCREEN_PHOTO" },
   });
+  assert.equal(presentation.template, "FULLSCREEN_PHOTO");
+  assert.equal(info.presentationLabel, "Fullscreen contain");
+  assert.equal(info.videoUsage, "fullscreen_contain");
+  assert.equal(info.motionLabel, "Static");
+  const m = await sharp(png).metadata();
+  assert.equal(m.width, SHORT_PROFILE.width);
+  assert.equal(m.height, SHORT_PROFILE.height);
+  assert.ok(png.length > buf.length);
+});
+
+check("applyProductUiPresentationGuard coerces automatic fullscreen only", () => {
+  const meta = { product_role: "product_ui", capture_viewport: "mobile" };
+  const out = applyProductUiPresentationGuard(
+    meta,
+    {
+      template: "FULLSCREEN_PHOTO",
+      videoUsage: "fullscreen",
+    },
+    {},
+  );
   assert.equal(out.template, "UI_HERO");
   assert.equal(out.videoUsage, "ui_hero");
   assert.equal(out.coercedFromFullscreen, true);
+  const manual = applyProductUiPresentationGuard(
+    meta,
+    {
+      template: "FULLSCREEN_PHOTO",
+      videoUsage: "fullscreen_contain",
+    },
+    { userRequestedTemplate: "FULLSCREEN_PHOTO" },
+  );
+  assert.equal(manual.template, "FULLSCREEN_PHOTO");
+  assert.equal(manual.videoUsage, "fullscreen_contain");
+});
+
+check("userFacingPresentationLabel: fullscreen vs fullscreen_contain", () => {
+  assert.equal(
+    userFacingPresentationLabel({
+      template: "FULLSCREEN_PHOTO",
+      videoUsage: "fullscreen_contain",
+    }),
+    "Fullscreen contain",
+  );
+  assert.equal(
+    userFacingPresentationLabel({
+      template: "FULLSCREEN_PHOTO",
+      videoUsage: "fullscreen",
+    }),
+    "Fullscreen",
+  );
+  assert.equal(
+    userFacingPresentationLabel({
+      template: "UI_HERO",
+      videoUsage: "ui_hero",
+    }),
+    "UI Hero (large, no extra frame)",
+  );
 });
 
 section("Layout & motion");

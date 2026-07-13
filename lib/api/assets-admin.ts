@@ -27,8 +27,8 @@ import {
   resolvePreferredVideoUsageFromMetadata,
 } from "@/lib/assets/preferredVideoUsage";
 import {
-  PRESENTATION_TEMPLATE_LABELS,
   resolvePresentationFromMetadata,
+  userFacingPresentationLabel,
 } from "@/lib/assets/presentationTemplate";
 import {
   readDeviceFrameInAssetOverride,
@@ -197,8 +197,10 @@ function toAssetView(asset: Asset, previewUrl: string | null): AssetView {
     deviceFrameInAsset:
       deviceFrameOverride === "automatic" ? null : deviceFrameOverride,
     deviceFrameInAssetAutomatic: deviceFrameAutomatic,
-    presentationTemplateLabel:
-      PRESENTATION_TEMPLATE_LABELS[presentationResolved.template],
+    presentationTemplateLabel: userFacingPresentationLabel({
+      template: presentationResolved.template,
+      videoUsage: presentationResolved.videoUsage,
+    }),
     presentationGuardNote: presentationResolved.guardNote ?? null,
     manualOverrides: overrides,
   };

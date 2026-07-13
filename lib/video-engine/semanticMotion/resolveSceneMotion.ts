@@ -236,7 +236,7 @@ export function resolveSceneMotionIntent(
     if (
       ctx.sceneType === DEFAULT_SCENE_TYPE &&
       (isFramedProductVideoUsage(ctx.videoUsage) ||
-        productUiRequiresStaticMotion(ctx.assetMetadata))
+        productUiRequiresStaticMotion(ctx.assetMetadata, ctx.videoUsage))
     ) {
       return {
         motion_intent: "HOLD",

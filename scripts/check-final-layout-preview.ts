@@ -127,5 +127,27 @@ check("guardrail preventDoubleFraming is deterministic", () => {
   assert.equal(g.template, "UI_HERO");
 });
 
+await checkAsync("preview Fullscreen override matches compositor", async () => {
+  const assetBytes = await portraitBuffer();
+  const meta = {
+    product_role: "product_ui",
+    width: 298,
+    height: 626,
+  };
+  const preview = await buildFinalLayoutPreviewPng({
+    assetBytes,
+    assetMetadata: meta,
+    scene: { image_prompt: "beat", presentation_override: "FULLSCREEN_PHOTO" },
+  });
+  assert.equal(preview.presentation.template, "FULLSCREEN_PHOTO");
+  assert.equal(preview.presentation.videoUsage, "fullscreen_contain");
+  const direct = await composeAssetSceneStill({
+    assetBytes,
+    videoUsage: "fullscreen_contain",
+    assetMetadata: meta,
+  });
+  assert.equal(preview.png.compare(direct), 0);
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

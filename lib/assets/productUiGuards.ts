@@ -56,7 +56,10 @@ export interface ProductUiPresentationGuardResult {
   coercedFromFullscreen: boolean;
 }
 
-/** Product UI must never render as fullscreen photo / Ken-Burns crop. */
+/**
+ * Automatic-only: Product UI must not default to Ken-Burns fullscreen crop.
+ * Manual Fullscreen override is handled separately (fullscreen_contain).
+ */
 export function applyProductUiPresentationGuard(
   metadata: unknown,
   resolved: {
@@ -64,7 +67,12 @@ export function applyProductUiPresentationGuard(
     videoUsage: VideoUsageRenderMode;
     guardNote?: string;
   },
+  options: { userRequestedTemplate?: PresentationTemplate | null } = {},
 ): ProductUiPresentationGuardResult {
+  if (options.userRequestedTemplate === "FULLSCREEN_PHOTO") {
+    return { ...resolved, coercedFromFullscreen: false };
+  }
+
   if (!isReliableProductUiAsset(metadata)) {
     return { ...resolved, coercedFromFullscreen: false };
   }
@@ -85,35 +93,25 @@ export function applyProductUiPresentationGuard(
   };
 }
 
+/** Legacy draft cleanup: bare fullscreen on Product UI without manual override → ui_hero. */
 export function coerceProductUiVideoUsage(
   videoUsage: string | null | undefined,
   metadata: unknown,
 ): VideoUsageRenderMode | string | null | undefined {
   if (!isReliableProductUiAsset(metadata)) return videoUsage ?? undefined;
   const raw = videoUsage?.trim().toLowerCase() ?? "";
+  if (raw === "fullscreen_contain") return "fullscreen_contain";
   if (!raw || raw === "fullscreen" || raw === "background") {
     return "ui_hero";
   }
   return videoUsage;
 }
 
-export function productUiRequiresStaticMotion(metadata: unknown): boolean {
+export function productUiRequiresStaticMotion(
+  metadata: unknown,
+  videoUsage?: string | null,
+): boolean {
+  const raw = videoUsage?.trim().toLowerCase() ?? "";
+  if (raw === "fullscreen_contain") return true;
   return isReliableProductUiAsset(metadata);
-}
-
-export function presentationTemplateForProductUi(
-  metadata: unknown,
-  template: PresentationTemplate,
-): PresentationTemplate {
-  if (!isReliableProductUiAsset(metadata)) return template;
-  if (template === "FULLSCREEN_PHOTO") return "UI_HERO";
-  return template;
-}
-
-export function videoUsageFromProductUiTemplate(
-  metadata: unknown,
-  template: PresentationTemplate,
-): VideoUsageRenderMode {
-  const guarded = presentationTemplateForProductUi(metadata, template);
-  return presentationTemplateToVideoUsage(guarded);
 }

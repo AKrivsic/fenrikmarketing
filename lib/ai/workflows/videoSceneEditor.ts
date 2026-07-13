@@ -4,8 +4,8 @@ import { STORAGE_BUCKETS, buildVideoRenderPath } from "@/lib/api/storage";
 import { extractRenderSpecScenes } from "@/lib/ai/workflows/languageVariantsHelpers";
 import { WorkflowError } from "@/lib/ai/workflows/shared";
 import {
-  PRESENTATION_TEMPLATE_LABELS,
   type PresentationTemplate,
+  userFacingPresentationLabel,
 } from "@/lib/assets/presentationTemplate";
 import { buildFinalLayoutPreviewPng } from "@/lib/video-scene-editor/previewFinalLayout";
 import type { FinalLayoutPreviewInfo } from "@/lib/video-scene-editor/previewFinalLayout";
@@ -674,7 +674,10 @@ function presentationViewForEditorScene(
     scene,
   });
   return {
-    presentationTemplate: PRESENTATION_TEMPLATE_LABELS[resolved.template],
+    presentationTemplate: userFacingPresentationLabel({
+      template: resolved.template,
+      videoUsage: resolved.videoUsage,
+    }),
     presentationGuardNote: resolved.guardNote ?? null,
     videoUsage: resolved.videoUsage,
     presentationOverride: parseScenePresentationOverride(
