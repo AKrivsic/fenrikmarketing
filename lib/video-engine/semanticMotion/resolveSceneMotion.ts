@@ -9,6 +9,7 @@ import type {
 } from "@/lib/video-engine/semanticMotion/motionIntent";
 import { SEMANTIC_MOTION_VERSION } from "@/lib/video-engine/semanticMotion/motionIntent";
 import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
+import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
 
 export interface SceneMotionContext {
   sceneId: string;
@@ -23,6 +24,8 @@ export interface SceneMotionContext {
   motionHint?: MotionIntent | null;
   /** Render usage for reused product assets (framed UI stills). */
   videoUsage?: string | null;
+  /** Optional asset metadata for Product UI motion guardrails. */
+  assetMetadata?: unknown;
 }
 
 export interface ResolvedSceneMotion {
@@ -232,7 +235,8 @@ export function resolveSceneMotionIntent(
   try {
     if (
       ctx.sceneType === DEFAULT_SCENE_TYPE &&
-      isFramedProductVideoUsage(ctx.videoUsage)
+      (isFramedProductVideoUsage(ctx.videoUsage) ||
+        productUiRequiresStaticMotion(ctx.assetMetadata))
     ) {
       return {
         motion_intent: "HOLD",
@@ -301,6 +305,7 @@ export interface BeatMotionPlanInput {
   visualProfile?: VisualProfile | null;
   previousPrimitive?: MotionType | null;
   videoUsage?: string | null;
+  assetMetadata?: unknown;
 }
 
 export function resolveBeatMotionPlan(
@@ -316,6 +321,7 @@ export function resolveBeatMotionPlan(
     narrativeRole: input.narrativeRole,
     visualProfile: input.visualProfile,
     videoUsage: input.videoUsage,
+    assetMetadata: input.assetMetadata,
   });
 
   if (

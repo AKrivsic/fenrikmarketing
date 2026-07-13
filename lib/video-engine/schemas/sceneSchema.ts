@@ -19,6 +19,8 @@ export const sceneSchema = z.object({
   image_path: z.string().min(1).optional(),
   /** How the renderer should treat this still (compositing hook; optional). */
   video_usage: z.string().min(1).optional(),
+  /** Snapshot of source asset metadata for Product UI layout/motion (optional). */
+  asset_metadata: z.unknown().optional(),
   /** Scene Types — optional; omitted means IMAGE (Phase 2). */
   type: z.enum(SCENE_TYPES).optional(),
   payload_snapshot: z.record(z.string(), z.unknown()).optional(),

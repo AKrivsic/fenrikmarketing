@@ -13,6 +13,7 @@ import {
   shouldComposeAssetLayout,
   writeComposedAssetSceneFile,
 } from "@/video-worker/services/assetSceneLayout";
+import { coerceProductUiVideoUsage } from "@/lib/assets/productUiGuards";
 
 function workerTempDir(): string {
   return (
@@ -51,18 +52,24 @@ export async function prepareImageSceneRaster(
       localPath: imagePath,
     });
 
-    if (shouldComposeAssetLayout(scene.video_usage)) {
+    const assetMetadata = scene.asset_metadata;
+    const videoUsage =
+      coerceProductUiVideoUsage(scene.video_usage, assetMetadata) ??
+      scene.video_usage;
+
+    if (shouldComposeAssetLayout(videoUsage)) {
       const raw = await readFile(imagePath);
       await writeComposedAssetSceneFile({
         assetBytes: raw,
-        videoUsage: scene.video_usage,
+        videoUsage,
+        assetMetadata,
         outputPath: imagePath,
       });
       console.log(
         "[video-worker] Composed asset scene layout",
         JSON.stringify({
           scene_id: scene.id,
-          video_usage: scene.video_usage ?? "floating_card",
+          video_usage: videoUsage ?? scene.video_usage ?? "floating_card",
         }),
       );
     }

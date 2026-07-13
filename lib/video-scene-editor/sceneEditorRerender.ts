@@ -101,6 +101,7 @@ function scenesToDraftScenes(
 
 function draftScenesToInputScenes(
   scenes: SceneEditorDraftScene[],
+  assetsById?: Map<string, AssetRowForVideoUsage>,
 ): Record<string, unknown>[] {
   return scenes.map((scene) => ({
     id: scene.id,
@@ -110,6 +111,9 @@ function draftScenesToInputScenes(
     image_path: scene.image_path,
     ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
     ...(scene.asset_id ? { asset_id: scene.asset_id } : {}),
+    ...(scene.asset_id && assetsById?.get(scene.asset_id)
+      ? { asset_metadata: assetsById.get(scene.asset_id)!.metadata }
+      : {}),
     ...(scene.video_usage_locked ? { video_usage_locked: true } : {}),
     ...(scene.type ? { type: scene.type } : {}),
     ...(scene.payload_snapshot
@@ -343,7 +347,7 @@ export async function runSceneEditorRerender(
   const scenesForRender = refreshDraftScenesVideoUsage(scenes, assetsById);
   let jobInput = {
     ...baseInput,
-    scenes: draftScenesToInputScenes(scenesForRender),
+    scenes: draftScenesToInputScenes(scenesForRender, assetsById),
     voiceover_text:
       resolvedVoiceover.length > 0
         ? resolvedVoiceover

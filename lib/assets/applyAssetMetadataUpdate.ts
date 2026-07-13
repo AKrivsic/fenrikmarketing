@@ -4,6 +4,9 @@ import {
   isVideoUsageRenderValue,
 } from "@/lib/assets/assetAdminOptions";
 import {
+  enrichMetadataWithDeviceFrameDetection,
+} from "@/lib/assets/deviceFrameMetadata";
+import {
   type ManualOverrideField,
   withManualOverride,
 } from "@/lib/assets/manualOverrides";
@@ -24,11 +27,16 @@ export type PreferredVideoUsageUpdate =
   | { mode: "automatic" }
   | { mode: "manual"; value: string };
 
+export type DeviceFrameInAssetUpdate =
+  | { mode: "automatic" }
+  | { mode: "manual"; value: "yes" | "no" };
+
 export interface ApplyAssetMetadataUpdateInput {
   aiDescription?: AssetMetadataTextFieldUpdate;
   suggestedUsage?: AssetMetadataTextFieldUpdate;
   captureViewport?: CaptureViewportUpdate;
   preferredVideoUsage?: PreferredVideoUsageUpdate;
+  deviceFrameInAsset?: DeviceFrameInAssetUpdate;
 }
 
 export type AssetMetadataUpdateValidationError = {
@@ -106,6 +114,28 @@ function applyPreferredVideoUsage(
   return { meta: next, error: null };
 }
 
+function applyDeviceFrameInAsset(
+  meta: Record<string, unknown>,
+  update: DeviceFrameInAssetUpdate | undefined,
+): Record<string, unknown> {
+  if (!update) return meta;
+  let next = { ...meta };
+  if (update.mode === "automatic") {
+    delete next.device_frame_in_asset;
+    next = withManualOverride(next, "device_frame_in_asset", false);
+    return enrichMetadataWithDeviceFrameDetection(next as Json) as Record<
+      string,
+      unknown
+    >;
+  }
+  next.device_frame_in_asset = update.value;
+  next = withManualOverride(next, "device_frame_in_asset", true);
+  return enrichMetadataWithDeviceFrameDetection(next as Json) as Record<
+    string,
+    unknown
+  >;
+}
+
 // Merges admin metadata edits into existing jsonb. Does not touch unrelated keys.
 export function applyAssetMetadataUpdate(
   existing: Json,
@@ -122,6 +152,8 @@ export function applyAssetMetadataUpdate(
     return { metadata: meta, error: preferred.error };
   }
   meta = preferred.meta;
+
+  meta = applyDeviceFrameInAsset(meta, input.deviceFrameInAsset);
 
   return { metadata: meta, error: null };
 }

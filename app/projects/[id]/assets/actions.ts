@@ -89,6 +89,19 @@ function parseMetadataUpdates(formData: FormData): {
     metadata.preferredVideoUsage = { mode: "automatic" };
   }
 
+  const deviceFrameMode = readFormMode(formData, "deviceFrameInAssetMode");
+  if (deviceFrameMode === "manual") {
+    const raw = formData.get("deviceFrameInAsset");
+    const value = typeof raw === "string" ? raw.trim() : "";
+    if (value !== "yes" && value !== "no") {
+      fieldErrors.deviceFrameInAsset = "Vyber Ano nebo Ne.";
+    } else {
+      metadata.deviceFrameInAsset = { mode: "manual", value };
+    }
+  } else if (deviceFrameMode === "automatic") {
+    metadata.deviceFrameInAsset = { mode: "automatic" };
+  }
+
   return { metadata, fieldErrors };
 }
 

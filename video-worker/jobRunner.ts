@@ -393,6 +393,9 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         id: scene.id,
         type: effectiveSceneType(scene.type, "IMAGE"),
         ...(scene.video_usage ? { video_usage: scene.video_usage } : {}),
+        ...(scene.asset_metadata !== undefined
+          ? { asset_metadata: scene.asset_metadata }
+          : {}),
       })),
       visualProfile,
       semanticMotion: payload.input["semantic_motion"] !== false,

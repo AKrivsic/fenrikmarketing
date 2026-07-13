@@ -1,4 +1,9 @@
-import type { MotionIntensity, MotionIntent } from "@/lib/video-engine/semanticMotion/motionIntent";
+import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
+import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
+import type {
+  MotionIntensity,
+  MotionIntent,
+} from "@/lib/video-engine/semanticMotion/motionIntent";
 import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
 import {
   resolveBeatMotionPlan,
@@ -127,6 +132,7 @@ export interface StoryboardSceneContext {
   id: string;
   type?: SceneType | string | null;
   video_usage?: string | null;
+  asset_metadata?: unknown;
 }
 
 export function coerceMotionType(value: unknown): MotionType {
@@ -293,6 +299,14 @@ function transitionFor(index: number, motionIntent?: MotionIntent): TransitionTy
   return "fade";
 }
 
+function assetMetadataForSceneId(
+  sceneId: string,
+  scenes: StoryboardSceneContext[],
+): unknown {
+  const row = scenes.find((s) => s.id === sceneId);
+  return row?.asset_metadata;
+}
+
 function sceneIndexForId(
   sceneId: string,
   scenes: StoryboardSceneContext[],
@@ -419,6 +433,8 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
     let motion_version: string | undefined;
 
     if (useSemantic) {
+      const beatVideoUsage = videoUsageForSceneId(sceneId, sceneContexts);
+      const beatAssetMetadata = assetMetadataForSceneId(sceneId, sceneContexts);
       const plan = resolveBeatMotionPlan({
         beatIndex: i,
         beatCount: numBeats,
@@ -429,7 +445,8 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
         narrativeRole: role,
         visualProfile,
         previousPrimitive,
-        videoUsage: videoUsageForSceneId(sceneId, sceneContexts),
+        videoUsage: beatVideoUsage,
+        assetMetadata: beatAssetMetadata,
       });
       motion = plan.motion_primitive;
       motion_intent = plan.motion_intent;
@@ -443,6 +460,15 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
         if (stored.motion_intent) motion_intent = stored.motion_intent;
         if (stored.motion_intensity) motion_intensity = stored.motion_intensity;
         if (stored.motion_version) motion_version = stored.motion_version;
+      }
+
+      if (
+        isFramedProductVideoUsage(beatVideoUsage) ||
+        productUiRequiresStaticMotion(beatAssetMetadata)
+      ) {
+        motion = "static";
+        motion_intent = "HOLD";
+        motion_intensity = "LOW";
       }
 
       previousPrimitive = motion;

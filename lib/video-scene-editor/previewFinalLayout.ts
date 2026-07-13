@@ -5,6 +5,7 @@ import {
   type PresentationTemplate,
 } from "@/lib/assets/presentationTemplate";
 import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
+import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
 import {
   composeAssetSceneStill,
   estimateComposedUiHeightRatio,
@@ -40,7 +41,11 @@ function backgroundLabelForTemplate(template: PresentationTemplate): string {
   return "Gradient";
 }
 
-function motionLabelForVideoUsage(videoUsage: string): string {
+function motionLabelForVideoUsage(
+  videoUsage: string,
+  assetMetadata: unknown,
+): string {
+  if (productUiRequiresStaticMotion(assetMetadata)) return "Static";
   if (videoUsage === "fullscreen") {
     return "Ken-Burns in video (preview shows raw still)";
   }
@@ -71,7 +76,10 @@ export function buildFinalLayoutPreviewInfo(args: {
     template: args.presentation.template,
     videoUsage: args.presentation.videoUsage,
     effectiveUiAreaPercent,
-    motionLabel: motionLabelForVideoUsage(args.presentation.videoUsage),
+    motionLabel: motionLabelForVideoUsage(
+      args.presentation.videoUsage,
+      args.assetMetadata,
+    ),
     backgroundLabel: backgroundLabelForTemplate(args.presentation.template),
     deviceFrameDetected: frame.contains_device_frame,
     doubleFramingPrevented: args.presentation.doubleFramingPrevented,

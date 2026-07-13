@@ -11,6 +11,10 @@ import {
 } from "@/lib/assets/smartUsageMetadata";
 import { isPortraitMarketingPhoto, isUiScreenshotContent } from "@/lib/assets/uiScreenshotSignals";
 import {
+  applyProductUiPresentationGuard,
+  isReliableProductUiAsset,
+} from "@/lib/assets/productUiGuards";
+import {
   isVideoUsageRenderMode,
   type VideoUsageRenderMode,
 } from "@/lib/assets/preferredVideoUsage";
@@ -303,9 +307,7 @@ function pickCandidateTemplate(
   });
 
   if (
-    role === "hero_image" ||
-    role === "founder_photo" ||
-    isPortraitMarketingPhoto({
+    (role === "hero_image" || role === "founder_photo" || isPortraitMarketingPhoto({
       productRole: role,
       detectedContentType:
         typeof record?.detected_content_type === "string"
@@ -314,7 +316,8 @@ function pickCandidateTemplate(
       aiDescription:
         typeof record?.ai_description === "string" ? record.ai_description : null,
       title: typeof record?.title === "string" ? record.title : null,
-    })
+    })) &&
+    !isReliableProductUiAsset(metadata)
   ) {
     return "FULLSCREEN_PHOTO";
   }
@@ -353,7 +356,7 @@ function pickCandidateTemplate(
     return "DESKTOP_FRAME";
   }
 
-  if (readSafeVerticalUsage(metadata) === true && portrait && !ui) {
+  if (readSafeVerticalUsage(metadata) === true && portrait && !ui && !isReliableProductUiAsset(metadata)) {
     return "FULLSCREEN_PHOTO";
   }
 
@@ -394,10 +397,15 @@ export function resolvePresentationTemplate(
   candidate = applyReadabilityDowngrade(input.metadata, candidate);
 
   const videoUsage = presentationTemplateToVideoUsage(candidate);
-  return {
+  const guardedProduct = applyProductUiPresentationGuard(input.metadata, {
     template: candidate,
     videoUsage,
     guardNote: guarded.guardNote,
+  });
+  return {
+    template: guardedProduct.template,
+    videoUsage: guardedProduct.videoUsage,
+    guardNote: guardedProduct.guardNote ?? guarded.guardNote,
   };
 }
 
@@ -432,10 +440,16 @@ export function resolvePresentationFromMetadata(
       videoUsageImpliesPresentationTemplate(options.lockedVideoUsage) ?? resolved.template,
     );
     const template = applyReadabilityDowngrade(metadata, guarded.template);
-    return {
+    const resolvedInner = {
       template,
       videoUsage: presentationTemplateToVideoUsage(template),
       guardNote: guarded.guardNote,
+    };
+    const guardedProduct = applyProductUiPresentationGuard(metadata, resolvedInner);
+    return {
+      template: guardedProduct.template,
+      videoUsage: guardedProduct.videoUsage,
+      guardNote: guardedProduct.guardNote,
     };
   }
 

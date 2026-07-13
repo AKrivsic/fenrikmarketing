@@ -2,6 +2,7 @@ import {
   type PresentationTemplate,
   resolvePresentationTemplate,
 } from "@/lib/assets/presentationTemplate";
+import { readDeviceFrameMetadata } from "@/lib/assets/deviceFrameMetadata";
 import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 import type { SceneEditorDraftScene } from "@/lib/video-scene-editor/metadata";
 
@@ -74,9 +75,14 @@ export function resolveScenePresentation(args: {
     scene: { imagePrompt: args.scene.image_prompt },
     requestedTemplate: userRequestedTemplate,
   });
+  const frame = readDeviceFrameMetadata(args.assetMetadata);
   const doubleFramingPrevented =
-    userRequestedTemplate !== null &&
-    userRequestedTemplate !== resolved.template;
+    (userRequestedTemplate !== null &&
+      userRequestedTemplate !== resolved.template) ||
+    (frame.contains_device_frame &&
+      resolved.template === "UI_HERO" &&
+      (userRequestedTemplate === "DEVICE_MOCKUP" ||
+        userRequestedTemplate === null));
   return {
     template: resolved.template,
     videoUsage: resolved.videoUsage,

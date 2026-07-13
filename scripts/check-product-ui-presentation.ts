@@ -5,8 +5,19 @@ import assert from "node:assert/strict";
 import sharp from "sharp";
 import {
   inferDeviceFrameFromSignals,
+  inferStructuralPhoneFrame,
   readDeviceFrameMetadata,
 } from "@/lib/assets/deviceFrameMetadata";
+import {
+  applyProductUiPresentationGuard,
+  isReliableProductUiAsset,
+  productUiRequiresStaticMotion,
+} from "@/lib/assets/productUiGuards";
+import {
+  resolveBeatMotionPlan,
+} from "@/lib/video-engine/semanticMotion/resolveSceneMotion";
+import { buildFinalLayoutPreviewInfo } from "@/lib/video-scene-editor/previewFinalLayout";
+import { resolveScenePresentation } from "@/lib/video-scene-editor/scenePresentationOverride";
 import {
   MIN_EFFECTIVE_UI_HEIGHT_RATIO,
   PRESENTATION_TEMPLATE_LABELS,
@@ -97,8 +108,8 @@ check("2 raw mobile + explicit phone intent -> DEVICE_MOCKUP", () => {
   const { template } = resolvePresentationFromMetadata(
     {
       product_role: "product_ui",
-      width: 390,
-      height: 844,
+      width: 1080,
+      height: 1920,
       orientation: "portrait",
       ai_description: "App UI screenshot",
     },
@@ -204,6 +215,147 @@ check("10 lifestyle photo -> FULLSCREEN_PHOTO", () => {
   });
   assert.equal(template, "FULLSCREEN_PHOTO");
   assert.equal(videoUsage, "fullscreen");
+});
+
+section("Product UI guardrails");
+
+check("product_ui + mobile never FULLSCREEN_PHOTO (safe_vertical)", () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    orientation: "portrait",
+    width: 298,
+    height: 626,
+    safe_vertical_usage: true,
+    ai_description: "RightCard mobile app recommendation screen",
+    detected_content_type: "screenshot",
+  };
+  assert.equal(isReliableProductUiAsset(meta), true);
+  const { template, videoUsage } = resolvePresentationFromMetadata(meta);
+  assert.equal(template, "UI_HERO");
+  assert.equal(videoUsage, "ui_hero");
+});
+
+check("old fullscreen draft coerces to ui_hero on refresh", () => {
+  const assetMeta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "Mobile app UI",
+  };
+  const scenes: SceneEditorDraftScene[] = [
+    {
+      id: "s1",
+      image_prompt: "Beat",
+      image_bucket: "b",
+      image_path: "p.png",
+      duration_seconds: 4,
+      video_usage: "fullscreen",
+      asset_id: "a1",
+      presentation_override: "FULLSCREEN_PHOTO",
+    },
+  ];
+  const refreshed = refreshDraftScenesVideoUsage(
+    scenes,
+    new Map([["a1", { id: "a1", title: "RC", metadata: assetMeta }]]),
+  );
+  assert.equal(refreshed[0]?.video_usage, "ui_hero");
+});
+
+check("product_ui fullscreen override still static motion", () => {
+  const meta = {
+    product_role: "product_ui",
+    width: 298,
+    height: 626,
+    capture_viewport: "mobile",
+  };
+  assert.equal(productUiRequiresStaticMotion(meta), true);
+  const plan = resolveBeatMotionPlan({
+    beatIndex: 0,
+    beatCount: 3,
+    sceneId: "scene-1",
+    sceneType: "IMAGE",
+    sceneIndex: 0,
+    sceneCount: 1,
+    narrativeRole: "hook",
+    videoUsage: "fullscreen",
+    assetMetadata: meta,
+  });
+  assert.equal(plan.motion_primitive, "static");
+});
+
+check("RightCard-like portrait infers phone frame without mockup phrase", () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    preferred_presentation: "phone_screen",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "RightCard app showing Shell card recommendation",
+    detected_content_type: "app interface screenshot",
+  };
+  assert.equal(inferStructuralPhoneFrame(meta), true);
+  const frame = readDeviceFrameMetadata(meta);
+  assert.equal(frame.contains_phone_frame, true);
+  assert.equal(frame.contains_device_frame, true);
+});
+
+check("manual device frame yes -> UI_HERO and phone frame", () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    device_frame_in_asset: "yes",
+    manual_overrides: { device_frame_in_asset: true },
+  };
+  const frame = readDeviceFrameMetadata(meta);
+  assert.equal(frame.contains_phone_frame, true);
+  const { template } = resolvePresentationFromMetadata(meta);
+  assert.equal(template, "UI_HERO");
+});
+
+check("preview info matches static UI Hero for RightCard", () => {
+  const meta = {
+    product_role: "product_ui",
+    capture_viewport: "mobile",
+    width: 298,
+    height: 626,
+    orientation: "portrait",
+    ai_description: "RightCard mobile app in black phone frame",
+    detected_content_type: "screenshot",
+  };
+  const presentation = resolveScenePresentation({
+    assetMetadata: meta,
+    assetTitle: "RightCard",
+    scene: { image_prompt: "Product beat", presentation_override: "automatic" },
+  });
+  const info = buildFinalLayoutPreviewInfo({
+    assetMetadata: meta,
+    assetWidth: 298,
+    assetHeight: 626,
+    presentation,
+  });
+  assert.equal(info.template, "UI_HERO");
+  assert.equal(info.videoUsage, "ui_hero");
+  assert.equal(info.motionLabel, "Static");
+  assert.equal(info.deviceFrameDetected, true);
+  assert.equal(presentation.doubleFramingPrevented, true);
+  assert.ok(info.effectiveUiAreaPercent !== null && info.effectiveUiAreaPercent >= 60);
+});
+
+check("applyProductUiPresentationGuard coerces fullscreen", () => {
+  const meta = { product_role: "product_ui", capture_viewport: "mobile" };
+  const out = applyProductUiPresentationGuard(meta, {
+    template: "FULLSCREEN_PHOTO",
+    videoUsage: "fullscreen",
+  });
+  assert.equal(out.template, "UI_HERO");
+  assert.equal(out.videoUsage, "ui_hero");
+  assert.equal(out.coercedFromFullscreen, true);
 });
 
 section("Layout & motion");

@@ -5,6 +5,7 @@ export const MANUAL_OVERRIDE_FIELDS = [
   "suggested_usage",
   "capture_viewport",
   "preferred_video_usage",
+  "device_frame_in_asset",
 ] as const;
 
 export type ManualOverrideField = (typeof MANUAL_OVERRIDE_FIELDS)[number];

@@ -77,6 +77,13 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
     asset.storedPreferredVideoUsage ?? VIDEO_USAGE_RENDER_VALUES[0],
   );
 
+  const [deviceFrameInAssetMode, setDeviceFrameInAssetMode] = useState<FieldMode>(
+    asset.deviceFrameInAssetAutomatic ? "automatic" : "manual",
+  );
+  const [deviceFrameInAsset, setDeviceFrameInAsset] = useState<"yes" | "no">(
+    asset.deviceFrameInAsset === "no" ? "no" : "yes",
+  );
+
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
@@ -111,6 +118,10 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
     formData.set("preferredVideoUsageMode", preferredVideoUsageMode);
     if (preferredVideoUsageMode === "manual") {
       formData.set("preferredVideoUsage", preferredVideoUsage);
+    }
+    formData.set("deviceFrameInAssetMode", deviceFrameInAssetMode);
+    if (deviceFrameInAssetMode === "manual") {
+      formData.set("deviceFrameInAsset", deviceFrameInAsset);
     }
   }
 
@@ -339,6 +350,40 @@ export function AssetEditForm({ projectId, asset, onDone }: AssetEditFormProps) 
             : `Resolved automatically: ${formatPreferredVideoUsageLabel(asset.preferredVideoUsage) ?? asset.preferredVideoUsage}`}
         </p>
         {preferredHint ? <p className={styles.hint}>{preferredHint}</p> : null}
+
+        <ModeToggle
+          fieldKey="device-frame-in-asset"
+          label="Asset already includes a device frame"
+          mode={deviceFrameInAssetMode}
+          onModeChange={setDeviceFrameInAssetMode}
+          disabled={isPending}
+        />
+        {deviceFrameInAssetMode === "manual" ? (
+          <label className={styles.field}>
+            <span className={styles.srOnly}>Device frame in asset</span>
+            <select
+              className={styles.input}
+              value={deviceFrameInAsset}
+              onChange={(e) =>
+                setDeviceFrameInAsset(e.target.value === "no" ? "no" : "yes")
+              }
+              disabled={isPending}
+            >
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+            {fieldErrors.deviceFrameInAsset ? (
+              <span className={styles.fieldError}>
+                {fieldErrors.deviceFrameInAsset}
+              </span>
+            ) : null}
+          </label>
+        ) : (
+          <p className={styles.hint}>
+            Auto: inferred from product role, viewport, AI text, and portrait UI
+            structure.
+          </p>
+        )}
       </section>
 
       <section className={styles.section}>

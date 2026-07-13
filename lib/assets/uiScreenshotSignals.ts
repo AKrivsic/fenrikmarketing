@@ -38,7 +38,9 @@ export function isUiScreenshotContent(input: {
     ]);
     if (
       /\bscreenshot\b/.test(hay) ||
-      /\b(mobile app|app screen|app ui|user interface)\b/.test(hay)
+      /\b(mobile app|app screen|app ui|user interface|application interface|product ui)\b/.test(
+        hay,
+      )
     ) {
       return true;
     }
@@ -58,9 +60,10 @@ export function isUiScreenshotContent(input: {
 
   return (
     /\bscreenshot\b/.test(hay) ||
+    /\b(app interface|application interface|product ui)\b/.test(hay) ||
     /\b(mobile app|app screen|app ui|phone screen|user interface|ui mockup)\b/.test(hay) ||
-    /\b(dashboard|homepage|pricing page|web app|application interface)\b/.test(hay) ||
-    /\b(browser|saas|software)\b/.test(hay)
+    /\b(dashboard|homepage|pricing page|web app)\b/.test(hay) ||
+    (/\b(browser|saas|software)\b/.test(hay) && /\b(ui|screen|interface)\b/.test(hay))
   );
 }
 
