@@ -29,11 +29,12 @@ import {
   setSceneVisualModeInEditor,
   previewFinalLayoutInEditor,
   setScenePresentationOverrideInEditor,
-  type FinalLayoutPreviewPayload,
   loadVideoWorkflowState,
   type VideoWorkflowState,
   type VideoSceneEditorState,
 } from "@/lib/ai/workflows/videoSceneEditor";
+import type { FinalLayoutPreviewPayload } from "@/lib/ai/workflows/videoSceneEditor";
+export type { FinalLayoutPreviewPayload } from "@/lib/ai/workflows/videoSceneEditor";
 import type { ScenePresentationOverride } from "@/lib/video-scene-editor/scenePresentationOverride";
 import type {
   SceneVisualMode,
@@ -46,8 +47,6 @@ import {
   updateFailedVideoJobEditorVoiceover as persistFailedVideoJobEditorVoiceover,
   type FailedVideoJobEditorState,
 } from "@/lib/ai/workflows/failedVideoJobEditor";
-
-export type { FinalLayoutPreviewPayload };
 
 export type VideoSceneEditorActionResult<T> =
   | { ok: true; data: T }
