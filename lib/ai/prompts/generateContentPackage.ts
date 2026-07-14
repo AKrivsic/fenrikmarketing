@@ -230,6 +230,12 @@ export interface GenerateContentPackagePromptInput {
   visualProfileImagePromptBlock?: string;
   /** Creative Identity v1 — resolved staging axes for all image_prompts in this package. */
   creativeIdentityPromptBlock?: string;
+  /** Visual Narrative v1 — meaning carrier and storytelling direction before image prompts. */
+  visualNarrativePromptBlock?: string;
+  /** Visual Medium v1 — representation style for all image prompts in this package. */
+  visualMediumPromptBlock?: string;
+  /** Product Reveal v2 — solution beat visual strategy. */
+  productRevealPromptBlock?: string;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -544,6 +550,15 @@ export function buildGenerateContentPackagePrompt(
         "Describe concrete subjects, actions, environments and objects that naturally communicate that message.",
         "Do not default to generic modern offices, decorative abstract shapes or empty environments unless they are essential to the scene.",
         "",
+        ...(input.visualNarrativePromptBlock
+          ? [input.visualNarrativePromptBlock, ""]
+          : []),
+        ...(input.productRevealPromptBlock
+          ? [input.productRevealPromptBlock, ""]
+          : []),
+        ...(input.visualMediumPromptBlock
+          ? [input.visualMediumPromptBlock, ""]
+          : []),
         // Visual Style Guardrail V1 (Part 3) — anti dark/cinematic default;
         // scene-appropriate lighting and composition. Imagery only — never copy.
         visualStyleGuardrailBlock(),

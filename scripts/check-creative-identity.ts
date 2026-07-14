@@ -60,6 +60,7 @@ const emptySeries: SeriesCreativeContext = {
   recentHooks: [],
   recentCreativeModes: [],
   recentCreativeIdentityKeys: [],
+  recentVisualNarrativeKeys: [],
 };
 
 const directives: CreativeDirectives = {

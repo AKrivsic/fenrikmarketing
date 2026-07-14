@@ -10,6 +10,8 @@ export interface GenerateSceneImagesInput {
   videoJobId: string;
   visualProfile?: string;
   visualProfileVersion?: string;
+  visualMedium?: string;
+  visualMediumVersion?: string;
   creativeIdentity?: CreativeIdentity | null;
 }
 
@@ -37,6 +39,8 @@ export async function generateSceneImages(
     videoJobId: input.videoJobId,
     visualProfile: input.visualProfile,
     visualProfileVersion: input.visualProfileVersion,
+    visualMedium: input.visualMedium,
+    visualMediumVersion: input.visualMediumVersion,
     creativeIdentity: input.creativeIdentity ?? null,
   };
 

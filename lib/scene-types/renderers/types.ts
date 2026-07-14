@@ -17,6 +17,8 @@ export interface SceneRasterPrepareContext {
   videoJobId: string;
   visualProfile?: string;
   visualProfileVersion?: string;
+  visualMedium?: string;
+  visualMediumVersion?: string;
   /** Creative Identity v1 — stable staging axes for all AI image scenes in this job. */
   creativeIdentity?: CreativeIdentity | null;
 }

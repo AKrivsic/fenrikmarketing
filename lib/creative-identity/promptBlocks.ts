@@ -32,6 +32,7 @@ export function buildCreativeIdentityPromptBlock(
     "Rules:",
     "- Every image_prompt must express this SAME identity while depicting each beat's narrative subject.",
     "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
+    "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
     "- PROJECT VISUAL PROFILE still applies on top (treatment only).",
     "- Do not revert to generic modern offices or interchangeable stock staging unless the beat requires it.",
     ...avoid,

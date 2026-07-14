@@ -4,6 +4,7 @@ import {
   type PackageVisualSceneEntry,
 } from "@/lib/content-package/generatedVisualScene";
 import { normalizeFunnelStage, type FunnelStage } from "@/lib/ai/types";
+import { motifsFromVisualText } from "@/lib/visual-narrative/motifMemory";
 
 export interface CreativeFingerprint {
   package_id?: string | null;
@@ -17,6 +18,10 @@ export interface CreativeFingerprint {
   scene_types: string[];
   image_motifs: string[];
   asset_ids: string[];
+  visual_medium?: string | null;
+  product_reveal_strategy?: string | null;
+  meaning_carrier?: string | null;
+  dominant_subject_motif?: string | null;
   opening_hint?: string | null;
   closing_hint?: string | null;
 }
@@ -24,25 +29,6 @@ export interface CreativeFingerprint {
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
-}
-
-const MOTIF_PATTERNS: { motif: string; re: RegExp }[] = [
-  { motif: "phone", re: /\b(phone|mobile|smartphone|iphone)\b/i },
-  { motif: "laptop", re: /\b(laptop|macbook|notebook)\b/i },
-  { motif: "desk", re: /\b(desk|workspace|office desk)\b/i },
-  { motif: "founder", re: /\b(founder|entrepreneur|ceo)\b/i },
-  { motif: "office", re: /\b(office|meeting room|conference)\b/i },
-  { motif: "dashboard", re: /\b(dashboard|analytics|chart)\b/i },
-  { motif: "checkout", re: /\b(checkout|register|counter|retail)\b/i },
-  { motif: "product_asset", re: /\b(screenshot|ui|interface|app screen)\b/i },
-];
-
-function motifsFromText(text: string): string[] {
-  const out = new Set<string>();
-  for (const { motif, re } of MOTIF_PATTERNS) {
-    if (re.test(text)) out.add(motif);
-  }
-  return [...out];
 }
 
 function readCompositionFromBrief(brief: Record<string, unknown>): string | null {
@@ -146,6 +132,21 @@ export function fingerprintFromPackageBrief(args: {
   const funnelRaw =
     typeof brief.funnel_stage === "string" ? brief.funnel_stage : null;
 
+  const pg = asRecord(brief.presentation_generation);
+  const vn = asRecord(pg?.visual_narrative);
+  const pr = asRecord(pg?.product_reveal);
+  const motifList = motifsFromVisualText(promptBlob);
+  const motifCounts = new Map<string, number>();
+  for (const m of motifList) motifCounts.set(m, (motifCounts.get(m) ?? 0) + 1);
+  let dominantMotif: string | null = null;
+  let bestMotif = 0;
+  for (const [m, c] of motifCounts) {
+    if (c > bestMotif) {
+      bestMotif = c;
+      dominantMotif = m;
+    }
+  }
+
   return {
     package_id: args.packageId ?? null,
     topic: args.topic ?? null,
@@ -157,8 +158,19 @@ export function fingerprintFromPackageBrief(args: {
     typed_cta: typedCta,
     cta_composition_id: readCompositionFromBrief(brief),
     scene_types: sceneTypesFromBrief(brief),
-    image_motifs: motifsFromText(promptBlob),
+    image_motifs: motifList,
     asset_ids: assetIdsFromVisualScenes(scenes),
+    visual_medium:
+      typeof pg?.visual_medium === "string" ? pg.visual_medium.trim() : null,
+    product_reveal_strategy:
+      typeof pr?.solution_beat_strategy === "string"
+        ? pr.solution_beat_strategy.trim()
+        : null,
+    meaning_carrier:
+      typeof vn?.primary_meaning_carrier === "string"
+        ? vn.primary_meaning_carrier.trim()
+        : null,
+    dominant_subject_motif: dominantMotif,
     opening_hint: openingHint,
     closing_hint: closingHint,
   };
@@ -185,6 +197,10 @@ export function compactFingerprintSummary(
     cta_composition_id: fp.cta_composition_id,
     scene_types: fp.scene_types,
     motifs: fp.image_motifs,
+    visual_medium: fp.visual_medium,
+    product_reveal_strategy: fp.product_reveal_strategy,
+    meaning_carrier: fp.meaning_carrier,
+    dominant_subject_motif: fp.dominant_subject_motif,
     closing: fp.closing_hint,
   };
 }

@@ -31,6 +31,10 @@ export function buildSeriesCreativeContextBlock(args: {
 
   lines.push(
     "",
+    "Visual motif memory:",
+    "- Fingerprints include image_motifs (laptop, whiteboard, sticky_notes, person_alone, etc.).",
+    "- Prefer fresh subjects and meaning carriers when the narrative allows — do not treat recent motifs as mandatory repeats.",
+    "",
     "Closing guidance:",
     "- Awareness / Problem Aware: prefer narrative conclusion, insight, question, product visual, or soft text close — typed CTA card is optional and often unnecessary.",
     "- Solution Aware / Conversion: typed CTA is allowed when it clearly helps the final action and the series is not already saturated with CTA cards.",

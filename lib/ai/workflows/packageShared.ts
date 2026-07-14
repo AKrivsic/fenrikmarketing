@@ -53,6 +53,7 @@ import {
 import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
 import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
+import { visualMediumFieldsForJobInput } from "@/lib/visual-medium/packageVisualMedium";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -449,6 +450,7 @@ export async function buildVideoJobInput(
               : {}),
           }
         : {}),
+      ...visualMediumFieldsForJobInput(pkg),
       ...(prepared.decisions.length > 0 ||
       prepared.presentationLog.requested_checklist_count > 0
         ? {
@@ -469,6 +471,7 @@ export async function buildVideoJobInput(
   return {
     ...base,
     asset_images: assetImages,
+    ...visualMediumFieldsForJobInput(pkg),
   } as unknown as Json;
 }
 

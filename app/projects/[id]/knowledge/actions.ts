@@ -23,6 +23,10 @@ import {
   mergeVisualProfileIntoKnowledge,
   validateVisualProfileSave,
 } from "@/lib/visual-profile/presentationVisualProfile";
+import {
+  mergeVisualMediumIntoKnowledge,
+  validateVisualMediumSave,
+} from "@/lib/visual-medium/presentationVisualMedium";
 
 export type KnowledgeActionResult =
   | { ok: true; ready: boolean }
@@ -133,6 +137,7 @@ export async function updateProjectPresentationVoice(
     voiceSelection: string;
     ttsInstructions: string;
     visualProfileSelection?: string;
+    visualMediumSelection?: string;
   },
 ): Promise<KnowledgeActionResult> {
   if (!projectId) return fail("Chybí identifikátor projektu.");
@@ -145,6 +150,11 @@ export async function updateProjectPresentationVoice(
   });
   if (!profileValidated.ok) return fail(profileValidated.error);
 
+  const mediumValidated = validateVisualMediumSave({
+    visualMediumSelection: input.visualMediumSelection ?? "auto",
+  });
+  if (!mediumValidated.ok) return fail(mediumValidated.error);
+
   const project = await getProjectForAdmin(projectId);
   if (!project) return fail("Projekt nebyl nalezen.");
 
@@ -155,6 +165,10 @@ export async function updateProjectPresentationVoice(
   knowledge = mergeVisualProfileIntoKnowledge(
     knowledge,
     profileValidated.choice,
+  );
+  knowledge = mergeVisualMediumIntoKnowledge(
+    knowledge,
+    mediumValidated.choice,
   );
 
   try {

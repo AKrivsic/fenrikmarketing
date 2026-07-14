@@ -15,6 +15,11 @@ import {
   visualProfileUiFromKnowledge,
   type VisualProfileUiChoice,
 } from "@/lib/visual-profile/presentationVisualProfile";
+import {
+  VISUAL_MEDIUM_UI_OPTIONS,
+  visualMediumUiFromKnowledge,
+  type VisualMediumUiChoice,
+} from "@/lib/visual-medium/presentationVisualMedium";
 import styles from "./PresentationVoiceSettings.module.css";
 
 interface PresentationVoiceSettingsProps {
@@ -41,6 +46,10 @@ export function PresentationVoiceSettings({
     useState<VisualProfileUiChoice>(() =>
       visualProfileUiFromKnowledge(knowledgeJson),
     );
+  const [visualMediumSelection, setVisualMediumSelection] =
+    useState<VisualMediumUiChoice>(() =>
+      visualMediumUiFromKnowledge(knowledgeJson),
+    );
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -51,6 +60,7 @@ export function PresentationVoiceSettings({
         voiceSelection,
         ttsInstructions,
         visualProfileSelection,
+        visualMediumSelection,
       });
       if (!result.ok) {
         setError(result.error);
@@ -67,8 +77,8 @@ export function PresentationVoiceSettings({
         Presentation
       </h3>
       <p className={styles.hint}>
-        Voice controls OpenAI delivery for video voiceovers. Visual profile
-        guides automated image and text-scene styling across generated content.
+        Voice controls OpenAI delivery for video voiceovers. Visual profile and
+        visual medium guide automated image styling across generated content.
       </p>
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.label}>
@@ -100,6 +110,24 @@ export function PresentationVoiceSettings({
             disabled={isPending}
           >
             {VISUAL_PROFILE_UI_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className={styles.label}>
+          Visual medium
+          <select
+            className={styles.select}
+            value={visualMediumSelection}
+            onChange={(e) =>
+              setVisualMediumSelection(e.target.value as VisualMediumUiChoice)
+            }
+            disabled={isPending}
+          >
+            {VISUAL_MEDIUM_UI_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

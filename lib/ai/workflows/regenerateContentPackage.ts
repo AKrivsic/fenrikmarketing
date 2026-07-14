@@ -58,6 +58,10 @@ import {
 import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
 import { loadSeriesCreativeContext } from "@/lib/series/loadSeriesCreativeContext";
 import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForPackage";
+import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
+import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
+import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
+import { DEFAULT_GENERATION_MODE } from "@/lib/ai/generationMode";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
 import {
@@ -208,6 +212,45 @@ export async function runRegenerateContentPackage(
     requireVideo,
   });
 
+  const visualNarrativePlan = planVisualNarrativeForPackage({
+    project,
+    identity: creativeIdentityPlan.identity,
+    projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: null,
+    topic: context.topic,
+    angle: context.angle,
+    creativeSeedSalt: regenerateCreativeSalt,
+    series: seriesCreative,
+    funnelStage: context.funnelStage,
+    requireVideo,
+  });
+
+  const visualMediumPlan = planVisualMediumForPackage({
+    project,
+    narrative: visualNarrativePlan.plan,
+    identity: creativeIdentityPlan.identity,
+    visualProfile: resolvedVisualProfile.profile,
+    projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: null,
+    topic: context.topic,
+    angle: context.angle,
+    creativeSeedSalt: regenerateCreativeSalt,
+    series: seriesCreative,
+    funnelStage: context.funnelStage,
+    requireVideo,
+  });
+
+  const productRevealPlan = planProductRevealForPackage({
+    project,
+    narrative: visualNarrativePlan.plan,
+    assets: assets.refs,
+    generationMode: DEFAULT_GENERATION_MODE,
+    visualMedium: visualMediumPlan.resolved?.medium ?? "PHOTOGRAPHIC",
+    requireVideo,
+  });
+
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
@@ -237,6 +280,9 @@ export async function runRegenerateContentPackage(
       sceneTypeHistoryBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
       creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || undefined,
+      visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
+      productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
+      visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
       creativeSeedSalt: regenerateCreativeSalt,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
@@ -321,6 +367,9 @@ export async function runRegenerateContentPackage(
     frequency_decisions: frequencyDecisions,
     prompt_presentation_types: promptPresentationTypes,
     ...creativeIdentityPlan.persistenceFields,
+    ...visualNarrativePlan.persistenceFields,
+    ...visualMediumPlan.persistenceFields,
+    ...productRevealPlan.persistenceFields,
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.

@@ -9,6 +9,14 @@ import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
 import { visualProfileImagePromptSuffix } from "@/lib/visual-profile/imagePromptProfile";
 import { creativeIdentityImagePromptSuffix } from "@/lib/creative-identity/promptBlocks";
 import type { CreativeIdentity } from "@/lib/creative-identity/types";
+import {
+  DEFAULT_VISUAL_MEDIUM,
+  parseVisualMedium,
+} from "@/lib/visual-medium/visualMedium";
+import {
+  promptAlreadyContainsMediumSuffix,
+  visualMediumImagePromptSuffix,
+} from "@/lib/visual-medium/imagePromptMedium";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 import { generateSceneImageWithModerationFallback } from "@/video-worker/services/generateSceneImageWithModerationFallback";
 import {
@@ -98,7 +106,20 @@ export async function prepareImageSceneRaster(
   const identitySuffix = identity
     ? creativeIdentityImagePromptSuffix(identity)
     : "";
-  const promptWithProfile = [scene.image_prompt.trim(), profileSuffix, identitySuffix]
+  const medium =
+    parseVisualMedium(ctx.visualMedium ?? "") ?? DEFAULT_VISUAL_MEDIUM;
+  const mediumSuffix = promptAlreadyContainsMediumSuffix(
+    scene.image_prompt.trim(),
+    medium,
+  )
+    ? ""
+    : visualMediumImagePromptSuffix(medium);
+  const promptWithProfile = [
+    scene.image_prompt.trim(),
+    profileSuffix,
+    identitySuffix,
+    mediumSuffix,
+  ]
     .filter(Boolean)
     .join(" ");
   const safePrompt = sanitizeImagePrompt(promptWithProfile);
@@ -107,7 +128,9 @@ export async function prepareImageSceneRaster(
     ctx,
     sceneId: scene.id,
     primaryPrompt: safePrompt,
-    profileSuffix: [profileSuffix, identitySuffix].filter(Boolean).join(" "),
+    profileSuffix: [profileSuffix, identitySuffix, mediumSuffix]
+      .filter(Boolean)
+      .join(" "),
     outputPath: imagePath,
   });
 

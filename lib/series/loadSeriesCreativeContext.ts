@@ -5,6 +5,7 @@ import {
   type CreativeFingerprint,
 } from "@/lib/series/creativeFingerprints";
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
+import { readVisualNarrativeKeyFromPackageBrief } from "@/lib/visual-narrative/promptBlocks";
 
 export interface SeriesCreativeContext {
   fingerprints: CreativeFingerprint[];
@@ -15,6 +16,8 @@ export interface SeriesCreativeContext {
   recentCreativeModes: string[];
   /** presentation_generation.creative_identity.key from recent packages. */
   recentCreativeIdentityKeys: string[];
+  /** presentation_generation.visual_narrative.key from recent packages. */
+  recentVisualNarrativeKeys: string[];
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -81,6 +84,7 @@ export async function loadSeriesCreativeContext(args: {
   const recentCreativeModes: string[] = [];
 
   const recentCreativeIdentityKeys: string[] = [];
+  const recentVisualNarrativeKeys: string[] = [];
 
   for (const row of rows) {
     const packageId = row.id as string;
@@ -130,6 +134,15 @@ export async function loadSeriesCreativeContext(args: {
     ) {
       recentCreativeIdentityKeys.push(priorIdentity.key);
     }
+
+    const priorNarrativeKey = readVisualNarrativeKeyFromPackageBrief(brief);
+    if (
+      priorNarrativeKey &&
+      recentVisualNarrativeKeys.length < limit &&
+      !recentVisualNarrativeKeys.includes(priorNarrativeKey)
+    ) {
+      recentVisualNarrativeKeys.push(priorNarrativeKey);
+    }
   }
 
   return {
@@ -140,6 +153,7 @@ export async function loadSeriesCreativeContext(args: {
     recentHooks: recentHooks.slice(0, 8),
     recentCreativeModes: recentCreativeModes.slice(0, 8),
     recentCreativeIdentityKeys: recentCreativeIdentityKeys.slice(0, 12),
+    recentVisualNarrativeKeys: recentVisualNarrativeKeys.slice(0, 12),
   };
 }
 
@@ -152,6 +166,7 @@ function emptyContext(): SeriesCreativeContext {
     recentHooks: [],
     recentCreativeModes: [],
     recentCreativeIdentityKeys: [],
+    recentVisualNarrativeKeys: [],
   };
 }
 

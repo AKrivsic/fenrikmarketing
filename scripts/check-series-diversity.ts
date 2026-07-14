@@ -52,6 +52,7 @@ const emptySeries: SeriesCreativeContext = {
   recentHooks: [],
   recentCreativeModes: [],
   recentCreativeIdentityKeys: [],
+  recentVisualNarrativeKeys: [],
 };
 
 const ctaEntry: PackageVisualSceneEntry = {

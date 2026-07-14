@@ -362,6 +362,14 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       creativeIdentity: readCreativeIdentityFromUnknown(
         payload.input["creative_identity"],
       ),
+      visualMedium:
+        typeof payload.input["visual_medium"] === "string"
+          ? payload.input["visual_medium"]
+          : undefined,
+      visualMediumVersion:
+        typeof payload.input["visual_medium_version"] === "string"
+          ? payload.input["visual_medium_version"]
+          : undefined,
     });
     for (const image of images) tempFiles.add(image.imagePath);
 
