@@ -8,8 +8,8 @@ import {
 import {
   buildCreativeIdentitySeed,
   resolveCreativeIdentity,
-  type CreativeIdentity,
 } from "@/lib/creative-identity/resolveCreativeIdentity";
+import type { CreativeIdentity } from "@/lib/creative-identity/types";
 
 export function planCreativeIdentityForPackage(args: {
   project: Project;
