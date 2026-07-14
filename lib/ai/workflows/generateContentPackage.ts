@@ -342,6 +342,8 @@ export async function runGenerateContentPackage(
   normalizeVisualScenePlan(generated.value, {
     workflow: "generate",
     strategy_item_id: context.strategyItemId,
+  }, {
+    classById: assets.classById,
   });
   const requestedChecklistCount = countChecklistEntries(
     (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],

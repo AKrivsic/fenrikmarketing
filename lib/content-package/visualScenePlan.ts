@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AssetClass } from "@/lib/ai/guardrails";
 import { checkAssetModification } from "@/lib/ai/guardrails";
+import { downgradeUnrenderableAssetScenes } from "@/lib/assets/assetRendererEligibility";
 import {
   isChecklistVisualSceneEntry,
   isPhoneVisualSceneEntry,
@@ -150,6 +151,9 @@ export function syncLegacyFieldsFromVisualScenes(pkg: ContentPackageOutput): voi
 export function normalizeVisualScenePlan(
   pkg: ContentPackageOutput,
   logContext: Record<string, unknown> = {},
+  options?: {
+    classById?: ReadonlyMap<string, AssetClass>;
+  },
 ): void {
   if (!Array.isArray(pkg.visual_scenes)) return;
   const cleaned: PackageVisualSceneEntry[] = [];
@@ -259,8 +263,25 @@ export function normalizeVisualScenePlan(
       }),
     );
   }
-  pkg.visual_scenes =
-    cleaned.length > 0 ? cleaned.slice(0, MAX_VIDEO_SCENE_STILLS) : undefined;
+  let finalPlan = cleaned.length > 0 ? cleaned.slice(0, MAX_VIDEO_SCENE_STILLS) : [];
+  if (finalPlan.length > 0 && options?.classById && options.classById.size > 0) {
+    const downgraded = downgradeUnrenderableAssetScenes({
+      scenes: finalPlan,
+      classById: options.classById,
+    });
+    if (downgraded.downgradedCount > 0) {
+      console.warn(
+        "[content-package] asset scenes downgraded to AI (renderer fit)",
+        JSON.stringify({
+          ...logContext,
+          downgraded_count: downgraded.downgradedCount,
+          reasons: downgraded.reasons,
+        }),
+      );
+    }
+    finalPlan = downgraded.scenes;
+  }
+  pkg.visual_scenes = finalPlan.length > 0 ? finalPlan : undefined;
   if (hasExplicitVisualScenePlan(pkg)) {
     syncLegacyFieldsFromVisualScenes(pkg);
   }

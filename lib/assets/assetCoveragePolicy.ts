@@ -250,7 +250,7 @@ export function resolvePackageAssetCoverage(input: {
       };
     }
     return {
-      stance: "required",
+      stance: "may_use",
       qualityAssetCount: sampleQuality.length,
       seriesSlotIndices,
       preferredRoles: [
@@ -377,7 +377,7 @@ export function buildAssetCoveragePromptBlock(
   switch (decision.stance) {
     case "required":
       lines.push(
-        "- THIS PACKAGE (SAMPLE): you MUST include at least one asset_usage referencing a quality product asset listed above.",
+        "- THIS PACKAGE: you MUST include at least one asset_usage referencing a quality product asset listed above.",
         "- Prefer Tier 1 (product_ui / dashboard); Tier 2 hero if no Tier 1 fits.",
         "- Tier 3 logo only near CTA / end framing, not as the opening hook.",
         "- Low-quality favicon / decorative assets do not count.",
@@ -392,11 +392,22 @@ export function buildAssetCoveragePromptBlock(
       );
       break;
     case "may_use":
-      lines.push(
-        "- THIS PACKAGE: MAY use one Tier 1–2 product asset as a light product anchor if it fits naturally.",
-        `- Prefer roles: ${decision.preferredRoles.join(", ")}.`,
-        "- Empty asset_usage is still valid if the story is stronger without assets.",
-      );
+      if (generationMode === "sample" && decision.qualityAssetCount > 0) {
+        lines.push(
+          "- THIS PACKAGE (SAMPLE): STRONGLY PREFER one Tier 1–2 product asset when the current renderer can show it well.",
+          "- Use asset ONLY with a concrete framed insert (laptop/monitor/phone mockup, floating card, ui_hero) — see SMART ASSET USAGE RULES.",
+          "- Do NOT describe people, rooms, or full scenes around a static screenshot unless modify=true on an editable asset (rare).",
+          "- If a quality asset would look like a raw cropped screenshot or break the story, skip asset_usage and use IMAGE instead.",
+          "- Empty asset_usage is VALID — never worsen the video to satisfy asset preference.",
+          `- Prefer roles: ${decision.preferredRoles.join(", ")}.`,
+        );
+      } else {
+        lines.push(
+          "- THIS PACKAGE: MAY use one Tier 1–2 product asset as a light product anchor if it fits naturally.",
+          `- Prefer roles: ${decision.preferredRoles.join(", ")}.`,
+          "- Empty asset_usage is still valid if the story is stronger without assets.",
+        );
+      }
       break;
     case "avoid_unless_natural":
       lines.push(

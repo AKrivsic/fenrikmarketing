@@ -238,17 +238,17 @@ export function buildSamplePackageRulesBlock(): string {
     "The goal is for the product owner to recognize themselves within seconds.",
     "",
     "If quality product assets exist:",
-    "- prefer product UI",
+    "- prefer product UI when the renderer can show it in a framed insert (laptop, phone, monitor, floating card)",
     "- prefer homepage visuals",
     "- prefer logo",
     "- prefer hero image",
     "",
-    "Do not hesitate to use 1–3 assets.",
+    "Use 0–2 assets when they improve the story — never force an asset.",
     "",
-    "It is better to use a relevant asset than a generic AI image.",
+    "It is better to use a relevant framed asset than a generic AI image when placement is concrete.",
     "",
-    "Assets are still NOT mandatory when no quality product assets exist.",
-    "When quality product assets ARE listed, SAMPLE PACKAGE COVERAGE requires at least one asset_usage.",
+    "Assets are NOT mandatory. Empty asset_usage is always valid.",
+    "If a static asset cannot be shown well (full scene with people, unknown video_usage, raw crop), use IMAGE instead.",
     "If assets are not quality or not relevant, do not use them.",
   ].join("\n");
 }
@@ -738,6 +738,9 @@ export function buildGenerateContentPackagePrompt(
     "ASSET LIBRARY RULES:",
     "- Do not invent asset_usage entries; only reference ids listed above.",
     "- Skip assets entirely when AI scenes alone tell the story better.",
+    "- Use source=\"asset\" ONLY when used_as describes a placement the renderer supports: framed laptop/monitor/phone, floating card, ui_hero, or similar insert — set video_usage to a known value (framed_laptop, framed_screen, framed_phone, floating_card, ui_hero) when possible.",
+    "- Do NOT use source=\"asset\" for beats that need people, rooms, or action around the product unless modify=true on a non-static asset.",
+    "- If unsure, use source=\"ai\" with image_prompt instead of a weak asset insert.",
     ...(generationMode === "sample"
       ? ["", buildSamplePackageRulesBlock()]
       : []),

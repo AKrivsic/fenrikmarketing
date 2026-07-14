@@ -49,33 +49,9 @@ export function countVisualBeats(entries: readonly PackageVisualSceneEntry[]): n
   ).length;
 }
 
-function splitVoiceoverChunks(voiceover: string, parts: number): string[] {
-  const sentences = voiceover
-    .split(/(?<=[.!?])\s+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (sentences.length === 0) return [];
-  if (parts <= 1) return [voiceover.trim()];
-  const out: string[] = [];
-  const per = Math.max(1, Math.ceil(sentences.length / parts));
-  for (let i = 0; i < sentences.length; i += per) {
-    out.push(sentences.slice(i, i + per).join(" "));
-  }
-  return out.slice(0, parts);
-}
-
-function narrativePromptFromChunk(chunk: string, index: number): string {
-  const excerpt = chunk.slice(0, 180).trim();
-  return (
-    `Portrait 9:16 vertical narrative still for beat ${index + 1}. ` +
-    `Illustrate this moment clearly: ${excerpt}. ` +
-    `Natural lighting, believable setting, subject centered with vertical headroom, no readable text or logos.`
-  );
-}
-
 /**
- * Expands sparse AI scene plans before video job creation. Does not duplicate
- * prompts or stretch a single still — adds distinct IMAGE beats from narration.
+ * Previously expanded sparse plans with generic AI stills. Filler beats are
+ * disabled — story quality beats scene count; target is logged for diagnostics only.
  */
 export function expandSparseVisualPlan(args: {
   visualScenes: PackageVisualSceneEntry[];
@@ -85,53 +61,15 @@ export function expandSparseVisualPlan(args: {
   const scenes = [...args.visualScenes];
   const duration = parseDurationSeconds(args.durationSeconds);
   const target = targetVisualBeatCount(duration);
-  const before = countVisualBeats(scenes);
+  const count = countVisualBeats(scenes);
 
-  const aiIndices = scenes
-    .map((e, i) => (isAiImageEntry(e) ? i : -1))
-    .filter((i) => i >= 0);
-  const assetCount = scenes.filter(isAssetEntry).length;
-  const ctaCount = scenes.filter(isCtaVisualSceneEntry).length;
-  const typedCount = scenes.filter(isTypedNonImageVisualSceneEntry).length;
-
-  const minNarrativeAi = Math.max(
-    0,
-    target - assetCount - ctaCount - Math.max(0, typedCount - ctaCount),
-  );
-
-  let narrativeAiAdded = 0;
-  if (aiIndices.length < minNarrativeAi && duration > 14) {
-    const need = minNarrativeAi - aiIndices.length;
-    const chunks = splitVoiceoverChunks(args.voiceoverText, need + aiIndices.length);
-    const insertBefore = (() => {
-      const ctaIdx = scenes.findIndex((e) => isCtaVisualSceneEntry(e));
-      if (ctaIdx >= 0) return ctaIdx;
-      const assetIdx = scenes.map((e, i) => (isAssetEntry(e) ? i : -1)).find((i) => i >= 0);
-      if (assetIdx !== undefined && assetIdx >= 0) return assetIdx;
-      return scenes.length;
-    })();
-
-    const newEntries: PackageVisualSceneEntry[] = [];
-    for (let i = 0; i < need; i++) {
-      const chunk = chunks[aiIndices.length + i] ?? chunks[chunks.length - 1] ?? "";
-      if (!chunk.trim()) continue;
-      newEntries.push({
-        source: "ai",
-        image_prompt: narrativePromptFromChunk(chunk, aiIndices.length + i),
-      });
-      narrativeAiAdded++;
-    }
-    scenes.splice(insertBefore, 0, ...newEntries);
-  }
-
-  const after = countVisualBeats(scenes);
   return {
     scenes,
     density: {
-      visual_beat_count: after,
+      visual_beat_count: count,
       target_visual_beat_count: target,
-      sparse_plan_adjustment: narrativeAiAdded > 0,
-      narrative_ai_added: narrativeAiAdded,
+      sparse_plan_adjustment: false,
+      narrative_ai_added: 0,
     },
   };
 }

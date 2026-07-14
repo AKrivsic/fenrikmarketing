@@ -246,7 +246,9 @@ export async function runRegenerateContentPackage(
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persisting the brief and queuing the video job, so the stored brief
   // matches exactly what the worker renders and no extra image gens are queued.
-  normalizeVisualScenePlan(pkg, { workflow: "regenerate", package_id: packageId });
+  normalizeVisualScenePlan(pkg, { workflow: "regenerate", package_id: packageId }, {
+    classById: assets.classById,
+  });
   const requestedChecklistCount = countChecklistEntries(
     (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[],
   );

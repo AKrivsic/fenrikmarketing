@@ -31,6 +31,10 @@ import {
   assetCoverageGuardrailShouldUse,
   type AssetCoverageDecision,
 } from "@/lib/assets/assetCoveragePolicy";
+import {
+  isAssetSceneRenderableByCurrentPipeline,
+  downgradeUnrenderableAssetScenes,
+} from "@/lib/assets/assetRendererEligibility";
 
 function assetUsageGuardrailIssues(
   pkg: ContentPackageOutput,
@@ -187,7 +191,7 @@ check("low favicon does not count", () => {
 
 section("sample mode");
 
-check("sample with tier-1 asset requires usage (guardrail)", () => {
+check("sample with tier-1 asset prefers usage (not required guardrail)", () => {
   const decision = resolvePackageAssetCoverage({
     generationMode: "sample",
     funnelStage: "awareness",
@@ -195,8 +199,10 @@ check("sample with tier-1 asset requires usage (guardrail)", () => {
     packageCount: 1,
     availableAssets: [uiAsset],
   });
-  assert.equal(decision.stance, "required");
-  assert.ok(assetUsageGuardrailIssues(emptyPackage(), decision).length > 0);
+  assert.equal(decision.stance, "may_use");
+  assert.deepEqual(assetUsageGuardrailIssues(emptyPackage(), decision), []);
+  const block = buildAssetCoveragePromptBlock(decision, "sample");
+  assert.ok(/STRONGLY PREFER/i.test(block));
 });
 
 check("sample without quality asset passes with empty asset_usage", () => {
@@ -309,6 +315,44 @@ check("desktop tier-1 library still enables production series slots", () => {
   });
   assert.ok(decision.qualityAssetCount > 0);
   assert.ok(decision.seriesSlotIndices.length > 0);
+});
+
+section("asset renderer eligibility");
+
+check("static asset + people in used_as is not renderable", () => {
+  const fit = isAssetSceneRenderableByCurrentPipeline({
+    assetClass: "static",
+    usedAs:
+      "A founder and developer sit side by side looking at a laptop showing the UI",
+    videoUsage: "framed_laptop",
+  });
+  assert.equal(fit.renderable, false);
+  assert.equal(fit.reason, "needs_full_scene");
+});
+
+check("static asset + framed laptop insert is renderable", () => {
+  const fit = isAssetSceneRenderableByCurrentPipeline({
+    assetClass: "static",
+    usedAs: "Show this UI inside a laptop screen insert, not fullscreen",
+    videoUsage: "framed_laptop",
+  });
+  assert.equal(fit.renderable, true);
+});
+
+check("unknown video_usage downgrades via pipeline helper", () => {
+  const result = downgradeUnrenderableAssetScenes({
+    scenes: [
+      {
+        source: "asset",
+        asset_id: "a-ui",
+        used_as: "Product UI on screen",
+        video_usage: "correct_approach_beat",
+      },
+    ],
+    classById: new Map([["a-ui", "static"]]),
+  });
+  assert.equal(result.downgradedCount, 1);
+  assert.equal((result.scenes[0] as { source: string }).source, "ai");
 });
 
 section("prompt + no assets backward compat");

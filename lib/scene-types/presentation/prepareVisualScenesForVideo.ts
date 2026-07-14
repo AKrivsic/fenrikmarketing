@@ -60,6 +60,9 @@ import {
 import { expandSparseVisualPlan } from "@/lib/series/visualDensity";
 import { applyTypedCtaSeriesPolicyToVisualScenes } from "@/lib/series/typedCtaPolicy";
 import { enrichAcceptedCtaScenes } from "@/lib/series/enrichCtaScenes";
+import { classifyAsset } from "@/lib/ai/guardrails";
+import { downgradeUnrenderableAssetScenes } from "@/lib/assets/assetRendererEligibility";
+import { syncLegacyFieldsFromVisualScenes } from "@/lib/content-package/visualScenePlan";
 
 export interface PreparedVisualScenesResult {
   scenes: VisualScene[];
@@ -92,7 +95,32 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     currentWeeklyStrategyId: args.weeklyStrategyId ?? null,
   });
 
+  const { data: assetClassRows, error: assetClassErr } = await supabase
+    .from("assets")
+    .select("id, asset_class")
+    .eq("project_id", projectId)
+    .eq("media_type", "image");
+  if (assetClassErr) throw assetClassErr;
+  const classById = new Map(
+    (assetClassRows ?? []).map((row) => [
+      row.id as string,
+      classifyAsset(row.asset_class as string | null),
+    ]),
+  );
+
   let planEntries = (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[];
+  if (classById.size > 0 && planEntries.length > 0) {
+    const downgraded = downgradeUnrenderableAssetScenes({
+      scenes: planEntries,
+      classById,
+    });
+    if (downgraded.downgradedCount > 0) {
+      planEntries = downgraded.scenes;
+      pkg.visual_scenes = planEntries as ContentPackageOutput["visual_scenes"];
+      syncLegacyFieldsFromVisualScenes(pkg);
+    }
+  }
+
   const density = expandSparseVisualPlan({
     visualScenes: planEntries,
     voiceoverText: pkg.voiceover_text,
