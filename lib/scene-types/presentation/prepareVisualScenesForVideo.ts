@@ -60,7 +60,7 @@ import {
 import { expandSparseVisualPlan } from "@/lib/series/visualDensity";
 import { applyTypedCtaSeriesPolicyToVisualScenes } from "@/lib/series/typedCtaPolicy";
 import { enrichAcceptedCtaScenes } from "@/lib/series/enrichCtaScenes";
-import { classifyAsset } from "@/lib/ai/guardrails";
+import { classifyAsset, type AssetClass } from "@/lib/ai/guardrails";
 import { downgradeUnrenderableAssetScenes } from "@/lib/assets/assetRendererEligibility";
 import { syncLegacyFieldsFromVisualScenes } from "@/lib/content-package/visualScenePlan";
 
@@ -97,16 +97,20 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
 
   const { data: assetClassRows, error: assetClassErr } = await supabase
     .from("assets")
-    .select("id, asset_class")
+    .select("id, asset_mode, metadata")
     .eq("project_id", projectId)
     .eq("media_type", "image");
   if (assetClassErr) throw assetClassErr;
-  const classById = new Map(
-    (assetClassRows ?? []).map((row) => [
+  const classById = new Map<string, AssetClass>();
+  for (const row of assetClassRows ?? []) {
+    classById.set(
       row.id as string,
-      classifyAsset(row.asset_class as string | null),
-    ]),
-  );
+      classifyAsset(
+        row.asset_mode as string,
+        (row.metadata as Record<string, unknown> | null) ?? null,
+      ),
+    );
+  }
 
   let planEntries = (pkg.visual_scenes ?? []) as PackageVisualSceneEntry[];
   if (classById.size > 0 && planEntries.length > 0) {

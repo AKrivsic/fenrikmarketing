@@ -118,7 +118,7 @@ export function downgradeUnrenderableAssetScenes(args: {
 
   const scenes = args.scenes.map((entry) => {
     if (isTypedNonImageVisualSceneEntry(entry)) return entry;
-    const rec = entry as Record<string, unknown>;
+    const rec = entry as unknown as Record<string, unknown>;
     if (rec.source !== "asset") return entry;
 
     const assetId = typeof rec.asset_id === "string" ? rec.asset_id.trim() : "";
