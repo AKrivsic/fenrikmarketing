@@ -62,6 +62,8 @@ export interface PresentationGenerationLog {
   target_visual_beat_count?: number;
   sparse_plan_adjustment?: boolean;
   scene_type_diversity_notes?: string[];
+  creative_identity?: Record<string, unknown>;
+  creative_identity_version?: string;
 }
 
 export function buildPresentationGenerationLog(args: {
@@ -261,5 +263,9 @@ export function compactPresentationLogForBrief(
     target_visual_beat_count: log.target_visual_beat_count ?? null,
     sparse_plan_adjustment: log.sparse_plan_adjustment ?? false,
     scene_type_diversity_notes: log.scene_type_diversity_notes ?? [],
+    ...(log.creative_identity ? { creative_identity: log.creative_identity } : {}),
+    ...(log.creative_identity_version
+      ? { creative_identity_version: log.creative_identity_version }
+      : {}),
   };
 }

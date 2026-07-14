@@ -4,6 +4,7 @@ import {
   fingerprintFromPackageBrief,
   type CreativeFingerprint,
 } from "@/lib/series/creativeFingerprints";
+import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
 
 export interface SeriesCreativeContext {
   fingerprints: CreativeFingerprint[];
@@ -12,6 +13,8 @@ export interface SeriesCreativeContext {
   recentCtaCompositionIds: string[];
   recentHooks: string[];
   recentCreativeModes: string[];
+  /** presentation_generation.creative_identity.key from recent packages. */
+  recentCreativeIdentityKeys: string[];
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -77,6 +80,8 @@ export async function loadSeriesCreativeContext(args: {
   const recentHooks: string[] = [];
   const recentCreativeModes: string[] = [];
 
+  const recentCreativeIdentityKeys: string[] = [];
+
   for (const row of rows) {
     const packageId = row.id as string;
     if (args.excludePackageId && packageId === args.excludePackageId) continue;
@@ -116,6 +121,15 @@ export async function loadSeriesCreativeContext(args: {
     }
     if (fp.hook) recentHooks.push(fp.hook);
     if (fp.creative_mode) recentCreativeModes.push(fp.creative_mode);
+
+    const priorIdentity = readCreativeIdentityFromPackageBrief(brief);
+    if (
+      priorIdentity?.key &&
+      recentCreativeIdentityKeys.length < limit &&
+      !recentCreativeIdentityKeys.includes(priorIdentity.key)
+    ) {
+      recentCreativeIdentityKeys.push(priorIdentity.key);
+    }
   }
 
   return {
@@ -125,6 +139,7 @@ export async function loadSeriesCreativeContext(args: {
     recentCtaCompositionIds: recentCtaCompositionIds.slice(0, 8),
     recentHooks: recentHooks.slice(0, 8),
     recentCreativeModes: recentCreativeModes.slice(0, 8),
+    recentCreativeIdentityKeys: recentCreativeIdentityKeys.slice(0, 12),
   };
 }
 
@@ -136,6 +151,7 @@ function emptyContext(): SeriesCreativeContext {
     recentCtaCompositionIds: [],
     recentHooks: [],
     recentCreativeModes: [],
+    recentCreativeIdentityKeys: [],
   };
 }
 

@@ -1,5 +1,6 @@
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageGenerationMeta";
+import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import { prepareSceneRaster } from "@/lib/scene-types/renderers/types";
 import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
 
@@ -9,6 +10,7 @@ export interface GenerateSceneImagesInput {
   videoJobId: string;
   visualProfile?: string;
   visualProfileVersion?: string;
+  creativeIdentity?: CreativeIdentity | null;
 }
 
 export interface SceneImage {
@@ -35,6 +37,7 @@ export async function generateSceneImages(
     videoJobId: input.videoJobId,
     visualProfile: input.visualProfile,
     visualProfileVersion: input.visualProfileVersion,
+    creativeIdentity: input.creativeIdentity ?? null,
   };
 
   const results: SceneImage[] = [];

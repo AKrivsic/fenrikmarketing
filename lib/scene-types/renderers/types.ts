@@ -1,5 +1,6 @@
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageGenerationMeta";
+import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import {
   DEFAULT_SCENE_TYPE,
   effectiveSceneType,
@@ -16,6 +17,8 @@ export interface SceneRasterPrepareContext {
   videoJobId: string;
   visualProfile?: string;
   visualProfileVersion?: string;
+  /** Creative Identity v1 — stable staging axes for all AI image scenes in this job. */
+  creativeIdentity?: CreativeIdentity | null;
 }
 
 export interface SceneRasterPrepareResult {

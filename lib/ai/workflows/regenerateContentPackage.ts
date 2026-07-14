@@ -56,6 +56,8 @@ import {
   resolveVisualProfileForPackage,
 } from "@/lib/visual-profile/packageVisualProfile";
 import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
+import { loadSeriesCreativeContext } from "@/lib/series/loadSeriesCreativeContext";
+import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForPackage";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
 import {
@@ -183,6 +185,29 @@ export async function runRegenerateContentPackage(
     ),
   );
 
+  const regenerateCreativeSalt = buildRegenerateCreativeSeedSalt(
+    existing.title as string,
+    input.feedback ?? null,
+  );
+  const seriesCreative = await loadSeriesCreativeContext({
+    supabase,
+    projectId,
+    weeklyStrategyId: context.weeklyStrategyId,
+    excludePackageId: packageId,
+  });
+  const creativeIdentityPlan = planCreativeIdentityForPackage({
+    project,
+    visualProfile: resolvedVisualProfile.profile,
+    projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: null,
+    topic: context.topic,
+    angle: context.angle,
+    creativeSeedSalt: regenerateCreativeSalt,
+    series: seriesCreative,
+    requireVideo,
+  });
+
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
@@ -211,6 +236,8 @@ export async function runRegenerateContentPackage(
       promptPresentationTypes,
       sceneTypeHistoryBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
+      creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || undefined,
+      creativeSeedSalt: regenerateCreativeSalt,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -293,6 +320,7 @@ export async function runRegenerateContentPackage(
     ).length,
     frequency_decisions: frequencyDecisions,
     prompt_presentation_types: promptPresentationTypes,
+    ...creativeIdentityPlan.persistenceFields,
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.

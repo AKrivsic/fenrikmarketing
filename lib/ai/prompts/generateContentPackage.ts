@@ -1,3 +1,6 @@
+import {
+  buildSampleProductClarityBlock,
+} from "@/lib/ai/prompts/sampleProductClarity";
 import type { Project } from "@/lib/supabase/types";
 import {
   antiRepetitionBlock,
@@ -225,6 +228,8 @@ export interface GenerateContentPackagePromptInput {
   seriesCreativeContextBlock?: string;
   /** Profile-aware image prompt guidance (generation-time). */
   visualProfileImagePromptBlock?: string;
+  /** Creative Identity v1 — resolved staging axes for all image_prompts in this package. */
+  creativeIdentityPromptBlock?: string;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -251,6 +256,13 @@ export function buildSamplePackageRulesBlock(): string {
     "If a static asset cannot be shown well (full scene with people, unknown video_usage, raw crop), use IMAGE instead.",
     "If assets are not quality or not relevant, do not use them.",
   ].join("\n");
+}
+
+/** Prompt appendix inserted only when generationMode === "sample". */
+export function buildSampleModePromptAppendix(project: Project): string {
+  return [buildSamplePackageRulesBlock(), buildSampleProductClarityBlock(project)].join(
+    "\n\n",
+  );
 }
 
 // One sibling package already produced for the same production run, summarized
@@ -539,6 +551,9 @@ export function buildGenerateContentPackagePrompt(
         ...(input.visualProfileImagePromptBlock
           ? [input.visualProfileImagePromptBlock, ""]
           : []),
+        ...(input.creativeIdentityPromptBlock
+          ? [input.creativeIdentityPromptBlock, ""]
+          : []),
         videoSceneCompositionBlock(),
         "",
         deviceScreenInteractionBlock(),
@@ -742,7 +757,7 @@ export function buildGenerateContentPackagePrompt(
     "- Do NOT use source=\"asset\" for beats that need people, rooms, or action around the product unless modify=true on a non-static asset.",
     "- If unsure, use source=\"ai\" with image_prompt instead of a weak asset insert.",
     ...(generationMode === "sample"
-      ? ["", buildSamplePackageRulesBlock()]
+      ? ["", buildSampleModePromptAppendix(project)]
       : []),
     "",
     buildPlatformStyleBlock(targetPlatforms),

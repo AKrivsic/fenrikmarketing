@@ -63,6 +63,9 @@ import { enrichAcceptedCtaScenes } from "@/lib/series/enrichCtaScenes";
 import { classifyAsset, type AssetClass } from "@/lib/ai/guardrails";
 import { downgradeUnrenderableAssetScenes } from "@/lib/assets/assetRendererEligibility";
 import { syncLegacyFieldsFromVisualScenes } from "@/lib/content-package/visualScenePlan";
+import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
+import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
+import { CREATIVE_IDENTITY_VERSION } from "@/lib/creative-identity/types";
 
 export interface PreparedVisualScenesResult {
   scenes: VisualScene[];
@@ -289,6 +292,10 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
 
   const acceptedCta = enrichedCta.scenes.some((s) => s.type === "CTA");
 
+  const storedIdentity = readCreativeIdentityFromPackageBrief(
+    pkg as unknown as Record<string, unknown>,
+  );
+
   const presentationLog: PresentationGenerationLog = {
     ...buildPresentationGenerationLog({
       projectId,
@@ -314,6 +321,12 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     scene_type_diversity_notes: typedCtaPolicy.guardrailDecisions.map(
       (d) => `${d.rule}: ${d.reason}`,
     ),
+    ...(storedIdentity
+      ? {
+          creative_identity_version: CREATIVE_IDENTITY_VERSION,
+          ...creativeIdentityFieldsForPersistence(storedIdentity),
+        }
+      : {}),
   };
 
   return {

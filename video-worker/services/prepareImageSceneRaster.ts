@@ -7,6 +7,8 @@ import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageG
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
 import { visualProfileImagePromptSuffix } from "@/lib/visual-profile/imagePromptProfile";
+import { creativeIdentityImagePromptSuffix } from "@/lib/creative-identity/promptBlocks";
+import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import { sanitizeImagePrompt } from "@/video-worker/services/imagePrompt";
 import { generateSceneImageWithModerationFallback } from "@/video-worker/services/generateSceneImageWithModerationFallback";
 import {
@@ -92,16 +94,20 @@ export async function prepareImageSceneRaster(
   const provider = getImageProvider();
   const profile = parseVisualProfile(ctx.visualProfile ?? "");
   const profileSuffix = profile ? visualProfileImagePromptSuffix(profile) : "";
-  const promptWithProfile = profileSuffix
-    ? `${scene.image_prompt.trim()} ${profileSuffix}`
-    : scene.image_prompt;
+  const identity: CreativeIdentity | null = ctx.creativeIdentity ?? null;
+  const identitySuffix = identity
+    ? creativeIdentityImagePromptSuffix(identity)
+    : "";
+  const promptWithProfile = [scene.image_prompt.trim(), profileSuffix, identitySuffix]
+    .filter(Boolean)
+    .join(" ");
   const safePrompt = sanitizeImagePrompt(promptWithProfile);
   const { meta } = await generateSceneImageWithModerationFallback({
     provider,
     ctx,
     sceneId: scene.id,
     primaryPrompt: safePrompt,
-    profileSuffix,
+    profileSuffix: [profileSuffix, identitySuffix].filter(Boolean).join(" "),
     outputPath: imagePath,
   });
 

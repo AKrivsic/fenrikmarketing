@@ -81,6 +81,7 @@ import {
   visualProfileFieldsForPersistence,
 } from "@/lib/visual-profile/packageVisualProfile";
 import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
+import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForPackage";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -277,6 +278,18 @@ export async function runGenerateContentPackage(
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
+  const creativeIdentityPlan = planCreativeIdentityForPackage({
+    project,
+    visualProfile: resolvedVisualProfile.profile,
+    projectId: input.projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: context.packageIndex,
+    topic: context.topic,
+    angle: context.angle,
+    series: seriesCreative,
+    requireVideo,
+  });
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -302,6 +315,7 @@ export async function runGenerateContentPackage(
       sceneTypeHistoryBlock,
       seriesCreativeContextBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
+      creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || undefined,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -392,6 +406,7 @@ export async function runGenerateContentPackage(
     ).length,
     frequency_decisions: frequencyDecisions,
     prompt_presentation_types: promptPresentationTypes,
+    ...creativeIdentityPlan.persistenceFields,
   };
   normalizeImagePrompts(generated.value, {
     workflow: "generate",

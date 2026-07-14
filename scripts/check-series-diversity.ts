@@ -51,6 +51,7 @@ const emptySeries: SeriesCreativeContext = {
   recentCtaCompositionIds: [],
   recentHooks: [],
   recentCreativeModes: [],
+  recentCreativeIdentityKeys: [],
 };
 
 const ctaEntry: PackageVisualSceneEntry = {

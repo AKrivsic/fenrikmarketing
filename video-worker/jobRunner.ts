@@ -50,6 +50,7 @@ import {
 } from "@/lib/video-engine/storyboard";
 import { parseStoredSemanticMotionFromJobInput } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
 import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
+import { readCreativeIdentityFromUnknown } from "@/lib/creative-identity/resolveCreativeIdentity";
 import { effectiveSceneType } from "@/lib/scene-types/sceneType";
 import {
   MAX_SCENE_POOL,
@@ -358,6 +359,9 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         typeof payload.input["visual_profile_version"] === "string"
           ? payload.input["visual_profile_version"]
           : undefined,
+      creativeIdentity: readCreativeIdentityFromUnknown(
+        payload.input["creative_identity"],
+      ),
     });
     for (const image of images) tempFiles.add(image.imagePath);
 

@@ -51,6 +51,8 @@ import {
   prepareAnalyzedVisualScenesForPackage,
 } from "@/lib/scene-types/presentation/prepareVisualScenesForVideo";
 import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
+import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
+import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -413,6 +415,9 @@ export async function buildVideoJobInput(
       projectId,
       prepared.scenes,
     );
+    const briefIdentity = readCreativeIdentityFromPackageBrief(
+      pkg as unknown as Record<string, unknown>,
+    );
     return {
       ...base,
       scenes,
@@ -420,6 +425,9 @@ export async function buildVideoJobInput(
       explicit_scene_plan: true,
       visual_scenes: pkg.visual_scenes ?? [],
       asset_images: [],
+      ...(briefIdentity
+        ? creativeIdentityFieldsForPersistence(briefIdentity)
+        : {}),
       ...(prepared.presentationLog.visual_profile
         ? {
             visual_profile: prepared.presentationLog.visual_profile,

@@ -4,8 +4,13 @@
 import assert from "node:assert/strict";
 import {
   buildGenerateContentPackagePrompt,
+  buildSampleModePromptAppendix,
   buildSamplePackageRulesBlock,
 } from "@/lib/ai/prompts/generateContentPackage";
+import {
+  buildSampleProductClarityBlock,
+  SAMPLE_PRODUCT_CLARITY_HEADER,
+} from "@/lib/ai/prompts/sampleProductClarity";
 import {
   CREATIVE_MODES,
   HOOK_ARCHETYPES,
@@ -112,21 +117,21 @@ check("sample mode includes SAMPLE PACKAGE RULES block", () => {
   });
   assert.ok(sample.includes("SAMPLE PACKAGE RULES"));
   assert.ok(sample.includes(buildSamplePackageRulesBlock()));
+  assert.ok(sample.includes(SAMPLE_PRODUCT_CLARITY_HEADER));
+  assert.ok(sample.includes(buildSampleProductClarityBlock(project)));
   assert.ok(sample.includes("recognize themselves within seconds"));
   assert.ok(sample.includes("prefer product UI"));
+  assert.ok(sample.includes("problem-first"));
 });
 
-check("sample prompt differs from production only by the sample block", () => {
+check("sample prompt differs from production only by the sample appendix", () => {
   const sample = buildGenerateContentPackagePrompt({
     ...basePromptInput,
     generationMode: "sample",
   });
-  const block = buildSamplePackageRulesBlock();
-  assert.ok(sample.includes(block));
-  assert.equal(
-    sample.replace(`\n\n${block}`, ""),
-    legacyProductionPrompt,
-  );
+  const appendix = buildSampleModePromptAppendix(project);
+  assert.ok(sample.includes(appendix));
+  assert.equal(sample.replace(`\n\n${appendix}`, ""), legacyProductionPrompt);
 });
 
 section("generation_mode API + run config");
