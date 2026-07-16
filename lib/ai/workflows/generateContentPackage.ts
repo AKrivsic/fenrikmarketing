@@ -175,10 +175,6 @@ export async function runGenerateContentPackage(
   const seriesCreativeContextBlock = buildSeriesCreativeContextBlock({
     series: seriesCreative,
   });
-  const resolvedVisualProfile = resolveVisualProfileForPackage({ project });
-  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
-    resolvedVisualProfile.profile,
-  );
 
   // Production Run V3: when this item was seeded by a production run, the run's
   // selected platforms + multipliers drive generation (incl. youtube / x and
@@ -225,12 +221,27 @@ export async function runGenerateContentPackage(
   // Attention First V1 — resolve the creative directive ONCE here (no salt for
   // fresh generation) so the prompt, the storyboard role arc and the video job
   // input all share the SAME mode. Pure + deterministic: no AI call.
+  // Visual Profile v3 needs the mode before AUTO scoring (package feel).
   const directives: CreativeDirectives = pickCreativeDirectives(
     buildCreativeSeed(
       FUNNEL_STAGE_LABELS[context.funnelStage],
       context.topic,
       context.angle,
     ),
+  );
+
+  // Visual Profile v3 — Product Brain baseline + package feel (funnel/topic/angle/mode).
+  const resolvedVisualProfile = resolveVisualProfileForPackage({
+    project,
+    packageSignals: {
+      funnelStage: context.funnelStage,
+      topic: context.topic,
+      angle: context.angle,
+      creativeMode: directives.mode.id,
+    },
+  });
+  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
+    resolvedVisualProfile.profile,
   );
 
   // Run Package Diversity V1 — when this item belongs to a production run, give
@@ -873,8 +884,13 @@ async function persistNewPackage(
               creative_mode_beats: directives.mode.narrativeBeats,
             }
           : {}),
+        topic: context.topic,
+        angle: context.angle,
         package_id: packageId,
         weekly_strategy_id: context.weeklyStrategyId,
+        ...(context.productionRunId
+          ? { production_run_id: context.productionRunId }
+          : {}),
       },
     );
     const { data: videoRow, error: videoErr } = await supabase

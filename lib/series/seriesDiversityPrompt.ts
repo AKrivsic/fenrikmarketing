@@ -36,9 +36,10 @@ export function buildSeriesCreativeContextBlock(args: {
     "- Prefer fresh subjects and meaning carriers when the narrative allows — do not treat recent motifs as mandatory repeats.",
     "",
     "Closing guidance:",
-    "- Awareness / Problem Aware: prefer narrative conclusion, insight, question, product visual, or soft text close — typed CTA card is optional and often unnecessary.",
-    "- Solution Aware / Conversion: typed CTA is allowed when it clearly helps the final action and the series is not already saturated with CTA cards.",
-    "- Choose scene types per beat (CHECKLIST / PHONE / QUOTE / STATISTIC / CTA) only when materially clearer than IMAGE.",
+    "- Awareness / Problem Aware: often strongest as narrative conclusion, insight, question, product visual, or soft text close — typed CTA only when a branded card is clearly best.",
+    "- Solution Aware / Conversion: typed CTA when it is the strongest final action expression; skip when insight or product visual closes better.",
+    "- For each beat, choose the strongest allowed presentation (IMAGE or typed). Recent typed-scene use is a soft tie-breaker, not a ban.",
+    "- A list-like topic does not require CHECKLIST; prefer IMAGE / process / comparison when similarly strong, especially if CHECKLIST appeared recently.",
     "- Plan enough distinct visual beats for the video length (roughly one meaningful visual every 4–6 seconds; avoid long stretches on a single still).",
   );
 

@@ -8,15 +8,15 @@ export const PRODUCT_REVEAL_PROMPT_HEADER = "PRODUCT REVEAL";
 
 const STRATEGY_GUIDANCE: Record<ProductRevealStrategy, string> = {
   REAL_ASSET:
-    "Use REAL_ASSET only for the solution beat when a tier-1–3 asset can be shown as-is (floating card / hero insert) without inventing people or rooms around it.",
+    "Use REAL_ASSET only for the solution beat when a tier-1–3 asset can be shown as a floating card / ui_hero insert without inventing people or rooms around it.",
   FRAMED_ASSET:
-    "Use FRAMED_ASSET when a supported phone/laptop/monitor frame can show the asset faithfully (modify false, valid video_usage).",
+    "Use FRAMED_ASSET only as a clean device/frame insert (phone/laptop/monitor mockup). modify false. No hands, no people, no café/office rooms — those compositions are converted to AI later. If the beat needs a person holding a device, choose PRODUCT_OUTCOME instead.",
   PRODUCT_INTERACTION:
     "Use PRODUCT_INTERACTION only when an editable asset exists AND the pipeline can modify/composite it — never promise interactions the renderer cannot execute.",
   ABSTRACT_PRODUCT_SYSTEM:
     "Use ABSTRACT_PRODUCT_SYSTEM when explaining mechanism without fake UI: modules organizing, scattered inputs becoming one flow, fragments becoming priorities — no readable labels.",
   PRODUCT_OUTCOME:
-    "Use PRODUCT_OUTCOME when the result matters more than the interface: aligned team, clear plan, confident student starting work, completed workflow.",
+    "Use PRODUCT_OUTCOME when the result matters more than the interface: aligned team, clear plan, confident student starting work, completed workflow. Prefer this over a weak or unrenderable asset scene.",
   NO_PRODUCT_VISUAL:
     "NO_PRODUCT_VISUAL is valid when another visual idea serves the beat better — do not force product shots.",
 };
@@ -38,11 +38,12 @@ export function buildProductRevealPromptBlock(plan: ProductRevealPlan): string {
     `- ${STRATEGY_GUIDANCE[strategy]}`,
     "",
     "Selection rules (every product/solution beat):",
-    "1. Is there a compatible high-quality asset?",
-    "2. Can the renderer execute the intended use faithfully?",
-    "3. Would the asset improve understanding vs AI?",
-    "4. If not, prefer ABSTRACT_PRODUCT_SYSTEM or PRODUCT_OUTCOME.",
-    "5. Never pick an asset only because it exists.",
+    "1. What is the strongest reveal that today's renderer can actually deliver?",
+    "2. Is there a compatible high-quality asset whose framed/real insert Asset Safety would accept?",
+    "3. Would that asset improve understanding vs a strong AI scene?",
+    "4. If the natural composition needs people/hands/rooms, do NOT pick FRAMED_ASSET — use PRODUCT_OUTCOME or ABSTRACT_PRODUCT_SYSTEM.",
+    "5. Never pick an asset only because it exists or to satisfy Product Reveal.",
+    "6. Prefer a high-quality AI scene over a poor asset scene.",
     "",
     "No fake UI:",
     "- Do NOT generate readable product interfaces, fake metrics, fake labels, or fake screenshots.",

@@ -4,6 +4,7 @@ import type { Project } from "@/lib/supabase/types";
 import {
   resolveVisualProfile,
   type ResolvedVisualProfile,
+  type VisualProfilePackageSignals,
   type VisualProfileProjectContext,
 } from "@/lib/visual-profile/resolveVisualProfile";
 
@@ -25,9 +26,16 @@ export function readPackageVisualProfileSnapshot(
 export function projectContextForVisualProfile(args: {
   project: Pick<
     Project,
-    "id" | "knowledge" | "goal_type" | "tone_of_voice" | "target_audience" | "product_strengths" | "product_is"
+    | "id"
+    | "knowledge"
+    | "goal_type"
+    | "tone_of_voice"
+    | "target_audience"
+    | "product_strengths"
+    | "product_is"
   >;
   pkg?: Pick<ContentPackageOutput, "presentation_generation"> | null;
+  packageSignals?: VisualProfilePackageSignals | null;
 }): VisualProfileProjectContext {
   const snap = args.pkg ? readPackageVisualProfileSnapshot(args.pkg) : {};
   return {
@@ -40,15 +48,23 @@ export function projectContextForVisualProfile(args: {
     productIs: args.project.product_is ?? [],
     packageSnapshotProfile: snap.profile,
     packageSnapshotVersion: snap.version,
+    packageSignals: args.packageSignals ?? null,
   };
 }
 
 export function resolveVisualProfileForPackage(args: {
   project: Pick<
     Project,
-    "id" | "knowledge" | "goal_type" | "tone_of_voice" | "target_audience" | "product_strengths" | "product_is"
+    | "id"
+    | "knowledge"
+    | "goal_type"
+    | "tone_of_voice"
+    | "target_audience"
+    | "product_strengths"
+    | "product_is"
   >;
   pkg?: Pick<ContentPackageOutput, "presentation_generation"> | null;
+  packageSignals?: VisualProfilePackageSignals | null;
 }): ResolvedVisualProfile {
   return resolveVisualProfile(projectContextForVisualProfile(args));
 }
@@ -86,3 +102,5 @@ export function readVisualProfileFromJobInput(
     version: gen?.visual_profile_version ?? root?.visual_profile_version,
   };
 }
+
+export type { VisualProfilePackageSignals };

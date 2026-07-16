@@ -173,7 +173,8 @@ async function main(): Promise<void> {
       assert.ok(types.includes("IMAGE"));
       assert.ok(types.includes("PHONE"));
       const block = buildPresentationGenerationBlock({ allowedTypes: types });
-      assert.match(block, /Use PHONE only when/);
+      assert.match(block, /PHONE — consider when/);
+      assert.match(block, /social feeds/);
     }, { sceneTypes: "true", checklistMode: "off" });
   });
 
@@ -295,6 +296,38 @@ async function main(): Promise<void> {
     }, { sceneTypes: "true" });
   });
 
+  await check("8b social feed / publish narration supports PHONE (v2)", () => {
+    withPhoneEnv(() => {
+      const signals = deriveProjectPresentationSignals({
+        project: mobileSaasProject,
+        assets: [
+          {
+            id: MOBILE_ASSET_ID,
+            title: "App UI",
+            mobileUi: true,
+            phonePresentation: true,
+          },
+        ],
+      });
+      const r = analyzePresentation({
+        scenes: [
+          {
+            id: "scene-1",
+            type: "PHONE",
+            payload: { asset_id: MOBILE_ASSET_ID },
+          },
+        ],
+        allowedSceneTypes: analyzerCeiling(signals),
+        voiceoverText:
+          "Your social feed has been empty for weeks — open the phone and publish the post waiting on your website.",
+        proof: buildProofIndex(null),
+        projectSignals: signals,
+      });
+      assert.equal(r.scenes[0]?.type, "PHONE");
+      assert.equal(r.decisions[0]?.rule, "allowed");
+    }, { sceneTypes: "true" });
+  });
+
   await check("9 IMAGE-only package unchanged", () => {
     const pkg = basePkg([
       { source: "ai", image_prompt: "Kitchen" },
@@ -383,7 +416,7 @@ async function main(): Promise<void> {
     assert.equal(scenes[0]?.type, "IMAGE");
   });
 
-  await check("13 unsupported types remain unavailable at generation", () => {
+  await check("13 unsupported incomplete typed payloads rejected at generation", () => {
     const issues = generatedVisualSceneEntryValidator({
       type: "QUOTE",
       payload: { quote: "Great product" },
@@ -394,11 +427,12 @@ async function main(): Promise<void> {
       payload: { value: "90%", label: "growth" },
     });
     assert.ok(stat.length > 0);
+    // CTA with a headline is a valid generation shape; incomplete quote/stat remain rejected.
     const cta = generatedVisualSceneEntryValidator({
       type: "CTA",
       payload: { headline: "Book now" },
     });
-    assert.ok(cta.length > 0);
+    assert.equal(cta.length, 0);
   });
 
   await check("14 analyzer never upgrades IMAGE to PHONE", () => {

@@ -43,7 +43,7 @@ check("history builder reads final_worker_scene_types", () => {
   assert.equal(history.ctaUsedInRecentWindow, true);
 });
 
-check("consecutive CHECKLIST downgrades after analyzer allowed", () => {
+check("consecutive CHECKLIST remains allowed — history is soft signal only (v2)", () => {
   const history = buildSceneTypeProjectHistory({
     rows: [
       {
@@ -90,11 +90,11 @@ check("consecutive CHECKLIST downgrades after analyzer allowed", () => {
       "First do one concrete step, then another step, then a third step.",
   });
 
-  assert.equal(after.scenes[0]?.type, DEFAULT_SCENE_TYPE);
-  assert.equal(after.historyDecisions[0]?.rule, "checklist_recently_used");
+  assert.equal(after.scenes[0]?.type, "CHECKLIST");
+  assert.equal(after.historyDecisions.length, 0);
 });
 
-check("weekly sibling QUOTE downgrades", () => {
+check("weekly sibling QUOTE is not hard-downgraded (v2 soft memory)", () => {
   const history = buildSceneTypeProjectHistory({
     rows: [
       {
@@ -116,8 +116,7 @@ check("weekly sibling QUOTE downgrades", () => {
     type: "QUOTE",
     history,
   });
-  assert.ok(verdict?.downgrade);
-  assert.equal(verdict?.rule, "quote_recently_used");
+  assert.equal(verdict, null);
 });
 
 check("history never upgrades IMAGE", () => {
@@ -151,7 +150,7 @@ check("history never upgrades IMAGE", () => {
   assert.equal(after.historyDecisions.length, 0);
 });
 
-check("prompt block mentions restraint and recent patterns", () => {
+check("prompt block mentions soft memory and recent patterns", () => {
   const block = buildSceneTypeHistoryRestraintBlock(
     buildSceneTypeProjectHistory({
       rows: [
@@ -170,14 +169,90 @@ check("prompt block mentions restraint and recent patterns", () => {
       currentWeeklyStrategyId: "ws-1",
     }),
   );
-  assert.match(block, /SCENE TYPE RESTRAINT/);
+  assert.match(block, /SCENE TYPE MEMORY/);
+  assert.match(block, /soft (signal|tie-breaker|negative)/i);
   assert.match(block, /PHONE/);
+  assert.match(block, /no minimum or maximum count/i);
 });
 
-check("presentation block includes restraint lines", () => {
+check("recent CHECKLIST is soft tie-breaker, not a hard ban", () => {
+  const history = buildSceneTypeProjectHistory({
+    rows: [
+      {
+        id: "prev",
+        created_at: "2026-01-01T00:00:00Z",
+        weekly_strategy_id: "ws-1",
+        strategy_item_id: "si-0",
+        package_brief: {
+          presentation_generation: {
+            final_worker_scene_types: ["IMAGE", "CHECKLIST"],
+          },
+        },
+      },
+    ],
+    currentWeeklyStrategyId: "ws-1",
+  });
+
+  const block = buildSceneTypeHistoryRestraintBlock(history);
+  assert.match(block, /CHECKLIST appeared recently/);
+  assert.match(block, /Soft negative signal/);
+  assert.match(block, /similarly strong/);
+  assert.match(block, /Keep CHECKLIST when simultaneous scanning/);
+
+  // Guardrail still does not hard-downgrade a clearly superior checklist.
+  assert.equal(
+    evaluateSceneTypeHistoryDowngrade({ type: "CHECKLIST", history }),
+    null,
+  );
+  const after = applySceneTypeHistoryGuardrail({
+    analyzed: {
+      scenes: [
+        {
+          id: "scene-1",
+          type: "CHECKLIST" as const,
+          payload: {
+            items: ["Check the hook", "Confirm the CTA", "Review the visual"],
+          },
+        },
+      ],
+      decisions: [
+        {
+          scene_id: "scene-1",
+          requested_type: "CHECKLIST" as const,
+          final_type: "CHECKLIST" as const,
+          rule: "allowed" as const,
+          reason: "eligible checklist",
+        },
+      ],
+      warnings: [],
+    },
+    history,
+    voiceoverText:
+      "Before publishing, check the hook, confirm the CTA, and review the visual.",
+  });
+  assert.equal(after.scenes[0]?.type, "CHECKLIST");
+  assert.equal(after.historyDecisions.length, 0);
+});
+
+check("presentation block includes strongest-expression rubric", () => {
   const block = buildPresentationGenerationBlock({ allowedTypes: ["IMAGE"] });
-  assert.match(block, /not recurring templates/);
-  assert.match(block, /recent project history/);
+  assert.match(block, /strongest way to communicate/i);
+  assert.match(block, /equal tools/i);
+  assert.match(block, /soft tie-breaker/i);
+});
+
+check("CHECKLIST restraint wording present when checklist allowed", () => {
+  const block = buildPresentationGenerationBlock({
+    allowedTypes: ["IMAGE", "CHECKLIST"],
+  });
+  assert.match(
+    block,
+    /list-like script does not automatically require a CHECKLIST/,
+  );
+  assert.match(
+    block,
+    /simultaneous visual scanning of the concrete items is the main value/,
+  );
 });
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

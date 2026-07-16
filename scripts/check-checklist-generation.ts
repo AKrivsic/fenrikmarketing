@@ -231,16 +231,61 @@ async function main(): Promise<void> {
     }
   });
 
-  await check("10 prompt rubric and restraint present", () => {
+  await check("10 prompt rubric and CHECKLIST restraint framing present", () => {
     const block = buildPresentationGenerationBlock({
       allowedTypes: ["IMAGE", "CHECKLIST"],
     });
-    assert.match(block, /IMAGE is the safe default/);
+    assert.match(block, /strongest way to communicate/i);
+    assert.match(block, /materially better than a normal IMAGE/);
     assert.match(block, /Decision rubric/);
     assert.match(block, /At most ONE CHECKLIST scene/);
+    assert.match(
+      block,
+      /list-like script does not automatically require a CHECKLIST/,
+    );
+    assert.match(
+      block,
+      /simultaneous visual scanning of the concrete items is the main value/,
+    );
+    assert.match(block, /emotional or story-driven/);
+    assert.match(block, /process-oriented list/);
     assert.match(block, /Do not use typed scenes merely for decoration/);
+    assert.match(block, /There is no quota/);
     assert.match(block, /Order of work/);
     assert.match(block, /forbidden: PHONE, QUOTE, STATISTIC, CTA/);
+  });
+
+  await check("10b real step list keeps CHECKLIST as valid prompt path", () => {
+    const block = buildPresentationGenerationBlock({
+      allowedTypes: ["IMAGE", "CHECKLIST"],
+    });
+    assert.match(block, /EXAMPLE B — valid CHECKLIST/);
+    assert.match(block, /Before publishing/);
+    assert.match(block, /Check the hook/);
+    assert.match(block, /CHECKLIST remains valid for genuine scan-together beats/);
+  });
+
+  await check("10c vague benefits and emotional three-reasons stay IMAGE in prompt", () => {
+    const block = buildPresentationGenerationBlock({
+      allowedTypes: ["IMAGE", "CHECKLIST"],
+    });
+    assert.match(block, /EXAMPLE C — vague benefits/);
+    assert.match(block, /work faster, stay organized, and grow revenue/);
+    assert.match(block, /EXAMPLE C2 — emotional \/ story/);
+    assert.match(block, /do not default to CHECKLIST/);
+    assert.match(block, /EXAMPLE C3 — process-oriented list/);
+    assert.match(block, /prefer process-style IMAGE/i);
+  });
+
+  await check("10d no series quotas or hard min\/max counts in presentation prompt", () => {
+    const block = buildPresentationGenerationBlock({
+      allowedTypes: ["IMAGE", "CHECKLIST", "PHONE", "CTA"],
+    });
+    assert.doesNotMatch(block, /every nth/i);
+    assert.doesNotMatch(block, /minimum (of )?\d+ CHECKLIST/i);
+    assert.doesNotMatch(block, /at least one CHECKLIST per/i);
+    assert.doesNotMatch(block, /maximum of \d+ CHECKLIST across/i);
+    assert.match(block, /There is no quota/);
   });
 
   await check("12 legacy IMAGE normalize unchanged", () => {

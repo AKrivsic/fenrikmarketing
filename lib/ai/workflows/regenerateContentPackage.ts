@@ -142,13 +142,6 @@ export async function runRegenerateContentPackage(
   });
   const sceneTypeHistoryBlock =
     buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
-  const resolvedVisualProfile = resolveVisualProfileForPackage({
-    project,
-    pkg: undefined,
-  });
-  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
-    resolvedVisualProfile.profile,
-  );
 
   // Respect projects.platforms (falls back to the full required set).
   const targetPlatforms = resolvePackagePlatforms(project.platforms);
@@ -187,6 +180,21 @@ export async function runRegenerateContentPackage(
         input.feedback ?? null,
       ),
     ),
+  );
+
+  // Visual Profile v3 — fresh AUTO with package feel (no snapshot; regen may change feel).
+  const resolvedVisualProfile = resolveVisualProfileForPackage({
+    project,
+    pkg: undefined,
+    packageSignals: {
+      funnelStage: context.funnelStage,
+      topic: context.topic,
+      angle: context.angle,
+      creativeMode: directives.mode.id,
+    },
+  });
+  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
+    resolvedVisualProfile.profile,
   );
 
   const regenerateCreativeSalt = buildRegenerateCreativeSeedSalt(
@@ -419,8 +427,13 @@ export async function runRegenerateContentPackage(
       regenerated: true,
       creative_mode: directives.mode.id,
       creative_mode_beats: directives.mode.narrativeBeats,
+      topic: context.topic,
+      angle: context.angle,
       package_id: packageId,
       weekly_strategy_id: context.weeklyStrategyId,
+      ...(context.productionRunId
+        ? { production_run_id: context.productionRunId }
+        : {}),
     });
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")

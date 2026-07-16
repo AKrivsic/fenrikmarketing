@@ -107,8 +107,9 @@ export function assetSignalsFromRow(row: {
   };
 }
 
+/** Mobile / social / creator workflow cues — keeps restaurant/atmosphere beats out. */
 const PHONE_NARRATION_PATTERN =
-  /\b(app|mobile|phone|tap|swipe|notification|chat|screen|dashboard|login|sign in|in-app)\b/i;
+  /\b(app|mobile|phone|tap|swipe|scroll|scrolling|notification|notifications|chat|screen|dashboard|login|sign in|in-app|feed|feeds|post|posts|publish|publishing|inbox|dm|dms|story|stories|tiktok|instagram|linkedin|reels?|shorts?|social)\b/i;
 
 export function narrationSupportsPhoneBeat(narration: string): boolean {
   return PHONE_NARRATION_PATTERN.test(normalizePresentationText(narration));

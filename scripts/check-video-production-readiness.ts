@@ -157,7 +157,7 @@ check("7 prompt and analyzer share CHECKLIST allowlist gate", () => {
   }
 });
 
-check("8 scene type history restraint suppresses repetition", () => {
+check("8 scene type history is soft memory only (no hard downgrade)", () => {
   const history = buildSceneTypeProjectHistory({
     rows: [
       {
@@ -178,7 +178,8 @@ check("8 scene type history restraint suppresses repetition", () => {
     type: "CHECKLIST",
     history,
   });
-  assert.ok(verdict?.downgrade);
+  // Scene Types v2: series memory is soft prompt signal only — no hard downgrade.
+  assert.equal(verdict, null);
 });
 
 check("9 visual profile snapshot survives job input spread", () => {

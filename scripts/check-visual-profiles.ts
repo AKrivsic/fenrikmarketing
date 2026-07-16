@@ -73,10 +73,21 @@ check("4 invalid override rejected on save", () => {
   assert.equal(v.ok, false);
 });
 
-check("5 same project always same AUTO profile", () => {
-  const r1 = resolveVisualProfile({ ...baseCtx, projectId: "stable-id" });
-  const r2 = resolveVisualProfile({ ...baseCtx, projectId: "stable-id" });
+check("5 same project+package signals always same AUTO profile", () => {
+  const withPkg = {
+    ...baseCtx,
+    projectId: "stable-id",
+    packageSignals: {
+      funnelStage: "problem_aware",
+      topic: "why hiring does not fix consistency",
+      angle: "founder confession about empty calendar",
+      creativeMode: "story",
+    },
+  };
+  const r1 = resolveVisualProfile(withPkg);
+  const r2 = resolveVisualProfile(withPkg);
   assert.equal(r1.profile, r2.profile);
+  assert.equal(r1.source, "auto");
 });
 
 check("6 AUTO does not use projectId hash", () => {
@@ -87,7 +98,7 @@ check("6 AUTO does not use projectId hash", () => {
   assert.equal(a.profile, b.profile);
 });
 
-check("6b Fenrik Studio semantic AUTO with scores", () => {
+check("6b Fenrik Studio brain alone no longer locks EDITORIAL via content volume", () => {
   const fenrikCtx = {
     projectId: "163c1822-ad30-4cee-8826-dfacd9c188b9",
     knowledge: null,
@@ -105,26 +116,128 @@ check("6b Fenrik Studio semantic AUTO with scores", () => {
       ],
     },
     targetAudience: {
-      summary:
-        "SaaS companies and AI tool makers needing social content|Agencies, consultants, and freelancers|Ecommerce brands and local businesses",
+      segments: [
+        "SaaS companies and AI tool makers needing social content",
+        "Agencies, consultants, and freelancers",
+        "Ecommerce brands and local businesses",
+        "Teams who lack time or resources to produce consistent social video content",
+        "Founders",
+        "Solo operators",
+        "Small marketing teams",
+        "Businesses without dedicated content creators",
+      ],
     },
     productStrengths: [
       "First content package delivered free with no payment required",
       "Uses client's own website URL as the sole input to create content",
       "Each video includes captions and posts for all major social channels",
       "Scalable packages: 5 videos ($199), 10 videos ($349), 20 videos ($599)",
+      "Content is ready to copy and post immediately — no editing needed",
+      "No content team required",
+      "No editing required before publishing",
+      "One piece of work produces assets for multiple platforms",
+      "Fixed package pricing",
+      "Fast content production proces",
     ],
     productIs: [
       "A content production service that turns websites or products into ready-to-post social content",
       "Delivers short-form AI videos for TikTok, Instagram, Facebook, LinkedIn, and YouTube Shorts",
       "Provides platform-ready captions, posts, and hashtags for every channel",
+      "Offered in monthly batch packages of 5, 10, or 20 videos",
+      "Uses only a website URL as input",
+      "Every video comes with complete social media assets",
+      "Content is delivered ready to publish",
     ],
   };
-  const r = resolveVisualProfile(fenrikCtx);
-  assert.equal(r.source, "auto");
-  assert.ok(r.scores && Object.values(r.scores).some((n) => n > 0));
-  assert.ok(r.reasons && r.reasons.length > 0);
-  assert.equal(resolveVisualProfile(fenrikCtx).profile, r.profile);
+  const brainOnly = resolveVisualProfile(fenrikCtx);
+  assert.equal(brainOnly.source, "auto");
+  assert.ok(brainOnly.scores);
+  assert.ok(
+    (brainOnly.scores.EDITORIAL ?? 0) <= (brainOnly.scores.NATURAL ?? 0) + 2,
+    "capped content must not bury NATURAL baseline",
+  );
+
+  const storyPkg = resolveVisualProfile({
+    ...fenrikCtx,
+    packageSignals: {
+      funnelStage: "problem_aware",
+      topic: "the founder confession about an empty social calendar",
+      angle: "honest personal moment when the feed went quiet",
+      creativeMode: "story",
+    },
+  });
+  assert.equal(storyPkg.profile, "NATURAL");
+
+  const shockPkg = resolveVisualProfile({
+    ...fenrikCtx,
+    packageSignals: {
+      funnelStage: "awareness",
+      topic: "a bold prediction about silent feeds",
+      angle: "shocking consequence when competitors stay visible",
+      creativeMode: "shock",
+    },
+  });
+  assert.equal(shockPkg.profile, "BOLD");
+
+  const frameworkPkg = resolveVisualProfile({
+    ...fenrikCtx,
+    packageSignals: {
+      funnelStage: "solution_aware",
+      topic: "a simple framework and process for weekly publishing",
+      angle: "clean steps and workflow system",
+      creativeMode: "standard",
+    },
+  });
+  assert.equal(frameworkPkg.profile, "MINIMAL");
+
+  const insightPkg = resolveVisualProfile({
+    ...fenrikCtx,
+    packageSignals: {
+      funnelStage: "awareness",
+      topic: "industry insight and expert perspective on quiet accounts",
+      angle: "thoughtful analysis of what silence signals",
+      creativeMode: "observation",
+    },
+  });
+  assert.equal(insightPkg.profile, "EDITORIAL");
+
+  assert.notEqual(storyPkg.profile, shockPkg.profile);
+  assert.notEqual(frameworkPkg.profile, shockPkg.profile);
+});
+
+check("6c generic content keyword is capped in brain scoring", () => {
+  const scored = scoreVisualProfileAuto({
+    projectId: "x",
+    productIs: [
+      "content content content content content content content content content content content",
+    ],
+    productStrengths: [],
+    toneOfVoice: null,
+    targetAudience: null,
+    goalType: null,
+    knowledge: null,
+  });
+  assert.ok((scored.scores.EDITORIAL ?? 0) <= 2);
+  assert.ok(scored.reasons?.some((r) => /capped_from_/.test(r)));
+});
+
+check("6d package signals ignored under snapshot", () => {
+  const r = resolveVisualProfile({
+    ...baseCtx,
+    packageSnapshotProfile: "PREMIUM",
+    packageSnapshotVersion: "visual-profile@3",
+    packageSignals: {
+      creativeMode: "shock",
+      topic: "bold prediction",
+    },
+  });
+  assert.equal(r.profile, "PREMIUM");
+  assert.equal(r.source, "package_snapshot");
+});
+
+check("6e version is visual-profile@3", () => {
+  const r = resolveVisualProfile(baseCtx);
+  assert.equal(r.version, "visual-profile@3");
 });
 
 check("7 resolver has no industry hardcoding in source", () => {
@@ -230,6 +343,28 @@ check("21 profile does not rotate between identical contexts", () => {
     resolveVisualProfile(baseCtx).profile,
   );
   assert.ok(profiles.every((p) => p === profiles[0]));
+});
+
+check("21b different package feel can change profile without randomness", () => {
+  const a = resolveVisualProfile({
+    ...baseCtx,
+    packageSignals: { creativeMode: "story", topic: "personal confession" },
+  });
+  const b = resolveVisualProfile({
+    ...baseCtx,
+    packageSignals: {
+      creativeMode: "shock",
+      topic: "bold disruptive prediction",
+    },
+  });
+  assert.equal(
+    resolveVisualProfile({
+      ...baseCtx,
+      packageSignals: { creativeMode: "story", topic: "personal confession" },
+    }).profile,
+    a.profile,
+  );
+  assert.notEqual(a.profile, b.profile);
 });
 
 check("22 invalid parse returns null", () => {

@@ -238,7 +238,11 @@ function validatePhone(
   }
 
   if (!narrationSupportsPhoneBeat(narration)) {
-    return { ok: false, reason: "narration does not concern product UI on phone" };
+    return {
+      ok: false,
+      reason:
+        "narration does not concern mobile workflow, social feed, or product UI on phone",
+    };
   }
 
   return { ok: true };
@@ -249,7 +253,7 @@ function phoneValidationRule(reason: string): PresentationDecisionRule {
   if (reason.includes("mobile product capability")) {
     return "phone_mobile_capability_missing";
   }
-  if (reason.includes("narration does not")) {
+  if (reason.includes("narration does not concern")) {
     return "phone_narration_not_supported";
   }
   return "phone_not_eligible";

@@ -381,7 +381,8 @@ await check("CTA optional prompt rules present", () => {
   const block = buildPresentationGenerationBlock({
     allowedTypes: ["IMAGE", "CTA"],
   });
-  assert.match(block, /dedicated CTA scene is optional/);
+  assert.match(block, /genuinely the strongest/);
+  assert.match(block, /Do not add CTA scenes for frequency or habit/);
   assert.match(block, /FINAL visual scene only/);
 });
 

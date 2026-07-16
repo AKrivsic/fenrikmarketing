@@ -1,17 +1,11 @@
 import type { SceneType } from "@/lib/scene-types/sceneType";
 import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
 import type { VisualScene } from "@/lib/scene-types/visualScene";
-import {
-  downgradeSceneToImage,
-  narrationForScene,
-} from "@/lib/scene-types/presentation/downgradeToImage";
 import type {
   PresentationAnalyzerDecision,
-  PresentationDecisionRule,
 } from "@/lib/scene-types/presentation/analyzePresentation";
 import type { AnalyzePresentationResult } from "@/lib/scene-types/presentation/analyzePresentation";
 import {
-  isSpecialSceneType,
   type SceneTypeProjectHistory,
   type SpecialSceneType,
 } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
@@ -32,62 +26,20 @@ export interface SceneTypeHistoryDecision {
   reason: string;
 }
 
-function historyRuleForType(type: SpecialSceneType): SceneTypeHistoryRule {
-  switch (type) {
-    case "CHECKLIST":
-      return "checklist_recently_used";
-    case "PHONE":
-      return "phone_recently_used";
-    case "QUOTE":
-      return "quote_recently_used";
-    case "STATISTIC":
-      return "statistic_recently_used";
-    case "CTA":
-      return "cta_recently_used";
-    default:
-      return "scene_type_recently_overused";
-  }
-}
-
-export function evaluateSceneTypeHistoryDowngrade(args: {
+/**
+ * Scene Types v2: history is a soft prompt signal only.
+ * Never hard-downgrade an eligible typed scene because a sibling used it recently.
+ */
+export function evaluateSceneTypeHistoryDowngrade(_args: {
   type: SpecialSceneType;
   history: SceneTypeProjectHistory;
 }): { downgrade: boolean; rule: SceneTypeHistoryRule; reason: string } | null {
-  const { type, history } = args;
-
-  if (type === "CTA" && history.ctaUsedInRecentWindow) {
-    return {
-      downgrade: true,
-      rule: "cta_recently_used",
-      reason:
-        "a CTA scene appeared in a recent package for this project; prefer narration/subtitles or IMAGE",
-    };
-  }
-
-  if (history.lastPackageSpecialTypes.includes(type)) {
-    return {
-      downgrade: true,
-      rule: historyRuleForType(type),
-      reason:
-        "the immediately previous package already used this scene type; prefer IMAGE for organic variety",
-    };
-  }
-
-  if (history.weeklyStrategySpecialTypes.includes(type)) {
-    return {
-      downgrade: true,
-      rule: historyRuleForType(type),
-      reason:
-        "another package in the current weekly strategy already used this scene type; IMAGE is sufficient",
-    };
-  }
-
   return null;
 }
 
 /**
- * Downgrades accepted non-IMAGE scenes when recent project history shows
- * overuse. Never upgrades IMAGE to another type.
+ * Pass-through guardrail (v2). Series memory is applied in the generation prompt,
+ * not by auto-downgrading accepted typed scenes. Never upgrades IMAGE.
  */
 export function applySceneTypeHistoryGuardrail(args: {
   analyzed: AnalyzePresentationResult;
@@ -100,64 +52,13 @@ export function applySceneTypeHistoryGuardrail(args: {
   historyDecisions: SceneTypeHistoryDecision[];
   warnings: string[];
 } {
-  const scenes = [...args.analyzed.scenes];
-  const decisions = args.analyzed.decisions.map((d) => ({ ...d }));
-  const historyDecisions: SceneTypeHistoryDecision[] = [];
-  const warnings = [...args.analyzed.warnings];
-  const sceneCount = scenes.length;
-
-  for (let i = 0; i < scenes.length; i++) {
-    const scene = scenes[i];
-    if (!scene) continue;
-    const finalType = scene.type;
-    if (!isSpecialSceneType(finalType)) continue;
-
-    const decisionIdx = decisions.findIndex(
-      (d) => d.scene_id === scene.id && d.final_type === finalType,
-    );
-    const decision =
-      decisionIdx >= 0 ? decisions[decisionIdx] : null;
-    if (!decision || decision.rule !== "allowed") continue;
-
-    const verdict = evaluateSceneTypeHistoryDowngrade({
-      type: finalType,
-      history: args.history,
-    });
-    if (!verdict?.downgrade) continue;
-
-    const narration = narrationForScene({
-      voiceoverText: args.voiceoverText,
-      sceneIndex: i,
-      sceneCount,
-      narrationHint: scene.narration_hint,
-    });
-    const downgraded = downgradeSceneToImage({
-      scene,
-      narration,
-      projectName: args.projectName,
-      requestedType: decision.requested_type,
-    });
-    scenes[i] = downgraded;
-
-    const sceneId = scene.id ?? decision.scene_id;
-    const updated: PresentationAnalyzerDecision = {
-      scene_id: sceneId,
-      requested_type: decision.requested_type,
-      final_type: DEFAULT_SCENE_TYPE,
-      rule: verdict.rule as PresentationDecisionRule,
-      reason: verdict.reason,
-    };
-    if (decisionIdx >= 0) decisions[decisionIdx] = updated;
-
-    historyDecisions.push({
-      scene_id: sceneId,
-      requested_type: decision.requested_type,
-      final_type: DEFAULT_SCENE_TYPE,
-      rule: verdict.rule,
-      reason: verdict.reason,
-    });
-    warnings.push(`${sceneId}: ${verdict.rule}`);
-  }
-
-  return { scenes, decisions, historyDecisions, warnings };
+  void args.history;
+  void args.voiceoverText;
+  void args.projectName;
+  return {
+    scenes: [...args.analyzed.scenes],
+    decisions: args.analyzed.decisions.map((d) => ({ ...d })),
+    historyDecisions: [],
+    warnings: [...args.analyzed.warnings],
+  };
 }

@@ -23,6 +23,16 @@ export interface ResolvedVisualProfile {
   reasons?: string[];
 }
 
+/** Package-level feel signals (v3). Medium intentionally omitted — complements profile, does not feed it. */
+export interface VisualProfilePackageSignals {
+  funnelStage?: string | null;
+  topic?: string | null;
+  angle?: string | null;
+  creativeMode?: string | null;
+  /** From Visual Narrative when already resolved for this package. */
+  primaryMeaningCarrier?: string | null;
+}
+
 export interface VisualProfileProjectContext {
   projectId: string;
   knowledge?: Json | null;
@@ -34,6 +44,8 @@ export interface VisualProfileProjectContext {
   /** Frozen profile from package / job (retries, re-renders). */
   packageSnapshotProfile?: unknown;
   packageSnapshotVersion?: unknown;
+  /** v3 — how THIS package should feel. */
+  packageSignals?: VisualProfilePackageSignals | null;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {

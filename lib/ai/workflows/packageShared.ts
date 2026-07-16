@@ -50,7 +50,10 @@ import {
   mergePackagePresentationGenerationBrief,
   prepareAnalyzedVisualScenesForPackage,
 } from "@/lib/scene-types/presentation/prepareVisualScenesForVideo";
-import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
+import {
+  attachTtsToVideoJobInput,
+  recentSelectedVoicesFromPackages,
+} from "@/lib/voice/videoJobTtsInput";
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
 import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
 import { visualMediumFieldsForJobInput } from "@/lib/visual-medium/packageVisualMedium";
@@ -374,6 +377,20 @@ export async function buildVideoJobInput(
 ): Promise<Json> {
   const ttsFields = await loadTtsFieldsForVideoJob(supabase, projectId, pkg, extra);
 
+  // Persist Voice v2 audit evidence on the package brief (alongside job input).
+  if (Object.keys(ttsFields).length > 0) {
+    const existing =
+      pkg.presentation_generation &&
+      typeof pkg.presentation_generation === "object" &&
+      !Array.isArray(pkg.presentation_generation)
+        ? (pkg.presentation_generation as Record<string, unknown>)
+        : {};
+    pkg.presentation_generation = {
+      ...existing,
+      ...ttsFields,
+    };
+  }
+
   const base = {
     concept: pkg.video.concept,
     script: pkg.video.script,
@@ -475,17 +492,63 @@ export async function buildVideoJobInput(
   } as unknown as Json;
 }
 
+async function loadRecentSelectedVoices(
+  supabase: SupabaseClient,
+  projectId: string,
+  excludePackageId: string | null,
+): Promise<string[]> {
+  try {
+    let query = supabase
+      .from("content_packages")
+      .select("package_brief")
+      .eq("project_id", projectId)
+      .order("created_at", { ascending: false })
+      .limit(8);
+    if (excludePackageId) {
+      query = query.neq("id", excludePackageId);
+    }
+    const { data, error } = await query;
+    if (error || !data) return [];
+    return recentSelectedVoicesFromPackages(data).slice(0, 6);
+  } catch {
+    return [];
+  }
+}
+
 async function loadTtsFieldsForVideoJob(
   supabase: SupabaseClient,
   projectId: string,
   pkg: ContentPackageOutput,
   extra: Record<string, unknown>,
-): Promise<Record<string, string>> {
+): Promise<Record<string, unknown>> {
   const narrativeRoles = Array.isArray(extra.creative_mode_beats)
     ? (extra.creative_mode_beats as unknown[]).filter(
         (b): b is string => typeof b === "string",
       )
     : undefined;
+  const pg =
+    pkg.presentation_generation &&
+    typeof pkg.presentation_generation === "object" &&
+    !Array.isArray(pkg.presentation_generation)
+      ? (pkg.presentation_generation as Record<string, unknown>)
+      : null;
+  const visualProfile =
+    typeof pg?.visual_profile === "string" ? pg.visual_profile : null;
+  const topic =
+    typeof extra.topic === "string"
+      ? extra.topic
+      : typeof pkg.hook === "string"
+        ? pkg.hook
+        : null;
+  const angle = typeof extra.angle === "string" ? extra.angle : null;
+  const excludePackageId =
+    typeof extra.package_id === "string" ? extra.package_id : null;
+  const recentSelectedVoices = await loadRecentSelectedVoices(
+    supabase,
+    projectId,
+    excludePackageId,
+  );
+
   const merged = await attachTtsToVideoJobInput(
     supabase,
     projectId,
@@ -497,12 +560,27 @@ async function loadTtsFieldsForVideoJob(
       creativeMode:
         typeof extra.creative_mode === "string" ? extra.creative_mode : null,
       narrativeRoles,
+      visualProfile,
+      topic,
+      angle,
+      recentSelectedVoices,
     },
   );
-  const out: Record<string, string> = {};
+  const out: Record<string, unknown> = {};
   if (typeof merged.tts_voice === "string") out.tts_voice = merged.tts_voice;
   if (typeof merged.tts_instructions === "string") {
     out.tts_instructions = merged.tts_instructions;
+  }
+  for (const key of [
+    "resolved_primary_voice",
+    "resolved_secondary_voice",
+    "selected_voice",
+    "voice_source",
+    "voice_scores",
+    "voice_reasons",
+    "delivery_reason",
+  ] as const) {
+    if (key in merged) out[key] = merged[key];
   }
   return out;
 }

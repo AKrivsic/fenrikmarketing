@@ -454,7 +454,7 @@ await check("IMAGE-first statistic instructions in prompt", () => {
   const block = buildPresentationGenerationBlock({
     allowedTypes: ["IMAGE", "STATISTIC"],
   });
-  assert.match(block, /IMAGE is the safe default/);
+  assert.match(block, /strongest way to communicate/i);
   assert.match(block, /At most ONE STATISTIC scene/);
   assert.match(block, /approved numerical fact directly supports/);
 });

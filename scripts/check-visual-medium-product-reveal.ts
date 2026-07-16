@@ -22,11 +22,20 @@ import {
   visualMediumImagePromptSuffix,
   VISUAL_MEDIUM_PROMPT_HEADER,
 } from "@/lib/visual-medium/imagePromptMedium";
-import { resolveProductRevealPlan } from "@/lib/product-reveal/resolveProductReveal";
+import {
+  framedAssetExpectedToSurviveSafety,
+  resolveProductRevealPlan,
+  safeUsedAsForVideoUsage,
+  UNSAFE_FRAMED_COMPOSITION_EXAMPLE,
+} from "@/lib/product-reveal/resolveProductReveal";
 import {
   buildProductRevealPromptBlock,
   PRODUCT_REVEAL_PROMPT_HEADER,
 } from "@/lib/product-reveal/promptBlocks";
+import {
+  downgradeUnrenderableAssetScenes,
+  isAssetSceneRenderableByCurrentPipeline,
+} from "@/lib/assets/assetRendererEligibility";
 import { fingerprintFromPackageBrief } from "@/lib/series/creativeFingerprints";
 import type { VisualNarrativePlan } from "@/lib/visual-narrative/types";
 import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
@@ -376,6 +385,152 @@ check("19 UI saves Automatic and explicit media correctly", () => {
 check("20 DEFAULT_VISUAL_MEDIUM is PHOTOGRAPHIC", () => {
   assert.equal(DEFAULT_VISUAL_MEDIUM, "PHOTOGRAPHIC");
   assert.equal(parseVisualMedium(undefined), null);
+});
+
+// --- Product Reveal v2 ---
+
+const tier1UiAsset = {
+  id: "ui-tier1",
+  title: "Product dashboard",
+  asset_class: "static",
+  media_type: "image",
+  product_role: "product_ui" as const,
+  preferred_video_usage: "framed_phone" as const,
+};
+
+check("21 PR v2: unsafe people composition is not planned as FRAMED_ASSET", () => {
+  const fit = isAssetSceneRenderableByCurrentPipeline({
+    assetClass: "static",
+    usedAs: UNSAFE_FRAMED_COMPOSITION_EXAMPLE,
+    videoUsage: "framed_phone",
+    modify: "false",
+  });
+  assert.equal(fit.renderable, false);
+  assert.equal(fit.reason, "needs_full_scene");
+
+  // Even with a tier-1 framed asset, human-carrier stories skip FRAMED
+  // (people/hands compositions would be repaired by Asset Safety later).
+  const plan = resolveProductRevealPlan({
+    project: mockProject({}),
+    generationMode: "production",
+    assets: [tier1UiAsset],
+    narrative: narrativeHuman,
+    visualMedium: "PHOTOGRAPHIC",
+  });
+  assert.notEqual(plan.solution_beat_strategy, "FRAMED_ASSET");
+  assert.notEqual(plan.solution_beat_strategy, "REAL_ASSET");
+  assert.equal(plan.solution_beat_strategy, "PRODUCT_OUTCOME");
+  assert.ok(
+    !framedAssetExpectedToSurviveSafety({
+      asset: tier1UiAsset,
+      usedAs: UNSAFE_FRAMED_COMPOSITION_EXAMPLE,
+      videoUsage: "framed_phone",
+    }),
+  );
+});
+
+check("22 PR v2: high-confidence framed insert still selects FRAMED_ASSET", () => {
+  const safeUsedAs = safeUsedAsForVideoUsage("framed_phone");
+  assert.ok(safeUsedAs);
+  assert.ok(
+    framedAssetExpectedToSurviveSafety({
+      asset: tier1UiAsset,
+      usedAs: safeUsedAs!,
+      videoUsage: "framed_phone",
+    }),
+  );
+  const plan = resolveProductRevealPlan({
+    project: mockProject({}),
+    generationMode: "production",
+    assets: [tier1UiAsset],
+    narrative: narrativeProcess,
+    visualMedium: "CLEAN_ILLUSTRATION",
+  });
+  assert.equal(plan.solution_beat_strategy, "FRAMED_ASSET");
+  assert.ok(plan.reasons.some((r) => r.startsWith("asset_framed_safe:")));
+});
+
+check("23 PR v2: PRODUCT_OUTCOME when renderer cannot deliver framed insert", () => {
+  const plan = resolveProductRevealPlan({
+    project: mockProject({}),
+    generationMode: "production",
+    assets: [
+      {
+        ...tier1UiAsset,
+        id: "ui-fullscreen",
+        preferred_video_usage: "fullscreen",
+      },
+    ],
+    narrative: narrativeHuman,
+    visualMedium: "PHOTOGRAPHIC",
+  });
+  assert.equal(plan.solution_beat_strategy, "PRODUCT_OUTCOME");
+});
+
+check("24 PR v2: ABSTRACT_PRODUCT_SYSTEM when it is the stronger reveal", () => {
+  const plan = resolveProductRevealPlan({
+    project: mockProject({}),
+    generationMode: "production",
+    assets: [
+      {
+        ...tier1UiAsset,
+        id: "ui-bg",
+        preferred_video_usage: "background",
+        video_suitability: "background_only",
+      },
+    ],
+    narrative: narrativeProcess,
+    visualMedium: "TECHNICAL_BLUEPRINT",
+  });
+  assert.equal(plan.solution_beat_strategy, "ABSTRACT_PRODUCT_SYSTEM");
+});
+
+check("25 PR v2: Asset Safety downgrade behaviour unchanged", () => {
+  const result = downgradeUnrenderableAssetScenes({
+    scenes: [
+      {
+        source: "asset",
+        asset_id: "ui-tier1",
+        used_as: UNSAFE_FRAMED_COMPOSITION_EXAMPLE,
+        video_usage: "framed_phone",
+      },
+    ],
+    classById: new Map([["ui-tier1", "static"]]),
+  });
+  assert.equal(result.downgradedCount, 1);
+  assert.equal((result.scenes[0] as { source: string }).source, "ai");
+  assert.equal(result.reasons[0], "needs_full_scene");
+
+  const ok = downgradeUnrenderableAssetScenes({
+    scenes: [
+      {
+        source: "asset",
+        asset_id: "ui-tier1",
+        used_as: safeUsedAsForVideoUsage("framed_phone")!,
+        video_usage: "framed_phone",
+      },
+    ],
+    classById: new Map([["ui-tier1", "static"]]),
+  });
+  assert.equal(ok.downgradedCount, 0);
+  assert.equal((ok.scenes[0] as { source: string }).source, "asset");
+});
+
+check("26 PR v2: REAL_ASSET for floating_card / ui_hero when safe", () => {
+  const plan = resolveProductRevealPlan({
+    project: mockProject({}),
+    generationMode: "production",
+    assets: [
+      {
+        ...tier1UiAsset,
+        id: "ui-hero",
+        preferred_video_usage: "ui_hero",
+      },
+    ],
+    narrative: narrativeProcess,
+    visualMedium: "CLEAN_ILLUSTRATION",
+  });
+  assert.equal(plan.solution_beat_strategy, "REAL_ASSET");
 });
 
 console.log("");

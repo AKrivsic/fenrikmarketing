@@ -29,11 +29,61 @@ function deliveryForCreativeMode(mode: string | null | undefined): string | null
   if (m === "humor") {
     return "Delivery: lightly playful, never exaggerated.";
   }
+  if (m === "story") {
+    return "Delivery: warm, intimate, conversational storytelling pace.";
+  }
+  if (m === "shock") {
+    return "Delivery: alert energy, crisp emphasis on the unexpected fact.";
+  }
+  if (m === "contrarian") {
+    return "Delivery: confident challenge, measured not combative.";
+  }
+  if (m === "observation") {
+    return "Delivery: thoughtful, reflective, steady pacing.";
+  }
+  if (m === "mistake") {
+    return "Delivery: empathetic, corrective, never shaming.";
+  }
+  if (m === "myth_buster") {
+    return "Delivery: clear, authoritative correction without arrogance.";
+  }
+  if (m === "comparison") {
+    return "Delivery: even, analytical, balanced emphasis.";
+  }
+  if (m === "micro_case") {
+    return "Delivery: concrete, calm before/after clarity.";
+  }
+  if (m === "standard") {
+    return "Delivery: clean, direct, practical.";
+  }
   if (m === "proof" || m.includes("statistic")) {
     return "Delivery: measured, credible.";
   }
   if (m === "cta" || m.includes("conversion")) {
     return "Delivery: confident, concise closing energy.";
+  }
+  return null;
+}
+
+function deliveryForVisualProfile(
+  profile: string | null | undefined,
+): string | null {
+  if (!profile?.trim()) return null;
+  const p = profile.trim().toUpperCase();
+  if (p === "NATURAL") {
+    return "Delivery: warm and approachable.";
+  }
+  if (p === "MINIMAL") {
+    return "Delivery: calm, uncluttered pacing.";
+  }
+  if (p === "BOLD") {
+    return "Delivery: slightly higher energy, clear emphasis.";
+  }
+  if (p === "EDITORIAL") {
+    return "Delivery: composed, insightful, measured.";
+  }
+  if (p === "PREMIUM") {
+    return "Delivery: polished, restrained confidence.";
   }
   return null;
 }
@@ -51,13 +101,20 @@ function deliveryForNarrativeRoles(
   }
   if (
     normalized.some((r) =>
-      ["observation", "situation", "hook", "opening"].includes(r),
+      ["observation", "situation", "hook", "opening", "setup"].includes(r),
     )
   ) {
     return "Delivery: natural, curious, conversational.";
   }
-  if (normalized.some((r) => ["mistake", "why_backfires", "problem"].includes(r))) {
+  if (
+    normalized.some((r) =>
+      ["mistake", "why_backfires", "problem", "conflict"].includes(r),
+    )
+  ) {
     return "Delivery: direct, empathetic, slightly frustrated.";
+  }
+  if (normalized.some((r) => ["twist", "unexpected_turn", "punchline"].includes(r))) {
+    return "Delivery: slight lift in energy on the turn.";
   }
   return null;
 }
@@ -67,6 +124,10 @@ export interface VideoTtsDeliveryContext {
   creativeMode?: string | null;
   narrativeRoles?: readonly string[] | null;
   language?: string;
+  topic?: string | null;
+  angle?: string | null;
+  visualProfile?: string | null;
+  recentSelectedVoices?: readonly string[] | null;
 }
 
 export function buildVideoTtsDeliveryHints(
@@ -77,6 +138,8 @@ export function buildVideoTtsDeliveryHints(
   if (funnel) hints.push(funnel);
   const mode = deliveryForCreativeMode(ctx.creativeMode);
   if (mode && !hints.includes(mode)) hints.push(mode);
+  const profile = deliveryForVisualProfile(ctx.visualProfile);
+  if (profile && !hints.includes(profile)) hints.push(profile);
   const roles = deliveryForNarrativeRoles(ctx.narrativeRoles);
   if (roles && !hints.some((h) => h === roles)) hints.push(roles);
   if (ctx.language?.trim()) {
