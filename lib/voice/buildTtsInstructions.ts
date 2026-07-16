@@ -74,6 +74,8 @@ export function buildTtsInstructionsForVideoJob(args: {
     creativeMode: args.videoContext?.creativeMode,
     narrativeRoles: args.videoContext?.narrativeRoles,
     language: args.language,
+    deliveryArcFragment: args.videoContext?.deliveryArcFragment,
+    openingDeliveryStyle: args.videoContext?.openingDeliveryStyle,
   });
   return mergeTtsInstructionText({
     projectInstructions: args.explicitInstructions,

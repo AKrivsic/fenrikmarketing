@@ -85,6 +85,9 @@ import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForP
 import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
 import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
 import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
+import { planAttentionForPackage } from "@/lib/attention/planForPackage";
+import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
+import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -341,6 +344,19 @@ export async function runGenerateContentPackage(
     requireVideo,
   });
 
+  const attentionPlan = planAttentionForPackage({
+    project,
+    projectId: input.projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: context.packageIndex,
+    topic: context.topic,
+    angle: context.angle,
+    funnelStage: context.funnelStage,
+    creativeMode: directives.mode.id,
+    series: seriesCreative,
+    requireVideo,
+  });
+
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
     system: buildGeneratePackageSystem(requireVideo),
@@ -370,6 +386,7 @@ export async function runGenerateContentPackage(
       visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
+      attentionPromptBlock: attentionPlan.promptBlock || undefined,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
@@ -403,6 +420,14 @@ export async function runGenerateContentPackage(
     angle: context.angle,
     memory,
   });
+
+  // Attention & Engagement v1 — keep stored hook and first spoken line aligned.
+  const aligned = alignHookWithFirstSpoken({
+    hook: generated.value.hook,
+    voiceoverText: generated.value.voiceover_text,
+  });
+  generated.value.hook = aligned.hook;
+  generated.value.voiceover_text = aligned.voiceover_text;
 
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persistence, so the stored package_brief and the queued video job
@@ -464,6 +489,7 @@ export async function runGenerateContentPackage(
     ...visualNarrativePlan.persistenceFields,
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
+    ...attentionPlan.persistenceFields,
   };
   normalizeImagePrompts(generated.value, {
     workflow: "generate",
@@ -891,6 +917,7 @@ async function persistNewPackage(
         ...(context.productionRunId
           ? { production_run_id: context.productionRunId }
           : {}),
+        ...attentionFieldsForVideoJob(pkg),
       },
     );
     const { data: videoRow, error: videoErr } = await supabase

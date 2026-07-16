@@ -61,6 +61,9 @@ import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForP
 import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
 import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
 import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
+import { planAttentionForPackage } from "@/lib/attention/planForPackage";
+import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
+import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import { DEFAULT_GENERATION_MODE } from "@/lib/ai/generationMode";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
@@ -259,6 +262,20 @@ export async function runRegenerateContentPackage(
     requireVideo,
   });
 
+  const attentionPlan = planAttentionForPackage({
+    project,
+    projectId,
+    strategyItemId: context.strategyItemId,
+    packageIndex: null,
+    topic: context.topic,
+    angle: context.angle,
+    funnelStage: context.funnelStage,
+    creativeMode: directives.mode.id,
+    series: seriesCreative,
+    creativeSeedSalt: regenerateCreativeSalt,
+    requireVideo,
+  });
+
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
@@ -291,6 +308,7 @@ export async function runRegenerateContentPackage(
       visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
+      attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeSeedSalt: regenerateCreativeSalt,
     }),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
@@ -322,6 +340,13 @@ export async function runRegenerateContentPackage(
     angle: context.angle,
     memory,
   });
+
+  const aligned = alignHookWithFirstSpoken({
+    hook: generated.value.hook,
+    voiceoverText: generated.value.voiceover_text,
+  });
+  generated.value.hook = aligned.hook;
+  generated.value.voiceover_text = aligned.voiceover_text;
 
   const pkg = generated.value;
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
@@ -378,6 +403,7 @@ export async function runRegenerateContentPackage(
     ...visualNarrativePlan.persistenceFields,
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
+    ...attentionPlan.persistenceFields,
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.
@@ -434,6 +460,7 @@ export async function runRegenerateContentPackage(
       ...(context.productionRunId
         ? { production_run_id: context.productionRunId }
         : {}),
+      ...attentionFieldsForVideoJob(pkg),
     });
     const { data: videoRow, error: videoErr } = await supabase
       .from("video_jobs")

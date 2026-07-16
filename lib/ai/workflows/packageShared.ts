@@ -534,6 +534,30 @@ async function loadTtsFieldsForVideoJob(
       : null;
   const visualProfile =
     typeof pg?.visual_profile === "string" ? pg.visual_profile : null;
+  const attention =
+    pg?.attention && typeof pg.attention === "object" && !Array.isArray(pg.attention)
+      ? (pg.attention as Record<string, unknown>)
+      : null;
+  const deliveryArc =
+    attention?.delivery_arc &&
+    typeof attention.delivery_arc === "object" &&
+    !Array.isArray(attention.delivery_arc)
+      ? (attention.delivery_arc as Record<string, unknown>)
+      : null;
+  const deliveryArcFragment =
+    typeof deliveryArc?.tts_instruction_fragment === "string"
+      ? deliveryArc.tts_instruction_fragment
+      : null;
+  const opening =
+    attention?.opening &&
+    typeof attention.opening === "object" &&
+    !Array.isArray(attention.opening)
+      ? (attention.opening as Record<string, unknown>)
+      : null;
+  const openingDeliveryStyle =
+    typeof opening?.opening_delivery === "string"
+      ? opening.opening_delivery
+      : null;
   const topic =
     typeof extra.topic === "string"
       ? extra.topic
@@ -564,6 +588,8 @@ async function loadTtsFieldsForVideoJob(
       topic,
       angle,
       recentSelectedVoices,
+      deliveryArcFragment,
+      openingDeliveryStyle,
     },
   );
   const out: Record<string, unknown> = {};

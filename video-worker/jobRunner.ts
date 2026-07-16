@@ -16,7 +16,10 @@ import {
   generateValidatedVoiceover,
   TtsTailValidationError,
 } from "@/video-worker/services/ttsTailValidation";
-import { resolveTtsOptionsFromJobInput } from "@/lib/voice/resolveTtsOptions";
+import {
+  maybeMixVoiceWithSfx,
+  parseSfxOverlayFromJobInput,
+} from "@/video-worker/services/sfx/mixSfx";
 import {
   generateSceneImages,
   type SceneImage,
@@ -24,6 +27,11 @@ import {
 import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
 import { assertWorkerScenesRenderable } from "@/lib/scene-types/assertWorkerScenes";
 import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
+import { resolveTtsOptionsFromJobInput } from "@/lib/voice/resolveTtsOptions";
+import {
+  parseMotionIntent,
+  type MotionIntent,
+} from "@/lib/video-engine/semanticMotion/motionIntent";
 import { IMAGE_SCENE_RENDERER_VERSION } from "@/lib/scene-types/renderers/imageSceneRenderer";
 import { writeSrtFile } from "@/video-worker/services/subtitles";
 import {
@@ -115,6 +123,12 @@ function parseModeBeats(input: Record<string, unknown>): string[] | undefined {
     (b): b is string => typeof b === "string" && b.trim().length > 0,
   );
   return beats.length > 0 ? beats : undefined;
+}
+
+function parseOpeningAttentionMotionIntent(
+  input: Record<string, unknown>,
+): MotionIntent | null {
+  return parseMotionIntent(input["opening_motion_intent"]);
 }
 
 function parseAssetImages(input: Record<string, unknown>): AssetImageRef[] {
@@ -347,6 +361,31 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     tempFiles.add(voiceover.audioPath);
     const ttsTailDebug = validatedVoiceover.meta;
 
+    // Attention & Engagement v1 — optional short programmatic SFX under voice.
+    const sfxPlan = parseSfxOverlayFromJobInput(
+      payload.input as Record<string, unknown>,
+    );
+    let renderAudioPath = voiceover.audioPath;
+    let sfxDebug: Record<string, unknown> = { sfx_mixed: false };
+    try {
+      const mixed = await maybeMixVoiceWithSfx({
+        voicePath: voiceover.audioPath,
+        workDir: dir,
+        plan: sfxPlan,
+      });
+      renderAudioPath = mixed.audioPath;
+      sfxDebug = mixed.debug;
+      if (mixed.mixed) tempFiles.add(mixed.audioPath);
+    } catch (sfxErr) {
+      // Never fail the render on optional SFX — keep voice-only.
+      sfxDebug = {
+        sfx_mixed: false,
+        sfx_error:
+          sfxErr instanceof Error ? sfxErr.message : String(sfxErr),
+      };
+      renderAudioPath = voiceover.audioPath;
+    }
+
     const images = await generateSceneImages({
       scenes: spec.scenes,
       projectId: payload.project_id,
@@ -412,6 +451,9 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       visualProfile,
       semanticMotion: payload.input["semantic_motion"] !== false,
       storedSemanticMotion: parseStoredSemanticMotionFromJobInput(payload.input),
+      openingAttentionMotionIntent: parseOpeningAttentionMotionIntent(
+        payload.input,
+      ),
     });
 
     // Subtitle Quality Sprint — phrase captions. The narration is segmented into
@@ -506,7 +548,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     const { mp4Path, diagnostics: renderDiagnostics } = await renderMp4({
       images,
       beats,
-      audioPath: voiceover.audioPath,
+      audioPath: renderAudioPath,
       srtPath,
       outputPath: mp4OutputPath,
       durationSeconds: spec.duration_seconds,
@@ -530,6 +572,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     // successful render and never able to fail one.
     const debug = {
       ...ttsTailDebug,
+      ...sfxDebug,
       subtitle_source: subtitleSource,
       match_ratio: matchRatio,
       fallback_used: fallbackUsed,

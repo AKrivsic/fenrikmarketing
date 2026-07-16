@@ -236,6 +236,8 @@ export interface GenerateContentPackagePromptInput {
   visualMediumPromptBlock?: string;
   /** Product Reveal v2 — solution beat visual strategy. */
   productRevealPromptBlock?: string;
+  /** Attention & Engagement v1 — mechanism, originality, opening contract. */
+  attentionPromptBlock?: string;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -473,6 +475,13 @@ export function buildGenerateContentPackagePrompt(
       "forbidden_claims, no product_is_not. Attention is NOT ragebait or fake claims.",
   ];
 
+  // Attention & Engagement v1 — mechanism + originality + opening contract
+  // (injected when the workflow resolved a plan). Separate from creative mode
+  // and funnel; does not change funnel distribution or CTA rules.
+  const attentionEngagementLines = input.attentionPromptBlock
+    ? [input.attentionPromptBlock]
+    : [];
+
   // Content Quality Sprint 2 — hard length / pacing / forbidden rules. These
   // keep the short tight (15–25s), the narration punchy (40–70 words, never
   // > 80) and the structure on the preferred Hook -> Twist -> Payoff -> CTA arc,
@@ -510,11 +519,16 @@ export function buildGenerateContentPackagePrompt(
     "  POINT, or a striking PROOF point above. Never use a generic intro.",
     "- The hook must create curiosity or tension in one short, punchy line, and",
     "  set up a loop the rest of the video keeps open until the payoff.",
+    "- ATTENTION ALIGNMENT: the stored hook and the first spoken line of",
+    "  voiceover_text MUST be the same thought — never dilute a strong hook",
+    "  into a weaker voiceover setup. First spoken thought lands in ~1.0–1.8s.",
     ...(requireVideo
       ? [
           `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
           "  narrated in the VOICE PERSONA and MODE above, so the narration maps onto",
           "  fast visual beats. Do NOT collapse it into a generic marketing template.",
+          "  Follow ATTENTION MECHANISM + OPENING CONTRACT when present: immediate",
+          "  reaction first, body turn/payoff later, satisfying ending — not a summary.",
         ]
       : [
           `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
@@ -707,6 +721,9 @@ export function buildGenerateContentPackagePrompt(
     ...(packageDiversityLines.length > 0 ? [...packageDiversityLines, ""] : []),
     ...attentionFirstLines,
     "",
+    ...(attentionEngagementLines.length > 0
+      ? [...attentionEngagementLines, ""]
+      : []),
     ...qualityLines,
     "",
     ...hookLines,

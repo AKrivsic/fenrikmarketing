@@ -193,6 +193,8 @@ export interface BuildStoryboardInput {
   semanticMotion?: boolean;
   /** Prior render semantic motion (retries / re-render stability). */
   storedSemanticMotion?: StoredSemanticMotionBeat[];
+  /** Attention & Engagement v1 — opening motion intent from package plan. */
+  openingAttentionMotionIntent?: MotionIntent | null;
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -447,6 +449,8 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
         previousPrimitive,
         videoUsage: beatVideoUsage,
         assetMetadata: beatAssetMetadata,
+        openingAttentionMotionIntent:
+          i === 0 ? input.openingAttentionMotionIntent ?? null : null,
       });
       motion = plan.motion_primitive;
       motion_intent = plan.motion_intent;

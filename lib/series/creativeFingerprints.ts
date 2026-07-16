@@ -24,6 +24,12 @@ export interface CreativeFingerprint {
   dominant_subject_motif?: string | null;
   opening_hint?: string | null;
   closing_hint?: string | null;
+  /** Attention & Engagement v1 */
+  attention_mechanism?: string | null;
+  opening_visual_motif?: string | null;
+  opening_emotional_effect?: string | null;
+  sfx_category?: string | null;
+  opening_structure?: string | null;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -135,6 +141,7 @@ export function fingerprintFromPackageBrief(args: {
   const pg = asRecord(brief.presentation_generation);
   const vn = asRecord(pg?.visual_narrative);
   const pr = asRecord(pg?.product_reveal);
+  const attention = asRecord(pg?.attention);
   const motifList = motifsFromVisualText(promptBlob);
   const motifCounts = new Map<string, number>();
   for (const m of motifList) motifCounts.set(m, (motifCounts.get(m) ?? 0) + 1);
@@ -173,6 +180,26 @@ export function fingerprintFromPackageBrief(args: {
     dominant_subject_motif: dominantMotif,
     opening_hint: openingHint,
     closing_hint: closingHint,
+    attention_mechanism:
+      typeof attention?.attention_mechanism === "string"
+        ? attention.attention_mechanism.trim()
+        : null,
+    opening_visual_motif:
+      typeof attention?.opening_visual_motif === "string"
+        ? attention.opening_visual_motif.trim()
+        : null,
+    opening_emotional_effect:
+      typeof attention?.opening_emotional_effect === "string"
+        ? attention.opening_emotional_effect.trim()
+        : null,
+    sfx_category:
+      typeof attention?.sfx_category === "string"
+        ? attention.sfx_category.trim()
+        : null,
+    opening_structure:
+      typeof attention?.opening_structure === "string"
+        ? attention.opening_structure.trim()
+        : null,
   };
 }
 
@@ -202,5 +229,10 @@ export function compactFingerprintSummary(
     meaning_carrier: fp.meaning_carrier,
     dominant_subject_motif: fp.dominant_subject_motif,
     closing: fp.closing_hint,
+    attention_mechanism: fp.attention_mechanism,
+    opening_visual_motif: fp.opening_visual_motif,
+    opening_emotional_effect: fp.opening_emotional_effect,
+    sfx_category: fp.sfx_category,
+    opening_structure: fp.opening_structure,
   };
 }

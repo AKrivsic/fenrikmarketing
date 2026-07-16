@@ -8,6 +8,7 @@ export function buildSeriesCreativeContextBlock(args: {
     "SERIES CONTEXT (weekly / monthly content series):",
     "You are creating ONE item in a larger content series. Make this package distinct from recent packages while staying consistent with the product and strategy.",
     "Do not repeat the same hook pattern, opening composition, closing device, or typed-scene layout as a recent sibling when a fresh angle still fits the strategy.",
+    "Attention mechanism, opening visual motif, opening emotional effect, SFX category, and opening structure on recent fingerprints are soft negative signals — prefer fresh combinations when equally strong. Do not rotate mechanisms mechanically or force absurdity/controversy/dilemma quotas.",
     "Do not force variety that weakens the narrative — clarity beats artificial difference.",
     "",
     "Recent series fingerprints (most recent first):",

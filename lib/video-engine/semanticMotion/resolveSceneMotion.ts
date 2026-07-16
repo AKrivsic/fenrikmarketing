@@ -26,6 +26,11 @@ export interface SceneMotionContext {
   videoUsage?: string | null;
   /** Optional asset metadata for Product UI motion guardrails. */
   assetMetadata?: unknown;
+  /**
+   * Attention & Engagement v1 — opening attention motion from the package plan.
+   * Applied on beat 0 when present so attention events are not flattened to LOW EXPLAIN.
+   */
+  openingAttentionMotionIntent?: MotionIntent | null;
 }
 
 export interface ResolvedSceneMotion {
@@ -126,6 +131,16 @@ function sceneTypeDefaultIntent(type: SceneType): MotionIntent | null {
 
 function intentFromContext(ctx: SceneMotionContext): MotionIntent {
   if (ctx.motionHint) return ctx.motionHint;
+
+  // Attention & Engagement v1 — opening contract wins on beat 0 unless typed
+  // scene types already force HOLD/EMPHASIS (checklist/quote/etc.).
+  if (
+    ctx.beatIndex === 0 &&
+    ctx.openingAttentionMotionIntent &&
+    ctx.sceneType === DEFAULT_SCENE_TYPE
+  ) {
+    return ctx.openingAttentionMotionIntent;
+  }
 
   const fromType = sceneTypeDefaultIntent(ctx.sceneType);
   if (fromType) {
@@ -306,6 +321,7 @@ export interface BeatMotionPlanInput {
   previousPrimitive?: MotionType | null;
   videoUsage?: string | null;
   assetMetadata?: unknown;
+  openingAttentionMotionIntent?: MotionIntent | null;
 }
 
 export function resolveBeatMotionPlan(
@@ -322,6 +338,7 @@ export function resolveBeatMotionPlan(
     visualProfile: input.visualProfile,
     videoUsage: input.videoUsage,
     assetMetadata: input.assetMetadata,
+    openingAttentionMotionIntent: input.openingAttentionMotionIntent,
   });
 
   if (

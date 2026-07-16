@@ -128,6 +128,9 @@ export interface VideoTtsDeliveryContext {
   angle?: string | null;
   visualProfile?: string | null;
   recentSelectedVoices?: readonly string[] | null;
+  /** Attention & Engagement v1 — full-arc delivery fragment. */
+  deliveryArcFragment?: string | null;
+  openingDeliveryStyle?: string | null;
 }
 
 export function buildVideoTtsDeliveryHints(
@@ -142,6 +145,22 @@ export function buildVideoTtsDeliveryHints(
   if (profile && !hints.includes(profile)) hints.push(profile);
   const roles = deliveryForNarrativeRoles(ctx.narrativeRoles);
   if (roles && !hints.some((h) => h === roles)) hints.push(roles);
+
+  // Attention & Engagement v1 — prefer the planned delivery arc over a flat read.
+  const arc = ctx.deliveryArcFragment?.trim();
+  if (arc) {
+    hints.push(arc);
+  } else if (ctx.openingDeliveryStyle?.trim()) {
+    const style = ctx.openingDeliveryStyle.trim().toLowerCase();
+    if (style === "whispered") {
+      hints.push("Opening: quieter intimate delivery; body stays conversational.");
+    } else if (style === "deadpan") {
+      hints.push("Opening: dry deadpan; then conversational body with a later lift.");
+    } else if (style === "playful") {
+      hints.push("Opening: lightly playful; do not stay energetic on every line.");
+    }
+  }
+
   if (ctx.language?.trim()) {
     hints.push(`Language: ${ctx.language.trim()}.`);
   }
