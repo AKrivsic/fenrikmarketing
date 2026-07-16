@@ -15,7 +15,7 @@ import {
 import { timingSafeEqual } from "node:crypto";
 import { z } from "zod";
 import { workerPayloadSchema } from "@/lib/video-engine/schemas/workerPayloadSchema";
-import { enqueueVideoJob } from "@/video-worker/queue";
+import { cancelQueuedVideoJobs, enqueueVideoJob } from "@/video-worker/queue";
 import { regenerateSceneImage } from "@/video-worker/services/regenerateSceneImage";
 import { editSceneImage } from "@/video-worker/services/editSceneImage";
 import { insertSceneBrandAsset } from "@/video-worker/services/insertSceneBrandAsset";
@@ -114,6 +114,53 @@ async function handleRender(
     video_job_id: payload.video_job_id,
     status: "accepted",
   });
+}
+
+const cancelJobsSchema = z.object({
+  video_job_ids: z.array(z.string().min(1)).min(1),
+});
+
+async function handleCancel(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  if (!isAuthorized(req)) {
+    sendJson(res, 401, { ok: false, error: "unauthorized" });
+    return;
+  }
+
+  let raw: string;
+  try {
+    raw = await readBody(req);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "read_error" });
+    return;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "invalid_json" });
+    return;
+  }
+
+  const result = cancelJobsSchema.safeParse(parsed);
+  if (!result.success) {
+    sendJson(res, 400, {
+      ok: false,
+      error: "invalid_payload",
+      issues: result.error.issues,
+    });
+    return;
+  }
+
+  const cancelled = cancelQueuedVideoJobs(result.data.video_job_ids);
+  console.log(
+    "[video-worker] cancel accepted",
+    JSON.stringify({ video_job_ids: cancelled }),
+  );
+  sendJson(res, 200, { ok: true, cancelled });
 }
 
 const regenerateSceneImageSchema = z.object({
@@ -346,6 +393,15 @@ async function route(
       return;
     }
     await handleRender(req, res);
+    return;
+  }
+
+  if (req.url === "/cancel") {
+    if (req.method !== "POST") {
+      sendJson(res, 405, { ok: false, error: "method_not_allowed" });
+      return;
+    }
+    await handleCancel(req, res);
     return;
   }
 

@@ -439,8 +439,9 @@ function RunStatus({
 
       {run.status === "cancelled" ? (
         <p className={styles.cancelNote}>
-          Běh byl zastaven. Už vygenerované balíčky zůstávají v projektu; můžete
-          spustit nový běh.
+          {run.packagesRunning > 0
+            ? "Zastavení bylo vyžádáno. Ruším frontu a rozpracované renderování… Už hotové balíčky zůstávají."
+            : "Běh byl zastaven. Už vygenerované balíčky zůstávají v projektu; můžete spustit nový běh."}
         </p>
       ) : null}
 

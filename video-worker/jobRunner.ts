@@ -64,6 +64,13 @@ import {
   MAX_SCENE_POOL,
   mergeGeneratedAndAssetScenes,
 } from "@/lib/video-engine/scenePool";
+import {
+  JobCancelledError,
+  assertVideoJobStillActive,
+  clearJobAbort,
+  registerJobAbort,
+} from "@/video-worker/cancellation";
+import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cancel";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
 
@@ -324,6 +331,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     project_id: payload.project_id,
     content_package_id: payload.content_package_id,
   };
+  const abort = registerJobAbort(payload.video_job_id);
 
   console.log(
     "[video-worker] job started",
@@ -337,6 +345,8 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
   const tempFiles = new Set<string>();
 
   try {
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
+
     const spec = buildRenderSpec(payload.input);
     ensureSceneRendererRegistry();
     assertWorkerScenesRenderable(spec.scenes, {
@@ -349,6 +359,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       payload.input as Record<string, unknown>,
     );
 
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
     const validatedVoiceover = await generateValidatedVoiceover({
       text: spec.voiceover_text,
       language: payload.input["language"],
@@ -386,6 +397,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       renderAudioPath = voiceover.audioPath;
     }
 
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
     const images = await generateSceneImages({
       scenes: spec.scenes,
       projectId: payload.project_id,
@@ -545,6 +557,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
 
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
     tempFiles.add(mp4OutputPath);
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
     const { mp4Path, diagnostics: renderDiagnostics } = await renderMp4({
       images,
       beats,
@@ -565,6 +578,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         fps: SHORT_PROFILE.fps,
         transitionSeconds: SHORT_PROFILE.transitionSeconds,
       },
+      signal: abort.signal,
     });
 
     // Subtitle Reliability V1 (Part E + G) — diagnostics persisted under
@@ -616,6 +630,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       outputPath: thumbnailOutputPath,
     });
 
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
     const mp4Upload = await uploadVideoArtifact({
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
@@ -655,6 +670,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       })),
     });
 
+    await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
     const callback: WorkerCallback = {
       video_job_id: payload.video_job_id,
       status: "completed",
@@ -671,10 +687,19 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       JSON.stringify({ video_job_id: payload.video_job_id }),
     );
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : String(err);
+    const cancelled = err instanceof JobCancelledError;
+    const errorMessage = cancelled
+      ? PRODUCTION_RUN_CANCELLED_MESSAGE
+      : err instanceof Error
+        ? err.message
+        : String(err);
     console.error(
       "[video-worker] job failed",
-      JSON.stringify({ video_job_id: payload.video_job_id, error: errorMessage }),
+      JSON.stringify({
+        video_job_id: payload.video_job_id,
+        cancelled,
+        error: errorMessage,
+      }),
     );
 
     try {
@@ -708,6 +733,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       );
     }
   } finally {
+    clearJobAbort(payload.video_job_id);
     // Task 3 — always reclaim the job's temp files (success OR failure). The
     // durable artifacts are already in Storage by this point; these are local
     // scratch files. Cleanup is best-effort and never throws.

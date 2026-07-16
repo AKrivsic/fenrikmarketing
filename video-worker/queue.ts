@@ -10,6 +10,10 @@
 // queue, database, or scheduler is involved — this is a single-process MVP.
 
 import type { WorkerPayload } from "@/lib/video-engine/schemas/workerPayloadSchema";
+import {
+  isJobCancelRequested,
+  requestJobCancel,
+} from "@/video-worker/cancellation";
 import { runVideoJob } from "@/video-worker/jobRunner";
 
 // How many render jobs may run concurrently. Defaults to 1 so the worker is safe
@@ -31,6 +35,20 @@ let active = 0;
 function pump(): void {
   while (active < MAX_CONCURRENT && pending.length > 0) {
     const payload = pending.shift() as WorkerPayload;
+
+    // Drop jobs cancelled while they waited in the in-memory queue.
+    if (isJobCancelRequested(payload.video_job_id)) {
+      console.log(
+        "[video-worker:queue] job skipped (cancelled)",
+        JSON.stringify({
+          video_job_id: payload.video_job_id,
+          active,
+          queue_size: pending.length,
+        }),
+      );
+      continue;
+    }
+
     active += 1;
 
     console.log(
@@ -84,6 +102,14 @@ export function enqueueVideoJob(payload: WorkerPayload): void {
     }),
   );
 
+  if (isJobCancelRequested(payload.video_job_id)) {
+    console.log(
+      "[video-worker:queue] job rejected (already cancelled)",
+      JSON.stringify({ video_job_id: payload.video_job_id }),
+    );
+    return;
+  }
+
   if (active >= MAX_CONCURRENT) {
     pending.push(payload);
     console.log(
@@ -100,4 +126,39 @@ export function enqueueVideoJob(payload: WorkerPayload): void {
 
   pending.push(payload);
   pump();
+}
+
+/** Remove pending jobs and signal in-flight ones to abort at checkpoints. */
+export function cancelQueuedVideoJobs(videoJobIds: string[]): string[] {
+  const idSet = new Set(videoJobIds.filter(Boolean));
+  if (idSet.size === 0) return [];
+
+  const removed: string[] = [];
+  for (let i = pending.length - 1; i >= 0; i -= 1) {
+    const jobId = pending[i]?.video_job_id;
+    if (!jobId || !idSet.has(jobId)) continue;
+    pending.splice(i, 1);
+    removed.push(jobId);
+  }
+
+  for (const jobId of idSet) {
+    requestJobCancel(jobId);
+  }
+
+  console.log(
+    "[video-worker:queue] cancel requested",
+    JSON.stringify({
+      requested: [...idSet],
+      removed_from_pending: removed,
+      queue_size: pending.length,
+      active,
+    }),
+  );
+
+  return [...idSet];
+}
+
+/** Test helper — current pending queue size. */
+export function pendingVideoJobCount(): number {
+  return pending.length;
 }

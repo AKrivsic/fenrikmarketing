@@ -2,6 +2,11 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { JobStatus, ProductionRunStatus } from "@/lib/supabase/types";
 import {
+  PRODUCTION_RUN_CANCELLED_MESSAGE,
+  cancelOpenVideoJobsForProductionRun,
+  notifyWorkerOfCancelledJobs,
+} from "@/lib/api/production-run-cancel";
+import {
   computeProductionPlan,
   expandPlanToItemSlots,
   isPersistableProductionPlatform,
@@ -204,10 +209,11 @@ export async function getActiveProductionRun(
   return data ? { id: data.id as string, status: data.status } : null;
 }
 
-export const PRODUCTION_RUN_CANCELLED_MESSAGE = "Zastaveno operátorem.";
+export { PRODUCTION_RUN_CANCELLED_MESSAGE };
 
-// Operator stop: reconcile progress, close the run, and leave generated packages
-// in place. Remaining queued slots are marked failed so counters stay honest.
+// Operator stop: reconcile progress, cancel open video jobs, close the run, and
+// leave already-generated packages in place. Idempotent — re-stop on an already
+// cancelled run still mop up any straggling queued/processing jobs.
 export async function cancelProductionRun(
   runId: string,
   projectId: string,
@@ -217,12 +223,30 @@ export async function cancelProductionRun(
   if (run.project_id !== projectId) {
     throw new Error("Production run does not belong to this project.");
   }
-  if (run.status !== "queued" && run.status !== "running") {
+  if (
+    run.status !== "queued" &&
+    run.status !== "running" &&
+    run.status !== "cancelled"
+  ) {
     throw new Error("Pouze aktivní běh lze zastavit.");
   }
 
-  await reconcileProductionRun(runId);
+  if (run.status === "queued" || run.status === "running") {
+    await reconcileProductionRun(runId);
+  }
 
+  // Fail every still-open video job for this run BEFORE marking the run
+  // cancelled, so late worker callbacks that only update `processing` rows
+  // cannot revive cancelled work.
+  const cancelledJobIds = await cancelOpenVideoJobsForProductionRun(
+    supabase,
+    projectId,
+    runId,
+  );
+
+  // Fail ALL remaining package slots (with or without an assigned package).
+  // Previously only slots without content_package_id were closed, so in-flight
+  // package renders kept counting as "running" after Stop.
   const { error: itemErr } = await supabase
     .from("production_run_items")
     .update({
@@ -230,15 +254,19 @@ export async function cancelProductionRun(
       error_message: PRODUCTION_RUN_CANCELLED_MESSAGE,
     })
     .eq("production_run_id", runId)
-    .in("status", ["queued", "running"])
-    .is("content_package_id", null);
+    .in("status", ["queued", "running"]);
   if (itemErr) throw itemErr;
 
-  await setProductionRunStatus(
-    runId,
-    "cancelled",
-    PRODUCTION_RUN_CANCELLED_MESSAGE,
-  );
+  if (run.status !== "cancelled") {
+    await setProductionRunStatus(
+      runId,
+      "cancelled",
+      PRODUCTION_RUN_CANCELLED_MESSAGE,
+    );
+  }
+
+  await notifyWorkerOfCancelledJobs(cancelledJobIds);
+  await reconcileProductionRun(runId);
 }
 
 // ---------------------------------------------------------------------------

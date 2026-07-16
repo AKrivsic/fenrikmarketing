@@ -9,6 +9,10 @@ import {
   requireString,
 } from "@/lib/ai/apiResponse";
 import {
+  PRODUCTION_RUN_CANCELLED_MESSAGE,
+  isProductionRunCancelledForContentItem,
+} from "@/lib/api/production-run-cancel";
+import {
   startVideoWorkerJob,
   VideoWorkerConfigError,
 } from "@/lib/video-worker/client";
@@ -87,6 +91,34 @@ export async function POST(request: Request): Promise<Response> {
           video_job_id: job.id,
           status: job.status,
           idempotent: true,
+        },
+        { status: 202 },
+      );
+    }
+
+    // Production-run Stop: never claim/dispatch jobs whose run was cancelled.
+    if (
+      await isProductionRunCancelledForContentItem(
+        supabase,
+        projectId,
+        job.contentItemId,
+      )
+    ) {
+      await supabase
+        .from("video_jobs")
+        .update({
+          status: "failed",
+          error_message: PRODUCTION_RUN_CANCELLED_MESSAGE,
+        })
+        .eq("id", job.id)
+        .eq("project_id", projectId)
+        .in("status", ["queued", "processing"]);
+      return Response.json(
+        {
+          ok: true,
+          video_job_id: job.id,
+          skipped: true,
+          reason: "production_run_cancelled",
         },
         { status: 202 },
       );

@@ -39,6 +39,8 @@ export interface RenderMp4Input {
   targetDurationSeconds?: number;
   // Output geometry / pace. Defaults to the vertical Short profile.
   profile?: { width: number; height: number; fps: number; transitionSeconds: number };
+  /** When aborted, kill the active FFmpeg child for this render only. */
+  signal?: AbortSignal;
 }
 
 // Subtitle Reliability V1 (Part A + G) — diagnostics recorded after every
@@ -103,18 +105,42 @@ function ffmpegBin(): string {
   return process.env.FFMPEG_PATH ?? "ffmpeg";
 }
 
-function runFfmpeg(args: string[], timeoutMs = DEFAULT_TIMEOUT_MS): Promise<void> {
+function runFfmpeg(
+  args: string[],
+  timeoutMs = DEFAULT_TIMEOUT_MS,
+  signal?: AbortSignal,
+): Promise<void> {
   return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new Error("ffmpeg aborted"));
+      return;
+    }
+
     const child = spawn(ffmpegBin(), args, { stdio: ["ignore", "ignore", "pipe"] });
     let stderr = "";
     let settled = false;
 
-    const timer = setTimeout(() => {
+    const settle = (fn: () => void) => {
       if (settled) return;
       settled = true;
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", onAbort);
+      fn();
+    };
+
+    const onAbort = () => {
       child.kill("SIGKILL");
-      reject(new Error(`ffmpeg timed out after ${timeoutMs}ms`));
+      settle(() => reject(new Error("ffmpeg aborted")));
+    };
+
+    const timer = setTimeout(() => {
+      child.kill("SIGKILL");
+      settle(() =>
+        reject(new Error(`ffmpeg timed out after ${timeoutMs}ms`)),
+      );
     }, timeoutMs);
+
+    signal?.addEventListener("abort", onAbort, { once: true });
 
     child.stderr.on("data", (chunk: Buffer) => {
       stderr += chunk.toString();
@@ -122,20 +148,24 @@ function runFfmpeg(args: string[], timeoutMs = DEFAULT_TIMEOUT_MS): Promise<void
     });
 
     child.on("error", (err) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      reject(new Error(`ffmpeg failed to start: ${err.message}`));
+      settle(() =>
+        reject(new Error(`ffmpeg failed to start: ${err.message}`)),
+      );
     });
 
     child.on("close", (code) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
+      if (signal?.aborted) {
+        settle(() => reject(new Error("ffmpeg aborted")));
+        return;
+      }
       if (code === 0) {
-        resolve();
+        settle(() => resolve());
       } else {
-        reject(new Error(`ffmpeg exited with code ${code}: ${stderr.trim()}`));
+        settle(() =>
+          reject(
+            new Error(`ffmpeg exited with code ${code}: ${stderr.trim()}`),
+          ),
+        );
       }
     });
   });
@@ -541,7 +571,7 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
     input.beats && input.beats.length >= 2
       ? buildMultiBeatArgs(pass1Input, input.beats)
       : buildSingleImageArgs(pass1Input);
-  await runFfmpeg(pass1Args);
+  await runFfmpeg(pass1Args, DEFAULT_TIMEOUT_MS, input.signal);
 
   const profile = input.profile ?? SHORT_PROFILE;
 
@@ -574,26 +604,32 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
             ? { targetDurationSeconds: targetDuration }
             : {}),
         }),
+        DEFAULT_TIMEOUT_MS,
+        input.signal,
       );
     } else {
       // No subtitles: re-mux the intermediate to the final path (stream copy).
-      await runFfmpeg([
-        "-y",
-        "-i",
-        intermediatePath,
-        "-c",
-        "copy",
-        ...(targetDuration !== undefined
-          ? ["-t", targetDuration.toFixed(3)]
-          : []),
-        input.outputPath,
-      ]);
+      await runFfmpeg(
+        [
+          "-y",
+          "-i",
+          intermediatePath,
+          "-c",
+          "copy",
+          ...(targetDuration !== undefined
+            ? ["-t", targetDuration.toFixed(3)]
+            : []),
+          input.outputPath,
+        ],
+        DEFAULT_TIMEOUT_MS,
+        input.signal,
+      );
     }
   } finally {
     await rm(intermediatePath, { force: true }).catch(() => undefined);
   }
 
-  await applyFastStartMp4(input.outputPath);
+  await applyFastStartMp4(input.outputPath, input.signal);
 
   // Post-render verification (Part A + G). Best-effort, never throws.
   const diagnostics = await verifyRender({
@@ -609,18 +645,25 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
 
 // Web playback needs the moov atom before mdat; ffmpeg's default mux puts it at
 // the end, which makes <video> appear broken until the whole file is fetched.
-async function applyFastStartMp4(path: string): Promise<void> {
+async function applyFastStartMp4(
+  path: string,
+  signal?: AbortSignal,
+): Promise<void> {
   const tempPath = `${path}.faststart.mp4`;
-  await runFfmpeg([
-    "-y",
-    "-i",
-    path,
-    "-c",
-    "copy",
-    "-movflags",
-    "+faststart",
-    tempPath,
-  ]);
+  await runFfmpeg(
+    [
+      "-y",
+      "-i",
+      path,
+      "-c",
+      "copy",
+      "-movflags",
+      "+faststart",
+      tempPath,
+    ],
+    DEFAULT_TIMEOUT_MS,
+    signal,
+  );
   await rename(tempPath, path);
 }
 

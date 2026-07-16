@@ -1,6 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { completeProjectActionRun } from "@/lib/api/project-action-runs";
 import { reconcileProductionRunForContentItem } from "@/lib/api/production-run-admin";
+import {
+  PRODUCTION_RUN_CANCELLED_MESSAGE,
+  isOperatorCancelMessage,
+  isProductionRunCancelledForContentItem,
+} from "@/lib/api/production-run-cancel";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { CallbackValidationError } from "@/lib/n8n/callback";
 
@@ -278,23 +283,48 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
   if (renderSpec) output.render_spec = renderSpec;
   if (debug) output.debug = debug;
 
-  const videoUpdate: Record<string, unknown> = { status, output };
-  if (status === "completed") {
+  // Operator Stop may have already failed this job while the worker was still
+  // rendering. Never revive a cancelled/terminal row with a late "completed".
+  const runCancelled = await isProductionRunCancelledForContentItem(
+    supabase,
+    projectId,
+    job.contentItemId,
+  );
+  const alreadyOperatorCancelled =
+    job.status === "failed" && isOperatorCancelMessage(job.errorMessage);
+  const rejectCompleted =
+    status === "completed" && (runCancelled || alreadyOperatorCancelled);
+
+  const effectiveStatus = rejectCompleted ? "failed" : status;
+  const videoUpdate: Record<string, unknown> = {
+    status: effectiveStatus,
+    output,
+  };
+  if (effectiveStatus === "completed") {
     videoUpdate.completed_at = new Date().toISOString();
-  } else if (status === "failed" && errorMessage) {
-    videoUpdate.error_message = errorMessage;
+  } else if (effectiveStatus === "failed") {
+    videoUpdate.error_message = rejectCompleted
+      ? PRODUCTION_RUN_CANCELLED_MESSAGE
+      : (errorMessage ?? PRODUCTION_RUN_CANCELLED_MESSAGE);
   }
 
-  const { error: videoErr } = await supabase
+  // Atomic guard: only a still-processing job can move to a terminal status.
+  // Cancelled jobs are already `failed`, so late callbacks become no-ops.
+  const { data: updatedRows, error: videoErr } = await supabase
     .from("video_jobs")
     .update(videoUpdate)
     .eq("id", job.id)
-    .eq("project_id", projectId);
+    .eq("project_id", projectId)
+    .eq("status", "processing")
+    .select("id");
   if (videoErr) throw videoErr;
+
+  const accepted = !!updatedRows && updatedRows.length > 0;
 
   // On completion the package becomes a draft (ready for review). package_status
   // has NO "failed" value, so a failed video does not change the package status.
-  if (status === "completed") {
+  // Also skip draft promotion when the completed callback was rejected by cancel.
+  if (accepted && effectiveStatus === "completed") {
     const { error: pkgErr } = await supabase
       .from("content_packages")
       .update({ status: "draft", updated_at: new Date().toISOString() })
@@ -309,13 +339,19 @@ export async function handleVideoCallback(payload: unknown): Promise<void> {
 async function resolveVideoJob(
   supabase: SupabaseClient,
   args: { projectId: string; contentPackageId: string; videoJobId?: string },
-): Promise<{ id: string; contentItemId: string | null; output: unknown } | null> {
+): Promise<{
+  id: string;
+  contentItemId: string | null;
+  output: unknown;
+  status: string;
+  errorMessage: string | null;
+} | null> {
   const { projectId, contentPackageId, videoJobId } = args;
 
   if (videoJobId) {
     const { data, error } = await supabase
       .from("video_jobs")
-      .select("id, content_item_id, output")
+      .select("id, content_item_id, output, status, error_message")
       .eq("id", videoJobId)
       .eq("project_id", projectId)
       .maybeSingle();
@@ -325,6 +361,8 @@ async function resolveVideoJob(
           id: data.id as string,
           contentItemId: (data.content_item_id as string | null) ?? null,
           output: data.output,
+          status: data.status as string,
+          errorMessage: (data.error_message as string | null) ?? null,
         }
       : null;
   }
@@ -341,7 +379,7 @@ async function resolveVideoJob(
 
   const { data: jobs, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, content_item_id, output, created_at")
+    .select("id, content_item_id, output, status, error_message, created_at")
     .eq("project_id", projectId)
     .in("content_item_id", itemIds)
     .order("created_at", { ascending: false })
@@ -353,6 +391,8 @@ async function resolveVideoJob(
         id: latest.id as string,
         contentItemId: (latest.content_item_id as string | null) ?? null,
         output: latest.output,
+        status: latest.status as string,
+        errorMessage: (latest.error_message as string | null) ?? null,
       }
     : null;
 }
