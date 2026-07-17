@@ -90,11 +90,16 @@ import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import {
   attachFidelityToPlan,
+  buildCreativeDnaDiagnostics,
   checkConceptFidelity,
+  creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
+  validateCreativeDnaAgainstPackage,
 } from "@/lib/creative-candidates";
+import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
+import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -302,6 +307,19 @@ export async function runGenerateContentPackage(
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
+  // Candidates first so Creative DNA can neutralize conflicting Identity environments.
+  const creativeCandidatePlan = planCreativeCandidatesForPackage({
+    topic: context.topic,
+    angle: context.angle,
+    painPoints: project.pain_points ?? [],
+    productIs: project.product_is ?? [],
+    requireVideo,
+  });
+  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
+  const selectedDna = normalizeCreativeDNA(
+    creativeCandidates?.selectedCandidate.creativeDNA,
+  );
+
   const creativeIdentityPlan = planCreativeIdentityForPackage({
     project,
     visualProfile: resolvedVisualProfile.profile,
@@ -312,6 +330,7 @@ export async function runGenerateContentPackage(
     angle: context.angle,
     series: seriesCreative,
     requireVideo,
+    creativeDNA: selectedDna,
   });
 
   const visualNarrativePlan = planVisualNarrativeForPackage({
@@ -364,15 +383,6 @@ export async function runGenerateContentPackage(
     requireVideo,
   });
 
-  const creativeCandidatePlan = planCreativeCandidatesForPackage({
-    topic: context.topic,
-    angle: context.angle,
-    painPoints: project.pain_points ?? [],
-    productIs: project.product_is ?? [],
-    requireVideo,
-  });
-  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
-
   const buildPackagePrompt = (fidelityRepair?: string) =>
     buildGenerateContentPackagePrompt({
       project,
@@ -403,6 +413,7 @@ export async function runGenerateContentPackage(
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
+      creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
     });
 
@@ -523,6 +534,36 @@ export async function runGenerateContentPackage(
     );
   }
 
+  let creativeDnaDiagnostics: CreativeDnaDiagnostics | null = null;
+  if (creativeCandidates && requireVideo) {
+    const dna = normalizeCreativeDNA(
+      creativeCandidates.selectedCandidate.creativeDNA,
+    );
+    const validation = dna
+      ? validateCreativeDnaAgainstPackage(dna, {
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          concept: generated.value.concept,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+        })
+      : null;
+    creativeDnaDiagnostics = buildCreativeDnaDiagnostics({
+      plan: creativeCandidates,
+      identityEnvironmentSuppressed:
+        creativeIdentityPlan.identityEnvironmentSuppressed,
+      validation,
+      dnaResolve: creativeCandidatePlan.dnaResolve,
+    });
+    if (validation && !validation.passed) {
+      console.warn(
+        "[creative-dna] validation warnings",
+        creativeCandidates.selectedCandidate.candidateId,
+        validation.violations,
+      );
+    }
+  }
+
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persistence, so the stored package_brief and the queued video job
   // both carry the exact render-ready list (≤5 generated stills per video).
@@ -585,30 +626,10 @@ export async function runGenerateContentPackage(
     ...productRevealPlan.persistenceFields,
     ...attentionPlan.persistenceFields,
     ...(creativeCandidates
-      ? {
-          creative_candidates: {
-            version: creativeCandidates.version,
-            creativeDivergence: creativeCandidates.creativeDivergence,
-            generatedCandidates: creativeCandidates.generatedCandidates,
-            candidateScores: creativeCandidates.candidateScores.map((s) => ({
-              candidateId: s.candidate.candidateId,
-              family: s.candidate.family,
-              scores: s.scores,
-              weightedTotal: s.weightedTotal,
-              rejected: s.rejected,
-              rejectReasons: s.rejectReasons,
-              hookLine: s.candidate.hookLine,
-              openingSituation: s.candidate.openingSituation,
-              coreIdea: s.candidate.coreIdea,
-            })),
-            rejectedCandidates: creativeCandidates.rejectedCandidates,
-            selectedCandidate: creativeCandidates.selectedCandidate,
-            comparativeJudge: creativeCandidates.comparativeJudge,
-            finalScriptFidelity: creativeCandidates.finalScriptFidelity,
-            finalStoryboardFidelity: creativeCandidates.finalStoryboardFidelity,
-            regenerationReason: creativeCandidates.regenerationReason,
-          },
-        }
+      ? creativeCandidateFieldsForPersistence(
+          creativeCandidates,
+          creativeDnaDiagnostics,
+        )
       : {}),
   };
   normalizeImagePrompts(generated.value, {

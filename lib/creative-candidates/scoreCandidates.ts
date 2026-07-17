@@ -93,9 +93,16 @@ export function scoreCreativeCandidate(
     productRelevance -= 2;
   }
 
-  if (/\b(heat|heatwave|cooling|technician|van|truck|job)\b/i.test(blob)) {
+  if (/\b(heat|heatwave|cooling|technician|van|truck|job)\b/i.test(blob) &&
+    /\bhvac|heatwave|technician/i.test(ctx.topic + (ctx.angle ?? ""))) {
     visualSpecificity += 1;
     stopPower += 1;
+  }
+  if (/\b(accountant|vacation|suitcase|contact)\b/i.test(blob) &&
+    /\baccountant|vacation/i.test(ctx.topic + (ctx.angle ?? ""))) {
+    visualSpecificity += 1;
+    stopPower += 1;
+    productRelevance += 1;
   }
 
   if (product && /\b(chat|assistant|website|answer|visitor)\b/i.test(blob)) {

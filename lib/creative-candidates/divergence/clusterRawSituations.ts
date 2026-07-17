@@ -1,36 +1,32 @@
 import {
-  jaccardSimilarity,
-  tokenSet,
-} from "@/lib/creative-candidates/divergence/scoreRawSituation";
+  areNearDuplicateSituations,
+  situationFingerprint,
+} from "@/lib/creative-candidates/divergence/situationFingerprint";
 import type {
   RawSituationCluster,
   RawVisualSituation,
 } from "@/lib/creative-candidates/divergence/types";
-
-const CLUSTER_MERGE_THRESHOLD = 0.52;
 
 function combinedScore(s: RawVisualSituation): number {
   return s.stopScrollScore * 0.65 + s.visualDistinctScore * 0.35;
 }
 
 /**
- * Greedy clustering: assign each non-rejected situation to nearest cluster or new cluster.
- * Return cluster reps sorted by combined scroll-stop score.
+ * Semantic clustering: near-duplicates (same idea, different props/camera) share a cluster.
+ * Survivors = best-scoring representative per cluster.
  */
 export function clusterRawSituations(
   situations: readonly RawVisualSituation[],
-  opts?: { similarityThreshold?: number },
 ): {
   clusters: RawSituationCluster[];
   survivors: RawVisualSituation[];
   annotated: RawVisualSituation[];
 } {
-  const threshold = opts?.similarityThreshold ?? CLUSTER_MERGE_THRESHOLD;
   const pool = situations
     .filter((s) => !s.rejected)
     .map((s) => ({
       ...s,
-      _tokens: tokenSet(`${s.scene} ${s.scrollStopCue} ${s.tags.join(" ")}`),
+      _fp: situationFingerprint(s.scene, s.scrollStopCue),
       _score: combinedScore(s),
     }))
     .sort((a, b) => b._score - a._score);
@@ -43,16 +39,24 @@ export function clusterRawSituations(
 
   for (const s of pool) {
     let bestIdx = -1;
-    let bestSim = 0;
     for (let ci = 0; ci < clusters.length; ci++) {
-      const sim = jaccardSimilarity(s._tokens, clusters[ci]!.rep._tokens);
-      if (sim > bestSim) {
-        bestSim = sim;
+      const rep = clusters[ci]!.rep;
+      if (
+        areNearDuplicateSituations(
+          { scene: s.scene, scrollStopCue: s.scrollStopCue, tags: s.tags },
+          { scene: rep.scene, scrollStopCue: rep.scrollStopCue, tags: rep.tags },
+        )
+      ) {
         bestIdx = ci;
+        break;
       }
     }
-    if (bestIdx >= 0 && bestSim >= threshold) {
+    if (bestIdx >= 0) {
       clusters[bestIdx]!.members.push(s);
+      // Keep highest-scoring member as rep
+      if (s._score > clusters[bestIdx]!.rep._score) {
+        clusters[bestIdx]!.rep = s;
+      }
     } else {
       clusters.push({
         clusterId: `cl-${clusters.length + 1}`,
@@ -70,29 +74,27 @@ export function clusterRawSituations(
   }));
 
   const survivors = clusters
-    .map((c) => c.rep)
-    .sort((a, b) => b._score - a._score)
-    .map(({ _tokens, _score, ...rest }) => ({
-      ...rest,
-      clusterId: clusters.find((cl) => cl.rep.id === rest.id)?.clusterId ?? null,
-    }));
+    .map((c) => {
+      const { _fp, _score, ...rest } = c.rep;
+      void _fp;
+      void _score;
+      return {
+        ...rest,
+        clusterId: c.clusterId,
+      };
+    })
+    .sort((a, b) => combinedScore(b) - combinedScore(a));
 
-  const repById = new Map(survivors.map((s) => [s.id, s.clusterId]));
   const annotated = situations.map((s) => {
     if (s.rejected) return s;
     const memberCluster = clusters.find((c) =>
       c.members.some((m) => m.id === s.id),
     );
-    const clusterId = memberCluster?.clusterId ?? null;
-    const isRep = memberCluster?.rep.id === s.id;
     return {
       ...s,
-      clusterId: isRep ? clusterId : clusterId,
+      clusterId: memberCluster?.clusterId ?? null,
     };
   });
-
-  // Mark non-rep members (for observability survivors = reps only)
-  void repById;
 
   return { clusters: clusterSummaries, survivors, annotated };
 }

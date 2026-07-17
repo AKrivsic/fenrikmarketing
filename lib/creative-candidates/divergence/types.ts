@@ -1,4 +1,4 @@
-export const CREATIVE_DIVERGENCE_VERSION = "creative-divergence@2" as const;
+export const CREATIVE_DIVERGENCE_VERSION = "creative-divergence@2.1" as const;
 
 /** One concrete filmable frame — not a theme, not a product message. */
 export interface RawVisualSituation {

@@ -1,5 +1,5 @@
-import { hashString, pickFrom } from "@/lib/creative-identity/hash";
-import type { TopicConcreteSignals } from "@/lib/creative-candidates/generateCandidates";
+import { hashString } from "@/lib/creative-identity/hash";
+import type { TopicConcreteSignals } from "@/lib/creative-candidates/topicSignals";
 import { rejectRawSituation } from "@/lib/creative-candidates/divergence/rawSituationFilter";
 import {
   scoreStopScroll,
@@ -7,16 +7,18 @@ import {
 } from "@/lib/creative-candidates/divergence/scoreRawSituation";
 import type { RawVisualSituation } from "@/lib/creative-candidates/divergence/types";
 
+type SceneBuilt = { scene: string; scrollStopCue: string; tags: string[] };
 type SceneTemplate = (ctx: {
   signals: TopicConcreteSignals;
   variant: number;
-}) => { scene: string; scrollStopCue: string; tags: string[] };
+}) => SceneBuilt;
 
-const SCENE_TEMPLATES: SceneTemplate[] = [
-  ({ signals, variant }) => ({
+/** HVAC / field-service world — vans, heat, technicians OK. */
+const HVAC_TEMPLATES: SceneTemplate[] = [
+  ({ signals }) => ({
     scene: `Two ${signals.industryCue} workers mid-argument at a service counter during ${signals.stressCue}; phones stack; a customer silhouette turns away through the glass door.`,
     scrollStopCue: "Public fight while demand walks out",
-    tags: ["conflict", "counter", "heat", signals.industryCue],
+    tags: ["conflict", "counter", "HVAC"],
   }),
   ({ signals }) => ({
     scene: `A ridiculous boarding-ticket dispenser for phone callers in a ${signals.industryCue} lobby during ${signals.stressCue}; numbered paper slips; an open chat widget on a counter tablet glows with zero replies.`,
@@ -53,55 +55,10 @@ const SCENE_TEMPLATES: SceneTemplate[] = [
     scrollStopCue: "Urgent question dies in silence",
     tags: ["hands", "urgent", "customer"],
   }),
-  ({ signals, variant }) => ({
-    scene: `Mid-${signals.stressCue}: a line of people with clipboards wraps around a ${signals.industryCue} storefront; inside, a single employee waves off the website tablet.`,
-    scrollStopCue: "Real queue outside, ghost queue online",
-    tags: ["queue", "storefront", variant > 0 ? "wrap" : "line"],
-  }),
   ({ signals }) => ({
     scene: `Ice cubes melting on a ${signals.industryCue} truck hood in sun; timer implied; inside the cab, missed-call counter ticks up on a dash mount.`,
     scrollStopCue: "Heat eating time and calls",
     tags: ["heat", "truck", "melt"],
-  }),
-  ({ signals }) => ({
-    scene: `A customer tries three doors of a ${signals.industryCue} building — all locked for field crews — then sits on the curb typing into the business website.`,
-    scrollStopCue: "Physical doors closed, digital door open",
-    tags: ["doors", "curb", "customer"],
-  }),
-  ({ signals }) => ({
-    scene: `Warehouse shelf of spare parts labeled "emergency"; empty slot flashing; parallel shot of website FAQ unanswered during ${signals.stressCue}.`,
-    scrollStopCue: "Stockout metaphor for answers",
-    tags: ["warehouse", "emergency", "parallel"],
-  }),
-  ({ signals }) => ({
-    scene: `Kids selling lemonade next to a ${signals.industryCue} van; parent jokes "they answer faster than your website"; technician laughs then freezes.`,
-    scrollStopCue: "Lemonade stand beats your chat",
-    tags: ["humor", "street", "comparison"],
-  }),
-  ({ signals }) => ({
-    scene: `Radio dispatch voiceover chaos; dispatcher puts caller on hold; website visitor bubble pops "still here?" with no agent.`,
-    scrollStopCue: "Hold music for humans, nothing for web",
-    tags: ["dispatch", "hold", "bubble"],
-  }),
-  ({ signals }) => ({
-    scene: `Thermometer on a shop window cracks past red; inside, staff high-five for "busy day"; outside, visitor refreshes contact page endlessly.`,
-    scrollStopCue: "Celebrating chaos while web waits",
-    tags: ["thermometer", "irony", "refresh"],
-  }),
-  ({ signals }) => ({
-    scene: `Dog barking at a ${signals.industryCue} truck leaving; owner on porch scrolls competitor site and books instantly.`,
-    scrollStopCue: "Pet notices you left; customer books rival",
-    tags: ["dog", "porch", "competitor"],
-  }),
-  ({ signals }) => ({
-    scene: `Night shot: ${signals.industryCue} yard empty; security light on; laptop left on counter shows 14 unanswered chats glowing.`,
-    scrollStopCue: "After hours, chats still screaming",
-    tags: ["night", "security", "chats"],
-  }),
-  ({ signals }) => ({
-    scene: `Inflatable tube-man waving outside ${signals.industryCue} shop; real customers walk past it into rival parking lot.`,
-    scrollStopCue: "Marketing waves, demand walks away",
-    tags: ["tube-man", "parking", "rival"],
   }),
   ({ signals }) => ({
     scene: `Technician on roof in heat; phone vibrates in tool belt unanswered; ground-level tablet shows visitor asking "anyone on site?"`,
@@ -109,156 +66,224 @@ const SCENE_TEMPLATES: SceneTemplate[] = [
     tags: ["roof", "technician", "split"],
   }),
   ({ signals }) => ({
-    scene: `Waiting room fish tank; one fish labeled "website leads"; bowl nearly empty while phone fish overcrowded.`,
-    scrollStopCue: "Absurd aquarium staffing metaphor",
-    tags: ["fish", "waiting", "absurd"],
-  }),
-  ({ signals }) => ({
-    scene: `Graffiti-style chalk on sidewalk: "CALL US" with arrow to ${signals.industryCue}; chalk washed away by sprinkler; QR code to site smudged unreadable.`,
-    scrollStopCue: "Analog urgency, digital smear",
-    tags: ["chalk", "sidewalk", "QR"],
-  }),
-  ({ signals }) => ({
-    scene: `Power flicker during ${signals.stressCue}; phones reboot; website chat keeps replying on UPS battery glow.`,
-    scrollStopCue: "Lights out, chat still on",
-    tags: ["power", "UPS", "chat"],
-  }),
-  ({ signals }) => ({
-    scene: `Customer holds broken thermostat in one hand, phone in other; competitor van honks; website tab still on "message sent".`,
-    scrollStopCue: "Two hands, zero answers",
-    tags: ["thermostat", "honk", "tab"],
-  }),
-  ({ signals }) => ({
-    scene: `Train-station style departure board listing "Phone caller #47" boarding; column "Website visitor" stuck on "Delayed indefinitely".`,
+    scene: `Train-station style departure board listing "Phone caller #47" boarding; column "Website visitor" stuck on "Delayed indefinitely" at a ${signals.industryCue} shop.`,
     scrollStopCue: "Departure board for the wrong channel",
     tags: ["departure", "board", "delay"],
   }),
   ({ signals }) => ({
-    scene: `Flash flood of sticky notes on a ${signals.industryCue} door: "call back"; camera pulls back to reveal zero notes for web chats on a kiosk.`,
-    scrollStopCue: "Paper memory for phones only",
-    tags: ["sticky", "door", "kiosk"],
+    scene: `Waiting room fish tank at a ${signals.industryCue}; one fish labeled "website leads"; bowl nearly empty while phone fish overcrowded.`,
+    scrollStopCue: "Absurd aquarium staffing metaphor",
+    tags: ["fish", "waiting", "absurd"],
   }),
   ({ signals }) => ({
-    scene: `Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.`,
-    scrollStopCue: "Mascot suffers, fake typing online",
-    tags: ["mascot", "parking", "fake"],
+    scene: `Kids selling lemonade next to a ${signals.industryCue} van; parent jokes "they answer faster than your website"; technician laughs then freezes.`,
+    scrollStopCue: "Lemonade stand beats your chat",
+    tags: ["humor", "street", "comparison"],
   }),
   ({ signals }) => ({
-    scene: `Time-lapse: sun arc over ${signals.industryCue} yard; shadow of unanswered chat window grows across empty dispatch desk.`,
-    scrollStopCue: "Shadow of silence all day",
-    tags: ["timelapse", "shadow", "dispatch"],
-  }),
-  ({ signals }) => ({
-    scene: `Customer knocks on rolling bay door; no answer; peers through crack at idle tablets; types on phone into competitor booking link.`,
-    scrollStopCue: "Bay door shut, booking elsewhere",
-    tags: ["bay", "crack", "booking"],
-  }),
-  ({ signals }) => ({
-    scene: `Two clocks side by side: wall clock for shop hours; digital timer for "avg website reply" spinning into hours.`,
+    scene: `Two clocks side by side in a ${signals.industryCue}: wall clock for shop hours; digital timer for "avg website reply" spinning into hours.`,
     scrollStopCue: "Dual clocks, one shameful",
     tags: ["clocks", "timer", "shame"],
   }),
   ({ signals }) => ({
-    scene: `Volunteer fire siren in small town; everyone looks; cut to silent website notification badge maxed out with no staff.`,
-    scrollStopCue: "Town hears siren, web hears nothing",
-    tags: ["siren", "town", "badge"],
-  }),
-  ({ signals }) => ({
-    scene: `Paper fan handed to queue outside ${signals.industryCue}; person fans themselves while refreshing dead chat on phone.`,
-    scrollStopCue: "Heat relief outside, none online",
-    tags: ["fan", "queue", "refresh"],
-  }),
-  ({ signals }) => ({
-    scene: `Lost cat poster on pole next to ${signals.industryCue} flyer; someone calls number on cat poster immediately; website number on flyer faded.`,
-    scrollStopCue: "Lost cat gets faster response",
-    tags: ["poster", "pole", "irony"],
-  }),
-  ({ signals }) => ({
-    scene: `Drone shot: ${signals.industryCue} trucks radiating from hub; single pixel ping on map for abandoned web session far from routes.`,
-    scrollStopCue: "Fleet spreads, one dot ignored",
-    tags: ["drone", "map", "session"],
-  }),
-  ({ signals }) => ({
-    scene: `Break room pizza celebration for "record calls"; wall TV shows website bounce rate climbing in red.`,
-    scrollStopCue: "Pizza for phones, red alert for web",
-    tags: ["pizza", "bounce", "TV"],
-  }),
-  ({ signals }) => ({
-    scene: `Customer tries voice-to-text question in car AC; sends; steering wheel grip tightens as "delivered" sits with no reply.`,
-    scrollStopCue: "Cool car, hot silence",
-    tags: ["car", "voice", "delivered"],
-  }),
-  ({ signals }) => ({
-    scene: `Janitor mops around ringing desk phone; steps over tablet showing visitor "hello?" for minutes.`,
-    scrollStopCue: "Mop rings, chat drowns",
-    tags: ["janitor", "mop", "hello"],
-  }),
-  ({ signals }) => ({
-    scene: `Solar panels on ${signals.industryCue} roof; inverter hum; inside, power strip of dead chargers and one live chat cable unplugged.`,
-    scrollStopCue: "Green power, unplugged answers",
-    tags: ["solar", "unplugged", "irony"],
-  }),
-  ({ signals }) => ({
-    scene: `Parade float of giant phone passes shop; crowd cheers; shop window reflection shows empty chat overlay on glass.`,
-    scrollStopCue: "Parade celebrates phone, glass shows ghost chat",
-    tags: ["parade", "float", "reflection"],
-  }),
-  ({ signals }) => ({
-    scene: `Hail bounces off ${signals.industryCue} sign; technician under awning answers hail damage call; website "emergency" form untouched in split screen.`,
-    scrollStopCue: "Weather chaos, form untouched",
-    tags: ["hail", "awning", "form"],
-  }),
-  ({ signals }) => ({
-    scene: `Kid's science fair volcano erupts foam; parent texts ${signals.industryCue} for cleanup; message sits next to kid's blue ribbon.`,
-    scrollStopCue: "Volcano wins ribbon before you reply",
-    tags: ["science", "volcano", "ribbon"],
-  }),
-  ({ signals }) => ({
-    scene: `Parking meter expires on customer car outside ${signals.industryCue}; they leave ticket on windshield and drive to rival lot.`,
-    scrollStopCue: "Meter runs out, loyalty too",
-    tags: ["meter", "windshield", "rival"],
-  }),
-  ({ signals }) => ({
-    scene: `Beehive buzzing near ${signals.industryCue} sign; customers swerve away; online chat asks about "stinging smell from unit" — no answer.`,
-    scrollStopCue: "Bees scare foot traffic, web scared too",
-    tags: ["bee", "swerve", "smell"],
-  }),
-  ({ signals }) => ({
-    scene: `Flashlight tour of dark ${signals.industryCue} showroom after hours; beam lands on glowing chat requests like eyes in dark.`,
-    scrollStopCue: "Haunted by glowing requests",
-    tags: ["flashlight", "showroom", "haunted"],
-  }),
-  ({ signals }) => ({
-    scene: `Tire tracks in mud leading to ${signals.industryCue}; parallel browser history shows competitor thank-you page on same phone.`,
-    scrollStopCue: "Mud proves visit; history proves loss",
-    tags: ["mud", "tracks", "history"],
-  }),
-  ({ signals }) => ({
-    scene: `Barber pole spins next door; barber chats with waiting client; ${signals.industryCue} queue stares at dead website kiosk.`,
-    scrollStopCue: "Neighbor talks; your kiosk doesn't",
-    tags: ["barber", "kiosk", "neighbor"],
-  }),
-  ({ signals }) => ({
-    scene: `Construction jackhammer drowns shop phone; worker points at vibrating phone ignored; tablet chat vibration buried in noise.`,
-    scrollStopCue: "Noise wins over every vibration",
-    tags: ["jackhammer", "noise", "vibration"],
-  }),
-  ({ signals }) => ({
-    scene: `Gift basket "thanks for choosing us" delivered to wrong address; right address customer still on hold on website chat.`,
-    scrollStopCue: "Thanks to wrong house, real customer waiting",
-    tags: ["gift", "wrong", "hold"],
-  }),
-  ({ signals }) => ({
-    scene: `Moonlight on ${signals.industryCue} fleet; owl on roof; laptop in cab still showing daytime unanswered queue count.`,
-    scrollStopCue: "Night owl sees stale queue",
-    tags: ["moon", "owl", "fleet"],
-  }),
-  ({ signals }) => ({
-    scene: `Sprinkler soaks promotional yard sign; QR smears; passerby types URL from memory wrong and lands on competitor.`,
-    scrollStopCue: "Sprinkler kills QR, typo kills lead",
-    tags: ["sprinkler", "QR", "typo"],
+    scene: `Night shot: ${signals.industryCue} yard empty; security light on; tablet on counter shows 14 unanswered chats glowing.`,
+    scrollStopCue: "After hours, chats still screaming",
+    tags: ["night", "security", "chats"],
   }),
 ];
+
+/**
+ * Accountant / vacation / missed leads world — no vans, technicians, or heatwave props.
+ */
+const PROFESSIONAL_RETURN_TEMPLATES: SceneTemplate[] = [
+  ({ signals }) => ({
+    scene: `An accountant drops a suitcase by the practice desk after vacation; monitor shows a week of website visits and a contact-form column stuck at zero.`,
+    scrollStopCue: "Suitcase down, contact details still empty",
+    tags: ["suitcase", "accountant", "vacation", "inbox"],
+  }),
+  ({ signals }) => ({
+    scene: `Return day: two partners at an ${signals.industryCue} argue over whose fault the silent website was while a printout of missed vacation-week leads sits between them.`,
+    scrollStopCue: "Partners fight over the silent week online",
+    tags: ["conflict", "argue", "partners", "leads"],
+  }),
+  ({ signals }) => ({
+    scene: `Close on an empty CRM "new lead" list beside a calendar blocked PTO; sticky note: "back Monday" — website visitors already asked and left.`,
+    scrollStopCue: "PTO calendar vs empty lead list",
+    tags: ["calendar", "pto", "crm", "leads"],
+  }),
+  ({ signals }) => ({
+    scene: `Split screen: airplane window over clouds / ${signals.industryCue} website chat bubbles stacking with no reply while the owner is mid-flight.`,
+    scrollStopCue: "Mid-flight silence, leads stacking",
+    tags: ["airplane", "chat", "vacation"],
+  }),
+  ({ signals }) => ({
+    scene: `Home office after vacation: passport and boarding pass on the keyboard; browser history of unanswered "Do you take new clients?" messages.`,
+    scrollStopCue: "Passport on the keyboard, questions unanswered",
+    tags: ["passport", "keyboard", "clients"],
+  }),
+  ({ signals }) => ({
+    scene: `An accountant opens the practice door with luggage; voicemail light dark; website analytics spike red for "contact form incomplete".`,
+    scrollStopCue: "Luggage at the door, form incomplete",
+    tags: ["luggage", "door", "form"],
+  }),
+  ({ signals }) => ({
+    scene: `Absurd but readable: a paper boarding pass printer for phone callers at an accounting desk — website visitors get no seat assignment.`,
+    scrollStopCue: "Boarding passes for calls, nothing for the site",
+    tags: ["absurd", "boarding", "accounting"],
+  }),
+  ({ signals }) => ({
+    scene: `Social observation: clients text "are you back yet?" in a group chat; underneath, the ${signals.industryCue} website still shows a static contact form only.`,
+    scrollStopCue: "Group chat asks; website stays static",
+    tags: ["social", "group", "static", "social observation"],
+  }),
+  ({ signals }) => ({
+    scene: `Unexpected comparison: leaving the website silent on vacation is like locking the office door while the phone still rings in an empty ${signals.industryCue} room — except online, nobody even hears it.`,
+    scrollStopCue: "Locked door online, ring goes nowhere",
+    tags: ["comparison", "locked", "phone", "unexpected comparison"],
+  }),
+  ({ signals }) => ({
+    scene: `Neighbor bookkeeper's porch light on at night; your accountant's site shows "we'll get back to you" while a visitor books the neighbor instead — social proof of being unreachable.`,
+    scrollStopCue: "Neighbor answers; your site stalls",
+    tags: ["neighbor", "night", "social"],
+  }),
+  ({ signals }) => ({
+    scene: `Out-of-office email auto-reply on one screen; on the other, a website visitor closes the tab after the contact form demands a phone number they refuse to leave.`,
+    scrollStopCue: "OOO email works; contact form kills the lead",
+    tags: ["ooo", "form", "tab"],
+  }),
+  ({ signals }) => ({
+    scene: `Week-of-visits printout taped to a glass door of an ${signals.industryCue}; every row has a timestamp, every "phone/email captured" cell is blank.`,
+    scrollStopCue: "Timestamps without contact details",
+    tags: ["printout", "glass", "blank"],
+  }),
+  ({ signals }) => ({
+    scene: `Role reversal: empty accounting office during vacation week; only the website chat cursor blinks — and nobody is behind it.`,
+    scrollStopCue: "Empty office, blinking cursor, no human",
+    tags: ["role_reversal", "empty", "cursor"],
+  }),
+  ({ signals }) => ({
+    scene: `Close on a visitor's hands filling a contact form, then abandoning it; cut to the accountant later scrolling the same incomplete submissions.`,
+    scrollStopCue: "Form abandoned now, discovered after vacation",
+    tags: ["hands", "form", "abandon"],
+  }),
+  ({ signals }) => ({
+    scene: `Two clocks: wall clock marked "vacation ends"; website timer "avg reply" already days deep before the suitcase is unpacked.`,
+    scrollStopCue: "Vacation end vs reply timer",
+    tags: ["clocks", "vacation", "timer"],
+  }),
+  ({ signals }) => ({
+    scene: `Waiting-room fish tank metaphor in an accounting lobby: "phone leads" overcrowded; "website leads" bowl nearly empty — labeled missed while away.`,
+    scrollStopCue: "Fishbowl staffing while the owner was gone",
+    tags: ["fish", "lobby", "missed"],
+  }),
+  ({ signals }) => ({
+    scene: `Consequence first: a competitor CPA already on a Zoom with last week's website visitor; your accountant still unpacking, chat history unread.`,
+    scrollStopCue: "Competitor already on the call",
+    tags: ["consequence", "zoom", "competitor"],
+  }),
+  ({ signals }) => ({
+    scene: `Exaggeration: a physical pile of printed "session started / no contact" website logs towers beside the suitcase on the accountant's desk.`,
+    scrollStopCue: "Paper mountain of anonymous visits",
+    tags: ["exaggeration", "pile", "logs"],
+  }),
+  ({ signals }) => ({
+    scene: `Direct product world: a visitor types "Can you file my quarterly this week?" into the site at 11pm on Saturday; "delivered"; the accountant is still abroad.`,
+    scrollStopCue: "Urgent tax question, owner still abroad",
+    tags: ["direct", "tax", "abroad"],
+  }),
+  ({ signals }) => ({
+    scene: `Airport carousel: suitcase circles alone; parallel shot of website chat bubbles circling with no agent claiming them for an ${signals.industryCue}.`,
+    scrollStopCue: "Suitcase circles; chats circle unclaimed",
+    tags: ["airport", "carousel", "chats"],
+  }),
+  ({ signals }) => ({
+    scene: `Return-day gut punch: accountant opens analytics — 47 sessions, 0 identifiable contacts — then stares at a contact form that never offered a chat answer.`,
+    scrollStopCue: "47 sessions, zero contacts",
+    tags: ["analytics", "gut", "form"],
+  }),
+];
+
+/** Shared web-service templates (topic nouns injected; no HVAC props). */
+const WEB_SERVICE_TEMPLATES: SceneTemplate[] = [
+  ({ signals }) => ({
+    scene: `Close on a customer's hands sending an urgent question to ${signals.industryCue}; reply thread shows "seen" with no answer during ${signals.stressCue}.`,
+    scrollStopCue: "Urgent question dies in silence",
+    tags: ["hands", "urgent", "customer"],
+  }),
+  ({ signals }) => ({
+    scene: `Empty front desk at ${signals.industryCue} during ${signals.stressCue}; phones blink alone; a wall tablet chat calmly waits with nobody typing.`,
+    scrollStopCue: "Nobody home except the waiting chat",
+    tags: ["role_reversal", "empty", "chat"],
+  }),
+  ({ signals }) => ({
+    scene: `Train-station style departure board: "Phone caller #47" boarding; "Website visitor" stuck on Delayed — at ${signals.industryCue}.`,
+    scrollStopCue: "Departure board for the wrong channel",
+    tags: ["departure", "board", "delay"],
+  }),
+  ({ signals }) => ({
+    scene: `Two clocks at ${signals.industryCue}: shop hours vs "avg website reply" spinning into hours during ${signals.stressCue}.`,
+    scrollStopCue: "Dual clocks, one shameful",
+    tags: ["clocks", "timer", "shame"],
+  }),
+  ({ signals }) => ({
+    scene: `Absurd boarding-ticket dispenser for phone callers at ${signals.industryCue}; website chat on the counter glows with zero replies.`,
+    scrollStopCue: "Airport logic applied to the wrong queue",
+    tags: ["absurd", "queue", "lobby"],
+  }),
+  ({ signals }) => ({
+    scene: `Night: ${signals.industryCue} dark; security light on; tablet shows unanswered website chats glowing during ${signals.stressCue}.`,
+    scrollStopCue: "After hours, chats still screaming",
+    tags: ["night", "security", "chats"],
+  }),
+  ({ signals }) => ({
+    scene: `Consequence: rival already quoted the ${signals.customerCue}; your site chat still idle from ${signals.stressCue}.`,
+    scrollStopCue: "Competitor wins before you pick up",
+    tags: ["consequence", "competitor"],
+  }),
+  ({ signals }) => ({
+    scene: `Physical stack of printed missed-web-session logs grows on the ${signals.industryCue} counter while staff handle only the phone.`,
+    scrollStopCue: "Lost work as a physical mountain",
+    tags: ["exaggeration", "pile"],
+  }),
+];
+
+const DENTAL_TEMPLATES: SceneTemplate[] = [
+  ({ signals }) => ({
+    scene: `Dental clinic waiting room after hours; empty chairs; tablet at reception shows a patient asking about emergency pain — no reply during ${signals.stressCue}.`,
+    scrollStopCue: "Empty chairs, unanswered pain question",
+    tags: ["dental", "waiting", "patient"],
+  }),
+  ({ signals }) => ({
+    scene: `Patient holds ice pack in parking lot of a ${signals.industryCue}; refreshes the clinic website; still no chat answer.`,
+    scrollStopCue: "Ice pack outside, silence online",
+    tags: ["patient", "parking", "ice"],
+  }),
+  ...WEB_SERVICE_TEMPLATES,
+];
+
+const RESTAURANT_TEMPLATES: SceneTemplate[] = [
+  ({ signals }) => ({
+    scene: `Host stand packed; kitchen tickets flying; the ${signals.industryCue} reservation site shows unanswered "any table tonight?" chats.`,
+    scrollStopCue: "Tickets flying, reservation chat silent",
+    tags: ["restaurant", "host", "reservation"],
+  }),
+  ...WEB_SERVICE_TEMPLATES,
+];
+
+function templatesForWorld(world: TopicConcreteSignals["world"]): SceneTemplate[] {
+  switch (world) {
+    case "hvac_field":
+      return HVAC_TEMPLATES;
+    case "professional_return":
+      return PROFESSIONAL_RETURN_TEMPLATES;
+    case "dental":
+      return DENTAL_TEMPLATES;
+    case "restaurant":
+      return RESTAURANT_TEMPLATES;
+    default:
+      return WEB_SERVICE_TEMPLATES;
+  }
+}
 
 function normalizeSceneKey(scene: string): string {
   return scene
@@ -268,22 +293,21 @@ function normalizeSceneKey(scene: string): string {
     .slice(0, 120);
 }
 
+/** Light camera variants — same scrollStopCue so they cluster together. */
 function expandWithVariants(
-  base: { scene: string; scrollStopCue: string; tags: string[] },
-  signals: TopicConcreteSignals,
+  base: SceneBuilt,
   seed: string,
   count: number,
-): Array<{ scene: string; scrollStopCue: string; tags: string[] }> {
-  const out: Array<{ scene: string; scrollStopCue: string; tags: string[] }> = [base];
+): SceneBuilt[] {
+  const out: SceneBuilt[] = [base];
   const tweaks = [
-    (s: string) => s.replace(/Split-second/g, "Wide shot then snap zoom"),
-    (s: string) => s.replace(/Close on/g, "Macro on"),
-    (s: string) => `${s} Camera holds one beat too long for discomfort.`,
-    (s: string) => s.replace(/cut to/gi, "smash cut to"),
     (s: string) => `Handheld urgency: ${s}`,
+    (s: string) => `${s} Camera holds one beat too long for discomfort.`,
+    (s: string) => s.replace(/Close on/g, "Macro on"),
+    (s: string) => s.replace(/Split screen/g, "Wide then snap to"),
   ];
-  for (let i = 0; i < count && out.length < 50; i++) {
-    const tweak = pickFrom(tweaks, `${seed}-tweak-${i}`);
+  for (let i = 0; i < count && out.length < 8; i++) {
+    const tweak = tweaks[hashString(`${seed}-tweak-${i}`) % tweaks.length]!;
     const scene = tweak(base.scene);
     if (normalizeSceneKey(scene) !== normalizeSceneKey(base.scene)) {
       out.push({
@@ -306,16 +330,15 @@ export function generateRawVisualSituations(input: {
   const target = input.targetCount ?? 45;
   const seen = new Set<string>();
   const raw: RawVisualSituation[] = [];
+  const templates = templatesForWorld(input.signals.world);
 
-  const templateOrder = [...SCENE_TEMPLATES];
-  for (let pass = 0; raw.length < target && pass < 3; pass++) {
-    for (let ti = 0; ti < templateOrder.length && raw.length < target; ti++) {
-      const tpl = templateOrder[(ti + pass * 7) % templateOrder.length]!;
+  for (let pass = 0; raw.length < target && pass < 4; pass++) {
+    for (let ti = 0; ti < templates.length && raw.length < target; ti++) {
+      const tpl = templates[(ti + pass * 3) % templates.length]!;
       const variant = hashString(`${seed}-${ti}-${pass}`) % 5;
       const built = tpl({ signals: input.signals, variant });
       const expanded = expandWithVariants(
         built,
-        input.signals,
         `${seed}-${ti}`,
         pass === 0 ? 0 : 2,
       );
@@ -324,7 +347,7 @@ export function generateRawVisualSituations(input: {
         if (seen.has(key)) continue;
         seen.add(key);
 
-        const reject = rejectRawSituation(item.scene);
+        const reject = rejectRawSituation(item.scene, input.signals);
         const stopScrollScore = scoreStopScroll(item.scene, item.scrollStopCue);
         const visualDistinctScore = scoreVisualDistinct(item.scene, item.tags);
 
@@ -341,6 +364,47 @@ export function generateRawVisualSituations(input: {
         });
       }
     }
+  }
+
+  // Always include known-bad probes so the filter is observable in persistence.
+  const PROBE_SCENES: SceneBuilt[] = [
+    {
+      scene:
+        "Person staring at a laptop in a modern office meeting room explaining the product on a dashboard",
+      scrollStopCue: "Generic office probe (must reject)",
+      tags: ["probe", "generic"],
+    },
+    {
+      scene:
+        "A website-led service business worker holds a phone to their ear at a calm desk thinking about workflow efficiency",
+      scrollStopCue: "Interchangeable SMB probe (must reject)",
+      tags: ["probe", "generic"],
+    },
+    {
+      scene:
+        "Outside a HVAC / cooling service van in blazing heat, a technician sprints while an accountant topic is ignored",
+      scrollStopCue: "Off-industry HVAC probe (must reject when not HVAC)",
+      tags: ["probe", "hvac"],
+    },
+  ];
+
+  for (const item of PROBE_SCENES) {
+    if (raw.length >= target + 3) break;
+    const key = normalizeSceneKey(item.scene);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const reject = rejectRawSituation(item.scene, input.signals);
+    raw.push({
+      id: `raw-${raw.length + 1}-${hashString(key) % 10000}`,
+      scene: item.scene,
+      scrollStopCue: item.scrollStopCue,
+      tags: item.tags,
+      stopScrollScore: scoreStopScroll(item.scene, item.scrollStopCue),
+      visualDistinctScore: scoreVisualDistinct(item.scene, item.tags),
+      rejected: reject !== null,
+      rejectReason: reject,
+      clusterId: null,
+    });
   }
 
   return raw;

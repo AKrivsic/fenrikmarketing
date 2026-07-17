@@ -66,11 +66,16 @@ import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import {
   attachFidelityToPlan,
+  buildCreativeDnaDiagnostics,
   checkConceptFidelity,
+  creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
+  validateCreativeDnaAgainstPackage,
 } from "@/lib/creative-candidates";
+import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
+import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
 import { DEFAULT_GENERATION_MODE } from "@/lib/ai/generationMode";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
@@ -217,6 +222,19 @@ export async function runRegenerateContentPackage(
     weeklyStrategyId: context.weeklyStrategyId,
     excludePackageId: packageId,
   });
+
+  const creativeCandidatePlan = planCreativeCandidatesForPackage({
+    topic: context.topic,
+    angle: context.angle,
+    painPoints: project.pain_points ?? [],
+    productIs: project.product_is ?? [],
+    requireVideo,
+  });
+  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
+  const selectedDna = normalizeCreativeDNA(
+    creativeCandidates?.selectedCandidate.creativeDNA,
+  );
+
   const creativeIdentityPlan = planCreativeIdentityForPackage({
     project,
     visualProfile: resolvedVisualProfile.profile,
@@ -228,6 +246,7 @@ export async function runRegenerateContentPackage(
     creativeSeedSalt: regenerateCreativeSalt,
     series: seriesCreative,
     requireVideo,
+    creativeDNA: selectedDna,
   });
 
   const visualNarrativePlan = planVisualNarrativeForPackage({
@@ -283,15 +302,6 @@ export async function runRegenerateContentPackage(
     requireVideo,
   });
 
-  const creativeCandidatePlan = planCreativeCandidatesForPackage({
-    topic: context.topic,
-    angle: context.angle,
-    painPoints: project.pain_points ?? [],
-    productIs: project.product_is ?? [],
-    requireVideo,
-  });
-  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
-
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
@@ -325,6 +335,7 @@ export async function runRegenerateContentPackage(
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
+      creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
       creativeSeedSalt: regenerateCreativeSalt,
     });
@@ -437,6 +448,36 @@ export async function runRegenerateContentPackage(
     );
   }
 
+  let creativeDnaDiagnostics: CreativeDnaDiagnostics | null = null;
+  if (creativeCandidates && requireVideo) {
+    const dna = normalizeCreativeDNA(
+      creativeCandidates.selectedCandidate.creativeDNA,
+    );
+    const validation = dna
+      ? validateCreativeDnaAgainstPackage(dna, {
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          concept: generated.value.concept,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+        })
+      : null;
+    creativeDnaDiagnostics = buildCreativeDnaDiagnostics({
+      plan: creativeCandidates,
+      identityEnvironmentSuppressed:
+        creativeIdentityPlan.identityEnvironmentSuppressed,
+      validation,
+      dnaResolve: creativeCandidatePlan.dnaResolve,
+    });
+    if (validation && !validation.passed) {
+      console.warn(
+        "[creative-dna] validation warnings",
+        creativeCandidates.selectedCandidate.candidateId,
+        validation.violations,
+      );
+    }
+  }
+
   const pkg = generated.value;
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persisting the brief and queuing the video job, so the stored brief
@@ -494,30 +535,10 @@ export async function runRegenerateContentPackage(
     ...productRevealPlan.persistenceFields,
     ...attentionPlan.persistenceFields,
     ...(creativeCandidates
-      ? {
-          creative_candidates: {
-            version: creativeCandidates.version,
-            creativeDivergence: creativeCandidates.creativeDivergence,
-            generatedCandidates: creativeCandidates.generatedCandidates,
-            candidateScores: creativeCandidates.candidateScores.map((s) => ({
-              candidateId: s.candidate.candidateId,
-              family: s.candidate.family,
-              scores: s.scores,
-              weightedTotal: s.weightedTotal,
-              rejected: s.rejected,
-              rejectReasons: s.rejectReasons,
-              hookLine: s.candidate.hookLine,
-              openingSituation: s.candidate.openingSituation,
-              coreIdea: s.candidate.coreIdea,
-            })),
-            rejectedCandidates: creativeCandidates.rejectedCandidates,
-            selectedCandidate: creativeCandidates.selectedCandidate,
-            comparativeJudge: creativeCandidates.comparativeJudge,
-            finalScriptFidelity: creativeCandidates.finalScriptFidelity,
-            finalStoryboardFidelity: creativeCandidates.finalStoryboardFidelity,
-            regenerationReason: creativeCandidates.regenerationReason,
-          },
-        }
+      ? creativeCandidateFieldsForPersistence(
+          creativeCandidates,
+          creativeDnaDiagnostics,
+        )
       : {}),
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });

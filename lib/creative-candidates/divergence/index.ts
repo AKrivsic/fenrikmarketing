@@ -13,3 +13,7 @@ export {
   tokenSet,
   scoreStopScroll,
 } from "@/lib/creative-candidates/divergence/scoreRawSituation";
+export {
+  situationFingerprint,
+  areNearDuplicateSituations,
+} from "@/lib/creative-candidates/divergence/situationFingerprint";

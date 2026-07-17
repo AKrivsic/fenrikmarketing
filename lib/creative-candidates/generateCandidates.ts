@@ -3,86 +3,22 @@ import type {
   CreativeConceptFamily,
 } from "@/lib/creative-candidates/types";
 import { CREATIVE_CONCEPT_FAMILIES } from "@/lib/creative-candidates/types";
+import {
+  authorCreativeDNA,
+  resolveCandidateCreativeDNA,
+} from "@/lib/creative-candidates/creativeDNA";
+import {
+  extractTopicConcreteSignals,
+  type TopicConcreteSignals,
+} from "@/lib/creative-candidates/topicSignals";
+import { runCreativeDivergence } from "@/lib/creative-candidates/divergence/runCreativeDivergence";
+import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
 
-export interface TopicConcreteSignals {
-  industryCue: string;
-  stressCue: string;
-  customerCue: string;
-  consequenceCue: string;
-  rawTokens: string[];
-}
-
-/** Extract concrete topic signals so concepts cannot collapse to generic busy-business. */
-export function extractTopicConcreteSignals(
-  topic: string,
-  angle: string | null | undefined,
-): TopicConcreteSignals {
-  const blob = `${topic} ${angle ?? ""}`;
-  const lower = blob.toLowerCase();
-  const rawTokens: string[] = [];
-
-  const push = (t: string) => {
-    if (t && !rawTokens.includes(t)) rawTokens.push(t);
-  };
-
-  if (/\bhvac\b|air\s*condition|cooling|heatwave|heat\s*wave|furnace|technician/i.test(blob)) {
-    push("HVAC");
-    push("heatwave");
-    push("cooling");
-    push("technician");
-  }
-  if (/\bdentist|dental|clinic|patient/i.test(blob)) {
-    push("dental");
-    push("patient");
-  }
-  if (/\brestaurant|kitchen|chef|dining/i.test(blob)) {
-    push("restaurant");
-    push("kitchen");
-  }
-  if (/\bchatbot|website\s+visitor|embed|after.?hours|unanswered/i.test(blob)) {
-    push("website visitor");
-    push("unanswered");
-  }
-  if (/\bheat|hot|swelter|melt/i.test(blob)) push("heat");
-  if (/\bmiss(ed)?\s+(call|job|lead)|phone|ring/i.test(blob)) push("missed calls");
-  if (/\bleave|leaving|walk\s*away|competitor/i.test(blob)) push("customers leaving");
-
-  const industryCue =
-    /\bhvac\b/i.test(blob)
-      ? "HVAC / cooling service"
-      : /\bdental/i.test(blob)
-        ? "dental clinic"
-        : /\brestaurant/i.test(blob)
-          ? "restaurant"
-          : /\bchatbot|website/i.test(blob)
-            ? "website-led service business"
-            : topic.trim().slice(0, 80) || "this business";
-
-  const stressCue = /\bheatwave|heat\s*wave|heat\b/i.test(blob)
-    ? "heatwave demand spike"
-    : /\bmidnight|after.?hours|offline/i.test(blob)
-      ? "after-hours silence"
-      : "peak demand overload";
-
-  const customerCue = /\bvisitor|online\s+lead|website/i.test(blob)
-    ? "website visitor who needed an answer"
-    : /\bpatient/i.test(blob)
-      ? "patient waiting for a reply"
-      : "customer who needed help now";
-
-  const consequenceCue = /\blead|visitor|online/i.test(blob)
-    ? "every unanswered online lead walks to a competitor"
-    : "the job / sale is lost while someone else answers";
-
-  if (rawTokens.length === 0) {
-    // Keep at least topic nouns for specificity scoring.
-    for (const w of topic.split(/\W+/).filter((x) => x.length > 4).slice(0, 4)) {
-      push(w.toLowerCase());
-    }
-  }
-
-  return { industryCue, stressCue, customerCue, consequenceCue, rawTokens };
-}
+export {
+  extractTopicConcreteSignals,
+  type TopicConcreteSignals,
+  type TopicWorld,
+} from "@/lib/creative-candidates/topicSignals";
 
 function productLabel(productIs: readonly string[]): string {
   const p = productIs.find((x) => x.trim());
@@ -112,7 +48,7 @@ const FAMILY_BUILDERS: Record<CreativeConceptFamily, FamilyBuilder> = {
     storyProgression:
       "Argue → realize the website visitor left → see the cost → product answers the channel they abandoned.",
     productConnection: `${product} covers the online questions while humans handle the physical chaos.`,
-    ending: `The next ${signals.customerCue} gets an answer without stealing a technician from the floor.`,
+    ending: `The next ${signals.customerCue} gets an answer without stealing staff from the floor.`,
     expectedViewerQuestion: "Wait — are we losing the online jobs while we fight the phones?",
     familiarityRisk: "medium",
     memorabilityReason: "Argument + specific industry stress is a scene, not a slogan.",
@@ -224,9 +160,6 @@ const FAMILY_BUILDERS: Record<CreativeConceptFamily, FamilyBuilder> = {
   }),
 };
 
-import { runCreativeDivergence } from "@/lib/creative-candidates/divergence/runCreativeDivergence";
-import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
-
 /** Creative Divergence v2: raw situations → filter → cluster → 8 complete candidates. */
 export function generateCreativeCandidatesWithDivergence(input: {
   topic: string;
@@ -257,7 +190,9 @@ export function generateCreativeCandidatesFromFamilies(input: {
   painPoints?: readonly string[];
   productIs?: readonly string[];
 }): CreativeCandidate[] {
-  const signals = extractTopicConcreteSignals(input.topic, input.angle);
+  const signals = extractTopicConcreteSignals(input.topic, input.angle, {
+    productIs: input.productIs,
+  });
   const product = productLabel(input.productIs ?? []);
   const pain = painLabel(input.painPoints ?? []);
   const angle = (input.angle ?? "").trim() || input.topic;
@@ -271,10 +206,25 @@ export function generateCreativeCandidatesFromFamilies(input: {
 
   return CREATIVE_CONCEPT_FAMILIES.map((family, i) => {
     const body = FAMILY_BUILDERS[family](ctx);
-    return {
+    const base = {
       candidateId: `c${i + 1}-${family}`,
       family,
       ...body,
+    };
+    const authored = authorCreativeDNA(base, {
+      signals,
+      product,
+      pain,
+    });
+    const resolved = resolveCandidateCreativeDNA({
+      candidate: base,
+      authoredDna: authored,
+      ctx: { signals, product, pain, productIs: input.productIs },
+    });
+    return {
+      ...base,
+      creativeDNA: resolved.dna,
+      creativeDnaSource: resolved.source,
     };
   });
 }

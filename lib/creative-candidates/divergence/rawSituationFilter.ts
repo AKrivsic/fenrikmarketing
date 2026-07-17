@@ -1,7 +1,8 @@
 /**
- * Reject raw situations that are generic B2B stock — stricter than full-candidate check.
- * A raw situation must be a concrete scene; office/laptop/phone-as-subject fails.
+ * Reject raw situations that are generic, off-topic, or interchangeable B2B stock.
  */
+
+import type { TopicConcreteSignals } from "@/lib/creative-candidates/topicSignals";
 
 export const RAW_GENERIC_PATTERNS: readonly RegExp[] = [
   /\bmodern\s+office\b/i,
@@ -28,6 +29,8 @@ export const RAW_GENERIC_PATTERNS: readonly RegExp[] = [
   /\bgeneric\s+productivity\b/i,
   /\bnotification\s+on\s+(a\s+)?phone\s+screen\b/i,
   /\bsticky[- ]?notes?\s+(everywhere|on\s+wall)\b/i,
+  /\bwebsite-led\s+service\s+business\b/i,
+  /\bco-?working\s+(space|office)\b/i,
 ];
 
 /** Theme/message without a filmable event. */
@@ -39,7 +42,19 @@ export const RAW_THEME_NOT_SCENE: readonly RegExp[] = [
   /^\s*symbol(izing)?\s+/i,
 ];
 
-export function rejectRawSituation(scene: string): string | null {
+/** Scenes that could advertise any SMB with only the noun swapped. */
+export const REUSABLE_BUSINESS_SCENES: readonly RegExp[] = [
+  /\bworkers?\s+mid-argument\s+at\s+a\s+service\s+counter\b/i,
+  /\binflatable\s+tube-man\b/i,
+  /\bbreak\s+room\s+pizza\s+celebration\b/i,
+  /\bvolunteer\s+fire\s+siren\b/i,
+  /\bjanitor\s+mops\s+around\s+ringing\b/i,
+];
+
+export function rejectRawSituation(
+  scene: string,
+  signals?: TopicConcreteSignals | null,
+): string | null {
   const t = scene.trim();
   if (t.length < 40) return "too_short_not_concrete";
   if (t.length > 420) return "too_long_theme_like";
@@ -53,14 +68,52 @@ export function rejectRawSituation(scene: string): string | null {
     if (re.test(cleaned)) return `raw_generic:${re.source}`;
   }
 
-  // Laptop/phone as the ONLY subject (no action situation)
   const lower = cleaned.toLowerCase();
+
+  // Laptop/phone as the ONLY subject (no action situation)
   const hasProp = /\b(laptop|phone|desk|office|meeting)\b/.test(lower);
   const hasSituation =
-    /\b(walk|walking|argue|queue|van|truck|heat|sweat|pile|tower|competitor|doorway|street|boarding|ticket|clipboard|empty|abandon|melt|sprint|neighbor|window|ac\s|cooling|technician|visitor|customer|hands|typing|reply|chat\s+on\s+wall)\b/.test(
+    /\b(walk|walking|argue|queue|van|truck|heat|sweat|pile|tower|competitor|doorway|street|boarding|ticket|clipboard|empty|abandon|melt|sprint|neighbor|window|ac\s|cooling|technician|visitor|customer|hands|typing|reply|suitcase|vacation|inbox|accountant|passport|calendar|pto)\b/.test(
       lower,
     );
   if (hasProp && !hasSituation) return "prop_without_situation";
+
+  if (signals) {
+    for (const prop of signals.forbiddenProps) {
+      const re = new RegExp(
+        `\\b${prop.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\\\s+")}\\b`,
+        "i",
+      );
+      if (re.test(cleaned)) {
+        return `unrelated_industry:${prop}`;
+      }
+    }
+
+    const anchorHits = signals.topicAnchors.filter((a) =>
+      lower.includes(a.toLowerCase()),
+    ).length;
+    const needsAnchors = signals.world !== "web_service";
+    if (needsAnchors && anchorHits < 1) {
+      return "missing_topic_anchor";
+    }
+
+    // Interchangeable SMB stock without enough topic anchors
+    for (const re of REUSABLE_BUSINESS_SCENES) {
+      if (re.test(cleaned) && anchorHits < 2) {
+        return `reusable_business_scene:${re.source}`;
+      }
+    }
+
+    // Field-service scenery on non-field worlds
+    if (
+      signals.world === "professional_return" &&
+      /\b(van|technician|truck|heatwave|blazing\s+heat|driveway|bay\s+door|fleet|thermostat|hail)\b/i.test(
+        cleaned,
+      )
+    ) {
+      return "unrelated_industry:field_service_props";
+    }
+  }
 
   return null;
 }

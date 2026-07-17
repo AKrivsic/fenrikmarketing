@@ -1,6 +1,11 @@
 import type { Project } from "@/lib/supabase/types";
 import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
 import type { SeriesCreativeContext } from "@/lib/series/loadSeriesCreativeContext";
+import type { CreativeDNA } from "@/lib/creative-candidates/creativeDNA";
+import {
+  neutralizeIdentityEnvironmentForDna,
+  normalizeCreativeDNA,
+} from "@/lib/creative-candidates/creativeDNA";
 import {
   buildCreativeIdentityPromptBlock,
   creativeIdentityFieldsForPersistence,
@@ -22,13 +27,24 @@ export function planCreativeIdentityForPackage(args: {
   creativeSeedSalt?: string | null;
   series: SeriesCreativeContext;
   requireVideo: boolean;
+  /** When present, conflicting Identity environment is neutralized. */
+  creativeDNA?: CreativeDNA | null;
 }): {
   identity: CreativeIdentity | null;
+  /** Identity as used for prompts / image suffix (may have neutralized environment). */
+  promptIdentity: CreativeIdentity | null;
   promptBlock: string;
   persistenceFields: Record<string, unknown>;
+  identityEnvironmentSuppressed: boolean;
 } {
   if (!args.requireVideo) {
-    return { identity: null, promptBlock: "", persistenceFields: {} };
+    return {
+      identity: null,
+      promptIdentity: null,
+      promptBlock: "",
+      persistenceFields: {},
+      identityEnvironmentSuppressed: false,
+    };
   }
 
   const seed = buildCreativeIdentitySeed({
@@ -47,12 +63,21 @@ export function planCreativeIdentityForPackage(args: {
     recentIdentityKeys: args.series.recentCreativeIdentityKeys,
   });
 
+  const dna = normalizeCreativeDNA(args.creativeDNA ?? undefined);
+  const neutralized = dna
+    ? neutralizeIdentityEnvironmentForDna(identity, dna)
+    : { identity, suppressed: false };
+
   return {
     identity,
+    promptIdentity: neutralized.identity,
     promptBlock: buildCreativeIdentityPromptBlock(
-      identity,
+      neutralized.identity,
       args.series.recentCreativeIdentityKeys,
+      { dnaWorldTreatment: neutralized.suppressed },
     ),
-    persistenceFields: creativeIdentityFieldsForPersistence(identity),
+    // Persist the prompt identity so the video worker matches Claude's staging.
+    persistenceFields: creativeIdentityFieldsForPersistence(neutralized.identity),
+    identityEnvironmentSuppressed: neutralized.suppressed,
   };
 }

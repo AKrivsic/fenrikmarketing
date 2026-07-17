@@ -1,6 +1,12 @@
+import type {
+  CreativeDNA,
+  CreativeDnaSource,
+} from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
 
-export const CREATIVE_CANDIDATE_VERSION = "creative-candidates@2" as const;
+export const CREATIVE_CANDIDATE_VERSION = "creative-candidates@2.3" as const;
+
+export type { CreativeDNA, CreativeDnaSource };
 
 export const CREATIVE_CONCEPT_FAMILIES = [
   "human_conflict",
@@ -29,6 +35,19 @@ export interface CreativeCandidate {
   expectedViewerQuestion: string;
   familiarityRisk: "low" | "medium" | "high";
   memorabilityReason: string;
+  /**
+   * Canonical immutable creative decisions. Optional for backward compatibility
+   * with historical packages that predate Creative DNA.
+   * For newly generated candidates, authored in the same Divergence pass.
+   */
+  creativeDNA?: CreativeDNA;
+  /**
+   * How creativeDNA was obtained for this candidate.
+   * `"model"` = authored with the candidate in Divergence generation.
+   * `"deterministic_fallback"` = deriveCreativeDNA after missing/invalid authored DNA.
+   * `"missing"` = historical / unresolved.
+   */
+  creativeDnaSource?: CreativeDnaSource;
 }
 
 export interface CreativeCandidateScores {

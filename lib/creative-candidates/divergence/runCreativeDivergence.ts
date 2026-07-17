@@ -31,7 +31,9 @@ export function runCreativeDivergence(input: {
   divergence: CreativeDivergencePlan;
   candidates: CreativeCandidate[];
 } {
-  const signals = extractTopicConcreteSignals(input.topic, input.angle);
+  const signals = extractTopicConcreteSignals(input.topic, input.angle, {
+    productIs: input.productIs,
+  });
   const product = productLabel(input.productIs ?? []);
   const pain = painLabel(input.painPoints ?? []);
   const candidateCount = input.candidateCount ?? 8;

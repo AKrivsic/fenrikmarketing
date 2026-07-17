@@ -240,6 +240,11 @@ export interface GenerateContentPackagePromptInput {
   attentionPromptBlock?: string;
   /** Creative Candidate Selection v1 — winning complete concept controls script + storyboard. */
   creativeCandidatePromptBlock?: string;
+  /**
+   * Canonical Creative DNA — placed immediately after the candidate block.
+   * Absent for historical candidates without creativeDNA.
+   */
+  creativeDnaPromptBlock?: string;
   /** Optional fidelity repair appendix after a failed concept fidelity check. */
   creativeCandidateFidelityRepair?: string;
 }
@@ -488,6 +493,9 @@ export function buildGenerateContentPackagePrompt(
 
   const creativeCandidateLines = input.creativeCandidatePromptBlock
     ? [input.creativeCandidatePromptBlock]
+    : [];
+  const creativeDnaLines = input.creativeDnaPromptBlock
+    ? [input.creativeDnaPromptBlock]
     : [];
   const fidelityRepairLines = input.creativeCandidateFidelityRepair
     ? [input.creativeCandidateFidelityRepair]
@@ -738,6 +746,9 @@ export function buildGenerateContentPackagePrompt(
     ...(creativeCandidateLines.length > 0
       ? [...creativeCandidateLines, ""]
       : []),
+    // Creative DNA sits immediately after the winner and before Identity /
+    // Narrative / Product Reveal (those live inside VISUAL BEATS below).
+    ...(creativeDnaLines.length > 0 ? [...creativeDnaLines, ""] : []),
     ...(fidelityRepairLines.length > 0 ? [...fidelityRepairLines, ""] : []),
     ...qualityLines,
     "",

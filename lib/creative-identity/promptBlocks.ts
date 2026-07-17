@@ -8,6 +8,10 @@ export const CREATIVE_IDENTITY_PROMPT_HEADER = "CREATIVE IDENTITY";
 export function buildCreativeIdentityPromptBlock(
   identity: CreativeIdentity,
   recentIdentityKeys: readonly string[],
+  opts?: {
+    /** When true, environment is treatment-inside-DNA-world wording. */
+    dnaWorldTreatment?: boolean;
+  },
 ): string {
   const avoid =
     recentIdentityKeys.length > 0
@@ -19,9 +23,32 @@ export function buildCreativeIdentityPromptBlock(
         ]
       : [];
 
+  const environmentLine = opts?.dnaWorldTreatment
+    ? `- Environment (treatment only — stay inside Creative DNA world): ${identity.environment}`
+    : "- Environment: " + identity.environment;
+
+  const rules = opts?.dnaWorldTreatment
+    ? [
+        "Rules:",
+        "- Apply the following visual treatment inside the canonical Creative DNA world.",
+        "- Do NOT inject a different physical setting; Creative DNA.world is the mandatory location.",
+        "- Every image_prompt must express this SAME lighting/camera/composition/color treatment while depicting each beat's narrative subject in the DNA world.",
+        "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
+        "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
+        "- PROJECT VISUAL PROFILE still applies on top (treatment only).",
+      ]
+    : [
+        "Rules:",
+        "- Every image_prompt must express this SAME identity while depicting each beat's narrative subject.",
+        "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
+        "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
+        "- PROJECT VISUAL PROFILE still applies on top (treatment only).",
+        "- Do not revert to generic modern offices or interchangeable stock staging unless the beat requires it.",
+      ];
+
   return [
     `${CREATIVE_IDENTITY_PROMPT_HEADER} (${CREATIVE_IDENTITY_VERSION} — one identity for ALL image_prompts in this package):`,
-    "- Environment: " + identity.environment,
+    environmentLine,
     "- Mood: " + identity.mood,
     "- Lighting: " + identity.lighting,
     "- Camera: " + identity.camera,
@@ -29,12 +56,7 @@ export function buildCreativeIdentityPromptBlock(
     "- Human presence: " + identity.human_presence,
     "- Color feel: " + identity.color_feel,
     "",
-    "Rules:",
-    "- Every image_prompt must express this SAME identity while depicting each beat's narrative subject.",
-    "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
-    "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
-    "- PROJECT VISUAL PROFILE still applies on top (treatment only).",
-    "- Do not revert to generic modern offices or interchangeable stock staging unless the beat requires it.",
+    ...rules,
     ...avoid,
   ].join("\n");
 }
