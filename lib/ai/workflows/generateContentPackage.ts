@@ -543,7 +543,7 @@ export async function runGenerateContentPackage(
       ? validateCreativeDnaAgainstPackage(dna, {
           hook: generated.value.hook,
           voiceoverText: generated.value.voiceover_text,
-          concept: generated.value.concept,
+          concept: generated.value.video?.concept,
           imagePrompts: generated.value.image_prompts,
           visualScenes: generated.value.visual_scenes,
         })
