@@ -238,6 +238,10 @@ export interface GenerateContentPackagePromptInput {
   productRevealPromptBlock?: string;
   /** Attention & Engagement v1 — mechanism, originality, opening contract. */
   attentionPromptBlock?: string;
+  /** Creative Candidate Selection v1 — winning complete concept controls script + storyboard. */
+  creativeCandidatePromptBlock?: string;
+  /** Optional fidelity repair appendix after a failed concept fidelity check. */
+  creativeCandidateFidelityRepair?: string;
 }
 
 export function buildSamplePackageRulesBlock(): string {
@@ -482,6 +486,13 @@ export function buildGenerateContentPackagePrompt(
     ? [input.attentionPromptBlock]
     : [];
 
+  const creativeCandidateLines = input.creativeCandidatePromptBlock
+    ? [input.creativeCandidatePromptBlock]
+    : [];
+  const fidelityRepairLines = input.creativeCandidateFidelityRepair
+    ? [input.creativeCandidateFidelityRepair]
+    : [];
+
   // Content Quality Sprint 2 — hard length / pacing / forbidden rules. These
   // keep the short tight (15–25s), the narration punchy (40–70 words, never
   // > 80) and the structure on the preferred Hook -> Twist -> Payoff -> CTA arc,
@@ -724,6 +735,10 @@ export function buildGenerateContentPackagePrompt(
     ...(attentionEngagementLines.length > 0
       ? [...attentionEngagementLines, ""]
       : []),
+    ...(creativeCandidateLines.length > 0
+      ? [...creativeCandidateLines, ""]
+      : []),
+    ...(fidelityRepairLines.length > 0 ? [...fidelityRepairLines, ""] : []),
     ...qualityLines,
     "",
     ...hookLines,

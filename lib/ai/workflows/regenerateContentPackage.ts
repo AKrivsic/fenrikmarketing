@@ -64,6 +64,13 @@ import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
+import {
+  attachFidelityToPlan,
+  checkConceptFidelity,
+  fidelityRepairAppendix,
+  planCreativeCandidatesForPackage,
+} from "@/lib/creative-candidates";
+import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import { DEFAULT_GENERATION_MODE } from "@/lib/ai/generationMode";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
@@ -276,16 +283,23 @@ export async function runRegenerateContentPackage(
     requireVideo,
   });
 
+  const creativeCandidatePlan = planCreativeCandidatesForPackage({
+    topic: context.topic,
+    angle: context.angle,
+    painPoints: project.pain_points ?? [],
+    productIs: project.product_is ?? [],
+    requireVideo,
+  });
+  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
+
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
-  const generated = await generateValidatedJson({
-    textProvider: getCopywritingProvider(),
-    system: buildRegeneratePackageSystem(requireVideo),
-    prompt: buildRegenerateContentPackagePrompt({
+  const buildRegenPrompt = (fidelityRepair?: string) =>
+    buildRegenerateContentPackagePrompt({
       project,
       funnelStage: context.funnelStage,
       topic: context.topic,
@@ -309,8 +323,16 @@ export async function runRegenerateContentPackage(
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
+      creativeCandidatePromptBlock:
+        creativeCandidatePlan.promptBlock || undefined,
+      creativeCandidateFidelityRepair: fidelityRepair,
       creativeSeedSalt: regenerateCreativeSalt,
-    }),
+    });
+
+  let generated = await generateValidatedJson({
+    textProvider: getCopywritingProvider(),
+    system: buildRegeneratePackageSystem(requireVideo),
+    prompt: buildRegenPrompt(),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
       project,
@@ -341,12 +363,79 @@ export async function runRegenerateContentPackage(
     memory,
   });
 
-  const aligned = alignHookWithFirstSpoken({
+  let aligned = alignHookWithFirstSpoken({
     hook: generated.value.hook,
     voiceoverText: generated.value.voiceover_text,
   });
   generated.value.hook = aligned.hook;
   generated.value.voiceover_text = aligned.voiceover_text;
+
+  let regenerationReason: string | null = null;
+  if (creativeCandidates && requireVideo) {
+    let fidelity = checkConceptFidelity({
+      winner: creativeCandidates.selectedCandidate,
+      hook: generated.value.hook,
+      voiceoverText: generated.value.voiceover_text,
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+      topic: context.topic,
+      angle: context.angle,
+    });
+    if (!fidelity.passed) {
+      regenerationReason = fidelity.failureReasons.join(",");
+      const repaired = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildRegeneratePackageSystem(requireVideo),
+        prompt: buildRegenPrompt(
+          fidelityRepairAppendix(
+            creativeCandidates.selectedCandidate,
+            fidelity,
+          ),
+        ),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+      });
+      if (repaired.ok) {
+        generated = repaired;
+        generated.value.hook = await ensureUniqueHook({
+          hook: generated.value.hook,
+          project,
+          topic: context.topic,
+          angle: context.angle,
+          memory,
+        });
+        aligned = alignHookWithFirstSpoken({
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = aligned.hook;
+        generated.value.voiceover_text = aligned.voiceover_text;
+        fidelity = checkConceptFidelity({
+          winner: creativeCandidates.selectedCandidate,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          topic: context.topic,
+          angle: context.angle,
+        });
+      }
+    }
+    creativeCandidates = attachFidelityToPlan(
+      creativeCandidates,
+      fidelity,
+      regenerationReason,
+    );
+  }
 
   const pkg = generated.value;
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
@@ -404,6 +493,32 @@ export async function runRegenerateContentPackage(
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
     ...attentionPlan.persistenceFields,
+    ...(creativeCandidates
+      ? {
+          creative_candidates: {
+            version: creativeCandidates.version,
+            creativeDivergence: creativeCandidates.creativeDivergence,
+            generatedCandidates: creativeCandidates.generatedCandidates,
+            candidateScores: creativeCandidates.candidateScores.map((s) => ({
+              candidateId: s.candidate.candidateId,
+              family: s.candidate.family,
+              scores: s.scores,
+              weightedTotal: s.weightedTotal,
+              rejected: s.rejected,
+              rejectReasons: s.rejectReasons,
+              hookLine: s.candidate.hookLine,
+              openingSituation: s.candidate.openingSituation,
+              coreIdea: s.candidate.coreIdea,
+            })),
+            rejectedCandidates: creativeCandidates.rejectedCandidates,
+            selectedCandidate: creativeCandidates.selectedCandidate,
+            comparativeJudge: creativeCandidates.comparativeJudge,
+            finalScriptFidelity: creativeCandidates.finalScriptFidelity,
+            finalStoryboardFidelity: creativeCandidates.finalStoryboardFidelity,
+            regenerationReason: creativeCandidates.regenerationReason,
+          },
+        }
+      : {}),
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.

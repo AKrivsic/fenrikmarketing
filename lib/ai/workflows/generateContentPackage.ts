@@ -88,6 +88,13 @@ import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
+import {
+  attachFidelityToPlan,
+  checkConceptFidelity,
+  fidelityRepairAppendix,
+  planCreativeCandidatesForPackage,
+} from "@/lib/creative-candidates";
+import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -357,10 +364,17 @@ export async function runGenerateContentPackage(
     requireVideo,
   });
 
-  const generated = await generateValidatedJson({
-    textProvider: getCopywritingProvider(),
-    system: buildGeneratePackageSystem(requireVideo),
-    prompt: buildGenerateContentPackagePrompt({
+  const creativeCandidatePlan = planCreativeCandidatesForPackage({
+    topic: context.topic,
+    angle: context.angle,
+    painPoints: project.pain_points ?? [],
+    productIs: project.product_is ?? [],
+    requireVideo,
+  });
+  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
+
+  const buildPackagePrompt = (fidelityRepair?: string) =>
+    buildGenerateContentPackagePrompt({
       project,
       funnelStage: context.funnelStage,
       topic: context.topic,
@@ -387,7 +401,15 @@ export async function runGenerateContentPackage(
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
-    }),
+      creativeCandidatePromptBlock:
+        creativeCandidatePlan.promptBlock || undefined,
+      creativeCandidateFidelityRepair: fidelityRepair,
+    });
+
+  let generated = await generateValidatedJson({
+    textProvider: getCopywritingProvider(),
+    system: buildGeneratePackageSystem(requireVideo),
+    prompt: buildPackagePrompt(),
     validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
     guardrails: makePackageGuardrails({
       project,
@@ -422,12 +444,84 @@ export async function runGenerateContentPackage(
   });
 
   // Attention & Engagement v1 — keep stored hook and first spoken line aligned.
-  const aligned = alignHookWithFirstSpoken({
+  let aligned = alignHookWithFirstSpoken({
     hook: generated.value.hook,
     voiceoverText: generated.value.voiceover_text,
   });
   generated.value.hook = aligned.hook;
   generated.value.voiceover_text = aligned.voiceover_text;
+
+  // Creative Candidate Selection v1 — concept fidelity; one repair regenerate.
+  let regenerationReason: string | null = null;
+  if (creativeCandidates && requireVideo) {
+    let fidelity = checkConceptFidelity({
+      winner: creativeCandidates.selectedCandidate,
+      hook: generated.value.hook,
+      voiceoverText: generated.value.voiceover_text,
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+      topic: context.topic,
+      angle: context.angle,
+    });
+    if (!fidelity.passed) {
+      regenerationReason = fidelity.failureReasons.join(",");
+      const repaired = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildGeneratePackageSystem(requireVideo),
+        prompt: buildPackagePrompt(
+          fidelityRepairAppendix(
+            creativeCandidates.selectedCandidate,
+            fidelity,
+          ),
+        ),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          assetCoverage,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+        maxTransportAttempts:
+          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+      });
+      if (repaired.ok) {
+        generated = repaired;
+        generated.value.hook = await ensureUniqueHook({
+          hook: generated.value.hook,
+          project,
+          topic: context.topic,
+          angle: context.angle,
+          memory,
+        });
+        aligned = alignHookWithFirstSpoken({
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = aligned.hook;
+        generated.value.voiceover_text = aligned.voiceover_text;
+        fidelity = checkConceptFidelity({
+          winner: creativeCandidates.selectedCandidate,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          topic: context.topic,
+          angle: context.angle,
+        });
+      }
+    }
+    creativeCandidates = attachFidelityToPlan(
+      creativeCandidates,
+      fidelity,
+      regenerationReason,
+    );
+  }
 
   // MVP scene/image cost cap — drop empty prompts and cap to the supported max
   // BEFORE persistence, so the stored package_brief and the queued video job
@@ -490,6 +584,32 @@ export async function runGenerateContentPackage(
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
     ...attentionPlan.persistenceFields,
+    ...(creativeCandidates
+      ? {
+          creative_candidates: {
+            version: creativeCandidates.version,
+            creativeDivergence: creativeCandidates.creativeDivergence,
+            generatedCandidates: creativeCandidates.generatedCandidates,
+            candidateScores: creativeCandidates.candidateScores.map((s) => ({
+              candidateId: s.candidate.candidateId,
+              family: s.candidate.family,
+              scores: s.scores,
+              weightedTotal: s.weightedTotal,
+              rejected: s.rejected,
+              rejectReasons: s.rejectReasons,
+              hookLine: s.candidate.hookLine,
+              openingSituation: s.candidate.openingSituation,
+              coreIdea: s.candidate.coreIdea,
+            })),
+            rejectedCandidates: creativeCandidates.rejectedCandidates,
+            selectedCandidate: creativeCandidates.selectedCandidate,
+            comparativeJudge: creativeCandidates.comparativeJudge,
+            finalScriptFidelity: creativeCandidates.finalScriptFidelity,
+            finalStoryboardFidelity: creativeCandidates.finalStoryboardFidelity,
+            regenerationReason: creativeCandidates.regenerationReason,
+          },
+        }
+      : {}),
   };
   normalizeImagePrompts(generated.value, {
     workflow: "generate",
