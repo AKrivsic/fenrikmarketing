@@ -11,6 +11,7 @@ import type {
   OpeningEmotionalEffect,
   OriginalityPass,
 } from "@/lib/attention/types";
+import { evaluateVisualStoryConcept } from "@/lib/visual-narrative/visualStoryDirector";
 
 export interface OriginalityInput {
   mechanism: AttentionMechanism;
@@ -280,6 +281,38 @@ function applyRejections(
     if (c.id === "unexpected" && c.scores.relevance < 5) {
       reject_reasons.push("unexpected_but_unconnected");
     }
+
+    // Visual Story Director: reject abstract riddles; keep clear metaphors / situations.
+    const story = evaluateVisualStoryConcept({
+      visual: c.visual_concept,
+      narrativeSeed: c.narrative_seed,
+      spokenIdea: mechanism,
+    });
+    const hardStoryReject = story.reject_reasons.find(
+      (r) =>
+        r.startsWith("abstract_riddle:") ||
+        r.startsWith("forced_scenery:") ||
+        r === "metaphor_requires_prompt_explanation" ||
+        r === "office_cliche_backslide" ||
+        r === "symbolism_without_clarity" ||
+        r === "originality_without_understanding",
+    );
+    if (hardStoryReject) {
+      reject_reasons.push(`visual_story:${hardStoryReject}`);
+    } else if (
+      c.id === "unexpected" &&
+      story.metaphor_class === "requires_prompt_explanation"
+    ) {
+      reject_reasons.push("visual_story:unexpected_needs_caption");
+    } else if (
+      story.scores.originality >= 8 &&
+      story.scores.emotional_clarity <= 4 &&
+      story.scores.immediate_recognisability <= 4
+    ) {
+      // Originality that is only "unusual" without clarity → randomness.
+      reject_reasons.push("visual_story:originality_without_clarity");
+    }
+
     return {
       ...c,
       rejected: reject_reasons.length > 0,

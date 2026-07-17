@@ -1,4 +1,4 @@
-export const VISUAL_NARRATIVE_VERSION = "visual-narrative@1";
+export const VISUAL_NARRATIVE_VERSION = "visual-narrative@1.1";
 
 /** How the package primarily communicates meaning — not a render style. */
 export const MEANING_CARRIERS = [
@@ -27,4 +27,10 @@ export interface VisualNarrativePlan {
   recent_motif_counts: Record<string, number>;
   /** Stable fingerprint for series de-duplication. */
   key: string;
+  /** Visual Story Director v1 — situation-first storytelling mode. */
+  storytelling_mode: "situation_first";
+  director_version: string;
+  preferred_situation_framing: string;
+  reject_abstract_riddles: true;
+  metaphor_policy: "understandable_preferred";
 }

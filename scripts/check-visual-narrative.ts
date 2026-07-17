@@ -97,7 +97,7 @@ check("deterministic for same seed", () => {
   assert.equal(a.primary_meaning_carrier, b.primary_meaning_carrier);
 });
 
-check("motif pressure shifts away from laptop-heavy series", () => {
+check("motif pressure diversifies without abstract object dump", () => {
   const laptopHeavy: SeriesCreativeContext = {
     ...emptySeries,
     fingerprints: Array.from({ length: 6 }, (_, i) =>
@@ -113,7 +113,8 @@ check("motif pressure shifts away from laptop-heavy series", () => {
       }),
     ),
   };
-  let objectLike = 0;
+  let situationFirst = 0;
+  let abstractObject = 0;
   for (let i = 0; i < 24; i++) {
     const plan = resolveVisualNarrative({
       project: saasProject,
@@ -123,15 +124,26 @@ check("motif pressure shifts away from laptop-heavy series", () => {
       funnelStage: "awareness",
     });
     if (
-      plan.primary_meaning_carrier === "object" ||
-      plan.primary_meaning_carrier === "place" ||
-      plan.primary_meaning_carrier === "process" ||
-      plan.primary_meaning_carrier === "metaphor"
+      plan.primary_meaning_carrier === "human" ||
+      plan.primary_meaning_carrier === "comparison" ||
+      plan.primary_meaning_carrier === "transformation" ||
+      plan.primary_meaning_carrier === "metaphor" ||
+      plan.primary_meaning_carrier === "process"
     ) {
-      objectLike++;
+      situationFirst++;
+    }
+    if (plan.primary_meaning_carrier === "object") {
+      abstractObject++;
     }
   }
-  assert.ok(objectLike >= 12, `expected diversification bias, got ${objectLike}/24`);
+  assert.ok(
+    situationFirst >= 12,
+    `expected situation-first diversification, got ${situationFirst}/24`,
+  );
+  assert.ok(
+    abstractObject <= 8,
+    `expected object not to become the escape hatch, got ${abstractObject}/24`,
+  );
 });
 
 check("education project hints differ from generic saas", () => {
@@ -143,6 +155,24 @@ check("education project hints differ from generic saas", () => {
     funnelStage: "awareness",
   });
   assert.match(edu.product_world_hints.join(" "), /Education world/i);
+});
+
+check("plan carries Visual Story Director v1 fields", () => {
+  const plan = resolveVisualNarrative({
+    project: saasProject,
+    identity: null,
+    seed: "director-fields",
+    series: emptySeries,
+    funnelStage: "awareness",
+    topic: "incomplete requirements",
+    angle: "mid sprint",
+  });
+  assert.equal(plan.version, "visual-narrative@1.1");
+  assert.equal(plan.storytelling_mode, "situation_first");
+  assert.equal(plan.reject_abstract_riddles, true);
+  assert.equal(plan.metaphor_policy, "understandable_preferred");
+  assert.match(plan.director_version, /visual-story-director@1/);
+  assert.ok(plan.preferred_situation_framing.length > 10);
 });
 
 console.log("\nprompt wiring");

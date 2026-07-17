@@ -50,6 +50,8 @@ export function planVisualNarrativeForPackage(args: {
     series: args.series,
     funnelStage: args.funnelStage,
     recentPrimaryCarrierKeys: args.series.recentVisualNarrativeKeys,
+    topic: args.topic,
+    angle: args.angle,
   });
 
   return {
