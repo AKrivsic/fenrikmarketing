@@ -496,6 +496,9 @@ export async function runRegenerateContentPackage(
     );
 
     const ensureDemo = (force: boolean) => {
+      if (!generated.ok) {
+        throw new Error("ensureDemo requires a successful package generation");
+      }
       const ensured = ensureStructuredProductDemo({
         visualScenes: generated.value.visual_scenes,
         winner: creativeCandidates!.selectedCandidate,

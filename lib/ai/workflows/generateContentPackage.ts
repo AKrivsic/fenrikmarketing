@@ -585,6 +585,9 @@ export async function runGenerateContentPackage(
     // Sprint 4C.1 — inject structured PRODUCT_DEMO before Story Integrity so
     // product demonstration is satisfiable without prose regex luck.
     const ensureDemo = (force: boolean) => {
+      if (!generated.ok) {
+        throw new Error("ensureDemo requires a successful package generation");
+      }
       const ensured = ensureStructuredProductDemo({
         visualScenes: generated.value.visual_scenes,
         winner: creativeCandidates!.selectedCandidate,
