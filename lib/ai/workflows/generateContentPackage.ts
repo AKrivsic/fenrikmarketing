@@ -97,14 +97,14 @@ import {
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
-  productDemonstrationRepairAppendix,
-  productDemonstrationValidationIssues,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
   validateProductDemonstrationIntegrity,
+  productDemonstrationValidationIssues,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -582,6 +582,20 @@ export async function runGenerateContentPackage(
       regenerationReason,
     );
 
+    // Sprint 4C.1 — inject structured PRODUCT_DEMO before Story Integrity so
+    // product demonstration is satisfiable without prose regex luck.
+    const ensureDemo = (force: boolean) => {
+      const ensured = ensureStructuredProductDemo({
+        visualScenes: generated.value.visual_scenes,
+        winner: creativeCandidates!.selectedCandidate,
+        force,
+      });
+      generated.value.visual_scenes =
+        ensured.scenes as typeof generated.value.visual_scenes;
+      return ensured;
+    };
+    ensureDemo(false);
+
     // Story Integrity — selected commercial world must survive every beat.
     // Hard gate: one repair, then fail generation (do not silently continue).
     let storyIntegrity = validateStoryIntegrity({
@@ -652,6 +666,7 @@ export async function runGenerateContentPackage(
           fidelity,
           regenerationReason,
         );
+        ensureDemo(false);
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -686,8 +701,8 @@ export async function runGenerateContentPackage(
       };
     }
 
-    // Sprint 4C — Product Demonstration Integrity (visual ask→answer→result +
-    // PRIMARY_ACTOR continuity). Hard gate: one repair, then fail.
+    // Sprint 4C.1 — Product Demonstration Integrity (structured beat +
+    // controlled chat visual). One deterministic repair (force inject), then fail.
     let productDemoIntegrity = validateProductDemonstrationIntegrity({
       winner: creativeCandidates.selectedCandidate,
       voiceoverText: generated.value.voiceover_text,
@@ -699,67 +714,14 @@ export async function runGenerateContentPackage(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
-      const repairedDemo = await generateValidatedJson({
-        textProvider: getCopywritingProvider(),
-        system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildPackagePrompt(
-          productDemonstrationRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            productDemoIntegrity,
-          ),
-        ),
-        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-        guardrails: makePackageGuardrails({
-          project,
-          context,
-          classById: assets.classById,
-          requiredPlatforms: targetPlatforms,
-          requireVideo,
-          assetCoverage,
-          preferredVideoUsageById: requireVideo
-            ? preferredVideoUsageById
-            : undefined,
-        }),
-        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
-        maxTransportAttempts:
-          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+      // Deterministic repair: replace failing resolution with structured PRODUCT_DEMO.
+      ensureDemo(true);
+      productDemoIntegrity = validateProductDemonstrationIntegrity({
+        winner: creativeCandidates.selectedCandidate,
+        voiceoverText: generated.value.voiceover_text,
+        imagePrompts: generated.value.image_prompts,
+        visualScenes: generated.value.visual_scenes,
       });
-      if (repairedDemo.ok) {
-        generated = repairedDemo;
-        generated.value.hook = await ensureUniqueHook({
-          hook: generated.value.hook,
-          project,
-          topic: context.topic,
-          angle: context.angle,
-          memory,
-        });
-        aligned = alignHookWithFirstSpoken({
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-        });
-        generated.value.hook = aligned.hook;
-        generated.value.voiceover_text = aligned.voiceover_text;
-        fidelity = checkConceptFidelity({
-          winner: creativeCandidates.selectedCandidate,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          topic: context.topic,
-          angle: context.angle,
-        });
-        creativeCandidates = attachFidelityToPlan(
-          creativeCandidates,
-          fidelity,
-          regenerationReason,
-        );
-        productDemoIntegrity = validateProductDemonstrationIntegrity({
-          winner: creativeCandidates.selectedCandidate,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-        });
-      }
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,

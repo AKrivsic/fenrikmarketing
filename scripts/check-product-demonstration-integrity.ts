@@ -103,8 +103,9 @@ check("prompt block includes Product Demonstration Integrity header + PRIMARY_AC
   const block = buildProductDemonstrationPromptBlock(handheldWinner());
   assert.ok(block.includes(PRODUCT_DEMONSTRATION_INTEGRITY_PROMPT_HEADER));
   assert.ok(block.includes("PRIMARY_ACTOR"));
-  assert.ok(block.includes("Visible AI answer"));
-  assert.ok(block.includes("NOT ALLOWED"));
+  assert.ok(block.includes("PRODUCT_DEMO") || block.includes("product_demo"));
+  assert.ok(block.includes("ai_answer_visible") || block.includes("AI answer"));
+  assert.ok(block.includes("Forbidden") || block.includes("NOT ALLOWED") || block.includes("empty bubbles"));
 });
 
 check("candidate prompt embeds product demonstration integrity", () => {
@@ -218,19 +219,21 @@ check("AFTER: continuous same-actor ask→answer→result passes", () => {
         "Same website visitor's hands holding a smartphone sending an urgent booking question into website chat — message bubble sent",
     },
     {
-      source: "ai",
-      image_prompt:
-        "Same visitor hands, same smartphone chat thread waiting — seen status, empty reply space, no answer yet",
-    },
-    {
-      source: "ai",
-      image_prompt:
-        "Same phone chat thread: AI reply appears instantly — chatbot replies with availability confirmation layout as blurred structured bubbles",
-    },
-    {
-      source: "ai",
-      image_prompt:
-        "Same visitor's hands on the same phone as the answered chat confirms a booking lead is captured — conversation continues",
+      type: "PRODUCT_DEMO",
+      payload: {
+        type: "product_demo",
+        actor_id: "primary_actor",
+        conversation_id: "conv-demo-1",
+        question_visible: true,
+        ai_answer_visible: true,
+        outcome_visible: true,
+        outcome_type: "lead_captured",
+        visitor_question: "Do you have availability tomorrow?",
+        ai_answer:
+          "Yes — we have openings tomorrow morning and afternoon. Want me to hold a slot?",
+        outcome_label: "Lead captured",
+        brand_name: "Fenrik.chat",
+      },
     },
   ];
   const result = validateProductDemonstrationIntegrity({
@@ -245,8 +248,7 @@ check("AFTER: continuous same-actor ask→answer→result passes", () => {
     `unexpected violations: ${JSON.stringify(result.violations, null, 2)}`,
   );
   assert.equal(result.productDemonstration.present, true);
-  assert.ok(result.productDemonstration.answerSceneIndex != null);
-  assert.ok(result.productDemonstration.resultSceneIndex != null);
+  assert.equal(result.productDemonstration.structuredBeatPresent, true);
 });
 
 check("smiling owner resolution alone fails", () => {
@@ -270,7 +272,8 @@ check("smiling owner resolution alone fails", () => {
   assert.equal(result.passed, false);
   const codes = new Set(result.violations.map((v) => v.code));
   assert.ok(
-    codes.has("fake_success_resolution") ||
+    codes.has("structured_beat_missing") ||
+      codes.has("fake_success_resolution") ||
       codes.has("resolution_not_product_solving") ||
       codes.has("answer_not_visual"),
   );

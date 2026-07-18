@@ -15,6 +15,7 @@ import { parseStatisticScenePayload } from "@/lib/scene-types/statistic/statisti
 import { shouldRenderStatisticScenes } from "@/lib/scene-types/statistic/statisticRenderGate";
 import { parseCtaScenePayload } from "@/lib/scene-types/cta/ctaScenePayload";
 import { shouldRenderCtaScenes } from "@/lib/scene-types/cta/ctaRenderGate";
+import { parseProductDemoScenePayload } from "@/lib/scene-types/product-demo/productDemoBeat";
 import { resolveAuthoritativeCtaReference } from "@/lib/scene-types/cta/ctaSourceOfTruth";
 import { validateCtaSceneEligibility } from "@/lib/scene-types/presentation/ctaEligibility";
 import { validateQuoteSceneEligibility } from "@/lib/scene-types/presentation/quoteEligibility";
@@ -331,7 +332,9 @@ function eligibilityCheck(args: {
               ? "statistic_not_permitted"
               : requested === "CTA"
                 ? "cta_not_permitted"
-                : "type_not_permitted",
+                : requested === "PRODUCT_DEMO"
+                  ? "type_not_permitted"
+                  : "type_not_permitted",
       reason: `${requested} not in project allowed_scene_types ceiling`,
     };
   }
@@ -393,6 +396,17 @@ function eligibilityCheck(args: {
           pass: false,
           rule: r.rule,
           reason: r.reason,
+        };
+      }
+      return { pass: true };
+    }
+    case "PRODUCT_DEMO": {
+      const parsed = parseProductDemoScenePayload(args.scene.payload);
+      if (!parsed.ok) {
+        return {
+          pass: false,
+          rule: "type_not_permitted",
+          reason: parsed.reason,
         };
       }
       return { pass: true };
@@ -639,6 +653,18 @@ export function analyzePresentation(
       });
       warnings.push(`${sceneId}: non_image_renderer_pending`);
       outScenes.push(working);
+      continue;
+    }
+
+    if (requested === "PRODUCT_DEMO" && gate.pass) {
+      outScenes.push({ ...working, id: sceneId, type: "PRODUCT_DEMO" });
+      decisions.push({
+        scene_id: sceneId,
+        requested_type: requested,
+        final_type: "PRODUCT_DEMO",
+        rule: "allowed",
+        reason: "structured product_demo; deterministic chat renderer",
+      });
       continue;
     }
 

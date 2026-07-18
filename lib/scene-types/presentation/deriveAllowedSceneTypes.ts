@@ -82,6 +82,10 @@ export function deriveAllowedSceneTypes(
     allowed.add("PHONE");
   }
 
+  // PRODUCT_DEMO is always available when scene types are on — required for
+  // structured product demonstration (Sprint 4C.1).
+  allowed.add("PRODUCT_DEMO");
+
   return SCENE_TYPES.filter((t) => allowed.has(t));
 }
 

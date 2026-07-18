@@ -199,11 +199,42 @@
       }
     },
     {
+      "id": "n3b",
+      "name": "N3b — Package ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1120, 0],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "package-ok",
+              "leftValue": "={{ $json.ok === true && $json.data && $json.data.packageId }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
       "id": "n4",
       "name": "N4 — Start Video Job",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1240, 0],
+      "position": [1240, -80],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 2000,
@@ -351,7 +382,13 @@
       ]
     },
     "N3 — Generate Content Package": {
-      "main": [[{ "node": "N4 — Start Video Job", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "N3b — Package ok?", "type": "main", "index": 0 }]]
+    },
+    "N3b — Package ok?": {
+      "main": [
+        [{ "node": "N4 — Start Video Job", "type": "main", "index": 0 }],
+        [{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]
+      ]
     },
     "N4 — Start Video Job": {
       "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]

@@ -21,7 +21,7 @@ export function prepareRenderScenesForLanguageVariant(args: {
 
   const out = args.scenes.map((scene, index) => {
     const type = typeof scene.type === "string" ? scene.type.toUpperCase() : "";
-    if (type !== "CHECKLIST" && type !== "PHONE" && type !== "QUOTE" && type !== "STATISTIC" && type !== "CTA") {
+    if (type !== "CHECKLIST" && type !== "PHONE" && type !== "QUOTE" && type !== "STATISTIC" && type !== "CTA" && type !== "PRODUCT_DEMO") {
       return { ...scene };
     }
 

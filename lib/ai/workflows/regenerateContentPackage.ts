@@ -73,7 +73,6 @@ import {
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
-  productDemonstrationRepairAppendix,
   productDemonstrationValidationIssues,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
@@ -81,6 +80,7 @@ import {
   validateProductDemonstrationIntegrity,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -495,6 +495,18 @@ export async function runRegenerateContentPackage(
       regenerationReason,
     );
 
+    const ensureDemo = (force: boolean) => {
+      const ensured = ensureStructuredProductDemo({
+        visualScenes: generated.value.visual_scenes,
+        winner: creativeCandidates!.selectedCandidate,
+        force,
+      });
+      generated.value.visual_scenes =
+        ensured.scenes as typeof generated.value.visual_scenes;
+      return ensured;
+    };
+    ensureDemo(false);
+
     let storyIntegrity = validateStoryIntegrity({
       winner: creativeCandidates.selectedCandidate,
       voiceoverText: generated.value.voiceover_text,
@@ -559,6 +571,7 @@ export async function runRegenerateContentPackage(
           fidelity,
           regenerationReason,
         );
+        ensureDemo(false);
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -599,63 +612,13 @@ export async function runRegenerateContentPackage(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
-      const repairedDemo = await generateValidatedJson({
-        textProvider: getCopywritingProvider(),
-        system: buildRegeneratePackageSystem(requireVideo),
-        prompt: buildRegenPrompt(
-          productDemonstrationRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            productDemoIntegrity,
-          ),
-        ),
-        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-        guardrails: makePackageGuardrails({
-          project,
-          context,
-          classById: assets.classById,
-          requiredPlatforms: targetPlatforms,
-          requireVideo,
-          preferredVideoUsageById: requireVideo
-            ? preferredVideoUsageById
-            : undefined,
-        }),
+      ensureDemo(true);
+      productDemoIntegrity = validateProductDemonstrationIntegrity({
+        winner: creativeCandidates.selectedCandidate,
+        voiceoverText: generated.value.voiceover_text,
+        imagePrompts: generated.value.image_prompts,
+        visualScenes: generated.value.visual_scenes,
       });
-      if (repairedDemo.ok) {
-        generated = repairedDemo;
-        generated.value.hook = await ensureUniqueHook({
-          hook: generated.value.hook,
-          project,
-          topic: context.topic,
-          angle: context.angle,
-          memory,
-        });
-        aligned = alignHookWithFirstSpoken({
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-        });
-        generated.value.hook = aligned.hook;
-        generated.value.voiceover_text = aligned.voiceover_text;
-        fidelity = checkConceptFidelity({
-          winner: creativeCandidates.selectedCandidate,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          topic: context.topic,
-          angle: context.angle,
-        });
-        creativeCandidates = attachFidelityToPlan(
-          creativeCandidates,
-          fidelity,
-          regenerationReason,
-        );
-        productDemoIntegrity = validateProductDemonstrationIntegrity({
-          winner: creativeCandidates.selectedCandidate,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-        });
-      }
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,

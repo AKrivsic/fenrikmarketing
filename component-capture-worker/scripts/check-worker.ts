@@ -151,6 +151,28 @@ async function main(): Promise<void> {
     });
   });
 
+  await check("POST /render-product-demo-chat returns 401 without auth", async () => {
+    await withTestServer(async (port) => {
+      const res = await postJson(port, "/render-product-demo-chat", {
+        type: "product_demo",
+      });
+      assert.equal(res.status, 401);
+    });
+  });
+
+  await check("POST /render-product-demo-chat rejects incomplete beat", async () => {
+    await withTestServer(async (port) => {
+      const res = await postJson(
+        port,
+        "/render-product-demo-chat",
+        { type: "product_demo", actor_id: "primary_actor" },
+        { authorization: "Bearer test-secret-token" },
+      );
+      assert.equal(res.status, 422);
+      assert.equal(res.json.ok, false);
+    });
+  });
+
   console.log(`\n${passed} passed, ${failed} failed`);
   if (failed > 0) process.exit(1);
 }

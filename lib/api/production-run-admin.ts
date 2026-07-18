@@ -211,6 +211,161 @@ export async function getActiveProductionRun(
 
 export { PRODUCTION_RUN_CANCELLED_MESSAGE };
 
+export interface GenerationFailedDiagnostics {
+  error: string;
+  validation_errors?: Array<{ path?: string; message: string }>;
+  attempts?: number;
+}
+
+/**
+ * Sprint 4C.1 — when generateContentPackage returns generation_failed:
+ * mark the matching production_run_item failed (with diagnostics), bump run
+ * failed_total, and settle the run when every slot is terminal.
+ * Does NOT require content_package_id. Safe no-op when the strategy item is
+ * not part of a production run (weekly strategy path).
+ */
+export async function markProductionRunItemGenerationFailed(args: {
+  projectId: string;
+  strategyItemId: string;
+  diagnostics: GenerationFailedDiagnostics;
+}): Promise<{
+  runId: string | null;
+  itemId: string | null;
+  runStatus: ProductionRunStatus | null;
+}> {
+  const supabase = createSupabaseAdminClient();
+  const { data: strategyItem, error: stratErr } = await supabase
+    .from("content_strategy_items")
+    .select("id, brief")
+    .eq("id", args.strategyItemId)
+    .eq("project_id", args.projectId)
+    .maybeSingle();
+  if (stratErr) throw stratErr;
+  if (!strategyItem) {
+    return { runId: null, itemId: null, runStatus: null };
+  }
+
+  const brief =
+    strategyItem.brief && typeof strategyItem.brief === "object"
+      ? (strategyItem.brief as Record<string, unknown>)
+      : {};
+  const runId =
+    typeof brief.production_run_id === "string" ? brief.production_run_id : null;
+  if (!runId) {
+    return { runId: null, itemId: null, runStatus: null };
+  }
+
+  const packageIndex =
+    typeof brief.package_index === "number" && Number.isFinite(brief.package_index)
+      ? Math.max(0, Math.trunc(brief.package_index))
+      : 0;
+
+  const items = await loadRunItems(supabase, runId);
+  const target =
+    items[packageIndex] ??
+    items.find((i) => i.status === "queued" || i.status === "running") ??
+    null;
+  if (!target) {
+    const run = await loadRun(supabase, runId);
+    return { runId, itemId: null, runStatus: run.status };
+  }
+
+  // Do not overwrite an already-completed item that has a package.
+  if (target.status === "completed" && target.content_package_id) {
+    const run = await loadRun(supabase, runId);
+    return { runId, itemId: target.id, runStatus: run.status };
+  }
+
+  const firstIssue = args.diagnostics.validation_errors?.[0];
+  const detail =
+    firstIssue?.message ||
+    args.diagnostics.error ||
+    "generation_failed";
+  const errorMessage = JSON.stringify({
+    error: args.diagnostics.error || "generation_failed",
+    message: detail,
+    validation_errors: args.diagnostics.validation_errors ?? [],
+    attempts: args.diagnostics.attempts ?? null,
+  }).slice(0, 4000);
+
+  const { error: itemErr } = await supabase
+    .from("production_run_items")
+    .update({
+      status: "failed",
+      content_package_id: null,
+      error_message: errorMessage,
+    })
+    .eq("id", target.id)
+    .eq("project_id", args.projectId);
+  if (itemErr) throw itemErr;
+
+  target.status = "failed";
+  target.content_package_id = null;
+  target.error_message = errorMessage;
+
+  const runStatus = await settleProductionRunAfterItemFailure(
+    supabase,
+    runId,
+    items,
+  );
+  return { runId, itemId: target.id, runStatus };
+}
+
+/** Recount generated/failed and close the run when every slot is terminal. */
+async function settleProductionRunAfterItemFailure(
+  supabase: SupabaseClient,
+  runId: string,
+  items: ProductionRunItemRow[],
+): Promise<ProductionRunStatus> {
+  const run = await loadRun(supabase, runId);
+  if (run.status === "cancelled" || run.status === "failed") {
+    return run.status;
+  }
+
+  // Refresh items from the in-memory list (caller already updated target).
+  const generated = items.filter(
+    (i) => i.status === "completed" && i.content_package_id,
+  ).length;
+  const failed = items.filter((i) => i.status === "failed").length;
+  const open = run.requested_total - generated - failed;
+  const nextStatus: ProductionRunStatus =
+    open <= 0 ? "completed" : "running";
+
+  const firstFailMsg =
+    items.find((i) => i.status === "failed" && i.error_message)?.error_message ??
+    null;
+  let humanError: string | null = null;
+  if (firstFailMsg) {
+    try {
+      const parsed = JSON.parse(firstFailMsg) as { message?: string };
+      humanError =
+        typeof parsed.message === "string" && parsed.message.trim()
+          ? parsed.message.trim().slice(0, 500)
+          : firstFailMsg.slice(0, 500);
+    } catch {
+      humanError = firstFailMsg.slice(0, 500);
+    }
+  }
+
+  const { error } = await supabase
+    .from("production_runs")
+    .update({
+      generated_total: generated,
+      failed_total: failed,
+      status: nextStatus,
+      ...(nextStatus === "completed" && failed > 0 && generated === 0
+        ? { error_message: humanError ?? "Generování balíčku selhalo." }
+        : {}),
+    })
+    .eq("id", runId);
+  if (error) throw error;
+
+  run.generated_total = generated;
+  run.failed_total = failed;
+  run.status = nextStatus;
+  return nextStatus;
+}
+
 // Operator stop: reconcile progress, cancel open video jobs, close the run, and
 // leave already-generated packages in place. Idempotent — re-stop on an already
 // cancelled run still mop up any straggling queued/processing jobs.
@@ -586,10 +741,17 @@ async function syncRunItemsAndCounters(
   const generated = progress.packages.filter(
     (p) => p.status === "completed",
   ).length;
-  const failed = progress.packages.filter((p) => p.status === "failed").length;
+  const failedFromPackages = progress.packages.filter(
+    (p) => p.status === "failed",
+  ).length;
+  // Generation failures leave no package — count those failed items too.
+  const generationFailedSlots = items.filter(
+    (i) => i.status === "failed" && !i.content_package_id,
+  ).length;
+  const failed = failedFromPackages + generationFailedSlots;
   const cancelledSlots =
     run.status === "cancelled"
-      ? Math.max(0, run.requested_total - progress.packages.length)
+      ? Math.max(0, run.requested_total - progress.packages.length - generationFailedSlots)
       : 0;
   const failedWithCancelled = failed + cancelledSlots;
   // The run is done when every requested package reached a terminal state.
@@ -599,7 +761,9 @@ async function syncRunItemsAndCounters(
       ? "cancelled"
       : open <= 0
         ? "completed"
-        : run.status === "queued" && progress.packages.length === 0
+        : run.status === "queued" &&
+            progress.packages.length === 0 &&
+            generationFailedSlots === 0
           ? "queued"
           : "running";
 

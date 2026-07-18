@@ -17,7 +17,8 @@ export type PromptPresentationType =
   | "PHONE"
   | "QUOTE"
   | "STATISTIC"
-  | "CTA";
+  | "CTA"
+  | "PRODUCT_DEMO";
 
 /** Scene types the content-generation prompt may mention (never the full enum). */
 export function derivePromptPresentationTypes(args: {
@@ -73,6 +74,9 @@ export function derivePromptPresentationTypes(args: {
     goalType: args.project.goal_type,
   })) {
     out.push("CTA");
+  }
+  if (ceiling.includes("PRODUCT_DEMO")) {
+    out.push("PRODUCT_DEMO");
   }
   return out;
 }

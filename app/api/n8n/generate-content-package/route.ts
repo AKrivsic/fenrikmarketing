@@ -15,6 +15,7 @@ import {
   requireString,
   workflowResponse,
 } from "@/lib/ai/apiResponse";
+import { markProductionRunItemGenerationFailed } from "@/lib/api/production-run-admin";
 
 // Task 1 — content package generation runs ~160s of AI inline. Request the
 // platform's max function budget so a properly-provisioned Vercel deployment
@@ -72,6 +73,28 @@ export async function POST(request: Request): Promise<Response> {
       },
       supabase,
     );
+
+    // Sprint 4C.1 — settle production_run_item on generation_failed so items
+    // never remain queued and Start Video is not required.
+    if (!result.ok) {
+      try {
+        await markProductionRunItemGenerationFailed({
+          projectId,
+          strategyItemId,
+          diagnostics: {
+            error: result.error,
+            validation_errors: result.validationErrors,
+            attempts: result.attempts,
+          },
+        });
+      } catch (markErr) {
+        console.error(
+          "[generate-content-package] failed to mark production run item",
+          markErr,
+        );
+      }
+    }
+
     return workflowResponse(result);
   } catch (err) {
     if (err instanceof MissingWeeklyStrategyError) {

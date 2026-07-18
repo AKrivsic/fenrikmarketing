@@ -1,21 +1,33 @@
 /**
- * Sprint 4C — Product Demonstration Integrity
+ * Sprint 4C.1 — Product Demonstration Integrity
  *
- * Separate hard gate from Story Integrity (4A). Selection and platform writing
- * are untouched. This layer forces finished packages to *visually* demonstrate
- * the product: Question → Visible AI answer → Visible outcome — with one
- * continuous PRIMARY_ACTOR — instead of narration claims or lifestyle smiles.
+ * Structured product_demo beat is the source of truth.
+ * Prose regex is secondary diagnostics only.
  */
 
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
+import {
+  extractProductDemoBeat,
+  type ProductDemoBeat,
+} from "@/lib/scene-types/product-demo/productDemoBeat";
+import {
+  assertProductDemoRenderable,
+  isUiOnlyProductDemoScene,
+} from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 
 export const PRODUCT_DEMONSTRATION_INTEGRITY_VERSION =
-  "product-demonstration-integrity@1" as const;
+  "product-demonstration-integrity@2" as const;
 export const PRODUCT_DEMONSTRATION_INTEGRITY_PROMPT_HEADER =
   "PRODUCT DEMONSTRATION INTEGRITY";
 
 export type ProductDemoIntegrityViolationCode =
+  | "structured_beat_missing"
+  | "structured_question_missing"
+  | "structured_answer_missing"
+  | "structured_outcome_missing"
+  | "component_capture_not_renderable"
+  | "product_demo_scene_missing"
   | "ask_not_visual"
   | "answer_not_visual"
   | "answer_narration_only"
@@ -53,6 +65,9 @@ export interface SemanticProductDemonstrationCheck {
   landingPageOnly: boolean;
   narrationOnlySignals: string[];
   evidence: string[];
+  /** Structured beat present (source of truth). */
+  structuredBeatPresent: boolean;
+  structuredBeat: ProductDemoBeat | null;
 }
 
 export interface ProductDemonstrationIntegrityResult {
@@ -72,6 +87,11 @@ function normalize(s: string): string {
     .trim();
 }
 
+function asRecord(value: unknown): Record<string, unknown> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  return value as Record<string, unknown>;
+}
+
 function scenePromptTexts(args: {
   imagePrompts?: readonly string[] | null;
   visualScenes?: readonly unknown[] | null;
@@ -80,6 +100,21 @@ function scenePromptTexts(args: {
   for (const s of args.visualScenes ?? []) {
     if (!s || typeof s !== "object" || Array.isArray(s)) continue;
     const r = s as Record<string, unknown>;
+    if (String(r.type ?? "").toUpperCase() === "PRODUCT_DEMO") {
+      const beat = extractProductDemoBeat({ visualScenes: [s] });
+      if (beat) {
+        fromScenes.push(
+          [
+            "PRODUCT_DEMO controlled chat",
+            beat.visitor_question,
+            beat.ai_answer,
+            beat.outcome_label,
+            beat.outcome_type,
+          ].join(" | "),
+        );
+        continue;
+      }
+    }
     if (typeof r.image_prompt === "string" && r.image_prompt.trim()) {
       fromScenes.push(r.image_prompt);
       continue;
@@ -101,9 +136,11 @@ function isLandingPageScene(text: string): boolean {
   return LANDING_PAGE_RE.test(text);
 }
 
-/** Negation window: reject matches preceded by no/not/without/empty/absent/never. */
 function hasPositiveMatch(text: string, pattern: RegExp): boolean {
-  const re = new RegExp(pattern.source, pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`);
+  const re = new RegExp(
+    pattern.source,
+    pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`,
+  );
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     const before = text.slice(Math.max(0, m.index - 28), m.index).toLowerCase();
@@ -113,7 +150,6 @@ function hasPositiveMatch(text: string, pattern: RegExp): boolean {
     ) {
       continue;
     }
-    // "unanswered" / "no reply bubble" / "empty reply space"
     const around = text
       .slice(Math.max(0, m.index - 12), m.index + m[0].length + 8)
       .toLowerCase();
@@ -129,23 +165,18 @@ function hasPositiveMatch(text: string, pattern: RegExp): boolean {
   return false;
 }
 
-/** Visual ask: someone typing/sending a question into chat/website/phone. */
 const ASK_VISUAL_RE =
-  /\b((send(s|ing|t)?|typ(es|ing|ed)|ask(s|ed|ing)?|compos(es|ing|ed)|submits?)\b.{0,40}\b(question|message|inquiry|booking)|question.{0,30}\b(into|to|on)\b.{0,20}\b(website|chat|phone|smartphone)|chat (thread|message|bubble).{0,30}\b(sent|sending|typed)|urgent question|visitor('s)? (question|message)|message bubble)\b/i;
+  /\b((send(s|ing|t)?|typ(es|ing|ed)|ask(s|ed|ing)?|compos(es|ing|ed)|submits?)\b.{0,40}\b(question|message|inquiry|booking)|question.{0,30}\b(into|to|on)\b.{0,20}\b(website|chat|phone|smartphone)|chat (thread|message|bubble).{0,30}\b(sent|sending|typed)|urgent question|visitor('s)? (question|message)|message bubble|product_demo controlled chat)\b/i;
 
-/** Visual AI answer — explicit product reply state on screen (not "no reply"). */
 const ANSWER_VISUAL_RE =
-  /\b((ai |instant )?(reply|response) (bubble )?appears|reply bubble appears|ai (chatbot|assistant) (replies|answers|responds)|chatbot (replies|answers|responds)|website (chat )?answers|answered chat|helpful (ai )?reply|on-?brand (ai )?reply|instant (ai )?response|chat widget.{0,40}(replies|answers|responds)|ai response appears|response appears instantly)\b/i;
+  /\b((ai |instant )?(reply|response) (bubble )?appears|reply bubble appears|ai (chatbot|assistant) (replies|answers|responds)|chatbot (replies|answers|responds)|website (chat )?answers|answered chat|helpful (ai )?reply|on-?brand (ai )?reply|instant (ai )?response|chat widget.{0,40}(replies|answers|responds)|ai response appears|response appears instantly|product_demo controlled chat)\b/i;
 
-/** Visual commercial result — capture / confirm / continue (not bare "lead"). */
 const RESULT_VISUAL_RE =
-  /\b((booking|appointment|availability) (confirm(ed|s|ation)?|captured)|confirm(s|ed|ation)?.{0,20}(booking|appointment|availability)|lead (is )?captur(ed|es|ing)|name and email|contact (detail|info).{0,20}(captur|saved|left)|visitor (stays|replies|continues|books)|conversation continues|ready to book|gets? an answer|answered question)\b/i;
+  /\b((booking|appointment|availability) (confirm(ed|s|ation)?|captured)|confirm(s|ed|ation)?.{0,20}(booking|appointment|availability)|lead (is )?captur(ed|es|ing)|name and email|contact (detail|info).{0,20}(captur|saved|left)|visitor (stays|replies|continues|books)|conversation continues|ready to book|gets? an answer|answered question|lead_captured|booking_confirmed|question_resolved|contact_captured|product_demo controlled chat)\b/i;
 
-/** Narration-only crutches that must not satisfy visual demo alone. */
 const NARRATION_PRODUCT_CLAIM_RE =
   /\b(fenrik\.?chat answers|answers for you|ai assistant (on your website )?answers)\b/i;
 
-/** Fake success / non-demo resolution. */
 const FAKE_SUCCESS_RE =
   /\b((small |quiet(ly)? )?smile|smiling|quietly pleased|pleased expression|success pose|celebration|celebrating|relieved smile|happy expression|look of relief)\b/i;
 
@@ -153,11 +184,8 @@ const FLOATING_ICON_RE =
   /\b(floating (chat |speech |message )?(icon|bubble|sticker)|chat (icon|sticker) floating|notification sticker|abstract (notification|shape) suggesting|soft notification indicator|glowing (chat |speech )?bubble floating)\b/i;
 
 const CONVERSATION_WORLD_RE =
-  /\b(phone|smartphone|chat|message|reply|thread|website|screen|visitor|customer|hand|hands)\b/i;
+  /\b(phone|smartphone|chat|message|reply|thread|website|screen|visitor|customer|hand|hands|product_demo)\b/i;
 
-/**
- * Derive a locked PRIMARY_ACTOR for the package from Creative DNA / opening.
- */
 export function derivePrimaryActor(winner: CreativeCandidate): PrimaryActorSpec {
   const dna = normalizeCreativeDNA(winner.creativeDNA);
   const label = (
@@ -195,7 +223,12 @@ export function derivePrimaryActor(winner: CreativeCandidate): PrimaryActorSpec 
     if (blob.includes(a)) continuityAnchors.push(a);
   }
   if (continuityAnchors.length === 0) {
-    continuityAnchors.push(...blob.split(" ").filter((w) => w.length > 4).slice(0, 4));
+    continuityAnchors.push(
+      ...blob
+        .split(" ")
+        .filter((w) => w.length > 4)
+        .slice(0, 4),
+    );
   }
 
   const lockedAttributes: string[] = [];
@@ -219,14 +252,12 @@ export function derivePrimaryActor(winner: CreativeCandidate): PrimaryActorSpec 
   };
 }
 
-function sceneHasContinuity(
-  scene: string,
-  primary: PrimaryActorSpec,
-): boolean {
+function sceneHasContinuity(scene: string, primary: PrimaryActorSpec): boolean {
   const n = normalize(scene);
   if (/\bsame (person|visitor|customer|hands|actor|phone|conversation|thread)\b/.test(n)) {
     return true;
   }
+  if (/\bproduct_demo controlled chat\b/.test(n)) return true;
   const hits = primary.continuityAnchors.filter((a) => n.includes(a));
   if (hits.length >= 1 && CONVERSATION_WORLD_RE.test(scene)) return true;
   if (hits.length >= 2) return true;
@@ -241,7 +272,8 @@ function sceneIntroducesConflictingIdentity(
   const n = normalize(scene);
   const open = normalize(openingScene);
 
-  // New full human subject replacing hands-first openers.
+  if (/\bproduct_demo controlled chat\b/.test(n)) return false;
+
   const newProfessionalFigure =
     /\b(professional figure|business-casual|suited (man|woman|figure)|man in a (suit|blazer)|woman in a (suit|blazer))\b/.test(
       n,
@@ -252,7 +284,6 @@ function sceneIntroducesConflictingIdentity(
 
   if (newProfessionalFigure) return true;
 
-  // Attribute conflicts vs opening (gender / formal attire / glasses suddenly appear).
   const conflicts: Array<[string, RegExp]> = [
     ["male", /\b(woman|female)\b/],
     ["female", /\b(man|male)\b/],
@@ -267,7 +298,6 @@ function sceneIntroducesConflictingIdentity(
     }
   }
 
-  // Formal attire appears when opening was casual hands / no formal lock.
   if (
     !primary.lockedAttributes.includes("formal_attire") &&
     /\b(navy (blue )?suit|necktie|blazer over)\b/.test(n) &&
@@ -281,18 +311,44 @@ function sceneIntroducesConflictingIdentity(
 }
 
 /**
- * Semantic product demonstration — visuals only for answer/result.
- * Voiceover may support ask, but cannot alone prove answer or result.
+ * Secondary prose/semantic detector — diagnostics only when structured beat exists.
  */
 export function detectSemanticProductDemonstration(args: {
   sceneTexts: readonly string[];
   voiceoverText: string;
   winner: CreativeCandidate;
+  structuredBeat?: ProductDemoBeat | null;
 }): SemanticProductDemonstrationCheck {
   const evidence: string[] = [];
   const narrationOnlySignals: string[] = [];
   const scenes = args.sceneTexts;
   const vo = args.voiceoverText ?? "";
+  const structured = args.structuredBeat ?? null;
+
+  if (structured) {
+    evidence.push("structured_product_demo_beat");
+    evidence.push(`outcome_type:${structured.outcome_type}`);
+    return {
+      present: true,
+      askPresent: structured.question_visible === true,
+      answerPresent: structured.ai_answer_visible === true,
+      resultPresent: structured.outcome_visible === true,
+      askSceneIndex: scenes.findIndex((s) =>
+        /\bproduct_demo controlled chat\b/i.test(s),
+      ),
+      answerSceneIndex: scenes.findIndex((s) =>
+        /\bproduct_demo controlled chat\b/i.test(s),
+      ),
+      resultSceneIndex: scenes.findIndex((s) =>
+        /\bproduct_demo controlled chat\b/i.test(s),
+      ),
+      landingPageOnly: false,
+      narrationOnlySignals: [],
+      evidence,
+      structuredBeatPresent: true,
+      structuredBeat: structured,
+    };
+  }
 
   let askSceneIndex: number | null = null;
   let answerSceneIndex: number | null = null;
@@ -319,13 +375,14 @@ export function detectSemanticProductDemonstration(args: {
     askSceneIndex != null ||
     hasPositiveMatch(args.winner.openingSituation, ASK_VISUAL_RE);
   if (askPresent && askSceneIndex == null) {
-    // Opening situation may establish ask intent; still prefer a visual scene.
     evidence.push("ask_from_opening_situation");
   }
 
-  // Narration-only answer/result are explicitly insufficient.
   if (answerSceneIndex == null) {
-    if (hasPositiveMatch(vo, ANSWER_VISUAL_RE) || NARRATION_PRODUCT_CLAIM_RE.test(vo)) {
+    if (
+      hasPositiveMatch(vo, ANSWER_VISUAL_RE) ||
+      NARRATION_PRODUCT_CLAIM_RE.test(vo)
+    ) {
       narrationOnlySignals.push("answer_in_voiceover_only");
     }
   }
@@ -343,7 +400,6 @@ export function detectSemanticProductDemonstration(args: {
   const landingPageOnly = lastIsLanding && !answerPresent;
   if (landingPageOnly) evidence.push("landing_page_only");
 
-  // Ask and answer must share conversation world (phone/chat continuity).
   let connected = true;
   if (askSceneIndex != null && answerSceneIndex != null) {
     const askScene = scenes[askSceneIndex] ?? "";
@@ -375,29 +431,87 @@ export function detectSemanticProductDemonstration(args: {
     landingPageOnly,
     narrationOnlySignals,
     evidence,
+    structuredBeatPresent: false,
+    structuredBeat: null,
   };
 }
 
 /**
- * Hard Product Demonstration Integrity validation (Sprint 4C).
+ * Hard Product Demonstration Integrity (Sprint 4C.1 — structured-first).
  */
 export function validateProductDemonstrationIntegrity(args: {
   winner: CreativeCandidate;
   voiceoverText: string;
   imagePrompts?: readonly string[] | null;
   visualScenes?: readonly unknown[] | null;
+  productDemo?: unknown;
 }): ProductDemonstrationIntegrityResult {
   const violations: ProductDemoIntegrityViolation[] = [];
   const scenes = scenePromptTexts(args);
   const vo = args.voiceoverText ?? "";
   const primaryActor = derivePrimaryActor(args.winner);
+
+  const structuredBeat = extractProductDemoBeat({
+    visualScenes: args.visualScenes,
+    productDemo: args.productDemo,
+  });
+
   const demo = detectSemanticProductDemonstration({
     sceneTexts: scenes,
     voiceoverText: vo,
     winner: args.winner,
+    structuredBeat,
   });
 
-  // --- primary actor ---
+  // --- structured source of truth ---
+  if (!structuredBeat) {
+    violations.push({
+      code: "structured_beat_missing",
+      message:
+        "Missing structured product_demo beat (type, conversation_id, question/answer/outcome visibility)",
+    });
+  } else {
+    if (structuredBeat.question_visible !== true || !structuredBeat.visitor_question) {
+      violations.push({
+        code: "structured_question_missing",
+        message: "Structured product_demo missing visible visitor question",
+      });
+    }
+    if (structuredBeat.ai_answer_visible !== true || !structuredBeat.ai_answer) {
+      violations.push({
+        code: "structured_answer_missing",
+        message: "Structured product_demo missing visible AI answer",
+      });
+    }
+    if (structuredBeat.outcome_visible !== true || !structuredBeat.outcome_type) {
+      violations.push({
+        code: "structured_outcome_missing",
+        message: "Structured product_demo missing visible outcome",
+      });
+    }
+
+    const renderable = assertProductDemoRenderable(structuredBeat);
+    if (!renderable.ok) {
+      violations.push({
+        code: "component_capture_not_renderable",
+        message: `Product demo chat visual cannot be rendered: ${renderable.reason}`,
+        evidence: renderable.reason,
+      });
+    }
+
+    const hasDemoScene = (args.visualScenes ?? []).some((s) => {
+      const r = asRecord(s);
+      return String(r?.type ?? "").toUpperCase() === "PRODUCT_DEMO";
+    });
+    if (!hasDemoScene) {
+      violations.push({
+        code: "product_demo_scene_missing",
+        message: "Final storyboard must include a PRODUCT_DEMO scene",
+      });
+    }
+  }
+
+  // --- PRIMARY_ACTOR: fail only on conflicting human identity ---
   if (scenes.length === 0) {
     violations.push({
       code: "primary_actor_missing",
@@ -406,38 +520,20 @@ export function validateProductDemonstrationIntegrity(args: {
     });
   } else {
     const opening = scenes[0] ?? "";
-    if (!sceneHasContinuity(opening, primaryActor)) {
-      violations.push({
-        code: "primary_actor_missing",
-        message: `Opening scene does not establish PRIMARY_ACTOR: ${primaryActor.label}`,
-        sceneIndex: 0,
-        evidence: primaryActor.continuityAnchors.join(", "),
-      });
-    }
+    const visualEntries = args.visualScenes ?? [];
     for (let i = 1; i < scenes.length; i++) {
       const scene = scenes[i] ?? "";
+      const entry = visualEntries[i];
       if (isLandingPageScene(scene)) continue;
+      // Phone close-ups / UI-only / PRODUCT_DEMO do not need the actor's face.
+      if (entry && isUiOnlyProductDemoScene(entry)) continue;
+      if (/\bproduct_demo controlled chat\b/i.test(scene)) continue;
+
       if (sceneIntroducesConflictingIdentity(scene, primaryActor, opening)) {
         violations.push({
           code: "primary_actor_identity_changed",
           message:
-            "Scene changes PRIMARY_ACTOR identity (gender/age/face/profession) without narrative continuity",
-          sceneIndex: i,
-          evidence: scene.slice(0, 160),
-        });
-        continue;
-      }
-      // Phone-only UI closes are OK if conversation world continues.
-      const phoneOnlyUi =
-        CONVERSATION_WORLD_RE.test(scene) &&
-        !/\b(professional figure|suited|blazer|furrowed brow|smiling)\b/i.test(
-          scene,
-        );
-      if (!sceneHasContinuity(scene, primaryActor) && !phoneOnlyUi) {
-        violations.push({
-          code: "primary_actor_identity_changed",
-          message:
-            "Scene abandons PRIMARY_ACTOR / same conversation without continuity language",
+            "Scene introduces a different human identity without narrative continuity",
           sceneIndex: i,
           evidence: scene.slice(0, 160),
         });
@@ -445,65 +541,10 @@ export function validateProductDemonstrationIntegrity(args: {
     }
   }
 
-  // --- visual ask / answer / result ---
-  if (!demo.askPresent) {
-    violations.push({
-      code: "ask_not_visual",
-      message:
-        "Missing visual Question beat (visitor typing/sending a question into chat/website)",
-    });
-  }
-
-  if (!demo.answerPresent) {
-    const narrationOnly = demo.narrationOnlySignals.includes(
-      "answer_in_voiceover_only",
-    );
-    violations.push({
-      code: narrationOnly ? "answer_narration_only" : "answer_not_visual",
-      message: narrationOnly
-        ? "AI answer exists only in narration — not in any visual scene"
-        : "Missing visual AI answer beat (reply appearing on the same chat/phone)",
-      evidence: demo.evidence.join(","),
-    });
-  }
-
-  if (!demo.resultPresent) {
-    const narrationOnly = demo.narrationOnlySignals.includes(
-      "result_in_voiceover_only",
-    );
-    violations.push({
-      code: narrationOnly ? "result_narration_only" : "result_not_visual",
-      message: narrationOnly
-        ? "Outcome exists only in narration — not in any visual scene"
-        : "Missing visual outcome (booking/lead capture/continued conversation)",
-      evidence: demo.evidence.join(","),
-    });
-  }
-
-  if (
-    demo.askSceneIndex != null &&
-    demo.answerSceneIndex != null &&
-    !demo.evidence.includes("ask_answer_same_conversation_world")
-  ) {
-    violations.push({
-      code: "ask_answer_disconnected",
-      message:
-        "Question and AI answer are not visually connected in the same conversation world",
-      evidence: `ask:${demo.askSceneIndex},answer:${demo.answerSceneIndex}`,
-    });
-  }
-
-  if (demo.landingPageOnly) {
-    violations.push({
-      code: "landing_page_is_not_demo",
-      message: "Landing page / pricing hero is not a product demonstration",
-      sceneIndex: scenes.length - 1,
-    });
-  }
-
-  // --- fake success / floating icon / resolution ---
+  // --- secondary prose bans (still hard when present) ---
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i] ?? "";
+    if (/\bproduct_demo controlled chat\b/i.test(scene)) continue;
     if (FLOATING_ICON_RE.test(scene)) {
       violations.push({
         code: "floating_icon_replaces_interaction",
@@ -515,41 +556,81 @@ export function validateProductDemonstrationIntegrity(args: {
     }
   }
 
-  const resolutionIdx =
-    scenes.length === 0
-      ? -1
-      : (() => {
-          for (let i = scenes.length - 1; i >= 0; i--) {
-            if (!isLandingPageScene(scenes[i] ?? "")) return i;
-          }
-          return scenes.length - 1;
-        })();
-
-  if (resolutionIdx >= 0) {
-    const resolution = scenes[resolutionIdx] ?? "";
-    const solvesVisually =
-      hasPositiveMatch(resolution, ANSWER_VISUAL_RE) ||
-      hasPositiveMatch(resolution, RESULT_VISUAL_RE);
-    const fakeOnly =
-      FAKE_SUCCESS_RE.test(resolution) &&
-      !solvesVisually;
-    if (fakeOnly) {
+  // When structured beat is absent, keep prose diagnostics as failures.
+  if (!structuredBeat) {
+    if (!demo.askPresent) {
       violations.push({
-        code: "fake_success_resolution",
+        code: "ask_not_visual",
         message:
-          "Resolution is a smile / success pose without showing the product solving the problem",
-        sceneIndex: resolutionIdx,
-        evidence: resolution.slice(0, 160),
+          "Missing visual Question beat (visitor typing/sending a question into chat/website)",
       });
     }
-    if (!solvesVisually) {
+    if (!demo.answerPresent) {
+      const narrationOnly = demo.narrationOnlySignals.includes(
+        "answer_in_voiceover_only",
+      );
       violations.push({
-        code: "resolution_not_product_solving",
-        message:
-          "Resolution scene must show the product solving the problem (AI reply, booking confirmation, lead captured, conversation continues)",
-        sceneIndex: resolutionIdx,
-        evidence: resolution.slice(0, 160),
+        code: narrationOnly ? "answer_narration_only" : "answer_not_visual",
+        message: narrationOnly
+          ? "AI answer exists only in narration — not in any visual scene"
+          : "Missing visual AI answer beat (reply appearing on the same chat/phone)",
+        evidence: demo.evidence.join(","),
       });
+    }
+    if (!demo.resultPresent) {
+      const narrationOnly = demo.narrationOnlySignals.includes(
+        "result_in_voiceover_only",
+      );
+      violations.push({
+        code: narrationOnly ? "result_narration_only" : "result_not_visual",
+        message: narrationOnly
+          ? "Outcome exists only in narration — not in any visual scene"
+          : "Missing visual outcome (booking/lead capture/continued conversation)",
+        evidence: demo.evidence.join(","),
+      });
+    }
+    if (demo.landingPageOnly) {
+      violations.push({
+        code: "landing_page_is_not_demo",
+        message: "Landing page / pricing hero is not a product demonstration",
+        sceneIndex: scenes.length - 1,
+      });
+    }
+
+    const resolutionIdx =
+      scenes.length === 0
+        ? -1
+        : (() => {
+            for (let i = scenes.length - 1; i >= 0; i--) {
+              if (!isLandingPageScene(scenes[i] ?? "")) return i;
+            }
+            return scenes.length - 1;
+          })();
+
+    if (resolutionIdx >= 0) {
+      const resolution = scenes[resolutionIdx] ?? "";
+      const solvesVisually =
+        hasPositiveMatch(resolution, ANSWER_VISUAL_RE) ||
+        hasPositiveMatch(resolution, RESULT_VISUAL_RE);
+      const fakeOnly = FAKE_SUCCESS_RE.test(resolution) && !solvesVisually;
+      if (fakeOnly) {
+        violations.push({
+          code: "fake_success_resolution",
+          message:
+            "Resolution is a smile / success pose without showing the product solving the problem",
+          sceneIndex: resolutionIdx,
+          evidence: resolution.slice(0, 160),
+        });
+      }
+      if (!solvesVisually) {
+        violations.push({
+          code: "resolution_not_product_solving",
+          message:
+            "Resolution scene must show the product solving the problem (AI reply, booking confirmation, lead captured, conversation continues)",
+          sceneIndex: resolutionIdx,
+          evidence: resolution.slice(0, 160),
+        });
+      }
     }
   }
 
@@ -582,40 +663,29 @@ export function buildProductDemonstrationPromptBlock(
   return [
     `${PRODUCT_DEMONSTRATION_INTEGRITY_PROMPT_HEADER} (${PRODUCT_DEMONSTRATION_INTEGRITY_VERSION}):`,
     "",
-    "Every video package MUST visually demonstrate the product. Narration claims are not enough.",
+    "Every video package MUST include a structured product demonstration.",
     "",
-    "Required visual sequence across image_prompts / visual_scenes:",
-    "  Question → Waiting (optional) → Visible AI answer → Visible useful result → CTA",
+    "REQUIRED structured beat (source of truth — not prose):",
+    "  type: product_demo",
+    "  actor_id: primary_actor",
+    "  conversation_id: stable id for this thread",
+    "  question_visible: true",
+    "  ai_answer_visible: true",
+    "  outcome_visible: true",
+    "  outcome_type: lead_captured | booking_confirmed | question_resolved | contact_captured",
+    "  visitor_question / ai_answer / outcome_label: concrete strings",
     "",
-    "PRIMARY_ACTOR (locked for this package):",
+    "Include one visual_scenes entry:",
+    '  { "type": "PRODUCT_DEMO", "payload": { ...product_demo fields } }',
+    "The PRODUCT_DEMO scene is rendered as a controlled Fenrik chat UI",
+    "(component-capture / deterministic raster) — do NOT invent empty bubbles,",
+    "floating chat icons, smile-only results, logo-only, or landing-page-only demos.",
+    "",
+    "PRIMARY_ACTOR (locked for person scenes):",
     `  ${primary.label}`,
     `  Continuity anchors: ${primary.continuityAnchors.join(", ") || "(opening subject)"}`,
-    "  The SAME person must appear throughout. Do NOT change gender, age, face, or profession.",
-    "  Every image_prompt must keep this actor OR continue the same phone/conversation they started.",
-    "  Forbidden: a new professional / suited figure replacing the opening subject for variety.",
-    "",
-    "RESOLUTION scene (final non-CTA still) MUST show the product solving the problem.",
-    "ALLOWED resolution visuals:",
-    "  - AI reply appears on the same chat/phone",
-    "  - booking / appointment / availability confirmation",
-    "  - visitor receives information / conversation continues",
-    "  - lead captured (name/email affordance as blurred UI structure)",
-    "NOT ALLOWED as resolution:",
-    "  - generic smile / pleased expression / success pose / celebration",
-    "  - floating chat icon or abstract notification sticker",
-    "  - landing page / pricing hero alone",
-    "  - implying success without showing the interaction",
-    "",
-    "IMAGE PROMPT CONTINUITY (mandatory):",
-    "  - same PRIMARY_ACTOR",
-    "  - same phone / chat thread when the story is handheld",
-    "  - same environment OR a logically connected location already in storyProgression",
-    "  - conversation PROGRESSING (sent → waiting → AI reply → result) — not a new lifestyle photo each beat",
-    "",
-    "UI WITHOUT GARBLED TEXT:",
-    "  Show chat as structured bubbles / reply state / confirmation layout.",
-    "  Prefer blurred or abstract glyph shapes that still read as ask→answer→result.",
-    "  Do NOT invent readable words — but DO show the interaction structure.",
+    "  Phone close-ups and UI-only PRODUCT_DEMO scenes do not need the actor's face.",
+    "  Forbidden: introducing a different human identity without narrative reason.",
     "",
     `Selected product role: ${dna?.productRole || winner.productConnection}`,
     `Selected ending intent: ${dna?.endingIntent || winner.ending}`,
@@ -635,18 +705,12 @@ export function productDemonstrationRepairAppendix(
         `- ${v.code}${v.sceneIndex != null ? ` (scene ${v.sceneIndex})` : ""}: ${v.message}${v.evidence ? ` | evidence: ${v.evidence}` : ""}`,
     ),
     "",
-    `PRIMARY_ACTOR (must stay locked): ${primary.label}`,
+    `PRIMARY_ACTOR (must stay locked for person scenes): ${primary.label}`,
     `Opening situation: ${winner.openingSituation}`,
-    `Product connection: ${winner.productConnection}`,
-    `Ending: ${winner.ending}`,
     "",
-    "Regenerate visual_scenes + image_prompts so that:",
-    "1. One continuous PRIMARY_ACTOR (no new face/profession swaps).",
-    "2. Visual Question beat (typing/sending into chat).",
-    "3. Visual AI answer on the SAME phone/conversation (reply appears).",
-    "4. Visual outcome (booking confirm / lead capture / conversation continues).",
-    "5. Resolution is NOT a smile, floating icon, or landing page.",
-    "6. Voiceover may explain — it must NOT be the only place the answer/result exists.",
+    "Replace the failing resolution with ONE complete PRODUCT_DEMO scene:",
+    "  structured product_demo beat + controlled chat visual (question, AI answer, outcome).",
+    "Do not rely on prose alone. Do not use smile / floating icon / landing page as the demo.",
   ].join("\n");
 }
 

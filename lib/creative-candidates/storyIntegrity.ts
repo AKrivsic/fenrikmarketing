@@ -8,6 +8,7 @@
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import { detectSemanticProductDemonstration } from "@/lib/creative-candidates/productDemonstrationIntegrity";
+import { extractProductDemoBeat } from "@/lib/scene-types/product-demo/productDemoBeat";
 
 export const STORY_INTEGRITY_VERSION = "story-integrity@1" as const;
 export const STORY_INTEGRITY_PROMPT_HEADER = "STORY INTEGRITY";
@@ -327,7 +328,28 @@ export function detectProductDemonstration(args: {
   sceneTexts: readonly string[];
   voiceoverText: string;
   winner: CreativeCandidate;
+  visualScenes?: readonly unknown[] | null;
+  productDemo?: unknown;
 }): ProductDemonstrationCheck {
+  // Sprint 4C.1 — structured beat is source of truth for SI product demo too.
+  const structured = extractProductDemoBeat({
+    visualScenes: args.visualScenes,
+    productDemo: args.productDemo,
+  });
+  if (structured) {
+    return {
+      present: true,
+      askPresent: structured.question_visible === true,
+      answerPresent: structured.ai_answer_visible === true,
+      resultPresent: structured.outcome_visible === true,
+      landingPageOnly: false,
+      evidence: [
+        "structured_product_demo_beat",
+        `outcome_type:${structured.outcome_type}`,
+      ],
+    };
+  }
+
   const semantic = detectSemanticProductDemonstration(args);
   return {
     present: semantic.present,
@@ -502,6 +524,7 @@ export function validateStoryIntegrity(args: {
     sceneTexts: scenes,
     voiceoverText: vo,
     winner: args.winner,
+    visualScenes: args.visualScenes,
   });
   if (!productDemonstration.present) {
     const bits: string[] = [];
