@@ -1139,11 +1139,14 @@ check("candidate planning + DNA derivation stays synchronous (no LLM)", () => {
     "utf8",
   );
   const calls = [...wf.matchAll(/generateValidatedJson\(/g)];
-  // One initial generation + fidelity repair + story-integrity repair.
-  assert.equal(calls.length, 3, `expected 3 generateValidatedJson sites, got ${calls.length}`);
+  // One initial generation + fidelity repair + story-integrity repair +
+  // product-demonstration-integrity repair (Sprint 4C).
+  assert.equal(calls.length, 4, `expected 4 generateValidatedJson sites, got ${calls.length}`);
   assert.doesNotMatch(wf, /deriveCreativeDNA\([\s\S]*await/);
   assert.match(wf, /validateStoryIntegrity/);
   assert.match(wf, /storyIntegrityRepairAppendix/);
+  assert.match(wf, /validateProductDemonstrationIntegrity/);
+  assert.match(wf, /productDemonstrationRepairAppendix/);
 });
 
 check("before/after prompt comparison: DNA locks parking-lot world vs co-working Identity", () => {

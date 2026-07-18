@@ -4,6 +4,7 @@ import type {
 } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
 import type { StoryIntegrityResult } from "@/lib/creative-candidates/storyIntegrity";
+import type { ProductDemonstrationIntegrityResult } from "@/lib/creative-candidates/productDemonstrationIntegrity";
 
 /**
  * Selection v3: Creative Score + Commercial Success Score → Final Selection Score.
@@ -162,5 +163,7 @@ export interface CreativeCandidatePlan {
   finalStoryboardFidelity: ConceptFidelityResult | null;
   /** Hard Story Integrity gate (selected world must survive every beat). */
   storyIntegrity?: StoryIntegrityResult | null;
+  /** Sprint 4C — visual product demonstration + PRIMARY_ACTOR continuity. */
+  productDemonstrationIntegrity?: ProductDemonstrationIntegrityResult | null;
   regenerationReason: string | null;
 }

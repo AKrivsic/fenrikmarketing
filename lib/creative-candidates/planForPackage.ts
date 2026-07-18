@@ -183,6 +183,21 @@ export function attachStoryIntegrityToPlan(
   };
 }
 
+export function attachProductDemonstrationIntegrityToPlan(
+  plan: CreativeCandidatePlan,
+  productDemonstrationIntegrity: import("@/lib/creative-candidates/productDemonstrationIntegrity").ProductDemonstrationIntegrityResult,
+  regenerationReason?: string | null,
+): CreativeCandidatePlan {
+  return {
+    ...plan,
+    productDemonstrationIntegrity,
+    regenerationReason:
+      regenerationReason !== undefined
+        ? regenerationReason
+        : plan.regenerationReason,
+  };
+}
+
 export function buildCreativeDnaDiagnostics(args: {
   plan: CreativeCandidatePlan;
   identityEnvironmentSuppressed: boolean;

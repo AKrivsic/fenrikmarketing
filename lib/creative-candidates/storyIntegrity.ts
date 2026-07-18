@@ -7,6 +7,7 @@
 
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
+import { detectSemanticProductDemonstration } from "@/lib/creative-candidates/productDemonstrationIntegrity";
 
 export const STORY_INTEGRITY_VERSION = "story-integrity@1" as const;
 export const STORY_INTEGRITY_PROMPT_HEADER = "STORY INTEGRITY";
@@ -103,30 +104,12 @@ const FORBIDDEN_WORLD_PATTERNS: Array<{
 const ASK_RE =
   /\b(ask(s|ed|ing)?|question|typed|typing|send(s|ing|t)?|message|visitor|customer|booking|availability|chat thread|contact form)\b/i;
 
-/** Explicit AI/product answering action — not merely naming the product. */
+/** Explicit AI/product answering action — used for actor-continuity heuristics. */
 const ANSWER_RE =
   /\b((ai )?(chatbot|assistant) (replies|answers|responds|reply|answer)|website (answers|replies|responds)|reply (bubble|appears|arrives|from)|answers? (the |their |visitor|customer|question)|chat (replies|answers|responds|widget answers)|answered (chat|question|visitor)|confirms? (availability|booking)|availability (confirmed|for tomorrow))\b/i;
 
-const RESULT_RE =
-  /\b(stays?|books?|booked|lead|leads|answered|availability confirmed|captures? (a )?lead|gets? an answer|visitor (stays|converts|books)|ready to book)\b/i;
-
-const LANDING_PAGE_RE =
-  /\b(create an ai assistant|starting at \$?\d+|yourcompany\.com|landing page|hero (section|headline)|try the preview first|no registration required|see how it works)\b/i;
-
 const PRODUCT_UI_FRAMING_RE =
   /\b(browser (window|chrome|mockup)|laptop (mockup|screen)|product ui|framed_laptop|component-capture)\b/i;
-
-function isLandingPageScene(text: string): boolean {
-  if (LANDING_PAGE_RE.test(text)) return true;
-  // Framed product UI that only shows marketing hero copy — not a chat interaction.
-  if (
-    PRODUCT_UI_FRAMING_RE.test(text) &&
-    /\b(create an ai|starting at|hero|marketing site|landing)\b/i.test(text)
-  ) {
-    return true;
-  }
-  return false;
-}
 
 const STOP = new Set([
   "that",
@@ -335,51 +318,27 @@ function middleSceneIndexes(sceneCount: number): number[] {
   return out;
 }
 
+/**
+ * Product demonstration detection for Story Integrity.
+ * Sprint 4C: delegates to semantic visual detection (no keyword false positives
+ * like "No reply bubble" or narration-only "lead").
+ */
 export function detectProductDemonstration(args: {
   sceneTexts: readonly string[];
   voiceoverText: string;
   winner: CreativeCandidate;
 }): ProductDemonstrationCheck {
-  const evidence: string[] = [];
-  const scenes = args.sceneTexts;
-  const vo = args.voiceoverText;
-  const interactionScenes = scenes.filter((s) => !isLandingPageScene(s));
-  const interactionVisual = interactionScenes.join("\n");
-
-  const askPresent =
-    ASK_RE.test(interactionVisual) ||
-    ASK_RE.test(vo) ||
-    ASK_RE.test(args.winner.openingSituation);
-  if (askPresent) evidence.push("ask_signal");
-
-  // Answer must appear as an interaction in a non-landing visual beat.
-  const answerPresent = interactionScenes.some((s) => ANSWER_RE.test(s));
-  if (answerPresent) evidence.push("answer_signal");
-
-  const resultPresent =
-    RESULT_RE.test(interactionVisual) ||
-    RESULT_RE.test(vo) ||
-    RESULT_RE.test(args.winner.ending);
-  if (resultPresent) evidence.push("result_signal");
-
-  const last = scenes[scenes.length - 1] ?? "";
-  const lastIsLanding = isLandingPageScene(last);
-  const landingPageOnly = lastIsLanding && !answerPresent;
-
-  if (landingPageOnly) {
-    evidence.push("landing_page_only");
-  }
-
-  const present =
-    askPresent && answerPresent && resultPresent && !landingPageOnly;
-
+  const semantic = detectSemanticProductDemonstration(args);
   return {
-    present,
-    askPresent,
-    answerPresent,
-    resultPresent,
-    landingPageOnly,
-    evidence,
+    present: semantic.present,
+    askPresent: semantic.askPresent,
+    answerPresent: semantic.answerPresent,
+    resultPresent: semantic.resultPresent,
+    landingPageOnly: semantic.landingPageOnly,
+    evidence: [
+      ...semantic.evidence,
+      ...semantic.narrationOnlySignals,
+    ],
   };
 }
 

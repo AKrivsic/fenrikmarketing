@@ -90,15 +90,19 @@ import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import {
   attachFidelityToPlan,
+  attachProductDemonstrationIntegrityToPlan,
   attachStoryIntegrityToPlan,
   buildCreativeDnaDiagnostics,
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
+  productDemonstrationRepairAppendix,
+  productDemonstrationValidationIssues,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
+  validateProductDemonstrationIntegrity,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
@@ -678,6 +682,105 @@ export async function runGenerateContentPackage(
             message: issue.message,
           }),
         ),
+        attempts: generated.attempts,
+      };
+    }
+
+    // Sprint 4C — Product Demonstration Integrity (visual ask→answer→result +
+    // PRIMARY_ACTOR continuity). Hard gate: one repair, then fail.
+    let productDemoIntegrity = validateProductDemonstrationIntegrity({
+      winner: creativeCandidates.selectedCandidate,
+      voiceoverText: generated.value.voiceover_text,
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    if (!productDemoIntegrity.passed) {
+      const demoReason = `product_demonstration_integrity:${productDemoIntegrity.summary}`;
+      regenerationReason = regenerationReason
+        ? `${regenerationReason};${demoReason}`
+        : demoReason;
+      const repairedDemo = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildGeneratePackageSystem(requireVideo),
+        prompt: buildPackagePrompt(
+          productDemonstrationRepairAppendix(
+            creativeCandidates.selectedCandidate,
+            productDemoIntegrity,
+          ),
+        ),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          assetCoverage,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+        maxTransportAttempts:
+          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+      });
+      if (repairedDemo.ok) {
+        generated = repairedDemo;
+        generated.value.hook = await ensureUniqueHook({
+          hook: generated.value.hook,
+          project,
+          topic: context.topic,
+          angle: context.angle,
+          memory,
+        });
+        aligned = alignHookWithFirstSpoken({
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = aligned.hook;
+        generated.value.voiceover_text = aligned.voiceover_text;
+        fidelity = checkConceptFidelity({
+          winner: creativeCandidates.selectedCandidate,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          topic: context.topic,
+          angle: context.angle,
+        });
+        creativeCandidates = attachFidelityToPlan(
+          creativeCandidates,
+          fidelity,
+          regenerationReason,
+        );
+        productDemoIntegrity = validateProductDemonstrationIntegrity({
+          winner: creativeCandidates.selectedCandidate,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+        });
+      }
+    }
+    creativeCandidates = attachProductDemonstrationIntegrityToPlan(
+      creativeCandidates,
+      productDemoIntegrity,
+      regenerationReason,
+    );
+    if (!productDemoIntegrity.passed) {
+      console.error(
+        "[product-demonstration-integrity] hard fail after repair",
+        creativeCandidates.selectedCandidate.candidateId,
+        productDemoIntegrity.violations,
+      );
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: productDemonstrationValidationIssues(
+          productDemoIntegrity,
+        ).map((issue) => ({
+          path: issue.path,
+          message: issue.message,
+        })),
         attempts: generated.attempts,
       };
     }

@@ -179,12 +179,12 @@ check("AFTER: continuous chat world with ask→answer→result + spoken CTA pass
       {
         source: "ai",
         image_prompt:
-          "Website chat widget on the phone screen: AI chatbot replies with color treatment timing and tomorrow availability",
+          "Website chat widget on the phone screen: AI reply appears instantly — AI chatbot replies with color treatment timing and tomorrow availability as blurred structured bubbles",
       },
       {
         source: "ai",
         image_prompt:
-          "Visitor's hands pause on the phone as the answered chat confirms a booking lead is captured",
+          "Same visitor's hands on the same phone as the answered chat confirms a booking lead is captured — conversation continues",
       },
       {
         source: "asset",

@@ -62,7 +62,10 @@ export function buildNarrativeBeatPromptBlock(
     "- Escalation must show failure or rising cost — not a second angle on the same setup.",
   );
   lines.push(
-    "- Resolution must change state (problem → fix), not restate the problem.",
+    "- Resolution must VISUALLY show the product solving the problem",
+    "  (AI reply appears / booking confirmed / lead captured / conversation continues).",
+    "- Resolution must NOT be a smile, success pose, floating chat icon, or landing page.",
+    "- Keep PRIMARY_ACTOR continuous — same person across beats; no identity swaps for variety.",
   );
   lines.push(
     "- Voiceover must track viewer_question → viewer_expectation across the arc.",

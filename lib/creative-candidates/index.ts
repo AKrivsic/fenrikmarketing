@@ -13,6 +13,7 @@ export {
   planCreativeCandidatesForPackage,
   attachFidelityToPlan,
   attachStoryIntegrityToPlan,
+  attachProductDemonstrationIntegrityToPlan,
   buildCreativeDnaDiagnostics,
   ensureCandidateCreativeDNA,
 } from "@/lib/creative-candidates/planForPackage";
@@ -102,3 +103,20 @@ export type {
   StoryIntegrityViolationCode,
   ProductDemonstrationCheck,
 } from "@/lib/creative-candidates/storyIntegrity";
+export {
+  PRODUCT_DEMONSTRATION_INTEGRITY_VERSION,
+  PRODUCT_DEMONSTRATION_INTEGRITY_PROMPT_HEADER,
+  derivePrimaryActor,
+  detectSemanticProductDemonstration,
+  validateProductDemonstrationIntegrity,
+  buildProductDemonstrationPromptBlock,
+  productDemonstrationRepairAppendix,
+  productDemonstrationValidationIssues,
+} from "@/lib/creative-candidates/productDemonstrationIntegrity";
+export type {
+  ProductDemonstrationIntegrityResult,
+  ProductDemoIntegrityViolation,
+  ProductDemoIntegrityViolationCode,
+  PrimaryActorSpec,
+  SemanticProductDemonstrationCheck,
+} from "@/lib/creative-candidates/productDemonstrationIntegrity";
