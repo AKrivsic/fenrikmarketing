@@ -5,6 +5,9 @@ export type {
   ConceptFidelityResult,
   CreativeDNA,
   CreativeDnaSource,
+  CommercialCandidateScores,
+  SelectionDiagnostics,
+  SelectionLoserPenalty,
 } from "@/lib/creative-candidates/types";
 export {
   planCreativeCandidatesForPackage,
@@ -67,3 +70,18 @@ export {
   weightedTotal,
 } from "@/lib/creative-candidates/scoreCandidates";
 export { runComparativeJudge, selectWinner } from "@/lib/creative-candidates/comparativeJudge";
+export {
+  CREATIVE_FAMILY_COMMERCIAL_METADATA,
+  familyCommercialMetadata,
+} from "@/lib/creative-candidates/familyMetadata";
+export type { CreativeFamilyCommercialMetadata } from "@/lib/creative-candidates/familyMetadata";
+export {
+  COMMERCIAL_SCORE_WEIGHTS,
+  COMMERCIAL_SUCCESS_VERSION,
+  scoreCommercialSuccess,
+  commercialTotal,
+  finalSelectionScore,
+  attachCommercialScores,
+  buildSelectionDiagnostics,
+  commercialDimensionContributions,
+} from "@/lib/creative-candidates/commercialScore";

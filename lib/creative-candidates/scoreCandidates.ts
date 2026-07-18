@@ -5,6 +5,10 @@ import {
   matchesGenericHookOpener,
 } from "@/lib/creative-candidates/genericity";
 import { extractTopicConcreteSignals } from "@/lib/creative-candidates/generateCandidates";
+import {
+  commercialTotal,
+  scoreCommercialSuccess,
+} from "@/lib/creative-candidates/commercialScore";
 import type {
   CreativeCandidate,
   CreativeCandidateScores,
@@ -16,8 +20,9 @@ function clamp(n: number): number {
 }
 
 /**
- * Weighted total. Prioritize stop / comprehension / memorability / product.
+ * Weighted creative total. Prioritize stop / comprehension / memorability / product.
  * Feasibility only vetoes the impossible — it must not crown the safest generic.
+ * Selection v3 adds Commercial Success on top via finalSelectionScore.
  */
 export const SCORE_WEIGHTS = {
   stopPower: 3.0,
@@ -53,7 +58,7 @@ export function scoreCreativeCandidate(
   let AI_Generic_Risk = 3;
   let productionFeasibility = 8;
 
-  // Family priors
+  // Family priors (creative — commercial priors live in familyMetadata)
   const familyBoost: Record<string, Partial<CreativeCandidateScores>> = {
     human_conflict: { stopPower: 2, emotionalCharge: 2, memorability: 1 },
     absurd_understandable: { stopPower: 2, originality: 2, memorability: 2 },
@@ -93,13 +98,17 @@ export function scoreCreativeCandidate(
     productRelevance -= 2;
   }
 
-  if (/\b(heat|heatwave|cooling|technician|van|truck|job)\b/i.test(blob) &&
-    /\bhvac|heatwave|technician/i.test(ctx.topic + (ctx.angle ?? ""))) {
+  if (
+    /\b(heat|heatwave|cooling|technician|van|truck|job)\b/i.test(blob) &&
+    /\bhvac|heatwave|technician/i.test(ctx.topic + (ctx.angle ?? ""))
+  ) {
     visualSpecificity += 1;
     stopPower += 1;
   }
-  if (/\b(accountant|vacation|suitcase|contact)\b/i.test(blob) &&
-    /\baccountant|vacation/i.test(ctx.topic + (ctx.angle ?? ""))) {
+  if (
+    /\b(accountant|vacation|suitcase|contact)\b/i.test(blob) &&
+    /\baccountant|vacation/i.test(ctx.topic + (ctx.angle ?? ""))
+  ) {
     visualSpecificity += 1;
     stopPower += 1;
     productRelevance += 1;
@@ -178,7 +187,6 @@ export function applyGenericityRejections(
     if (h) rejectReasons.push(`generic_hook:${h}`);
     if (isPropAsConcept(blob)) rejectReasons.push("prop_as_concept");
 
-    // Soft: if concept is ONLY busy-business with no topic tokens → reject
     const signals = extractTopicConcreteSignals(ctx.topic, ctx.angle);
     const hits = signals.rawTokens.filter((t) =>
       blob.toLowerCase().includes(t.toLowerCase()),
@@ -196,10 +204,17 @@ export function applyGenericityRejections(
       rejectReasons.push("production_impossible");
     }
 
+    const creativeWt = weightedTotal(scores);
+    const commercialScores = scoreCommercialSuccess(candidate);
+    const cTotal = commercialTotal(commercialScores);
+
     return {
       candidate,
       scores,
-      weightedTotal: weightedTotal(scores),
+      weightedTotal: creativeWt,
+      commercialScores,
+      commercialTotal: cTotal,
+      finalSelectionScore: creativeWt + cTotal,
       rejected: rejectReasons.length > 0,
       rejectReasons,
     };

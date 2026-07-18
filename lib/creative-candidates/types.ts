@@ -4,7 +4,11 @@ import type {
 } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
 
-export const CREATIVE_CANDIDATE_VERSION = "creative-candidates@2.3" as const;
+/**
+ * Selection v3: Creative Score + Commercial Success Score → Final Selection Score.
+ * Candidate generation / divergence unchanged; only winner policy + diagnostics.
+ */
+export const CREATIVE_CANDIDATE_VERSION = "creative-candidates@3.0" as const;
 
 export type { CreativeDNA, CreativeDnaSource };
 
@@ -63,12 +67,57 @@ export interface CreativeCandidateScores {
   productionFeasibility: number;
 }
 
+/** Deterministic Commercial Success dimensions (Selection v3). */
+export interface CommercialCandidateScores {
+  renderability: number;
+  firstFrameClarity: number;
+  productDemonstrability: number;
+  humanProblemVisibility: number;
+  narrativeSurvivability: number;
+  commercialSurvivability: number;
+}
+
 export interface ScoredCreativeCandidate {
   candidate: CreativeCandidate;
   scores: CreativeCandidateScores;
+  /** Creative weighted total (legacy name; still the creative score). */
   weightedTotal: number;
+  /** Commercial Success weighted total. Optional for pre-v3 persisted rows. */
+  commercialScores?: CommercialCandidateScores;
+  commercialTotal?: number;
+  /** creative weightedTotal + commercialTotal. */
+  finalSelectionScore?: number;
   rejected: boolean;
   rejectReasons: string[];
+}
+
+export interface SelectionLoserPenalty {
+  candidateId: string;
+  family: string;
+  creativeScore: number;
+  commercialScore: number;
+  finalSelectionScore: number;
+  primaryPenalties: string[];
+  lostBy: number;
+}
+
+/** Developer-facing explainability for the winning selection. */
+export interface SelectionDiagnostics {
+  version: "commercial-success@1";
+  winnerId: string;
+  creativeScore: number;
+  commercialScore: number;
+  finalSelectionScore: number;
+  commercialDimensions: CommercialCandidateScores;
+  commercialDimensionContributions: Record<
+    keyof CommercialCandidateScores,
+    number
+  >;
+  creativeScoresSnapshot: CreativeCandidateScores;
+  whyWon: string;
+  losersPenalized: SelectionLoserPenalty[];
+  /** True when a higher creative-score candidate lost on commercial grounds. */
+  overturnedCreativeLeader: boolean;
 }
 
 export interface ComparativeJudgeResult {
@@ -77,6 +126,12 @@ export interface ComparativeJudgeResult {
   clearestMentalImage: string;
   mostMemorableInOneHour: string;
   bestProductTopicFit: string;
+  /** Commercial comparative badges (v3). */
+  mostRenderable?: string;
+  clearestFirstFrame?: string;
+  bestProductDemonstrability?: string;
+  strongestHumanProblem?: string;
+  bestCommercialSurvivability?: string;
   winnerId: string;
   winnerReason: string;
 }
@@ -100,6 +155,8 @@ export interface CreativeCandidatePlan {
   rejectedCandidates: Array<{ candidateId: string; reasons: string[] }>;
   selectedCandidate: CreativeCandidate;
   comparativeJudge: ComparativeJudgeResult;
+  /** Present on v3+ plans; explains Final Selection Score. */
+  selectionDiagnostics?: SelectionDiagnostics | null;
   finalScriptFidelity: ConceptFidelityResult | null;
   finalStoryboardFidelity: ConceptFidelityResult | null;
   regenerationReason: string | null;

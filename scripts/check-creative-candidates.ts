@@ -1,4 +1,4 @@
-// Creative Candidate Selection v2 (Creative Divergence)
+// Creative Candidate Selection v3 (Commercial Success)
 //   npm run check:creative-candidates
 
 import assert from "node:assert/strict";
@@ -11,10 +11,14 @@ import {
   buildCreativeDnaPromptBlockFromPlan,
   checkConceptFidelity,
   clusterRawSituations,
+  commercialTotal,
   CREATIVE_DNA_AUTHORING_INSTRUCTIONS,
   CREATIVE_DNA_PROMPT_HEADER,
+  CREATIVE_FAMILY_COMMERCIAL_METADATA,
   deriveCreativeDNA,
   extractTopicConcreteSignals,
+  familyCommercialMetadata,
+  finalSelectionScore,
   generateCreativeCandidates,
   generateCreativeCandidatesFromFamilies,
   generateCreativeCandidatesWithDivergence,
@@ -28,6 +32,7 @@ import {
   rejectRawSituation,
   resolveCandidateCreativeDNA,
   runComparativeJudge,
+  scoreCommercialSuccess,
   selectWinner,
   validateCandidateDnaConsistency,
   validateCreativeDnaAgainstPackage,
@@ -527,7 +532,12 @@ check("persistence fields include observability keys", () => {
   assert.ok(fields.selectedCandidate);
   assert.ok(fields.comparativeJudge);
   assert.ok(fields.creativeDivergence);
-  assert.equal(fields.version, "creative-candidates@2.3");
+  assert.equal(fields.version, "creative-candidates@3.0");
+  assert.ok(fields.selectionDiagnostics);
+  const scores = fields.candidateScores as Array<Record<string, unknown>>;
+  assert.ok(scores.length > 0);
+  assert.ok("commercialTotal" in scores[0]!);
+  assert.ok("finalSelectionScore" in scores[0]!);
 });
 
 check("weightedTotal prefers stop/comprehension over feasibility", () => {
@@ -858,7 +868,7 @@ check("canonical DNA section injected when present; absent for historical", () =
   const withDna = mascotWinner(true);
   const without = mascotWinner(false);
   const planWith = {
-    version: "creative-candidates@2.3" as const,
+    version: "creative-candidates@3.0" as const,
     creativeDivergence: {
       version: "creative-divergence@2.1" as const,
       rawGeneratedCount: 0,
@@ -1187,6 +1197,152 @@ check("before/after prompt comparison: DNA locks parking-lot world vs co-working
   // Without DNA: Identity owns environment. With DNA: world stays parking lot.
   assert.match(dnaBlock, /sun-baked parking lot/i);
   assert.ok(planned.promptBlock.includes("CREATIVE CANDIDATE"));
+});
+
+console.log("\nselection v3 — commercial success");
+
+function fixtureCandidate(
+  partial: Partial<CreativeCandidate> &
+    Pick<CreativeCandidate, "candidateId" | "family" | "hookLine" | "openingSituation" | "coreIdea">,
+): CreativeCandidate {
+  return {
+    emotionalReaction: "recognition",
+    visualPromise: partial.visualPromise ?? "Film the opening situation clearly",
+    storyProgression: "Hold opening → escalate → product answers",
+    productConnection:
+      partial.productConnection ??
+      "AI website chatbot answers the visitor in the opening moment",
+    ending: "Website answers when you can't",
+    expectedViewerQuestion: "What happens next?",
+    familiarityRisk: "medium",
+    memorabilityReason: "Specific situation",
+    ...partial,
+  };
+}
+
+check("family metadata ranks direct_product above absurd on commercial reliability", () => {
+  const dp = familyCommercialMetadata("direct_product_world");
+  const abs = familyCommercialMetadata("absurd_understandable");
+  const ve = familyCommercialMetadata("visual_exaggeration");
+  assert.ok(dp.commercial_reliability > abs.commercial_reliability);
+  assert.ok(ve.commercial_reliability > abs.commercial_reliability);
+  assert.equal(abs.requires_readable_text, true);
+  assert.ok(abs.metaphor_risk >= 8);
+  assert.equal(CREATIVE_FAMILY_COMMERCIAL_METADATA.social_observation.requires_readable_text, true);
+});
+
+check("departure-board absurd scores low commercial vs human product-world", () => {
+  const absurd = fixtureCandidate({
+    candidateId: "c-absurd-board",
+    family: "absurd_understandable",
+    hookLine: "Departure board for the wrong channel.",
+    openingSituation:
+      'Train-station style departure board: "Phone caller #47" boarding; "Website visitor" stuck on Delayed',
+    coreIdea:
+      "Departure board comparing phone caller boarding vs website visitor Delayed",
+  });
+  const direct = fixtureCandidate({
+    candidateId: "c-direct-hands",
+    family: "direct_product_world",
+    hookLine: "Urgent question dies in silence.",
+    openingSituation:
+      "Close on a customer's hands sending an urgent question on their phone; reply thread shows seen with no answer",
+    coreIdea:
+      "Hands on phone waiting for a website reply that never comes during peak demand",
+    productConnection:
+      "Chat answers the visitor on the services page while the owner is busy",
+  });
+  const visual = fixtureCandidate({
+    candidateId: "c-visual-mountain",
+    family: "visual_exaggeration",
+    hookLine: "Lost work as a physical mountain.",
+    openingSituation:
+      "Physical stack of printed missed-web-session logs grows on the counter while staff handle only the phone",
+    coreIdea: "Mountain of missed website sessions beside a ringing phone",
+  });
+
+  const scored = applyGenericityRejections([absurd, direct, visual], {
+    topic: HVAC_TOPIC,
+    angle: HVAC_ANGLE,
+    productIs,
+  });
+  const a = scored.find((s) => s.candidate.candidateId === "c-absurd-board")!;
+  const d = scored.find((s) => s.candidate.candidateId === "c-direct-hands")!;
+  const v = scored.find((s) => s.candidate.candidateId === "c-visual-mountain")!;
+
+  assert.ok(a.commercialTotal != null && d.commercialTotal != null);
+  assert.ok(
+    d.commercialTotal! > a.commercialTotal!,
+    `direct commercial ${d.commercialTotal} should beat absurd ${a.commercialTotal}`,
+  );
+  assert.ok(
+    v.commercialTotal! > a.commercialTotal!,
+    `visual commercial ${v.commercialTotal} should beat absurd ${a.commercialTotal}`,
+  );
+
+  // Even if absurd leads on creative originality/stop, final selection prefers commercial
+  assert.ok(a.scores.originality >= d.scores.originality - 1);
+  const judge = runComparativeJudge(scored);
+  const winner = selectWinner(scored, judge);
+  assert.notEqual(
+    winner.candidate.family,
+    "absurd_understandable",
+    `absurd must not win on originality alone; got ${winner.candidate.family} final=${winner.finalSelectionScore}`,
+  );
+  assert.ok(
+    winner.candidate.family === "direct_product_world" ||
+      winner.candidate.family === "visual_exaggeration",
+  );
+  assert.ok(judge.selectionDiagnostics.whyWon.includes("commercial_score="));
+  assert.ok(
+    judge.selectionDiagnostics.losersPenalized.some(
+      (l) => l.candidateId === "c-absurd-board",
+    ),
+  );
+});
+
+check("finalSelectionScore = creative + commercial", () => {
+  const c = scoreCommercialSuccess(
+    fixtureCandidate({
+      candidateId: "x",
+      family: "direct_product_world",
+      hookLine: "Heat relief outside, none online.",
+      openingSituation:
+        "Person fans themselves in a queue while refreshing a dead chat on their phone",
+      coreIdea: "Queue outside; dead chat online",
+    }),
+  );
+  const creative = 80;
+  const commercial = commercialTotal(c);
+  assert.equal(finalSelectionScore(creative, commercial), creative + commercial);
+});
+
+check("plan exposes selection diagnostics and v3 version", () => {
+  const planned = planCreativeCandidatesForPackage({
+    topic: HVAC_TOPIC,
+    angle: HVAC_ANGLE,
+    painPoints,
+    productIs,
+    requireVideo: true,
+  });
+  assert.equal(planned.plan!.version, "creative-candidates@3.0");
+  assert.ok(planned.plan!.selectionDiagnostics);
+  assert.match(planned.plan!.selectionDiagnostics!.whyWon, /final_selection_score=/);
+  assert.match(planned.promptBlock, /COMMERCIAL SUCCESS|Selection v3/);
+  // Winner should not be auto-absurd solely from originality when better commercial options exist
+  const winnerFamily = planned.plan!.selectedCandidate.family;
+  const winnerScore = planned.plan!.candidateScores.find(
+    (s) => s.candidate.candidateId === planned.plan!.selectedCandidate.candidateId,
+  )!;
+  assert.ok(winnerScore.finalSelectionScore != null);
+  const absurd = planned.plan!.candidateScores.find(
+    (s) => s.candidate.family === "absurd_understandable" && !s.rejected,
+  );
+  if (absurd && winnerFamily !== "absurd_understandable") {
+    assert.ok(
+      (winnerScore.finalSelectionScore ?? 0) >= (absurd.finalSelectionScore ?? 0),
+    );
+  }
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

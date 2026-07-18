@@ -14,11 +14,15 @@ export function buildCreativeCandidatePromptBlock(
   const w = plan.selectedCandidate;
   return [
     `${CREATIVE_CANDIDATE_PROMPT_HEADER} (${CREATIVE_CANDIDATE_VERSION}):`,
-    "Raw visual situations were clustered for scroll-stop (Creative Divergence v2); a winner was selected from 8 complete concepts. You MUST execute THIS winner —",
-    "do not invent a safer B2B montage, do not reinterpret into phones/laptops/offices unless the winner requires it.",
+    "Raw visual situations were clustered for scroll-stop (Creative Divergence v2); a winner was selected for COMMERCIAL SUCCESS of the finished ad",
+    "(Selection v3: Creative Score + Commercial Success — not pure originality).",
+    "You MUST execute THIS winner — do not invent a safer B2B montage, do not reinterpret into phones/laptops/offices unless the winner requires it.",
     "",
     `Winner id: ${w.candidateId} (${w.family})`,
     `Why it won: ${plan.comparativeJudge.winnerReason}`,
+    plan.selectionDiagnostics
+      ? `Selection diagnostics: creative=${plan.selectionDiagnostics.creativeScore.toFixed(1)} commercial=${plan.selectionDiagnostics.commercialScore.toFixed(1)} final=${plan.selectionDiagnostics.finalSelectionScore.toFixed(1)}`
+      : null,
     "",
     `coreIdea: ${w.coreIdea}`,
     `emotionalReaction: ${w.emotionalReaction}`,
@@ -39,7 +43,9 @@ export function buildCreativeCandidatePromptBlock(
     "  (HOOK → SETUP → ESCALATION → RESOLUTION); product enters via productConnection; close via ending.",
     "- Attention / Visual Narrative / Identity control LOOK and MECHANISM — they must AMPLIFY this winner, not replace it.",
     "- When CANONICAL CREATIVE DNA is present below, it overrides conflicting staging from Identity / Narrative / Product Reveal.",
-  ].join("\n");
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
 }
 
 /**
@@ -67,6 +73,9 @@ export function creativeCandidateFieldsForPersistence(
         family: s.candidate.family,
         scores: s.scores,
         weightedTotal: s.weightedTotal,
+        commercialScores: s.commercialScores ?? null,
+        commercialTotal: s.commercialTotal ?? null,
+        finalSelectionScore: s.finalSelectionScore ?? null,
         rejected: s.rejected,
         rejectReasons: s.rejectReasons,
         hookLine: s.candidate.hookLine,
@@ -76,6 +85,7 @@ export function creativeCandidateFieldsForPersistence(
       rejectedCandidates: plan.rejectedCandidates,
       selectedCandidate: plan.selectedCandidate,
       comparativeJudge: plan.comparativeJudge,
+      selectionDiagnostics: plan.selectionDiagnostics ?? null,
       finalScriptFidelity: plan.finalScriptFidelity,
       finalStoryboardFidelity: plan.finalStoryboardFidelity,
       regenerationReason: plan.regenerationReason,

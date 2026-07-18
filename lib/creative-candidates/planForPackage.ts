@@ -119,6 +119,10 @@ export function planCreativeCandidatesForPackage(args: {
 
   const comparativeJudge = runComparativeJudge(candidateScores);
   const winnerScored = selectWinner(candidateScores, comparativeJudge);
+  const selectionDiagnostics = comparativeJudge.selectionDiagnostics;
+
+  // Persist judge without nested diagnostics object (kept on plan root)
+  const { selectionDiagnostics: _diag, ...judgeForPlan } = comparativeJudge;
 
   const { candidate: selectedCandidate, resolve: dnaResolve } =
     ensureCandidateCreativeDNA(winnerScored.candidate, args);
@@ -135,7 +139,8 @@ export function planCreativeCandidatesForPackage(args: {
         reasons: s.rejectReasons,
       })),
     selectedCandidate,
-    comparativeJudge,
+    comparativeJudge: judgeForPlan,
+    selectionDiagnostics,
     finalScriptFidelity: null,
     finalStoryboardFidelity: null,
     regenerationReason: null,
