@@ -476,13 +476,30 @@ export function validateContentControls(
 // of projects.platforms with the package surfaces. Falls back to the full
 // REQUIRED_PACKAGE_PLATFORMS set when the project selects none of them, so a
 // project with no/legacy platform config keeps the current behavior.
+//
+// Sprint 4B: Facebook writing output is ALWAYS included so packages never ship
+// without a Facebook post when other package platforms are generated.
 export function resolvePackagePlatforms(
   platforms: PlatformType[],
 ): PackagePlatform[] {
   const selected = REQUIRED_PACKAGE_PLATFORMS.filter((p) =>
     platforms.includes(p as PlatformType),
   );
-  return selected.length > 0 ? [...selected] : [...REQUIRED_PACKAGE_PLATFORMS];
+  const base =
+    selected.length > 0 ? selected : [...REQUIRED_PACKAGE_PLATFORMS];
+  return ensureFacebookPackagePlatform(base);
+}
+
+/**
+ * Sprint 4B — ensure Facebook is always among package writing surfaces.
+ * Preserves REQUIRED_PACKAGE_PLATFORMS order.
+ */
+export function ensureFacebookPackagePlatform(
+  platforms: readonly PackagePlatform[],
+): PackagePlatform[] {
+  const set = new Set(platforms);
+  set.add("facebook");
+  return REQUIRED_PACKAGE_PLATFORMS.filter((p) => set.has(p));
 }
 
 // ---------------------------------------------------------------------------

@@ -449,7 +449,128 @@ export function checkContentPackageGuardrails(
     }
   }
 
+  // Sprint 4B — platform-native writing quality (final writing layer only).
+  const platformNativeIssues = checkPlatformNativeWriting(pkg);
+  issues.push(...platformNativeIssues);
+
   return issues;
+}
+
+/** YouTube Shorts SEO-article openers that must not appear in captions. */
+export const YOUTUBE_SHORTS_SEO_OPENERS: readonly string[] = [
+  "this video breaks down",
+  "in this video",
+  "watch to learn",
+  "if you've ever wondered",
+  "this short explains",
+  "this video explains",
+  "in today's video",
+];
+
+export const YOUTUBE_SHORTS_CAPTION_HARD_CAP_WORDS = 55;
+export const X_CAPTION_HARD_CAP_CHARS = 280;
+
+/**
+ * Sprint 4B guardrails: native platform writing (not strategy/Product Brain).
+ */
+export function checkPlatformNativeWriting(
+  pkg: ContentPackageOutput,
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const outputs = (pkg.platform_outputs ?? {}) as Record<
+    string,
+    | {
+        caption?: string;
+        caption_variants?: string[];
+      }
+    | undefined
+  >;
+  const vo = (pkg.voiceover_text ?? "").trim();
+
+  const youtube = outputs.youtube;
+  if (youtube?.caption) {
+    const caption = youtube.caption.trim();
+    const lower = caption.toLowerCase();
+    for (const opener of YOUTUBE_SHORTS_SEO_OPENERS) {
+      if (lower.startsWith(opener) || lower.includes(`${opener} `)) {
+        issues.push(
+          issue(
+            "$.platform_outputs.youtube.caption",
+            `YouTube Shorts caption uses SEO/article opener "${opener}" — write a short curiosity caption instead`,
+          ),
+        );
+        break;
+      }
+    }
+    const words = countWords(caption);
+    if (words > YOUTUBE_SHORTS_CAPTION_HARD_CAP_WORDS) {
+      issues.push(
+        issue(
+          "$.platform_outputs.youtube.caption",
+          `YouTube Shorts caption is ${words} words; hard cap is ${YOUTUBE_SHORTS_CAPTION_HARD_CAP_WORDS} (native Shorts, not SEO description)`,
+        ),
+      );
+    }
+  }
+
+  const x = outputs.x;
+  if (x?.caption && x.caption.length > X_CAPTION_HARD_CAP_CHARS) {
+    issues.push(
+      issue(
+        "$.platform_outputs.x.caption",
+        `X caption is ${x.caption.length} chars; hard cap is ${X_CAPTION_HARD_CAP_CHARS}`,
+      ),
+    );
+  }
+
+  // Reject captions that are near-copies of the voiceover (same first 12 words).
+  if (vo) {
+    const voHead = normalizeWords(vo).slice(0, 12).join(" ");
+    if (voHead.length >= 24) {
+      for (const [platform, output] of Object.entries(outputs)) {
+        const caption = output?.caption?.trim();
+        if (!caption) continue;
+        const capHead = normalizeWords(caption).slice(0, 12).join(" ");
+        if (capHead === voHead) {
+          issues.push(
+            issue(
+              `$.platform_outputs.${platform}.caption`,
+              "caption duplicates the voiceover opening — rewrite as platform-native copy",
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  // X variant hook diversity: first 5 words must differ across variants.
+  const variants = x?.caption_variants?.filter(
+    (c): c is string => typeof c === "string" && c.trim().length > 0,
+  );
+  if (variants && variants.length >= 2) {
+    const heads = variants.map((c) =>
+      normalizeWords(c).slice(0, 5).join(" "),
+    );
+    const unique = new Set(heads.filter(Boolean));
+    if (unique.size < Math.min(variants.length, heads.filter(Boolean).length)) {
+      issues.push(
+        issue(
+          "$.platform_outputs.x.caption_variants",
+          "X caption_variants must open with different hooks (first 5 words must differ)",
+        ),
+      );
+    }
+  }
+
+  return issues;
+}
+
+function normalizeWords(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
 }
 
 function collectPackageText(pkg: ContentPackageOutput): string {

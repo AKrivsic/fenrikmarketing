@@ -3,6 +3,7 @@ import type {
   CreativeDnaSource,
 } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
+import type { StoryIntegrityResult } from "@/lib/creative-candidates/storyIntegrity";
 
 /**
  * Selection v3: Creative Score + Commercial Success Score → Final Selection Score.
@@ -159,5 +160,7 @@ export interface CreativeCandidatePlan {
   selectionDiagnostics?: SelectionDiagnostics | null;
   finalScriptFidelity: ConceptFidelityResult | null;
   finalStoryboardFidelity: ConceptFidelityResult | null;
+  /** Hard Story Integrity gate (selected world must survive every beat). */
+  storyIntegrity?: StoryIntegrityResult | null;
   regenerationReason: string | null;
 }

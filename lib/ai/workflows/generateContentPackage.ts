@@ -90,12 +90,16 @@ import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import {
   attachFidelityToPlan,
+  attachStoryIntegrityToPlan,
   buildCreativeDnaDiagnostics,
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
   planCreativeCandidatesForPackage,
+  storyIntegrityRepairAppendix,
+  storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
+  validateStoryIntegrity,
 } from "@/lib/creative-candidates";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
@@ -573,6 +577,110 @@ export async function runGenerateContentPackage(
       fidelity,
       regenerationReason,
     );
+
+    // Story Integrity — selected commercial world must survive every beat.
+    // Hard gate: one repair, then fail generation (do not silently continue).
+    let storyIntegrity = validateStoryIntegrity({
+      winner: creativeCandidates.selectedCandidate,
+      voiceoverText: generated.value.voiceover_text,
+      packageCta: generated.value.cta?.text ?? "",
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+      hook: generated.value.hook,
+    });
+    if (!storyIntegrity.passed) {
+      const integrityReason = `story_integrity:${storyIntegrity.summary}`;
+      regenerationReason = regenerationReason
+        ? `${regenerationReason};${integrityReason}`
+        : integrityReason;
+      const repairedIntegrity = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildGeneratePackageSystem(requireVideo),
+        prompt: buildPackagePrompt(
+          storyIntegrityRepairAppendix(
+            creativeCandidates.selectedCandidate,
+            storyIntegrity,
+            generated.value.cta?.text ?? "",
+          ),
+        ),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          assetCoverage,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+        maxTransportAttempts:
+          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+      });
+      if (repairedIntegrity.ok) {
+        generated = repairedIntegrity;
+        generated.value.hook = await ensureUniqueHook({
+          hook: generated.value.hook,
+          project,
+          topic: context.topic,
+          angle: context.angle,
+          memory,
+        });
+        aligned = alignHookWithFirstSpoken({
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = aligned.hook;
+        generated.value.voiceover_text = aligned.voiceover_text;
+        fidelity = checkConceptFidelity({
+          winner: creativeCandidates.selectedCandidate,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          topic: context.topic,
+          angle: context.angle,
+        });
+        creativeCandidates = attachFidelityToPlan(
+          creativeCandidates,
+          fidelity,
+          regenerationReason,
+        );
+        storyIntegrity = validateStoryIntegrity({
+          winner: creativeCandidates.selectedCandidate,
+          voiceoverText: generated.value.voiceover_text,
+          packageCta: generated.value.cta?.text ?? "",
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          hook: generated.value.hook,
+        });
+      }
+    }
+    creativeCandidates = attachStoryIntegrityToPlan(
+      creativeCandidates,
+      storyIntegrity,
+      regenerationReason,
+    );
+    if (!storyIntegrity.passed) {
+      console.error(
+        "[story-integrity] hard fail after repair",
+        creativeCandidates.selectedCandidate.candidateId,
+        storyIntegrity.violations,
+      );
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: storyIntegrityValidationIssues(storyIntegrity).map(
+          (issue) => ({
+            path: issue.path,
+            message: issue.message,
+          }),
+        ),
+        attempts: generated.attempts,
+      };
+    }
 
     // Diagnostics only — story / visual / information progression (no regenerate).
     storyProgressionDiagnostics = validateStoryProgression({

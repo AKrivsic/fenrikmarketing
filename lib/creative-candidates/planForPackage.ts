@@ -168,6 +168,21 @@ export function attachFidelityToPlan(
   };
 }
 
+export function attachStoryIntegrityToPlan(
+  plan: CreativeCandidatePlan,
+  storyIntegrity: import("@/lib/creative-candidates/storyIntegrity").StoryIntegrityResult,
+  regenerationReason?: string | null,
+): CreativeCandidatePlan {
+  return {
+    ...plan,
+    storyIntegrity,
+    regenerationReason:
+      regenerationReason !== undefined
+        ? regenerationReason
+        : plan.regenerationReason,
+  };
+}
+
 export function buildCreativeDnaDiagnostics(args: {
   plan: CreativeCandidatePlan;
   identityEnvironmentSuppressed: boolean;

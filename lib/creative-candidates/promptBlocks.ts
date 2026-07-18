@@ -5,6 +5,7 @@ import {
   normalizeCreativeDNA,
   type CreativeDnaDiagnostics,
 } from "@/lib/creative-candidates/creativeDNA";
+import { buildStoryIntegrityPromptBlock } from "@/lib/creative-candidates/storyIntegrity";
 
 export const CREATIVE_CANDIDATE_PROMPT_HEADER = "CREATIVE CANDIDATE SELECTION";
 
@@ -12,6 +13,7 @@ export function buildCreativeCandidatePromptBlock(
   plan: CreativeCandidatePlan,
 ): string {
   const w = plan.selectedCandidate;
+  const integrityBlock = buildStoryIntegrityPromptBlock(w);
   return [
     `${CREATIVE_CANDIDATE_PROMPT_HEADER} (${CREATIVE_CANDIDATE_VERSION}):`,
     "Raw visual situations were clustered for scroll-stop (Creative Divergence v2); a winner was selected for COMMERCIAL SUCCESS of the finished ad",
@@ -43,6 +45,9 @@ export function buildCreativeCandidatePromptBlock(
     "  (HOOK → SETUP → ESCALATION → RESOLUTION); product enters via productConnection; close via ending.",
     "- Attention / Visual Narrative / Identity control LOOK and MECHANISM — they must AMPLIFY this winner, not replace it.",
     "- When CANONICAL CREATIVE DNA is present below, it overrides conflicting staging from Identity / Narrative / Product Reveal.",
+    "- STORY INTEGRITY: every visual beat must stay inside the selected world — no mid-video metaphor escape.",
+    "",
+    integrityBlock,
   ]
     .filter((line) => line !== null)
     .join("\n");
@@ -88,6 +93,7 @@ export function creativeCandidateFieldsForPersistence(
       selectionDiagnostics: plan.selectionDiagnostics ?? null,
       finalScriptFidelity: plan.finalScriptFidelity,
       finalStoryboardFidelity: plan.finalStoryboardFidelity,
+      storyIntegrity: plan.storyIntegrity ?? null,
       regenerationReason: plan.regenerationReason,
       ...(diagnostics ? { creativeDnaDiagnostics: diagnostics } : {}),
     },

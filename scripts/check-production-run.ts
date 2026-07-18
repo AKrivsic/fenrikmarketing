@@ -236,23 +236,25 @@ const runGen = resolveRunGenerationPlan(
   }),
 );
 
-check("targetPlatforms include youtube + x (persistable)", () => {
+check("targetPlatforms include youtube + x + facebook (Sprint 4B)", () => {
   assert.deepEqual(runGen.targetPlatforms, [
     "tiktok",
     "instagram",
     "youtube",
+    "facebook",
     "linkedin",
     "x",
   ]);
 });
-check("videoPlatforms = tiktok, instagram, youtube", () => {
+check("videoPlatforms = tiktok, instagram, youtube (facebook auto-inject is text)", () => {
   assert.deepEqual(runGen.videoPlatforms, ["tiktok", "instagram", "youtube"]);
 });
-check("multipliers: video=1, linkedin=1, x=3", () => {
+check("multipliers: video=1, linkedin=1, x=3, facebook present", () => {
   assert.equal(runGen.multipliers.tiktok, 1);
   assert.equal(runGen.multipliers.youtube, 1);
   assert.equal(runGen.multipliers.linkedin, 1);
   assert.equal(runGen.multipliers.x, 3);
+  assert.ok(runGen.multipliers.facebook !== undefined);
 });
 
 // --- 7. per-project content types (facebook text_only) ---------------------

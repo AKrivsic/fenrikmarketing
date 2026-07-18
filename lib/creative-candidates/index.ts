@@ -12,6 +12,7 @@ export type {
 export {
   planCreativeCandidatesForPackage,
   attachFidelityToPlan,
+  attachStoryIntegrityToPlan,
   buildCreativeDnaDiagnostics,
   ensureCandidateCreativeDNA,
 } from "@/lib/creative-candidates/planForPackage";
@@ -85,3 +86,19 @@ export {
   buildSelectionDiagnostics,
   commercialDimensionContributions,
 } from "@/lib/creative-candidates/commercialScore";
+export {
+  STORY_INTEGRITY_VERSION,
+  STORY_INTEGRITY_PROMPT_HEADER,
+  deriveAllowedWorldTokens,
+  detectProductDemonstration,
+  validateStoryIntegrity,
+  buildStoryIntegrityPromptBlock,
+  storyIntegrityRepairAppendix,
+  storyIntegrityValidationIssues,
+} from "@/lib/creative-candidates/storyIntegrity";
+export type {
+  StoryIntegrityResult,
+  StoryIntegrityViolation,
+  StoryIntegrityViolationCode,
+  ProductDemonstrationCheck,
+} from "@/lib/creative-candidates/storyIntegrity";

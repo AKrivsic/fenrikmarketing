@@ -1,11 +1,13 @@
 import type { PlatformType } from "@/lib/supabase/types";
 import {
   DEFAULT_PLATFORM_CONTENT_TYPES,
+  ensureFacebookPackagePlatform,
   resolvePlatformTargets,
   type ContentControls,
   type ContentTypePlatform,
   type PlatformContentType,
 } from "@/lib/projects/contentControls";
+import type { PackagePlatform } from "@/lib/ai/types";
 import {
   DEFAULT_GENERATION_MODE,
   parseGenerationMode,
@@ -477,6 +479,9 @@ export function buildDefaultProductionConfig(
     for (const id of PRODUCTION_VIDEO_PLATFORMS) activeSet.add(id);
   }
 
+  // Sprint 4B — Facebook writing surface is always active by default.
+  activeSet.add("facebook");
+
   const active = PRODUCTION_PLATFORMS.filter((d) => activeSet.has(d.id)).map(
     (d) => d.id,
   );
@@ -624,5 +629,16 @@ export function resolveRunGenerationPlan(
     }
   }
 
-  return { targetPlatforms, videoPlatforms, multipliers };
+  // Sprint 4B — Facebook caption/post is always generated for package runs.
+  // When auto-injected (not selected in the run config), force text_only so we
+  // improve the writing layer without adding another shared video surface.
+  const ensured = ensureFacebookPackagePlatform(
+    targetPlatforms as PackagePlatform[],
+  ) as ProductionPlatformId[];
+  if (!targetPlatforms.includes("facebook") && ensured.includes("facebook")) {
+    multipliers.facebook =
+      config.multipliers.facebook ?? DEFAULT_MULTIPLIERS.facebook;
+  }
+
+  return { targetPlatforms: ensured, videoPlatforms, multipliers };
 }
