@@ -1,5 +1,9 @@
 import { isFramedProductVideoUsage } from "@/lib/assets/preferredVideoUsage";
 import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
+import {
+  narrativeBeatRolesForCount,
+  planBeatDurations,
+} from "@/lib/narrative-beats";
 import type {
   MotionIntensity,
   MotionIntent,
@@ -171,6 +175,11 @@ export interface BuildStoryboardInput {
   // role arc follows the mode instead of a hardcoded marketing arc. Omitted
   // (undefined/empty) keeps a neutral hook -> body... -> cta arc.
   modeBeats?: string[];
+  /**
+   * Optional HOOK/SETUP/ESCALATION/RESOLUTION roles for duration weighting.
+   * When omitted, roles are derived from modeBeats (or a neutral 4-beat spine).
+   */
+  narrativeBeatRoles?: string[];
   // Content Quality Sprint (Video Sync) — the REAL voiceover duration (seconds),
   // measured from the rendered TTS file. When provided it becomes the master
   // timeline: beat durations are derived so the on-screen beats + subtitles sum
@@ -385,18 +394,49 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
 
   // On-screen durations sum to targetTotal + overlap, because each transition
   // overlaps the previous beat by transitionSeconds (xfade), so the audible
-  // narration is not cut short. With a measured audio duration we do NOT clamp
-  // perBeat to the profile's beat range: clamping would make the beat sum
-  // diverge from the audio and re-introduce the very drift this fix removes.
+  // narration is not cut short. Duration Planner: weight by narrative role +
+  // voiceover segment length (Hook/Ending short, Setup/Escalation medium),
+  // with a hard ≤35% cap unless the segment's word share justifies longer.
   const overlap = (numBeats - 1) * profile.transitionSeconds;
-  const rawPerBeat = (targetTotal + overlap) / numBeats;
-  const perBeat = hasAudio
-    ? rawPerBeat
-    : clamp(rawPerBeat, profile.minBeatSeconds, profile.maxBeatSeconds);
+  const distributable = targetTotal + overlap;
 
   const sentences = splitSentences(input.voiceoverText);
   const segments = toSegments(sentences, numBeats);
   const roles = buildRoles(numBeats, input.modeBeats);
+  const durationRoles =
+    input.narrativeBeatRoles && input.narrativeBeatRoles.length === numBeats
+      ? input.narrativeBeatRoles
+      : input.narrativeBeatRoles && input.narrativeBeatRoles.length > 0
+        ? Array.from({ length: numBeats }, (_u, i) => {
+            const src = input.narrativeBeatRoles!;
+            const idx =
+              numBeats === 1
+                ? 0
+                : Math.min(
+                    src.length - 1,
+                    Math.floor((i * src.length) / numBeats),
+                  );
+            return src[idx]!;
+          })
+        : narrativeBeatRolesForCount(numBeats);
+  const segmentWordCounts = segments.map(
+    (s) => s.trim().split(/\s+/).filter(Boolean).length,
+  );
+  const planned = planBeatDurations({
+    totalSeconds: distributable,
+    roles: durationRoles,
+    segmentWordCounts,
+  });
+  let beatDurations = planned.durations;
+  if (!hasAudio) {
+    beatDurations = beatDurations.map((d) =>
+      clamp(d, profile.minBeatSeconds, profile.maxBeatSeconds),
+    );
+    const clampedSum = beatDurations.reduce((a, b) => a + b, 0) || 1;
+    beatDurations = beatDurations.map(
+      (d) => Math.round(((d / clampedSum) * distributable) * 100) / 100,
+    );
+  }
 
   // Task 5 — seed the hook beat with the strong opening line when provided and
   // it is not already what the narration starts with.
@@ -488,7 +528,7 @@ export function buildStoryboard(input: BuildStoryboardInput): StoryboardBeat[] {
       motion,
       transition: transitionFor(i, motion_intent),
       text: segments[i] ?? "",
-      durationSeconds: Math.round(perBeat * 100) / 100,
+      durationSeconds: beatDurations[i] ?? 3,
       ...(motion_intent ? { motion_intent } : {}),
       ...(motion_intensity ? { motion_intensity } : {}),
       ...(motion_version ? { motion_version } : {}),

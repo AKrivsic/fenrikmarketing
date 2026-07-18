@@ -76,6 +76,24 @@ import {
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
+import {
+  buildNarrativeBeatPromptBlock,
+  buildNarrativeTimelineDebug,
+  deriveNarrativeBeats,
+  narrativeBeatFieldsForPersistence,
+  narrativeBeatRolesForCount,
+  planBeatDurations,
+  validateDurationPlan,
+  validateInformationProgression,
+  validateStoryProgression,
+  validateVisualProgression,
+  type NarrativeBeatPlan,
+  type StoryProgressionDiagnostics,
+  type VisualProgressionDiagnostics,
+  type InformationProgressionDiagnostics,
+  type DurationValidationDiagnostics,
+  type NarrativeTimelineDebug,
+} from "@/lib/narrative-beats";
 import { DEFAULT_GENERATION_MODE } from "@/lib/ai/generationMode";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import { FUNNEL_STAGE_LABELS, normalizeFunnelStage } from "@/lib/ai/types";
@@ -235,6 +253,27 @@ export async function runRegenerateContentPackage(
     creativeCandidates?.selectedCandidate.creativeDNA,
   );
 
+  let narrativeBeatPlan: NarrativeBeatPlan | null =
+    creativeCandidates && requireVideo
+      ? deriveNarrativeBeats({
+          winner: creativeCandidates.selectedCandidate,
+          modeBeats: directives.mode.narrativeBeats,
+          topic: context.topic,
+          angle: context.angle,
+          painPoints: project.pain_points ?? [],
+          productIs: project.product_is ?? [],
+        })
+      : null;
+  const narrativeBeatPromptBlock = narrativeBeatPlan
+    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan)
+    : "";
+  let storyProgressionDiagnostics: StoryProgressionDiagnostics | null = null;
+  let visualProgressionDiagnostics: VisualProgressionDiagnostics | null = null;
+  let postLlmInformationProgression: InformationProgressionDiagnostics | null =
+    null;
+  let durationValidation: DurationValidationDiagnostics | null = null;
+  let timelineDebug: NarrativeTimelineDebug | null = null;
+
   const creativeIdentityPlan = planCreativeIdentityForPackage({
     project,
     visualProfile: resolvedVisualProfile.profile,
@@ -335,6 +374,7 @@ export async function runRegenerateContentPackage(
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
+      narrativeBeatPromptBlock: narrativeBeatPromptBlock || undefined,
       creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
       creativeSeedSalt: regenerateCreativeSalt,
@@ -446,6 +486,79 @@ export async function runRegenerateContentPackage(
       fidelity,
       regenerationReason,
     );
+
+    storyProgressionDiagnostics = validateStoryProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    visualProgressionDiagnostics = validateVisualProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    postLlmInformationProgression = validateInformationProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    if (!storyProgressionDiagnostics.passed) {
+      console.warn(
+        "[story-progression] consecutive scenes near-duplicate purpose",
+        storyProgressionDiagnostics.summary,
+      );
+    }
+    if (!visualProgressionDiagnostics.passed) {
+      console.warn(
+        "[visual-progression] static scene repetition",
+        visualProgressionDiagnostics.summary,
+      );
+    }
+    if (!postLlmInformationProgression.passed) {
+      console.warn(
+        "[information-progression] same information across scenes",
+        postLlmInformationProgression.summary,
+      );
+    }
+  }
+
+  if (narrativeBeatPlan && requireVideo) {
+    const vo = generated.value.voiceover_text ?? "";
+    const wordCount = vo.trim().split(/\s+/).filter(Boolean).length;
+    const estimatedSeconds = Math.max(15, Math.min(25, wordCount / 2.6));
+    const roles = narrativeBeatRolesForCount(
+      Math.min(5, Math.max(3, narrativeBeatPlan.beats.length)),
+    );
+    const per = Math.max(1, Math.floor(wordCount / Math.max(roles.length, 1)));
+    const segmentWordCounts = roles.map((_r, i) =>
+      i === roles.length - 1
+        ? Math.max(1, wordCount - per * (roles.length - 1))
+        : per,
+    );
+    const planned = planBeatDurations({
+      totalSeconds: estimatedSeconds,
+      roles,
+      segmentWordCounts,
+    });
+    durationValidation = validateDurationPlan({
+      roles,
+      durationsSeconds: planned.durations,
+      segmentWordCounts,
+      justifiedOverMax: planned.justifiedOverMax,
+    });
+    timelineDebug = buildNarrativeTimelineDebug({
+      winner: creativeCandidates?.selectedCandidate ?? null,
+      plan: narrativeBeatPlan,
+      voiceoverText: vo,
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+      durationPlan: {
+        roles,
+        durationsSeconds: planned.durations,
+        justifiedOverMax: planned.justifiedOverMax,
+        validation: durationValidation,
+      },
+      informationProgression:
+        postLlmInformationProgression ??
+        narrativeBeatPlan.informationProgression,
+    });
   }
 
   let creativeDnaDiagnostics: CreativeDnaDiagnostics | null = null;
@@ -540,6 +653,15 @@ export async function runRegenerateContentPackage(
           creativeDnaDiagnostics,
         )
       : {}),
+    ...(narrativeBeatPlan
+      ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
+          storyProgression: storyProgressionDiagnostics,
+          visualProgression: visualProgressionDiagnostics,
+          informationProgression: postLlmInformationProgression,
+          durationValidation,
+          timelineDebug,
+        })
+      : {}),
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.
@@ -589,6 +711,11 @@ export async function runRegenerateContentPackage(
       regenerated: true,
       creative_mode: directives.mode.id,
       creative_mode_beats: directives.mode.narrativeBeats,
+      ...(narrativeBeatPlan
+        ? {
+            narrative_beat_roles: narrativeBeatPlan.beats.map((b) => b.role),
+          }
+        : {}),
       topic: context.topic,
       angle: context.angle,
       package_id: packageId,

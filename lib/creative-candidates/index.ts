@@ -16,6 +16,7 @@ export {
   checkConceptFidelity,
   fidelityRepairAppendix,
   openingSituationFaithfulToScene1,
+  stripNoTextImpossibleClauses,
 } from "@/lib/creative-candidates/fidelityCheck";
 export {
   buildCreativeCandidatePromptBlock,

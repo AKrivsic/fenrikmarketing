@@ -132,6 +132,17 @@ function parseModeBeats(input: Record<string, unknown>): string[] | undefined {
   return beats.length > 0 ? beats : undefined;
 }
 
+function parseNarrativeBeatRoles(
+  input: Record<string, unknown>,
+): string[] | undefined {
+  const raw = input["narrative_beat_roles"];
+  if (!Array.isArray(raw)) return undefined;
+  const roles = raw.filter(
+    (b): b is string => typeof b === "string" && b.trim().length > 0,
+  );
+  return roles.length > 0 ? roles : undefined;
+}
+
 function parseOpeningAttentionMotionIntent(
   input: Record<string, unknown>,
 ): MotionIntent | null {
@@ -450,6 +461,7 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       hook: asString(payload.input["hook"]) ?? null,
       audioDurationSeconds: voiceover.durationSeconds,
       modeBeats: parseModeBeats(payload.input),
+      narrativeBeatRoles: parseNarrativeBeatRoles(payload.input),
       tailBufferSeconds: TAIL_BUFFER_SECONDS,
       explicitSceneOrder: explicitScenePlan,
       scenes: spec.scenes.map((scene) => ({

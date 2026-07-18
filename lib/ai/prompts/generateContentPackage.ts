@@ -241,6 +241,11 @@ export interface GenerateContentPackagePromptInput {
   /** Creative Candidate Selection v1 — winning complete concept controls script + storyboard. */
   creativeCandidatePromptBlock?: string;
   /**
+   * Narrative Beats — derived story spine (HOOK → SETUP → ESCALATION → RESOLUTION)
+   * between Creative Candidate and visual scene generation. No new LLM call.
+   */
+  narrativeBeatPromptBlock?: string;
+  /**
    * Canonical Creative DNA — placed immediately after the candidate block.
    * Absent for historical candidates without creativeDNA.
    */
@@ -494,6 +499,9 @@ export function buildGenerateContentPackagePrompt(
   const creativeCandidateLines = input.creativeCandidatePromptBlock
     ? [input.creativeCandidatePromptBlock]
     : [];
+  const narrativeBeatLines = input.narrativeBeatPromptBlock
+    ? [input.narrativeBeatPromptBlock]
+    : [];
   const creativeDnaLines = input.creativeDnaPromptBlock
     ? [input.creativeDnaPromptBlock]
     : [];
@@ -520,6 +528,10 @@ export function buildGenerateContentPackagePrompt(
     `- VOICEOVER LENGTH: write voiceover_text as ${VOICEOVER_TARGET_MIN_WORDS}–${VOICEOVER_TARGET_MAX_WORDS} words. ` +
       `NEVER exceed ${VOICEOVER_HARD_CAP_WORDS} words — over the cap is rejected. ` +
       "Every word must earn its place; cut filler.",
+    "- VOICEOVER RHYTHM (spoken delivery — do NOT write a flat paragraph):",
+    "  Prefer short sentences. Use contrast (belief → reversal). Land one idea per breath.",
+    "  Put a natural pause before the reveal. Emphasize the turn — not every clause equally.",
+    "  Avoid long equally-paced sentences that read like an essay.",
     `- PREFERRED STORY ARC: ${preferredArc}. Favor a real TWIST (an early turn / ` +
       "reversal) and land the PAYOFF late, just before the CTA. Map it onto the " +
       "MODE BEATS above — do not flatten it into a linear explanation.",
@@ -570,11 +582,17 @@ export function buildGenerateContentPackagePrompt(
         "more narration labels is fine. Make the stills visually distinct from each",
         "other and escalate the tension / curiosity toward the reveal. Do NOT default",
         "to a generic, interchangeable beat set.",
+        "VISUAL PROGRESSION: each scene must change location OR action OR information",
+        "OR emotion OR stakes — never website→website or whiteboard→whiteboard with",
+        "the same narrative state. Prefer: problem world → failure → consequence → solution.",
         "Each image_prompt MUST describe a PURELY VISUAL scene. NEVER request",
         "readable text, words, letters, numbers, captions, signs, labels, UI,",
         "phone notifications, checklists or typography inside the image — image",
         "models render these as garbled noise. All messaging is delivered through",
         "the voiceover and burned-in subtitles, NOT inside the generated image.",
+        "When the creative metaphor needs labels to be understood, convey meaning via",
+        "visual state (empty rows, red panels, person walking away) + spoken voiceover,",
+        "never via readable text in the frame.",
         "",
         "SCENE MEANING (priority over look):",
         "For each image prompt, first determine what a viewer should understand within one second.",
@@ -746,6 +764,9 @@ export function buildGenerateContentPackagePrompt(
     ...(creativeCandidateLines.length > 0
       ? [...creativeCandidateLines, ""]
       : []),
+    // Narrative Beats sit between the winner and DNA / visual generation so
+    // scenes follow a story spine instead of a flat shot list.
+    ...(narrativeBeatLines.length > 0 ? [...narrativeBeatLines, ""] : []),
     // Creative DNA sits immediately after the winner and before Identity /
     // Narrative / Product Reveal (those live inside VISUAL BEATS below).
     ...(creativeDnaLines.length > 0 ? [...creativeDnaLines, ""] : []),

@@ -100,6 +100,24 @@ import {
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
+import {
+  buildNarrativeBeatPromptBlock,
+  buildNarrativeTimelineDebug,
+  deriveNarrativeBeats,
+  narrativeBeatFieldsForPersistence,
+  narrativeBeatRolesForCount,
+  planBeatDurations,
+  validateDurationPlan,
+  validateInformationProgression,
+  validateStoryProgression,
+  validateVisualProgression,
+  type NarrativeBeatPlan,
+  type StoryProgressionDiagnostics,
+  type VisualProgressionDiagnostics,
+  type InformationProgressionDiagnostics,
+  type DurationValidationDiagnostics,
+  type NarrativeTimelineDebug,
+} from "@/lib/narrative-beats";
 import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
@@ -320,6 +338,28 @@ export async function runGenerateContentPackage(
     creativeCandidates?.selectedCandidate.creativeDNA,
   );
 
+  // Narrative Beats — derived story spine (no new LLM). Between candidate and storyboard.
+  let narrativeBeatPlan: NarrativeBeatPlan | null =
+    creativeCandidates && requireVideo
+      ? deriveNarrativeBeats({
+          winner: creativeCandidates.selectedCandidate,
+          modeBeats: directives.mode.narrativeBeats,
+          topic: context.topic,
+          angle: context.angle,
+          painPoints: project.pain_points ?? [],
+          productIs: project.product_is ?? [],
+        })
+      : null;
+  const narrativeBeatPromptBlock = narrativeBeatPlan
+    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan)
+    : "";
+  let storyProgressionDiagnostics: StoryProgressionDiagnostics | null = null;
+  let visualProgressionDiagnostics: VisualProgressionDiagnostics | null = null;
+  let postLlmInformationProgression: InformationProgressionDiagnostics | null =
+    null;
+  let durationValidation: DurationValidationDiagnostics | null = null;
+  let timelineDebug: NarrativeTimelineDebug | null = null;
+
   const creativeIdentityPlan = planCreativeIdentityForPackage({
     project,
     visualProfile: resolvedVisualProfile.profile,
@@ -413,6 +453,7 @@ export async function runGenerateContentPackage(
       attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
+      narrativeBeatPromptBlock: narrativeBeatPromptBlock || undefined,
       creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
     });
@@ -532,6 +573,97 @@ export async function runGenerateContentPackage(
       fidelity,
       regenerationReason,
     );
+
+    // Diagnostics only — story / visual / information progression (no regenerate).
+    storyProgressionDiagnostics = validateStoryProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    visualProgressionDiagnostics = validateVisualProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    postLlmInformationProgression = validateInformationProgression({
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+    });
+    if (!storyProgressionDiagnostics.passed) {
+      console.warn(
+        "[story-progression] consecutive scenes near-duplicate purpose",
+        storyProgressionDiagnostics.summary,
+      );
+    }
+    if (!visualProgressionDiagnostics.passed) {
+      console.warn(
+        "[visual-progression] static scene repetition",
+        visualProgressionDiagnostics.summary,
+      );
+    }
+    if (!postLlmInformationProgression.passed) {
+      console.warn(
+        "[information-progression] same information across scenes",
+        postLlmInformationProgression.summary,
+      );
+    }
+    if (
+      narrativeBeatPlan &&
+      !narrativeBeatPlan.metaphorClarity.understandableWithinFirstThird
+    ) {
+      console.warn(
+        "[metaphor-clarity] opening may need earlier product-problem bridge (first third)",
+        narrativeBeatPlan.metaphorClarity.reasons,
+      );
+    }
+  }
+
+  // Duration validation + timeline debug (deterministic estimate from VO words).
+  if (narrativeBeatPlan && requireVideo) {
+    const vo = generated.value.voiceover_text ?? "";
+    const wordCount = vo.trim().split(/\s+/).filter(Boolean).length;
+    const estimatedSeconds = Math.max(15, Math.min(25, wordCount / 2.6));
+    const roles = narrativeBeatRolesForCount(
+      Math.min(5, Math.max(3, narrativeBeatPlan.beats.length)),
+    );
+    // Rough equal word split for pre-render diagnostics
+    const per = Math.max(1, Math.floor(wordCount / Math.max(roles.length, 1)));
+    const segmentWordCounts = roles.map((_r, i) =>
+      i === roles.length - 1
+        ? Math.max(1, wordCount - per * (roles.length - 1))
+        : per,
+    );
+    const planned = planBeatDurations({
+      totalSeconds: estimatedSeconds,
+      roles,
+      segmentWordCounts,
+    });
+    durationValidation = validateDurationPlan({
+      roles,
+      durationsSeconds: planned.durations,
+      segmentWordCounts,
+      justifiedOverMax: planned.justifiedOverMax,
+    });
+    if (!durationValidation.passed) {
+      console.warn(
+        "[duration-validation] pacing diagnostics",
+        durationValidation.summary,
+      );
+    }
+    timelineDebug = buildNarrativeTimelineDebug({
+      winner: creativeCandidates?.selectedCandidate ?? null,
+      plan: narrativeBeatPlan,
+      voiceoverText: vo,
+      imagePrompts: generated.value.image_prompts,
+      visualScenes: generated.value.visual_scenes,
+      durationPlan: {
+        roles,
+        durationsSeconds: planned.durations,
+        justifiedOverMax: planned.justifiedOverMax,
+        validation: durationValidation,
+      },
+      informationProgression:
+        postLlmInformationProgression ??
+        narrativeBeatPlan.informationProgression,
+    });
   }
 
   let creativeDnaDiagnostics: CreativeDnaDiagnostics | null = null;
@@ -630,6 +762,15 @@ export async function runGenerateContentPackage(
           creativeCandidates,
           creativeDnaDiagnostics,
         )
+      : {}),
+    ...(narrativeBeatPlan
+      ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
+          storyProgression: storyProgressionDiagnostics,
+          visualProgression: visualProgressionDiagnostics,
+          informationProgression: postLlmInformationProgression,
+          durationValidation,
+          timelineDebug,
+        })
       : {}),
   };
   normalizeImagePrompts(generated.value, {
@@ -871,6 +1012,32 @@ interface PackageFanOut {
   productionRunId: string;
 }
 
+/** Read HOOK/SETUP/ESCALATION/RESOLUTION roles from package_brief persistence. */
+function readNarrativeBeatRolesFromPackage(
+  pkg: ContentPackageOutput,
+): string[] | undefined {
+  const pg = pkg.presentation_generation;
+  if (!pg || typeof pg !== "object" || Array.isArray(pg)) return undefined;
+  const nb = (pg as Record<string, unknown>).narrative_beats;
+  if (!nb || typeof nb !== "object" || Array.isArray(nb)) return undefined;
+  const beats = (nb as Record<string, unknown>).beats;
+  if (!Array.isArray(beats)) return undefined;
+  const roles = beats
+    .map((b) => {
+      if (
+        b &&
+        typeof b === "object" &&
+        !Array.isArray(b) &&
+        typeof (b as Record<string, unknown>).role === "string"
+      ) {
+        return ((b as Record<string, unknown>).role as string).trim();
+      }
+      return "";
+    })
+    .filter((r) => r.length > 0);
+  return roles.length > 0 ? roles : undefined;
+}
+
 async function persistNewPackage(
   supabase: SupabaseClient,
   projectId: string,
@@ -896,6 +1063,8 @@ async function persistNewPackage(
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
   const funnelStage = normalizeFunnelStage(pkg.funnel_stage) ?? context.funnelStage;
+
+  const narrativeBeatRoles = readNarrativeBeatRolesFromPackage(pkg);
 
   // Content package is created as draft. weekly_strategy_id and funnel_stage
   // are persisted as first-class columns (migration 008).
@@ -1049,6 +1218,9 @@ async function persistNewPackage(
           ? {
               creative_mode: directives.mode.id,
               creative_mode_beats: directives.mode.narrativeBeats,
+              ...(narrativeBeatRoles
+                ? { narrative_beat_roles: narrativeBeatRoles }
+                : {}),
             }
           : {}),
         topic: context.topic,

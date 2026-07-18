@@ -26,11 +26,12 @@ export function buildDeliveryArc(args: {
     { phase: "opening", delivery: opening },
     {
       phase: "body",
-      delivery: "Body: conversational, varied rhythm — do not stay at opening energy.",
+      delivery:
+        "Body: conversational contrast — short sentences, not one long equally-paced paragraph.",
     },
     {
       phase: "emphasis",
-      delivery: "Emphasis: slight lift on the key turn or insight line.",
+      delivery: "Emphasis: slight lift on the key turn, contradiction, or insight line.",
     },
     {
       phase: "pause_before_reveal",
@@ -49,8 +50,9 @@ export function buildDeliveryArc(args: {
   const tts_instruction_fragment = [
     opening,
     "Then settle into conversational body delivery.",
-    "Vary emphasis; pause before the reveal or punchline.",
-    "Do not read every line at the same energy.",
+    "Use spoken rhythm: short sentences, contrast, and a brief pause before the reveal.",
+    "Emphasize the turn or punchline — do not read every clause at the same energy.",
+    "Avoid long equally-paced paragraphs; land one idea per breath.",
     spec.delivery_guidance,
   ].join(" ");
 
@@ -62,6 +64,7 @@ export function buildDeliveryArc(args: {
       `opening_style:${args.openingDelivery}`,
       `mechanism:${args.mechanism}`,
       "full_arc_not_opening_only",
+      "spoken_rhythm_contrast_pause_emphasis",
     ],
   };
 }

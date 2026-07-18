@@ -17,10 +17,73 @@ function normalize(s: string): string {
     .trim();
 }
 
+/**
+ * Tokens that cannot appear as readable content after image NO_TEXT sanitization.
+ * Fidelity must not require literal labels / UI copy that diffusion cannot render.
+ */
+const NO_TEXT_IMPOSSIBLE_TOKENS = new Set([
+  "cancelled",
+  "canceled",
+  "delayed",
+  "boarding",
+  "departed",
+  "notification",
+  "notifications",
+  "checklist",
+  "checklists",
+  "caption",
+  "captions",
+  "subtitle",
+  "subtitles",
+  "headline",
+  "headlines",
+  "slogan",
+  "slogans",
+  "watermark",
+  "watermarks",
+  "typography",
+  "font",
+  "fonts",
+  "letters",
+  "letter",
+  "words",
+  "word",
+  "readable",
+  "label",
+  "labels",
+  "signage",
+  "sign",
+  "signs",
+]);
+
+/** Strip clauses that only assert readable text / UI copy (NO_TEXT policy). */
+export function stripNoTextImpossibleClauses(text: string): string {
+  return text
+    .split(/[\n;,.]+/)
+    .map((c) => c.trim())
+    .filter((c) => {
+      if (!c) return false;
+      // Drop clauses that only demand readable text/labels/UI copy.
+      if (
+        /\b(readable\s+)?(text|words?|letters?|labels?|signs?|signage|captions?|subtitles?|typography|ui|notifications?)\b/i.test(
+          c,
+        ) &&
+        !/\b(person|human|visitor|customer|board|counter|desk|door|phone|laptop|mascot)\b/i.test(
+          c,
+        )
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .join(" ");
+}
+
 function significantTokens(text: string): string[] {
-  return normalize(text)
+  return normalize(stripNoTextImpossibleClauses(text))
     .split(" ")
-    .filter((w) => w.length > 3);
+    .filter((w) => w.length > 3)
+    .filter((w) => !NO_TEXT_IMPOSSIBLE_TOKENS.has(w));
 }
 
 function sharesTokens(a: string, b: string, min = 3): boolean {
@@ -56,7 +119,7 @@ function scene1Text(args: {
   return typeof prompts[0] === "string" ? prompts[0] : "";
 }
 
-/** Structural axes — subject / setting / action — not raw token overlap. */
+/** Structural axes — subject / setting / action — visual intent, not readable labels. */
 const SUBJECT_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "mascot", re: /\bmascot\b/i },
   { key: "accountant", re: /\baccountant|bookkeep|cpa\b/i },
@@ -66,6 +129,8 @@ const SUBJECT_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "visitor_hands", re: /\bhands\b.*\b(typ|send|form)|customer'?s hands\b/i },
   { key: "queue", re: /\bqueue|boarding|ticket\b/i },
   { key: "fish", re: /\bfish\b/i },
+  { key: "departure_board", re: /\bdeparture\s+board|flight\s+board|airport\s+board\b/i },
+  { key: "visitor", re: /\b(visitor|customer|traveler|passenger)\b/i },
 ];
 
 const SETTING_AXIS: Array<{ key: string; re: RegExp }> = [
@@ -75,6 +140,7 @@ const SETTING_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "home_office", re: /\bhome office|practice desk|practice door\b/i },
   { key: "driveway", re: /\bdriveway\b/i },
   { key: "airplane", re: /\bairplane|mid-flight|boarding pass\b/i },
+  { key: "airport", re: /\bairport|terminal|departure\s+hall|gate\s+area\b/i },
   { key: "street", re: /\bstreet|porch|sidewalk\b/i },
   { key: "yard", re: /\byard\b/i },
   { key: "roof", re: /\broof\b/i },
@@ -88,6 +154,13 @@ const ACTION_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "sprinting", re: /\bsprint\b/i },
   { key: "refreshing", re: /\brefresh\b/i },
   { key: "abandon_form", re: /\babandon|incomplete|zero contact\b/i },
+  // Visual intent for cancelled/delayed boards — red panels / blank rows, not literal "CANCELLED"
+  {
+    key: "board_failure",
+    re: /\b(red\s+(panel|row|status)|blank\s+(row|panel)|all\s+(flights?\s+)?(gone|missing)|empty\s+board|scrambled\s+board|failed\s+board)\b/i,
+  },
+  { key: "waiting", re: /\bwait(ing)?\b/i },
+  { key: "leaving", re: /\b(walk(ing)?\s+away|leav(e|ing)|abandon)\b/i },
 ];
 
 function axisKeys(
@@ -108,8 +181,25 @@ function primarySetting(text: string): string | null {
 }
 
 /**
+ * Map opening-situation phrasing that depends on readable labels onto visual
+ * intent axes that survive NO_TEXT sanitization.
+ */
+function visualIntentText(openingSituation: string): string {
+  let t = stripNoTextImpossibleClauses(openingSituation);
+  // "departure board showing CANCELLED" → treat as board_failure intent
+  if (
+    /\bdeparture\s+board\b/i.test(t) &&
+    /\b(cancelled|canceled|delayed|red|blank|empty)\b/i.test(openingSituation)
+  ) {
+    t = `${t} red panel blank row failed board`;
+  }
+  return t;
+}
+
+/**
  * Winner core situation must appear in scene 1 with matching subject + setting/action.
  * Token overlap alone is not enough (mascot buried in a co-working opener fails).
+ * Does NOT require literal readable labels removed by the image NO_TEXT policy.
  */
 export function openingSituationFaithfulToScene1(
   openingSituation: string,
@@ -119,16 +209,19 @@ export function openingSituationFaithfulToScene1(
     return { ok: false, reason: "scene1_empty" };
   }
 
-  const winSubjects = axisKeys(SUBJECT_AXIS, openingSituation);
-  const sceneSubjects = axisKeys(SUBJECT_AXIS, scene1);
-  const winSettings = axisKeys(SETTING_AXIS, openingSituation);
-  const winActions = axisKeys(ACTION_AXIS, openingSituation);
-  const sceneActions = axisKeys(ACTION_AXIS, scene1);
-  const scenePrimarySetting = primarySetting(scene1);
-  const winPrimarySetting = primarySetting(openingSituation);
+  const winVisual = visualIntentText(openingSituation);
+  const sceneVisual = stripNoTextImpossibleClauses(scene1);
+
+  const winSubjects = axisKeys(SUBJECT_AXIS, winVisual);
+  const sceneSubjects = axisKeys(SUBJECT_AXIS, sceneVisual);
+  const winSettings = axisKeys(SETTING_AXIS, winVisual);
+  const winActions = axisKeys(ACTION_AXIS, winVisual);
+  const sceneActions = axisKeys(ACTION_AXIS, sceneVisual);
+  const scenePrimarySetting = primarySetting(sceneVisual);
+  const winPrimarySetting = primarySetting(winVisual);
 
   // Main subject must appear in the opening frame (first ~220 chars), not only later.
-  const head = scene1.slice(0, Math.min(220, scene1.length));
+  const head = sceneVisual.slice(0, Math.min(220, sceneVisual.length));
   if (winSubjects.length > 0) {
     const subjectInHead = winSubjects.some((s) => {
       const re = SUBJECT_AXIS.find((c) => c.key === s)?.re;
@@ -140,14 +233,27 @@ export function openingSituationFaithfulToScene1(
   }
 
   if (winPrimarySetting && scenePrimarySetting && winPrimarySetting !== scenePrimarySetting) {
-    return {
-      ok: false,
-      reason: `setting_mismatch:${winPrimarySetting}_vs_${scenePrimarySetting}`,
-    };
+    // airport vs airplane are compatible for departure-board concepts
+    const airportFamily = new Set(["airport", "airplane"]);
+    if (
+      !(
+        airportFamily.has(winPrimarySetting) &&
+        airportFamily.has(scenePrimarySetting)
+      )
+    ) {
+      return {
+        ok: false,
+        reason: `setting_mismatch:${winPrimarySetting}_vs_${scenePrimarySetting}`,
+      };
+    }
   }
 
   if (winSettings.length > 0 && scenePrimarySetting) {
-    if (!winSettings.includes(scenePrimarySetting)) {
+    const airportFamily = ["airport", "airplane"];
+    const okFamily =
+      airportFamily.includes(scenePrimarySetting) &&
+      winSettings.some((s) => airportFamily.includes(s));
+    if (!winSettings.includes(scenePrimarySetting) && !okFamily) {
       return {
         ok: false,
         reason: `setting_not_in_winner:${scenePrimarySetting}`,
@@ -158,22 +264,36 @@ export function openingSituationFaithfulToScene1(
   const actionOverlap = winActions.filter((a) => sceneActions.includes(a));
   const subjectOverlap = winSubjects.filter((s) => sceneSubjects.includes(s));
 
+  // board_failure on winner can be satisfied by departure_board subject still present
+  // even if scene prompt only shows the board without "CANCELLED" text.
+  const boardIntentOk =
+    winActions.includes("board_failure") &&
+    (sceneSubjects.includes("departure_board") ||
+      sceneActions.includes("board_failure") ||
+      /\bdeparture\s+board\b/i.test(sceneVisual));
+
   if (winSubjects.length > 0 && subjectOverlap.length === 0) {
     return { ok: false, reason: "subject_mismatch" };
   }
 
-  if (winActions.length > 0 && actionOverlap.length === 0 && !sharesTokens(openingSituation, scene1, 5)) {
+  if (
+    winActions.length > 0 &&
+    actionOverlap.length === 0 &&
+    !boardIntentOk &&
+    !sharesTokens(winVisual, sceneVisual, 5)
+  ) {
     return { ok: false, reason: "action_mismatch" };
   }
 
   // Strong lexical overlap on the situation body (not just shared filler words)
-  const winToks = significantTokens(openingSituation).filter(
+  // — ignore NO_TEXT-impossible tokens so "CANCELLED" absence is not a failure.
+  const winToks = significantTokens(winVisual).filter(
     (w) =>
       !["with", "while", "from", "that", "this", "their", "into", "over"].includes(w),
   );
   const headToks = new Set(significantTokens(head));
   const headHits = winToks.filter((w) => headToks.has(w)).length;
-  if (headHits < 2 && subjectOverlap.length === 0) {
+  if (headHits < 2 && subjectOverlap.length === 0 && !boardIntentOk) {
     return { ok: false, reason: "insufficient_situation_overlap_in_opening_frame" };
   }
 
@@ -275,5 +395,7 @@ export function fidelityRepairAppendix(
     "Do NOT replace the opening with co-working / laptop / office / phone-stare imagery unless that IS the selected openingSituation.",
     "Token-overlap alone is insufficient — main subject and setting must match the winner in the first beat of scene 1.",
     "Do NOT open with 'Most businesses…' or essay cadence.",
+    "Image NO_TEXT policy: do NOT require readable labels, signs, or UI copy in scene 1.",
+    "Match VISUAL INTENT (subject, place, action, emotion) — e.g. a departure board with red/blank rows is enough; literal 'CANCELLED' text is forbidden in images.",
   ].join("\n");
 }

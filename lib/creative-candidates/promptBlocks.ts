@@ -35,7 +35,8 @@ export function buildCreativeCandidatePromptBlock(
     "- First spoken line creates tension, contradiction, curiosity, surprise, consequence, or emotional recognition.",
     "- Forbidden openers: Let's be honest / Most businesses / In today's world / generic belief essays.",
     "- Keep topic-specific concrete signals from the winner (do not collapse to 'businesses are busy').",
-    "- Downstream beats follow storyProgression; product enters via productConnection; close via ending.",
+    "- Downstream beats follow storyProgression AND the NARRATIVE BEATS block",
+    "  (HOOK → SETUP → ESCALATION → RESOLUTION); product enters via productConnection; close via ending.",
     "- Attention / Visual Narrative / Identity control LOOK and MECHANISM — they must AMPLIFY this winner, not replace it.",
     "- When CANONICAL CREATIVE DNA is present below, it overrides conflicting staging from Identity / Narrative / Product Reveal.",
   ].join("\n");
