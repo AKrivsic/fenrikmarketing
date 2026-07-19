@@ -8,7 +8,10 @@ import {
   parseStatisticScenePayload,
   statisticPlaceholderImagePrompt,
 } from "@/lib/scene-types/statistic/statisticScenePayload";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -47,10 +50,7 @@ async function loadLogoPng(
 export async function prepareStatisticSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{
-  sceneId: string;
-  imagePath: string;
-}> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseStatisticScenePayload(rawPayload);
   if (!parsed.ok) {

@@ -6,7 +6,10 @@ import {
   productDemoPlaceholderImagePrompt,
 } from "@/lib/scene-types/product-demo/productDemoBeat";
 import { RenderProductDemoFailedError } from "@/lib/scene-types/presentation/renderFidelity";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -20,10 +23,7 @@ function workerTempDir(): string {
 export async function prepareProductDemoSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{
-  sceneId: string;
-  imagePath: string;
-}> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseProductDemoScenePayload(rawPayload);
   if (!parsed.ok) {

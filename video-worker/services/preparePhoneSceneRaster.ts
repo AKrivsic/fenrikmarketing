@@ -7,7 +7,10 @@ import {
   parsePhoneScenePayload,
   phonePlaceholderImagePrompt,
 } from "@/lib/scene-types/phone/phoneScenePayload";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { VIDEO_SCENE_IMAGE_SIZE } from "@/lib/video-engine/videoSceneImageSize";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
@@ -91,7 +94,7 @@ async function generateUiScreenPng(prompt: string): Promise<Buffer> {
 export async function preparePhoneSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{ sceneId: string; imagePath: string }> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parsePhoneScenePayload(rawPayload);
   if (!parsed.ok) {

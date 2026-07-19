@@ -8,7 +8,10 @@ import {
   parseChecklistScenePayload,
   checklistPlaceholderImagePrompt,
 } from "@/lib/scene-types/checklist/checklistScenePayload";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -47,10 +50,7 @@ async function loadLogoPng(
 export async function prepareChecklistSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{
-  sceneId: string;
-  imagePath: string;
-}> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseChecklistScenePayload(rawPayload);
   if (!parsed.ok) {

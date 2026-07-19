@@ -184,7 +184,10 @@ function settlementFailureResponse(
     attempts: number;
   },
 ): GenerationTerminalFailure {
-  const priorIssues = prior?.validationErrors ?? [];
+  const priorIssues = (prior?.validationErrors ?? []).map((issue) => ({
+    path: issue.path ?? "$",
+    message: issue.message,
+  }));
   return {
     ok: false,
     error: "operational_failure",

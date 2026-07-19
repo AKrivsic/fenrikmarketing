@@ -12,7 +12,10 @@ import {
   pickCtaComposition,
   type CtaCompositionId,
 } from "@/lib/scene-types/cta/ctaComposition";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -52,10 +55,7 @@ async function loadAssetPng(
 export async function prepareCtaSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{
-  sceneId: string;
-  imagePath: string;
-}> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseCtaScenePayload(rawPayload);
   if (!parsed.ok) {

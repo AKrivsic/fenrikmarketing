@@ -8,7 +8,10 @@ import {
   parseQuoteScenePayload,
   quotePlaceholderImagePrompt,
 } from "@/lib/scene-types/quote/quoteScenePayload";
-import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
+import type {
+  SceneRasterPrepareContext,
+  SceneRasterPrepareResult,
+} from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
 
@@ -47,10 +50,7 @@ async function loadLogoPng(
 export async function prepareQuoteSceneRaster(
   scene: Scene,
   ctx: SceneRasterPrepareContext,
-): Promise<{
-  sceneId: string;
-  imagePath: string;
-}> {
+): Promise<SceneRasterPrepareResult> {
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseQuoteScenePayload(rawPayload);
   if (!parsed.ok) {
