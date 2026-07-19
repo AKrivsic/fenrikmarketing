@@ -704,6 +704,26 @@ async function loadVideoJobsByItem(
   return result;
 }
 
+/**
+ * When generation failed once (stale error_message) but a later attempt produced
+ * packages and the run completes with zero failures, clear the superseded error.
+ * Do not clear when any package/slot still failed.
+ */
+export function shouldClearSupersededProductionRunError(args: {
+  nextStatus: ProductionRunStatus;
+  generated: number;
+  failed: number;
+  currentErrorMessage: string | null | undefined;
+}): boolean {
+  return (
+    args.nextStatus === "completed" &&
+    args.generated > 0 &&
+    args.failed === 0 &&
+    typeof args.currentErrorMessage === "string" &&
+    args.currentErrorMessage.trim().length > 0
+  );
+}
+
 // Pairs each generated package onto the run's package items (in created order)
 // and refreshes the run counters/status from the REAL package outcomes.
 async function syncRunItemsAndCounters(
@@ -769,15 +789,26 @@ async function syncRunItemsAndCounters(
           ? "queued"
           : "running";
 
+  const clearStaleError = shouldClearSupersededProductionRunError({
+    nextStatus,
+    generated,
+    failed: failedWithCancelled,
+    currentErrorMessage: run.error_message,
+  });
+
   const changed =
     run.generated_total !== generated ||
     run.failed_total !== failedWithCancelled ||
-    run.status !== nextStatus;
+    run.status !== nextStatus ||
+    clearStaleError;
   if (!changed) return;
 
   run.generated_total = generated;
   run.failed_total = failedWithCancelled;
   run.status = nextStatus;
+  if (clearStaleError) {
+    run.error_message = null;
+  }
 
   const { error } = await supabase
     .from("production_runs")
@@ -785,6 +816,7 @@ async function syncRunItemsAndCounters(
       generated_total: generated,
       failed_total: failedWithCancelled,
       status: nextStatus,
+      ...(clearStaleError ? { error_message: null } : {}),
     })
     .eq("id", run.id);
   if (error) throw error;

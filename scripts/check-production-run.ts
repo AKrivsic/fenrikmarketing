@@ -20,6 +20,7 @@ import {
   resolveProductionPlatformKind,
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
+import { shouldClearSupersededProductionRunError } from "@/lib/api/production-run-admin";
 
 let passed = 0;
 let failed = 0;
@@ -297,6 +298,44 @@ const mixedRunGen = resolveRunGenerationPlan(
 check("resolveRunGenerationPlan excludes facebook from videoPlatforms", () => {
   assert.deepEqual(mixedRunGen.videoPlatforms, ["tiktok", "instagram"]);
   assert.ok(mixedRunGen.targetPlatforms.includes("facebook"));
+});
+
+section("stale generation error hygiene");
+
+check("clears superseded error when completed with packages and zero failures", () => {
+  assert.equal(
+    shouldClearSupersededProductionRunError({
+      nextStatus: "completed",
+      generated: 1,
+      failed: 0,
+      currentErrorMessage: "asset undefined not found in project",
+    }),
+    true,
+  );
+});
+
+check("keeps error when completed with failures", () => {
+  assert.equal(
+    shouldClearSupersededProductionRunError({
+      nextStatus: "completed",
+      generated: 0,
+      failed: 1,
+      currentErrorMessage: "generation_failed",
+    }),
+    false,
+  );
+});
+
+check("keeps error while still running", () => {
+  assert.equal(
+    shouldClearSupersededProductionRunError({
+      nextStatus: "running",
+      generated: 1,
+      failed: 0,
+      currentErrorMessage: "asset undefined not found in project",
+    }),
+    false,
+  );
 });
 
 // --- summary ---------------------------------------------------------------

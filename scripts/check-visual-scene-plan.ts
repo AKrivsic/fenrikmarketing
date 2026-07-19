@@ -9,6 +9,7 @@ import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import {
   collectAssetUsageFromPackage,
   hasExplicitVisualScenePlan,
+  resolveImageOrLegacySceneSource,
   syncLegacyFieldsFromVisualScenes,
   validateVisualScenePlanGuardrails,
 } from "@/lib/content-package/visualScenePlan";
@@ -145,6 +146,115 @@ check("unknown asset id fails guardrail", () => {
     requireVideo: true,
   });
   assert.ok(issues.some((i) => i.message.includes("not found")));
+  assert.equal(
+    issues.some((i) => i.message.includes("asset undefined")),
+    false,
+  );
+});
+
+check("typed IMAGE + nested AI payload passes (no asset undefined)", () => {
+  const pkg = pkgWithPlan([
+    {
+      type: "IMAGE",
+      payload: { source: "ai", image_prompt: "hands on phone street" },
+    } as never,
+  ]);
+  const issues = validateVisualScenePlanGuardrails({
+    pkg,
+    classById: new Map(),
+    requireVideo: true,
+  });
+  assert.deepEqual(issues, []);
+  assert.equal(
+    issues.some((i) => /asset undefined/i.test(i.message)),
+    false,
+  );
+});
+
+check("legacy flat AI scene passes with empty classById", () => {
+  const pkg = pkgWithPlan([{ source: "ai", image_prompt: "quiet office desk" }]);
+  const issues = validateVisualScenePlanGuardrails({
+    pkg,
+    classById: new Map(),
+    requireVideo: true,
+  });
+  assert.deepEqual(issues, []);
+});
+
+check("typed IMAGE with root source ai passes", () => {
+  const pkg = pkgWithPlan([
+    {
+      type: "IMAGE",
+      source: "ai",
+      image_prompt: "visitor leaves form",
+    } as never,
+  ]);
+  const issues = validateVisualScenePlanGuardrails({
+    pkg,
+    classById: new Map(),
+    requireVideo: true,
+  });
+  assert.deepEqual(issues, []);
+});
+
+check("explicit asset scene with valid asset passes", () => {
+  const pkg = pkgWithPlan([
+    {
+      source: "asset",
+      asset_id: "asset-1",
+      used_as: "Show product UI in phone frame",
+    },
+  ]);
+  const issues = validateVisualScenePlanGuardrails({
+    pkg,
+    classById: new Map([["asset-1", "editable"]]),
+    requireVideo: true,
+  });
+  assert.deepEqual(issues, []);
+});
+
+check("explicit asset scene missing asset_id fails before lookup", () => {
+  const pkg = pkgWithPlan([
+    {
+      type: "IMAGE",
+      payload: { source: "asset", used_as: "proof" },
+    } as never,
+  ]);
+  // Structural validator rejects missing asset_id on asset scenes first.
+  const issues = validateVisualScenePlanGuardrails({
+    pkg,
+    classById: new Map(),
+    requireVideo: true,
+  });
+  assert.ok(issues.length > 0);
+  assert.equal(
+    issues.some((i) => i.message.includes("asset undefined")),
+    false,
+  );
+  assert.ok(
+    issues.some(
+      (i) =>
+        i.message.includes("required for asset scene") ||
+        i.message.includes("requires a non-empty asset_id"),
+    ),
+  );
+});
+
+check("resolveImageOrLegacySceneSource reads payload.source", () => {
+  const nested = resolveImageOrLegacySceneSource({
+    type: "IMAGE",
+    payload: { source: "ai", image_prompt: "x" },
+  });
+  assert.equal(nested.effectiveSource, "ai");
+  assert.equal(nested.assetId, null);
+
+  const flat = resolveImageOrLegacySceneSource({
+    source: "asset",
+    asset_id: "uuid-1",
+    used_as: "frame",
+  });
+  assert.equal(flat.effectiveSource, "asset");
+  assert.equal(flat.assetId, "uuid-1");
 });
 
 check("legacy package uses merge path in buildRenderSpec", () => {

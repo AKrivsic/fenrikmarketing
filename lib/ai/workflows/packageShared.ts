@@ -264,11 +264,22 @@ export function makePackageGuardrails(args: {
     }
 
     for (const usage of pkg.asset_usage ?? []) {
-      const cls = classById.get(usage.asset_id);
+      // asset_usage entries are always asset references — never interpolate a
+      // missing id into "asset undefined not found in project".
+      const assetId =
+        typeof usage.asset_id === "string" ? usage.asset_id.trim() : "";
+      if (!assetId) {
+        issues.push({
+          path: "$.asset_usage",
+          message: "asset_usage entry requires a non-empty asset_id",
+        });
+        continue;
+      }
+      const cls = classById.get(assetId);
       if (!cls) {
         issues.push({
           path: "$.asset_usage",
-          message: `asset ${usage.asset_id} not found in project`,
+          message: `asset ${assetId} not found in project`,
         });
         continue;
       }
@@ -277,13 +288,13 @@ export function makePackageGuardrails(args: {
         preferredVideoUsageById &&
         usage.used_as &&
         assetUsageFullscreenViolation(
-          preferredVideoUsageById.get(usage.asset_id) ?? "reference",
+          preferredVideoUsageById.get(assetId) ?? "reference",
           usage.used_as,
         )
       ) {
         issues.push({
           path: "$.asset_usage",
-          message: `asset ${usage.asset_id} must not be used fullscreen in vertical video (preferred: ${preferredVideoUsageById.get(usage.asset_id) ?? "reference"}); use framed_screen / device insert in used_as`,
+          message: `asset ${assetId} must not be used fullscreen in vertical video (preferred: ${preferredVideoUsageById.get(assetId) ?? "reference"}); use framed_screen / device insert in used_as`,
         });
         continue;
       }

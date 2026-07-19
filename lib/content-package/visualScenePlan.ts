@@ -328,6 +328,70 @@ export function normalizeVisualScenePlan(
   }
 }
 
+function asVisualSceneRecord(
+  value: unknown,
+): Record<string, unknown> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  return value as Record<string, unknown>;
+}
+
+/**
+ * Canonical IMAGE / legacy scene source for guardrails.
+ * Supports both flat `{ source, … }` and typed `{ type: "IMAGE", payload: { source, … } }`.
+ * Asset lookup must use this — never root-only `scene.source` / `scene.asset_id`.
+ */
+export function resolveImageOrLegacySceneSource(scene: unknown): {
+  effectiveSource: "ai" | "asset" | null;
+  assetId: string | null;
+  usedAs: string | null;
+  modify: string | null;
+  videoUsage: string | null;
+} {
+  const record = asVisualSceneRecord(scene);
+  if (!record) {
+    return {
+      effectiveSource: null,
+      assetId: null,
+      usedAs: null,
+      modify: null,
+      videoUsage: null,
+    };
+  }
+
+  const payload = asVisualSceneRecord(record.payload);
+  const rootSource =
+    typeof record.source === "string" ? record.source.trim() : "";
+  const payloadSource =
+    payload && typeof payload.source === "string" ? payload.source.trim() : "";
+  const sourceRaw = rootSource || payloadSource;
+  const effectiveSource =
+    sourceRaw === "ai" || sourceRaw === "asset" ? sourceRaw : null;
+
+  const assetIdRaw =
+    (typeof record.asset_id === "string" ? record.asset_id : null) ??
+    (payload && typeof payload.asset_id === "string" ? payload.asset_id : null);
+  const assetId = assetIdRaw?.trim() ? assetIdRaw.trim() : null;
+
+  const usedAsRaw =
+    (typeof record.used_as === "string" ? record.used_as : null) ??
+    (payload && typeof payload.used_as === "string" ? payload.used_as : null);
+  const usedAs = usedAsRaw?.trim() ? usedAsRaw.trim() : null;
+
+  const modifyRaw =
+    (typeof record.modify === "string" ? record.modify : null) ??
+    (payload && typeof payload.modify === "string" ? payload.modify : null);
+  const modify = modifyRaw?.trim() ? modifyRaw.trim() : null;
+
+  const videoUsageRaw =
+    (typeof record.video_usage === "string" ? record.video_usage : null) ??
+    (payload && typeof payload.video_usage === "string"
+      ? payload.video_usage
+      : null);
+  const videoUsage = videoUsageRaw?.trim() ? videoUsageRaw.trim() : null;
+
+  return { effectiveSource, assetId, usedAs, modify, videoUsage };
+}
+
 export function validateVisualScenePlanGuardrails(args: {
   pkg: ContentPackageOutput;
   classById: Map<string, AssetClass>;
@@ -346,48 +410,63 @@ export function validateVisualScenePlanGuardrails(args: {
     const scene = plan[i] as PackageVisualSceneEntry;
     const base = `$.visual_scenes[${i}]`;
     if (isTypedNonImageVisualSceneEntry(scene)) continue;
-    if (scene.source === "ai") continue;
 
-    const cls = args.classById.get(scene.asset_id);
-    if (!cls) {
+    const resolved = resolveImageOrLegacySceneSource(scene);
+    // AI imagery (legacy flat or typed IMAGE+payload) — never treat as asset.
+    if (resolved.effectiveSource !== "asset") continue;
+
+    if (!resolved.assetId) {
       issues.push({
-        path: base,
-        message: `asset ${scene.asset_id} not found in project`,
+        path: `${base}.asset_id`,
+        message: "asset scene requires a non-empty asset_id",
       });
       continue;
     }
-    if (args.archivedAssetIds?.has(scene.asset_id)) {
+
+    const assetId = resolved.assetId;
+    const cls = args.classById.get(assetId);
+    if (!cls) {
       issues.push({
         path: base,
-        message: `asset ${scene.asset_id} is archived and cannot be used`,
+        message: `asset ${assetId} not found in project`,
+      });
+      continue;
+    }
+    if (args.archivedAssetIds?.has(assetId)) {
+      issues.push({
+        path: base,
+        message: `asset ${assetId} is archived and cannot be used`,
       });
       continue;
     }
 
     const preferred =
-      args.preferredVideoUsageById?.get(scene.asset_id) ?? "reference";
+      args.preferredVideoUsageById?.get(assetId) ?? "reference";
     const explicitUsage =
-      scene.video_usage && isVideoUsageRenderMode(scene.video_usage)
-        ? scene.video_usage
+      resolved.videoUsage && isVideoUsageRenderMode(resolved.videoUsage)
+        ? resolved.videoUsage
         : null;
     if (explicitUsage === "fullscreen" && preferred !== "fullscreen") {
       issues.push({
         path: `${base}.video_usage`,
-        message: `asset ${scene.asset_id} cannot use fullscreen video_usage in vertical video`,
+        message: `asset ${assetId} cannot use fullscreen video_usage in vertical video`,
       });
     }
     if (
       args.requireVideo &&
-      assetUsageFullscreenViolation(preferred as "reference", scene.used_as)
+      assetUsageFullscreenViolation(
+        preferred as "reference",
+        resolved.usedAs ?? "",
+      )
     ) {
       issues.push({
         path: base,
-        message: `asset ${scene.asset_id} must not be used fullscreen in vertical video; use framed insert in used_as or video_usage`,
+        message: `asset ${assetId} must not be used fullscreen in vertical video; use framed insert in used_as or video_usage`,
       });
     }
 
     const wantsModification =
-      scene.modify === "true" || scene.modify === "1";
+      resolved.modify === "true" || resolved.modify === "1";
     const assetIssue = checkAssetModification(cls, wantsModification);
     if (assetIssue) {
       issues.push({ ...assetIssue, path: base });
