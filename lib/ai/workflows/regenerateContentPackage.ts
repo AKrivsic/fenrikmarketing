@@ -81,6 +81,8 @@ import {
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
+import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
+import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -499,10 +501,23 @@ export async function runRegenerateContentPackage(
       if (!generated.ok) {
         throw new Error("ensureDemo requires a successful package generation");
       }
+      const narrativeText = [
+        generated.value.hook,
+        generated.value.voiceover_text,
+        generated.value.video?.concept,
+        generated.value.scenario,
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const recentVariants: ProductDemoVariant[] = extractDemoVariantsFromPackageBriefs(
+        [],
+      );
       const ensured = ensureStructuredProductDemo({
         visualScenes: generated.value.visual_scenes,
         winner: creativeCandidates!.selectedCandidate,
         force,
+        narrativeText,
+        recentVariants,
       });
       generated.value.visual_scenes =
         ensured.scenes as typeof generated.value.visual_scenes;

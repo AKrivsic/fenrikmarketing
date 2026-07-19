@@ -50,6 +50,7 @@ import {
   mergePackagePresentationGenerationBrief,
   prepareAnalyzedVisualScenesForPackage,
 } from "@/lib/scene-types/presentation/prepareVisualScenesForVideo";
+import { assertRenderFidelity } from "@/lib/scene-types/presentation/renderFidelity";
 import {
   attachTtsToVideoJobInput,
   recentSelectedVoicesFromPackages,
@@ -433,6 +434,12 @@ export async function buildVideoJobInput(
       projectId,
       prepared.scenes,
     );
+    // Sprint 5 — Render Fidelity after compile: planner type must equal worker type.
+    assertRenderFidelity({
+      planned: prepared.scenes.map((s) => ({ type: s.type, id: s.id })),
+      rendered: scenes.map((s) => ({ type: s.type, id: s.id })),
+      stage: "compile_visual_scenes_to_worker",
+    });
     const briefIdentity = readCreativeIdentityFromPackageBrief(
       pkg as unknown as Record<string, unknown>,
     );

@@ -1,9 +1,16 @@
 /**
- * Structured Product Demo beat (Sprint 4C.1).
+ * Structured Product Demo beat (Sprint 4C.1 + 5.1 demo_variant).
  * Source of truth for Product Demonstration Integrity — not prose regex.
  */
 
 import { z } from "zod";
+import {
+  PRODUCT_DEMO_VARIANTS,
+  SAFE_PRODUCT_DEMO_VARIANT,
+  isProductDemoVariant,
+  resolveEffectiveDemoVariant,
+  type ProductDemoVariant,
+} from "@/lib/scene-types/product-demo/demoVariant";
 
 export const PRODUCT_DEMO_OUTCOME_TYPES = [
   "lead_captured",
@@ -13,6 +20,22 @@ export const PRODUCT_DEMO_OUTCOME_TYPES = [
 ] as const;
 
 export type ProductDemoOutcomeType = (typeof PRODUCT_DEMO_OUTCOME_TYPES)[number];
+
+export { PRODUCT_DEMO_VARIANTS, type ProductDemoVariant };
+
+/** Strip unknown demo_variant before zod so we can apply a safe PRODUCT_DEMO fallback. */
+function sanitizeRawBeat(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return raw;
+  const r = { ...(raw as Record<string, unknown>) };
+  if (
+    r.demo_variant !== undefined &&
+    r.demo_variant !== null &&
+    !isProductDemoVariant(r.demo_variant)
+  ) {
+    delete r.demo_variant;
+  }
+  return r;
+}
 
 export const productDemoBeatSchema = z.object({
   type: z.literal("product_demo"),
@@ -26,6 +49,8 @@ export const productDemoBeatSchema = z.object({
   ai_answer: z.string().trim().min(1).max(200),
   outcome_label: z.string().trim().min(1).max(120),
   brand_name: z.string().trim().min(1).max(80).default("Fenrik.chat"),
+  /** Sprint 5.1 — visual composition variant (optional on legacy payloads). */
+  demo_variant: z.enum(PRODUCT_DEMO_VARIANTS).optional(),
 });
 
 export type ProductDemoBeat = z.infer<typeof productDemoBeatSchema>;
@@ -38,7 +63,7 @@ export type ProductDemoScenePayload = ProductDemoBeat;
 export function parseProductDemoBeat(
   raw: unknown,
 ): { ok: true; data: ProductDemoBeat } | { ok: false; reason: string } {
-  const parsed = productDemoBeatSchema.safeParse(raw);
+  const parsed = productDemoBeatSchema.safeParse(sanitizeRawBeat(raw));
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
     return {
@@ -48,7 +73,8 @@ export function parseProductDemoBeat(
         : "invalid product_demo beat",
     };
   }
-  return { ok: true, data: parsed.data };
+  const data = parsed.data;
+  return { ok: true, data };
 }
 
 export function parseProductDemoScenePayload(
@@ -68,6 +94,9 @@ export function buildDefaultProductDemoBeat(args: {
   aiAnswer?: string;
   outcomeType?: ProductDemoOutcomeType;
   brandName?: string;
+  demoVariant?: ProductDemoVariant;
+  narrativeText?: string | null;
+  recentVariants?: readonly ProductDemoVariant[];
 }): ProductDemoBeat {
   const outcomeType = args.outcomeType ?? "lead_captured";
   const outcomeLabel =
@@ -78,6 +107,13 @@ export function buildDefaultProductDemoBeat(args: {
         : outcomeType === "contact_captured"
           ? "Contact saved"
           : "Lead captured";
+
+  const resolved = resolveEffectiveDemoVariant({
+    demoVariant: args.demoVariant,
+    outcomeType,
+    narrativeText: args.narrativeText,
+    recentVariants: args.recentVariants,
+  });
 
   return {
     type: "product_demo",
@@ -97,6 +133,7 @@ export function buildDefaultProductDemoBeat(args: {
       "Yes — we have openings tomorrow morning and afternoon. Want me to hold a slot?",
     outcome_label: outcomeLabel,
     brand_name: args.brandName?.slice(0, 80) || "Fenrik.chat",
+    demo_variant: resolved.variant ?? SAFE_PRODUCT_DEMO_VARIANT,
   };
 }
 

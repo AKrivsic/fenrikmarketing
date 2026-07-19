@@ -1,6 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
-import type { PackageVisualSceneEntry } from "@/lib/content-package/generatedVisualScene";
+import {
+  isProductDemoVisualSceneEntry,
+  type PackageVisualSceneEntry,
+} from "@/lib/content-package/generatedVisualScene";
 import type { Json, Project } from "@/lib/supabase/types";
 import {
   analyzePresentation,
@@ -66,6 +69,7 @@ import { syncLegacyFieldsFromVisualScenes } from "@/lib/content-package/visualSc
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
 import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
 import { CREATIVE_IDENTITY_VERSION } from "@/lib/creative-identity/types";
+import { assertRenderFidelity } from "@/lib/scene-types/presentation/renderFidelity";
 
 export interface PreparedVisualScenesResult {
   scenes: VisualScene[];
@@ -284,6 +288,36 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     series,
     visualProfile: resolvedProfile.profile,
     logoAssetAvailable,
+  });
+
+  // Sprint 5 — Render Fidelity: planned types must equal final worker types.
+  // PRODUCT_DEMO must never silently become IMAGE or disappear.
+  const plannedDemoCount = (frequencyLimited as PackageVisualSceneEntry[]).filter(
+    (e) =>
+      isProductDemoVisualSceneEntry(e) ||
+      String((e as { type?: unknown }).type ?? "").toUpperCase() ===
+        "PRODUCT_DEMO",
+  ).length;
+  const finalDemoCount = enrichedCta.scenes.filter(
+    (s) => s.type === "PRODUCT_DEMO",
+  ).length;
+  if (plannedDemoCount > 0 && finalDemoCount < plannedDemoCount) {
+    assertRenderFidelity({
+      planned: Array.from({ length: plannedDemoCount }, (_, i) => ({
+        type: "PRODUCT_DEMO" as const,
+        id: `planned-demo-${i + 1}`,
+      })),
+      rendered: enrichedCta.scenes
+        .filter((s) => s.type === "PRODUCT_DEMO")
+        .map((s) => ({ type: s.type, id: s.id })),
+      stage: "prepare_analyzed_visual_scenes:product_demo_count",
+    });
+  }
+
+  assertRenderFidelity({
+    planned: normalized.map((s) => ({ type: s.type, id: s.id })),
+    rendered: enrichedCta.scenes.map((s) => ({ type: s.type, id: s.id })),
+    stage: "prepare_analyzed_visual_scenes",
   });
 
   const finalWorkerSceneTypes = enrichedCta.scenes.map(

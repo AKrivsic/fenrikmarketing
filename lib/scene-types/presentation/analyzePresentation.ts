@@ -29,6 +29,7 @@ import {
   listLikeNarration,
   narrationForScene,
 } from "@/lib/scene-types/presentation/downgradeToImage";
+import { RenderProductDemoFailedError } from "@/lib/scene-types/presentation/renderFidelity";
 import type { ProofIndex } from "@/lib/scene-types/presentation/proofIndex";
 import type { ProjectPresentationSignals } from "@/lib/scene-types/presentation/projectSignals";
 import { narrationSupportsPhoneBeat } from "@/lib/scene-types/presentation/projectSignals";
@@ -470,6 +471,20 @@ export function analyzePresentation(
     let working: VisualScene = { ...scene, id: sceneId };
 
     if (!gate.pass) {
+      // Sprint 5 — never silently downgrade PRODUCT_DEMO → IMAGE.
+      if (requested === "PRODUCT_DEMO") {
+        throw new RenderProductDemoFailedError(
+          `render_product_demo_failed: ${gate.reason}`,
+          {
+            stage: "presentation_analyzer",
+            scene_id: sceneId,
+            rule: gate.rule,
+            reason: gate.reason,
+            requested_type: "PRODUCT_DEMO",
+            forbidden_final_type: DEFAULT_SCENE_TYPE,
+          },
+        );
+      }
       working = downgradeSceneToImage({
         scene: working,
         narration,
@@ -669,6 +684,17 @@ export function analyzePresentation(
     }
 
     // Eligible non-IMAGE without renderer — worker-safe as IMAGE until implemented.
+    // PRODUCT_DEMO must never reach this fallthrough (handled above / fail-closed).
+    if (requested === "PRODUCT_DEMO") {
+      throw new RenderProductDemoFailedError(
+        "render_product_demo_failed: PRODUCT_DEMO reached image fallthrough",
+        {
+          stage: "presentation_analyzer",
+          scene_id: sceneId,
+          reason: "product_demo_fallthrough_forbidden",
+        },
+      );
+    }
     working = downgradeSceneToImage({
       scene: working,
       narration,

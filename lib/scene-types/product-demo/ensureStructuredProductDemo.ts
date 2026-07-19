@@ -1,5 +1,5 @@
 /**
- * Ensure a structured PRODUCT_DEMO scene exists on the package (Sprint 4C.1).
+ * Ensure a structured PRODUCT_DEMO scene exists on the package (Sprint 4C.1 + 5.1).
  * Injection is deterministic — not prose inference.
  */
 
@@ -10,6 +10,8 @@ import {
   parseProductDemoBeat,
   type ProductDemoBeat,
 } from "@/lib/scene-types/product-demo/productDemoBeat";
+import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
+import { resolveEffectiveDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
 import { buildProductDemoChatSvg } from "@/lib/scene-types/product-demo/composeProductDemoRaster";
 
 export interface EnsureStructuredProductDemoResult {
@@ -87,18 +89,45 @@ export function assertProductDemoRenderable(
   }
 }
 
+function assignVariant(
+  beat: ProductDemoBeat,
+  args: {
+    narrativeText?: string | null;
+    recentVariants?: readonly ProductDemoVariant[];
+  },
+): ProductDemoBeat {
+  const resolved = resolveEffectiveDemoVariant({
+    demoVariant: beat.demo_variant,
+    outcomeType: beat.outcome_type,
+    narrativeText: args.narrativeText,
+    recentVariants: args.recentVariants,
+  });
+  return { ...beat, demo_variant: resolved.variant };
+}
+
 export function buildProductDemoFromWinner(
   winner: CreativeCandidate,
   existing?: ProductDemoBeat | null,
+  opts?: {
+    narrativeText?: string | null;
+    recentVariants?: readonly ProductDemoVariant[];
+  },
 ): ProductDemoBeat {
   if (existing) {
     const parsed = parseProductDemoBeat(existing);
-    if (parsed.ok) return parsed.data;
+    if (parsed.ok) {
+      return assignVariant(parsed.data, opts ?? {});
+    }
   }
   const opening = winner.openingSituation || winner.coreIdea;
   const askMatch = opening.match(
     /\b((?:urgent |booking |availability )?question[^.]{0,80}|Do you have[^?]{0,60}\?)/i,
   );
+  const narrative =
+    opts?.narrativeText ??
+    [winner.hookLine, winner.openingSituation, winner.coreIdea]
+      .filter(Boolean)
+      .join(" ");
   return buildDefaultProductDemoBeat({
     actorId: "primary_actor",
     conversationId: `conv-${winner.candidateId || "pkg"}`.slice(0, 120),
@@ -109,6 +138,8 @@ export function buildProductDemoFromWinner(
       "Yes — we have openings tomorrow. I can hold a morning or afternoon slot for you.",
     outcomeType: "lead_captured",
     brandName: "Fenrik.chat",
+    narrativeText: narrative,
+    recentVariants: opts?.recentVariants,
   });
 }
 
@@ -121,6 +152,10 @@ export function ensureStructuredProductDemo(args: {
   winner: CreativeCandidate;
   productDemo?: unknown;
   force?: boolean;
+  /** Voiceover / hook / concept — used for after-hours variant mapping. */
+  narrativeText?: string | null;
+  /** Chronological demo variants already used in this production run. */
+  recentVariants?: readonly ProductDemoVariant[];
 }): EnsureStructuredProductDemoResult {
   const scenes = [...(args.visualScenes ?? [])];
   const existing = extractProductDemoBeat({
@@ -128,20 +163,42 @@ export function ensureStructuredProductDemo(args: {
     productDemo: args.productDemo,
   });
 
+  const variantOpts = {
+    narrativeText: args.narrativeText,
+    recentVariants: args.recentVariants,
+  };
+
   if (existing && !args.force) {
-    const renderable = assertProductDemoRenderable(existing);
+    const withVariant = assignVariant(existing, variantOpts);
+    const renderable = assertProductDemoRenderable(withVariant);
+    const existingIdx = scenes.findIndex(isProductDemoScene);
+    if (existingIdx >= 0) {
+      const prev = asRecord(scenes[existingIdx]) ?? {};
+      scenes[existingIdx] = {
+        ...prev,
+        type: "PRODUCT_DEMO",
+        payload: withVariant,
+        id: typeof prev.id === "string" ? prev.id : "scene-product-demo",
+      };
+    }
     return {
-      beat: existing,
+      beat: withVariant,
       injected: false,
       replacedResolution: false,
       renderable: renderable.ok,
       scenes,
-      packageBriefPatch: { product_demo: existing },
+      packageBriefPatch: { product_demo: withVariant },
       reason: renderable.ok ? undefined : renderable.reason,
     };
   }
 
-  const beat = buildProductDemoFromWinner(args.winner, existing);
+  const beat = buildProductDemoFromWinner(
+    args.winner,
+    existing
+      ? { ...existing, demo_variant: undefined }
+      : existing,
+    variantOpts,
+  );
   const renderable = assertProductDemoRenderable(beat);
   if (!renderable.ok) {
     return {
@@ -168,7 +225,6 @@ export function ensureStructuredProductDemo(args: {
   if (existingIdx >= 0) {
     scenes[existingIdx] = demoScene;
   } else if (args.force && scenes.length > 0) {
-    // Replace last non-CTA scene (resolution) with controlled product demo.
     let replaceIdx = scenes.length - 1;
     for (let i = scenes.length - 1; i >= 0; i--) {
       if (!isLikelyCtaScene(scenes[i])) {
@@ -179,7 +235,6 @@ export function ensureStructuredProductDemo(args: {
     scenes[replaceIdx] = demoScene;
     replacedResolution = true;
   } else {
-    // Insert before CTA if present, else append.
     let insertAt = scenes.length;
     for (let i = scenes.length - 1; i >= 0; i--) {
       if (isLikelyCtaScene(scenes[i])) {

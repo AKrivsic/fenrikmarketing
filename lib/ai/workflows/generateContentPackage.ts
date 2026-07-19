@@ -105,6 +105,8 @@ import {
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
+import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
+import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -216,6 +218,16 @@ export async function runGenerateContentPackage(
   const seriesCreativeContextBlock = buildSeriesCreativeContextBlock({
     series: seriesCreative,
   });
+
+  // Sprint 5.1 — recent PRODUCT_DEMO variants in this production run (LRU rotation).
+  const recentDemoVariants: ProductDemoVariant[] = context.productionRunId
+    ? await loadRunRecentDemoVariants(
+        supabase,
+        input.projectId,
+        context.productionRunId,
+        context.strategyItemId,
+      )
+    : [];
 
   // Production Run V3: when this item was seeded by a production run, the run's
   // selected platforms + multipliers drive generation (incl. youtube / x and
@@ -588,10 +600,20 @@ export async function runGenerateContentPackage(
       if (!generated.ok) {
         throw new Error("ensureDemo requires a successful package generation");
       }
+      const narrativeText = [
+        generated.value.hook,
+        generated.value.voiceover_text,
+        generated.value.video?.concept,
+        generated.value.scenario,
+      ]
+        .filter(Boolean)
+        .join(" ");
       const ensured = ensureStructuredProductDemo({
         visualScenes: generated.value.visual_scenes,
         winner: creativeCandidates!.selectedCandidate,
         force,
+        narrativeText,
+        recentVariants: recentDemoVariants,
       });
       generated.value.visual_scenes =
         ensured.scenes as typeof generated.value.visual_scenes;
@@ -1066,6 +1088,42 @@ async function loadRunGenerationPlan(
 // call. Best-effort: any error yields an empty list so generation is never
 // blocked by this enrichment.
 const SIBLING_ANGLE_LIMIT = 12;
+async function loadRunRecentDemoVariants(
+  supabase: SupabaseClient,
+  projectId: string,
+  productionRunId: string,
+  currentStrategyItemId: string,
+): Promise<ProductDemoVariant[]> {
+  try {
+    const { data: items, error: itemsErr } = await supabase
+      .from("content_strategy_items")
+      .select("id")
+      .eq("project_id", projectId)
+      .eq("brief->>production_run_id", productionRunId);
+    if (itemsErr || !items) return [];
+
+    const siblingItemIds = (items as { id: string }[])
+      .map((row) => row.id)
+      .filter((id) => id && id !== currentStrategyItemId);
+    if (siblingItemIds.length === 0) return [];
+
+    const { data: pkgs, error: pkgErr } = await supabase
+      .from("content_packages")
+      .select("package_brief, created_at")
+      .eq("project_id", projectId)
+      .in("strategy_item_id", siblingItemIds)
+      .order("created_at", { ascending: true })
+      .limit(24);
+    if (pkgErr || !pkgs) return [];
+
+    return extractDemoVariantsFromPackageBriefs(
+      (pkgs as { package_brief: unknown }[]).map((p) => p.package_brief),
+    );
+  } catch {
+    return [];
+  }
+}
+
 async function loadRunSiblingAngles(
   supabase: SupabaseClient,
   projectId: string,

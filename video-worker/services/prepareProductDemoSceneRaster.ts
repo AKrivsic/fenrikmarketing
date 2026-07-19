@@ -5,6 +5,7 @@ import {
   parseProductDemoScenePayload,
   productDemoPlaceholderImagePrompt,
 } from "@/lib/scene-types/product-demo/productDemoBeat";
+import { RenderProductDemoFailedError } from "@/lib/scene-types/presentation/renderFidelity";
 import type { SceneRasterPrepareContext } from "@/lib/scene-types/renderers/types";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { downloadStorageObjectToFile } from "@/video-worker/services/storage";
@@ -26,8 +27,13 @@ export async function prepareProductDemoSceneRaster(
   const rawPayload = scene.payload_snapshot ?? {};
   const parsed = parseProductDemoScenePayload(rawPayload);
   if (!parsed.ok) {
-    throw new Error(
-      `scene ${scene.id}: invalid product_demo payload — ${parsed.reason}`,
+    throw new RenderProductDemoFailedError(
+      `render_product_demo_failed: invalid product_demo payload — ${parsed.reason}`,
+      {
+        stage: "prepare_product_demo_scene_raster",
+        scene_id: scene.id,
+        reason: parsed.reason,
+      },
     );
   }
 
@@ -47,7 +53,28 @@ export async function prepareProductDemoSceneRaster(
     return { sceneId: scene.id, imagePath };
   }
 
-  const { png, metadata } = await composeProductDemoRaster(parsed.data);
+  let png: Buffer;
+  let metadata: {
+    questionVisible: boolean;
+    aiAnswerVisible: boolean;
+    outcomeVisible: boolean;
+  };
+  try {
+    const composed = await composeProductDemoRaster(parsed.data);
+    png = composed.png;
+    metadata = composed.metadata;
+  } catch (err) {
+    throw new RenderProductDemoFailedError(
+      `render_product_demo_failed: ${
+        err instanceof Error ? err.message : "compose failed"
+      }`,
+      {
+        stage: "prepare_product_demo_scene_raster",
+        scene_id: scene.id,
+        reason: err instanceof Error ? err.message : "compose failed",
+      },
+    );
+  }
 
   const dir = workerTempDir();
   await mkdir(dir, { recursive: true });

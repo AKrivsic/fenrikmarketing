@@ -8,6 +8,7 @@ import {
   isQuoteVisualSceneEntry,
   isStatisticVisualSceneEntry,
   isCtaVisualSceneEntry,
+  isProductDemoVisualSceneEntry,
   isTypedNonImageVisualSceneEntry,
   type PackageVisualSceneEntry,
 } from "@/lib/content-package/generatedVisualScene";
@@ -17,6 +18,7 @@ import { phoneScenePayloadSchema } from "@/lib/scene-types/phone/phoneScenePaylo
 import { quoteScenePayloadSchema } from "@/lib/scene-types/quote/quoteScenePayload";
 import { statisticScenePayloadSchema } from "@/lib/scene-types/statistic/statisticScenePayload";
 import { ctaScenePayloadSchema } from "@/lib/scene-types/cta/ctaScenePayload";
+import { productDemoScenePayloadSchema } from "@/lib/scene-types/product-demo/productDemoBeat";
 import { generatedVisualScenesArrayValidator } from "@/lib/content-package/generatedVisualScene";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import {
@@ -37,6 +39,10 @@ import {
 } from "@/lib/assets/preferredVideoUsage";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
+import {
+  RenderProductDemoFailedError,
+  capScenesPreservingProductDemo,
+} from "@/lib/scene-types/presentation/renderFidelity";
 
 export const VISUAL_SCENE_SOURCES = ["ai", "asset"] as const;
 export type VisualSceneSource = (typeof VISUAL_SCENE_SOURCES)[number];
@@ -226,6 +232,37 @@ export function normalizeVisualScenePlan(
       continue;
     }
 
+    // Sprint 5 — PRODUCT_DEMO must survive normalize (was silently dropped).
+    if (isProductDemoVisualSceneEntry(typed)) {
+      const parsed = productDemoScenePayloadSchema.safeParse(typed.payload);
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        throw new RenderProductDemoFailedError(
+          `render_product_demo_failed: invalid PRODUCT_DEMO payload during normalize — ${
+            issue
+              ? `${issue.path.join(".") || "payload"}: ${issue.message}`
+              : "invalid payload"
+          }`,
+          {
+            stage: "normalize_visual_scene_plan",
+            scene_id:
+              typeof typed.id === "string" && typed.id.trim()
+                ? typed.id.trim()
+                : null,
+            reason: "invalid_product_demo_payload",
+          },
+        );
+      }
+      cleaned.push({
+        type: "PRODUCT_DEMO",
+        payload: parsed.data,
+        ...(typeof typed.id === "string" && typed.id.trim()
+          ? { id: typed.id.trim() }
+          : {}),
+      });
+      continue;
+    }
+
     const legacy = typed as VisualScenePlanItem;
     if (legacy.source === "ai") {
       const prompt =
@@ -255,7 +292,7 @@ export function normalizeVisualScenePlan(
   }
   if (cleaned.length > MAX_VIDEO_SCENE_STILLS) {
     console.warn(
-      "[content-package] visual_scenes truncated to cap",
+      "[content-package] visual_scenes truncated to cap (preserving PRODUCT_DEMO)",
       JSON.stringify({
         ...logContext,
         original_count: cleaned.length,
@@ -263,7 +300,11 @@ export function normalizeVisualScenePlan(
       }),
     );
   }
-  let finalPlan = cleaned.length > 0 ? cleaned.slice(0, MAX_VIDEO_SCENE_STILLS) : [];
+  // Never drop PRODUCT_DEMO via naive slice(0, max) — prefer dropping IMAGE.
+  let finalPlan =
+    cleaned.length > 0
+      ? capScenesPreservingProductDemo(cleaned, MAX_VIDEO_SCENE_STILLS)
+      : [];
   if (finalPlan.length > 0 && options?.classById && options.classById.size > 0) {
     const downgraded = downgradeUnrenderableAssetScenes({
       scenes: finalPlan,
