@@ -409,7 +409,7 @@ await check("26 analyzer never upgrades IMAGE", () => {
   });
 });
 
-await check("24 language variant cannot reuse raster", () => {
+await check("24 language variant reuses statistic raster", () => {
   const { scenes } = prepareRenderScenesForLanguageVariant({
     voiceoverText: "Localized.",
     scenes: [
@@ -427,7 +427,8 @@ await check("24 language variant cannot reuse raster", () => {
       },
     ],
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
+  assert.equal(scenes[0]?.type, "STATISTIC");
+  assert.equal(scenes[0]?.image_bucket, "b");
 });
 
 await check("25 scene editor preserves statistic metadata", () => {

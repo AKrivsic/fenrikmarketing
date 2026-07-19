@@ -214,7 +214,7 @@ await check("QUOTE registered in worker registry", () => {
 });
 
 console.log("\nLanguage variants");
-await check("language variant downgrades QUOTE to IMAGE", () => {
+await check("language variant preserves QUOTE and raster refs", () => {
   const { scenes } = prepareRenderScenesForLanguageVariant({
     scenes: [
       {
@@ -233,7 +233,9 @@ await check("language variant downgrades QUOTE to IMAGE", () => {
     ],
     voiceoverText: "Customer story.",
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
+  assert.equal(scenes[0]?.type, "QUOTE");
+  assert.equal(scenes[0]?.image_bucket, "b");
+  assert.equal(scenes[0]?.image_path, "p");
 });
 
 const outDir = join(process.cwd(), "scripts/output/quote-scene-fixtures");

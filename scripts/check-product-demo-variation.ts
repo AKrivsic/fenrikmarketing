@@ -229,9 +229,13 @@ await check("single compatible variant remains valid", () => {
   assert.equal(SAFE_PRODUCT_DEMO_VARIANT, "conversation_answer");
 });
 
-await check("ensureStructuredProductDemo assigns a variant", () => {
+await check("ensureStructuredProductDemo assigns a variant on existing beat", () => {
+  const beat = buildDefaultProductDemoBeat({
+    actorId: "primary_actor",
+    outcomeType: "question_resolved",
+  });
   const ensured = ensureStructuredProductDemo({
-    visualScenes: [{ source: "ai", image_prompt: "hands typing" }],
+    visualScenes: [{ type: "PRODUCT_DEMO", payload: beat }],
     winner: winner(),
     narrativeText: "Weekend visitors waited after hours.",
     recentVariants: ["lead_capture"],

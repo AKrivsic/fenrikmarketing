@@ -63,16 +63,37 @@ export async function prepareStatisticSceneRaster(
     const dir = workerTempDir();
     await mkdir(dir, { recursive: true });
     const imagePath = join(dir, `scene-${ctx.videoJobId}-${scene.id}.png`);
-    await downloadStorageObjectToFile({
-      bucket: scene.image_bucket,
-      storagePath: scene.image_path,
-      localPath: imagePath,
-    });
+    try {
+      await downloadStorageObjectToFile({
+        bucket: scene.image_bucket,
+        storagePath: scene.image_path,
+        localPath: imagePath,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (ctx.forbidImageGeneration || ctx.isLanguageVariant) {
+        throw new Error(
+          `language_variant_visual_asset_missing: scene ${scene.id} failed to download statistic raster (${message})`,
+        );
+      }
+      throw err;
+    }
     console.log(
       "[video-worker] Reusing statistic raster from storage",
       JSON.stringify({ scene_id: scene.id }),
     );
-    return { sceneId: scene.id, imagePath };
+    return {
+      sceneId: scene.id,
+      imagePath,
+      reusedBucket: scene.image_bucket,
+      reusedPath: scene.image_path,
+    };
+  }
+
+  if (ctx.forbidImageGeneration || ctx.isLanguageVariant) {
+    throw new Error(
+      `language_variant_visual_asset_missing: scene ${scene.id} missing durable statistic raster; recomposition forbidden for language variants`,
+    );
   }
 
   const tokens = await loadRenderBrandTokensForWorker(ctx, "dark");

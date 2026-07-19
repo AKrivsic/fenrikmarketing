@@ -56,11 +56,21 @@ export async function prepareImageSceneRaster(
         local_path: imagePath,
       }),
     );
-    await downloadStorageObjectToFile({
-      bucket: scene.image_bucket,
-      storagePath: scene.image_path,
-      localPath: imagePath,
-    });
+    try {
+      await downloadStorageObjectToFile({
+        bucket: scene.image_bucket,
+        storagePath: scene.image_path,
+        localPath: imagePath,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (ctx.forbidImageGeneration || ctx.isLanguageVariant) {
+        throw new Error(
+          `language_variant_visual_asset_missing: scene ${scene.id} failed to download stored image (${message})`,
+        );
+      }
+      throw err;
+    }
 
     const assetMetadata = scene.asset_metadata;
     const videoUsage =
@@ -90,6 +100,12 @@ export async function prepareImageSceneRaster(
       reusedBucket: scene.image_bucket,
       reusedPath: scene.image_path,
     };
+  }
+
+  if (ctx.forbidImageGeneration || ctx.isLanguageVariant) {
+    throw new Error(
+      `language_variant_visual_asset_missing: scene ${scene.id} missing durable storage refs; image generation forbidden for language variants`,
+    );
   }
 
   console.log(

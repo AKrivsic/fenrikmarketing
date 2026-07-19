@@ -2,7 +2,8 @@
  * Story Integrity — selected Creative Candidate is the source of truth for the
  * entire storyboard. Later stages may not invent a new visual world.
  *
- * Deterministic validation. Failures are hard (do not silently continue).
+ * Deterministic validation. Hard violations fail generation (after one repair).
+ * CTA wording mismatch is a warning only (Sprint 5.2) — not a hard fail.
  */
 
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
@@ -22,6 +23,16 @@ export type StoryIntegrityViolationCode =
   | "cta_mismatch"
   | "world_abandoned";
 
+/** Soft codes never set `passed = false` or trigger generation_failed. */
+export const STORY_INTEGRITY_SOFT_CODES: ReadonlySet<StoryIntegrityViolationCode> =
+  new Set(["cta_mismatch"]);
+
+export function isHardStoryIntegrityViolation(
+  code: StoryIntegrityViolationCode,
+): boolean {
+  return !STORY_INTEGRITY_SOFT_CODES.has(code);
+}
+
 export interface StoryIntegrityViolation {
   code: StoryIntegrityViolationCode;
   message: string;
@@ -38,17 +49,24 @@ export interface ProductDemonstrationCheck {
   evidence: string[];
 }
 
+export interface StoryIntegrityCtaMatch {
+  packageCta: string;
+  voiceoverContainsCta: boolean;
+  /** True when spoken close does not align with package CTA wording. */
+  ctaMismatch: boolean;
+  evidence: string | null;
+}
+
 export interface StoryIntegrityResult {
   passed: boolean;
   version: typeof STORY_INTEGRITY_VERSION;
   allowedWorldTokens: string[];
   productDemonstration: ProductDemonstrationCheck;
-  ctaMatch: {
-    packageCta: string;
-    voiceoverContainsCta: boolean;
-    evidence: string | null;
-  };
+  ctaMatch: StoryIntegrityCtaMatch;
+  /** Hard violations only — block generation when non-empty. */
   violations: StoryIntegrityViolation[];
+  /** Soft diagnostics (e.g. cta_mismatch) — package may still succeed. */
+  warnings: StoryIntegrityViolation[];
   summary: string;
 }
 
@@ -214,7 +232,7 @@ function voiceoverContainsPackageCta(
     };
   }
 
-  // Imperative package CTAs must appear in the spoken close — soft poetic endings fail.
+  // Imperative package CTAs without spoken support → soft warning (not hard fail).
   if (imperativeCta) {
     return {
       ok: false,
@@ -528,44 +546,54 @@ export function validateStoryIntegrity(args: {
   });
   if (!productDemonstration.present) {
     const bits: string[] = [];
-    if (!productDemonstration.askPresent) bits.push("missing_ask");
-    if (!productDemonstration.answerPresent) bits.push("missing_ai_answer");
-    if (!productDemonstration.resultPresent) bits.push("missing_result");
+    if (!productDemonstration.askPresent) bits.push("missing_input");
+    if (!productDemonstration.answerPresent) bits.push("missing_value_creation");
+    if (!productDemonstration.resultPresent) bits.push("missing_outcome");
     if (productDemonstration.landingPageOnly) {
       bits.push("landing_page_is_not_product_demo");
     }
     violations.push({
       code: "product_demonstration_missing",
       message:
-        "Package lacks an explicit product interaction (visitor asks → AI answers → result). Landing page alone is not a product demonstration.",
+        "Package lacks an explicit product demonstration (input → product/service creates value → visible outcome). A landing page alone is not a product demonstration.",
       evidence: bits.join(",") || productDemonstration.evidence.join(","),
     });
   }
 
-  // --- CTA ---
+  // --- CTA (soft warning only — Sprint 5.2) ---
   const ctaCheck = voiceoverContainsPackageCta(vo, args.packageCta);
+  const warnings: StoryIntegrityViolation[] = [];
   if (!ctaCheck.ok) {
-    violations.push({
+    warnings.push({
       code: "cta_mismatch",
       message:
-        "Spoken close does not match package CTA — soft poetic ending is not enough when package CTA is action-oriented",
+        "Spoken close does not closely match package CTA wording — recorded as warning; package may still succeed",
       evidence: ctaCheck.evidence ?? args.packageCta.slice(0, 100),
     });
   }
 
   // Deduplicate by code+sceneIndex
   const seen = new Set<string>();
-  const unique = violations.filter((v) => {
+  const uniqueHard = violations.filter((v) => {
     const k = `${v.code}:${v.sceneIndex ?? ""}:${v.message}`;
     if (seen.has(k)) return false;
     seen.add(k);
     return true;
   });
+  const seenWarn = new Set<string>();
+  const uniqueWarnings = warnings.filter((v) => {
+    const k = `${v.code}:${v.sceneIndex ?? ""}:${v.message}`;
+    if (seenWarn.has(k)) return false;
+    seenWarn.add(k);
+    return true;
+  });
 
-  const passed = unique.length === 0;
+  const passed = uniqueHard.length === 0;
   const summary = passed
-    ? "story_integrity_passed"
-    : unique.map((v) => v.code).join(",");
+    ? uniqueWarnings.length > 0
+      ? `story_integrity_passed_with_warnings:${uniqueWarnings.map((v) => v.code).join(",")}`
+      : "story_integrity_passed"
+    : uniqueHard.map((v) => v.code).join(",");
 
   return {
     passed,
@@ -575,9 +603,11 @@ export function validateStoryIntegrity(args: {
     ctaMatch: {
       packageCta: args.packageCta,
       voiceoverContainsCta: ctaCheck.ok,
+      ctaMismatch: !ctaCheck.ok,
       evidence: ctaCheck.evidence,
     },
-    violations: unique,
+    violations: uniqueHard,
+    warnings: uniqueWarnings,
     summary,
   };
 }
@@ -608,9 +638,15 @@ export function buildStoryIntegrityPromptBlock(
     "Hard rules:",
     "1. Every visual_scenes[] beat must remain inside the selected world.",
     "2. Middle beats must escalate the SAME conflict — not switch to metaphor essays.",
-    "3. PRODUCT DEMONSTRATION required: visitor asks → AI answers → result.",
+    "3. PRODUCT DEMONSTRATION required: input → product/service creates value → visible outcome.",
     "   A landing page / hero screenshot alone is NOT a product demonstration.",
-    "4. Closing spoken lines must match the package CTA (action CTA, not only a poetic soft close).",
+    "   Execution may be a software interface, service process, before/after, booking,",
+    "   physical usage, document transformation, or other visible value creation —",
+    "   not limited to a chatbot conversation.",
+    "4. The spoken ending should support the package CTA and overall commercial intent.",
+    "   For awareness or educational narratives, memorable or soft spoken endings are acceptable.",
+    "   When the package CTA is conversion-oriented, the spoken close should encourage the same",
+    "   action without requiring identical wording or identical action tokens.",
     "5. Do not change the primary actor or relocate the story without a reason already in storyProgression.",
   ].join("\n");
 }
@@ -621,6 +657,17 @@ export function storyIntegrityRepairAppendix(
   packageCta: string,
 ): string {
   const dna = normalizeCreativeDNA(winner.creativeDNA);
+  const warningLines =
+    integrity.warnings.length > 0
+      ? [
+          "",
+          `Soft warnings (do not require phrase identity): ${integrity.warnings.map((v) => v.code).join(", ")}`,
+          ...integrity.warnings.map(
+            (v) =>
+              `- ${v.code}: ${v.message}${v.evidence ? ` | evidence: ${v.evidence}` : ""}`,
+          ),
+        ]
+      : [];
   return [
     "STORY INTEGRITY REPAIR (mandatory — previous draft failed hard validation):",
     `Failure codes: ${integrity.violations.map((v) => v.code).join(", ")}`,
@@ -628,6 +675,7 @@ export function storyIntegrityRepairAppendix(
       (v) =>
         `- ${v.code}${v.sceneIndex != null ? ` (scene ${v.sceneIndex})` : ""}: ${v.message}${v.evidence ? ` | evidence: ${v.evidence}` : ""}`,
     ),
+    ...warningLines,
     "",
     `SELECTED world: ${dna?.world || winner.openingSituation}`,
     `SELECTED mainCharacter: ${dna?.mainCharacter || ""}`,
@@ -635,21 +683,34 @@ export function storyIntegrityRepairAppendix(
     `SELECTED storyProgression: ${winner.storyProgression}`,
     `SELECTED productConnection: ${winner.productConnection}`,
     `SELECTED ending: ${winner.ending}`,
-    `PACKAGE CTA (must appear in spoken close): ${packageCta}`,
+    `PACKAGE CTA (spoken ending should support commercial intent — not identical wording): ${packageCta}`,
     "",
     "Regenerate visual_scenes + voiceover_text so that:",
     "- No middle-beat fog/silhouettes/mannequins/airport/space metaphors unless selected.",
-    "- Include an explicit product interaction: ask → AI answer → result (not landing page only).",
+    "- Include an explicit product demonstration: input → product creates value → visible outcome",
+    "  (not landing page only; not limited to chatbot UI).",
     "- Keep the primary actor and selected world continuous.",
-    "- Spoken ending matches the package CTA.",
+    "- Spoken ending supports the package CTA and commercial intent; soft/memorable closes are OK for awareness.",
+    "- Do not require identical CTA phrasing or identical action tokens.",
   ].join("\n");
 }
 
+/** Hard-fail issues only (excludes CTA wording warnings). */
 export function storyIntegrityValidationIssues(
   integrity: StoryIntegrityResult,
 ): Array<{ path: string; message: string }> {
   return integrity.violations.map((v) => ({
     path: `story_integrity.${v.code}${v.sceneIndex != null ? `.scene_${v.sceneIndex}` : ""}`,
+    message: v.evidence ? `${v.message} (${v.evidence})` : v.message,
+  }));
+}
+
+/** Soft CTA / wording diagnostics for persistence and telemetry. */
+export function storyIntegrityWarningIssues(
+  integrity: StoryIntegrityResult,
+): Array<{ path: string; message: string }> {
+  return integrity.warnings.map((v) => ({
+    path: `story_integrity.warning.${v.code}${v.sceneIndex != null ? `.scene_${v.sceneIndex}` : ""}`,
     message: v.evidence ? `${v.message} (${v.evidence})` : v.message,
   }));
 }

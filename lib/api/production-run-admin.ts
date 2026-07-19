@@ -270,12 +270,13 @@ export async function markProductionRunItemGenerationFailed(args: {
     return { runId, itemId: null, runStatus: run.status };
   }
 
-  // Do not overwrite an already-completed item that has a package.
-  if (target.status === "completed" && target.content_package_id) {
+  // Do not overwrite an already-completed item.
+  if (target.status === "completed") {
     const run = await loadRun(supabase, runId);
     return { runId, itemId: target.id, runStatus: run.status };
   }
 
+  // Idempotent: already-failed / queued / running items settle to failed.
   const firstIssue = args.diagnostics.validation_errors?.[0];
   const detail =
     firstIssue?.message ||
@@ -296,7 +297,8 @@ export async function markProductionRunItemGenerationFailed(args: {
       error_message: errorMessage,
     })
     .eq("id", target.id)
-    .eq("project_id", args.projectId);
+    .eq("project_id", args.projectId)
+    .neq("status", "completed");
   if (itemErr) throw itemErr;
 
   target.status = "failed";

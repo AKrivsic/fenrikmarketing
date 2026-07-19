@@ -151,7 +151,7 @@ await check("compiler emits STATISTIC worker scene metadata", async () => {
 });
 
 console.log("\nLanguage variants");
-await check("language variant downgrades STATISTIC and drops raster reuse", () => {
+await check("language variant preserves STATISTIC and raster refs", () => {
   const { scenes, warnings } = prepareRenderScenesForLanguageVariant({
     voiceoverText: "Localized narration.",
     scenes: [
@@ -170,9 +170,10 @@ await check("language variant downgrades STATISTIC and drops raster reuse", () =
       },
     ],
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
-  assert.ok(!("image_bucket" in scenes[0]!));
-  assert.match(warnings.join(" "), /STATISTIC downgraded to IMAGE/);
+  assert.equal(scenes[0]?.type, "STATISTIC");
+  assert.equal(scenes[0]?.image_bucket, "b");
+  assert.equal(scenes[0]?.image_path, "path.png");
+  assert.equal(warnings.length, 0);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

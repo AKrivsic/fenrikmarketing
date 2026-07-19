@@ -15,7 +15,15 @@ import {
   requireString,
   workflowResponse,
 } from "@/lib/ai/apiResponse";
-import { markProductionRunItemGenerationFailed } from "@/lib/api/production-run-admin";
+import {
+  SettlementFailedError,
+  settleProductionRunItemOrThrow,
+} from "@/lib/api/settleProductionRunItem";
+import {
+  classifyGenerationThrow,
+  type GenerationTerminalFailure,
+} from "@/lib/ai/workflows/generationTerminal";
+import { WorkflowError } from "@/lib/ai/workflows/shared";
 
 // Task 1 — content package generation runs ~160s of AI inline. Request the
 // platform's max function budget so a properly-provisioned Vercel deployment
@@ -38,11 +46,15 @@ export async function POST(request: Request): Promise<Response> {
     return unauthorizedResponse();
   }
 
+  let projectId: string | null = null;
+  let strategyItemId: string | null = null;
+  let generationBegan = false;
+
   try {
     const body = await readJsonBody(request);
     const supabase = createSupabaseAdminClient();
-    const projectId = requireString(body, "project_id");
-    const strategyItemId = requireString(body, "strategy_item_id");
+    projectId = requireString(body, "project_id");
+    strategyItemId = requireString(body, "strategy_item_id");
     const weekStart = optionalString(body, "week_start");
 
     await assertGenerateContentPackagePreconditions(supabase, {
@@ -65,6 +77,8 @@ export async function POST(request: Request): Promise<Response> {
       });
     }
 
+    generationBegan = true;
+
     const result = await runGenerateContentPackage(
       {
         projectId,
@@ -74,25 +88,13 @@ export async function POST(request: Request): Promise<Response> {
       supabase,
     );
 
-    // Sprint 4C.1 — settle production_run_item on generation_failed so items
-    // never remain queued and Start Video is not required.
+    // Sprint 4C.1 / 5.3 / 5.3.1 — settle on terminal failure; never swallow.
     if (!result.ok) {
-      try {
-        await markProductionRunItemGenerationFailed({
-          projectId,
-          strategyItemId,
-          diagnostics: {
-            error: result.error,
-            validation_errors: result.validationErrors,
-            attempts: result.attempts,
-          },
-        });
-      } catch (markErr) {
-        console.error(
-          "[generate-content-package] failed to mark production run item",
-          markErr,
-        );
-      }
+      await settleOrRespondOperational({
+        projectId,
+        strategyItemId,
+        failure: result,
+      });
     }
 
     return workflowResponse(result);
@@ -100,6 +102,99 @@ export async function POST(request: Request): Promise<Response> {
     if (err instanceof MissingWeeklyStrategyError) {
       return missingWeeklyStrategyResponse();
     }
+    if (err instanceof SettlementFailedError && projectId && strategyItemId) {
+      return workflowResponse(settlementFailureResponse(err));
+    }
+    // Sprint 5.3 — once generation began, never return 500 with a live item
+    // without attempting settlement first.
+    if (generationBegan && projectId && strategyItemId) {
+      const failure = classifyGenerationThrow(err);
+      try {
+        await settleProductionRunItemOrThrow({
+          projectId,
+          strategyItemId,
+          diagnostics: {
+            error: failure.error,
+            validation_errors: failure.validationErrors,
+            attempts: failure.attempts,
+          },
+        });
+        return workflowResponse(failure);
+      } catch (settleErr) {
+        if (settleErr instanceof SettlementFailedError) {
+          return workflowResponse(
+            settlementFailureResponse(settleErr, failure),
+          );
+        }
+        return workflowResponse(
+          settlementFailureResponse(
+            new SettlementFailedError(
+              settleErr instanceof Error
+                ? settleErr.message
+                : String(settleErr),
+              settleErr,
+            ),
+            failure,
+          ),
+        );
+      }
+    }
+    if (err instanceof WorkflowError) {
+      return errorResponse(err);
+    }
     return errorResponse(err);
   }
+}
+
+async function settleOrRespondOperational(args: {
+  projectId: string;
+  strategyItemId: string;
+  failure: GenerationTerminalFailure | {
+    ok: false;
+    error: string;
+    validationErrors: Array<{ path?: string; message: string }>;
+    attempts: number;
+  };
+}): Promise<void> {
+  try {
+    await settleProductionRunItemOrThrow({
+      projectId: args.projectId,
+      strategyItemId: args.strategyItemId,
+      diagnostics: {
+        error: args.failure.error,
+        validation_errors: args.failure.validationErrors,
+        attempts: args.failure.attempts,
+      },
+    });
+  } catch (err) {
+    if (err instanceof SettlementFailedError) throw err;
+    throw new SettlementFailedError(
+      err instanceof Error ? err.message : String(err),
+      err,
+    );
+  }
+}
+
+function settlementFailureResponse(
+  err: SettlementFailedError,
+  prior?: GenerationTerminalFailure | {
+    ok: false;
+    error: string;
+    validationErrors: Array<{ path?: string; message: string }>;
+    attempts: number;
+  },
+): GenerationTerminalFailure {
+  const priorIssues = prior?.validationErrors ?? [];
+  return {
+    ok: false,
+    error: "operational_failure",
+    attempts: prior?.attempts ?? 1,
+    validationErrors: [
+      ...priorIssues,
+      {
+        path: "settlement",
+        message: err.message,
+      },
+    ],
+  };
 }

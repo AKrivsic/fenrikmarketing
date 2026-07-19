@@ -13,6 +13,9 @@ export interface GenerateSceneImagesInput {
   visualMedium?: string;
   visualMediumVersion?: string;
   creativeIdentity?: CreativeIdentity | null;
+  /** Sprint 5.3.2 — language-variant jobs: reuse only, never generate. */
+  forbidImageGeneration?: boolean;
+  isLanguageVariant?: boolean;
 }
 
 export interface SceneImage {
@@ -23,16 +26,32 @@ export interface SceneImage {
   imageGenerationWarning?: SceneImageGenerationWarning;
 }
 
+export interface GenerateSceneImagesResult {
+  images: SceneImage[];
+  reusedVisualAssetCount: number;
+  generatedImageCount: number;
+  manuallyAssignedLanguageAssetCount: number;
+}
+
 // Resolves one still PNG per scene via the SceneRenderer registry (IMAGE in Phase 2).
 export async function generateSceneImages(
   input: GenerateSceneImagesInput,
 ): Promise<SceneImage[]> {
+  const result = await generateSceneImagesWithTelemetry(input);
+  return result.images;
+}
+
+export async function generateSceneImagesWithTelemetry(
+  input: GenerateSceneImagesInput,
+): Promise<GenerateSceneImagesResult> {
   const { scenes } = input;
   if (scenes.length === 0) {
     throw new Error("generateSceneImages: at least one scene is required");
   }
 
   ensureSceneRendererRegistry();
+
+  const forbid = Boolean(input.forbidImageGeneration || input.isLanguageVariant);
 
   const ctx = {
     projectId: input.projectId,
@@ -42,11 +61,43 @@ export async function generateSceneImages(
     visualMedium: input.visualMedium,
     visualMediumVersion: input.visualMediumVersion,
     creativeIdentity: input.creativeIdentity ?? null,
+    forbidImageGeneration: forbid,
+    isLanguageVariant: Boolean(input.isLanguageVariant) || forbid,
   };
 
   const results: SceneImage[] = [];
+  let reusedVisualAssetCount = 0;
+  let generatedImageCount = 0;
+  let manuallyAssignedLanguageAssetCount = 0;
+
   for (const scene of scenes) {
+    if (forbid) {
+      const bucket =
+        typeof scene.image_bucket === "string" ? scene.image_bucket.trim() : "";
+      const path =
+        typeof scene.image_path === "string" ? scene.image_path.trim() : "";
+      if (!bucket || !path) {
+        throw new Error(
+          `language_variant_visual_asset_missing: scene ${scene.id} missing image_bucket/image_path; image generation forbidden`,
+        );
+      }
+    }
+
     const prepared = await prepareSceneRaster(scene, ctx);
+    const reused = Boolean(prepared.reusedBucket && prepared.reusedPath);
+    if (reused) {
+      reusedVisualAssetCount += 1;
+    } else {
+      generatedImageCount += 1;
+    }
+
+    const manual =
+      (scene as Scene & { language_variant_manual_visual?: boolean })
+        .language_variant_manual_visual === true ||
+      (scene as Scene & { manual_language_visual?: boolean })
+        .manual_language_visual === true;
+    if (manual) manuallyAssignedLanguageAssetCount += 1;
+
     results.push({
       sceneId: prepared.sceneId,
       imagePath: prepared.imagePath,
@@ -58,5 +109,27 @@ export async function generateSceneImages(
     });
   }
 
-  return results;
+  console.log(
+    "[video-worker] scene image telemetry",
+    JSON.stringify({
+      video_job_id: input.videoJobId,
+      is_language_variant: ctx.isLanguageVariant,
+      reused_visual_asset_count: reusedVisualAssetCount,
+      manually_assigned_language_asset_count: manuallyAssignedLanguageAssetCount,
+      generated_image_count: generatedImageCount,
+    }),
+  );
+
+  if (forbid && generatedImageCount > 0) {
+    throw new Error(
+      `language_variant_visual_invariant_violation: generated_image_count=${generatedImageCount} (must be 0)`,
+    );
+  }
+
+  return {
+    images: results,
+    reusedVisualAssetCount,
+    generatedImageCount,
+    manuallyAssignedLanguageAssetCount,
+  };
 }

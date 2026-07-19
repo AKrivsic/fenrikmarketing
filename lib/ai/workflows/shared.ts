@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ContentFormat, Project } from "@/lib/supabase/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import type { GenerationTerminalError } from "@/lib/ai/workflows/generationTerminal";
 
 // Thrown for non-generation failures (bad input, missing/cross-project rows).
 // Routes map the `code` to an HTTP status.
@@ -20,14 +21,14 @@ export class WorkflowError extends Error {
   }
 }
 
-// Standard success/failure envelope returned by every workflow. A `false`
-// result always means the AI output could not be validated after repair +
-// retries (generation_failed); hard errors are thrown as WorkflowError.
+// Standard success/failure envelope returned by every workflow.
+// Soft content failures use generation_failed; render/ops failures use named
+// terminal codes (Sprint 5.3). Precondition WorkflowErrors are still thrown.
 export type WorkflowResult<T> =
   | { ok: true; data: T }
   | {
       ok: false;
-      error: "generation_failed";
+      error: GenerationTerminalError;
       validationErrors: ValidationIssue[];
       attempts: number;
     };

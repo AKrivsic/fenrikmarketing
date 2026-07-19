@@ -90,17 +90,21 @@ export {
 export {
   STORY_INTEGRITY_VERSION,
   STORY_INTEGRITY_PROMPT_HEADER,
+  STORY_INTEGRITY_SOFT_CODES,
   deriveAllowedWorldTokens,
   detectProductDemonstration,
   validateStoryIntegrity,
   buildStoryIntegrityPromptBlock,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
+  storyIntegrityWarningIssues,
+  isHardStoryIntegrityViolation,
 } from "@/lib/creative-candidates/storyIntegrity";
 export type {
   StoryIntegrityResult,
   StoryIntegrityViolation,
   StoryIntegrityViolationCode,
+  StoryIntegrityCtaMatch,
   ProductDemonstrationCheck,
 } from "@/lib/creative-candidates/storyIntegrity";
 export {

@@ -398,7 +398,7 @@ async function main(): Promise<void> {
     }, { sceneTypes: "false" });
   });
 
-  await check("12 language variant cannot reuse PHONE raster", () => {
+  await check("12 language variant reuses PHONE raster", () => {
     const { scenes } = prepareRenderScenesForLanguageVariant({
       scenes: [
         {
@@ -413,7 +413,8 @@ async function main(): Promise<void> {
       ],
       voiceoverText: "Open the app on your phone.",
     });
-    assert.equal(scenes[0]?.type, "IMAGE");
+    assert.equal(scenes[0]?.type, "PHONE");
+    assert.equal(scenes[0]?.image_bucket, "b");
   });
 
   await check("13 unsupported incomplete typed payloads rejected at generation", () => {

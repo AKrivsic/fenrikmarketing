@@ -1,11 +1,14 @@
 /**
- * Ensure a structured PRODUCT_DEMO scene exists on the package (Sprint 4C.1 + 5.1).
- * Injection is deterministic — not prose inference.
+ * Ensure a structured PRODUCT_DEMO scene exists on the package (Sprint 4C.1 + 5.1 + 5.3).
+ *
+ * Semantic contract (universal): input → product/service creates value → visible outcome.
+ * Current renderer executes that contract as a controlled chat UI for conversational
+ * products (Fenrik.chat). Injection never fabricates a chatbot demonstration when
+ * the package has no existing product_demo beat (Sprint 5.3).
  */
 
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
 import {
-  buildDefaultProductDemoBeat,
   extractProductDemoBeat,
   parseProductDemoBeat,
   type ProductDemoBeat,
@@ -13,6 +16,9 @@ import {
 import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
 import { resolveEffectiveDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
 import { buildProductDemoChatSvg } from "@/lib/scene-types/product-demo/composeProductDemoRaster";
+
+export const PRODUCT_DEMO_NOT_FABRICATED =
+  "product_demonstration_not_fabricated" as const;
 
 export interface EnsureStructuredProductDemoResult {
   beat: ProductDemoBeat | null;
@@ -62,7 +68,7 @@ function isUiOnlyOrPhoneCloseup(entry: unknown): boolean {
   );
 }
 
-/** True when beat fields are complete and SVG can be built. */
+/** True when beat fields are complete and the current chat raster can be built. */
 export function assertProductDemoRenderable(
   beat: ProductDemoBeat,
 ): { ok: true } | { ok: false; reason: string } {
@@ -71,14 +77,17 @@ export function assertProductDemoRenderable(
   try {
     const { svg, metadata } = buildProductDemoChatSvg(parsed.data);
     if (!svg.includes(parsed.data.visitor_question.slice(0, 20))) {
-      return { ok: false, reason: "question missing from chat svg" };
+      return { ok: false, reason: "input missing from product demo visual" };
     }
     if (
       !metadata.questionVisible ||
       !metadata.aiAnswerVisible ||
       !metadata.outcomeVisible
     ) {
-      return { ok: false, reason: "chat visual missing required visibility flags" };
+      return {
+        ok: false,
+        reason: "product demo visual missing required visibility flags",
+      };
     }
     return { ok: true };
   } catch (err) {
@@ -105,6 +114,25 @@ function assignVariant(
   return { ...beat, demo_variant: resolved.variant };
 }
 
+/**
+ * Complete / normalize an existing product_demo beat (variant assignment).
+ * Does not invent Fenrik.chat conversations for packages that never produced a beat.
+ */
+export function completeExistingProductDemoBeat(
+  existing: ProductDemoBeat,
+  opts?: {
+    narrativeText?: string | null;
+    recentVariants?: readonly ProductDemoVariant[];
+  },
+): ProductDemoBeat {
+  return assignVariant(existing, opts ?? {});
+}
+
+/**
+ * @deprecated Sprint 5.3 — do not call to fabricate demos for unknown products.
+ * Prefer LLM-authored PRODUCT_DEMO scenes or completeExistingProductDemoBeat.
+ * Kept for explicit Fenrik.chat test fixtures that build beats intentionally.
+ */
 export function buildProductDemoFromWinner(
   winner: CreativeCandidate,
   existing?: ProductDemoBeat | null,
@@ -119,33 +147,19 @@ export function buildProductDemoFromWinner(
       return assignVariant(parsed.data, opts ?? {});
     }
   }
-  const opening = winner.openingSituation || winner.coreIdea;
-  const askMatch = opening.match(
-    /\b((?:urgent |booking |availability )?question[^.]{0,80}|Do you have[^?]{0,60}\?)/i,
+  // Intentionally not inventing booking/Fenrik defaults from winner prose.
+  // Callers that need a fixture must use buildDefaultProductDemoBeat explicitly.
+  throw new Error(
+    `${PRODUCT_DEMO_NOT_FABRICATED}: refusing to invent a chatbot product demonstration for candidate ${winner.candidateId || "unknown"}`,
   );
-  const narrative =
-    opts?.narrativeText ??
-    [winner.hookLine, winner.openingSituation, winner.coreIdea]
-      .filter(Boolean)
-      .join(" ");
-  return buildDefaultProductDemoBeat({
-    actorId: "primary_actor",
-    conversationId: `conv-${winner.candidateId || "pkg"}`.slice(0, 120),
-    visitorQuestion:
-      askMatch?.[0]?.trim().slice(0, 160) ||
-      "Do you have availability tomorrow?",
-    aiAnswer:
-      "Yes — we have openings tomorrow. I can hold a morning or afternoon slot for you.",
-    outcomeType: "lead_captured",
-    brandName: "Fenrik.chat",
-    narrativeText: narrative,
-    recentVariants: opts?.recentVariants,
-  });
 }
 
 /**
- * Ensure visual_scenes includes a PRODUCT_DEMO typed scene with a complete beat.
- * When `force` is true (repair), replaces the last non-CTA scene with PRODUCT_DEMO.
+ * Ensure visual_scenes includes a PRODUCT_DEMO typed scene with a complete beat
+ * when one already exists. Never fabricates a chatbot demo from scratch (5.3).
+ *
+ * When `force` is true and an existing beat is present, refreshes the PRODUCT_DEMO
+ * scene in place (or replaces the last non-CTA resolution with that beat).
  */
 export function ensureStructuredProductDemo(args: {
   visualScenes: readonly unknown[] | null | undefined;
@@ -168,37 +182,19 @@ export function ensureStructuredProductDemo(args: {
     recentVariants: args.recentVariants,
   };
 
-  if (existing && !args.force) {
-    const withVariant = assignVariant(existing, variantOpts);
-    const renderable = assertProductDemoRenderable(withVariant);
-    const existingIdx = scenes.findIndex(isProductDemoScene);
-    if (existingIdx >= 0) {
-      const prev = asRecord(scenes[existingIdx]) ?? {};
-      scenes[existingIdx] = {
-        ...prev,
-        type: "PRODUCT_DEMO",
-        payload: withVariant,
-        id: typeof prev.id === "string" ? prev.id : "scene-product-demo",
-      };
-    }
+  if (!existing) {
     return {
-      beat: withVariant,
+      beat: null,
       injected: false,
       replacedResolution: false,
-      renderable: renderable.ok,
+      renderable: false,
       scenes,
-      packageBriefPatch: { product_demo: withVariant },
-      reason: renderable.ok ? undefined : renderable.reason,
+      packageBriefPatch: null,
+      reason: PRODUCT_DEMO_NOT_FABRICATED,
     };
   }
 
-  const beat = buildProductDemoFromWinner(
-    args.winner,
-    existing
-      ? { ...existing, demo_variant: undefined }
-      : existing,
-    variantOpts,
-  );
+  const beat = completeExistingProductDemoBeat(existing, variantOpts);
   const renderable = assertProductDemoRenderable(beat);
   if (!renderable.ok) {
     return {
@@ -217,13 +213,19 @@ export function ensureStructuredProductDemo(args: {
     type: "PRODUCT_DEMO",
     payload: beat,
     role: "product_demonstration",
-    narration_hint: "Show the visitor question, Fenrik AI answer, and outcome.",
+    narration_hint:
+      "Show the product demonstration: input, product creating value, visible outcome.",
   };
 
+  let injected = false;
   let replacedResolution = false;
   const existingIdx = scenes.findIndex(isProductDemoScene);
   if (existingIdx >= 0) {
-    scenes[existingIdx] = demoScene;
+    const prev = asRecord(scenes[existingIdx]) ?? {};
+    scenes[existingIdx] = {
+      ...demoScene,
+      id: typeof prev.id === "string" ? prev.id : demoScene.id,
+    };
   } else if (args.force && scenes.length > 0) {
     let replaceIdx = scenes.length - 1;
     for (let i = scenes.length - 1; i >= 0; i--) {
@@ -234,7 +236,8 @@ export function ensureStructuredProductDemo(args: {
     }
     scenes[replaceIdx] = demoScene;
     replacedResolution = true;
-  } else {
+    injected = true;
+  } else if (!args.force) {
     let insertAt = scenes.length;
     for (let i = scenes.length - 1; i >= 0; i--) {
       if (isLikelyCtaScene(scenes[i])) {
@@ -243,11 +246,22 @@ export function ensureStructuredProductDemo(args: {
       }
     }
     scenes.splice(insertAt, 0, demoScene);
+    injected = true;
+  } else {
+    return {
+      beat,
+      injected: false,
+      replacedResolution: false,
+      renderable: true,
+      scenes,
+      packageBriefPatch: { product_demo: beat },
+      reason: "product_demo_beat_present_but_no_scene_slot",
+    };
   }
 
   return {
     beat,
-    injected: true,
+    injected,
     replacedResolution,
     renderable: true,
     scenes,

@@ -342,7 +342,7 @@ await check("25 analyzer never upgrades IMAGE", () => {
   });
 });
 
-await check("23 language variant cannot reuse CTA raster", () => {
+await check("23 language variant reuses CTA raster", () => {
   const { scenes } = prepareRenderScenesForLanguageVariant({
     voiceoverText: "Localized.",
     scenes: [
@@ -355,7 +355,8 @@ await check("23 language variant cannot reuse CTA raster", () => {
       },
     ],
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
+  assert.equal(scenes[0]?.type, "CTA");
+  assert.equal(scenes[0]?.image_bucket, "b");
 });
 
 await check("24 scene editor preserves CTA metadata", () => {

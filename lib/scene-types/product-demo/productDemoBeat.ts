@@ -1,6 +1,11 @@
 /**
- * Structured Product Demo beat (Sprint 4C.1 + 5.1 demo_variant).
+ * Structured Product Demo beat (Sprint 4C.1 + 5.1 demo_variant + 5.3 semantics).
  * Source of truth for Product Demonstration Integrity — not prose regex.
+ *
+ * Universal semantics: input → product/service creates value → visible outcome.
+ * Field names (`visitor_question`, `ai_answer`, …) are the current chat execution
+ * of that contract; the chat renderer remains the production path for
+ * conversational products. Do not invent chatbot beats for unrelated products.
  */
 
 import { z } from "zod";

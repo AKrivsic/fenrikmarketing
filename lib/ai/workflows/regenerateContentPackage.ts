@@ -21,6 +21,7 @@ import {
   WorkflowError,
   type WorkflowResult,
 } from "@/lib/ai/workflows/shared";
+import { classifyGenerationThrow } from "@/lib/ai/workflows/generationTerminal";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import {
   buildPackageBrief,
@@ -137,6 +138,18 @@ export async function runRegenerateContentPackage(
   // Optional injected client. Frontend/RLS callers omit it (cookie-bound server
   // client); automation (n8n) callers pass the service-role admin client so the
   // same business logic runs without a user session.
+  client?: SupabaseClient,
+): Promise<WorkflowResult<RegeneratedPackageData>> {
+  try {
+    return await runRegenerateContentPackageUnchecked(input, client);
+  } catch (err) {
+    if (err instanceof WorkflowError) throw err;
+    return classifyGenerationThrow(err);
+  }
+}
+
+async function runRegenerateContentPackageUnchecked(
+  input: RegenerateContentPackageInput,
   client?: SupabaseClient,
 ): Promise<WorkflowResult<RegeneratedPackageData>> {
   const { projectId, packageId } = input;
@@ -605,6 +618,14 @@ export async function runRegenerateContentPackage(
       storyIntegrity,
       regenerationReason,
     );
+    if (storyIntegrity.warnings.length > 0) {
+      console.warn(
+        "[story-integrity] soft warnings (non-blocking)",
+        creativeCandidates.selectedCandidate.candidateId,
+        storyIntegrity.warnings,
+        storyIntegrity.ctaMatch,
+      );
+    }
     if (!storyIntegrity.passed) {
       console.error(
         "[story-integrity] hard fail after repair",

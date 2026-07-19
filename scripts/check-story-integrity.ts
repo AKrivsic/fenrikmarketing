@@ -1,4 +1,4 @@
-// Story Integrity (Sprint 4A)
+// Story Integrity (Sprint 4A) + CTA soft severity (Sprint 5.2)
 //   npm run check:story-integrity
 
 import assert from "node:assert/strict";
@@ -71,11 +71,44 @@ function handheldWinner(): CreativeCandidate {
 const PACKAGE_CTA =
   "Create your AI assistant — let your website answer while the salon is closed.";
 
+const CONTINUOUS_CHAT_SCENES = [
+  {
+    source: "ai" as const,
+    image_prompt:
+      "Customer's hands holding a smartphone sending an urgent booking question to a beauty salon website chat",
+  },
+  {
+    source: "ai" as const,
+    image_prompt:
+      "Same smartphone chat thread shows the visitor message with seen status and empty reply space — waiting",
+  },
+  {
+    source: "ai" as const,
+    image_prompt:
+      "Website chat widget on the phone screen: AI reply appears instantly — AI chatbot replies with color treatment timing and tomorrow availability as blurred structured bubbles",
+  },
+  {
+    source: "ai" as const,
+    image_prompt:
+      "Same visitor's hands on the same phone as the answered chat confirms a booking lead is captured — conversation continues",
+  },
+  {
+    source: "asset" as const,
+    used_as:
+      "Phone screen continues the same chat world showing the AI assistant confirmation — not a disconnected landing page montage",
+    asset_id: "demo",
+    video_usage: "framed_phone",
+  },
+];
+
 check("prompt block includes Story Integrity header", () => {
   const block = buildStoryIntegrityPromptBlock(handheldWinner());
   assert.ok(block.includes(STORY_INTEGRITY_PROMPT_HEADER));
   assert.ok(block.includes("PRODUCT DEMONSTRATION"));
   assert.ok(block.includes("NOT ALLOWED"));
+  assert.ok(block.includes("support the package CTA"));
+  assert.ok(!block.includes("must match the package CTA"));
+  assert.ok(block.includes("without requiring identical wording"));
 });
 
 check("candidate prompt embeds story integrity", () => {
@@ -115,7 +148,7 @@ check("allowed world tokens include handheld chat lexicon", () => {
   assert.ok(tokens.includes("chat") || tokens.includes("question"));
 });
 
-check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo + cta", () => {
+check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo; CTA is warning only", () => {
   const result = validateStoryIntegrity({
     winner: handheldWinner(),
     packageCta: PACKAGE_CTA,
@@ -151,10 +184,12 @@ check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo + 
     ],
   });
   assert.equal(result.passed, false);
-  const codes = new Set(result.violations.map((v) => v.code));
-  assert.ok(codes.has("abstract_metaphor_in_middle"));
-  assert.ok(codes.has("product_demonstration_missing"));
-  assert.ok(codes.has("cta_mismatch"));
+  const hard = new Set(result.violations.map((v) => v.code));
+  assert.ok(hard.has("abstract_metaphor_in_middle"));
+  assert.ok(hard.has("product_demonstration_missing"));
+  assert.ok(!hard.has("cta_mismatch"));
+  assert.ok(result.warnings.some((v) => v.code === "cta_mismatch"));
+  assert.equal(result.ctaMatch.ctaMismatch, true);
   assert.ok(result.productDemonstration.landingPageOnly);
 });
 
@@ -165,35 +200,7 @@ check("AFTER: continuous chat world with ask→answer→result + spoken CTA pass
     hook: "Urgent question dies in silence.",
     voiceoverText:
       "Urgent question dies in silence. She typed it Saturday night — which color treatment, can I book tomorrow. Your site said nothing. No chat. No answer. Then the AI assistant replies with availability. She stays and books. Create your AI assistant — let your website answer while the salon is closed.",
-    visualScenes: [
-      {
-        source: "ai",
-        image_prompt:
-          "Customer's hands holding a smartphone sending an urgent booking question to a beauty salon website chat",
-      },
-      {
-        source: "ai",
-        image_prompt:
-          "Same smartphone chat thread shows the visitor message with seen status and empty reply space — waiting",
-      },
-      {
-        source: "ai",
-        image_prompt:
-          "Website chat widget on the phone screen: AI reply appears instantly — AI chatbot replies with color treatment timing and tomorrow availability as blurred structured bubbles",
-      },
-      {
-        source: "ai",
-        image_prompt:
-          "Same visitor's hands on the same phone as the answered chat confirms a booking lead is captured — conversation continues",
-      },
-      {
-        source: "asset",
-        used_as:
-          "Phone screen continues the same chat world showing the AI assistant confirmation — not a disconnected landing page montage",
-        asset_id: "demo",
-        video_usage: "framed_phone",
-      },
-    ],
+    visualScenes: CONTINUOUS_CHAT_SCENES,
   });
   assert.equal(
     result.passed,
@@ -202,6 +209,122 @@ check("AFTER: continuous chat world with ask→answer→result + spoken CTA pass
   );
   assert.equal(result.productDemonstration.present, true);
   assert.equal(result.ctaMatch.voiceoverContainsCta, true);
+  assert.equal(result.ctaMatch.ctaMismatch, false);
+  assert.equal(result.warnings.length, 0);
+});
+
+check("Sprint 5.2: story+demo OK with soft spoken close → passes with CTA warning", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: PACKAGE_CTA,
+    hook: "Urgent question dies in silence.",
+    voiceoverText:
+      "Urgent question dies in silence. She typed it Saturday night. Your site said nothing. Then the AI assistant replies with availability. She stays and books. Your next visitor deserves an answer — even when you're not there.",
+    visualScenes: CONTINUOUS_CHAT_SCENES,
+  });
+  assert.equal(
+    result.passed,
+    true,
+    `soft close must not hard-fail: ${JSON.stringify(result.violations, null, 2)}`,
+  );
+  assert.equal(result.productDemonstration.present, true);
+  assert.equal(result.ctaMatch.ctaMismatch, true);
+  assert.equal(result.ctaMatch.voiceoverContainsCta, false);
+  assert.ok(result.warnings.some((v) => v.code === "cta_mismatch"));
+  assert.ok(
+    result.ctaMatch.evidence?.includes("spoken_cta_missing_for_package_cta") ||
+      result.ctaMatch.evidence === "weak_cta_overlap",
+  );
+  assert.ok(result.summary.includes("story_integrity_passed_with_warnings"));
+});
+
+check("Sprint 5.2: same commercial intent, different CTA wording → passes", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: "Start building your AI assistant for after-hours website replies.",
+    hook: "Urgent question dies in silence.",
+    voiceoverText:
+      "Urgent question dies in silence. She typed Saturday night. No reply. The AI answers and she books. Give your website a voice that answers while you sleep.",
+    visualScenes: CONTINUOUS_CHAT_SCENES,
+  });
+  assert.equal(result.passed, true);
+  assert.equal(result.productDemonstration.present, true);
+  // Different wording may or may not flag a soft warning — either is OK as long as we pass.
+  assert.ok(result.violations.every((v) => v.code !== "cta_mismatch"));
+});
+
+check("Sprint 5.2: awareness-style emotional spoken close → passes", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: "Create your AI assistant today.",
+    hook: "Urgent question dies in silence.",
+    voiceoverText:
+      "Urgent question dies in silence. A booking request at midnight. Silence on the other end. Then a calm reply arrives. Relief — the night no longer wastes the people who needed you.",
+    visualScenes: CONTINUOUS_CHAT_SCENES,
+  });
+  assert.equal(result.passed, true);
+  assert.equal(result.productDemonstration.present, true);
+  if (result.ctaMatch.ctaMismatch) {
+    assert.ok(result.warnings.some((w) => w.code === "cta_mismatch"));
+  }
+});
+
+check("Sprint 5.2: missing product demonstration still hard-fails", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: PACKAGE_CTA,
+    voiceoverText:
+      "Urgent question dies in silence. Create your AI assistant — let your website answer while the salon is closed.",
+    visualScenes: [
+      {
+        source: "ai",
+        image_prompt:
+          "Customer's hands holding a smartphone sending a beauty salon website question",
+      },
+      {
+        source: "ai",
+        image_prompt: "Empty reply thread with seen indicator, no answer",
+      },
+      {
+        source: "ai",
+        image_prompt:
+          "Fenrik.chat landing page Create an AI assistant for your website yourcompany.com",
+      },
+    ],
+  });
+  assert.equal(result.passed, false);
+  assert.ok(
+    result.violations.some((v) => v.code === "product_demonstration_missing"),
+  );
+});
+
+check("Sprint 5.2: broken story world still hard-fails", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: PACKAGE_CTA,
+    voiceoverText:
+      "Urgent question dies in silence. Create your AI assistant — let your website answer while the salon is closed.",
+    visualScenes: [
+      {
+        source: "ai",
+        image_prompt: "Hands sending a website chat question on a phone",
+      },
+      {
+        source: "ai",
+        image_prompt:
+          "Five softly rendered translucent human silhouettes standing in fog on a quiet urban street",
+      },
+      {
+        source: "ai",
+        image_prompt:
+          "AI chatbot answers the visitor question on the website chat and the lead is captured",
+      },
+    ],
+  });
+  assert.equal(result.passed, false);
+  assert.ok(
+    result.violations.some((v) => v.code === "abstract_metaphor_in_middle"),
+  );
 });
 
 check("landing page alone is not product demonstration", () => {
@@ -302,8 +425,8 @@ check("departure-board winner may keep airport imagery", () => {
   );
 });
 
-check("repair appendix lists failure codes", () => {
-  const failed = validateStoryIntegrity({
+check("repair appendix lists hard failure codes and soft CTA guidance", () => {
+  const failedResult = validateStoryIntegrity({
     winner: handheldWinner(),
     packageCta: PACKAGE_CTA,
     voiceoverText: "Soft poetic close only.",
@@ -321,12 +444,17 @@ check("repair appendix lists failure codes", () => {
   });
   const appendix = storyIntegrityRepairAppendix(
     handheldWinner(),
-    failed,
+    failedResult,
     PACKAGE_CTA,
   );
   assert.ok(appendix.includes("STORY INTEGRITY REPAIR"));
-  assert.ok(appendix.includes("abstract_metaphor_in_middle") || appendix.includes("product_demonstration"));
+  assert.ok(
+    appendix.includes("abstract_metaphor_in_middle") ||
+      appendix.includes("product_demonstration"),
+  );
   assert.ok(appendix.includes(PACKAGE_CTA));
+  assert.ok(appendix.includes("not identical wording"));
+  assert.ok(!appendix.includes("must appear in spoken close"));
 });
 
 console.log(`\nstory-integrity: ${passed} passed, ${failed} failed`);

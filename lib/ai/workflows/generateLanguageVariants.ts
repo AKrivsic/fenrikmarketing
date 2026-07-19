@@ -355,6 +355,27 @@ export async function runGenerateLanguageVariantsForItem(
       continue;
     }
 
+  // Sprint 5.3.2 — prepare visual-clone scenes BEFORE insert so a fidelity /
+  // missing-asset failure never leaves an orphan text item without a valid video.
+    let preparedScenes: {
+      scenes: Record<string, unknown>[];
+      warnings: string[];
+    } | null = null;
+    if (wantsVideo && scenes && !languagesWithVideo.has(language)) {
+      try {
+        preparedScenes = prepareRenderScenesForLanguageVariant({
+          scenes,
+          voiceoverText: localized.data.localized.voiceover_text,
+        });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        summary.warnings.push(
+          `language ${language}: ${message}; skipped (visual fidelity)`,
+        );
+        continue;
+      }
+    }
+
     const { data: insertedItem, error: insertErr } = await supabase
       .from("content_items")
       .insert({
@@ -390,17 +411,13 @@ export async function runGenerateLanguageVariantsForItem(
     // Video job: only for video platforms with reusable scenes. One slot per
     // package+language (RPC); parallel platform translation units must not each
     // insert a render.
-    if (!wantsVideo || !scenes) continue;
+    if (!wantsVideo || !scenes || !preparedScenes) continue;
     if (languagesWithVideo.has(language)) {
       summary.skippedLanguages.push(language);
       continue;
     }
 
     const localizedVoiceover = localized.data.localized.voiceover_text;
-    const preparedScenes = prepareRenderScenesForLanguageVariant({
-      scenes,
-      voiceoverText: localizedVoiceover,
-    });
     for (const warning of preparedScenes.warnings) {
       summary.warnings.push(`language ${language}: ${warning}`);
     }

@@ -43,8 +43,10 @@ import {
 } from "@/lib/ai/schemas/contentPackage";
 import {
   loadProjectOrThrow,
+  WorkflowError,
   type WorkflowResult,
 } from "@/lib/ai/workflows/shared";
+import { classifyGenerationThrow } from "@/lib/ai/workflows/generationTerminal";
 import {
   buildPackageBrief,
   buildPersistableItems,
@@ -171,6 +173,20 @@ export async function runGenerateContentPackage(
   // Optional injected client. Frontend/RLS callers omit it and get the cookie-
   // bound server client; automation (n8n) callers pass the service-role admin
   // client so the same business logic runs without a user session.
+  client?: SupabaseClient,
+): Promise<WorkflowResult<ContentPackageData>> {
+  try {
+    return await runGenerateContentPackageUnchecked(input, client);
+  } catch (err) {
+    // Precondition / auth-style errors stay thrown for HTTP mapping.
+    if (err instanceof WorkflowError) throw err;
+    // Sprint 5.3 — every other throw becomes a terminal, settleable failure.
+    return classifyGenerationThrow(err);
+  }
+}
+
+async function runGenerateContentPackageUnchecked(
+  input: GenerateContentPackageInput,
   client?: SupabaseClient,
 ): Promise<WorkflowResult<ContentPackageData>> {
   const supabase: SupabaseClient = client ?? (await createSupabaseServerClient());
@@ -594,8 +610,8 @@ export async function runGenerateContentPackage(
       regenerationReason,
     );
 
-    // Sprint 4C.1 — inject structured PRODUCT_DEMO before Story Integrity so
-    // product demonstration is satisfiable without prose regex luck.
+    // Sprint 4C.1 / 5.3 — ensure structured PRODUCT_DEMO before Story Integrity
+    // when an authored beat already exists (never fabricate chatbot demos).
     const ensureDemo = (force: boolean) => {
       if (!generated.ok) {
         throw new Error("ensureDemo requires a successful package generation");
@@ -707,6 +723,14 @@ export async function runGenerateContentPackage(
       storyIntegrity,
       regenerationReason,
     );
+    if (storyIntegrity.warnings.length > 0) {
+      console.warn(
+        "[story-integrity] soft warnings (non-blocking)",
+        creativeCandidates.selectedCandidate.candidateId,
+        storyIntegrity.warnings,
+        storyIntegrity.ctaMatch,
+      );
+    }
     if (!storyIntegrity.passed) {
       console.error(
         "[story-integrity] hard fail after repair",
@@ -1440,56 +1464,69 @@ async function persistNewPackage(
   const requireVideo = videoPlatformSet.size > 0;
   let videoJobId = "";
   if (requireVideo) {
-    const videoItemId =
-      inserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
-      primaryItemId;
-    const videoInput = await buildVideoJobInput(
-      supabase,
-      projectId,
-      pkg,
-      {
-        ...(directives
-          ? {
-              creative_mode: directives.mode.id,
-              creative_mode_beats: directives.mode.narrativeBeats,
-              ...(narrativeBeatRoles
-                ? { narrative_beat_roles: narrativeBeatRoles }
-                : {}),
-            }
-          : {}),
-        topic: context.topic,
-        angle: context.angle,
-        package_id: packageId,
-        weekly_strategy_id: context.weeklyStrategyId,
-        ...(context.productionRunId
-          ? { production_run_id: context.productionRunId }
-          : {}),
-        ...attentionFieldsForVideoJob(pkg),
-      },
-    );
-    const { data: videoRow, error: videoErr } = await supabase
-      .from("video_jobs")
-      .insert({
-        project_id: projectId,
-        content_item_id: videoItemId,
-        provider: "video_engine",
-        status: "queued",
-        input: videoInput,
-      })
-      .select("id")
-      .single();
-    if (videoErr) throw videoErr;
-    videoJobId = videoRow.id as string;
-    const { error: briefErr } = await supabase
-      .from("content_packages")
-      .update({ package_brief: buildPackageBrief(pkg) })
-      .eq("id", packageId);
-    if (briefErr) throw briefErr;
+    try {
+      const videoItemId =
+        inserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
+        primaryItemId;
+      const videoInput = await buildVideoJobInput(
+        supabase,
+        projectId,
+        pkg,
+        {
+          ...(directives
+            ? {
+                creative_mode: directives.mode.id,
+                creative_mode_beats: directives.mode.narrativeBeats,
+                ...(narrativeBeatRoles
+                  ? { narrative_beat_roles: narrativeBeatRoles }
+                  : {}),
+              }
+            : {}),
+          topic: context.topic,
+          angle: context.angle,
+          package_id: packageId,
+          weekly_strategy_id: context.weeklyStrategyId,
+          ...(context.productionRunId
+            ? { production_run_id: context.productionRunId }
+            : {}),
+          ...attentionFieldsForVideoJob(pkg),
+        },
+      );
+      const { data: videoRow, error: videoErr } = await supabase
+        .from("video_jobs")
+        .insert({
+          project_id: projectId,
+          content_item_id: videoItemId,
+          provider: "video_engine",
+          status: "queued",
+          input: videoInput,
+        })
+        .select("id")
+        .single();
+      if (videoErr) throw videoErr;
+      videoJobId = videoRow.id as string;
+      const { error: briefErr } = await supabase
+        .from("content_packages")
+        .update({ package_brief: buildPackageBrief(pkg) })
+        .eq("id", packageId);
+      if (briefErr) throw briefErr;
+    } catch (err) {
+      // Sprint 5.3 — no orphan package/items when job input/create fails.
+      await rollbackPersistedPackage(supabase, projectId, packageId);
+      throw err;
+    }
   }
 
   // Record asset_usage for referenced assets (linked to the primary item; the
   // primary item exists whether or not the package has video).
-  await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
+  // Sprint 5.3.1 — failure must not leave package/job without consistent usage;
+  // roll back the whole persist unit and surface operational_failure.
+  try {
+    await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
+  } catch (err) {
+    await rollbackPersistedPackage(supabase, projectId, packageId);
+    throw err;
+  }
 
   return {
     packageId,
@@ -1513,6 +1550,68 @@ function isUniqueViolation(error: unknown): boolean {
     "code" in error &&
     (error as { code?: unknown }).code === "23505"
   );
+}
+
+// Sprint 5.3 / 5.3.1 — remove incomplete package + items when post-persist
+// steps fail so production settlement never leaves an orphan package/job.
+async function rollbackPersistedPackage(
+  supabase: SupabaseClient,
+  projectId: string,
+  packageId: string,
+): Promise<void> {
+  const { data: items, error: itemsErr } = await supabase
+    .from("content_items")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("package_id", packageId);
+  if (itemsErr) {
+    throw new Error(
+      `operational_failure: rollback failed loading items for package ${packageId}: ${itemsErr.message}`,
+    );
+  }
+  const itemIds = (items ?? []).map((r) => r.id as string);
+  if (itemIds.length > 0) {
+    const { error: jobDelErr } = await supabase
+      .from("video_jobs")
+      .delete()
+      .eq("project_id", projectId)
+      .in("content_item_id", itemIds);
+    if (jobDelErr) {
+      throw new Error(
+        `operational_failure: rollback failed deleting video_jobs for package ${packageId}: ${jobDelErr.message}`,
+      );
+    }
+    const { error: usageDelErr } = await supabase
+      .from("asset_usage")
+      .delete()
+      .eq("project_id", projectId)
+      .in("content_item_id", itemIds);
+    if (usageDelErr) {
+      throw new Error(
+        `operational_failure: rollback failed deleting asset_usage for package ${packageId}: ${usageDelErr.message}`,
+      );
+    }
+    const { error: itemDelErr } = await supabase
+      .from("content_items")
+      .delete()
+      .eq("project_id", projectId)
+      .eq("package_id", packageId);
+    if (itemDelErr) {
+      throw new Error(
+        `operational_failure: rollback failed deleting content_items for package ${packageId}: ${itemDelErr.message}`,
+      );
+    }
+  }
+  const { error: pkgDelErr } = await supabase
+    .from("content_packages")
+    .delete()
+    .eq("project_id", projectId)
+    .eq("id", packageId);
+  if (pkgDelErr) {
+    throw new Error(
+      `operational_failure: rollback failed deleting content_package ${packageId}: ${pkgDelErr.message}`,
+    );
+  }
 }
 
 export async function recordAssetUsage(

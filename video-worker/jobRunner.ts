@@ -21,7 +21,7 @@ import {
   parseSfxOverlayFromJobInput,
 } from "@/video-worker/services/sfx/mixSfx";
 import {
-  generateSceneImages,
+  generateSceneImagesWithTelemetry,
   type SceneImage,
 } from "@/video-worker/services/images";
 import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
@@ -409,7 +409,10 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     }
 
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
-    const images = await generateSceneImages({
+    const isLanguageVariant =
+      payload.input["generated_from_language_variant"] === true ||
+      payload.input["regenerated_language_variant"] === true;
+    const imageBatch = await generateSceneImagesWithTelemetry({
       scenes: spec.scenes,
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
@@ -432,7 +435,10 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
         typeof payload.input["visual_medium_version"] === "string"
           ? payload.input["visual_medium_version"]
           : undefined,
+      isLanguageVariant,
+      forbidImageGeneration: isLanguageVariant,
     });
+    const images = imageBatch.images;
     for (const image of images) tempFiles.add(image.imagePath);
 
     // Video Quality V2 — build the beat timeline (8–15 short moving beats) from

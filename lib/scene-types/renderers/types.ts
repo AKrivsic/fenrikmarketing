@@ -21,6 +21,13 @@ export interface SceneRasterPrepareContext {
   visualMediumVersion?: string;
   /** Creative Identity v1 — stable staging axes for all AI image scenes in this job. */
   creativeIdentity?: CreativeIdentity | null;
+  /**
+   * Sprint 5.3.2 — language-variant jobs must reuse durable rasters only.
+   * When true, image-provider calls and image_prompt generation are forbidden.
+   */
+  forbidImageGeneration?: boolean;
+  /** True when this job is a language variant (generate or regenerate). */
+  isLanguageVariant?: boolean;
 }
 
 export interface SceneRasterPrepareResult {

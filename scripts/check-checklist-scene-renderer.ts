@@ -417,7 +417,7 @@ await check("CHECKLIST prepareRaster makes no image provider call", async () => 
 });
 
 console.log("\nLanguage variants");
-await check("language variant downgrades CHECKLIST and drops raster reuse", () => {
+await check("language variant preserves CHECKLIST and raster refs", () => {
   const { scenes, warnings } = prepareRenderScenesForLanguageVariant({
     scenes: [
       {
@@ -433,10 +433,10 @@ await check("language variant downgrades CHECKLIST and drops raster reuse", () =
     ],
     voiceoverText: "Localized voiceover line.",
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
-  assert.equal(scenes[0]?.image_bucket, undefined);
-  assert.equal(scenes[0]?.image_path, undefined);
-  assert.ok(warnings.length > 0);
+  assert.equal(scenes[0]?.type, "CHECKLIST");
+  assert.equal(scenes[0]?.image_bucket, "bucket");
+  assert.equal(scenes[0]?.image_path, "path.png");
+  assert.equal(warnings.length, 0);
 });
 
 console.log(`\nFixtures written to ${OUT_DIR}`);

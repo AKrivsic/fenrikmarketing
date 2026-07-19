@@ -78,7 +78,7 @@ await check("schema rejects missing outcome_type", () => {
   assert.equal(parseProductDemoBeat(bad).ok, false);
 });
 
-await check("ensure injects PRODUCT_DEMO scene", () => {
+await check("ensure does not fabricate chat demo without existing beat", () => {
   const ensured = ensureStructuredProductDemo({
     visualScenes: [
       { source: "ai", image_prompt: "hands typing a question on a phone" },
@@ -86,22 +86,43 @@ await check("ensure injects PRODUCT_DEMO scene", () => {
     ],
     winner: winner(),
   });
-  assert.equal(ensured.injected, true);
+  assert.equal(ensured.injected, false);
+  assert.equal(ensured.renderable, false);
+  assert.equal(ensured.beat, null);
+  assert.equal(ensured.reason, "product_demonstration_not_fabricated");
+  const types = ensured.scenes.map(
+    (s) => (s as { type?: string }).type?.toUpperCase(),
+  );
+  assert.equal(types.includes("PRODUCT_DEMO"), false);
+});
+
+await check("ensure completes existing PRODUCT_DEMO beat without inventing", () => {
+  const beat = buildDefaultProductDemoBeat({ actorId: "primary_actor" });
+  const ensured = ensureStructuredProductDemo({
+    visualScenes: [
+      { source: "ai", image_prompt: "hands typing a question on a phone" },
+      { type: "PRODUCT_DEMO", payload: beat },
+    ],
+    winner: winner(),
+  });
   assert.equal(ensured.renderable, true);
   assert.ok(ensured.beat);
+  assert.equal(ensured.beat!.visitor_question, beat.visitor_question);
   const types = ensured.scenes.map(
     (s) => (s as { type?: string }).type?.toUpperCase(),
   );
   assert.ok(types.includes("PRODUCT_DEMO"));
 });
 
-await check("force repair replaces resolution", () => {
+await check("force repair places existing beat into resolution slot", () => {
+  const beat = buildDefaultProductDemoBeat({ actorId: "primary_actor" });
   const ensured = ensureStructuredProductDemo({
     visualScenes: [
       { source: "ai", image_prompt: "hands typing" },
       { source: "ai", image_prompt: "quietly pleased smile success pose" },
     ],
     winner: winner(),
+    productDemo: beat,
     force: true,
   });
   assert.equal(ensured.replacedResolution, true);
@@ -111,8 +132,23 @@ await check("force repair replaces resolution", () => {
   );
 });
 
+await check("force without beat does not fabricate Fenrik chat", () => {
+  const ensured = ensureStructuredProductDemo({
+    visualScenes: [
+      { source: "ai", image_prompt: "hands typing" },
+      { source: "ai", image_prompt: "quietly pleased smile success pose" },
+    ],
+    winner: winner(),
+    force: true,
+  });
+  assert.equal(ensured.injected, false);
+  assert.equal(ensured.beat, null);
+  assert.equal(ensured.reason, "product_demonstration_not_fabricated");
+});
+
 console.log("\nIntegrity structured-first");
 await check("integrity passes with structured PRODUCT_DEMO", () => {
+  const beat = buildDefaultProductDemoBeat({ actorId: "primary_actor" });
   const ensured = ensureStructuredProductDemo({
     visualScenes: [
       {
@@ -120,6 +156,7 @@ await check("integrity passes with structured PRODUCT_DEMO", () => {
         image_prompt:
           "Close on a customer's hands sending an urgent question on the same phone",
       },
+      { type: "PRODUCT_DEMO", payload: beat },
     ],
     winner: winner(),
   });

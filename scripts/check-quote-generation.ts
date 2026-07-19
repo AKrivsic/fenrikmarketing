@@ -369,7 +369,7 @@ async function main(): Promise<void> {
     );
   });
 
-  await check("17 language variant cannot reuse quote raster", () => {
+  await check("17 language variant reuses quote raster", () => {
     const { scenes } = prepareRenderScenesForLanguageVariant({
       scenes: [
         {
@@ -388,7 +388,9 @@ async function main(): Promise<void> {
       ],
       voiceoverText: "Customer story.",
     });
-    assert.equal(scenes[0]?.type, "IMAGE");
+    assert.equal(scenes[0]?.type, "QUOTE");
+    assert.equal(scenes[0]?.image_bucket, "b");
+    assert.equal(scenes[0]?.image_path, "p");
   });
 
   await check("18 scene editor preserves QUOTE metadata", () => {

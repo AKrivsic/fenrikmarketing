@@ -246,7 +246,7 @@ await check("PHONE registered in worker registry", () => {
 });
 
 console.log("\nLanguage variants");
-await check("language variant downgrades PHONE to IMAGE", () => {
+await check("language variant preserves PHONE and raster refs", () => {
   const { scenes, warnings } = prepareRenderScenesForLanguageVariant({
     voiceoverText: "Localized voiceover.",
     scenes: [
@@ -255,6 +255,8 @@ await check("language variant downgrades PHONE to IMAGE", () => {
         type: "PHONE",
         image_prompt: "presentation:phone",
         duration_seconds: 4,
+        image_bucket: "bucket",
+        image_path: "phone.png",
         payload_snapshot: {
           asset_id: "11111111-1111-4111-8111-111111111111",
           caption: "English UI",
@@ -263,8 +265,10 @@ await check("language variant downgrades PHONE to IMAGE", () => {
       },
     ],
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
-  assert.ok(warnings.some((w) => w.includes("PHONE")));
+  assert.equal(scenes[0]?.type, "PHONE");
+  assert.equal(scenes[0]?.image_bucket, "bucket");
+  assert.equal(scenes[0]?.image_path, "phone.png");
+  assert.equal(warnings.length, 0);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

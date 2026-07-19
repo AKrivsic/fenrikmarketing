@@ -226,6 +226,16 @@ export async function runRegenerateLanguageVariant(
     );
   }
 
+  const localizedVoiceover = localized.data.localized.voiceover_text;
+  // Sprint 5.3.2 — fail closed on visual fidelity before mutating variants.
+  const preparedScenes = prepareRenderScenesForLanguageVariant({
+    scenes,
+    voiceoverText: localizedVoiceover,
+  });
+  for (const warning of preparedScenes.warnings) {
+    summary.warnings.push(warning);
+  }
+
   // Snapshot the CURRENT variant items into content_versions BEFORE overwriting.
   // Scoped to the variant only (one variant item id + snapshot of all variant
   // items for this language); the primary package is never snapshotted here.
@@ -276,19 +286,10 @@ export async function runRegenerateLanguageVariant(
     summary.updatedItemIds.push(variant.id);
   }
 
-  // Fresh video job for the variant (TikTok preferred). input.scenes reuses the
-  // source render_spec scenes so the worker reuses visuals (no image gen).
+  // Fresh video job for the variant (TikTok preferred). input.scenes is a visual
+  // clone of the source render_spec (Sprint 5.3.2 — reuse only, no image gen).
   const videoItem = pickVideoJobItem(variantItems);
   if (!videoItem) return summary;
-
-  const localizedVoiceover = localized.data.localized.voiceover_text;
-  const preparedScenes = prepareRenderScenesForLanguageVariant({
-    scenes,
-    voiceoverText: localizedVoiceover,
-  });
-  for (const warning of preparedScenes.warnings) {
-    summary.warnings.push(warning);
-  }
 
   let jobInput = await attachTtsToVideoJobInput(
     supabase,

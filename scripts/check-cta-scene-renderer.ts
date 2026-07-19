@@ -137,7 +137,7 @@ await check("compiler emits CTA worker metadata", async () => {
 });
 
 console.log("\nLanguage variants");
-await check("language variant downgrades CTA", () => {
+await check("language variant preserves CTA and raster refs", () => {
   const { scenes, warnings } = prepareRenderScenesForLanguageVariant({
     voiceoverText: "Localized.",
     scenes: [
@@ -151,8 +151,10 @@ await check("language variant downgrades CTA", () => {
       },
     ],
   });
-  assert.equal(scenes[0]?.type, "IMAGE");
-  assert.match(warnings.join(" "), /CTA downgraded to IMAGE/);
+  assert.equal(scenes[0]?.type, "CTA");
+  assert.equal(scenes[0]?.image_bucket, "b");
+  assert.equal(scenes[0]?.image_path, "p.png");
+  assert.equal(warnings.length, 0);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);
