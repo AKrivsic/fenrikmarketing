@@ -185,16 +185,21 @@ export function assertRenderFidelity(args: {
  * Cap scene list to max while never dropping PRODUCT_DEMO in favor of IMAGE.
  * Removes non-PRODUCT_DEMO scenes first (from the front) until under cap.
  */
-export function capScenesPreservingProductDemo<T extends { type?: unknown }>(
+export function capScenesPreservingProductDemo<T>(
   scenes: readonly T[],
   max: number,
 ): T[] {
   if (scenes.length <= max) return [...scenes];
   const out = [...scenes];
-  while (out.length > max) {
-    const dropIdx = out.findIndex(
-      (s) => String(s.type ?? "").toUpperCase() !== "PRODUCT_DEMO",
+  const isProductDemo = (scene: T): boolean => {
+    if (!scene || typeof scene !== "object") return false;
+    return (
+      String((scene as { type?: unknown }).type ?? "").toUpperCase() ===
+      "PRODUCT_DEMO"
     );
+  };
+  while (out.length > max) {
+    const dropIdx = out.findIndex((s) => !isProductDemo(s));
     if (dropIdx >= 0) {
       out.splice(dropIdx, 1);
       continue;
