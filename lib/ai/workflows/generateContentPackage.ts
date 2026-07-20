@@ -106,6 +106,12 @@ import {
   productDemonstrationValidationIssues,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import {
+  classifyFidelityFailuresForRepair,
+} from "@/lib/creative-candidates/fidelityCheck";
+import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
+import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
+import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
 import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
@@ -196,13 +202,28 @@ async function runGenerateContentPackageUnchecked(
   // instead of running the (~160s) AI generation + insert again. This makes a
   // duplicate webhook delivery / n8n retry / re-trigger a safe no-op: no second
   // package, no second video job, no extra AI cost.
+  //
+  // When the existing package is video-required but has no video_jobs row,
+  // attempt an idempotent heal (insert missing job) — never return text_only
+  // success and never regenerate Claude for that case.
   const existingPackage = await loadExistingPackageData(
     supabase,
     input.projectId,
     input.strategyItemId,
   );
   if (existingPackage) {
-    return { ok: true, data: existingPackage };
+    if (existingPackage.videoJobId) {
+      return { ok: true, data: existingPackage };
+    }
+    const healed = await healMissingVideoJobIfRequired(
+      supabase,
+      input.projectId,
+      existingPackage,
+    );
+    if (healed.ok === false) {
+      return healed;
+    }
+    return { ok: true, data: healed.data };
   }
 
   const project = await loadProjectOrThrow(supabase, input.projectId);
@@ -375,7 +396,7 @@ async function runGenerateContentPackageUnchecked(
   );
 
   // Narrative Beats — derived story spine (no new LLM). Between candidate and storyboard.
-  let narrativeBeatPlan: NarrativeBeatPlan | null =
+  const narrativeBeatPlan: NarrativeBeatPlan | null =
     creativeCandidates && requireVideo
       ? deriveNarrativeBeats({
           winner: creativeCandidates.selectedCandidate,
@@ -539,9 +560,49 @@ async function runGenerateContentPackageUnchecked(
   generated.value.hook = aligned.hook;
   generated.value.voiceover_text = aligned.voiceover_text;
 
-  // Creative Candidate Selection v1 — concept fidelity; one repair regenerate.
+  // Creative Candidate Selection — concept fidelity.
+  // Order: deterministic hook enforce → fidelity check → material repair only.
   let regenerationReason: string | null = null;
+  let fidelityFirstPassPassed: boolean | null = null;
+  let fidelityFirstPassReasons: string[] = [];
+  let fullPackageGenerations = 1;
+  let hookDeterministicEnforceReason: string | null = null;
+  let candidateRepairReasons: string[] = [];
+  const generationTelemetry: Array<Record<string, unknown>> = [];
+
+  const recordPhase = (
+    phase: string,
+    startMs: number,
+    extra?: Record<string, unknown>,
+  ) => {
+    generationTelemetry.push({
+      phase,
+      latency_ms: Date.now() - startMs,
+      provider: "anthropic",
+      ...extra,
+    });
+  };
+
   if (creativeCandidates && requireVideo) {
+    const repairedCand = validateAndRepairCandidate(
+      creativeCandidates.selectedCandidate,
+      { productLabel: project.product_is?.[0] },
+    );
+    candidateRepairReasons = repairedCand.reasons;
+    creativeCandidates = {
+      ...creativeCandidates,
+      selectedCandidate: repairedCand.candidate,
+    };
+
+    const enforced = enforceCandidateHook({
+      hookLine: creativeCandidates.selectedCandidate.hookLine,
+      hook: generated.value.hook,
+      voiceoverText: generated.value.voiceover_text,
+    });
+    hookDeterministicEnforceReason = enforced.reason;
+    generated.value.hook = enforced.hook;
+    generated.value.voiceover_text = enforced.voiceover_text;
+
     let fidelity = checkConceptFidelity({
       winner: creativeCandidates.selectedCandidate,
       hook: generated.value.hook,
@@ -551,8 +612,25 @@ async function runGenerateContentPackageUnchecked(
       topic: context.topic,
       angle: context.angle,
     });
-    if (!fidelity.passed) {
-      regenerationReason = fidelity.failureReasons.join(",");
+    fidelityFirstPassPassed = fidelity.passed;
+    fidelityFirstPassReasons = [...fidelity.failureReasons];
+    if (fidelity.diagnostics?.length) {
+      console.info(
+        "[concept-fidelity] first-pass diagnostics",
+        creativeCandidates.selectedCandidate.candidateId,
+        fidelity.diagnostics.map((d) => ({
+          rule: d.rule,
+          passed: d.passed,
+          reason: d.reason,
+          aliases: d.matchedAliases,
+        })),
+      );
+    }
+
+    const classification = classifyFidelityFailuresForRepair(fidelity);
+    if (!fidelity.passed && classification.material) {
+      regenerationReason = classification.materialReasons.join(",");
+      const repairStart = Date.now();
       const repaired = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildGeneratePackageSystem(requireVideo),
@@ -578,7 +656,12 @@ async function runGenerateContentPackageUnchecked(
         maxTransportAttempts:
           GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
       });
+      recordPhase("fidelity_repair", repairStart, {
+        ok: repaired.ok,
+        attempts: repaired.ok ? repaired.attempts : undefined,
+      });
       if (repaired.ok) {
+        fullPackageGenerations += 1;
         generated = repaired;
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
@@ -593,6 +676,13 @@ async function runGenerateContentPackageUnchecked(
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
+        const reEnforce = enforceCandidateHook({
+          hookLine: creativeCandidates.selectedCandidate.hookLine,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = reEnforce.hook;
+        generated.value.voiceover_text = reEnforce.voiceover_text;
         fidelity = checkConceptFidelity({
           winner: creativeCandidates.selectedCandidate,
           hook: generated.value.hook,
@@ -603,12 +693,38 @@ async function runGenerateContentPackageUnchecked(
           angle: context.angle,
         });
       }
+    } else if (!fidelity.passed && !classification.material) {
+      // Deterministic-only residues — do not burn a full Claude regenerate.
+      regenerationReason = null;
+      console.info(
+        "[concept-fidelity] non-material failures after deterministic fixes",
+        classification.deterministicReasons,
+      );
     }
     creativeCandidates = attachFidelityToPlan(
       creativeCandidates,
       fidelity,
       regenerationReason,
     );
+
+    // Hard gate: after at most one material fidelity repair, do not persist a
+    // package that still fails concept fidelity (same terminal pattern as story).
+    if (!fidelity.passed) {
+      console.error(
+        "[concept-fidelity] hard fail after repair",
+        creativeCandidates.selectedCandidate.candidateId,
+        fidelity.failureReasons,
+      );
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: fidelity.failureReasons.map((reason) => ({
+          path: "concept_fidelity",
+          message: reason,
+        })),
+        attempts: generated.attempts,
+      };
+    }
 
     // Sprint 4C.1 / 5.3 — ensure structured PRODUCT_DEMO before Story Integrity
     // when an authored beat already exists (never fabricate chatbot demos).
@@ -652,6 +768,7 @@ async function runGenerateContentPackageUnchecked(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${integrityReason}`
         : integrityReason;
+      const storyStart = Date.now();
       const repairedIntegrity = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildGeneratePackageSystem(requireVideo),
@@ -678,7 +795,11 @@ async function runGenerateContentPackageUnchecked(
         maxTransportAttempts:
           GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
       });
+      recordPhase("story_repair", storyStart, {
+        ok: repairedIntegrity.ok,
+      });
       if (repairedIntegrity.ok) {
+        fullPackageGenerations += 1;
         generated = repairedIntegrity;
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
@@ -693,6 +814,13 @@ async function runGenerateContentPackageUnchecked(
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
+        const reEnforce = enforceCandidateHook({
+          hookLine: creativeCandidates.selectedCandidate.hookLine,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = reEnforce.hook;
+        generated.value.voiceover_text = reEnforce.voiceover_text;
         fidelity = checkConceptFidelity({
           winner: creativeCandidates.selectedCandidate,
           hook: generated.value.hook,
@@ -985,6 +1113,18 @@ async function runGenerateContentPackageUnchecked(
           creativeDnaDiagnostics,
         )
       : {}),
+    generation_telemetry: {
+      strategy_item_id: context.strategyItemId,
+      production_run_id: context.productionRunId ?? null,
+      full_package_generations: fullPackageGenerations,
+      fidelity_first_pass_passed: fidelityFirstPassPassed,
+      fidelity_first_pass_failure_reasons: fidelityFirstPassReasons,
+      fidelity_final_passed:
+        creativeCandidates?.finalScriptFidelity?.passed ?? null,
+      hook_deterministic_enforce_reason: hookDeterministicEnforceReason,
+      candidate_repair_reasons: candidateRepairReasons,
+      phases: generationTelemetry,
+    },
     ...(narrativeBeatPlan
       ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
           storyProgression: storyProgressionDiagnostics,
@@ -1611,6 +1751,177 @@ async function rollbackPersistedPackage(
     throw new Error(
       `operational_failure: rollback failed deleting content_package ${packageId}: ${pkgDelErr.message}`,
     );
+  }
+}
+
+/**
+ * When an existing package is video-required but has no video_jobs row, insert
+ * one idempotently from package_brief. Never regenerates Claude content.
+ * Returns incomplete_package when heal is impossible.
+ */
+async function healMissingVideoJobIfRequired(
+  supabase: SupabaseClient,
+  projectId: string,
+  existing: ContentPackageData,
+): Promise<WorkflowResult<ContentPackageData>> {
+  // Re-check for a job that may have been inserted by a concurrent retry.
+  const latest = await loadLatestVideoJobId(
+    supabase,
+    projectId,
+    existing.contentItemIds,
+  );
+  if (latest) {
+    return { ok: true, data: { ...existing, videoJobId: latest } };
+  }
+
+  const { data: pkgRow, error: pkgErr } = await supabase
+    .from("content_packages")
+    .select("package_brief, strategy_item_id")
+    .eq("id", existing.packageId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (pkgErr) throw pkgErr;
+  if (!pkgRow?.package_brief) {
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: [
+        {
+          path: "incomplete_package",
+          message: "video-required package missing brief; cannot heal video job",
+        },
+      ],
+      attempts: 0,
+    };
+  }
+
+  // Determine video requirement from production run plan when tagged.
+  let requireVideo = true;
+  const { data: itemsMeta } = await supabase
+    .from("content_items")
+    .select("id, platform, generation_metadata")
+    .eq("package_id", existing.packageId)
+    .eq("project_id", projectId)
+    .is("language", null);
+  const metaRows = (itemsMeta ?? []) as Array<{
+    id: string;
+    platform: string;
+    generation_metadata: Record<string, unknown> | null;
+  }>;
+  const runId = metaRows
+    .map((r) => r.generation_metadata?.production_run_id)
+    .find((id): id is string => typeof id === "string" && id.length > 0);
+  if (runId) {
+    const { data: run } = await supabase
+      .from("production_runs")
+      .select("requested_config")
+      .eq("id", runId)
+      .eq("project_id", projectId)
+      .maybeSingle();
+    const cfg = run?.requested_config;
+    if (cfg && typeof cfg === "object" && !Array.isArray(cfg)) {
+      const plan = (cfg as Record<string, unknown>).plan;
+      requireVideo = planRequiresVideo(
+        plan && typeof plan === "object"
+          ? (plan as {
+              videoCount?: number;
+              platformOutputs?: Array<{ kind?: string }>;
+            })
+          : null,
+      );
+    }
+  } else {
+    // No run tag: if package has video/visual_scenes, treat as video-required.
+    const brief = pkgRow.package_brief as Record<string, unknown>;
+    requireVideo = Boolean(
+      brief.video ||
+        (Array.isArray(brief.visual_scenes) && brief.visual_scenes.length > 0),
+    );
+  }
+
+  if (!requireVideo) {
+    return { ok: true, data: existing };
+  }
+
+  const brief = pkgRow.package_brief as unknown as ContentPackageOutput;
+  const videoPlatforms = new Set(["tiktok", "instagram", "youtube", "facebook"]);
+  const videoItemId =
+    metaRows.find((r) => videoPlatforms.has(r.platform))?.id ??
+    existing.contentItemIds[0] ??
+    null;
+  if (!videoItemId) {
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: [
+        {
+          path: "incomplete_package",
+          message: "video-required package has no content items to attach a job",
+        },
+      ],
+      attempts: 0,
+    };
+  }
+
+  try {
+    const videoInput = await buildVideoJobInput(supabase, projectId, brief, {
+      package_id: existing.packageId,
+      healed_missing_video_job: true,
+      ...(runId ? { production_run_id: runId } : {}),
+      ...(existing.weeklyStrategyId
+        ? { weekly_strategy_id: existing.weeklyStrategyId }
+        : {}),
+    });
+    const { data: videoRow, error: videoErr } = await supabase
+      .from("video_jobs")
+      .insert({
+        project_id: projectId,
+        content_item_id: videoItemId,
+        provider: "video_engine",
+        status: "queued",
+        input: videoInput,
+      })
+      .select("id")
+      .single();
+    if (videoErr) {
+      // Concurrent heal: another insert may have won — re-read.
+      if (isUniqueViolation(videoErr)) {
+        const again = await loadLatestVideoJobId(
+          supabase,
+          projectId,
+          existing.contentItemIds,
+        );
+        if (again) {
+          return { ok: true, data: { ...existing, videoJobId: again } };
+        }
+      }
+      throw videoErr;
+    }
+    console.info(
+      "[heal-missing-video-job]",
+      existing.packageId,
+      videoRow.id,
+    );
+    return {
+      ok: true,
+      data: { ...existing, videoJobId: videoRow.id as string },
+    };
+  } catch (err) {
+    console.error("[heal-missing-video-job] failed", existing.packageId, err);
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: [
+        {
+          path: "incomplete_package",
+          message:
+            err instanceof Error
+              ? err.message
+              : "failed to heal missing video job",
+        },
+      ],
+      attempts: 0,
+    };
   }
 }
 

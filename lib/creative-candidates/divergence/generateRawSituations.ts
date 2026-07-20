@@ -51,7 +51,7 @@ const HVAC_TEMPLATES: SceneTemplate[] = [
     tags: ["comparison", "AC", "heat"],
   }),
   ({ signals }) => ({
-    scene: `Close on a customer's sweaty hands sending an urgent ${signals.industryCue} question; the business reply thread shows "seen" with no answer; crew visible through window on trucks.`,
+    scene: `Close on a customer's hands sending an urgent question; the business reply thread shows a clear read-receipt indicator with no answer; crew visible through window on trucks.`,
     scrollStopCue: "Urgent question dies in silence",
     tags: ["hands", "urgent", "customer"],
   }),
@@ -66,7 +66,7 @@ const HVAC_TEMPLATES: SceneTemplate[] = [
     tags: ["roof", "technician", "split"],
   }),
   ({ signals }) => ({
-    scene: `Train-station style departure board listing "Phone caller #47" boarding; column "Website visitor" stuck on "Delayed indefinitely" at a ${signals.industryCue} shop.`,
+    scene: `Train-station style departure board listing a phone-channel row boarding; website-visitor row stuck on a delayed-status visual indicator at a ${signals.industryCue} shop.`,
     scrollStopCue: "Departure board for the wrong channel",
     tags: ["departure", "board", "delay"],
   }),
@@ -206,7 +206,7 @@ const PROFESSIONAL_RETURN_TEMPLATES: SceneTemplate[] = [
 /** Shared web-service templates (topic nouns injected; no HVAC props). */
 const WEB_SERVICE_TEMPLATES: SceneTemplate[] = [
   ({ signals }) => ({
-    scene: `Close on a customer's hands sending an urgent question to ${signals.industryCue}; reply thread shows "seen" with no answer during ${signals.stressCue}.`,
+    scene: `Close on a customer's hands sending an urgent question at ${signals.industryCue}; reply thread shows a clear read-receipt indicator with no answer during ${signals.stressCue}.`,
     scrollStopCue: "Urgent question dies in silence",
     tags: ["hands", "urgent", "customer"],
   }),
@@ -216,7 +216,7 @@ const WEB_SERVICE_TEMPLATES: SceneTemplate[] = [
     tags: ["role_reversal", "empty", "chat"],
   }),
   ({ signals }) => ({
-    scene: `Train-station style departure board: "Phone caller #47" boarding; "Website visitor" stuck on Delayed — at ${signals.industryCue}.`,
+    scene: `Train-station style departure board: phone-channel row boarding; website-visitor row stuck on a delayed-status visual indicator — at ${signals.industryCue}.`,
     scrollStopCue: "Departure board for the wrong channel",
     tags: ["departure", "board", "delay"],
   }),

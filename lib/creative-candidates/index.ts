@@ -3,6 +3,7 @@ export type {
   CreativeCandidate,
   CreativeCandidatePlan,
   ConceptFidelityResult,
+  FidelityRuleDiagnostic,
   CreativeDNA,
   CreativeDnaSource,
   CommercialCandidateScores,
@@ -19,10 +20,16 @@ export {
 } from "@/lib/creative-candidates/planForPackage";
 export {
   checkConceptFidelity,
+  classifyFidelityFailuresForRepair,
   fidelityRepairAppendix,
   openingSituationFaithfulToScene1,
   stripNoTextImpossibleClauses,
+  stripCosmeticOpeningPrefixes,
+  stripVisualStyleBoilerplate,
+  isAffirmativeGenericOfficeCollapse,
 } from "@/lib/creative-candidates/fidelityCheck";
+export { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
+export { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
 export {
   buildCreativeCandidatePromptBlock,
   buildCreativeDnaPromptBlockFromPlan,
@@ -57,6 +64,7 @@ export {
   generateCreativeCandidatesFromFamilies,
   extractTopicConcreteSignals,
 } from "@/lib/creative-candidates/generateCandidates";
+export { deriveShortIndustryCue } from "@/lib/creative-candidates/topicSignals";
 export {
   runCreativeDivergence,
   generateRawVisualSituations,

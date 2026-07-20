@@ -81,6 +81,9 @@ import {
   validateProductDemonstrationIntegrity,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import { classifyFidelityFailuresForRepair } from "@/lib/creative-candidates/fidelityCheck";
+import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
+import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
 import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
@@ -446,6 +449,22 @@ async function runRegenerateContentPackageUnchecked(
 
   let regenerationReason: string | null = null;
   if (creativeCandidates && requireVideo) {
+    const repairedCand = validateAndRepairCandidate(
+      creativeCandidates.selectedCandidate,
+      { productLabel: project.product_is?.[0] },
+    );
+    creativeCandidates = {
+      ...creativeCandidates,
+      selectedCandidate: repairedCand.candidate,
+    };
+    const enforced = enforceCandidateHook({
+      hookLine: creativeCandidates.selectedCandidate.hookLine,
+      hook: generated.value.hook,
+      voiceoverText: generated.value.voiceover_text,
+    });
+    generated.value.hook = enforced.hook;
+    generated.value.voiceover_text = enforced.voiceover_text;
+
     let fidelity = checkConceptFidelity({
       winner: creativeCandidates.selectedCandidate,
       hook: generated.value.hook,
@@ -455,8 +474,9 @@ async function runRegenerateContentPackageUnchecked(
       topic: context.topic,
       angle: context.angle,
     });
-    if (!fidelity.passed) {
-      regenerationReason = fidelity.failureReasons.join(",");
+    const classification = classifyFidelityFailuresForRepair(fidelity);
+    if (!fidelity.passed && classification.material) {
+      regenerationReason = classification.materialReasons.join(",");
       const repaired = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildRegeneratePackageSystem(requireVideo),
@@ -493,6 +513,13 @@ async function runRegenerateContentPackageUnchecked(
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
+        const reEnforce = enforceCandidateHook({
+          hookLine: creativeCandidates.selectedCandidate.hookLine,
+          hook: generated.value.hook,
+          voiceoverText: generated.value.voiceover_text,
+        });
+        generated.value.hook = reEnforce.hook;
+        generated.value.voiceover_text = reEnforce.voiceover_text;
         fidelity = checkConceptFidelity({
           winner: creativeCandidates.selectedCandidate,
           hook: generated.value.hook,
@@ -509,6 +536,17 @@ async function runRegenerateContentPackageUnchecked(
       fidelity,
       regenerationReason,
     );
+    if (!fidelity.passed) {
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: fidelity.failureReasons.map((reason) => ({
+          path: "concept_fidelity",
+          message: reason,
+        })),
+        attempts: generated.attempts,
+      };
+    }
 
     const ensureDemo = (force: boolean) => {
       if (!generated.ok) {

@@ -10,6 +10,14 @@ import {
 import type { TopicConcreteSignals } from "@/lib/creative-candidates/topicSignals";
 import type { RawVisualSituation } from "@/lib/creative-candidates/divergence/types";
 import { situationFingerprint } from "@/lib/creative-candidates/divergence/situationFingerprint";
+import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
+
+function stripCosmeticPrefix(scene: string): string {
+  return scene
+    .replace(/^Handheld urgency:\s*/i, "")
+    .replace(/^Macro on:\s*/i, "")
+    .trim();
+}
 
 export function inferFamily(s: RawVisualSituation): CreativeConceptFamily {
   const blob = `${s.scene} ${s.tags.join(" ")} ${s.scrollStopCue}`.toLowerCase();
@@ -66,13 +74,27 @@ export function buildCreativeCandidateFromSituation(
   },
 ): CreativeCandidate {
   const hookLine = hookFromSituation(situation, ctx.signals);
+  const openingSituation = stripCosmeticPrefix(situation.scene);
+  // coreIdea is the business/narrative idea — never a duplicate of the opening frame.
+  // Prefer the scroll-stop cue alone so candidates stay lexically distinct.
+  let coreIdea = situation.scrollStopCue.trim();
+  if (
+    !coreIdea ||
+    coreIdea.toLowerCase() === openingSituation.toLowerCase()
+  ) {
+    const beat = openingSituation.split(/[.;—]/)[0]?.trim() ?? openingSituation;
+    coreIdea = `Missed-channel stake behind: ${beat.slice(0, 100)}`;
+  }
+  if (coreIdea.toLowerCase() === openingSituation.toLowerCase()) {
+    coreIdea = `${coreIdea} — ${ctx.pain.slice(0, 80)}`;
+  }
   const base = {
     candidateId: `c${index + 1}-${family}-div`,
     family,
-    coreIdea: situation.scene,
+    coreIdea,
     emotionalReaction: emotionalFromTags(situation.tags),
     hookLine,
-    openingSituation: situation.scene,
+    openingSituation,
     visualPromise: `Film the opening as a scroll-stop frame: ${situation.scrollStopCue}. Setting must stay ${ctx.signals.settingCue}. No generic office/laptop montage.`,
     storyProgression: `Hold the opening situation → widen to ${ctx.signals.stressCue} → reveal ${ctx.pain} (${ctx.signals.consequenceCue}) → ${ctx.product} answers what humans cannot.`,
     productConnection: `${ctx.product} handles the website moment shown in the opening — without replacing the scene's human stakes.`,
@@ -102,11 +124,14 @@ export function buildCreativeCandidateFromSituation(
     },
   });
 
-  return {
+  const withDna: CreativeCandidate = {
     ...base,
     creativeDNA: resolved.dna,
     creativeDnaSource: resolved.source,
   };
+  return validateAndRepairCandidate(withDna, {
+    productLabel: ctx.product,
+  }).candidate;
 }
 
 /**

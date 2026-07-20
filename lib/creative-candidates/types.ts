@@ -138,6 +138,15 @@ export interface ComparativeJudgeResult {
   winnerReason: string;
 }
 
+export interface FidelityRuleDiagnostic {
+  rule: string;
+  passed: boolean;
+  candidateValue: string;
+  generatedValue: string;
+  matchedAliases: string[];
+  reason: string | null;
+}
+
 export interface ConceptFidelityResult {
   passed: boolean;
   openingSituationVisibleInScene1: boolean;
@@ -147,6 +156,8 @@ export interface ConceptFidelityResult {
   collapsedToGenericOffice: boolean;
   voiceoverEssayCadence: boolean;
   failureReasons: string[];
+  /** Structured per-rule evidence for telemetry / debugging (optional). */
+  diagnostics?: FidelityRuleDiagnostic[];
 }
 
 export interface CreativeCandidatePlan {

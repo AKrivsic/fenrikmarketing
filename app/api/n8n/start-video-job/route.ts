@@ -63,10 +63,25 @@ export async function POST(request: Request): Promise<Response> {
       videoJobId,
     });
     if (!job) {
-      // No video job for an existing package now means a TEXT-ONLY package
-      // (no selected platform requires video, so generation skipped the video
-      // job). This is a benign no-op, not an error: nothing to render. Returning
-      // 2xx prevents n8n from retrying a render that will never exist.
+      const videoRequired = await packageRequiresVideoJob(
+        supabase,
+        projectId,
+        contentPackageId,
+      );
+      if (videoRequired) {
+        return Response.json(
+          {
+            ok: false,
+            status: "missing_video_job",
+            text_only: false,
+            error: "incomplete_package",
+            message:
+              "video-required package has no video_jobs row (incomplete package)",
+          },
+          { status: 409 },
+        );
+      }
+      // Genuine text-only package: benign no-op.
       return Response.json(
         {
           ok: true,
@@ -223,6 +238,74 @@ interface ResolvedVideoJob {
   // ISO timestamp of the last status change (migration 014). Used to detect a
   // stuck `processing` job for recovery.
   updatedAt: string | null;
+}
+
+/**
+ * Authoritative video requirement: production run plan video platforms when
+ * present; otherwise any content_item on a default video platform.
+ */
+async function packageRequiresVideoJob(
+  supabase: SupabaseClient,
+  projectId: string,
+  contentPackageId: string,
+): Promise<boolean> {
+  const { data: items, error: itemErr } = await supabase
+    .from("content_items")
+    .select("id, platform, generation_metadata")
+    .eq("package_id", contentPackageId)
+    .eq("project_id", projectId);
+  if (itemErr) throw itemErr;
+  const rows = (items ?? []) as Array<{
+    id: string;
+    platform: string;
+    generation_metadata: Record<string, unknown> | null;
+  }>;
+  if (rows.length === 0) return false;
+
+  const runId = rows
+    .map((r) => r.generation_metadata?.production_run_id)
+    .find((id): id is string => typeof id === "string" && id.length > 0);
+
+  if (runId) {
+    const { data: run, error: runErr } = await supabase
+      .from("production_runs")
+      .select("requested_config")
+      .eq("id", runId)
+      .eq("project_id", projectId)
+      .maybeSingle();
+    if (runErr) throw runErr;
+    const cfg = run?.requested_config;
+    if (cfg && typeof cfg === "object" && !Array.isArray(cfg)) {
+      const plan = (cfg as Record<string, unknown>).plan;
+      if (plan && typeof plan === "object" && !Array.isArray(plan)) {
+        const active = (plan as Record<string, unknown>).activeVideoPlatforms;
+        if (Array.isArray(active) && active.length > 0) return true;
+        const outputs = (plan as Record<string, unknown>).platformOutputs;
+        if (
+          Array.isArray(outputs) &&
+          outputs.some(
+            (o) =>
+              o &&
+              typeof o === "object" &&
+              (o as Record<string, unknown>).kind === "video",
+          )
+        ) {
+          return true;
+        }
+        // Explicit empty video list on a run plan → text-only.
+        if (Array.isArray(active) && active.length === 0) return false;
+      }
+    }
+  }
+
+  // Fallback: package has an item on a typical video platform.
+  const VIDEO_PLATFORMS = new Set([
+    "tiktok",
+    "instagram",
+    "youtube",
+    "facebook",
+  ]);
+  return rows.some((r) => VIDEO_PLATFORMS.has(r.platform));
 }
 
 // Resolves the target video job, scoped by project. video_jobs has no

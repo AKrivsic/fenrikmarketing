@@ -22,6 +22,46 @@ export interface TopicConcreteSignals {
   productHint: string;
 }
 
+/**
+ * Derive a short place/industry noun — never a long strategy title.
+ * Deterministic; no LLM.
+ */
+export function deriveShortIndustryCue(
+  topic: string,
+  productIs?: readonly string[],
+): string {
+  const t = topic.toLowerCase();
+  const patterns: Array<[RegExp, string]> = [
+    [/\bbeauty salon\b/, "beauty salon"],
+    [/\bsalon\b/, "salon"],
+    [/\bmarketing agency\b/, "marketing agency"],
+    [/\blawyer|law firm|attorney|legal\b/, "law practice"],
+    [/\baccountant|accounting|bookkeep|cpa\b/, "accounting practice"],
+    [/\bsaas\b|\bsoftware (company|platform|startup)\b/, "SaaS website"],
+    [/\bclinic\b|dentist|dental\b/, "clinic"],
+    [/\brestaurant\b|diner\b/, "restaurant"],
+    [/\bhvac\b|cooling service\b/, "HVAC service"],
+    [/\bcar dealer|auto dealer\b/, "car dealer"],
+    [/\bconsult(ant|ing)\b/, "consulting firm"],
+    [/\be.?commerce|online store\b/, "online store"],
+    [/\bsmall business\b/, "small business"],
+  ];
+  for (const [re, cue] of patterns) {
+    if (re.test(t)) return cue;
+  }
+  const product = (productIs ?? []).find((x) => x.trim())?.trim();
+  if (product) {
+    const short = product.split(/[;—,.(]/)[0]?.trim() ?? "";
+    if (short.length > 0 && short.length <= 48) return short;
+    if (short.length > 48) return `${short.slice(0, 45)}…`;
+  }
+  // Long narrative titles ("The X who…") → generic place, never verbatim title.
+  if (topic.trim().length > 48 || /^the\s+/i.test(topic.trim())) {
+    return "website-led business";
+  }
+  return topic.trim().slice(0, 40) || "website-led business";
+}
+
 const HVAC_FORBIDDEN_FOR_OTHERS = [
   "heatwave",
   "blazing heat",
@@ -59,7 +99,6 @@ export function extractTopicConcreteSignals(
   opts?: { productIs?: readonly string[] },
 ): TopicConcreteSignals {
   const blob = `${topic} ${angle ?? ""}`;
-  const lower = blob.toLowerCase();
   const rawTokens: string[] = [];
   const productHint =
     (opts?.productIs ?? []).find((x) => x.trim())?.trim() ||
@@ -184,8 +223,8 @@ export function extractTopicConcreteSignals(
     topicAnchors = ["restaurant", "kitchen", "reservation", "website"];
     forbiddenProps = [...HVAC_FORBIDDEN_FOR_OTHERS, "technician", "heatwave"];
   } else {
-    industryCue =
-      topic.trim().slice(0, 80) || "this website-led business";
+    // Never use a long strategy title as a physical place / industry cue.
+    industryCue = deriveShortIndustryCue(topic, opts?.productIs);
     stressCue = /\bmidnight|after.?hours|offline|away|vacation/i.test(blob)
       ? "after-hours silence"
       : "peak demand overload";
@@ -193,13 +232,15 @@ export function extractTopicConcreteSignals(
     consequenceCue = "every unanswered online lead walks to a competitor";
     settingCue = "business website moment / empty reply thread";
     topicAnchors = [
-      ...topic
+      ...industryCue
         .split(/\W+/)
-        .filter((x) => x.length > 4)
-        .slice(0, 6)
+        .filter((x) => x.length > 3)
+        .slice(0, 4)
         .map((x) => x.toLowerCase()),
       "website",
       "visitor",
+      "chatbot",
+      "unanswered",
     ];
     forbiddenProps = [...HVAC_FORBIDDEN_FOR_OTHERS];
   }
@@ -208,11 +249,6 @@ export function extractTopicConcreteSignals(
     for (const w of topic.split(/\W+/).filter((x) => x.length > 4).slice(0, 4)) {
       push(w.toLowerCase());
     }
-  }
-
-  // Prefer concrete industry nouns over the vague "website-led service business" trap
-  if (world === "web_service" && /\bwebsite\b/i.test(blob) && !/\bhvac|dental|restaurant|accountant/i.test(blob)) {
-    // keep topic slice as industryCue already
   }
 
   return {

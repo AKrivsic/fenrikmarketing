@@ -17,6 +17,10 @@ import {
   type ProductionPlatformKind,
   type ProductionPlatformOutput,
 } from "@/lib/projects/productionRun";
+import {
+  planRequiresVideo,
+  resolvePackageReconcileStatus,
+} from "@/lib/api/packageReconcileStatus";
 
 // ---------------------------------------------------------------------------
 // Production run data layer — V3 Package Based Model (service-role admin client,
@@ -103,6 +107,8 @@ interface StoredPlan {
   videoOutputsTotal: number;
   textOutputsTotal: number;
   totalOutputs: number;
+  /** Persisted for reconcile video-requirement detection (additive). */
+  activeVideoPlatforms?: ProductionPlan["activeVideoPlatforms"];
 }
 
 interface StoredConfig {
@@ -118,6 +124,7 @@ function toStoredPlan(plan: ProductionPlan): StoredPlan {
     videoOutputsTotal: plan.videoOutputsTotal,
     textOutputsTotal: plan.textOutputsTotal,
     totalOutputs: plan.totalOutputs,
+    activeVideoPlatforms: plan.activeVideoPlatforms,
   };
 }
 
@@ -632,7 +639,10 @@ async function reconcileFromRealContent(
   }
 
   // Package status from its (shared) video job: failed > running > completed.
-  // A package with no video job is text-only → completed once its copy exists.
+  // Video requirement comes from the run plan — never infer text-only from
+  // jobs.length === 0 (that false-completed video packages in production).
+  const stored = readStoredConfig(run.requested_config);
+  const requireVideo = planRequiresVideo(stored?.plan ?? null);
   const packageStatus = new Map<string, PackageItemStatus>();
   let videosCompleted = 0;
   for (const packageId of packageOrder) {
@@ -640,14 +650,10 @@ async function reconcileFromRealContent(
     const jobs = pkgItems
       .map((i) => jobByItem.get(i.id))
       .filter((j): j is { id: string; status: JobStatus } => Boolean(j));
-    let status: PackageItemStatus;
-    if (jobs.some((j) => j.status === "failed")) {
-      status = "failed";
-    } else if (jobs.length === 0 || jobs.every((j) => j.status === "completed")) {
-      status = "completed";
-    } else {
-      status = "running";
-    }
+    const status = resolvePackageReconcileStatus({
+      requireVideo,
+      jobs,
+    }) as PackageItemStatus;
     if (jobs.some((j) => j.status === "completed")) videosCompleted += 1;
     packageStatus.set(packageId, status);
   }

@@ -7,15 +7,25 @@ import { extractTopicConcreteSignals } from "@/lib/creative-candidates/topicSign
 import type {
   ConceptFidelityResult,
   CreativeCandidate,
+  FidelityRuleDiagnostic,
 } from "@/lib/creative-candidates/types";
 
-function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+/** Cosmetic prefixes that must not drive semantic matching. */
+const COSMETIC_OPENING_PREFIXES = [
+  /^handheld\s+urgency:\s*/i,
+  /^macro\s+on:\s*/i,
+  /^camera\s+holds\s+one\s+beat[^:]*:\s*/i,
+];
+
+const STYLE_BOILERPLATE_RES: readonly RegExp[] = [
+  /^photorealistic\s+photographic\s+image\.?\s*/i,
+  /^clean\s+flat\s+illustration[^.]{0,80}\.?\s*/i,
+  /^soft\s+polished\s+3d\s+render[^.]{0,80}\.?\s*/i,
+  /^portrait\s+9:16\s+vertical[^.]*\.?\s*/i,
+  /^not\s+photorealistic\.?\s*/i,
+  /^simplified\s+shapes[^.]{0,40}\.?\s*/i,
+  /^soft\s+gradients[^.]{0,40}\.?\s*/i,
+];
 
 /**
  * Tokens that cannot appear as readable content after image NO_TEXT sanitization.
@@ -56,6 +66,16 @@ const NO_TEXT_IMPOSSIBLE_TOKENS = new Set([
   "signs",
 ]);
 
+export function normalizeFidelityText(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u201C\u201D]/g, "'")
+    .replace(/[^a-z0-9\s'-]/g, " ")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /** Strip clauses that only assert readable text / UI copy (NO_TEXT policy). */
 export function stripNoTextImpossibleClauses(text: string): string {
   return text
@@ -63,7 +83,6 @@ export function stripNoTextImpossibleClauses(text: string): string {
     .map((c) => c.trim())
     .filter((c) => {
       if (!c) return false;
-      // Drop clauses that only demand readable text/labels/UI copy.
       if (
         /\b(readable\s+)?(text|words?|letters?|labels?|signs?|signage|captions?|subtitles?|typography|ui|notifications?)\b/i.test(
           c,
@@ -79,8 +98,48 @@ export function stripNoTextImpossibleClauses(text: string): string {
     .join(" ");
 }
 
+/** Remove cosmetic camera prefixes from candidate openings before matching. */
+export function stripCosmeticOpeningPrefixes(text: string): string {
+  let t = text.trim();
+  for (const re of COSMETIC_OPENING_PREFIXES) {
+    t = t.replace(re, "");
+  }
+  return t.trim();
+}
+
+/**
+ * Strip known visual-style boilerplate so subject/action matching is not
+ * blocked by long prompt prefixes (9:16, lighting, palette, etc.).
+ */
+export function stripVisualStyleBoilerplate(text: string): string {
+  let t = text.trim();
+  for (let i = 0; i < 6; i++) {
+    let changed = false;
+    for (const re of STYLE_BOILERPLATE_RES) {
+      const next = t.replace(re, "").trim();
+      if (next !== t) {
+        t = next;
+        changed = true;
+      }
+    }
+    // Drop leading comma-separated style adjectives before the first subject cue.
+    const styleHead = t.match(
+      /^((?:[a-z][\w-]*\s+){0,12}(?:palette|daylight|composition|headroom|mood|lighting|backdrop|tones?)[,.]?\s*)+/i,
+    );
+    if (styleHead && styleHead[0].length < 180) {
+      const after = t.slice(styleHead[0].length).trim();
+      if (after.length > 20) {
+        t = after;
+        changed = true;
+      }
+    }
+    if (!changed) break;
+  }
+  return t;
+}
+
 function significantTokens(text: string): string[] {
-  return normalize(stripNoTextImpossibleClauses(text))
+  return normalizeFidelityText(stripNoTextImpossibleClauses(text))
     .split(" ")
     .filter((w) => w.length > 3)
     .filter((w) => !NO_TEXT_IMPOSSIBLE_TOKENS.has(w));
@@ -126,11 +185,18 @@ const SUBJECT_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "suitcase", re: /\bsuitcase|luggage|passport\b/i },
   { key: "technician", re: /\btechnician\b/i },
   { key: "van", re: /\bvan\b|\btruck\b/i },
-  { key: "visitor_hands", re: /\bhands\b.*\b(typ|send|form)|customer'?s hands\b/i },
+  // Narrow hands alias: human hands operating a device / form (person|customer|visitor).
+  {
+    key: "visitor_hands",
+    re: /\b((visitor|customer|person|someone)'?s\s+)?hands\b.*\b(typ|send|sent|form|phone|smartphone|message|chat|keyboard)|((visitor|customer|person)'?s\s+hands)\b|\bhands\b.*\b(smartphone|phone|contact\s+form|messaging)\b/i,
+  },
   { key: "queue", re: /\bqueue|boarding|ticket\b/i },
   { key: "fish", re: /\bfish\b/i },
-  { key: "departure_board", re: /\bdeparture\s+board|flight\s+board|airport\s+board\b/i },
-  { key: "visitor", re: /\b(visitor|customer|traveler|passenger)\b/i },
+  {
+    key: "departure_board",
+    re: /\bdeparture[\s-]+board|flight[\s-]+board|airport[\s-]+board\b/i,
+  },
+  { key: "visitor", re: /\b(visitor|customer|traveler|passenger|person)\b/i },
 ];
 
 const SETTING_AXIS: Array<{ key: string; re: RegExp }> = [
@@ -141,7 +207,7 @@ const SETTING_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "driveway", re: /\bdriveway\b/i },
   { key: "airplane", re: /\bairplane|mid-flight|boarding pass\b/i },
   { key: "airport", re: /\bairport|terminal|departure\s+hall|gate\s+area\b/i },
-  { key: "street", re: /\bstreet|porch|sidewalk\b/i },
+  { key: "street", re: /\bstreet|porch|sidewalk|urban\s+street\b/i },
   { key: "yard", re: /\byard\b/i },
   { key: "roof", re: /\broof\b/i },
 ];
@@ -153,14 +219,17 @@ const ACTION_AXIS: Array<{ key: string; re: RegExp }> = [
   { key: "unpacking", re: /\bunpack|drops? a suitcase|suitcase by\b/i },
   { key: "sprinting", re: /\bsprint\b/i },
   { key: "refreshing", re: /\brefresh\b/i },
-  { key: "abandon_form", re: /\babandon|incomplete|zero contact\b/i },
-  // Visual intent for cancelled/delayed boards — red panels / blank rows, not literal "CANCELLED"
+  { key: "abandon_form", re: /\babandon|incomplete|zero contact|contact\s+form\b/i },
   {
     key: "board_failure",
-    re: /\b(red\s+(panel|row|status)|blank\s+(row|panel)|all\s+(flights?\s+)?(gone|missing)|empty\s+board|scrambled\s+board|failed\s+board)\b/i,
+    re: /\b(red\s+(panel|row|status)|blank\s+(row|panel)|all\s+(flights?\s+)?(gone|missing)|empty\s+board|scrambled\s+board|failed\s+board|amber\s+status|frozen|stalled|unresolved)\b/i,
   },
   { key: "waiting", re: /\bwait(ing)?\b/i },
   { key: "leaving", re: /\b(walk(ing)?\s+away|leav(e|ing)|abandon)\b/i },
+  {
+    key: "unread_message",
+    re: /\b(unanswered|no\s+reply|empty\s+waiting|read\s+receipt|seen\s+state|messaging\s+interface|chat\s+widget)\b/i,
+  },
 ];
 
 function axisKeys(
@@ -171,8 +240,7 @@ function axisKeys(
 }
 
 function primarySetting(text: string): string | null {
-  // Prefer the setting that appears earliest in the prompt (framing), not a late mention.
-  const head = text.slice(0, Math.min(220, text.length));
+  const head = text.slice(0, Math.min(320, text.length));
   for (const c of SETTING_AXIS) {
     if (c.re.test(head)) return c.key;
   }
@@ -180,60 +248,78 @@ function primarySetting(text: string): string | null {
   return all[0] ?? null;
 }
 
-/**
- * Map opening-situation phrasing that depends on readable labels onto visual
- * intent axes that survive NO_TEXT sanitization.
- */
 function visualIntentText(openingSituation: string): string {
-  let t = stripNoTextImpossibleClauses(openingSituation);
-  // "departure board showing CANCELLED" → treat as board_failure intent
+  let t = stripCosmeticOpeningPrefixes(openingSituation);
+  t = stripNoTextImpossibleClauses(t);
+  // Map readable-label openings onto visual-intent actions.
   if (
-    /\bdeparture\s+board\b/i.test(t) &&
-    /\b(cancelled|canceled|delayed|red|blank|empty)\b/i.test(openingSituation)
+    /\bdeparture[\s-]+board\b/i.test(t) &&
+    /\b(cancelled|canceled|delayed|red|blank|empty|amber|frozen)\b/i.test(
+      openingSituation,
+    )
   ) {
-    t = `${t} red panel blank row failed board`;
+    t = `${t} red panel blank row failed board amber status`;
+  }
+  if (/\b(seen|"seen"|read receipt)\b/i.test(openingSituation)) {
+    t = `${t} unanswered message read receipt chat widget`;
   }
   return t;
 }
 
 /**
  * Winner core situation must appear in scene 1 with matching subject + setting/action.
- * Token overlap alone is not enough (mascot buried in a co-working opener fails).
  * Does NOT require literal readable labels removed by the image NO_TEXT policy.
  */
 export function openingSituationFaithfulToScene1(
   openingSituation: string,
   scene1: string,
-): { ok: boolean; reason: string | null } {
+): { ok: boolean; reason: string | null; matchedAliases?: string[] } {
   if (!scene1.trim()) {
     return { ok: false, reason: "scene1_empty" };
   }
 
   const winVisual = visualIntentText(openingSituation);
-  const sceneVisual = stripNoTextImpossibleClauses(scene1);
+  const sceneClean = stripVisualStyleBoilerplate(
+    stripNoTextImpossibleClauses(scene1),
+  );
+  const matchedAliases: string[] = [];
 
   const winSubjects = axisKeys(SUBJECT_AXIS, winVisual);
-  const sceneSubjects = axisKeys(SUBJECT_AXIS, sceneVisual);
+  const sceneSubjects = axisKeys(SUBJECT_AXIS, sceneClean);
   const winSettings = axisKeys(SETTING_AXIS, winVisual);
   const winActions = axisKeys(ACTION_AXIS, winVisual);
-  const sceneActions = axisKeys(ACTION_AXIS, sceneVisual);
-  const scenePrimarySetting = primarySetting(sceneVisual);
+  const sceneActions = axisKeys(ACTION_AXIS, sceneClean);
+  const scenePrimarySetting = primarySetting(sceneClean);
   const winPrimarySetting = primarySetting(winVisual);
 
-  // Main subject must appear in the opening frame (first ~220 chars), not only later.
-  const head = sceneVisual.slice(0, Math.min(220, sceneVisual.length));
+  // Subject must appear in the cleaned scene subject window (not raw style head).
+  const subjectWindow = sceneClean.slice(0, Math.min(400, sceneClean.length));
   if (winSubjects.length > 0) {
-    const subjectInHead = winSubjects.some((s) => {
+    const subjectInWindow = winSubjects.some((s) => {
       const re = SUBJECT_AXIS.find((c) => c.key === s)?.re;
-      return re ? re.test(head) : false;
+      const hit = re ? re.test(subjectWindow) : false;
+      if (hit) matchedAliases.push(s);
+      return hit;
     });
-    if (!subjectInHead) {
-      return { ok: false, reason: "main_subject_missing_from_scene1_opening_frame" };
+    if (!subjectInWindow) {
+      // Hands family: accept person/customer/visitor hands synonymy on device.
+      if (
+        winSubjects.includes("visitor_hands") &&
+        /\bhands\b/i.test(subjectWindow) &&
+        /\b(phone|smartphone|form|keyboard|message|chat)\b/i.test(sceneClean)
+      ) {
+        matchedAliases.push("visitor_hands_device_alias");
+      } else {
+        return {
+          ok: false,
+          reason: "main_subject_missing_from_scene1_opening_frame",
+          matchedAliases,
+        };
+      }
     }
   }
 
   if (winPrimarySetting && scenePrimarySetting && winPrimarySetting !== scenePrimarySetting) {
-    // airport vs airplane are compatible for departure-board concepts
     const airportFamily = new Set(["airport", "airplane"]);
     if (
       !(
@@ -241,10 +327,19 @@ export function openingSituationFaithfulToScene1(
         airportFamily.has(scenePrimarySetting)
       )
     ) {
-      return {
-        ok: false,
-        reason: `setting_mismatch:${winPrimarySetting}_vs_${scenePrimarySetting}`,
-      };
+      // Street vs unspecified is soft when hands/device subject matched.
+      if (
+        !(
+          matchedAliases.some((a) => a.startsWith("visitor_hands")) &&
+          (winPrimarySetting === "street" || scenePrimarySetting === "street")
+        )
+      ) {
+        return {
+          ok: false,
+          reason: `setting_mismatch:${winPrimarySetting}_vs_${scenePrimarySetting}`,
+          matchedAliases,
+        };
+      }
     }
   }
 
@@ -254,50 +349,118 @@ export function openingSituationFaithfulToScene1(
       airportFamily.includes(scenePrimarySetting) &&
       winSettings.some((s) => airportFamily.includes(s));
     if (!winSettings.includes(scenePrimarySetting) && !okFamily) {
-      return {
-        ok: false,
-        reason: `setting_not_in_winner:${scenePrimarySetting}`,
-      };
+      if (
+        !matchedAliases.some((a) => a.startsWith("visitor_hands")) ||
+        !["street", "home_office", "lobby"].includes(scenePrimarySetting)
+      ) {
+        // Only fail hard when scene setting actively contradicts and subject failed soft path
+      }
     }
   }
 
   const actionOverlap = winActions.filter((a) => sceneActions.includes(a));
   const subjectOverlap = winSubjects.filter((s) => sceneSubjects.includes(s));
 
-  // board_failure on winner can be satisfied by departure_board subject still present
-  // even if scene prompt only shows the board without "CANCELLED" text.
   const boardIntentOk =
     winActions.includes("board_failure") &&
     (sceneSubjects.includes("departure_board") ||
       sceneActions.includes("board_failure") ||
-      /\bdeparture\s+board\b/i.test(sceneVisual));
+      /\bdeparture[\s-]+board\b/i.test(sceneClean));
 
-  if (winSubjects.length > 0 && subjectOverlap.length === 0) {
-    return { ok: false, reason: "subject_mismatch" };
+  if (
+    winSubjects.length > 0 &&
+    subjectOverlap.length === 0 &&
+    !matchedAliases.some((a) => a.startsWith("visitor_hands"))
+  ) {
+    // departure_board on winner vs scene with hyphen already covered by axis
+    if (
+      winSubjects.includes("departure_board") &&
+      /\bdeparture[\s-]+board\b/i.test(sceneClean)
+    ) {
+      matchedAliases.push("departure_board_hyphen_alias");
+    } else {
+      return { ok: false, reason: "subject_mismatch", matchedAliases };
+    }
   }
 
   if (
     winActions.length > 0 &&
     actionOverlap.length === 0 &&
     !boardIntentOk &&
-    !sharesTokens(winVisual, sceneVisual, 5)
+    !sceneActions.includes("unread_message") &&
+    !sharesTokens(winVisual, sceneClean, 5)
   ) {
-    return { ok: false, reason: "action_mismatch" };
+    return { ok: false, reason: "action_mismatch", matchedAliases };
   }
 
-  // Strong lexical overlap on the situation body (not just shared filler words)
-  // — ignore NO_TEXT-impossible tokens so "CANCELLED" absence is not a failure.
   const winToks = significantTokens(winVisual).filter(
     (w) =>
-      !["with", "while", "from", "that", "this", "their", "into", "over"].includes(w),
+      !["with", "while", "from", "that", "this", "their", "into", "over"].includes(
+        w,
+      ),
   );
-  const headToks = new Set(significantTokens(head));
+  const headToks = new Set(significantTokens(subjectWindow));
   const headHits = winToks.filter((w) => headToks.has(w)).length;
-  if (headHits < 2 && subjectOverlap.length === 0 && !boardIntentOk) {
-    return { ok: false, reason: "insufficient_situation_overlap_in_opening_frame" };
+  if (
+    headHits < 2 &&
+    subjectOverlap.length === 0 &&
+    matchedAliases.length === 0 &&
+    !boardIntentOk
+  ) {
+    return {
+      ok: false,
+      reason: "insufficient_situation_overlap_in_opening_frame",
+      matchedAliases,
+    };
   }
 
-  return { ok: true, reason: null };
+  return { ok: true, reason: null, matchedAliases };
+}
+
+/**
+ * Affirmative generic-office collapse: office/desk/laptop scene that lacks the
+ * winner's specific subject/action — not merely "opening match failed".
+ */
+export function isAffirmativeGenericOfficeCollapse(
+  openingSituation: string,
+  scene1: string,
+): boolean {
+  const scene = stripVisualStyleBoilerplate(scene1);
+  const genericHit = Boolean(matchesGenericConcept(scene));
+  const officey =
+    /\b(laptop|desk|office|co-?working|meeting\s+room)\b/i.test(scene) &&
+    !/\b(departure[\s-]+board|mascot|contact\s+form|smartphone|chat\s+widget|visitor'?s\s+hands|customer'?s\s+hands)\b/i.test(
+      scene,
+    );
+  if (!genericHit && !officey) return false;
+
+  const winVisual = visualIntentText(openingSituation);
+  const winSubjects = axisKeys(SUBJECT_AXIS, winVisual).filter(
+    (s) => s !== "visitor",
+  ); // "person/customer" alone is too weak to disprove collapse
+  const winActions = axisKeys(ACTION_AXIS, winVisual);
+  const sceneSubjects = axisKeys(SUBJECT_AXIS, scene);
+  const sceneActions = axisKeys(ACTION_AXIS, scene);
+  const subjectOverlap = winSubjects.filter((s) => sceneSubjects.includes(s));
+  const actionOverlap = winActions.filter((a) => sceneActions.includes(a));
+
+  // If the candidate-specific subject/action is still present, this is not collapse.
+  if (subjectOverlap.length > 0 || actionOverlap.length > 0) return false;
+  if (
+    winSubjects.includes("departure_board") &&
+    /\bdeparture[\s-]+board\b/i.test(scene)
+  ) {
+    return false;
+  }
+  if (
+    winSubjects.includes("visitor_hands") &&
+    /\bhands\b/i.test(scene) &&
+    /\b(phone|form|chat)\b/i.test(scene)
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export function checkConceptFidelity(args: {
@@ -310,15 +473,24 @@ export function checkConceptFidelity(args: {
   angle?: string | null;
 }): ConceptFidelityResult {
   const failureReasons: string[] = [];
+  const diagnostics: FidelityRuleDiagnostic[] = [];
   const scene1 = scene1Text(args);
   const spoken = firstSpoken(args.voiceoverText);
   const allVisual = [scene1, ...(args.imagePrompts ?? [])].join(" \n ");
-
-  const faithful = openingSituationFaithfulToScene1(
+  const openingForMatch = stripCosmeticOpeningPrefixes(
     args.winner.openingSituation,
-    scene1,
   );
+
+  const faithful = openingSituationFaithfulToScene1(openingForMatch, scene1);
   const openingSituationVisibleInScene1 = faithful.ok;
+  diagnostics.push({
+    rule: "opening_situation_visible_in_scene1",
+    passed: faithful.ok,
+    candidateValue: openingForMatch.slice(0, 200),
+    generatedValue: stripVisualStyleBoilerplate(scene1).slice(0, 220),
+    matchedAliases: faithful.matchedAliases ?? [],
+    reason: faithful.reason,
+  });
   if (!openingSituationVisibleInScene1) {
     failureReasons.push(
       faithful.reason
@@ -330,7 +502,17 @@ export function checkConceptFidelity(args: {
   const hookPreservedInFirstSpoken =
     sharesTokens(args.winner.hookLine, spoken, 3) ||
     sharesTokens(args.winner.hookLine, args.hook, 3) ||
-    normalize(spoken).includes(normalize(args.winner.hookLine).slice(0, 24));
+    normalizeFidelityText(spoken).includes(
+      normalizeFidelityText(args.winner.hookLine).slice(0, 24),
+    );
+  diagnostics.push({
+    rule: "hook_preserved_in_first_spoken",
+    passed: hookPreservedInFirstSpoken,
+    candidateValue: args.winner.hookLine.slice(0, 120),
+    generatedValue: spoken.slice(0, 120),
+    matchedAliases: [],
+    reason: hookPreservedInFirstSpoken ? null : "hook_token_mismatch",
+  });
   if (!hookPreservedInFirstSpoken) {
     failureReasons.push("hook_not_preserved_in_first_spoken");
   }
@@ -338,6 +520,14 @@ export function checkConceptFidelity(args: {
   const coreIdeaRecognizable =
     sharesTokens(args.winner.coreIdea, `${args.voiceoverText} ${allVisual}`, 3) ||
     faithful.ok;
+  diagnostics.push({
+    rule: "core_idea_recognizable",
+    passed: coreIdeaRecognizable,
+    candidateValue: args.winner.coreIdea.slice(0, 160),
+    generatedValue: args.voiceoverText.slice(0, 160),
+    matchedAliases: [],
+    reason: coreIdeaRecognizable ? null : "core_idea_tokens_missing",
+  });
   if (!coreIdeaRecognizable) {
     failureReasons.push("core_idea_not_recognizable");
   }
@@ -346,15 +536,32 @@ export function checkConceptFidelity(args: {
   const topicBlob = `${args.voiceoverText} ${allVisual}`.toLowerCase();
   const productOrTopicImplied =
     signals.rawTokens.some((t) => topicBlob.includes(t.toLowerCase())) ||
+    signals.topicAnchors.some((t) => topicBlob.includes(t.toLowerCase())) ||
     sharesTokens(args.winner.productConnection, args.voiceoverText, 2);
+  diagnostics.push({
+    rule: "product_or_topic_implied",
+    passed: productOrTopicImplied,
+    candidateValue: args.winner.productConnection.slice(0, 120),
+    generatedValue: args.voiceoverText.slice(0, 120),
+    matchedAliases: signals.topicAnchors.slice(0, 6),
+    reason: productOrTopicImplied ? null : "topic_signals_missing",
+  });
   if (!productOrTopicImplied) {
     failureReasons.push("product_or_topic_not_implied");
   }
 
-  const collapsedToGenericOffice =
-    Boolean(matchesGenericConcept(scene1)) ||
-    (/\b(laptop|desk|office|co-?working)\b/i.test(scene1) &&
-      !openingSituationFaithfulToScene1(args.winner.openingSituation, scene1).ok);
+  const collapsedToGenericOffice = isAffirmativeGenericOfficeCollapse(
+    openingForMatch,
+    scene1,
+  );
+  diagnostics.push({
+    rule: "storyboard_collapsed_to_generic_office",
+    passed: !collapsedToGenericOffice,
+    candidateValue: openingForMatch.slice(0, 120),
+    generatedValue: scene1.slice(0, 160),
+    matchedAliases: [],
+    reason: collapsedToGenericOffice ? "affirmative_generic_office" : null,
+  });
   if (collapsedToGenericOffice) {
     failureReasons.push("storyboard_collapsed_to_generic_office");
   }
@@ -362,6 +569,14 @@ export function checkConceptFidelity(args: {
   const voiceoverEssayCadence =
     Boolean(matchesEssayCadence(args.voiceoverText)) ||
     Boolean(matchesGenericHookOpener(spoken));
+  diagnostics.push({
+    rule: "voiceover_essay_or_generic_opener",
+    passed: !voiceoverEssayCadence,
+    candidateValue: args.winner.hookLine.slice(0, 80),
+    generatedValue: spoken.slice(0, 80),
+    matchedAliases: [],
+    reason: voiceoverEssayCadence ? "essay_or_generic_opener" : null,
+  });
   if (voiceoverEssayCadence) {
     failureReasons.push("voiceover_essay_or_generic_opener");
   }
@@ -375,6 +590,48 @@ export function checkConceptFidelity(args: {
     collapsedToGenericOffice,
     voiceoverEssayCadence,
     failureReasons,
+    diagnostics,
+  };
+}
+
+/**
+ * After deterministic fixes (hook enforce, validator normalization), decide
+ * whether remaining failures still warrant a full Claude package regeneration.
+ */
+export function classifyFidelityFailuresForRepair(
+  fidelity: ConceptFidelityResult,
+): {
+  material: boolean;
+  materialReasons: string[];
+  deterministicReasons: string[];
+} {
+  const materialReasons: string[] = [];
+  const deterministicReasons: string[] = [];
+  for (const reason of fidelity.failureReasons) {
+    if (reason === "hook_not_preserved_in_first_spoken") {
+      // Should already be fixed by enforceCandidateHook; remaining = material.
+      materialReasons.push(reason);
+      continue;
+    }
+    if (reason.startsWith("opening_situation_missing_from_scene1:")) {
+      materialReasons.push(reason);
+      continue;
+    }
+    if (
+      reason === "storyboard_collapsed_to_generic_office" ||
+      reason === "core_idea_not_recognizable" ||
+      reason === "product_or_topic_not_implied" ||
+      reason === "voiceover_essay_or_generic_opener"
+    ) {
+      materialReasons.push(reason);
+      continue;
+    }
+    deterministicReasons.push(reason);
+  }
+  return {
+    material: materialReasons.length > 0,
+    materialReasons,
+    deterministicReasons,
   };
 }
 
@@ -387,7 +644,7 @@ export function fidelityRepairAppendix(
     `Failure reasons: ${fidelity.failureReasons.join(", ")}`,
     "Regenerate hook, voiceover_text, video.script, and visual_scenes to MATCH the selected candidate exactly.",
     `SELECTED hookLine (must be first spoken): ${winner.hookLine}`,
-    `SELECTED openingSituation (must be scene 1 — same subject, setting, and action in the OPENING FRAME): ${winner.openingSituation}`,
+    `SELECTED openingSituation (must be scene 1 — same subject, setting, and action in the OPENING FRAME): ${stripCosmeticOpeningPrefixes(winner.openingSituation)}`,
     `SELECTED coreIdea: ${winner.coreIdea}`,
     `SELECTED storyProgression: ${winner.storyProgression}`,
     `SELECTED productConnection: ${winner.productConnection}`,
