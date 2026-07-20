@@ -150,11 +150,17 @@ export interface FidelityRuleDiagnostic {
 export interface ConceptFidelityResult {
   passed: boolean;
   openingSituationVisibleInScene1: boolean;
+  /** Opening event/action meaning survives in scene 1 (not only token overlap). */
+  openingEventPreservedInScene1: boolean;
+  /** Hook / stop-scroll idea survives in first spoken + opening visual. */
+  stopScrollIdeaPreserved: boolean;
   hookPreservedInFirstSpoken: boolean;
   coreIdeaRecognizable: boolean;
   productOrTopicImplied: boolean;
   collapsedToGenericOffice: boolean;
   voiceoverEssayCadence: boolean;
+  /** First spoken is a sales/CTA pitch (product presence alone is OK). */
+  salesPitchOpening: boolean;
   failureReasons: string[];
   /** Structured per-rule evidence for telemetry / debugging (optional). */
   diagnostics?: FidelityRuleDiagnostic[];

@@ -9,6 +9,7 @@ import {
   commercialTotal,
   scoreCommercialSuccess,
 } from "@/lib/creative-candidates/commercialScore";
+import { familyCommercialMetadata } from "@/lib/creative-candidates/familyMetadata";
 import type {
   CreativeCandidate,
   CreativeCandidateScores,
@@ -82,6 +83,24 @@ export function scoreCreativeCandidate(
   visualSpecificity += boost.visualSpecificity ?? 0;
   storyPotential += boost.storyPotential ?? 0;
   originality += boost.originality ?? 0;
+
+  // FAM-1: stop-strong families with concrete, renderable opening props keep
+  // stop/memorability credit (Attention First) — industry-agnostic event cues.
+  const meta = familyCommercialMetadata(candidate.family);
+  const concreteEvent =
+    /\b(walk(?:ing|s)?\s+away|unanswered|rival|competitor|before\s+you|stack|pile|mountain|melting|argument|fight|frozen|waiting|seen\s+by\s+nobody|overflow|leaving|dies?\s+in\s+silence)\b/i.test(
+      `${candidate.openingSituation} ${candidate.hookLine}`,
+    );
+  if (
+    (candidate.family === "visual_exaggeration" ||
+      candidate.family === "consequence_first") &&
+    concreteEvent &&
+    !meta.requires_readable_text
+  ) {
+    stopPower += 1;
+    memorability += 1;
+    visualSpecificity += 1;
+  }
 
   // Topic specificity
   const tokenHits = signals.rawTokens.filter((t) =>

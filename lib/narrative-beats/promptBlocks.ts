@@ -27,8 +27,16 @@ export function buildNarrativeBeatPromptBlock(
     "Required arc: HOOK → SETUP → ESCALATION → RESOLUTION",
     "Every beat must introduce NEW INFORMATION (not just a new camera or device).",
     "Never let two consecutive beats communicate the same claim",
-    "(e.g. phone unanswered → laptop unanswered is still a failure).",
+    "(e.g. unanswered channel A → unanswered channel B is still a failure).",
     "Prefer: anomaly → problem named → cost/failure → solution.",
+    "",
+    "OPENING MEANING BLOCK (Attention First):",
+    "- HOOK is the first meaning unit of the story — complete the curiosity/stakes spike",
+    "  before SETUP explains or lectures.",
+    "- Voiceover: the first spoken meaning unit MUST finish the hook thought;",
+    "  SETUP information starts only after that unit.",
+    "- Visual: visual_scenes[0] carries the HOOK event/meaning — not SETUP exposition.",
+    "- Tempo may vary; do not pad SETUP into the opening meaning block.",
     "",
   ];
 

@@ -3,6 +3,7 @@ import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageG
 import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import { prepareSceneRaster } from "@/lib/scene-types/renderers/types";
 import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
+import { withTelemetry } from "@/lib/ai/telemetry";
 
 export interface GenerateSceneImagesInput {
   scenes: Scene[];
@@ -42,6 +43,27 @@ export async function generateSceneImages(
 }
 
 export async function generateSceneImagesWithTelemetry(
+  input: GenerateSceneImagesInput,
+): Promise<GenerateSceneImagesResult> {
+  return withTelemetry(
+    {
+      stepName: "Image generation",
+      provider: "image",
+      model: "gpt-image-1",
+      inputSummary: `Image generation input:\n- ${input.scenes.length} scene(s)\n- Visual profile / medium`,
+      outputSummary: (r) =>
+        `generated=${r.generatedImageCount}; reused=${r.reusedVisualAssetCount}`,
+      measureOutput: (r) => ({
+        generatedImageCount: r.generatedImageCount,
+        reusedVisualAssetCount: r.reusedVisualAssetCount,
+        sceneCount: r.images.length,
+      }),
+    },
+    () => generateSceneImagesWithTelemetryInner(input),
+  );
+}
+
+async function generateSceneImagesWithTelemetryInner(
   input: GenerateSceneImagesInput,
 ): Promise<GenerateSceneImagesResult> {
   const { scenes } = input;

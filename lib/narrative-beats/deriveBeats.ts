@@ -182,7 +182,7 @@ export function deriveNarrativeBeats(args: {
         whatChanged: "",
         whyContinue: clip(
           w.expectedViewerQuestion ||
-            `What happens after: ${w.hookLine}`,
+            `Open loop: what happens after — ${w.hookLine}`,
         ),
         sourceFields: ["openingSituation", "hookLine", "expectedViewerQuestion"],
         modeBeatLabels: modeMap.HOOK,
@@ -196,10 +196,10 @@ export function deriveNarrativeBeats(args: {
           setupProgression || w.coreIdea || w.visualPromise,
         ),
         whatChanged: clip(
-          `From cold open to the established problem world (${w.emotionalReaction || "tension"}).`,
+          `After the hook meaning unit lands: name the problem world (${w.emotionalReaction || "tension"}).`,
         ),
         whyContinue: clip(
-          `Stakes become clear — ${w.coreIdea || "the cost of inaction"}.`,
+          `Stakes become clear — ${w.coreIdea || "the cost of inaction"}. Do not start this as the first spoken thought.`,
         ),
         sourceFields: ["storyProgression", "coreIdea", "emotionalReaction"],
         modeBeatLabels: modeMap.SETUP,

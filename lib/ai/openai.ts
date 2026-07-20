@@ -22,6 +22,7 @@ import type {
   TranscriptionResult,
   WordTimestamp,
 } from "@/lib/ai/types";
+import { extractProviderUsage } from "@/lib/ai/telemetry/usage";
 
 const CHAT_URL = "https://api.openai.com/v1/chat/completions";
 const IMAGE_URL = "https://api.openai.com/v1/images/generations";
@@ -103,11 +104,17 @@ export class OpenAITextProvider implements TextProvider {
     }
 
     const data = (await res.json()) as ChatResponse;
+    const usage = extractProviderUsage(data);
     return {
       text: data.choices?.[0]?.message?.content ?? "",
       model: data.model ?? model,
       provider: this.name,
       raw: data,
+      usage: {
+        prompt_tokens: usage.prompt_tokens,
+        completion_tokens: usage.completion_tokens,
+        cached_tokens: usage.cached_tokens,
+      },
     };
   }
 }

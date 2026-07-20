@@ -14,6 +14,8 @@ export interface PersistProductionStrategyPlanArgs {
   evergreenIds: Set<string>;
   platform: PlatformType;
   format: ContentFormat;
+  /** Optional pipeline telemetry (additive; ignored by older callers). */
+  generationTelemetry?: Record<string, unknown>;
 }
 
 export async function persistProductionStrategyPlan(
@@ -45,6 +47,9 @@ export async function persistProductionStrategyPlan(
         production_run_id: productionRunId,
         theme: plan.theme,
         funnel_distribution: plan.funnel_distribution,
+        ...(args.generationTelemetry
+          ? { generation_telemetry: args.generationTelemetry }
+          : {}),
       } as unknown as Record<string, unknown>,
     })
     .select("id")

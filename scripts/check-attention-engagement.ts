@@ -387,6 +387,20 @@ check("strong hook is not diluted into generic setup", () => {
   assert.ok(!/^Most businesses/i.test(r.voiceover_text));
 });
 
+check("lockToHook never promotes weaker VO over candidate hook", () => {
+  const r = alignHookWithFirstSpoken({
+    hook: "Competitor wins before you pick up.",
+    voiceoverText:
+      "Here's what nobody tells you. Leads slip away while the phone rings.",
+    lockToHook: true,
+  });
+  assert.equal(r.aligned, true);
+  assert.equal(r.reason, "locked_hook_applied_to_voiceover");
+  assert.equal(r.hook, "Competitor wins before you pick up.");
+  assert.ok(r.voiceover_text.startsWith("Competitor wins before you pick up."));
+  assert.ok(!/Here's what nobody/i.test(r.voiceover_text));
+});
+
 // --- 11–13 delivery arc -----------------------------------------------------
 
 section("emotional delivery arc");

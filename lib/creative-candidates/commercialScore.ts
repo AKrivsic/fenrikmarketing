@@ -13,17 +13,17 @@ function clamp10(n: number): number {
 }
 
 /**
- * Commercial Success weights — calibrated so commercialTotal can outweigh
- * originality-driven creative swings (~15 pts from originality weight 1.5×10)
- * and comparative novelty bonuses.
+ * Commercial Success weights — used inside the stop-scroll shortlist (phase 2).
+ * Must not be so large that commercial alone overturns a far-stronger stop
+ * candidate from outside the shortlist (see comparativeJudge two-phase policy).
  */
 export const COMMERCIAL_SCORE_WEIGHTS = {
-  renderability: 3.5,
+  renderability: 3.0,
   firstFrameClarity: 3.5,
-  productDemonstrability: 3.0,
+  productDemonstrability: 2.5,
   humanProblemVisibility: 3.0,
-  narrativeSurvivability: 2.5,
-  commercialSurvivability: 2.5,
+  narrativeSurvivability: 2.0,
+  commercialSurvivability: 2.0,
 } as const;
 
 export const COMMERCIAL_SUCCESS_VERSION = "commercial-success@1" as const;
@@ -33,8 +33,47 @@ function openingBlob(candidate: CreativeCandidate): string {
 }
 
 /**
- * Deterministic commercial dimensions from family metadata + text heuristics
- * grounded in the image-model / production audits (NO_TEXT, blank UI, etc.).
+ * True when the opening names a stakes/action/consequence beat — high
+ * information density for scroll-stop (industry-agnostic).
+ */
+function hasMeaningfulOpeningEvent(text: string): boolean {
+  return /\b(walk(?:ing|s|ed)?\s+away|leave|leaving|unanswered|no\s+reply|never\s+(comes|came|answers?)|dies?\s+in\s+silence|rival|competitor|before\s+you|too\s+late|missed|frozen|argument|fight|conflict|consequence|cost|losing|lost|fails?|failure|stack(?:ing|s|ed)?|overflow|pile|mountain|melting|breaking|broken|empty\s+(?:bed|crib|chair|seat|slot|inbox|thread|queue)|waiting|seen\s+by\s+nobody|nobody\s+(answers?|replies)|mid-(?:action|pitch|call|sentence))\b/i.test(
+    text,
+  );
+}
+
+/**
+ * Low-information opening: static staging with no stakes, action, contrast,
+ * or curiosity cue. Calm can be fine; empty-of-meaning is not.
+ */
+function isLowInformationOpening(text: string): boolean {
+  if (hasMeaningfulOpeningEvent(text)) return false;
+  if (
+    /\b(why|what\s+if|nobody|never|instead|versus|vs\.?|before|after|wrong|right|only|still|already|yet)\b/i.test(
+      text,
+    )
+  ) {
+    return false;
+  }
+  return /\b(generic|interchangeable|decorative|abstract\s+(shapes?|shapes)|empty\s+environment|no\s+subject|stock\s+staging)\b/i.test(
+    text,
+  );
+}
+
+/**
+ * Opening depends on readable labels/numbers to land meaning (NO_TEXT risk).
+ * Industry-agnostic: labeled rows, status words, notification copy, KPIs.
+ */
+function dependsOnReadableText(text: string): boolean {
+  return /\b(readable\s+text|labeled\s+rows?|status\s+(board|panel|lights?)|notification\s+stack|kpi|typography|signage|captioned|with\s+labels?\b|boarding|delayed|cancelled|canceled|#\d+)\b/i.test(
+    text,
+  );
+}
+
+/**
+ * Deterministic commercial dimensions from family metadata + text heuristics.
+ * Penalize low-information and text-dependent opens; reward meaningful events.
+ * Do not encode industry- or location-specific bans.
  */
 export function scoreCommercialSuccess(
   candidate: CreativeCandidate,
@@ -48,51 +87,43 @@ export function scoreCommercialSuccess(
   let productDemonstrability = meta.product_visibility;
   let humanProblemVisibility = meta.human_problem_strength;
   let narrativeSurvivability = meta.commercial_reliability;
-  // Start from family commercial reliability; refine below
   let commercialSurvivability = meta.commercial_reliability;
 
   if (meta.requires_readable_text) {
     renderability -= 2;
     firstFrameClarity -= 2;
-    narrativeSurvivability -= 2;
+    narrativeSurvivability -= 1;
   }
   if (meta.requires_real_product_asset) {
     productDemonstrability -= 1;
   }
   if (meta.metaphor_risk >= 7) {
     firstFrameClarity -= 1;
+    narrativeSurvivability -= 1;
+    commercialSurvivability -= 1;
+  }
+
+  if (dependsOnReadableText(open)) {
+    renderability -= 3;
+    firstFrameClarity -= 3;
     narrativeSurvivability -= 2;
     commercialSurvivability -= 2;
   }
 
-  // Text-dependent / diagram concepts — historically fail under NO_TEXT
+  // Abstract symbolic interfaces without a human situation
   if (
-    /\b(departure\s*board|status\s*board|boarding|delayed|phone\s*caller|#\d+|dual\s*clocks?|kpi|notification\s*stack|readable\s*text|labeled\s+rows?)\b/i.test(
+    /\b(glowing\s+(dashboard|tablet|panel|screen)|abstract\s+(ui|dashboard|system)|symbolic\s+interface)\b/i.test(
       open,
     )
   ) {
-    renderability -= 4;
-    firstFrameClarity -= 4;
-    narrativeSurvivability -= 3;
-    commercialSurvivability -= 3;
+    renderability -= 2;
+    firstFrameClarity -= 2;
+    productDemonstrability -= 1;
   }
 
-  // Abstract symbolic interfaces / glow dashboards
-  if (
-    /\b(glowing\s+(dashboard|tablet|panel|screen)|abstract\s+(ui|dashboard|system)|control\s*panel|status\s*lights?|symbolic\s+interface)\b/i.test(
-      open,
-    )
-  ) {
-    renderability -= 3;
-    firstFrameClarity -= 3;
-    productDemonstrability -= 2;
-    commercialSurvivability -= 2;
-  }
-
-  // AI-invented product UI without human situation
   if (
     /\b(dashboard|analytics\s+screen|fake\s+ui|invented\s+ui)\b/i.test(blob) &&
-    !/\b(hands?|person|customer|visitor|walk|phone\s+call|meeting|pitch)\b/i.test(
+    !/\b(hands?|person|customer|visitor|walk|phone\s+call|meeting|pitch|patient|guest|client|buyer)\b/i.test(
       open,
     )
   ) {
@@ -100,21 +131,23 @@ export function scoreCommercialSuccess(
     firstFrameClarity -= 1;
   }
 
-  // Human problem / situation-first boosts (pipeline-safe)
-  if (
-    /\b(hands?|person|customer|visitor|owner|founder|staff|walking\s+away|walks?\s+out|leave|leaving|argument|pitch|meeting|phone\s+to\s+(the\s+)?ear|on\s+the\s+phone|checkout|wallet|freeze|frozen)\b/i.test(
-      open,
-    )
-  ) {
+  // Meaningful opening event — boost clarity / human problem (Attention First)
+  if (hasMeaningfulOpeningEvent(open)) {
     humanProblemVisibility += 2;
     firstFrameClarity += 1;
     renderability += 1;
     commercialSurvivability += 1;
   }
 
-  // Product can be shown as answering / chat / app action
+  if (isLowInformationOpening(open)) {
+    firstFrameClarity -= 3;
+    humanProblemVisibility -= 2;
+    commercialSurvivability -= 2;
+  }
+
+  // Product can be shown as answering / action in-world (not sales pitch)
   if (
-    /\b(chat\s+(answer|reply|respond)|answers?\s+visitor|typing\s+indicator|app\s+recommend|product\s+ui|blueprint|framed\s+(asset|laptop)|services?\s+page\s+with\s+no\s+reply)\b/i.test(
+    /\b(chat\s+(answer|reply|respond)|answers?\s+(visitor|guest|patient|client|buyer)|typing\s+indicator|app\s+recommend|product\s+ui|framed\s+(asset|laptop)|no\s+reply)\b/i.test(
       blob,
     )
   ) {
@@ -130,13 +163,6 @@ export function scoreCommercialSuccess(
     !/\b(chat\s+answer|message\s+bubbles?|product\s+ui|framed)\b/i.test(blob)
   ) {
     productDemonstrability -= 2;
-  }
-
-  // Mascot / outdoor absurd spectacle — Identity historically relocates
-  if (/\b(mascot|melting|parking\s*lot\s+heat|costume)\b/i.test(open)) {
-    narrativeSurvivability -= 3;
-    commercialSurvivability -= 2;
-    firstFrameClarity -= 1;
   }
 
   return {
@@ -221,6 +247,10 @@ function primaryPenalties(s: ScoredCreativeCandidate): string[] {
 export function buildSelectionDiagnostics(
   scored: readonly ScoredCreativeCandidate[],
   winner: ScoredCreativeCandidate,
+  extras?: {
+    stopShortlistIds?: readonly string[];
+    maxStopPowerInPool?: number;
+  },
 ): SelectionDiagnostics {
   const commercial = winner.commercialScores!;
   const contributions = commercialDimensionContributions(commercial);
@@ -247,10 +277,26 @@ export function buildSelectionDiagnostics(
     creativeLeader!.candidate.candidateId !== winner.candidate.candidateId &&
     creativeLeader!.weightedTotal > winner.weightedTotal;
 
+  const stopLeaders = [...scored].sort(
+    (a, b) => b.scores.stopPower - a.scores.stopPower,
+  );
+  const stopLeader = stopLeaders[0];
+  const overturnedStopLeader =
+    Boolean(stopLeader) &&
+    stopLeader!.candidate.candidateId !== winner.candidate.candidateId &&
+    stopLeader!.scores.stopPower > winner.scores.stopPower;
+
   const whyWon = [
     `final_selection_score=${(winner.finalSelectionScore ?? 0).toFixed(1)}`,
     `creative_score=${winner.weightedTotal.toFixed(1)}`,
     `commercial_score=${(winner.commercialTotal ?? 0).toFixed(1)}`,
+    `stop=${winner.scores.stopPower}`,
+    extras?.maxStopPowerInPool != null
+      ? `max_stop_in_pool=${extras.maxStopPowerInPool}`
+      : null,
+    extras?.stopShortlistIds
+      ? `stop_shortlist=${extras.stopShortlistIds.join(",")}`
+      : null,
     `family=${winner.candidate.family}`,
     `renderability=${commercial.renderability}`,
     `first_frame_clarity=${commercial.firstFrameClarity}`,
@@ -261,7 +307,12 @@ export function buildSelectionDiagnostics(
     overturnedCreativeLeader
       ? `overturned_higher_creative=${creativeLeader!.candidate.candidateId}(creative=${creativeLeader!.weightedTotal.toFixed(1)})`
       : "also_led_or_tied_creative",
-  ].join("; ");
+    overturnedStopLeader
+      ? `commercial_chose_within_stop_shortlist_vs=${stopLeader!.candidate.candidateId}(stop=${stopLeader!.scores.stopPower})`
+      : "led_or_tied_stop_in_shortlist",
+  ]
+    .filter((x): x is string => Boolean(x))
+    .join("; ");
 
   return {
     version: COMMERCIAL_SUCCESS_VERSION,

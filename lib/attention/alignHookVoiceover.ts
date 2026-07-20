@@ -5,10 +5,16 @@ import { matchesGenericSetupOpener } from "@/lib/attention/cliches";
  * Prefer the stronger of (hook, first voiceover sentence) when the voiceover
  * opens with a diluted generic setup while the hook is punchier — or when the
  * voiceover already opens stronger than a weak hook.
+ *
+ * When `lockToHook` is true (Creative Candidate selected), never promote a
+ * weaker/different voiceover opening over the canonical hook — only apply the
+ * hook onto the voiceover opening if they diverge.
  */
 export function alignHookWithFirstSpoken(args: {
   hook: string;
   voiceoverText: string;
+  /** When true, never replace the stored hook with a VO opening. */
+  lockToHook?: boolean;
 }): { hook: string; voiceover_text: string; aligned: boolean; reason: string } {
   const hook = (args.hook ?? "").trim();
   const voiceover = (args.voiceoverText ?? "").trim();
@@ -43,6 +49,19 @@ export function alignHookWithFirstSpoken(args: {
     };
   }
 
+  if (args.lockToHook) {
+    const rest = voiceover
+      .slice(openingUnit.length)
+      .replace(/^\s*[,;:—-]?\s*/, "");
+    const rebuilt = rest ? `${hook} ${rest}`.replace(/\s+/g, " ").trim() : hook;
+    return {
+      hook,
+      voiceover_text: rebuilt,
+      aligned: true,
+      reason: "locked_hook_applied_to_voiceover",
+    };
+  }
+
   const hookIsGeneric = !!matchesGenericSetupOpener(hook);
   const firstIsGeneric = !!matchesGenericSetupOpener(openingUnit);
   const hookStronger =
@@ -63,6 +82,7 @@ export function alignHookWithFirstSpoken(args: {
   }
 
   // Voiceover opening is stronger — promote it to the stored hook.
+  // Never do this when lockToHook (handled above).
   return {
     hook: openingUnit.replace(/[.!?]+$/, "").trim() || hook,
     voiceover_text: voiceover,

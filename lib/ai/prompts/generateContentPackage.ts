@@ -544,8 +544,9 @@ export function buildGenerateContentPackagePrompt(
       "with the actually surprising; if contrarian, take a real stance; if story, " +
       "stay in one scene. Never sand it down into safe, generic marketing.",
     "- Open ONE curiosity loop (tension / contrast / an unanswered question) in " +
-      "the hook and pay it off LATE (the reveal / twist / punchline near the end), " +
-      "never in the first sentence.",
+      "the opening meaning block and pay it off LATE (the reveal / twist / punchline " +
+      "near the end), never by explaining the topic first.",
+    "- Attention ≠ chaos: optimize information value and curiosity, not aggression.",
     "- Bound by CREATIVE SAFETY above: no lies, no invented numbers / results, no " +
       "forbidden_claims, no product_is_not. Attention is NOT ragebait or fake claims.",
   ];
@@ -593,6 +594,9 @@ export function buildGenerateContentPackagePrompt(
     "  Prefer short sentences. Use contrast (belief → reversal). Land one idea per breath.",
     "  Put a natural pause before the reveal. Emphasize the turn — not every clause equally.",
     "  Avoid long equally-paced sentences that read like an essay.",
+    "- AFTER THE OPENING MEANING BLOCK: the next spoken thought must raise cost,",
+    "  contradiction, surprise, or consequence — do NOT restate the topic as setup/lecture.",
+    "  A short bridge clause (≤6 words) is allowed only when the mode truly needs it.",
     `- PREFERRED STORY ARC: ${preferredArc}. Favor a real TWIST (an early turn / ` +
       "reversal) and land the PAYOFF late, just before the CTA. Map it onto the " +
       "MODE BEATS above — do not flatten it into a linear explanation.",
@@ -605,7 +609,7 @@ export function buildGenerateContentPackagePrompt(
 
   // Hook block. The final narration line differs for text-only (no visual beats).
   const hookLines = [
-    "HOOK V2 (the first 3 seconds — make it dramatically stronger):",
+    "HOOK V2 (opening meaning block — make it dramatically stronger):",
     `- Write the hook in the "${directives.hook.id}" HOOK ARCHETYPE above: ${directives.hook.instruction}`,
     "- Open on a concrete moment: pull from the SCENARIO POOL, a sharp PAIN",
     "  POINT, or a striking PROOF point above. Never use a generic intro.",
@@ -613,7 +617,10 @@ export function buildGenerateContentPackagePrompt(
     "  set up a loop the rest of the video keeps open until the payoff.",
     "- ATTENTION ALIGNMENT: the stored hook and the first spoken line of",
     "  voiceover_text MUST be the same thought — never dilute a strong hook",
-    "  into a weaker voiceover setup. First spoken thought lands in ~1.0–1.8s.",
+    "  into a weaker voiceover setup. The opening spoken thought must land as",
+    "  one complete meaning unit (short phrase or two ultra-short phrases).",
+    "- When a Creative Candidate winner is present, its hookLine is canonical:",
+    "  do not invent a softer opening than that hookLine.",
     ...(requireVideo
       ? [
           `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
@@ -682,12 +689,28 @@ export function buildGenerateContentPackagePrompt(
         "- Lifestyle, environment, and consequence scenes are allowed when they remain",
         "  inside the selected Creative DNA world.",
         "",
+        "OPENING PRIORITY RESOLVER (mandatory — Attention First):",
+        "When instructions conflict for the FIRST visual / opening meaning block, apply this order:",
+        "1) Creative Candidate openingSituation + hookLine (the stop-scroll idea) — never replace or sand down.",
+        "2) Opening Contract / Attention Mechanism first-visual guidance (amplify the winner).",
+        "3) Creative DNA world (if present) — stay inside that world.",
+        "4) Creative Identity — treatment only: lighting, camera, color, composition, visual language.",
+        "   Identity MUST NOT change location, environment, main event, or openingSituation.",
+        "5) Visual Narrative / Scene Meaning — clarify the event's meaning; do not swap the event.",
+        "Penalize only LOW-INFORMATION openings: frames that add no new meaning and no curiosity",
+        "in the opening meaning block. Calm, empty, or quiet frames are allowed when they carry",
+        "a clear stakes/absence/consequence meaning. Decorative empties with no readable situation are not.",
+        "Product may appear in the opening when it is part of the hook situation.",
+        "Forbidden in the opening meaning block: sales pitch, offer language, CTA, pricing,",
+        "or 'buy / book / sign up / learn more' as the first spoken or visual message.",
+        "Do not simplify the winner into a safer, more generic montage.",
+        "",
         "SCENE MEANING (priority over look):",
-        "For each image prompt, first determine what a viewer should understand within one second.",
-        "The image should communicate the main idea of the current scene using the Project Brain, Strategy Item and voiceover beat.",
+        "For each image prompt, first determine what a viewer should understand from that beat's meaning.",
+        "For the opening beat: communicate the winner's openingSituation event/meaning — not a generic theme illustration.",
         "Prioritize meaning over visual style.",
         "Describe concrete subjects, actions, environments and objects that naturally communicate that message.",
-        "Do not default to generic modern offices, decorative abstract shapes or empty environments unless they are essential to the scene.",
+        "Do not default to interchangeable stock staging or decorative empties with no situation meaning.",
         "",
         ...(input.visualNarrativePromptBlock
           ? [input.visualNarrativePromptBlock, ""]

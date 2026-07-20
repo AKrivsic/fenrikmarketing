@@ -8,6 +8,7 @@ import type {
   TextCompletionResult,
   TextProvider,
 } from "@/lib/ai/types";
+import { extractProviderUsage } from "@/lib/ai/telemetry/usage";
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const DEFAULT_MODEL =
@@ -81,12 +82,18 @@ export class ClaudeProvider implements TextProvider {
       .filter((b) => b.type === "text" && typeof b.text === "string")
       .map((b) => b.text as string)
       .join("");
+    const usage = extractProviderUsage(data);
 
     return {
       text,
       model: data.model ?? model,
       provider: this.name,
       raw: data,
+      usage: {
+        prompt_tokens: usage.prompt_tokens,
+        completion_tokens: usage.completion_tokens,
+        cached_tokens: usage.cached_tokens,
+      },
     };
   }
 }

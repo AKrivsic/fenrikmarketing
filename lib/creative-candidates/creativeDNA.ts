@@ -268,23 +268,16 @@ function deriveImmutableRules(args: {
   const world = args.world.toLowerCase();
   const character = args.mainCharacter.toLowerCase();
 
-  if (/\bparking lot\b/.test(opening) || /\bparking lot\b/.test(world)) {
-    rules.push(
-      "Do not relocate the primary story into a generic office or co-working space",
-    );
-  } else if (/\bfish tank|aquarium\b/.test(opening) || /\bfish tank\b/.test(world)) {
-    rules.push("Do not replace the fish-tank metaphor with a laptop dashboard montage");
-    rules.push("Do not relocate the story into a generic office without the tank");
-  } else if (!/\boffice|co-?working|desk\b/.test(world)) {
-    rules.push(
-      `Do not relocate the primary story away from: ${trimSentence(args.world, 90)}`,
-    );
-  }
+  // Always lock to the authored world / opening event (industry-agnostic).
+  rules.push(
+    `Do not relocate the primary story away from: ${trimSentence(args.world, 90)}`,
+  );
+  rules.push(
+    "Do not replace the opening event with a low-information empty environment of the same theme",
+  );
 
   if (/\bmascot\b/.test(opening) || /\bmascot\b/.test(character)) {
     rules.push("Do not replace the mascot as the main visual subject");
-  } else if (/\bfish tank|aquarium\b/.test(character) || /\bfish\b/.test(character)) {
-    rules.push("Do not replace the fish tank as the recurring visual subject");
   } else if (!/primary recurring visual motif/i.test(args.mainCharacter)) {
     rules.push(
       `Do not replace the main character: ${trimSentence(args.mainCharacter, 90)}`,
@@ -292,23 +285,22 @@ function deriveImmutableRules(args: {
   }
 
   if (
-    /no generic office|no .*laptop montage|laptop montage/i.test(args.visualPromise) ||
-    /\bparking lot\b|\bvan\b|\bstreet\b|\bdriveway\b|\bfish tank\b/.test(opening)
+    /no generic office|no .*laptop montage|laptop montage/i.test(args.visualPromise)
   ) {
-    rules.push("Do not turn the middle into a laptop analytics montage");
+    rules.push("Do not turn the middle into a generic device analytics montage");
   }
 
   rules.push(
     `Do not replace the core conflict (${trimSentence(args.coreConflict, 80)}) with a different marketing problem`,
   );
   rules.push(
-    "Do not resolve the story only with a happy expression; show that visitors receive answers",
+    "Do not resolve the story only with a happy expression; show that the problem state changes",
   );
   rules.push(
     `Do not reduce the product to a generic success mood; show or clearly communicate: ${trimSentence(args.productRole, 90)}`,
   );
 
-  return rules.slice(0, 6);
+  return rules.slice(0, 7);
 }
 
 /**
@@ -326,15 +318,12 @@ export function authorCreativeDNA(
   const opening = candidate.openingSituation;
   const blob = `${opening} ${candidate.coreIdea} ${candidate.hookLine}`;
 
-  // world: the opening's concrete world — not a generic business environment
+  // world: concrete opening world from the event — not a generic industry set
+  const eventClause = firstClause(opening);
   const world = trimSentence(
-    /\bfish tank|aquarium|parking lot|driveway|boarding|van|street|porch/i.test(
-      opening,
-    )
-      ? inferWorld(opening, ctx.signals)
-      : firstClause(opening).length >= 12
-        ? firstClause(opening)
-        : inferWorld(opening, ctx.signals),
+    eventClause.length >= 12
+      ? eventClause
+      : inferWorld(opening, ctx.signals),
     140,
   );
 
@@ -965,14 +954,32 @@ export function neutralizeIdentityEnvironmentForDna(
   identity: CreativeIdentity,
   dna: CreativeDNA,
 ): { identity: CreativeIdentity; suppressed: boolean } {
-  if (!identityEnvironmentConflictsWithDna(identity.environment, dna)) {
-    return { identity, suppressed: false };
-  }
+  // Attention First / ID-1: when DNA world exists, Identity NEVER keeps a
+  // separate place environment — treatment only inside dna.world.
   return {
     suppressed: true,
     identity: {
       ...identity,
       environment: `Apply visual treatment inside the canonical Creative DNA world: ${dna.world}`,
+    },
+  };
+}
+
+/**
+ * When a Creative Candidate openingSituation is present without DNA, lock
+ * Identity environment to treatment-inside-opening-world (never invent a place).
+ */
+export function neutralizeIdentityEnvironmentForOpening(
+  identity: CreativeIdentity,
+  openingSituation: string,
+): { identity: CreativeIdentity; suppressed: boolean } {
+  const world = openingSituation.replace(/\s+/g, " ").trim().slice(0, 220);
+  if (!world) return { identity, suppressed: false };
+  return {
+    suppressed: true,
+    identity: {
+      ...identity,
+      environment: `Apply visual treatment inside the opening situation world: ${world}`,
     },
   };
 }

@@ -32,6 +32,7 @@ export function buildCreativeIdentityPromptBlock(
         "Rules:",
         "- Apply the following visual treatment inside the canonical Creative DNA world.",
         "- Do NOT inject a different physical setting; Creative DNA.world is the mandatory location.",
+        "- Creative Identity controls style, camera, color, composition, lighting, visual language — NEVER location, environment, main event, or openingSituation.",
         "- Every image_prompt must express this SAME lighting/camera/composition/color treatment while depicting each beat's narrative subject in the DNA world.",
         "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
         "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
@@ -39,11 +40,13 @@ export function buildCreativeIdentityPromptBlock(
       ]
     : [
         "Rules:",
-        "- Every image_prompt must express this SAME identity while depicting each beat's narrative subject.",
+        "- Creative Identity controls style, camera, color, composition, lighting, visual language — NEVER location, environment, main event, or openingSituation.",
+        "- When a Creative Candidate openingSituation / DNA world is present, stay inside that world; identity is treatment only.",
+        "- Every image_prompt must express this SAME identity treatment while depicting each beat's narrative subject.",
         "- Scene meaning and Project Brain truth constraints override staging; identity adjusts HOW it looks, not WHAT the product is.",
         "- VISUAL NARRATIVE (when present above) decides WHAT carries meaning; identity decides how that world is lit, framed, and colored.",
         "- PROJECT VISUAL PROFILE still applies on top (treatment only).",
-        "- Do not revert to generic modern offices or interchangeable stock staging unless the beat requires it.",
+        "- Do not revert to interchangeable stock staging unless the beat requires it.",
       ];
 
   return [

@@ -10,7 +10,14 @@ export function scoreStopScroll(scene: string, scrollStopCue: string): number {
   const blob = `${scene} ${scrollStopCue}`;
   let score = 4;
 
-  if (VISUAL_ACTION_WORDS.test(blob)) score += 2;
+  if (VISUAL_ACTION_WORDS.test(blob)) score += 3;
+  if (
+    /\b(consequence|before\s+you|too\s+late|walk(?:ing)?\s+away|unanswered|rival|competitor)\b/i.test(
+      blob,
+    )
+  ) {
+    score += 1;
+  }
   if (blob.length >= 80 && blob.length <= 280) score += 1;
   if (/\b(close|wide|split|cut to|outside|inside|through the glass)\b/i.test(blob)) score += 0.5;
   if (ABSTRACT_EXPLAIN.test(blob)) score -= 2;

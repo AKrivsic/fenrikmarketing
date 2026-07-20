@@ -25,12 +25,19 @@ export const OFFICE_CLICHE_PATTERNS: readonly RegExp[] = [
 
 export const GENERIC_SETUP_OPENERS: readonly RegExp[] = [
   /^most\s+businesses\b/i,
+  /^most\s+people\b/i,
   /^everyone\s+says\b/i,
   /^here'?s\s+what\s+nobody\s+tells\s+you\b/i,
+  /^here'?s\s+the\s+mistake\b/i,
+  /^here'?s\s+what\b/i,
   /^in\s+today'?s\s+world\b/i,
   /^did\s+you\s+know\b/i,
   /^let'?s\s+talk\s+about\b/i,
+  /^let'?s\s+be\s+honest\b/i,
+  /^i'?ll\s+be\s+honest\b/i,
   /^many\s+people\s+struggle\b/i,
+  /^the\s+truth\s+is\b/i,
+  /^so\s+(here'?s|there'?s)\b/i,
 ];
 
 export function matchesOfficeCliche(text: string): string | null {

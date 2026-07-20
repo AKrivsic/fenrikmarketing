@@ -59,11 +59,11 @@ const MOTION_BY_STRUCTURE: Record<
 > = {
   immediate_reaction: "ATTENTION",
   split_choice: "ATTENTION",
-  frozen_consequence: "HOLD",
+  frozen_consequence: "ATTENTION",
   confession: "HOLD",
   bold_claim: "EMPHASIS",
-  visual_first_question: "HOLD",
-  held_then_punch: "HOLD",
+  visual_first_question: "ATTENTION",
+  held_then_punch: "ATTENTION",
   whispered_intimate: "HOLD",
   sudden_reveal: "REVEAL",
 };
@@ -91,18 +91,19 @@ export function buildOpeningContract(args: {
 
   const first_spoken_guidance = [
     `Open with an immediate reaction using ${spec.name} — not context or setup.`,
-    "The first spoken thought should land in ~1.0–1.8 seconds (one short phrase, or two very short phrases).",
+    "The opening spoken thought must be one complete meaning unit (one short phrase, or two ultra-short phrases) — not an unfinished setup.",
     "The stored hook MUST be the same thought as the first spoken line — do not dilute a strong hook into a weaker voiceover setup.",
     spec.script_guidance,
     `Narrative seed: ${args.originality.selected_narrative_seed}`,
   ].join(" ");
 
   const first_visual_guidance = [
-    "The first visual is an attention event, not a sentence illustration.",
+    "The first visual is an attention event with clear meaning — not a decorative sentence illustration.",
     spec.visual_guidance,
     `Preferred opening visual concept: ${args.originality.selected_visual_concept}`,
-    "Do not default to calm desks, empty boards, laptop+coffee, or faceless screen-staring unless that is genuinely the strongest idea.",
-    "Render coherently via Visual Narrative / Medium / Profile / Identity — attention chooses the idea, those systems choose the look.",
+    "Reject low-information openings: frames that add no stakes, curiosity, contrast, or situation meaning.",
+    "Calm or empty frames are fine when absence/stakes ARE the meaning; interchangeable stock staging with no situation is not.",
+    "Render coherently via Visual Narrative / Medium / Profile / Identity — attention chooses the idea; Identity is treatment only (never relocate the event).",
   ].join(" ");
 
   return {

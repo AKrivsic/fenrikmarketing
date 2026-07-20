@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { getSpeechProvider } from "@/lib/ai";
+import { withTelemetry } from "@/lib/ai/telemetry";
 
 export interface GenerateVoiceoverInput {
   text: string;
@@ -150,25 +151,42 @@ export async function probeMediaStreams(
 export async function generateVoiceover(
   input: GenerateVoiceoverInput,
 ): Promise<GenerateVoiceoverResult> {
-  const text = input.text.trim();
-  if (!text) {
-    throw new Error("generateVoiceover: text is required");
-  }
+  return withTelemetry(
+    {
+      stepName: "TTS",
+      provider: "tts",
+      model: "gpt-4o-mini-tts",
+      inputSummary: "TTS input:\n- Voiceover text\n- Voice / instructions",
+      outputSummary: (r) =>
+        `audio duration=${r.durationSeconds ?? "unknown"}s`,
+      measureInput: input.text,
+      measureOutput: (r) => ({
+        durationSeconds: r.durationSeconds,
+        audioPath: r.audioPath,
+      }),
+    },
+    async () => {
+      const text = input.text.trim();
+      if (!text) {
+        throw new Error("generateVoiceover: text is required");
+      }
 
-  const speech = getSpeechProvider();
-  const result = await speech.synthesize({
-    text,
-    format: "mp3",
-    ...(input.voice ? { voice: input.voice } : {}),
-    ...(input.instructions ? { instructions: input.instructions } : {}),
-  });
+      const speech = getSpeechProvider();
+      const result = await speech.synthesize({
+        text,
+        format: "mp3",
+        ...(input.voice ? { voice: input.voice } : {}),
+        ...(input.instructions ? { instructions: input.instructions } : {}),
+      });
 
-  const dir = workerTempDir();
-  await mkdir(dir, { recursive: true });
-  const audioPath = join(dir, `voiceover-${randomUUID()}.mp3`);
-  await writeFile(audioPath, Buffer.from(result.audioBase64, "base64"));
+      const dir = workerTempDir();
+      await mkdir(dir, { recursive: true });
+      const audioPath = join(dir, `voiceover-${randomUUID()}.mp3`);
+      await writeFile(audioPath, Buffer.from(result.audioBase64, "base64"));
 
-  const durationSeconds = await probeAudioDurationSeconds(audioPath);
+      const durationSeconds = await probeAudioDurationSeconds(audioPath);
 
-  return { audioPath, ...(durationSeconds ? { durationSeconds } : {}) };
+      return { audioPath, ...(durationSeconds ? { durationSeconds } : {}) };
+    },
+  );
 }

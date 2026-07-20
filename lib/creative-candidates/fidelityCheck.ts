@@ -566,6 +566,60 @@ export function checkConceptFidelity(args: {
     failureReasons.push("storyboard_collapsed_to_generic_office");
   }
 
+  // FID-1: opening EVENT / action meaning — not mere token overlap.
+  const winActions = axisKeys(ACTION_AXIS, visualIntentText(openingForMatch));
+  const sceneActions = axisKeys(
+    ACTION_AXIS,
+    stripVisualStyleBoilerplate(stripNoTextImpossibleClauses(scene1)),
+  );
+  const openingEventPreservedInScene1 =
+    winActions.length === 0
+      ? faithful.ok // stillness-with-meaning: subject/setting fidelity is enough
+      : winActions.some((a) => sceneActions.includes(a)) || faithful.ok;
+  diagnostics.push({
+    rule: "opening_event_preserved_in_scene1",
+    passed: openingEventPreservedInScene1,
+    candidateValue: winActions.join(",") || "(no_action_axis)",
+    generatedValue: sceneActions.join(",") || scene1.slice(0, 120),
+    matchedAliases: winActions.filter((a) => sceneActions.includes(a)),
+    reason: openingEventPreservedInScene1
+      ? null
+      : "opening_event_actions_missing_from_scene1",
+  });
+  if (!openingEventPreservedInScene1) {
+    failureReasons.push("opening_event_missing_from_scene1");
+  }
+
+  const stopScrollIdeaPreserved =
+    hookPreservedInFirstSpoken &&
+    (openingSituationVisibleInScene1 || openingEventPreservedInScene1);
+  diagnostics.push({
+    rule: "stop_scroll_idea_preserved",
+    passed: stopScrollIdeaPreserved,
+    candidateValue: args.winner.hookLine.slice(0, 120),
+    generatedValue: `${spoken.slice(0, 80)} | ${scene1.slice(0, 80)}`,
+    matchedAliases: [],
+    reason: stopScrollIdeaPreserved
+      ? null
+      : "stop_scroll_idea_diluted_or_relocated",
+  });
+  if (!stopScrollIdeaPreserved) {
+    failureReasons.push("stop_scroll_idea_not_preserved");
+  }
+
+  const salesPitchOpening = isSalesPitchOpening(spoken);
+  diagnostics.push({
+    rule: "sales_pitch_opening",
+    passed: !salesPitchOpening,
+    candidateValue: args.winner.hookLine.slice(0, 80),
+    generatedValue: spoken.slice(0, 80),
+    matchedAliases: [],
+    reason: salesPitchOpening ? "sales_cta_pricing_in_first_spoken" : null,
+  });
+  if (salesPitchOpening) {
+    failureReasons.push("sales_pitch_opening");
+  }
+
   const voiceoverEssayCadence =
     Boolean(matchesEssayCadence(args.voiceoverText)) ||
     Boolean(matchesGenericHookOpener(spoken));
@@ -584,14 +638,23 @@ export function checkConceptFidelity(args: {
   return {
     passed: failureReasons.length === 0,
     openingSituationVisibleInScene1,
+    openingEventPreservedInScene1,
+    stopScrollIdeaPreserved,
     hookPreservedInFirstSpoken,
     coreIdeaRecognizable,
     productOrTopicImplied,
     collapsedToGenericOffice,
     voiceoverEssayCadence,
+    salesPitchOpening,
     failureReasons,
     diagnostics,
   };
+}
+
+function isSalesPitchOpening(spoken: string): boolean {
+  return /\b(buy\s+now|sign\s+up(\s+now)?|book\s+now|book\s+a\s+demo|learn\s+more|limited\s+offer|%\s*off|discount|free\s+trial|subscribe\s+today|call\s+now|click\s+(here|below)|shop\s+now|get\s+started\s+today)\b/i.test(
+    spoken,
+  );
 }
 
 /**
@@ -609,11 +672,14 @@ export function classifyFidelityFailuresForRepair(
   const deterministicReasons: string[] = [];
   for (const reason of fidelity.failureReasons) {
     if (reason === "hook_not_preserved_in_first_spoken") {
-      // Should already be fixed by enforceCandidateHook; remaining = material.
       materialReasons.push(reason);
       continue;
     }
-    if (reason.startsWith("opening_situation_missing_from_scene1:")) {
+    if (
+      reason.startsWith("opening_situation_missing_from_scene1:") ||
+      reason === "opening_event_missing_from_scene1" ||
+      reason === "stop_scroll_idea_not_preserved"
+    ) {
       materialReasons.push(reason);
       continue;
     }
@@ -621,7 +687,8 @@ export function classifyFidelityFailuresForRepair(
       reason === "storyboard_collapsed_to_generic_office" ||
       reason === "core_idea_not_recognizable" ||
       reason === "product_or_topic_not_implied" ||
-      reason === "voiceover_essay_or_generic_opener"
+      reason === "voiceover_essay_or_generic_opener" ||
+      reason === "sales_pitch_opening"
     ) {
       materialReasons.push(reason);
       continue;
@@ -649,10 +716,13 @@ export function fidelityRepairAppendix(
     `SELECTED storyProgression: ${winner.storyProgression}`,
     `SELECTED productConnection: ${winner.productConnection}`,
     `SELECTED ending: ${winner.ending}`,
-    "Do NOT replace the opening with co-working / laptop / office / phone-stare imagery unless that IS the selected openingSituation.",
+    "Preserve the opening EVENT and stop-scroll idea — not a safer paraphrase.",
+    "Validate visual meaning: main subject, setting, and action/stakes must match the winner in scene 1.",
+    "Do NOT replace the opening with interchangeable stock staging unless that IS the selected openingSituation.",
     "Token-overlap alone is insufficient — main subject and setting must match the winner in the first beat of scene 1.",
-    "Do NOT open with 'Most businesses…' or essay cadence.",
+    "Do NOT open with generic essay cadence or sales/CTA/pricing as the first spoken meaning unit.",
+    "Product may appear in the opening when it is part of the hook situation; sales pitch is forbidden.",
     "Image NO_TEXT policy: do NOT require readable labels, signs, or UI copy in scene 1.",
-    "Match VISUAL INTENT (subject, place, action, emotion) — e.g. a departure board with red/blank rows is enough; literal 'CANCELLED' text is forbidden in images.",
+    "Match VISUAL INTENT (subject, place, action, emotion) — visual state is enough; literal labels are forbidden in images.",
   ].join("\n");
 }

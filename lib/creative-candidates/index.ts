@@ -47,6 +47,7 @@ export {
   validateCreativeDnaAgainstPackage,
   identityEnvironmentConflictsWithDna,
   neutralizeIdentityEnvironmentForDna,
+  neutralizeIdentityEnvironmentForOpening,
   CREATIVE_DNA_PROMPT_HEADER,
   CREATIVE_DNA_PROMPT_VERSION,
   CREATIVE_DNA_AUTHORING_INSTRUCTIONS,

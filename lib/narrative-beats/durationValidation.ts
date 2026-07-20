@@ -4,8 +4,8 @@ import { weightForNarrativeRole } from "@/lib/narrative-beats/durationWeights";
 /** Ending (RESOLUTION/CTA) must not dominate the video. */
 export const MAX_ENDING_SHARE = 0.32;
 
-/** Hook must stay short — curiosity, not lecture. */
-export const MAX_HOOK_SHARE = 0.28;
+/** Hook is a complete meaning unit — not a lecture, but may lead the open. */
+export const MAX_HOOK_SHARE = 0.32;
 
 /**
  * Escalation should not be shorter than setup without a clear reason

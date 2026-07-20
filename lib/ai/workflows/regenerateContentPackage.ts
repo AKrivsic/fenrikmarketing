@@ -87,6 +87,10 @@ import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateV
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
 import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
+import {
+  alignOnScreenCtaContract,
+  alignProductDemoNarration,
+} from "@/lib/content-package/alignProductDemoNarration";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -312,6 +316,8 @@ async function runRegenerateContentPackageUnchecked(
     series: seriesCreative,
     requireVideo,
     creativeDNA: selectedDna,
+    openingSituation:
+      creativeCandidates?.selectedCandidate?.openingSituation ?? null,
   });
 
   const visualNarrativePlan = planVisualNarrativeForPackage({
@@ -443,6 +449,7 @@ async function runRegenerateContentPackageUnchecked(
   let aligned = alignHookWithFirstSpoken({
     hook: generated.value.hook,
     voiceoverText: generated.value.voiceover_text,
+    lockToHook: Boolean(creativeCandidates),
   });
   generated.value.hook = aligned.hook;
   generated.value.voiceover_text = aligned.voiceover_text;
@@ -510,6 +517,7 @@ async function runRegenerateContentPackageUnchecked(
         aligned = alignHookWithFirstSpoken({
           hook: generated.value.hook,
           voiceoverText: generated.value.voiceover_text,
+          lockToHook: true,
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
@@ -576,6 +584,35 @@ async function runRegenerateContentPackageUnchecked(
     };
     ensureDemo(false);
 
+    const alignPresentationNarration = () => {
+      if (!generated.ok) return;
+      const demoAlign = alignProductDemoNarration({
+        voiceoverText: generated.value.voiceover_text,
+        visualScenes: generated.value.visual_scenes,
+        videoScript: generated.value.video?.script ?? null,
+      });
+      if (demoAlign.changed) {
+        generated.value.voiceover_text = demoAlign.voiceover_text;
+        if (generated.value.video && demoAlign.script !== null) {
+          generated.value.video = {
+            ...generated.value.video,
+            script: demoAlign.script,
+          };
+        }
+      }
+      const ctaAlign = alignOnScreenCtaContract({
+        videoScript: generated.value.video?.script ?? null,
+        visualScenes: generated.value.visual_scenes,
+      });
+      if (ctaAlign.changed && generated.value.video && ctaAlign.script !== null) {
+        generated.value.video = {
+          ...generated.value.video,
+          script: ctaAlign.script,
+        };
+      }
+    };
+    alignPresentationNarration();
+
     let storyIntegrity = validateStoryIntegrity({
       winner: creativeCandidates.selectedCandidate,
       voiceoverText: generated.value.voiceover_text,
@@ -623,6 +660,7 @@ async function runRegenerateContentPackageUnchecked(
         aligned = alignHookWithFirstSpoken({
           hook: generated.value.hook,
           voiceoverText: generated.value.voiceover_text,
+          lockToHook: true,
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
@@ -641,6 +679,7 @@ async function runRegenerateContentPackageUnchecked(
           regenerationReason,
         );
         ensureDemo(false);
+        alignPresentationNarration();
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -690,6 +729,7 @@ async function runRegenerateContentPackageUnchecked(
         ? `${regenerationReason};${demoReason}`
         : demoReason;
       ensureDemo(true);
+      alignPresentationNarration();
       productDemoIntegrity = validateProductDemonstrationIntegrity({
         winner: creativeCandidates.selectedCandidate,
         voiceoverText: generated.value.voiceover_text,
@@ -847,6 +887,18 @@ async function runRegenerateContentPackageUnchecked(
   const frequencyDecisions = applyPresentationFrequencyToPackage(pkg);
   if (frequencyDecisions.length > 0) {
     syncLegacyFieldsFromVisualScenes(pkg);
+  }
+  {
+    const ctaAlign = alignOnScreenCtaContract({
+      videoScript: pkg.video?.script ?? null,
+      visualScenes: pkg.visual_scenes,
+    });
+    if (ctaAlign.changed && pkg.video && ctaAlign.script !== null) {
+      pkg.video = {
+        ...pkg.video,
+        script: ctaAlign.script,
+      };
+    }
   }
   pkg.presentation_generation = {
     mode: resolveChecklistGenerationMode(),

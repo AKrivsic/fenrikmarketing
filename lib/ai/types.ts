@@ -119,6 +119,12 @@ export interface TextCompletionResult {
   model: string;
   provider: string;
   raw?: unknown;
+  /** Optional token usage when the provider response includes it (telemetry only). */
+  usage?: {
+    prompt_tokens: number | null;
+    completion_tokens: number | null;
+    cached_tokens: number | null;
+  };
 }
 
 export interface TextProvider {

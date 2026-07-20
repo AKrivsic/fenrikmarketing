@@ -4,6 +4,7 @@ import type { SeriesCreativeContext } from "@/lib/series/loadSeriesCreativeConte
 import type { CreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import {
   neutralizeIdentityEnvironmentForDna,
+  neutralizeIdentityEnvironmentForOpening,
   normalizeCreativeDNA,
 } from "@/lib/creative-candidates/creativeDNA";
 import {
@@ -29,6 +30,8 @@ export function planCreativeIdentityForPackage(args: {
   requireVideo: boolean;
   /** When present, conflicting Identity environment is neutralized. */
   creativeDNA?: CreativeDNA | null;
+  /** Candidate opening — locks Identity to treatment-only when DNA absent. */
+  openingSituation?: string | null;
 }): {
   identity: CreativeIdentity | null;
   /** Identity as used for prompts / image suffix (may have neutralized environment). */
@@ -64,9 +67,12 @@ export function planCreativeIdentityForPackage(args: {
   });
 
   const dna = normalizeCreativeDNA(args.creativeDNA ?? undefined);
+  const opening = (args.openingSituation ?? "").trim();
   const neutralized = dna
     ? neutralizeIdentityEnvironmentForDna(identity, dna)
-    : { identity, suppressed: false };
+    : opening
+      ? neutralizeIdentityEnvironmentForOpening(identity, opening)
+      : { identity, suppressed: false };
 
   return {
     identity,

@@ -32,22 +32,29 @@ export function buildVisualNarrativePromptBlock(
     `${VISUAL_STORY_DIRECTOR_PROMPT_HEADER} (${plan.director_version ?? VISUAL_STORY_DIRECTOR_VERSION}):`,
     "Think like a FILM DIRECTOR, not an illustration generator.",
     'Before every beat ask: "What is actually happening?" — THEN "What object could represent this?"',
-    "Visual Story Test (opening especially): if a stranger sees the image for one second with no explanation, " +
+    "Visual Story Test (opening especially): if a stranger grasps the opening meaning block with no explanation, " +
       "will the emotional relationship to the spoken idea feel obvious? If not, reject and film a clearer situation.",
+    "",
+    "OPENING BEAT (Attention First):",
+    "- The first visual is an interruptive meaning carrier for the winner's openingSituation —",
+    "  stakes, absence-with-meaning, action, contrast, or curiosity — not a mood board.",
+    "- Calm or empty frames are allowed when absence/stakes ARE the meaning.",
+    "- Low-information decorative empties with no situation meaning are rejected.",
+    "- Prefer high-contrast mid-action or consequence framing over interchangeable stock polish for beat 1.",
+    "- Project Visual Profile treatment may apply; do not use it to sand the opening into a safer generic still.",
     "",
     `Storytelling mode: ${plan.storytelling_mode ?? "situation_first"}`,
     `Situation framing: ${plan.preferred_situation_framing}`,
     "Metaphor policy: immediately understandable preferred; one mental step acceptable; " +
-      "anything that requires the prompt to explain is REJECTED (paper boat = visitor, closed notebook = website knowledge, " +
-      "abstract card = embed code, floating symbol = idea).",
+      "anything that requires the prompt to explain is REJECTED.",
     "Originality is unexpected-but-understandable — NOT abstraction, NOT randomness, NOT unusual-for-its-own-sake.",
-    "Do NOT return to corporate clichés (dashboards, calm desks, sticky notes, generic meetings) unless genuinely strongest.",
+    "Do NOT return to corporate clichés (fake dashboards, interchangeable stock staging, generic meetings) unless genuinely strongest.",
     "Do NOT invent visual riddles that look beautiful but need a caption.",
     "",
-    "GOOD (situation / clear metaphor): robot doing the work; cemetery of forgotten brands; person choosing family over work; " +
-      "empty restaurant; banana photographed for a post; customer walking away.",
-    "BAD (abstract riddle): paper boat; random notebook; generic workshop prop collage; abstract card; floating object; " +
-      "beautiful unrelated architecture.",
+    "GOOD (situation / clear metaphor): work being done by the wrong agent; forgotten demand piling up; " +
+      "person choosing what matters over the inbox; empty place that should be full; customer walking away.",
+    "BAD (abstract riddle): unexplained prop collage; floating symbol; beautiful unrelated architecture; " +
+      "decorative emptiness with no stakes.",
     "",
     `Primary meaning carrier for THIS package: ${plan.primary_meaning_carrier.toUpperCase()}`,
     `Subject focus: ${plan.subject_focus}`,
@@ -56,10 +63,10 @@ export function buildVisualNarrativePromptBlock(
     "Rules:",
     "- The primary carrier guides the PACKAGE; individual beats may shift when the story requires it.",
     "- Prefer human situations and readable events over lone symbolic objects.",
-    "- Laptops, phones, and desks are allowed when they are the honest best choice — they are NOT the default shortcut.",
+    "- Devices and desks are allowed when they are the honest best choice — they are NOT the default shortcut.",
     "- Stay believable and on-brand; grounded metaphor is welcome when instantly readable.",
-    "- CREATIVE IDENTITY controls staging continuity — lighting, mood, color — within the world you choose here. " +
-      "Identity is NOT permission to turn a digital product into a physical storefront or craft workshop riddle.",
+    "- CREATIVE IDENTITY controls treatment only — lighting, mood, color, camera, composition — " +
+      "NEVER location, environment, main event, or openingSituation.",
     "- If Attention chose dilemma / humor / curiosity / role reversal, film a situation that expresses that mechanism — " +
       "do not replace it with a symbolic object.",
     "",

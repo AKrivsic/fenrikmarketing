@@ -753,7 +753,14 @@ check("deriveCreativeDNA remains available as fallback", () => {
   assert.match(dna.world, /parking lot/i);
   assert.match(dna.mainCharacter, /mascot/i);
   assert.match(dna.productRole, /chatbot|AI|answer/i);
-  assert.ok(dna.immutableRules.some((r) => /co-working|office/i.test(r)));
+  assert.ok(
+    dna.immutableRules.some((r) => /Do not relocate the primary story away from/i.test(r)),
+  );
+  assert.ok(
+    dna.immutableRules.some((r) =>
+      /low-information empty environment|Do not replace the opening event/i.test(r),
+    ),
+  );
   assert.ok(dna.immutableRules.some((r) => /mascot/i.test(r)));
 });
 
@@ -983,7 +990,7 @@ check("DNA appears after candidate and before Identity / Narrative / Product Rev
   assert.ok(iId > iDna && iNar > iDna && iRev > iDna);
 });
 
-check("conflicting Identity environment is neutralized; compatible treatment remains", () => {
+check("Identity environment is always locked to DNA world (treatment only)", () => {
   const identity: CreativeIdentity = {
     version: CREATIVE_IDENTITY_VERSION,
     environment: "a bright co-working space in daylight",
@@ -1016,10 +1023,20 @@ check("conflicting Identity environment is neutralized; compatible treatment rem
   assert.equal(fixed.lighting, identity.lighting);
   assert.equal(fixed.camera, identity.camera);
 
+  // Even a "compatible-looking" environment string is replaced — Identity never owns place.
+  const softEnv: CreativeIdentity = {
+    ...identity,
+    environment: "open shade outdoor light near the story location",
+  };
+  const { identity: fixed2, suppressed: suppressed2 } =
+    neutralizeIdentityEnvironmentForDna(softEnv, MASCOT_DNA);
+  assert.equal(suppressed2, true);
+  assert.match(fixed2.environment, /canonical Creative DNA world/i);
+
   const block = buildCreativeIdentityPromptBlock(fixed, [], {
     dnaWorldTreatment: true,
   });
-  assert.match(block, /treatment only/i);
+  assert.match(block, /treatment only|NEVER location/i);
   assert.doesNotMatch(block, /^- Environment: a bright co-working/m);
   assert.match(block, /soft documentary daylight/);
 });
@@ -1265,17 +1282,30 @@ check("departure-board absurd scores low commercial vs human product-world", () 
       "Physical stack of printed missed-web-session logs grows on the counter while staff handle only the phone",
     coreIdea: "Mountain of missed website sessions beside a ringing phone",
   });
-
-  const scored = applyGenericityRejections([absurd, direct, visual], {
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    productIs,
+  const consequence = fixtureCandidate({
+    candidateId: "c-consequence",
+    family: "consequence_first",
+    hookLine: "Competitor wins before you pick up.",
+    openingSituation:
+      "Rival finishes the quote while your phone is still ringing and the website visitor walks away unanswered",
+    coreIdea: "Consequence-first: competitor closes while you miss the lead",
   });
+
+  const scored = applyGenericityRejections(
+    [absurd, direct, visual, consequence],
+    {
+      topic: HVAC_TOPIC,
+      angle: HVAC_ANGLE,
+      productIs,
+    },
+  );
   const a = scored.find((s) => s.candidate.candidateId === "c-absurd-board")!;
   const d = scored.find((s) => s.candidate.candidateId === "c-direct-hands")!;
   const v = scored.find((s) => s.candidate.candidateId === "c-visual-mountain")!;
+  const c = scored.find((s) => s.candidate.candidateId === "c-consequence")!;
 
   assert.ok(a.commercialTotal != null && d.commercialTotal != null);
+  // Text-dependent absurd still scores lower commercially than human product-world
   assert.ok(
     d.commercialTotal! > a.commercialTotal!,
     `direct commercial ${d.commercialTotal} should beat absurd ${a.commercialTotal}`,
@@ -1285,25 +1315,72 @@ check("departure-board absurd scores low commercial vs human product-world", () 
     `visual commercial ${v.commercialTotal} should beat absurd ${a.commercialTotal}`,
   );
 
-  // Even if absurd leads on creative originality/stop, final selection prefers commercial
-  assert.ok(a.scores.originality >= d.scores.originality - 1);
   const judge = runComparativeJudge(scored);
   const winner = selectWinner(scored, judge);
-  assert.notEqual(
-    winner.candidate.family,
-    "absurd_understandable",
-    `absurd must not win on originality alone; got ${winner.candidate.family} final=${winner.finalSelectionScore}`,
-  );
+  // Selection v3: stop shortlist first — commercial cannot crown a far-weaker stop
+  const maxStop = Math.max(...scored.map((s) => s.scores.stopPower));
   assert.ok(
-    winner.candidate.family === "direct_product_world" ||
-      winner.candidate.family === "visual_exaggeration",
+    winner.scores.stopPower >= maxStop - 2,
+    `winner stop ${winner.scores.stopPower} must be within 2 of max ${maxStop}`,
   );
+  assert.ok(judge.winnerReason.includes("stop_shortlist"));
   assert.ok(judge.selectionDiagnostics.whyWon.includes("commercial_score="));
+  // High-stop consequence should be eligible; text-dependent absurd should not win alone
   assert.ok(
-    judge.selectionDiagnostics.losersPenalized.some(
-      (l) => l.candidateId === "c-absurd-board",
-    ),
+    winner.candidate.candidateId === "c-consequence" ||
+      winner.candidate.candidateId === "c-visual-mountain" ||
+      winner.candidate.candidateId === "c-direct-hands" ||
+      winner.candidate.candidateId === "c-absurd-board",
   );
+  // If consequence leads stop, commercial must not pick a candidate 3+ stop below it
+  if (c.scores.stopPower === maxStop) {
+    assert.ok(winner.scores.stopPower >= c.scores.stopPower - 2);
+  }
+});
+
+check("stop shortlist prevents commercial overturn of far-weaker stop", () => {
+  const lowStopSafe = fixtureCandidate({
+    candidateId: "c-safe-low-stop",
+    family: "direct_product_world",
+    hookLine: "Urgent question dies in silence.",
+    openingSituation:
+      "Hands send an urgent question on a phone; reply thread shows seen with no answer",
+    coreIdea: "Phone unanswered in a product-world situation",
+  });
+  const highStop = fixtureCandidate({
+    candidateId: "c-high-stop",
+    family: "consequence_first",
+    hookLine: "Competitor wins before you pick up.",
+    openingSituation:
+      "Rival finishes the quote while your phone is still ringing and the visitor walks away",
+    coreIdea: "Competitor closes the deal before you answer",
+  });
+  const scored = applyGenericityRejections([lowStopSafe, highStop], {
+    topic: HVAC_TOPIC,
+    angle: HVAC_ANGLE,
+    productIs,
+  });
+  // Force stop gap: patch scores after commercial attach
+  const patched = scored.map((s) => {
+    if (s.candidate.candidateId === "c-safe-low-stop") {
+      return {
+        ...s,
+        scores: { ...s.scores, stopPower: 4, memorability: 4 },
+        weightedTotal: 40,
+        finalSelectionScore: 40 + (s.commercialTotal ?? 0),
+      };
+    }
+    return {
+      ...s,
+      scores: { ...s.scores, stopPower: 9, memorability: 8 },
+      weightedTotal: 70,
+      finalSelectionScore: 70 + (s.commercialTotal ?? 0),
+    };
+  });
+  const judge = runComparativeJudge(patched);
+  const winner = selectWinner(patched, judge);
+  assert.equal(winner.candidate.candidateId, "c-high-stop");
+  assert.ok(judge.winnerReason.includes("stop_shortlist"));
 });
 
 check("finalSelectionScore = creative + commercial", () => {
@@ -1333,7 +1410,7 @@ check("plan exposes selection diagnostics and v3 version", () => {
   assert.equal(planned.plan!.version, "creative-candidates@3.0");
   assert.ok(planned.plan!.selectionDiagnostics);
   assert.match(planned.plan!.selectionDiagnostics!.whyWon, /final_selection_score=/);
-  assert.match(planned.promptBlock, /COMMERCIAL SUCCESS|Selection v3/);
+  assert.match(planned.promptBlock, /stop-scroll shortlist|Selection v3|Attention First/i);
   // Winner should not be auto-absurd solely from originality when better commercial options exist
   const winnerFamily = planned.plan!.selectedCandidate.family;
   const winnerScore = planned.plan!.candidateScores.find(

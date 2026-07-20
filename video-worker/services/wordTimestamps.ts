@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { getTranscriptionProvider } from "@/lib/ai";
+import { withTelemetry } from "@/lib/ai/telemetry";
 import type { WordTimestamp } from "@/lib/ai/types";
 
 // Word Timestamp Subtitles V1.
@@ -80,38 +81,57 @@ export interface TranscribeWordTimestampsResult {
 export async function transcribeWordTimestamps(
   input: TranscribeWordTimestampsInput,
 ): Promise<TranscribeWordTimestampsResult | null> {
-  try {
-    const audio = await readFile(input.audioPath);
-    const provider = getTranscriptionProvider();
-    const languageHint = normalizeLanguageHint(input.language);
+  return withTelemetry(
+    {
+      stepName: "Whisper",
+      provider: "whisper",
+      model: "whisper-1",
+      inputSummary: "Whisper input:\n- Voiceover audio\n- Language hint",
+      outputSummary: (r) =>
+        r
+          ? `${r.words.length} words${r.languageDetected ? ` (${r.languageDetected})` : ""}`
+          : "fallback to proportional timing",
+      successFromResult: () => true,
+      measureOutput: (r) =>
+        r
+          ? { wordCount: r.words.length, language: r.languageDetected ?? null }
+          : null,
+    },
+    async () => {
+      try {
+        const audio = await readFile(input.audioPath);
+        const provider = getTranscriptionProvider();
+        const languageHint = normalizeLanguageHint(input.language);
 
-    const result = await provider.transcribeWords({
-      audio,
-      filename: basename(input.audioPath),
-      contentType: "audio/mpeg",
-      ...(languageHint ? { language: languageHint } : {}),
-    });
+        const result = await provider.transcribeWords({
+          audio,
+          filename: basename(input.audioPath),
+          contentType: "audio/mpeg",
+          ...(languageHint ? { language: languageHint } : {}),
+        });
 
-    const words = sanitizeWhisperWords(result.words);
-    if (words.length === 0) {
-      console.warn(
-        "[video-worker] transcription returned no usable word timestamps; falling back to proportional timing",
-      );
-      return null;
-    }
-    return {
-      words,
-      ...(typeof result.language === "string"
-        ? { languageDetected: result.language }
-        : {}),
-    };
-  } catch (err) {
-    console.warn(
-      "[video-worker] word-timestamp transcription failed; falling back to proportional timing",
-      JSON.stringify({
-        error: err instanceof Error ? err.message : String(err),
-      }),
-    );
-    return null;
-  }
+        const words = sanitizeWhisperWords(result.words);
+        if (words.length === 0) {
+          console.warn(
+            "[video-worker] transcription returned no usable word timestamps; falling back to proportional timing",
+          );
+          return null;
+        }
+        return {
+          words,
+          ...(typeof result.language === "string"
+            ? { languageDetected: result.language }
+            : {}),
+        };
+      } catch (err) {
+        console.warn(
+          "[video-worker] word-timestamp transcription failed; falling back to proportional timing",
+          JSON.stringify({
+            error: err instanceof Error ? err.message : String(err),
+          }),
+        );
+        return null;
+      }
+    },
+  );
 }

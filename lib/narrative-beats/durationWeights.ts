@@ -1,10 +1,10 @@
 import type { NarrativeBeatRole } from "@/lib/narrative-beats/types";
 
-/** Soft relative weights — Hook/Ending short, Setup/Escalation medium. */
+/** Soft relative weights — Hook ≥ Setup; Escalation carries the turn. */
 export const NARRATIVE_DURATION_WEIGHTS: Record<NarrativeBeatRole, number> = {
-  HOOK: 0.7,
-  SETUP: 1.05,
-  ESCALATION: 1.15,
+  HOOK: 1.1,
+  SETUP: 0.85,
+  ESCALATION: 1.2,
   RESOLUTION: 0.75,
 };
 
@@ -15,9 +15,9 @@ export const MAX_BEAT_SHARE = 0.35;
 export const VO_JUSTIFICATION_WORD_SHARE = 0.4;
 
 const MODE_ROLE_WEIGHTS: Array<{ re: RegExp; weight: number }> = [
-  { re: /^(hook|unexpected_fact|observation|myth|mistake|common_belief|situation|before|option_a)$/i, weight: 0.7 },
-  { re: /^(setup|insight|implication|why_wrong|why_believed|why_backfires|meaning|option_b|change)$/i, weight: 1.05 },
-  { re: /^(conflict|twist|escalation|unexpected_turn|punchline|tradeoffs|in_action|proof|reality|correct_approach|reveal)$/i, weight: 1.15 },
+  { re: /^(hook|unexpected_fact|observation|myth|mistake|common_belief|situation|before|option_a)$/i, weight: 1.1 },
+  { re: /^(setup|insight|implication|why_wrong|why_believed|why_backfires|meaning|option_b|change)$/i, weight: 0.85 },
+  { re: /^(conflict|twist|escalation|unexpected_turn|punchline|tradeoffs|in_action|proof|reality|correct_approach|reveal)$/i, weight: 1.2 },
   { re: /^(resolution|cta|after|recommendation|payoff|close)$/i, weight: 0.75 },
 ];
 

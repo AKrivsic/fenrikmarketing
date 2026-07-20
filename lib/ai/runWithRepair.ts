@@ -10,6 +10,16 @@ import {
   type ValidationIssue,
   type Validator,
 } from "@/lib/ai/validateAiOutput";
+import { withTelemetry } from "@/lib/ai/telemetry/withTelemetry";
+import type { ProviderUsageMetrics } from "@/lib/ai/telemetry/types";
+
+export interface GenerateValidatedJsonTelemetry {
+  stepName: string;
+  inputSummary?: string;
+  outputSummary?: (result: GenerateValidatedJsonResult<unknown>) => string | null;
+  /** Mark this LLM call as a repair regenerate (fidelity/story). */
+  repair?: boolean;
+}
 
 export interface GenerateValidatedJsonInput<T> {
   textProvider: TextProvider;
@@ -36,6 +46,12 @@ export interface GenerateValidatedJsonInput<T> {
   // Optional override for the JSON repair provider. Defaults to the OpenAI
   // helper (getJsonRepairProvider); injectable for tests to avoid network.
   repairProvider?: TextProvider;
+  /**
+   * Optional telemetry label. When a TelemetryCollector is active (via
+   * runWithTelemetrySession), records one chronological step. Omitted → no
+   * telemetry (backwards compatible).
+   */
+  telemetry?: GenerateValidatedJsonTelemetry;
 }
 
 export type GenerateValidatedJsonResult<T> =
@@ -58,6 +74,57 @@ export type GenerateValidatedJsonResult<T> =
 export async function generateValidatedJson<T>(
   input: GenerateValidatedJsonInput<T>,
 ): Promise<GenerateValidatedJsonResult<T>> {
+  if (!input.telemetry) {
+    return runGenerateValidatedJson(input);
+  }
+
+  const measureInput = `${input.system ?? ""}\n${input.prompt}`;
+  return withTelemetry(
+    {
+      stepName: input.telemetry.stepName,
+      provider: input.textProvider.name,
+      repair: input.telemetry.repair ?? false,
+      temperature: input.temperature ?? null,
+      maxTokens: input.maxTokens ?? null,
+      responseFormat: "json",
+      inputSummary: input.telemetry.inputSummary ?? null,
+      measureInput,
+      measureOutput: (result) =>
+        result.ok ? result.raw : (result.lastRaw ?? null),
+      outputSummary: (result) =>
+        input.telemetry?.outputSummary?.(result) ??
+        (result.ok
+          ? `ok after ${result.attempts} attempt(s)`
+          : `failed after ${result.attempts} attempt(s)`),
+      retryCount: (result) => Math.max(0, result.attempts - 1),
+      successFromResult: (result) => result.ok,
+      errorMessageFromResult: (result) =>
+        result.ok
+          ? null
+          : result.validationErrors
+              .map((i) => `${i.path}: ${i.message}`)
+              .slice(0, 3)
+              .join("; ") || "generation_failed",
+      warnings: (result) =>
+        result.ok
+          ? []
+          : result.validationErrors.map((i) => `${i.path}: ${i.message}`).slice(0, 8),
+      usageFromResult: (result) => {
+        const meta = (result as { __telemetryUsage?: ProviderUsageMetrics })
+          .__telemetryUsage;
+        return meta ?? null;
+      },
+    },
+    async () => {
+      const result = await runGenerateValidatedJson(input);
+      return result;
+    },
+  );
+}
+
+async function runGenerateValidatedJson<T>(
+  input: GenerateValidatedJsonInput<T>,
+): Promise<GenerateValidatedJsonResult<T> & { __telemetryUsage?: ProviderUsageMetrics }> {
   const {
     textProvider,
     system,
@@ -77,6 +144,38 @@ export async function generateValidatedJson<T>(
 
   let lastIssues: ValidationIssue[] = [];
   let lastRaw: string | undefined;
+  let usageAcc: ProviderUsageMetrics = {
+    prompt_tokens: null,
+    completion_tokens: null,
+    cached_tokens: null,
+  };
+  let sawUsage = false;
+  let jsonRepairUsed = false;
+
+  const addUsage = (u: TextProviderCompleteUsage | null | undefined) => {
+    if (!u) return;
+    const hasAny =
+      u.prompt_tokens != null ||
+      u.completion_tokens != null ||
+      u.cached_tokens != null;
+    if (!hasAny && !u.model) return;
+    sawUsage = true;
+    usageAcc = {
+      prompt_tokens:
+        u.prompt_tokens != null
+          ? (usageAcc.prompt_tokens ?? 0) + u.prompt_tokens
+          : usageAcc.prompt_tokens,
+      completion_tokens:
+        u.completion_tokens != null
+          ? (usageAcc.completion_tokens ?? 0) + u.completion_tokens
+          : usageAcc.completion_tokens,
+      cached_tokens:
+        u.cached_tokens != null
+          ? (usageAcc.cached_tokens ?? 0) + u.cached_tokens
+          : usageAcc.cached_tokens,
+      model: u.model ?? usageAcc.model,
+    };
+  };
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const effectivePrompt =
@@ -94,6 +193,12 @@ export async function generateValidatedJson<T>(
       maxTransportAttempts,
     });
     lastRaw = completion.text;
+    addUsage({
+      prompt_tokens: completion.usage?.prompt_tokens ?? null,
+      completion_tokens: completion.usage?.completion_tokens ?? null,
+      cached_tokens: completion.usage?.cached_tokens ?? null,
+      model: completion.model,
+    });
 
     // Step 2: parse, with one repair pass if needed.
     let parsed = safeJsonParse(completion.text);
@@ -105,8 +210,10 @@ export async function generateValidatedJson<T>(
         expectedShape,
       );
       if (repaired) {
-        lastRaw = repaired;
-        parsed = safeJsonParse(repaired);
+        jsonRepairUsed = true;
+        lastRaw = repaired.text;
+        addUsage(repaired.usage);
+        parsed = safeJsonParse(repaired.text);
       }
     }
 
@@ -125,9 +232,11 @@ export async function generateValidatedJson<T>(
         expectedShape,
       );
       if (repaired) {
-        const reparsed = safeJsonParse(repaired);
+        jsonRepairUsed = true;
+        const reparsed = safeJsonParse(repaired.text);
         if (reparsed.ok) {
-          lastRaw = repaired;
+          lastRaw = repaired.text;
+          addUsage(repaired.usage);
           result = validate(validator, reparsed.value);
         }
       }
@@ -149,7 +258,8 @@ export async function generateValidatedJson<T>(
           expectedShape,
         );
         if (repaired) {
-          const reparsed = safeJsonParse(repaired);
+          jsonRepairUsed = true;
+          const reparsed = safeJsonParse(repaired.text);
           if (reparsed.ok) {
             const revalidated = validate(validator, reparsed.value);
             if (revalidated.ok) {
@@ -157,12 +267,16 @@ export async function generateValidatedJson<T>(
                 ? guardrails(revalidated.value)
                 : [];
               if (repairGuardIssues.length === 0) {
-                return {
-                  ok: true,
-                  value: revalidated.value,
-                  attempts: attempt,
-                  raw: repaired,
-                };
+                return attachUsage(
+                  {
+                    ok: true,
+                    value: revalidated.value,
+                    attempts: attempt,
+                    raw: repaired.text,
+                  },
+                  sawUsage ? usageAcc : undefined,
+                  jsonRepairUsed,
+                );
               }
             }
           }
@@ -172,16 +286,40 @@ export async function generateValidatedJson<T>(
       continue;
     }
 
-    return { ok: true, value: result.value, attempts: attempt, raw: lastRaw };
+    return attachUsage(
+      {
+        ok: true,
+        value: result.value,
+        attempts: attempt,
+        raw: lastRaw ?? completion.text,
+      },
+      sawUsage ? usageAcc : undefined,
+      jsonRepairUsed,
+    );
   }
 
-  return {
-    ok: false,
-    error: "generation_failed",
-    attempts: maxAttempts,
-    validationErrors: lastIssues,
-    lastRaw,
-  };
+  return attachUsage(
+    {
+      ok: false,
+      error: "generation_failed",
+      attempts: maxAttempts,
+      validationErrors: lastIssues,
+      lastRaw,
+    },
+    sawUsage ? usageAcc : undefined,
+    jsonRepairUsed,
+  );
+}
+
+type TextProviderCompleteUsage = ProviderUsageMetrics & { model?: string | null };
+
+function attachUsage<T>(
+  result: GenerateValidatedJsonResult<T>,
+  usage: ProviderUsageMetrics | undefined,
+  _jsonRepairUsed: boolean,
+): GenerateValidatedJsonResult<T> & { __telemetryUsage?: ProviderUsageMetrics } {
+  if (!usage) return result;
+  return Object.assign(result, { __telemetryUsage: usage });
 }
 
 async function repairJson(
@@ -189,7 +327,7 @@ async function repairJson(
   issues: ValidationIssue[],
   repairProvider: TextProvider | undefined,
   expectedShape?: string,
-): Promise<string | null> {
+): Promise<{ text: string; usage: TextProviderCompleteUsage | null } | null> {
   try {
     const provider = repairProvider ?? getJsonRepairProvider();
     const completion = await provider.complete({
@@ -198,7 +336,12 @@ async function repairJson(
       json: true,
       temperature: 0,
     });
-    return completion.text;
+    return {
+      text: completion.text,
+      usage: completion.usage
+        ? { ...completion.usage, model: completion.model }
+        : { prompt_tokens: null, completion_tokens: null, cached_tokens: null, model: completion.model },
+    };
   } catch {
     // Repair provider unavailable (e.g. missing key) — fall back to the
     // original output and let validation fail naturally.

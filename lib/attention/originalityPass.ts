@@ -277,6 +277,14 @@ function applyRejections(
     if (c.id === "obvious" && (cliche || c.scores.novelty <= 2)) {
       reject_reasons.push("first_obvious_idea");
     }
+    // Low-information open: no curiosity / next-beat pull and weak emotional spike.
+    if (
+      c.scores.what_happens_next <= 3 &&
+      c.scores.emotional_reaction <= 4 &&
+      c.scores.novelty <= 4
+    ) {
+      reject_reasons.push("low_information_opening");
+    }
     // Unexpected must still look connected — if relevance collapses, reject.
     if (c.id === "unexpected" && c.scores.relevance < 5) {
       reject_reasons.push("unexpected_but_unconnected");

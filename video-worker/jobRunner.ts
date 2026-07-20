@@ -17,6 +17,12 @@ import {
   TtsTailValidationError,
 } from "@/video-worker/services/ttsTailValidation";
 import {
+  buildGenerationTelemetryDocument,
+  getTelemetryCollector,
+  runWithTelemetrySession,
+  withTelemetry,
+} from "@/lib/ai/telemetry";
+import {
   maybeMixVoiceWithSfx,
   parseSfxOverlayFromJobInput,
 } from "@/video-worker/services/sfx/mixSfx";
@@ -337,6 +343,12 @@ async function buildRenderSpecOutput(args: {
 // Full MVP pipeline for one render job. Any failure is turned into a failed
 // callback so the video_jobs row is closed out instead of left "processing".
 export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
+  await runWithTelemetrySession(async () => {
+    await runVideoJobInner(rawPayload);
+  });
+}
+
+async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
   const payload = workerPayloadSchema.parse(rawPayload);
   const transport = {
     project_id: payload.project_id,
@@ -576,28 +588,43 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
     tempFiles.add(mp4OutputPath);
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
-    const { mp4Path, diagnostics: renderDiagnostics } = await renderMp4({
-      images,
-      beats,
-      audioPath: renderAudioPath,
-      srtPath,
-      outputPath: mp4OutputPath,
-      durationSeconds: spec.duration_seconds,
-      // Subtitle Reliability V1 (Part A) — AUDIO is the single source of truth:
-      // the renderer forces the final duration to audio + tail with an explicit
-      // -t, so the video can never end before the audio.
-      audioDurationSeconds: voiceover.durationSeconds,
-      // Content Quality Sprint 2 — pad the audio by the tail buffer so the final
-      // beat's silent hold (added in the storyboard) survives.
-      tailPadSeconds: TAIL_BUFFER_SECONDS,
-      profile: {
-        width: SHORT_PROFILE.width,
-        height: SHORT_PROFILE.height,
-        fps: SHORT_PROFILE.fps,
-        transitionSeconds: SHORT_PROFILE.transitionSeconds,
+    const { mp4Path, diagnostics: renderDiagnostics } = await withTelemetry(
+      {
+        stepName: "Video rendering",
+        provider: "video",
+        inputSummary:
+          "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+        outputSummary: (r) =>
+          `video_duration=${r.diagnostics.videoDuration ?? "unknown"}`,
+        measureOutput: (r) => ({
+          videoDuration: r.diagnostics.videoDuration,
+          audioDuration: r.diagnostics.audioDuration,
+        }),
       },
-      signal: abort.signal,
-    });
+      () =>
+        renderMp4({
+          images,
+          beats,
+          audioPath: renderAudioPath,
+          srtPath,
+          outputPath: mp4OutputPath,
+          durationSeconds: spec.duration_seconds,
+          // Subtitle Reliability V1 (Part A) — AUDIO is the single source of truth:
+          // the renderer forces the final duration to audio + tail with an explicit
+          // -t, so the video can never end before the audio.
+          audioDurationSeconds: voiceover.durationSeconds,
+          // Content Quality Sprint 2 — pad the audio by the tail buffer so the final
+          // beat's silent hold (added in the storyboard) survives.
+          tailPadSeconds: TAIL_BUFFER_SECONDS,
+          profile: {
+            width: SHORT_PROFILE.width,
+            height: SHORT_PROFILE.height,
+            fps: SHORT_PROFILE.fps,
+            transitionSeconds: SHORT_PROFILE.transitionSeconds,
+          },
+          signal: abort.signal,
+        }),
+    );
 
     // Subtitle Reliability V1 (Part E + G) — diagnostics persisted under
     // video_jobs.output.debug. Purely observational: assembled AFTER a
@@ -632,6 +659,10 @@ export async function runVideoJob(rawPayload: WorkerPayload): Promise<void> {
       subtitle_warning: fallbackUsed,
       render_warning: renderDiagnostics.renderWarning,
       render_warnings: renderDiagnostics.renderWarnings,
+      generation_telemetry: buildGenerationTelemetryDocument({
+        legacy: { phases: [] },
+        steps: getTelemetryCollector()?.snapshot() ?? [],
+      }),
     };
     console.log(
       "[video-worker] render diagnostics",

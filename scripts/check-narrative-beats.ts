@@ -262,7 +262,8 @@ check("visual progression accepts changing action/stakes", () => {
 
 section("duration planner");
 
-check("hook and resolution get shorter weights than escalation", () => {
+check("hook weight >= setup; escalation leads the turn", () => {
+  assert.ok(weightForNarrativeRole("HOOK") >= weightForNarrativeRole("SETUP"));
   assert.ok(weightForNarrativeRole("HOOK") < weightForNarrativeRole("ESCALATION"));
   assert.ok(
     weightForNarrativeRole("RESOLUTION") < weightForNarrativeRole("SETUP"),

@@ -33,6 +33,18 @@ import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { appendUrlToText, xUrlVariantIndices } from "@/lib/ai/websiteLinks";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
+  buildGenerationTelemetryDocument,
+  creativeCandidatesSummaries,
+  conceptFidelitySummaries,
+  getTelemetryCollector,
+  narrativeBeatsSummaries,
+  presentationGenerationSummaries,
+  runWithTelemetrySession,
+  storyIntegritySummaries,
+  withTelemetry,
+  withTelemetrySync,
+} from "@/lib/ai/telemetry";
+import {
   buildGenerateContentPackagePrompt,
   buildGeneratePackageSystem,
   type PreviousPackageAngle,
@@ -115,6 +127,10 @@ import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
 import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
 import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
 import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
+import {
+  alignOnScreenCtaContract,
+  alignProductDemoNarration,
+} from "@/lib/content-package/alignProductDemoNarration";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -182,7 +198,10 @@ export async function runGenerateContentPackage(
   client?: SupabaseClient,
 ): Promise<WorkflowResult<ContentPackageData>> {
   try {
-    return await runGenerateContentPackageUnchecked(input, client);
+    const { result } = await runWithTelemetrySession(() =>
+      runGenerateContentPackageUnchecked(input, client),
+    );
+    return result;
   } catch (err) {
     // Precondition / auth-style errors stay thrown for HTTP mapping.
     if (err instanceof WorkflowError) throw err;
@@ -383,29 +402,85 @@ async function runGenerateContentPackageUnchecked(
   });
 
   // Candidates first so Creative DNA can neutralize conflicting Identity environments.
-  const creativeCandidatePlan = planCreativeCandidatesForPackage({
-    topic: context.topic,
-    angle: context.angle,
-    painPoints: project.pain_points ?? [],
-    productIs: project.product_is ?? [],
-    requireVideo,
-  });
+  const creativeCandidatePlan = withTelemetrySync(
+    {
+      stepName: "Creative Candidates",
+      provider: "deterministic",
+      inputSummary: creativeCandidatesSummaries({ candidates: 0 }).input_summary,
+      outputSummary: (plan) => {
+        const p = plan.plan;
+        if (!p) return "skipped (no video)";
+        const raw = p.creativeDivergence?.rawAfterFilterCount;
+        const gen = p.generatedCandidates?.length ?? 0;
+        return creativeCandidatesSummaries({
+          rawIdeas: raw ?? undefined,
+          filtered: gen,
+          candidates: gen,
+          winnerId: p.selectedCandidate?.candidateId,
+        }).output_summary;
+      },
+      measureOutput: (plan) =>
+        plan.plan
+          ? {
+              candidates: plan.plan.generatedCandidates?.length,
+              winner: plan.plan.selectedCandidate?.candidateId,
+            }
+          : null,
+    },
+    () =>
+      planCreativeCandidatesForPackage({
+        topic: context.topic,
+        angle: context.angle,
+        painPoints: project.pain_points ?? [],
+        productIs: project.product_is ?? [],
+        requireVideo,
+      }),
+  );
   let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
   const selectedDna = normalizeCreativeDNA(
     creativeCandidates?.selectedCandidate.creativeDNA,
   );
 
+  // Candidate Judge is part of planCreativeCandidatesForPackage; record a
+  // zero-cost marker when a winner exists so audits show the decision stage.
+  if (creativeCandidates) {
+    withTelemetrySync(
+      {
+        stepName: "Candidate Judge",
+        provider: "deterministic",
+        inputSummary:
+          "Creative Candidates\n- Scored families\n- Commercial Success dimensions",
+        outputSummary: () =>
+          `Winner: ${creativeCandidates!.selectedCandidate.candidateId} (${creativeCandidates!.selectedCandidate.family})`,
+        measureOutput: () => creativeCandidates!.selectionDiagnostics ?? null,
+      },
+      () => creativeCandidates!.selectionDiagnostics,
+    );
+  }
+
   // Narrative Beats — derived story spine (no new LLM). Between candidate and storyboard.
   const narrativeBeatPlan: NarrativeBeatPlan | null =
     creativeCandidates && requireVideo
-      ? deriveNarrativeBeats({
-          winner: creativeCandidates.selectedCandidate,
-          modeBeats: directives.mode.narrativeBeats,
-          topic: context.topic,
-          angle: context.angle,
-          painPoints: project.pain_points ?? [],
-          productIs: project.product_is ?? [],
-        })
+      ? withTelemetrySync(
+          {
+            stepName: "Narrative Beats",
+            provider: "deterministic",
+            inputSummary: narrativeBeatsSummaries([]).input_summary,
+            outputSummary: (plan) =>
+              narrativeBeatsSummaries(plan.beats.map((b) => b.role))
+                .output_summary,
+            measureOutput: (plan) => plan.beats.map((b) => b.role),
+          },
+          () =>
+            deriveNarrativeBeats({
+              winner: creativeCandidates!.selectedCandidate,
+              modeBeats: directives.mode.narrativeBeats,
+              topic: context.topic,
+              angle: context.angle,
+              painPoints: project.pain_points ?? [],
+              productIs: project.product_is ?? [],
+            }),
+        )
       : null;
   const narrativeBeatPromptBlock = narrativeBeatPlan
     ? buildNarrativeBeatPromptBlock(narrativeBeatPlan)
@@ -428,6 +503,8 @@ async function runGenerateContentPackageUnchecked(
     series: seriesCreative,
     requireVideo,
     creativeDNA: selectedDna,
+    openingSituation:
+      creativeCandidates?.selectedCandidate?.openingSituation ?? null,
   });
 
   const visualNarrativePlan = planVisualNarrativeForPackage({
@@ -531,6 +608,17 @@ async function runGenerateContentPackageUnchecked(
     }),
     timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
     maxTransportAttempts: GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+    telemetry: {
+      stepName: "Presentation Generation",
+      inputSummary: presentationGenerationSummaries().input_summary,
+      outputSummary: (result) =>
+        result.ok
+          ? presentationGenerationSummaries().output_summary
+          : `failed: ${result.validationErrors
+              .map((e) => e.message)
+              .slice(0, 2)
+              .join("; ")}`,
+    },
   });
 
   if (!generated.ok) {
@@ -553,9 +641,12 @@ async function runGenerateContentPackageUnchecked(
   });
 
   // Attention & Engagement v1 — keep stored hook and first spoken line aligned.
+  // When a Creative Candidate is selected, never promote a weaker VO opening
+  // over the canonical hook (HOOK-1); enforceCandidateHook runs next.
   let aligned = alignHookWithFirstSpoken({
     hook: generated.value.hook,
     voiceoverText: generated.value.voiceover_text,
+    lockToHook: Boolean(creativeCandidates),
   });
   generated.value.hook = aligned.hook;
   generated.value.voiceover_text = aligned.voiceover_text;
@@ -584,6 +675,19 @@ async function runGenerateContentPackageUnchecked(
   };
 
   if (creativeCandidates && requireVideo) {
+    const requireOkPackage = (): ContentPackageOutput => {
+      if (!generated.ok) {
+        throw new Error("telemetry: expected successful package generation");
+      }
+      return generated.value;
+    };
+    const requireSelected = () => {
+      if (!creativeCandidates) {
+        throw new Error("telemetry: expected selected creative candidate");
+      }
+      return creativeCandidates.selectedCandidate;
+    };
+
     const repairedCand = validateAndRepairCandidate(
       creativeCandidates.selectedCandidate,
       { productLabel: project.product_is?.[0] },
@@ -594,24 +698,57 @@ async function runGenerateContentPackageUnchecked(
       selectedCandidate: repairedCand.candidate,
     };
 
-    const enforced = enforceCandidateHook({
-      hookLine: creativeCandidates.selectedCandidate.hookLine,
-      hook: generated.value.hook,
-      voiceoverText: generated.value.voiceover_text,
-    });
+    const enforced = withTelemetrySync(
+      {
+        stepName: "Hook Enforcement",
+        provider: "deterministic",
+        inputSummary:
+          "Hook Enforcement input:\n- Candidate hookLine\n- Generated hook\n- Voiceover",
+        outputSummary: (r) => `reason: ${r.reason}`,
+        measureOutput: (r) => ({ reason: r.reason, hook: r.hook }),
+      },
+      () => {
+        const pkg = requireOkPackage();
+        return enforceCandidateHook({
+          hookLine: requireSelected().hookLine,
+          hook: pkg.hook,
+          voiceoverText: pkg.voiceover_text,
+        });
+      },
+    );
     hookDeterministicEnforceReason = enforced.reason;
     generated.value.hook = enforced.hook;
     generated.value.voiceover_text = enforced.voiceover_text;
 
-    let fidelity = checkConceptFidelity({
-      winner: creativeCandidates.selectedCandidate,
-      hook: generated.value.hook,
-      voiceoverText: generated.value.voiceover_text,
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-      topic: context.topic,
-      angle: context.angle,
-    });
+    let fidelity = withTelemetrySync(
+      {
+        stepName: "Concept Fidelity",
+        provider: "deterministic",
+        inputSummary: conceptFidelitySummaries({ passed: true }).input_summary,
+        outputSummary: (f) =>
+          conceptFidelitySummaries({
+            passed: f.passed,
+            passLabel: "Passed first pass",
+          }).output_summary,
+        warnings: (f) => (f.passed ? [] : f.failureReasons.slice(0, 8)),
+        measureOutput: (f) => ({
+          passed: f.passed,
+          reasons: f.failureReasons,
+        }),
+      },
+      () => {
+        const pkg = requireOkPackage();
+        return checkConceptFidelity({
+          winner: requireSelected(),
+          hook: pkg.hook,
+          voiceoverText: pkg.voiceover_text,
+          imagePrompts: pkg.image_prompts,
+          visualScenes: pkg.visual_scenes,
+          topic: context.topic,
+          angle: context.angle,
+        });
+      },
+    );
     fidelityFirstPassPassed = fidelity.passed;
     fidelityFirstPassReasons = [...fidelity.failureReasons];
     if (fidelity.diagnostics?.length) {
@@ -655,6 +792,14 @@ async function runGenerateContentPackageUnchecked(
         timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
         maxTransportAttempts:
           GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+        telemetry: {
+          stepName: "Concept Fidelity Repair",
+          repair: true,
+          inputSummary:
+            "Concept Fidelity Repair input:\n- Selected Candidate\n- Failed fidelity rules\n- Prior package draft",
+          outputSummary: (r) =>
+            r.ok ? "Repaired package" : "Repair failed",
+        },
       });
       recordPhase("fidelity_repair", repairStart, {
         ok: repaired.ok,
@@ -673,6 +818,7 @@ async function runGenerateContentPackageUnchecked(
         aligned = alignHookWithFirstSpoken({
           hook: generated.value.hook,
           voiceoverText: generated.value.voiceover_text,
+          lockToHook: true,
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
@@ -753,16 +899,71 @@ async function runGenerateContentPackageUnchecked(
     };
     ensureDemo(false);
 
+    // Package alignment fixes: PRODUCT_DEMO narration must match visuals;
+    // on-screen CTA claims must match typed CTA scenes (single source of truth).
+    const alignPresentationNarration = () => {
+      if (!generated.ok) return;
+      const demoAlign = alignProductDemoNarration({
+        voiceoverText: generated.value.voiceover_text,
+        visualScenes: generated.value.visual_scenes,
+        videoScript: generated.value.video?.script ?? null,
+      });
+      if (demoAlign.changed) {
+        generated.value.voiceover_text = demoAlign.voiceover_text;
+        if (generated.value.video && demoAlign.script !== null) {
+          generated.value.video = {
+            ...generated.value.video,
+            script: demoAlign.script,
+          };
+        }
+      }
+      const ctaAlign = alignOnScreenCtaContract({
+        videoScript: generated.value.video?.script ?? null,
+        visualScenes: generated.value.visual_scenes,
+      });
+      if (ctaAlign.changed && generated.value.video && ctaAlign.script !== null) {
+        generated.value.video = {
+          ...generated.value.video,
+          script: ctaAlign.script,
+        };
+      }
+    };
+    alignPresentationNarration();
+
     // Story Integrity — selected commercial world must survive every beat.
     // Hard gate: one repair, then fail generation (do not silently continue).
-    let storyIntegrity = validateStoryIntegrity({
-      winner: creativeCandidates.selectedCandidate,
-      voiceoverText: generated.value.voiceover_text,
-      packageCta: generated.value.cta?.text ?? "",
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-      hook: generated.value.hook,
-    });
+    let storyIntegrity = withTelemetrySync(
+      {
+        stepName: "Story Integrity",
+        provider: "deterministic",
+        inputSummary: storyIntegritySummaries({
+          passed: true,
+          warningCount: 0,
+        }).input_summary,
+        outputSummary: (s) =>
+          storyIntegritySummaries({
+            passed: s.passed,
+            warningCount: s.warnings.length,
+          }).output_summary,
+        warnings: (s) => s.warnings.map((w) => w.code),
+        measureOutput: (s) => ({
+          passed: s.passed,
+          summary: s.summary,
+          warnings: s.warnings.length,
+        }),
+      },
+      () => {
+        const pkg = requireOkPackage();
+        return validateStoryIntegrity({
+          winner: requireSelected(),
+          voiceoverText: pkg.voiceover_text,
+          packageCta: pkg.cta?.text ?? "",
+          imagePrompts: pkg.image_prompts,
+          visualScenes: pkg.visual_scenes,
+          hook: pkg.hook,
+        });
+      },
+    );
     if (!storyIntegrity.passed) {
       const integrityReason = `story_integrity:${storyIntegrity.summary}`;
       regenerationReason = regenerationReason
@@ -794,6 +995,14 @@ async function runGenerateContentPackageUnchecked(
         timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
         maxTransportAttempts:
           GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+        telemetry: {
+          stepName: "Story Integrity Repair",
+          repair: true,
+          inputSummary:
+            "Story Integrity Repair input:\n- Selected Candidate\n- Integrity violations\n- Prior package draft",
+          outputSummary: (r) =>
+            r.ok ? "Repaired package" : "Repair failed",
+        },
       });
       recordPhase("story_repair", storyStart, {
         ok: repairedIntegrity.ok,
@@ -811,6 +1020,7 @@ async function runGenerateContentPackageUnchecked(
         aligned = alignHookWithFirstSpoken({
           hook: generated.value.hook,
           voiceoverText: generated.value.voiceover_text,
+          lockToHook: true,
         });
         generated.value.hook = aligned.hook;
         generated.value.voiceover_text = aligned.voiceover_text;
@@ -836,6 +1046,7 @@ async function runGenerateContentPackageUnchecked(
           regenerationReason,
         );
         ensureDemo(false);
+        alignPresentationNarration();
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -880,12 +1091,29 @@ async function runGenerateContentPackageUnchecked(
 
     // Sprint 4C.1 — Product Demonstration Integrity (structured beat +
     // controlled chat visual). One deterministic repair (force inject), then fail.
-    let productDemoIntegrity = validateProductDemonstrationIntegrity({
-      winner: creativeCandidates.selectedCandidate,
-      voiceoverText: generated.value.voiceover_text,
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-    });
+    let productDemoIntegrity = withTelemetrySync(
+      {
+        stepName: "Product Demonstration Integrity",
+        provider: "deterministic",
+        inputSummary:
+          "Product Demonstration Integrity input:\n- Selected Candidate\n- Visual scenes\n- Voiceover",
+        outputSummary: (p) =>
+          p.passed ? "Passed" : `Failed: ${p.summary}`,
+        measureOutput: (p) => ({
+          passed: p.passed,
+          summary: p.summary,
+        }),
+      },
+      () => {
+        const pkg = requireOkPackage();
+        return validateProductDemonstrationIntegrity({
+          winner: requireSelected(),
+          voiceoverText: pkg.voiceover_text,
+          imagePrompts: pkg.image_prompts,
+          visualScenes: pkg.visual_scenes,
+        });
+      },
+    );
     if (!productDemoIntegrity.passed) {
       const demoReason = `product_demonstration_integrity:${productDemoIntegrity.summary}`;
       regenerationReason = regenerationReason
@@ -893,6 +1121,7 @@ async function runGenerateContentPackageUnchecked(
         : demoReason;
       // Deterministic repair: replace failing resolution with structured PRODUCT_DEMO.
       ensureDemo(true);
+      alignPresentationNarration();
       productDemoIntegrity = validateProductDemonstrationIntegrity({
         winner: creativeCandidates.selectedCandidate,
         voiceoverText: generated.value.voiceover_text,
@@ -1074,6 +1303,19 @@ async function runGenerateContentPackageUnchecked(
   if (frequencyDecisions.length > 0) {
     syncLegacyFieldsFromVisualScenes(generated.value);
   }
+  // Re-align after frequency downgrades so script CTA claims match final typed scenes.
+  {
+    const ctaAlign = alignOnScreenCtaContract({
+      videoScript: generated.value.video?.script ?? null,
+      visualScenes: generated.value.visual_scenes,
+    });
+    if (ctaAlign.changed && generated.value.video && ctaAlign.script !== null) {
+      generated.value.video = {
+        ...generated.value.video,
+        script: ctaAlign.script,
+      };
+    }
+  }
   generated.value.presentation_generation = {
     mode: resolveChecklistGenerationMode(),
     project_id: input.projectId,
@@ -1113,18 +1355,21 @@ async function runGenerateContentPackageUnchecked(
           creativeDnaDiagnostics,
         )
       : {}),
-    generation_telemetry: {
-      strategy_item_id: context.strategyItemId,
-      production_run_id: context.productionRunId ?? null,
-      full_package_generations: fullPackageGenerations,
-      fidelity_first_pass_passed: fidelityFirstPassPassed,
-      fidelity_first_pass_failure_reasons: fidelityFirstPassReasons,
-      fidelity_final_passed:
-        creativeCandidates?.finalScriptFidelity?.passed ?? null,
-      hook_deterministic_enforce_reason: hookDeterministicEnforceReason,
-      candidate_repair_reasons: candidateRepairReasons,
-      phases: generationTelemetry,
-    },
+    generation_telemetry: buildGenerationTelemetryDocument({
+      legacy: {
+        strategy_item_id: context.strategyItemId,
+        production_run_id: context.productionRunId ?? null,
+        full_package_generations: fullPackageGenerations,
+        fidelity_first_pass_passed: fidelityFirstPassPassed,
+        fidelity_first_pass_failure_reasons: fidelityFirstPassReasons,
+        fidelity_final_passed:
+          creativeCandidates?.finalScriptFidelity?.passed ?? null,
+        hook_deterministic_enforce_reason: hookDeterministicEnforceReason,
+        candidate_repair_reasons: candidateRepairReasons,
+        phases: generationTelemetry,
+      },
+      steps: getTelemetryCollector()?.snapshot() ?? [],
+    }),
     ...(narrativeBeatPlan
       ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
           storyProgression: storyProgressionDiagnostics,
@@ -1140,26 +1385,123 @@ async function runGenerateContentPackageUnchecked(
     strategy_item_id: context.strategyItemId,
   });
 
-  const data = await persistNewPackage(
-    supabase,
-    input.projectId,
-    context,
-    generated.value,
-    targetPlatforms,
-    videoPlatforms,
-    // Fan-out is enabled only for production-run items, using the run's
-    // multipliers + this package's index. Non-run generation keeps 1 item per
-    // platform (fanOut = null).
-    runPlan && context.productionRunId
-      ? {
-          multipliers: runPlan.multipliers,
-          packageIndex: context.packageIndex ?? 0,
-          productionRunId: context.productionRunId,
-        }
-      : null,
-    directives,
-    canonicalWebsiteUrl(project),
+  withTelemetrySync(
+    {
+      stepName: "Platform Outputs",
+      provider: "deterministic",
+      inputSummary:
+        "Platform Outputs input:\n- Presentation Generation package\n- Target platforms",
+      outputSummary: () => {
+        const po = generated.value.platform_outputs;
+        const keys =
+          po && typeof po === "object" ? Object.keys(po as object) : [];
+        return keys.length > 0
+          ? `Platforms: ${keys.join(", ")}`
+          : "No platform_outputs";
+      },
+      measureOutput: () => generated.value.platform_outputs ?? null,
+    },
+    () => generated.value.platform_outputs,
   );
+
+  // Refresh steps snapshot after late markers (Platform Outputs) before persist.
+  const pg = generated.value.presentation_generation;
+  if (pg && typeof pg === "object" && !Array.isArray(pg)) {
+    const existing = (pg as Record<string, unknown>).generation_telemetry;
+    (pg as Record<string, unknown>).generation_telemetry =
+      buildGenerationTelemetryDocument({
+        legacy:
+          existing && typeof existing === "object" && !Array.isArray(existing)
+            ? (existing as Record<string, unknown>)
+            : {},
+        steps: getTelemetryCollector()?.snapshot() ?? [],
+      });
+  }
+
+  const data = await withTelemetry(
+    {
+      stepName: "Persist Package",
+      provider: "deterministic",
+      inputSummary:
+        "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+      outputSummary: (d) =>
+        `packageId=${d.packageId}; items=${d.contentItemIds?.length ?? 0}`,
+      measureOutput: (d) => ({
+        packageId: d.packageId,
+        contentItemIds: d.contentItemIds,
+        videoJobId: d.videoJobId,
+      }),
+    },
+    () =>
+      persistNewPackage(
+        supabase,
+        input.projectId,
+        context,
+        generated.value,
+        targetPlatforms,
+        videoPlatforms,
+        // Fan-out is enabled only for production-run items, using the run's
+        // multipliers + this package's index. Non-run generation keeps 1 item per
+        // platform (fanOut = null).
+        runPlan && context.productionRunId
+          ? {
+              multipliers: runPlan.multipliers,
+              packageIndex: context.packageIndex ?? 0,
+              productionRunId: context.productionRunId,
+            }
+          : null,
+        directives,
+        canonicalWebsiteUrl(project),
+      ),
+  );
+
+  // Best-effort: fold Persist Package (+ any late steps) into stored telemetry
+  // without changing package content fields. Failures here must not fail the run.
+  try {
+    const finalSteps = getTelemetryCollector()?.snapshot() ?? [];
+    const { data: briefRow } = await supabase
+      .from("content_packages")
+      .select("package_brief")
+      .eq("id", data.packageId)
+      .eq("project_id", input.projectId)
+      .maybeSingle();
+    const brief =
+      briefRow?.package_brief &&
+      typeof briefRow.package_brief === "object" &&
+      !Array.isArray(briefRow.package_brief)
+        ? (briefRow.package_brief as Record<string, unknown>)
+        : null;
+    const existingPg =
+      brief?.presentation_generation &&
+      typeof brief.presentation_generation === "object" &&
+      !Array.isArray(brief.presentation_generation)
+        ? (brief.presentation_generation as Record<string, unknown>)
+        : null;
+    if (brief && existingPg) {
+      const nextBrief = {
+        ...brief,
+        presentation_generation: {
+          ...existingPg,
+          generation_telemetry: buildGenerationTelemetryDocument({
+            legacy:
+              existingPg.generation_telemetry &&
+              typeof existingPg.generation_telemetry === "object" &&
+              !Array.isArray(existingPg.generation_telemetry)
+                ? (existingPg.generation_telemetry as Record<string, unknown>)
+                : {},
+            steps: finalSteps,
+          }),
+        },
+      };
+      await supabase
+        .from("content_packages")
+        .update({ package_brief: nextBrief })
+        .eq("id", data.packageId)
+        .eq("project_id", input.projectId);
+    }
+  } catch {
+    // Telemetry patch is non-critical.
+  }
 
   return { ok: true, data };
 }

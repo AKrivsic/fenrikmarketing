@@ -384,6 +384,10 @@ export function detectProductDemonstration(args: {
 
 /**
  * Hard Story Integrity check against generated package visuals + VO + CTA.
+ *
+ * On-screen CTA source of truth = typed CTA scene in visual_scenes.
+ * Spoken CTA vs package CTA wording is only checked when a typed CTA scene
+ * is present (otherwise problem-aware / spoken-habit closes must not warn).
  */
 export function validateStoryIntegrity(args: {
   winner: CreativeCandidate;
@@ -392,6 +396,11 @@ export function validateStoryIntegrity(args: {
   imagePrompts?: readonly string[] | null;
   visualScenes?: readonly unknown[] | null;
   hook?: string | null;
+  /**
+   * When false, skip spoken-CTA mismatch warnings even if packageCta is set.
+   * Defaults to true only when visual_scenes includes a typed CTA scene.
+   */
+  requireSpokenCtaAlignment?: boolean;
 }): StoryIntegrityResult {
   const violations: StoryIntegrityViolation[] = [];
   const allowedWorldTokens = deriveAllowedWorldTokens(args.winner);
@@ -561,7 +570,24 @@ export function validateStoryIntegrity(args: {
   }
 
   // --- CTA (soft warning only — Sprint 5.2) ---
-  const ctaCheck = voiceoverContainsPackageCta(vo, args.packageCta);
+  // Source of truth for ON-SCREEN CTA = typed CTA scene in visual_scenes.
+  // Without a typed CTA scene, do not warn that spoken VO must mirror package CTA
+  // (problem-aware packages often close on habit/cost without a spoken CTA).
+  const hasTypedCtaScene = (args.visualScenes ?? []).some((s) => {
+    if (!s || typeof s !== "object" || Array.isArray(s)) return false;
+    return String((s as Record<string, unknown>).type ?? "").toUpperCase() === "CTA";
+  });
+  const requireSpokenCtaAlignment =
+    args.requireSpokenCtaAlignment ?? hasTypedCtaScene;
+
+  const ctaCheck = requireSpokenCtaAlignment
+    ? voiceoverContainsPackageCta(vo, args.packageCta)
+    : {
+        ok: true as const,
+        evidence: hasTypedCtaScene
+          ? null
+          : "onscreen_cta_not_requested_skip_spoken_cta_check",
+      };
   const warnings: StoryIntegrityViolation[] = [];
   if (!ctaCheck.ok) {
     warnings.push({

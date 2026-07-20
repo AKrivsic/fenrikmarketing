@@ -2,13 +2,14 @@ import type { CreativeConceptFamily } from "@/lib/creative-candidates/types";
 
 /**
  * Deterministic family priors for Creative Candidate Selection v3.
- * Tuned from production audits (36da, 2fbd, 04911, 4ab, family reliability report).
+ * Tuned so stop-scroll families remain commercially viable when renderable —
+ * commercial reliability must not systematically erase high-stop concepts.
  * No AI estimation — values are fixed metadata.
  */
 export interface CreativeFamilyCommercialMetadata {
   /** 0–10: can the current NO_TEXT image stack film this family? */
   renderability: number;
-  /** 0–10: stranger understands opening frame in ~3s without VO */
+  /** 0–10: stranger understands opening frame meaning without readable text */
   first_frame_clarity: number;
   /** Concept usually needs readable labels/numbers to land */
   requires_readable_text: boolean;
@@ -36,7 +37,7 @@ export const CREATIVE_FAMILY_COMMERCIAL_METADATA: Record<
     human_problem_strength: 8,
     product_visibility: 9,
     metaphor_risk: 2,
-    commercial_reliability: 9,
+    commercial_reliability: 8,
   },
   visual_exaggeration: {
     renderability: 8,
@@ -59,14 +60,14 @@ export const CREATIVE_FAMILY_COMMERCIAL_METADATA: Record<
     commercial_reliability: 6,
   },
   consequence_first: {
-    renderability: 5,
-    first_frame_clarity: 5,
+    renderability: 6,
+    first_frame_clarity: 6,
     requires_readable_text: false,
     requires_real_product_asset: false,
-    human_problem_strength: 6,
+    human_problem_strength: 7,
     product_visibility: 5,
-    metaphor_risk: 5,
-    commercial_reliability: 5,
+    metaphor_risk: 4,
+    commercial_reliability: 6,
   },
   role_reversal: {
     renderability: 6,
@@ -80,37 +81,37 @@ export const CREATIVE_FAMILY_COMMERCIAL_METADATA: Record<
   },
   unexpected_comparison: {
     renderability: 5,
-    first_frame_clarity: 4,
+    first_frame_clarity: 5,
     requires_readable_text: false,
     requires_real_product_asset: false,
     human_problem_strength: 4,
     product_visibility: 4,
-    metaphor_risk: 7,
-    commercial_reliability: 4,
+    metaphor_risk: 6,
+    commercial_reliability: 5,
   },
   social_observation: {
-    renderability: 3,
-    first_frame_clarity: 3,
+    renderability: 4,
+    first_frame_clarity: 4,
     requires_readable_text: true,
     requires_real_product_asset: false,
     human_problem_strength: 4,
     product_visibility: 5,
-    metaphor_risk: 7,
-    commercial_reliability: 3,
+    metaphor_risk: 6,
+    commercial_reliability: 4,
   },
   /**
-   * Wins creative contests (originality/stop) but historically collapses:
-   * departure boards, mascots, unlabeled panels, fidelity false-pass/fail.
+   * High stop/originality when the opening is visually meaningful without
+   * readable labels. Still carries metaphor risk — not a commercial veto.
    */
   absurd_understandable: {
-    renderability: 3,
-    first_frame_clarity: 2,
+    renderability: 5,
+    first_frame_clarity: 4,
     requires_readable_text: true,
     requires_real_product_asset: false,
-    human_problem_strength: 3,
-    product_visibility: 3,
-    metaphor_risk: 9,
-    commercial_reliability: 2,
+    human_problem_strength: 4,
+    product_visibility: 4,
+    metaphor_risk: 8,
+    commercial_reliability: 4,
   },
 };
 

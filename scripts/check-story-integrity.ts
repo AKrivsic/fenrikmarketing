@@ -148,7 +148,7 @@ check("allowed world tokens include handheld chat lexicon", () => {
   assert.ok(tokens.includes("chat") || tokens.includes("question"));
 });
 
-check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo; CTA is warning only", () => {
+check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo; no typed CTA → no CTA warning", () => {
   const result = validateStoryIntegrity({
     winner: handheldWinner(),
     packageCta: PACKAGE_CTA,
@@ -188,8 +188,12 @@ check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo; C
   assert.ok(hard.has("abstract_metaphor_in_middle"));
   assert.ok(hard.has("product_demonstration_missing"));
   assert.ok(!hard.has("cta_mismatch"));
-  assert.ok(result.warnings.some((v) => v.code === "cta_mismatch"));
-  assert.equal(result.ctaMatch.ctaMismatch, true);
+  assert.ok(!result.warnings.some((v) => v.code === "cta_mismatch"));
+  assert.equal(result.ctaMatch.ctaMismatch, false);
+  assert.equal(
+    result.ctaMatch.evidence,
+    "onscreen_cta_not_requested_skip_spoken_cta_check",
+  );
   assert.ok(result.productDemonstration.landingPageOnly);
 });
 
@@ -208,19 +212,29 @@ check("AFTER: continuous chat world with ask→answer→result + spoken CTA pass
     `unexpected violations: ${JSON.stringify(result.violations, null, 2)}`,
   );
   assert.equal(result.productDemonstration.present, true);
+  // No typed CTA scene → spoken CTA alignment is not required.
   assert.equal(result.ctaMatch.voiceoverContainsCta, true);
   assert.equal(result.ctaMatch.ctaMismatch, false);
   assert.equal(result.warnings.length, 0);
 });
 
-check("Sprint 5.2: story+demo OK with soft spoken close → passes with CTA warning", () => {
+check("Sprint 5.2: typed CTA scene + soft spoken close → passes with CTA warning", () => {
   const result = validateStoryIntegrity({
     winner: handheldWinner(),
     packageCta: PACKAGE_CTA,
     hook: "Urgent question dies in silence.",
     voiceoverText:
       "Urgent question dies in silence. She typed it Saturday night. Your site said nothing. Then the AI assistant replies with availability. She stays and books. Your next visitor deserves an answer — even when you're not there.",
-    visualScenes: CONTINUOUS_CHAT_SCENES,
+    visualScenes: [
+      ...CONTINUOUS_CHAT_SCENES.slice(0, -1),
+      {
+        type: "CTA",
+        payload: {
+          headline: "Create your AI assistant",
+          subcopy: "Let your website answer while the salon is closed.",
+        },
+      },
+    ],
   });
   assert.equal(
     result.passed,
@@ -236,6 +250,24 @@ check("Sprint 5.2: story+demo OK with soft spoken close → passes with CTA warn
       result.ctaMatch.evidence === "weak_cta_overlap",
   );
   assert.ok(result.summary.includes("story_integrity_passed_with_warnings"));
+});
+
+check("Sprint 5.2: no typed CTA + habit close → no CTA mismatch warning", () => {
+  const result = validateStoryIntegrity({
+    winner: handheldWinner(),
+    packageCta: PACKAGE_CTA,
+    hook: "Urgent question dies in silence.",
+    voiceoverText:
+      "Urgent question dies in silence. She typed it Saturday night. Your site said nothing. Then the AI assistant replies with availability. She stays and books. That silence isn't a bad weekend. It's a habit.",
+    visualScenes: CONTINUOUS_CHAT_SCENES,
+  });
+  assert.equal(result.passed, true);
+  assert.equal(result.ctaMatch.ctaMismatch, false);
+  assert.ok(!result.warnings.some((v) => v.code === "cta_mismatch"));
+  assert.equal(
+    result.ctaMatch.evidence,
+    "onscreen_cta_not_requested_skip_spoken_cta_check",
+  );
 });
 
 check("Sprint 5.2: same commercial intent, different CTA wording → passes", () => {
@@ -264,9 +296,9 @@ check("Sprint 5.2: awareness-style emotional spoken close → passes", () => {
   });
   assert.equal(result.passed, true);
   assert.equal(result.productDemonstration.present, true);
-  if (result.ctaMatch.ctaMismatch) {
-    assert.ok(result.warnings.some((w) => w.code === "cta_mismatch"));
-  }
+  // No typed CTA → must not warn about unspoken package CTA.
+  assert.equal(result.ctaMatch.ctaMismatch, false);
+  assert.ok(!result.warnings.some((w) => w.code === "cta_mismatch"));
 });
 
 check("Sprint 5.2: missing product demonstration still hard-fails", () => {
