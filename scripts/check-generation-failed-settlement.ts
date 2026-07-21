@@ -37,6 +37,10 @@ const n8nRouteSrc = readFileSync(
   join(root, "app/api/n8n/generate-content-package/route.ts"),
   "utf8",
 );
+const n8nHandlerSrc = readFileSync(
+  join(root, "lib/n8n/handleGenerateContentPackageRequest.ts"),
+  "utf8",
+);
 const bridgeSrc = readFileSync(
   join(root, "n8n/generate-content-package-bridge.json"),
   "utf8",
@@ -68,9 +72,21 @@ check("settles run counters after generation failure", () => {
   assert.match(adminSrc, /generationFailedSlots/);
 });
 
-check("n8n generate route settles item on !result.ok", () => {
-  assert.match(n8nRouteSrc, /settleOrRespondOperational|settleProductionRunItemOrThrow/);
-  assert.match(n8nRouteSrc, /if\s*\(\s*!result\.ok\s*\)/);
+check("n8n generate route delegates to shared handler", () => {
+  assert.match(n8nRouteSrc, /export const maxDuration = 300/);
+  assert.match(n8nRouteSrc, /handleGenerateContentPackageRequest/);
+  assert.match(
+    n8nRouteSrc,
+    /return handleGenerateContentPackageRequest\(request\)/,
+  );
+});
+
+check("n8n generate handler settles item on !result.ok", () => {
+  assert.match(
+    n8nHandlerSrc,
+    /settleOrRespondOperational|settleProductionRunItemOrThrow/,
+  );
+  assert.match(n8nHandlerSrc, /if\s*\(\s*!result\.ok\s*\)/);
   const settleSrc = readFileSync(
     join(root, "lib/api/settleProductionRunItem.ts"),
     "utf8",
@@ -156,11 +172,11 @@ check("runGenerateContentPackage converts throws to terminal failures", () => {
   assert.match(workflowSrc, /runGenerateContentPackageUnchecked/);
 });
 
-check("n8n route settles throws after generationBegan", () => {
-  assert.match(n8nRouteSrc, /generationBegan\s*=\s*true/);
-  assert.match(n8nRouteSrc, /classifyGenerationThrow/);
-  assert.match(n8nRouteSrc, /settleProductionRunItemOrThrow/);
-  assert.match(n8nRouteSrc, /SettlementFailedError/);
+check("n8n handler settles throws after generationBegan", () => {
+  assert.match(n8nHandlerSrc, /generationBegan\s*=\s*true/);
+  assert.match(n8nHandlerSrc, /classifyGenerationThrow/);
+  assert.match(n8nHandlerSrc, /settleProductionRunItemOrThrow/);
+  assert.match(n8nHandlerSrc, /SettlementFailedError/);
 });
 
 check("persist rolls back package when video job creation fails", () => {
@@ -195,9 +211,12 @@ check("settlement failures are not swallowed", () => {
   );
   assert.match(settleSrc, /SettlementFailedError/);
   assert.match(settleSrc, /SETTLE_MAX_ATTEMPTS/);
-  assert.match(n8nRouteSrc, /settleOrRespondOperational|settleProductionRunItemOrThrow/);
-  assert.doesNotMatch(n8nRouteSrc, /settleSafely/);
-  assert.match(n8nRouteSrc, /path:\s*"settlement"/);
+  assert.match(
+    n8nHandlerSrc,
+    /settleOrRespondOperational|settleProductionRunItemOrThrow/,
+  );
+  assert.doesNotMatch(n8nHandlerSrc, /settleSafely/);
+  assert.match(n8nHandlerSrc, /path:\s*"settlement"/);
 });
 
 check("workflows use PPD validation gate (no ensureStructuredProductDemo)", () => {

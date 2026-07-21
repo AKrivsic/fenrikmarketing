@@ -1,5 +1,4 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Json, PackageStatus } from "@/lib/supabase/types";
 import { getCopywritingProvider } from "@/lib/ai/index";
 import {
@@ -217,7 +216,16 @@ async function runGenerateContentPackageUnchecked(
   input: GenerateContentPackageInput,
   client?: SupabaseClient,
 ): Promise<WorkflowResult<ContentPackageData>> {
-  const supabase: SupabaseClient = client ?? (await createSupabaseServerClient());
+  // Lazy-load the Next.js cookie client only when no client was injected.
+  // Content-package-worker (plain Node) always passes the admin client; a
+  // static import of @/lib/supabase/server would pull in next/headers and fail.
+  let supabase: SupabaseClient;
+  if (client) {
+    supabase = client;
+  } else {
+    const { createSupabaseServerClient } = await import("@/lib/supabase/server");
+    supabase = await createSupabaseServerClient();
+  }
 
   // Idempotence guard (C1). A strategy item maps to AT MOST ONE content package.
   // If a package already exists for this (project, strategy item), return it
