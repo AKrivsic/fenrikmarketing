@@ -53,7 +53,8 @@ async function toFetchRequest(req: IncomingMessage): Promise<Request> {
   return new Request(url, {
     method,
     headers,
-    body: body.length > 0 ? body : undefined,
+    // Uint8Array is a valid BodyInit; Node Buffer is not under DOM typings.
+    body: body.length > 0 ? new Uint8Array(body) : undefined,
   });
 }
 
