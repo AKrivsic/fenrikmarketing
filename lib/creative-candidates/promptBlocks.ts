@@ -24,8 +24,8 @@ export function buildCreativeCandidatePromptBlock(
   ];
   return [
     `${CREATIVE_CANDIDATE_PROMPT_HEADER} (${CREATIVE_CANDIDATE_VERSION}):`,
-    "Raw visual situations were clustered for scroll-stop (Creative Divergence v2); a winner was selected with Attention First policy",
-    "(Selection v3: stop-scroll shortlist first, then commercial success inside that shortlist).",
+    "Creative Engine v3 invented original concepts; a winner was selected by comparative evaluation (not template banks).",
+    "Selection balances stop-scroll with originality, funnel fit, coherence, and product integration — stop power alone does not crown the winner.",
     "You MUST execute THIS winner — do not invent a safer montage, do not reinterpret into a low-information generic setting unless the winner requires it.",
     "Do not sand the opening into a weaker, more 'commercially safe' variant. Protect the winner's stop-scroll idea.",
     "",
@@ -86,7 +86,6 @@ export function creativeCandidateFieldsForPersistence(
   return {
     creative_candidates: {
       version: plan.version,
-      creativeDivergence: plan.creativeDivergence,
       generatedCandidates: plan.generatedCandidates,
       candidateScores: plan.candidateScores.map((s) => ({
         candidateId: s.candidate.candidateId,

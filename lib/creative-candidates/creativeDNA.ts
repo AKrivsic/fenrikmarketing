@@ -1,8 +1,8 @@
 /**
  * Creative DNA — canonical immutable creative decisions for a Creative Candidate.
  *
- * Primary path: authored in the same Divergence generation pass as the candidate
- * (`authorCreativeDNA`). Source label: `"model"` (divergence-authored; no extra LLM).
+ * Primary path: authored with the invented concept in Creative Engine v3
+ * (`creative_dna` on the concept). Source label: `"model"`.
  *
  * Fallback: `deriveCreativeDNA` when authored DNA is missing/malformed/inconsistent.
  * No new LLM call. No new workflow stage.
@@ -16,7 +16,7 @@ export const CREATIVE_DNA_PROMPT_HEADER = "CANONICAL CREATIVE DNA";
 export const CREATIVE_DNA_PROMPT_VERSION = "creative-dna@1" as const;
 
 /**
- * Authoring rules for Divergence generation (deterministic builder / future model schema).
+ * Authoring rules for Creative Engine concept DNA (model schema / deterministic repair).
  * Creative DNA is not a summary of the topic — it is a canonical specification of
  * this exact visual concept, authored with the candidate fields in the same object.
  */
@@ -907,7 +907,7 @@ export function buildCreativeDnaPromptBlock(dna: CreativeDNA): string {
   return [
     `${CREATIVE_DNA_PROMPT_HEADER} (${CREATIVE_DNA_PROMPT_VERSION}):`,
     "",
-    "The Creative Divergence stage has already made the core creative decisions below.",
+    "Creative Engine v3 has already made the core creative decisions below.",
     "These decisions are FINAL and define the identity of this content package.",
     "",
     "You are an execution and production layer. Do not reinterpret, relocate, replace or simplify these decisions.",

@@ -79,7 +79,6 @@ import {
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
-  planCreativeCandidatesForPackage,
   productDemonstrationValidationIssues,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
@@ -87,6 +86,10 @@ import {
   validateProductDemonstrationIntegrity,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import {
+  planCreativeEngineV3ForPackage,
+  creativeEngineV3FieldsForPersistence,
+} from "@/lib/creative-engine-v3";
 import { classifyFidelityFailuresForRepair } from "@/lib/creative-candidates/fidelityCheck";
 import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
 import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
@@ -271,13 +274,55 @@ async function runRegenerateContentPackageUnchecked(
     excludePackageId: packageId,
   });
 
-  const creativeCandidatePlan = planCreativeCandidatesForPackage({
-    topic: context.topic,
-    angle: context.angle,
-    painPoints: project.pain_points ?? [],
-    productIs: project.product_is ?? [],
-    requireVideo,
-  });
+  let creativeEnginePersistence: Record<string, unknown> = {};
+  let creativeCandidatePlan: {
+    plan: CreativeCandidatePlan | null;
+    promptBlock: string;
+    dnaPromptBlock: string;
+    dnaResolve: import("@/lib/creative-candidates/creativeDNA").CreativeDnaResolveResult | null;
+  } = {
+    plan: null,
+    promptBlock: "",
+    dnaPromptBlock: "",
+    dnaResolve: null,
+  };
+
+  if (requireVideo) {
+    const v3 = await planCreativeEngineV3ForPackage({
+      project,
+      projectId,
+      topic: context.topic,
+      angle: context.angle,
+      funnelStage: context.funnelStage,
+      platform: context.platform,
+      format: context.format,
+      ctaHint: project.default_cta,
+      productionRunId: context.productionRunId,
+      packageIndex: context.packageIndex,
+      packageCount: null,
+      assets: assets.refs,
+      memory,
+    });
+    if (!v3.ok) {
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: v3.validationErrors,
+        attempts: v3.attempts,
+      };
+    }
+    creativeCandidatePlan = {
+      plan: v3.plan,
+      promptBlock: v3.promptBlock,
+      dnaPromptBlock: v3.dnaPromptBlock,
+      dnaResolve: v3.dnaResolve,
+    };
+    creativeEnginePersistence = creativeEngineV3FieldsForPersistence({
+      telemetry: v3.telemetry,
+      plan: null,
+    });
+  }
+
   let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
   const selectedDna = normalizeCreativeDNA(
     creativeCandidates?.selectedCandidate.creativeDNA,
@@ -929,6 +974,7 @@ async function runRegenerateContentPackageUnchecked(
           creativeDnaDiagnostics,
         )
       : {}),
+    ...creativeEnginePersistence,
     ...(narrativeBeatPlan
       ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
           storyProgression: storyProgressionDiagnostics,

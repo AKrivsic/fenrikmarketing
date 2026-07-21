@@ -114,12 +114,6 @@ check("prompt block includes Story Integrity header", () => {
 check("candidate prompt embeds story integrity", () => {
   const plan = {
     version: "creative-candidates@3.0",
-    creativeDivergence: {
-      version: "creative-divergence@2.1",
-      clusters: [],
-      survivors: [],
-      rejected: [],
-    },
     generatedCandidates: [handheldWinner()],
     candidateScores: [],
     rejectedCandidates: [],
@@ -140,6 +134,7 @@ check("candidate prompt embeds story integrity", () => {
   const block = buildCreativeCandidatePromptBlock(plan);
   assert.ok(block.includes(STORY_INTEGRITY_PROMPT_HEADER));
   assert.ok(block.includes("no mid-video metaphor escape"));
+  assert.match(block, /Creative Engine v3/);
 });
 
 check("allowed world tokens include handheld chat lexicon", () => {

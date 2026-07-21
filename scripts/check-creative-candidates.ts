@@ -1,46 +1,29 @@
-// Creative Candidate Selection v3 (Commercial Success)
+// Creative candidates — DNA, fidelity, prompt blocks (Creative Engine v3)
 //   npm run check:creative-candidates
+// Candidate invention lives in check:creative-engine-v3.
 
 import assert from "node:assert/strict";
 import {
-  applyGenericityRejections,
-  areNearDuplicateSituations,
   authorCreativeDNA,
   buildCreativeCandidatePromptBlock,
   buildCreativeDnaPromptBlock,
   buildCreativeDnaPromptBlockFromPlan,
   checkConceptFidelity,
-  clusterRawSituations,
-  commercialTotal,
   CREATIVE_DNA_AUTHORING_INSTRUCTIONS,
   CREATIVE_DNA_PROMPT_HEADER,
-  CREATIVE_FAMILY_COMMERCIAL_METADATA,
   deriveCreativeDNA,
   extractTopicConcreteSignals,
-  familyCommercialMetadata,
-  finalSelectionScore,
-  generateCreativeCandidates,
-  generateCreativeCandidatesFromFamilies,
-  generateCreativeCandidatesWithDivergence,
-  generateRawVisualSituations,
   identityEnvironmentConflictsWithDna,
   isValidCreativeDNA,
   neutralizeIdentityEnvironmentForDna,
   normalizeCreativeDNA,
   openingSituationFaithfulToScene1,
-  planCreativeCandidatesForPackage,
-  rejectRawSituation,
   resolveCandidateCreativeDNA,
-  runComparativeJudge,
-  scoreCommercialSuccess,
-  selectWinner,
   validateCandidateDnaConsistency,
   validateCreativeDnaAgainstPackage,
-  weightedTotal,
   withCreativeDNA,
 } from "@/lib/creative-candidates";
-import type { CreativeCandidate, CreativeDNA } from "@/lib/creative-candidates/types";
-import { CREATIVE_CONCEPT_FAMILIES } from "@/lib/creative-candidates/types";
+import type { CreativeCandidate, CreativeCandidatePlan, CreativeDNA } from "@/lib/creative-candidates/types";
 import { buildGenerateContentPackagePrompt } from "@/lib/ai/prompts/generateContentPackage";
 import { buildCreativeIdentityPromptBlock } from "@/lib/creative-identity/promptBlocks";
 import {
@@ -72,11 +55,6 @@ function check(name: string, fn: () => void): void {
   }
 }
 
-const HVAC_TOPIC =
-  "The HVAC company that got slammed with website traffic during a heatwave — and lost every single online lead";
-const HVAC_ANGLE =
-  "Dramatize the moment a small service business is overwhelmed with phone calls while their website silently turns away visitor after visitor";
-
 const ACCOUNTANT_TOPIC =
   "The accountant who came back from vacation to a week's worth of missed leads — and zero contact details";
 const ACCOUNTANT_ANGLE =
@@ -91,482 +69,124 @@ const painPoints = [
   "Unable to answer customer questions when offline",
 ];
 
-function genericOfficeCandidate(): CreativeCandidate {
+function emptyPlan(winner: CreativeCandidate): CreativeCandidatePlan {
   return {
-    candidateId: "generic-office",
-    family: "social_observation",
-    coreIdea: "Person looking at laptop in a generic office stress montage about business being busy",
-    emotionalReaction: "mild stress",
-    hookLine: "Most businesses think being busy means business is good",
-    openingSituation:
-      "A person looking at a laptop at a modern office desk, calm desk frustration, thinking at a desk",
-    visualPromise: "Calm explanatory B2B montage of phones and dashboards",
-    storyProgression: "Show office stress → explain the problem → show dashboard → CTA",
-    productConnection: "The product is a chatbot somewhere in the dashboard",
-    ending: "Sign up for the platform",
-    expectedViewerQuestion: "Is this another SaaS ad?",
-    familiarityRisk: "high",
-    memorabilityReason: "It is easy to produce",
+    version: "creative-candidates@3.0",
+    generatedCandidates: [winner],
+    candidateScores: [],
+    rejectedCandidates: [],
+    selectedCandidate: winner,
+    comparativeJudge: {
+      mostLikelyToStopScrolling: winner.candidateId,
+      leastInterchangeable: winner.candidateId,
+      clearestMentalImage: winner.candidateId,
+      mostMemorableInOneHour: winner.candidateId,
+      bestProductTopicFit: winner.candidateId,
+      winnerId: winner.candidateId,
+      winnerReason: "test",
+    },
+    finalScriptFidelity: null,
+    finalStoryboardFidelity: null,
+    regenerationReason: null,
   };
 }
 
-console.log("\ncreative divergence v2");
+console.log("\nfidelity (invented fixtures)");
 
-check("generates 30+ raw visual situations before filter", () => {
-  const signals = extractTopicConcreteSignals(HVAC_TOPIC, HVAC_ANGLE);
-  const raw = generateRawVisualSituations({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    signals,
-    targetCount: 45,
-  });
-  assert.ok(raw.length >= 30, `got ${raw.length}`);
-});
-
-check("rejects generic raw situations (office/laptop/meeting)", () => {
-  const acct = extractTopicConcreteSignals(ACCOUNTANT_TOPIC, ACCOUNTANT_ANGLE);
-  assert.ok(rejectRawSituation("Person staring at a laptop in a modern office desk meeting room", acct));
-  assert.ok(rejectRawSituation("Generic business stress explaining the product on a dashboard", acct));
-  assert.ok(
-    rejectRawSituation(
-      "A person at a desk with a laptop thinking about workflow efficiency",
-      acct,
-    ),
-  );
-  assert.ok(
-    rejectRawSituation(
-      "Outside a HVAC van in blazing heat a technician sprints to another truck during website silence",
-      acct,
-    ),
-    "HVAC props must reject on accountant topic",
-  );
-});
-
-check("clustering merges near-duplicates / camera variants", () => {
-  const signals = extractTopicConcreteSignals(HVAC_TOPIC, HVAC_ANGLE);
-  const raw = generateRawVisualSituations({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    signals,
-  });
-  const { clusters, survivors } = clusterRawSituations(raw);
-  assert.ok(clusters.length >= 8);
-  assert.ok(survivors.length >= 8);
-  assert.ok(
-    clusters.length < raw.filter((r) => !r.rejected).length,
-    `expected merge: clusters=${clusters.length} nonRejected=${raw.filter((r) => !r.rejected).length}`,
-  );
-  const scenes = survivors.map((s) => s.scene);
-  assert.equal(new Set(scenes).size, scenes.length);
-
-  assert.ok(
-    areNearDuplicateSituations(
-      {
-        scene: "Handheld urgency: Outside a HVAC van in blazing heat, job folders tower beside the door",
-        scrollStopCue: "Lost work as a physical mountain",
-      },
-      {
-        scene: "Outside a HVAC van in blazing heat, a growing stack of unmarked job folders towers beside the door",
-        scrollStopCue: "Lost work as a physical mountain",
-      },
-    ),
-  );
-});
-
-check("generates 8 candidates from divergence survivors", () => {
-  const { candidates, divergence } = generateCreativeCandidatesWithDivergence({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-  });
-  assert.equal(candidates.length, 8);
-  assert.ok(divergence.rawGeneratedCount >= 30);
-  assert.ok(divergence.rawAfterFilterCount >= 15);
-  assert.ok(divergence.survivors.length >= 8);
-  assert.ok(divergence.rejectedGenericSamples.length >= 1);
-  assert.ok(candidates.every((c) => c.candidateId.includes("-div")));
-  const families = candidates.map((c) => c.family);
-  assert.equal(new Set(families).size, families.length, "duplicate families in slate");
-});
-
-console.log("\nrun 04911a16 regressions (accountant)");
-
-check("accountant topic cannot produce HVAC technician/van/heat concepts", () => {
-  const signals = extractTopicConcreteSignals(ACCOUNTANT_TOPIC, ACCOUNTANT_ANGLE, {
-    productIs,
-  });
-  assert.equal(signals.world, "professional_return");
-  assert.match(signals.industryCue, /account/i);
-  assert.doesNotMatch(signals.industryCue, /website-led service business/i);
-
-  const { candidates, divergence } = generateCreativeCandidatesWithDivergence({
-    topic: ACCOUNTANT_TOPIC,
-    angle: ACCOUNTANT_ANGLE,
-    painPoints,
-    productIs,
-  });
-  const survivingScenes = divergence.survivors.map((s) => s.scene).join("\n");
-  const candidateBlob = candidates.map((c) => c.openingSituation).join("\n");
-  const blob = `${survivingScenes}\n${candidateBlob}`;
-  assert.doesNotMatch(blob, /\btechnician\b/i);
-  assert.doesNotMatch(blob, /\bheatwave\b/i);
-  assert.doesNotMatch(blob, /\bblazing heat\b/i);
-  assert.doesNotMatch(blob, /\bservice van\b/i);
-  assert.match(blob, /accountant|vacation|suitcase|contact|pto|passport/i);
-  assert.ok(divergence.rawAfterFilterCount < divergence.rawGeneratedCount);
-});
-
-check("duplicate families cannot survive final accountant slate", () => {
-  const { candidates } = generateCreativeCandidatesWithDivergence({
-    topic: ACCOUNTANT_TOPIC,
-    angle: ACCOUNTANT_ANGLE,
-    painPoints,
-    productIs,
-  });
-  assert.equal(candidates.length, 8);
-  assert.equal(new Set(candidates.map((c) => c.family)).size, 8);
-});
-
-check("mascot winner cannot pass with co-working scene 1", () => {
+check("faithful script+scene1 passes fidelity", () => {
   const winner = {
-    candidateId: "c5-absurd_understandable-div",
-    family: "absurd_understandable" as const,
-    coreIdea:
-      "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
+    candidateId: "inv-1",
+    family: "invented" as const,
+    coreIdea: "Parking-lot mascot waves while chat fakes typing",
     emotionalReaction: "amused recognition",
     hookLine: "Mascot suffers, fake typing online.",
     openingSituation:
       "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
-    visualPromise: "Film the opening as a scroll-stop frame: Mascot suffers, fake typing online.",
-    storyProgression: "Hold opening → product",
-    productConnection: "AI chatbot handles the website moment",
+    visualPromise: "Scroll-stop parking lot mascot; no generic office montage.",
+    storyProgression: "Hold opening → silence → product answers",
+    productConnection: "AI website chatbot handles the website moment",
     ending: "Next visitor gets an answer",
-    expectedViewerQuestion: "What happens?",
+    expectedViewerQuestion: "Why is the mascot outside while chat fakes typing?",
     familiarityRisk: "low" as const,
-    memorabilityReason: "mascot",
+    memorabilityReason: "mascot parking lot",
   };
-  const cowork =
-    "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel. A person in a full mascot costume stands just inside a glass door.";
-  const faithful = openingSituationFaithfulToScene1(winner.openingSituation, cowork);
-  assert.equal(faithful.ok, false);
   const fidelity = checkConceptFidelity({
     winner,
     hook: winner.hookLine,
-    voiceoverText: `${winner.hookLine} An accountant returned from vacation.`,
-    imagePrompts: [cowork],
+    voiceoverText: `${winner.hookLine} The parking lot mascot keeps waving while the AI website chatbot never sends a message.`,
+    visualScenes: [
+      {
+        source: "ai",
+        image_prompt: winner.openingSituation,
+      },
+    ],
+    topic: ACCOUNTANT_TOPIC,
+    angle: ACCOUNTANT_ANGLE,
+  });
+  assert.equal(fidelity.passed, true, fidelity.failureReasons.join("; "));
+  assert.equal(
+    openingSituationFaithfulToScene1(winner.openingSituation, winner.openingSituation).ok,
+    true,
+  );
+});
+
+check("storyboard replacing opening with laptop/office fails fidelity", () => {
+  const winner = {
+    candidateId: "inv-2",
+    family: "invented" as const,
+    coreIdea: "Parking-lot mascot waves while chat fakes typing",
+    emotionalReaction: "amused recognition",
+    hookLine: "Mascot suffers, fake typing online.",
+    openingSituation:
+      "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
+    visualPromise: "Scroll-stop parking lot mascot",
+    storyProgression: "Hold opening → silence → product answers",
+    productConnection: "AI website chatbot handles the website moment",
+    ending: "Next visitor gets an answer",
+    expectedViewerQuestion: "Why is the mascot outside?",
+    familiarityRisk: "low" as const,
+    memorabilityReason: "mascot",
+  };
+  const fidelity = checkConceptFidelity({
+    winner,
+    hook: winner.hookLine,
+    voiceoverText: "Most businesses struggle with efficiency in today's world.",
+    visualScenes: [
+      {
+        source: "ai",
+        image_prompt: "A person looking at a laptop at a modern office desk",
+      },
+    ],
     topic: ACCOUNTANT_TOPIC,
     angle: ACCOUNTANT_ANGLE,
   });
   assert.equal(fidelity.passed, false);
-  assert.ok(
-    fidelity.failureReasons.some((r) =>
-      r.startsWith("opening_situation_missing_from_scene1"),
-    ),
-  );
+  assert.ok(fidelity.collapsedToGenericOffice || fidelity.failureReasons.length > 0);
 });
 
-console.log("\ngenerate + distinctness");
-
-check("generates 8 candidates (v2 divergence)", () => {
-  const c = generateCreativeCandidates({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-  });
-  assert.equal(c.length, 8);
-  const families = new Set(c.map((x) => x.family));
-  assert.ok(families.size >= 5, `only ${families.size} families`);
-});
-
-check("v1 family scaffolds still available for reference", () => {
-  const c = generateCreativeCandidatesFromFamilies({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-  });
-  assert.equal(c.length, 8);
-  assert.deepEqual(
-    c.map((x) => x.family).sort(),
-    [...CREATIVE_CONCEPT_FAMILIES].sort(),
-  );
-});
-
-check("candidates are meaningfully distinct (not paraphrases)", () => {
-  const c = generateCreativeCandidates({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-  });
-  for (let i = 0; i < c.length; i++) {
-    for (let j = i + 1; j < c.length; j++) {
-      const a = c[i]!.coreIdea.toLowerCase();
-      const b = c[j]!.coreIdea.toLowerCase();
-      assert.notEqual(a, b);
-      // Jaccard-ish: shared significant words should not dominate both ideas
-      const aw = new Set(a.split(/\W+/).filter((w) => w.length > 4));
-      const bw = b.split(/\W+/).filter((w) => w.length > 4);
-      const shared = bw.filter((w) => aw.has(w)).length;
-      const ratio = shared / Math.max(bw.length, 1);
-      assert.ok(
-        ratio < 0.7,
-        `candidates ${c[i]!.family} vs ${c[j]!.family} too similar (${ratio})`,
-      );
-    }
-  }
-});
-
-console.log("\nscoring + judge");
-
-check("generic office does not beat memorable concept via feasibility", () => {
-  const memorable = generateCreativeCandidates({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-  }).find((c) => c.family === "consequence_first")!;
-
-  const scored = applyGenericityRejections(
-    [genericOfficeCandidate(), memorable],
-    { topic: HVAC_TOPIC, angle: HVAC_ANGLE, productIs },
-  );
-  const generic = scored.find((s) => s.candidate.candidateId === "generic-office")!;
-  const mem = scored.find((s) => s.candidate.candidateId === memorable.candidateId)!;
-
-  assert.equal(generic.rejected, true);
-  assert.ok(generic.scores.productionFeasibility >= mem.scores.productionFeasibility);
-  assert.ok(mem.weightedTotal > generic.weightedTotal);
-
-  const judge = runComparativeJudge(scored);
-  const winner = selectWinner(scored, judge);
-  assert.notEqual(winner.candidate.candidateId, "generic-office");
-  assert.ok(winner.scores.stopPower >= 5);
-});
-
-check("HVAC concept does not collapse to generic business messaging", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  assert.ok(planned.plan);
-  const w = planned.plan!.selectedCandidate;
-  const blob = `${w.coreIdea} ${w.hookLine} ${w.openingSituation}`;
-  assert.match(blob, /heat|HVAC|cooling|technician|van|heatwave/i);
-  assert.doesNotMatch(w.hookLine, /^Most businesses/i);
-  const signals = extractTopicConcreteSignals(HVAC_TOPIC, HVAC_ANGLE);
-  assert.ok(signals.rawTokens.some((t) => /heat|HVAC|cooling/i.test(t)));
-});
-
-console.log("\npropagation + fidelity");
-
-check("winner hook and opening propagate into prompt block", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const block = buildCreativeCandidatePromptBlock(planned.plan!);
-  assert.ok(block.includes(planned.plan!.selectedCandidate.hookLine));
-  assert.ok(block.includes(planned.plan!.selectedCandidate.openingSituation));
-  assert.ok(block.includes("MUST be visual_scenes[0]"));
-});
-
-check("storyboard replacing opening with laptop/office fails fidelity", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const w = planned.plan!.selectedCandidate;
-  const fidelity = checkConceptFidelity({
-    winner: w,
-    hook: w.hookLine,
-    voiceoverText: `${w.hookLine} Then we explain the platform.`,
-    imagePrompts: [
-      "Photorealistic person looking at a laptop at a modern office desk with coffee",
-      "Dashboard on a monitor",
-    ],
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-  });
-  assert.equal(fidelity.passed, false);
-  assert.ok(
-    fidelity.failureReasons.some(
-      (r) =>
-        r === "storyboard_collapsed_to_generic_office" ||
-        r.startsWith("opening_situation_missing_from_scene1"),
-    ),
-  );
-});
-
-check("faithful script+scene1 passes fidelity", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const w = planned.plan!.selectedCandidate;
-  const fidelity = checkConceptFidelity({
-    winner: w,
-    hook: w.hookLine,
-    voiceoverText: `${w.hookLine} ${w.storyProgression} ${w.productConnection} ${w.ending}`,
-    imagePrompts: [w.openingSituation, w.visualPromise, w.ending],
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-  });
-  assert.equal(fidelity.passed, true, fidelity.failureReasons.join(","));
-});
-
-check("winner hook is required in final-script fidelity", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const w = planned.plan!.selectedCandidate;
-  const fidelity = checkConceptFidelity({
-    winner: w,
-    hook: "Most businesses struggle with productivity",
-    voiceoverText:
-      "Most businesses struggle with productivity. In today's world websites matter.",
-    imagePrompts: [w.openingSituation],
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-  });
-  assert.equal(fidelity.passed, false);
-  assert.ok(
-    fidelity.failureReasons.includes("hook_not_preserved_in_first_spoken") ||
-      fidelity.failureReasons.includes("voiceover_essay_or_generic_opener"),
-  );
-});
-
-console.log("\nworkflow wiring");
-
-check("generate prompt includes creative candidate block when provided", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const directives: CreativeDirectives = {
-    mode: CREATIVE_MODES[0],
-    hook: HOOK_ARCHETYPES[0],
-    persona: VOICE_PERSONAS[0],
+check("prompt block describes Creative Engine v3 invented winner", () => {
+  const winner = {
+    candidateId: "inv-3",
+    family: "invented" as const,
+    coreIdea: "Parking-lot mascot",
+    emotionalReaction: "amused recognition",
+    hookLine: "Mascot suffers, fake typing online.",
+    openingSituation: "Mascot costume melting in parking lot heat",
+    visualPromise: "Parking lot frame",
+    storyProgression: "Hold → silence → answer",
+    productConnection: "AI website chatbot answers",
+    ending: "Visitor gets an answer",
+    expectedViewerQuestion: "Why the mascot?",
+    familiarityRisk: "low" as const,
+    memorabilityReason: "mascot",
   };
-  const project = {
-    id: "p1",
-    name: "Fenrik.chat",
-    type: "saas",
-    language: "en",
-    market_scope: "global",
-    goal_type: "lead_generation",
-    target_audience: { segments: ["SMB"] },
-    product_is: productIs,
-    product_is_not: [],
-    product_strengths: [],
-    pain_points: painPoints,
-    forbidden_claims: [],
-    tone_of_voice: { notes: ["Direct"] },
-    platforms: [],
-    publishing_rules: {},
-    default_cta: null,
-  } as unknown as Project;
-
-  const prompt = buildGenerateContentPackagePrompt({
-    project,
-    funnelStage: "problem_aware",
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    platform: "tiktok",
-    format: "short",
-    availableAssets: [],
-    requireVideo: true,
-    directives,
-    creativeCandidatePromptBlock: planned.promptBlock,
-  });
-  assert.ok(prompt.includes("CREATIVE CANDIDATE SELECTION"));
-  assert.ok(prompt.includes(planned.plan!.selectedCandidate.hookLine));
+  const block = buildCreativeCandidatePromptBlock(emptyPlan(winner));
+  assert.match(block, /Creative Engine v3/);
+  assert.doesNotMatch(block, /Divergence|Attention First|template banks were clustered/i);
+  assert.ok(block.includes(winner.hookLine));
+  assert.ok(block.includes(winner.openingSituation));
 });
 
-check("text-only packages skip candidate planning", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    requireVideo: false,
-  });
-  assert.equal(planned.plan, null);
-  assert.equal(planned.promptBlock, "");
-});
-
-check("persistence fields include observability keys", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const fields = planned.persistenceFields.creative_candidates as Record<
-    string,
-    unknown
-  >;
-  assert.ok(fields);
-  assert.ok(Array.isArray(fields.generatedCandidates));
-  assert.ok(Array.isArray(fields.candidateScores));
-  assert.ok(fields.selectedCandidate);
-  assert.ok(fields.comparativeJudge);
-  assert.ok(fields.creativeDivergence);
-  assert.equal(fields.version, "creative-candidates@3.0");
-  assert.ok(fields.selectionDiagnostics);
-  const scores = fields.candidateScores as Array<Record<string, unknown>>;
-  assert.ok(scores.length > 0);
-  assert.ok("commercialTotal" in scores[0]!);
-  assert.ok("finalSelectionScore" in scores[0]!);
-});
-
-check("weightedTotal prefers stop/comprehension over feasibility", () => {
-  const highStop = weightedTotal({
-    stopPower: 9,
-    immediateComprehension: 8,
-    memorability: 8,
-    emotionalCharge: 7,
-    productRelevance: 8,
-    visualSpecificity: 7,
-    storyPotential: 7,
-    originality: 8,
-    AI_Generic_Risk: 2,
-    productionFeasibility: 5,
-  });
-  const highFeasibleGeneric = weightedTotal({
-    stopPower: 3,
-    immediateComprehension: 5,
-    memorability: 3,
-    emotionalCharge: 3,
-    productRelevance: 5,
-    visualSpecificity: 3,
-    storyPotential: 4,
-    originality: 2,
-    AI_Generic_Risk: 8,
-    productionFeasibility: 10,
-  });
-  assert.ok(highStop > highFeasibleGeneric);
-});
 
 // ---------------------------------------------------------------------------
 // Creative DNA
@@ -649,25 +269,6 @@ check("malformed Creative DNA is safely omitted", () => {
     }),
     undefined,
   );
-});
-
-check("divergence winners include Creative DNA", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: ACCOUNTANT_TOPIC,
-    angle: ACCOUNTANT_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const dna = planned.plan!.selectedCandidate.creativeDNA;
-  assert.ok(dna, "winner missing creativeDNA");
-  assert.ok(isValidCreativeDNA(dna));
-  assert.equal(planned.plan!.selectedCandidate.creativeDnaSource, "model");
-  assert.equal(planned.dnaResolve?.source, "model");
-  assert.equal(planned.dnaResolve?.fallbackUsed, false);
-  assert.ok(planned.dnaPromptBlock.includes(CREATIVE_DNA_PROMPT_HEADER));
-  assert.ok(planned.dnaPromptBlock.includes(dna!.world));
-  assert.ok(CREATIVE_DNA_AUTHORING_INSTRUCTIONS.includes("not a summary of the topic"));
 });
 
 check("authored DNA is not replaced by deriveCreativeDNA", () => {
@@ -876,15 +477,6 @@ check("canonical DNA section injected when present; absent for historical", () =
   const without = mascotWinner(false);
   const planWith = {
     version: "creative-candidates@3.0" as const,
-    creativeDivergence: {
-      version: "creative-divergence@2.1" as const,
-      rawGeneratedCount: 0,
-      rawAfterFilterCount: 0,
-      clusters: [],
-      survivors: [],
-      rejectedGenericSamples: [],
-      candidateSourceIds: [],
-    },
     generatedCandidates: [withDna],
     candidateScores: [],
     rejectedCandidates: [],
@@ -912,13 +504,10 @@ check("canonical DNA section injected when present; absent for historical", () =
 });
 
 check("DNA appears after candidate and before Identity / Narrative / Product Reveal", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: ACCOUNTANT_TOPIC,
-    angle: ACCOUNTANT_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
+  const winner = mascotWinner(true);
+  const plan = emptyPlan(winner);
+  const promptBlock = buildCreativeCandidatePromptBlock(plan);
+  const dnaPromptBlock = buildCreativeDnaPromptBlockFromPlan(plan);
   const directives: CreativeDirectives = {
     mode: CREATIVE_MODES[0],
     hook: HOOK_ARCHETYPES[0],
@@ -974,8 +563,8 @@ check("DNA appears after candidate and before Identity / Narrative / Product Rev
     availableAssets: [],
     requireVideo: true,
     directives,
-    creativeCandidatePromptBlock: planned.promptBlock,
-    creativeDnaPromptBlock: planned.dnaPromptBlock,
+    creativeCandidatePromptBlock: promptBlock,
+    creativeDnaPromptBlock: dnaPromptBlock,
     creativeIdentityPromptBlock: buildCreativeIdentityPromptBlock(identity, []),
     visualNarrativePromptBlock: "VISUAL NARRATIVE (test)",
     productRevealPromptBlock: "PRODUCT REVEAL (test)",
@@ -1134,52 +723,35 @@ check("product role absent from payoff is detected", () => {
   );
 });
 
-console.log("\nno-new-LLM-call guarantee");
+console.log("\nworkflow DNA wiring");
 
-check("candidate planning + DNA derivation stays synchronous (no LLM)", () => {
-  // planCreativeCandidatesForPackage is sync and returns DNA without awaiting providers.
-  const t0 = Date.now();
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  const elapsed = Date.now() - t0;
-  assert.ok(planned.plan?.selectedCandidate.creativeDNA);
-  assert.ok(elapsed < 2000, `planning unexpectedly slow (${elapsed}ms) — possible I/O`);
-  // Workflow still has exactly one primary generateValidatedJson + optional fidelity repair.
+check("generate workflow always uses Creative Engine v3 (no Divergence fallback)", () => {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const wf = readFileSync(
     path.join(root, "lib/ai/workflows/generateContentPackage.ts"),
     "utf8",
   );
-  const calls = [...wf.matchAll(/generateValidatedJson\(/g)];
-  // One initial generation + fidelity repair + story-integrity repair.
-  // Product-demonstration repair is deterministic (ensureDemo), not an LLM call.
-  assert.equal(calls.length, 3, `expected 3 generateValidatedJson sites, got ${calls.length}`);
-  assert.doesNotMatch(wf, /deriveCreativeDNA\([\s\S]*await/);
+  const regen = readFileSync(
+    path.join(root, "lib/ai/workflows/regenerateContentPackage.ts"),
+    "utf8",
+  );
+  assert.match(wf, /planCreativeEngineV3ForPackage/);
+  assert.match(regen, /planCreativeEngineV3ForPackage/);
+  assert.doesNotMatch(wf, /planCreativeCandidatesForPackage|generateCreativeCandidatesWithDivergence|resolveCreativeEngineV3Mode/);
+  assert.doesNotMatch(regen, /planCreativeCandidatesForPackage|generateCreativeCandidatesWithDivergence|resolveCreativeEngineV3Mode/);
   assert.match(wf, /validateStoryIntegrity/);
   assert.match(wf, /storyIntegrityRepairAppendix/);
   assert.match(wf, /validateProductDemonstrationIntegrity/);
-  assert.match(wf, /ensureDemo\(true\)/);
+  assert.match(wf, /planCreativeEngineV3ForPackage/);
 });
 
 check("before/after prompt comparison: DNA locks parking-lot world vs co-working Identity", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: ACCOUNTANT_TOPIC,
-    angle: ACCOUNTANT_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  // Force mascot DNA onto a fixture plan for a production-like comparison.
   const winner = {
     ...mascotWinner(true),
     creativeDNA: MASCOT_DNA,
   };
   const dnaBlock = buildCreativeDnaPromptBlock(MASCOT_DNA);
+  const candidateBlock = buildCreativeCandidatePromptBlock(emptyPlan(winner));
   const identity: CreativeIdentity = {
     version: CREATIVE_IDENTITY_VERSION,
     environment: "a bright co-working space in daylight",
@@ -1216,216 +788,10 @@ check("before/after prompt comparison: DNA locks parking-lot world vs co-working
   assert.match(dnaBlock, /endingIntent/);
   assert.match(dnaBlock, /immutableRules/);
   assert.ok(winner.hookLine.includes("Mascot"));
-  // Without DNA: Identity owns environment. With DNA: world stays parking lot.
   assert.match(dnaBlock, /sun-baked parking lot/i);
-  assert.ok(planned.promptBlock.includes("CREATIVE CANDIDATE"));
+  assert.ok(candidateBlock.includes("CREATIVE CANDIDATE"));
 });
 
-console.log("\nselection v3 — commercial success");
-
-function fixtureCandidate(
-  partial: Partial<CreativeCandidate> &
-    Pick<CreativeCandidate, "candidateId" | "family" | "hookLine" | "openingSituation" | "coreIdea">,
-): CreativeCandidate {
-  return {
-    emotionalReaction: "recognition",
-    visualPromise: partial.visualPromise ?? "Film the opening situation clearly",
-    storyProgression: "Hold opening → escalate → product answers",
-    productConnection:
-      partial.productConnection ??
-      "AI website chatbot answers the visitor in the opening moment",
-    ending: "Website answers when you can't",
-    expectedViewerQuestion: "What happens next?",
-    familiarityRisk: "medium",
-    memorabilityReason: "Specific situation",
-    ...partial,
-  };
-}
-
-check("family metadata ranks direct_product above absurd on commercial reliability", () => {
-  const dp = familyCommercialMetadata("direct_product_world");
-  const abs = familyCommercialMetadata("absurd_understandable");
-  const ve = familyCommercialMetadata("visual_exaggeration");
-  assert.ok(dp.commercial_reliability > abs.commercial_reliability);
-  assert.ok(ve.commercial_reliability > abs.commercial_reliability);
-  assert.equal(abs.requires_readable_text, true);
-  assert.ok(abs.metaphor_risk >= 8);
-  assert.equal(CREATIVE_FAMILY_COMMERCIAL_METADATA.social_observation.requires_readable_text, true);
-});
-
-check("departure-board absurd scores low commercial vs human product-world", () => {
-  const absurd = fixtureCandidate({
-    candidateId: "c-absurd-board",
-    family: "absurd_understandable",
-    hookLine: "Departure board for the wrong channel.",
-    openingSituation:
-      'Train-station style departure board: "Phone caller #47" boarding; "Website visitor" stuck on Delayed',
-    coreIdea:
-      "Departure board comparing phone caller boarding vs website visitor Delayed",
-  });
-  const direct = fixtureCandidate({
-    candidateId: "c-direct-hands",
-    family: "direct_product_world",
-    hookLine: "Urgent question dies in silence.",
-    openingSituation:
-      "Close on a customer's hands sending an urgent question on their phone; reply thread shows seen with no answer",
-    coreIdea:
-      "Hands on phone waiting for a website reply that never comes during peak demand",
-    productConnection:
-      "Chat answers the visitor on the services page while the owner is busy",
-  });
-  const visual = fixtureCandidate({
-    candidateId: "c-visual-mountain",
-    family: "visual_exaggeration",
-    hookLine: "Lost work as a physical mountain.",
-    openingSituation:
-      "Physical stack of printed missed-web-session logs grows on the counter while staff handle only the phone",
-    coreIdea: "Mountain of missed website sessions beside a ringing phone",
-  });
-  const consequence = fixtureCandidate({
-    candidateId: "c-consequence",
-    family: "consequence_first",
-    hookLine: "Competitor wins before you pick up.",
-    openingSituation:
-      "Rival finishes the quote while your phone is still ringing and the website visitor walks away unanswered",
-    coreIdea: "Consequence-first: competitor closes while you miss the lead",
-  });
-
-  const scored = applyGenericityRejections(
-    [absurd, direct, visual, consequence],
-    {
-      topic: HVAC_TOPIC,
-      angle: HVAC_ANGLE,
-      productIs,
-    },
-  );
-  const a = scored.find((s) => s.candidate.candidateId === "c-absurd-board")!;
-  const d = scored.find((s) => s.candidate.candidateId === "c-direct-hands")!;
-  const v = scored.find((s) => s.candidate.candidateId === "c-visual-mountain")!;
-  const c = scored.find((s) => s.candidate.candidateId === "c-consequence")!;
-
-  assert.ok(a.commercialTotal != null && d.commercialTotal != null);
-  // Text-dependent absurd still scores lower commercially than human product-world
-  assert.ok(
-    d.commercialTotal! > a.commercialTotal!,
-    `direct commercial ${d.commercialTotal} should beat absurd ${a.commercialTotal}`,
-  );
-  assert.ok(
-    v.commercialTotal! > a.commercialTotal!,
-    `visual commercial ${v.commercialTotal} should beat absurd ${a.commercialTotal}`,
-  );
-
-  const judge = runComparativeJudge(scored);
-  const winner = selectWinner(scored, judge);
-  // Selection v3: stop shortlist first — commercial cannot crown a far-weaker stop
-  const maxStop = Math.max(...scored.map((s) => s.scores.stopPower));
-  assert.ok(
-    winner.scores.stopPower >= maxStop - 2,
-    `winner stop ${winner.scores.stopPower} must be within 2 of max ${maxStop}`,
-  );
-  assert.ok(judge.winnerReason.includes("stop_shortlist"));
-  assert.ok(judge.selectionDiagnostics.whyWon.includes("commercial_score="));
-  // High-stop consequence should be eligible; text-dependent absurd should not win alone
-  assert.ok(
-    winner.candidate.candidateId === "c-consequence" ||
-      winner.candidate.candidateId === "c-visual-mountain" ||
-      winner.candidate.candidateId === "c-direct-hands" ||
-      winner.candidate.candidateId === "c-absurd-board",
-  );
-  // If consequence leads stop, commercial must not pick a candidate 3+ stop below it
-  if (c.scores.stopPower === maxStop) {
-    assert.ok(winner.scores.stopPower >= c.scores.stopPower - 2);
-  }
-});
-
-check("stop shortlist prevents commercial overturn of far-weaker stop", () => {
-  const lowStopSafe = fixtureCandidate({
-    candidateId: "c-safe-low-stop",
-    family: "direct_product_world",
-    hookLine: "Urgent question dies in silence.",
-    openingSituation:
-      "Hands send an urgent question on a phone; reply thread shows seen with no answer",
-    coreIdea: "Phone unanswered in a product-world situation",
-  });
-  const highStop = fixtureCandidate({
-    candidateId: "c-high-stop",
-    family: "consequence_first",
-    hookLine: "Competitor wins before you pick up.",
-    openingSituation:
-      "Rival finishes the quote while your phone is still ringing and the visitor walks away",
-    coreIdea: "Competitor closes the deal before you answer",
-  });
-  const scored = applyGenericityRejections([lowStopSafe, highStop], {
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    productIs,
-  });
-  // Force stop gap: patch scores after commercial attach
-  const patched = scored.map((s) => {
-    if (s.candidate.candidateId === "c-safe-low-stop") {
-      return {
-        ...s,
-        scores: { ...s.scores, stopPower: 4, memorability: 4 },
-        weightedTotal: 40,
-        finalSelectionScore: 40 + (s.commercialTotal ?? 0),
-      };
-    }
-    return {
-      ...s,
-      scores: { ...s.scores, stopPower: 9, memorability: 8 },
-      weightedTotal: 70,
-      finalSelectionScore: 70 + (s.commercialTotal ?? 0),
-    };
-  });
-  const judge = runComparativeJudge(patched);
-  const winner = selectWinner(patched, judge);
-  assert.equal(winner.candidate.candidateId, "c-high-stop");
-  assert.ok(judge.winnerReason.includes("stop_shortlist"));
-});
-
-check("finalSelectionScore = creative + commercial", () => {
-  const c = scoreCommercialSuccess(
-    fixtureCandidate({
-      candidateId: "x",
-      family: "direct_product_world",
-      hookLine: "Heat relief outside, none online.",
-      openingSituation:
-        "Person fans themselves in a queue while refreshing a dead chat on their phone",
-      coreIdea: "Queue outside; dead chat online",
-    }),
-  );
-  const creative = 80;
-  const commercial = commercialTotal(c);
-  assert.equal(finalSelectionScore(creative, commercial), creative + commercial);
-});
-
-check("plan exposes selection diagnostics and v3 version", () => {
-  const planned = planCreativeCandidatesForPackage({
-    topic: HVAC_TOPIC,
-    angle: HVAC_ANGLE,
-    painPoints,
-    productIs,
-    requireVideo: true,
-  });
-  assert.equal(planned.plan!.version, "creative-candidates@3.0");
-  assert.ok(planned.plan!.selectionDiagnostics);
-  assert.match(planned.plan!.selectionDiagnostics!.whyWon, /final_selection_score=/);
-  assert.match(planned.promptBlock, /stop-scroll shortlist|Selection v3|Attention First/i);
-  // Winner should not be auto-absurd solely from originality when better commercial options exist
-  const winnerFamily = planned.plan!.selectedCandidate.family;
-  const winnerScore = planned.plan!.candidateScores.find(
-    (s) => s.candidate.candidateId === planned.plan!.selectedCandidate.candidateId,
-  )!;
-  assert.ok(winnerScore.finalSelectionScore != null);
-  const absurd = planned.plan!.candidateScores.find(
-    (s) => s.candidate.family === "absurd_understandable" && !s.rejected,
-  );
-  if (absurd && winnerFamily !== "absurd_understandable") {
-    assert.ok(
-      (winnerScore.finalSelectionScore ?? 0) >= (absurd.finalSelectionScore ?? 0),
-    );
-  }
-});
 
 console.log(`\n${passed} passed, ${failed} failed`);
-process.exit(failed > 0 ? 1 : 0);
+if (failed > 0) process.exit(1);

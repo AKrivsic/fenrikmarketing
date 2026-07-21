@@ -1,17 +1,8 @@
-import { runComparativeJudge, selectWinner } from "@/lib/creative-candidates/comparativeJudge";
-import { generateCreativeCandidatesWithDivergence } from "@/lib/creative-candidates/generateCandidates";
 import { extractTopicConcreteSignals } from "@/lib/creative-candidates/topicSignals";
-import { applyGenericityRejections } from "@/lib/creative-candidates/scoreCandidates";
-import {
-  buildCreativeCandidatePromptBlock,
-  buildCreativeDnaPromptBlockFromPlan,
-  creativeCandidateFieldsForPersistence,
-} from "@/lib/creative-candidates/promptBlocks";
-import {
-  CREATIVE_CANDIDATE_VERSION,
-  type ConceptFidelityResult,
-  type CreativeCandidate,
-  type CreativeCandidatePlan,
+import type {
+  ConceptFidelityResult,
+  CreativeCandidate,
+  CreativeCandidatePlan,
 } from "@/lib/creative-candidates/types";
 import {
   normalizeCreativeDNA,
@@ -59,7 +50,6 @@ export function ensureCandidateCreativeDNA(
     },
   });
 
-  // Preserve existing model source when DNA was already authored and accepted
   let source: CreativeDnaSource = resolve.source;
   if (
     candidate.creativeDnaSource === "model" &&
@@ -76,82 +66,6 @@ export function ensureCandidateCreativeDNA(
       creativeDNA: resolve.dna,
       creativeDnaSource: source,
     },
-  };
-}
-
-export function planCreativeCandidatesForPackage(args: {
-  topic: string;
-  angle?: string | null;
-  painPoints?: readonly string[];
-  productIs?: readonly string[];
-  requireVideo: boolean;
-}): {
-  plan: CreativeCandidatePlan | null;
-  promptBlock: string;
-  /** DNA section only; empty when DNA absent. */
-  dnaPromptBlock: string;
-  persistenceFields: Record<string, unknown>;
-  dnaResolve: CreativeDnaResolveResult | null;
-} {
-  if (!args.requireVideo) {
-    return {
-      plan: null,
-      promptBlock: "",
-      dnaPromptBlock: "",
-      persistenceFields: {},
-      dnaResolve: null,
-    };
-  }
-
-  const { candidates: generatedCandidates, divergence: creativeDivergence } =
-    generateCreativeCandidatesWithDivergence({
-      topic: args.topic,
-      angle: args.angle,
-      painPoints: args.painPoints,
-      productIs: args.productIs,
-    });
-
-  const candidateScores = applyGenericityRejections(generatedCandidates, {
-    topic: args.topic,
-    angle: args.angle,
-    productIs: args.productIs,
-  });
-
-  const comparativeJudge = runComparativeJudge(candidateScores);
-  const winnerScored = selectWinner(candidateScores, comparativeJudge);
-  const selectionDiagnostics = comparativeJudge.selectionDiagnostics;
-
-  // Persist judge without nested diagnostics object (kept on plan root)
-  const { selectionDiagnostics: _diag, ...judgeForPlan } = comparativeJudge;
-
-  const { candidate: selectedCandidate, resolve: dnaResolve } =
-    ensureCandidateCreativeDNA(winnerScored.candidate, args);
-
-  const plan: CreativeCandidatePlan = {
-    version: CREATIVE_CANDIDATE_VERSION,
-    creativeDivergence,
-    generatedCandidates,
-    candidateScores,
-    rejectedCandidates: candidateScores
-      .filter((s) => s.rejected)
-      .map((s) => ({
-        candidateId: s.candidate.candidateId,
-        reasons: s.rejectReasons,
-      })),
-    selectedCandidate,
-    comparativeJudge: judgeForPlan,
-    selectionDiagnostics,
-    finalScriptFidelity: null,
-    finalStoryboardFidelity: null,
-    regenerationReason: null,
-  };
-
-  return {
-    plan,
-    promptBlock: buildCreativeCandidatePromptBlock(plan),
-    dnaPromptBlock: buildCreativeDnaPromptBlockFromPlan(plan),
-    persistenceFields: creativeCandidateFieldsForPersistence(plan),
-    dnaResolve,
   };
 }
 

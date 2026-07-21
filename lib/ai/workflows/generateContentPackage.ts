@@ -116,7 +116,6 @@ import {
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
   fidelityRepairAppendix,
-  planCreativeCandidatesForPackage,
   storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
@@ -124,6 +123,10 @@ import {
   productDemonstrationValidationIssues,
   validateStoryIntegrity,
 } from "@/lib/creative-candidates";
+import {
+  planCreativeEngineV3ForPackage,
+  creativeEngineV3FieldsForPersistence,
+} from "@/lib/creative-engine-v3";
 import {
   classifyFidelityFailuresForRepair,
 } from "@/lib/creative-candidates/fidelityCheck";
@@ -391,55 +394,93 @@ async function runGenerateContentPackageUnchecked(
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
+  // Creative Engine v3 — sole production path (AI invents directions + concepts).
   // Candidates first so Creative DNA can neutralize conflicting Identity environments.
-  const creativeCandidatePlan = withTelemetrySync(
-    {
-      stepName: "Creative Candidates",
-      provider: "deterministic",
-      inputSummary: creativeCandidatesSummaries({ candidates: 0 }).input_summary,
-      outputSummary: (plan) => {
-        const p = plan.plan;
-        if (!p) return "skipped (no video)";
-        const raw = p.creativeDivergence?.rawAfterFilterCount;
-        const gen = p.generatedCandidates?.length ?? 0;
-        return creativeCandidatesSummaries({
-          rawIdeas: raw ?? undefined,
-          filtered: gen,
-          candidates: gen,
-          winnerId: p.selectedCandidate?.candidateId,
-        }).output_summary;
+  let creativeEnginePersistence: Record<string, unknown> = {};
+  let creativeCandidatePlan: {
+    plan: CreativeCandidatePlan | null;
+    promptBlock: string;
+    dnaPromptBlock: string;
+    dnaResolve: import("@/lib/creative-candidates/creativeDNA").CreativeDnaResolveResult | null;
+  } = {
+    plan: null,
+    promptBlock: "",
+    dnaPromptBlock: "",
+    dnaResolve: null,
+  };
+
+  if (requireVideo) {
+    const v3 = await planCreativeEngineV3ForPackage({
+      project,
+      projectId: input.projectId,
+      topic: context.topic,
+      angle: context.angle,
+      funnelStage: context.funnelStage,
+      platform: context.platform,
+      format: context.format,
+      ctaHint: project.default_cta,
+      productionRunId: context.productionRunId,
+      packageIndex: context.packageIndex,
+      packageCount: runInfo?.packageCount ?? null,
+      painPointFocus: packageDiversity?.painPoint ?? null,
+      siblingAngles: (packageDiversity?.previousAngles ?? []).map((a) =>
+        [a.title, a.hook, a.topic].filter(Boolean).join(" — "),
+      ),
+      assets: assets.refs,
+      memory,
+    });
+    if (!v3.ok) {
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: v3.validationErrors,
+        attempts: v3.attempts,
+      };
+    }
+    creativeCandidatePlan = {
+      plan: v3.plan,
+      promptBlock: v3.promptBlock,
+      dnaPromptBlock: v3.dnaPromptBlock,
+      dnaResolve: v3.dnaResolve,
+    };
+    creativeEnginePersistence = creativeEngineV3FieldsForPersistence({
+      telemetry: v3.telemetry,
+      plan: null,
+    });
+    withTelemetrySync(
+      {
+        stepName: "Creative Engine",
+        provider: "claude",
+        inputSummary: creativeCandidatesSummaries({ candidates: 0 }).input_summary,
+        outputSummary: () =>
+          creativeCandidatesSummaries({
+            rawIdeas: v3.telemetry.directions_generated.length,
+            filtered: v3.telemetry.directions_selected.length,
+            candidates: v3.telemetry.concepts_generated.length,
+            winnerId: v3.selectedCandidate.candidateId,
+          }).output_summary,
+        measureOutput: () => ({
+          directions: v3.telemetry.directions_selected.length,
+          concepts: v3.telemetry.concepts_generated.length,
+          winner: v3.selectedCandidate.candidateId,
+        }),
       },
-      measureOutput: (plan) =>
-        plan.plan
-          ? {
-              candidates: plan.plan.generatedCandidates?.length,
-              winner: plan.plan.selectedCandidate?.candidateId,
-            }
-          : null,
-    },
-    () =>
-      planCreativeCandidatesForPackage({
-        topic: context.topic,
-        angle: context.angle,
-        painPoints: project.pain_points ?? [],
-        productIs: project.product_is ?? [],
-        requireVideo,
-      }),
-  );
+      () => v3.telemetry,
+    );
+  }
+
   let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
   const selectedDna = normalizeCreativeDNA(
     creativeCandidates?.selectedCandidate.creativeDNA,
   );
 
-  // Candidate Judge is part of planCreativeCandidatesForPackage; record a
-  // zero-cost marker when a winner exists so audits show the decision stage.
   if (creativeCandidates) {
     withTelemetrySync(
       {
         stepName: "Candidate Judge",
         provider: "deterministic",
         inputSummary:
-          "Creative Candidates\n- Scored families\n- Commercial Success dimensions",
+          "Creative Engine\n- Direction selection\n- Concept evaluation",
         outputSummary: () =>
           `Winner: ${creativeCandidates!.selectedCandidate.candidateId} (${creativeCandidates!.selectedCandidate.family})`,
         measureOutput: () => creativeCandidates!.selectionDiagnostics ?? null,
@@ -1337,6 +1378,7 @@ async function runGenerateContentPackageUnchecked(
           creativeDnaDiagnostics,
         )
       : {}),
+    ...creativeEnginePersistence,
     generation_telemetry: buildGenerationTelemetryDocument({
       legacy: {
         strategy_item_id: context.strategyItemId,

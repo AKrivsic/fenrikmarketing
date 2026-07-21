@@ -268,4 +268,13 @@ export interface AntiRepetitionMemory {
   topics: string[];
   ctas: string[];
   scenarios: string[];
+  /**
+   * Creative Engine v3 structured fingerprints from recent packages.
+   * Rejection / diversity only — never reuse as creative inspiration.
+   */
+  fingerprints?: import("@/lib/creative-engine-v3/types").CreativeConceptFingerprint[];
+  /** Recent palette/atmosphere strings for visual variety vetoes. */
+  atmospheres?: string[];
+  /** Recent creative-direction mechanisms (rejection only). */
+  directions?: string[];
 }

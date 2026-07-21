@@ -2,18 +2,18 @@ import type {
   CreativeDNA,
   CreativeDnaSource,
 } from "@/lib/creative-candidates/creativeDNA";
-import type { CreativeDivergencePlan } from "@/lib/creative-candidates/divergence/types";
 import type { StoryIntegrityResult } from "@/lib/creative-candidates/storyIntegrity";
 import type { ProductDemonstrationIntegrityResult } from "@/lib/creative-candidates/productDemonstrationIntegrity";
 
 /**
- * Selection v3: Creative Score + Commercial Success Score → Final Selection Score.
- * Candidate generation / divergence unchanged; only winner policy + diagnostics.
+ * Creative candidate plan shape shared by Creative Engine v3 and downstream
+ * gates (Narrative Beats, fidelity, Story Integrity, Product Demo Integrity).
  */
 export const CREATIVE_CANDIDATE_VERSION = "creative-candidates@3.0" as const;
 
 export type { CreativeDNA, CreativeDnaSource };
 
+/** Historical template families may still appear on persisted packages. */
 export const CREATIVE_CONCEPT_FAMILIES = [
   "human_conflict",
   "absurd_understandable",
@@ -27,9 +27,13 @@ export const CREATIVE_CONCEPT_FAMILIES = [
 
 export type CreativeConceptFamily = (typeof CREATIVE_CONCEPT_FAMILIES)[number];
 
+/** Live production family is always `"invented"` (Creative Engine v3). */
+export type CreativeCandidateFamily = CreativeConceptFamily | "invented";
+
 export interface CreativeCandidate {
   candidateId: string;
-  family: CreativeConceptFamily;
+  /** Always `"invented"` for new packages; historical rows may use template families. */
+  family: CreativeCandidateFamily;
   coreIdea: string;
   emotionalReaction: string;
   hookLine: string;
@@ -41,15 +45,16 @@ export interface CreativeCandidate {
   expectedViewerQuestion: string;
   familiarityRisk: "low" | "medium" | "high";
   memorabilityReason: string;
+  /** Structured fingerprint for anti-repetition (v3). Rejection memory only. */
+  conceptFingerprint?: import("@/lib/creative-engine-v3/types").CreativeConceptFingerprint;
   /**
    * Canonical immutable creative decisions. Optional for backward compatibility
    * with historical packages that predate Creative DNA.
-   * For newly generated candidates, authored in the same Divergence pass.
    */
   creativeDNA?: CreativeDNA;
   /**
    * How creativeDNA was obtained for this candidate.
-   * `"model"` = authored with the candidate in Divergence generation.
+   * `"model"` = authored with the concept in Creative Engine v3.
    * `"deterministic_fallback"` = deriveCreativeDNA after missing/invalid authored DNA.
    * `"missing"` = historical / unresolved.
    */
@@ -69,7 +74,6 @@ export interface CreativeCandidateScores {
   productionFeasibility: number;
 }
 
-/** Deterministic Commercial Success dimensions (Selection v3). */
 export interface CommercialCandidateScores {
   renderability: number;
   firstFrameClarity: number;
@@ -82,12 +86,9 @@ export interface CommercialCandidateScores {
 export interface ScoredCreativeCandidate {
   candidate: CreativeCandidate;
   scores: CreativeCandidateScores;
-  /** Creative weighted total (legacy name; still the creative score). */
   weightedTotal: number;
-  /** Commercial Success weighted total. Optional for pre-v3 persisted rows. */
   commercialScores?: CommercialCandidateScores;
   commercialTotal?: number;
-  /** creative weightedTotal + commercialTotal. */
   finalSelectionScore?: number;
   rejected: boolean;
   rejectReasons: string[];
@@ -103,7 +104,6 @@ export interface SelectionLoserPenalty {
   lostBy: number;
 }
 
-/** Developer-facing explainability for the winning selection. */
 export interface SelectionDiagnostics {
   version: "commercial-success@1";
   winnerId: string;
@@ -118,7 +118,6 @@ export interface SelectionDiagnostics {
   creativeScoresSnapshot: CreativeCandidateScores;
   whyWon: string;
   losersPenalized: SelectionLoserPenalty[];
-  /** True when a higher creative-score candidate lost on commercial grounds. */
   overturnedCreativeLeader: boolean;
 }
 
@@ -128,7 +127,6 @@ export interface ComparativeJudgeResult {
   clearestMentalImage: string;
   mostMemorableInOneHour: string;
   bestProductTopicFit: string;
-  /** Commercial comparative badges (v3). */
   mostRenderable?: string;
   clearestFirstFrame?: string;
   bestProductDemonstrability?: string;
@@ -150,37 +148,29 @@ export interface FidelityRuleDiagnostic {
 export interface ConceptFidelityResult {
   passed: boolean;
   openingSituationVisibleInScene1: boolean;
-  /** Opening event/action meaning survives in scene 1 (not only token overlap). */
   openingEventPreservedInScene1: boolean;
-  /** Hook / stop-scroll idea survives in first spoken + opening visual. */
   stopScrollIdeaPreserved: boolean;
   hookPreservedInFirstSpoken: boolean;
   coreIdeaRecognizable: boolean;
   productOrTopicImplied: boolean;
   collapsedToGenericOffice: boolean;
   voiceoverEssayCadence: boolean;
-  /** First spoken is a sales/CTA pitch (product presence alone is OK). */
   salesPitchOpening: boolean;
   failureReasons: string[];
-  /** Structured per-rule evidence for telemetry / debugging (optional). */
   diagnostics?: FidelityRuleDiagnostic[];
 }
 
 export interface CreativeCandidatePlan {
   version: typeof CREATIVE_CANDIDATE_VERSION;
-  creativeDivergence: CreativeDivergencePlan;
   generatedCandidates: CreativeCandidate[];
   candidateScores: ScoredCreativeCandidate[];
   rejectedCandidates: Array<{ candidateId: string; reasons: string[] }>;
   selectedCandidate: CreativeCandidate;
   comparativeJudge: ComparativeJudgeResult;
-  /** Present on v3+ plans; explains Final Selection Score. */
   selectionDiagnostics?: SelectionDiagnostics | null;
   finalScriptFidelity: ConceptFidelityResult | null;
   finalStoryboardFidelity: ConceptFidelityResult | null;
-  /** Hard Story Integrity gate (selected world must survive every beat). */
   storyIntegrity?: StoryIntegrityResult | null;
-  /** Sprint 4C — visual product demonstration + PRIMARY_ACTOR continuity. */
   productDemonstrationIntegrity?: ProductDemonstrationIntegrityResult | null;
   regenerationReason: string | null;
 }

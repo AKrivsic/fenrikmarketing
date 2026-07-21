@@ -11,7 +11,6 @@ export type {
   SelectionLoserPenalty,
 } from "@/lib/creative-candidates/types";
 export {
-  planCreativeCandidatesForPackage,
   attachFidelityToPlan,
   attachStoryIntegrityToPlan,
   attachProductDemonstrationIntegrityToPlan,
@@ -60,42 +59,9 @@ export type {
   CreativeDnaResolveResult,
 } from "@/lib/creative-candidates/creativeDNA";
 export {
-  generateCreativeCandidates,
-  generateCreativeCandidatesWithDivergence,
-  generateCreativeCandidatesFromFamilies,
   extractTopicConcreteSignals,
-} from "@/lib/creative-candidates/generateCandidates";
-export { deriveShortIndustryCue } from "@/lib/creative-candidates/topicSignals";
-export {
-  runCreativeDivergence,
-  generateRawVisualSituations,
-  clusterRawSituations,
-  rejectRawSituation,
-  CREATIVE_DIVERGENCE_VERSION,
-  situationFingerprint,
-  areNearDuplicateSituations,
-} from "@/lib/creative-candidates/divergence";
-export {
-  applyGenericityRejections,
-  scoreCreativeCandidate,
-  weightedTotal,
-} from "@/lib/creative-candidates/scoreCandidates";
-export { runComparativeJudge, selectWinner } from "@/lib/creative-candidates/comparativeJudge";
-export {
-  CREATIVE_FAMILY_COMMERCIAL_METADATA,
-  familyCommercialMetadata,
-} from "@/lib/creative-candidates/familyMetadata";
-export type { CreativeFamilyCommercialMetadata } from "@/lib/creative-candidates/familyMetadata";
-export {
-  COMMERCIAL_SCORE_WEIGHTS,
-  COMMERCIAL_SUCCESS_VERSION,
-  scoreCommercialSuccess,
-  commercialTotal,
-  finalSelectionScore,
-  attachCommercialScores,
-  buildSelectionDiagnostics,
-  commercialDimensionContributions,
-} from "@/lib/creative-candidates/commercialScore";
+  deriveShortIndustryCue,
+} from "@/lib/creative-candidates/topicSignals";
 export {
   STORY_INTEGRITY_VERSION,
   STORY_INTEGRITY_PROMPT_HEADER,
