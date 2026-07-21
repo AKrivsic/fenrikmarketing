@@ -16,6 +16,7 @@ import {
   planHasOutputs,
 } from "@/lib/projects/productionRun";
 import {
+  cancelAllActiveProductionRuns,
   cancelProductionRun,
   createProductionRun,
   getActiveProductionRun,
@@ -263,7 +264,11 @@ export async function stopProductionRun(
   }
 
   try {
+    // Prefer the run the operator clicked Stop on, then mop up any other
+    // queued/running rows for the project so GENERATE is not blocked by an
+    // orphan older "running" status the UI is no longer showing.
     await cancelProductionRun(runId, projectId);
+    await cancelAllActiveProductionRuns(projectId);
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Běh se nepodařilo zastavit.";

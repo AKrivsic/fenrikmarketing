@@ -216,6 +216,24 @@ export async function getActiveProductionRun(
   return data ? { id: data.id as string, status: data.status } : null;
 }
 
+/** Every queued/running run for a project (oldest first). */
+export async function listActiveProductionRuns(
+  projectId: string,
+): Promise<Array<{ id: string; status: ProductionRunStatus }>> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("production_runs")
+    .select("id, status")
+    .eq("project_id", projectId)
+    .in("status", ["queued", "running"])
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    status: row.status as ProductionRunStatus,
+  }));
+}
+
 export { PRODUCTION_RUN_CANCELLED_MESSAGE };
 
 export interface GenerationFailedDiagnostics {
@@ -431,6 +449,23 @@ export async function cancelProductionRun(
 
   await notifyWorkerOfCancelledJobs(cancelledJobIds);
   await reconcileProductionRun(runId);
+}
+
+/**
+ * Cancel every queued/running run for a project. Used after operator Stop so an
+ * older orphaned "running" row cannot keep blocking GENERATE while the UI shows
+ * a newer cancelled run.
+ */
+export async function cancelAllActiveProductionRuns(
+  projectId: string,
+): Promise<string[]> {
+  const active = await listActiveProductionRuns(projectId);
+  const cancelledIds: string[] = [];
+  for (const run of active) {
+    await cancelProductionRun(run.id, projectId);
+    cancelledIds.push(run.id);
+  }
+  return cancelledIds;
 }
 
 // ---------------------------------------------------------------------------
