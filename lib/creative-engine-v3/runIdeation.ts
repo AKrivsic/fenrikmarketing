@@ -18,8 +18,8 @@ import type {
 } from "@/lib/creative-engine-v3/types";
 
 /** Transport retries ≥ 3 (do not inherit Presentation's maxTransportAttempts: 1). */
-export const CREATIVE_IDEATION_MAX_TRANSPORT_ATTEMPTS = 3;
-export const CREATIVE_IDEATION_TIMEOUT_MS = 120_000;
+export const CREATIVE_IDEATION_MAX_TRANSPORT_ATTEMPTS = 1;
+export const CREATIVE_IDEATION_TIMEOUT_MS = 600_000;
 export const CREATIVE_IDEATION_MAX_ATTEMPTS = 3;
 
 export async function runCreativeIdeation(args: {
