@@ -19,6 +19,7 @@ import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 import { readAssetAnalysis } from "@/lib/assets/analysis";
 import { readProductRole } from "@/lib/assets/productRole";
+import { readProductPresentationAssetMetadata } from "@/lib/assets/productPresentationMetadata";
 import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 import {
   sortAvailableAssetEntries,
@@ -161,6 +162,7 @@ export async function loadAvailableAssets(
     classById.set(a.id as string, cls);
     const analysis = readAssetAnalysis(metadata);
     const trust = analysis?.trustSignal === true ? true : null;
+    const presentationMeta = readProductPresentationAssetMetadata(metadata);
     entries.push({
       metadata,
       ref: {
@@ -184,6 +186,11 @@ export async function loadAvailableAssets(
         preferred_video_usage: resolvePreferredVideoUsageFromMetadata(metadata, {
           title: a.title as string,
         }),
+        provenance_class: presentationMeta.provenance_class,
+        authenticity_for_product_claim:
+          presentationMeta.authenticity_for_product_claim,
+        recommended_presentation_classes:
+          presentationMeta.recommended_presentation_classes,
       },
     });
   }

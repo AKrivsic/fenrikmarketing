@@ -3,6 +3,7 @@ import { STORAGE_BUCKETS, buildAssetPath } from "@/lib/api/storage";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { analyzeUploadedAsset } from "@/lib/ai/workflows/analyzeAsset";
 import { smartUsageFromAssetMetadata } from "@/lib/assets/smartUsageMetadata";
+import { stampProductPresentationAssetMetadata } from "@/lib/assets/productPresentationMetadata";
 import { readProductRole, normalizeProductRole } from "@/lib/assets/productRole";
 import { isAssetArchivedFromLibrary } from "@/lib/assets/libraryArchive";
 import { COMPONENT_CAPTURE_MAX_SCREENSHOTS } from "@/lib/knowledge/componentCaptureRules";
@@ -80,6 +81,13 @@ async function persistCaptureScreenshot(
     height: shot.height,
     ...smart,
   };
+  Object.assign(
+    metadata,
+    stampProductPresentationAssetMetadata(metadata, {
+      tags: ["component_capture"],
+      sourceHint: "component_capture",
+    }),
+  );
 
   const { data: created, error: insertError } = await supabase
     .from("assets")

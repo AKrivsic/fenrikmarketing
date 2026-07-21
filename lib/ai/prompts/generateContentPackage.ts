@@ -66,6 +66,11 @@ import {
 
 import type { ProductRole } from "@/lib/assets/productRole";
 import type { PreferredVideoUsage, VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
+import type {
+  AuthenticityForProductClaim,
+  ProvenanceClass,
+  RecommendedPresentationClass,
+} from "@/lib/assets/productPresentationMetadata";
 
 export interface AssetRef {
   id: string;
@@ -89,6 +94,10 @@ export interface AssetRef {
   capture_viewport?: string | null;
   /** Stamped or computed preferred usage for vertical video. */
   preferred_video_usage?: VideoUsageRenderMode | PreferredVideoUsage | null;
+  /** Wave 2 — provenance / authenticity for Product Presentation Decision. */
+  provenance_class?: ProvenanceClass | null;
+  authenticity_for_product_claim?: AuthenticityForProductClaim | null;
+  recommended_presentation_classes?: RecommendedPresentationClass[] | null;
 }
 
 // Content Quality Sprint (Platform Styles) — per-platform output style. Pure
@@ -672,7 +681,9 @@ export function buildGenerateContentPackagePrompt(
         "- Do not use a floating icon, smiling person, or generic landing page as product",
         "  proof.",
         "- Do not recreate the complete ask→answer→result sequence in IMAGE scenes.",
-        "- The complete visible product demonstration belongs to structured PRODUCT_DEMO.",
+        "- Value proof follows Product Presentation Decision (authentic asset, outcome,",
+        "  abstract mechanism, or story without product pixels) — never synthetic UI",
+        "  and never legacy PRODUCT_DEMO scene types.",
         "When the creative metaphor needs labels to be understood, convey meaning via",
         "visual state (empty rows, red panels, person walking away) + spoken voiceover,",
         "never via readable text in the frame.",
@@ -683,7 +694,7 @@ export function buildGenerateContentPackagePrompt(
         "- Do not introduce a different human face, age, gender presentation, profession,",
         "  or identity mid-package without an explicit narrative reason.",
         "- UI-only scenes, device close-ups, environment shots, consequence shots, and",
-        "  PRODUCT_DEMO scenes do not need to show the actor's face.",
+        "  product-surface inserts do not need to show the actor's face.",
         "- Do not require the same phone, hands, location, or framing across ordinary",
         "  IMAGE scenes.",
         "- Lifestyle, environment, and consequence scenes are allowed when they remain",

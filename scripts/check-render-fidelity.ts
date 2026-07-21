@@ -1,13 +1,12 @@
-// Sprint 5 — PRODUCT_DEMO render fidelity.
+// Render fidelity + legacy PRODUCT_DEMO downgrade (PPD-only runtime)
 //   npm run check:render-fidelity
 
 import assert from "node:assert/strict";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import { normalizeVisualScenePlan } from "@/lib/content-package/visualScenePlan";
-import { buildDefaultProductDemoBeat } from "@/lib/scene-types/product-demo/productDemoBeat";
 import { analyzePresentation } from "@/lib/scene-types/presentation/analyzePresentation";
 import {
-  RENDER_PRODUCT_DEMO_FAILED,
+  RENDER_FIDELITY_FAILED,
   RenderProductDemoFailedError,
   assertRenderFidelity,
   capScenesPreservingProductDemo,
@@ -31,16 +30,6 @@ function check(name: string, fn: () => void): void {
   }
 }
 
-function demoBeat() {
-  return buildDefaultProductDemoBeat({
-    actorId: "primary_actor",
-    visitorQuestion: "Do you offer weekend appointments?",
-    aiAnswer:
-      "Yes — we have availability on Saturdays and Sundays. What service?",
-    outcomeType: "lead_captured",
-  });
-}
-
 function pkgWithScenes(
   visual_scenes: NonNullable<ContentPackageOutput["visual_scenes"]>,
 ): ContentPackageOutput {
@@ -48,8 +37,7 @@ function pkgWithScenes(
     title: "t",
     funnel_stage: "problem_aware",
     hook: "hook",
-    voiceover_text:
-      "Eleven visitors came. Typed questions. Create your AI assistant.",
+    voiceover_text: "Eleven visitors came. Typed questions.",
     subtitles: "subs",
     cta: { type: "sign_up", text: "Create your AI assistant" },
     video: { concept: "c", script: "s", duration_seconds: "25" },
@@ -58,213 +46,118 @@ function pkgWithScenes(
   };
 }
 
-console.log("\nRender Fidelity validation");
-
-check("Planner PRODUCT_DEMO → Renderer PRODUCT_DEMO PASS", () => {
+check("Planner CHECKLIST → Renderer CHECKLIST PASS", () => {
   const result = validateRenderFidelity({
     planned: [
       { type: "IMAGE", id: "scene-1" },
-      { type: "PRODUCT_DEMO", id: "scene-product-demo" },
+      { type: "CHECKLIST", id: "scene-2" },
     ],
     rendered: [
       { type: "IMAGE", id: "scene-1" },
-      { type: "PRODUCT_DEMO", id: "scene-product-demo" },
+      { type: "CHECKLIST", id: "scene-2" },
     ],
   });
   assert.equal(result.passed, true);
 });
 
-check("Planner PRODUCT_DEMO → Renderer IMAGE FAIL", () => {
+check("type mismatch fails fidelity", () => {
   const result = validateRenderFidelity({
-    planned: [{ type: "PRODUCT_DEMO", id: "scene-product-demo" }],
-    rendered: [{ type: "IMAGE", id: "scene-product-demo" }],
+    planned: [{ type: "CHECKLIST", id: "scene-2" }],
+    rendered: [{ type: "IMAGE", id: "scene-2" }],
   });
   assert.equal(result.passed, false);
   if (!result.passed) {
-    assert.equal(result.code, RENDER_PRODUCT_DEMO_FAILED);
-    assert.ok(
-      result.violations.some(
-        (v) => v.reason === "product_demo_silently_downgraded_to_image",
-      ),
-    );
+    assert.equal(result.code, RENDER_FIDELITY_FAILED);
   }
   assert.throws(
     () =>
       assertRenderFidelity({
-        planned: [{ type: "PRODUCT_DEMO", id: "d1" }],
+        planned: [{ type: "CHECKLIST", id: "d1" }],
         rendered: [{ type: "IMAGE", id: "d1" }],
       }),
-    (err: unknown) =>
-      err instanceof RenderProductDemoFailedError &&
-      err.code === RENDER_PRODUCT_DEMO_FAILED,
+    (err: unknown) => err instanceof RenderProductDemoFailedError,
   );
 });
 
-check("Planner IMAGE → Renderer IMAGE PASS", () => {
-  const result = validateRenderFidelity({
-    planned: [
-      { type: "IMAGE", id: "a" },
-      { type: "IMAGE", id: "b" },
-    ],
-    rendered: [
-      { type: "IMAGE", id: "a" },
-      { type: "IMAGE", id: "b" },
-    ],
-  });
-  assert.equal(result.passed, true);
-});
-
-check("Planner PRODUCT_DEMO → Missing render FAIL", () => {
-  const result = validateRenderFidelity({
-    planned: [
-      { type: "IMAGE", id: "scene-1" },
-      { type: "PRODUCT_DEMO", id: "scene-product-demo" },
-    ],
-    rendered: [{ type: "IMAGE", id: "scene-1" }],
-  });
-  assert.equal(result.passed, false);
-  if (!result.passed) {
-    assert.equal(result.code, RENDER_PRODUCT_DEMO_FAILED);
-    assert.ok(
-      result.violations.some(
-        (v) => v.reason === "planned_product_demo_missing_from_render",
-      ),
-    );
-  }
-});
-
-console.log("\nnormalizeVisualScenePlan preserves PRODUCT_DEMO");
-
-check("PRODUCT_DEMO survives normalize (was the silent-drop bug)", () => {
+check("legacy PRODUCT_DEMO downgrades to AI on normalize", () => {
   const pkg = pkgWithScenes([
     { source: "ai", image_prompt: "hands typing a question on a phone" },
     {
       type: "PRODUCT_DEMO",
       id: "scene-product-demo",
-      payload: demoBeat(),
+      payload: {
+        visitor_question: "Weekend slots?",
+        ai_answer: "Yes — Saturday openings.",
+        outcome_type: "lead_captured",
+      },
     },
   ]);
-  normalizeVisualScenePlan(pkg, { test: "sprint5" });
+  normalizeVisualScenePlan(pkg, { test: "ppd-final" });
   const scenes = pkg.visual_scenes ?? [];
   assert.equal(scenes.length, 2);
-  const demo = scenes.find(
-    (s) =>
-      typeof s === "object" &&
-      s !== null &&
-      "type" in s &&
-      (s as { type: string }).type === "PRODUCT_DEMO",
-  );
-  assert.ok(demo, "PRODUCT_DEMO must remain after normalize");
-});
-
-check("cap prefers dropping IMAGE over PRODUCT_DEMO", () => {
-  const beat = demoBeat();
-  const oversized = [
-    { source: "ai" as const, image_prompt: "one" },
-    { source: "ai" as const, image_prompt: "two" },
-    { source: "ai" as const, image_prompt: "three" },
-    { source: "ai" as const, image_prompt: "four" },
-    { source: "ai" as const, image_prompt: "five" },
-    {
-      type: "PRODUCT_DEMO" as const,
-      id: "scene-product-demo",
-      payload: beat,
-    },
-  ];
-  const pkg = pkgWithScenes(oversized);
-  normalizeVisualScenePlan(pkg);
-  const scenes = pkg.visual_scenes ?? [];
-  assert.ok(scenes.length <= MAX_VIDEO_SCENE_STILLS);
   assert.ok(
-    scenes.some(
+    !scenes.some(
       (s) =>
         typeof s === "object" &&
         s !== null &&
         "type" in s &&
         (s as { type: string }).type === "PRODUCT_DEMO",
     ),
-    "PRODUCT_DEMO must survive stills cap",
+  );
+  assert.ok(
+    scenes.every(
+      (s) =>
+        typeof s === "object" &&
+        s !== null &&
+        ("source" in s ? s.source === "ai" || s.source === "asset" : false),
+    ),
   );
 });
 
-check("capScenesPreservingProductDemo drops IMAGE first", () => {
+check("normalize caps scenes at MAX_VIDEO_SCENE_STILLS", () => {
+  const oversized = Array.from({ length: MAX_VIDEO_SCENE_STILLS + 2 }, (_, i) => ({
+    source: "ai" as const,
+    image_prompt: `scene ${i + 1}`,
+  }));
+  const pkg = pkgWithScenes(oversized);
+  normalizeVisualScenePlan(pkg);
+  assert.ok((pkg.visual_scenes ?? []).length <= MAX_VIDEO_SCENE_STILLS);
+});
+
+check("capScenesPreservingProductDemo is slice cap (compat alias)", () => {
   const capped = capScenesPreservingProductDemo(
-    [
-      { type: "IMAGE" },
-      { type: "IMAGE" },
-      { type: "PRODUCT_DEMO" },
-      { type: "IMAGE" },
-    ],
+    [{ type: "IMAGE" }, { type: "IMAGE" }, { type: "CHECKLIST" }],
     2,
   );
   assert.equal(capped.length, 2);
-  assert.ok(capped.some((s) => s.type === "PRODUCT_DEMO"));
 });
 
-console.log("\nPresentation analyzer fail-closed for PRODUCT_DEMO");
-
-check("analyzer keeps eligible PRODUCT_DEMO", () => {
+check("analyzer downgrades legacy PRODUCT_DEMO to IMAGE", () => {
   const scenes: VisualScene[] = [
     {
-      id: "scene-1",
-      type: "IMAGE",
-      payload: {
-        media: { source: "ai", image_prompt: "hands on phone chat silence" },
-      },
-    },
-    {
       id: "scene-product-demo",
-      type: "PRODUCT_DEMO",
-      payload: demoBeat(),
+      type: "PRODUCT_DEMO" as SceneType,
+      payload: { visitor_question: "Hi?" },
     },
   ];
   const result = analyzePresentation({
     scenes,
-    allowedSceneTypes: ["IMAGE", "PRODUCT_DEMO"] as SceneType[],
-    voiceoverText: "Create your AI assistant — let your website answer.",
+    allowedSceneTypes: ["IMAGE"] as SceneType[],
+    voiceoverText: "Create your AI assistant.",
     proof: { quotes: [], statistics: [], facts: [] },
     projectSignals: {
       hasMobileProductUi: false,
       hasPhoneCapableAsset: false,
       phoneAssetIds: [],
     },
-    packageCtaText: "Create your AI assistant",
+    packageCtaText: null,
     projectDefaultCta: null,
     projectName: "Fenrik",
     projectId: "proj-test",
   });
-  assert.equal(result.scenes[1]?.type, "PRODUCT_DEMO");
-  assert.equal(result.decisions[1]?.final_type, "PRODUCT_DEMO");
-});
-
-check("analyzer fails instead of downgrading invalid PRODUCT_DEMO", () => {
-  const scenes: VisualScene[] = [
-    {
-      id: "scene-product-demo",
-      type: "PRODUCT_DEMO",
-      payload: { type: "product_demo", broken: true },
-    },
-  ];
-  assert.throws(
-    () =>
-      analyzePresentation({
-        scenes,
-        allowedSceneTypes: ["IMAGE", "PRODUCT_DEMO"] as SceneType[],
-        voiceoverText: "Create your AI assistant.",
-        proof: { quotes: [], statistics: [], facts: [] },
-        projectSignals: {
-          hasMobileProductUi: false,
-          hasPhoneCapableAsset: false,
-          phoneAssetIds: [],
-        },
-        packageCtaText: null,
-        projectDefaultCta: null,
-        projectId: "proj-test",
-      }),
-    (err: unknown) =>
-      err instanceof RenderProductDemoFailedError &&
-      err.code === RENDER_PRODUCT_DEMO_FAILED,
-  );
+  assert.equal(result.scenes[0]?.type, "IMAGE");
+  assert.equal(result.decisions[0]?.final_type, "IMAGE");
+  assert.equal(result.decisions[0]?.rule, "downgraded_to_image");
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

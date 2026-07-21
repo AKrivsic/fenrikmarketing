@@ -1,0 +1,10 @@
+{
+  "id": "G_no_creative_directives",
+  "label": "Remove Creative Directives",
+  "found_block": true,
+  "removed_chars": 1525,
+  "prompt_chars": 52258,
+  "elapsed_ms": 65883,
+  "model": "claude-sonnet-4-6",
+  "parse_ok": true
+}

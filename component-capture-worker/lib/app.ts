@@ -1,5 +1,4 @@
 import express from "express";
-import { chromium } from "playwright";
 import {
   capturePageComponentsWithDebug,
   DEFAULT_CAPTURE_LIMITS,
@@ -7,10 +6,8 @@ import {
 } from "./capturePageComponents.ts";
 import { validatePublicHttpUrl } from "./urlSafety.ts";
 import { isCaptureWorkerAuthorized } from "./auth.ts";
-import { renderProductDemoChatPng } from "./renderProductDemoChat.ts";
 
 const MAX_BODY_BYTES = 8_192;
-const MAX_PRODUCT_DEMO_BODY_BYTES = 16_384;
 const MAX_SCREENSHOTS = Math.min(
   5,
   Math.max(1, Number(process.env.COMPONENT_CAPTURE_MAX_SCREENSHOTS ?? 5)),
@@ -101,68 +98,6 @@ export function createComponentCaptureApp() {
           }),
         );
         res.json({ ok: true, screenshots: [], error: "capture_failed" });
-      }
-    },
-  );
-
-  // Sprint 4C.1 — controlled Fenrik product-demo chat (no customer URL scrape).
-  app.post(
-    "/render-product-demo-chat",
-    express.json({ limit: MAX_PRODUCT_DEMO_BODY_BYTES }),
-    async (req, res) => {
-      if (!isCaptureWorkerAuthorized(req.headers.authorization)) {
-        res.status(401).json({ ok: false, error: "unauthorized" });
-        return;
-      }
-
-      const body = req.body;
-      if (!body || typeof body !== "object" || Array.isArray(body)) {
-        res.status(400).json({ ok: false, error: "invalid_body" });
-        return;
-      }
-
-      const beat =
-        (body as Record<string, unknown>).beat ??
-        (body as Record<string, unknown>).product_demo ??
-        body;
-      const started = Date.now();
-      let browser: Awaited<ReturnType<typeof chromium.launch>> | null = null;
-      try {
-        browser = await chromium.launch({
-          headless: true,
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        });
-        const { png, beat: validated } = await renderProductDemoChatPng(
-          browser,
-          beat,
-        );
-        console.log(
-          JSON.stringify({
-            event: "render_product_demo_chat",
-            outcome_type: validated.outcome_type,
-            bytes: png.length,
-            ms: Date.now() - started,
-          }),
-        );
-        res.json({
-          ok: true,
-          png_base64: png.toString("base64"),
-          beat: validated,
-          width: 1080,
-          height: 1920,
-        });
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "render_failed";
-        console.warn(
-          JSON.stringify({
-            event: "render_product_demo_chat_failed",
-            error: message.slice(0, 160),
-            ms: Date.now() - started,
-          }),
-        );
-        res.status(422).json({ ok: false, error: "render_failed", message });
-      } finally {
-        if (browser) await browser.close().catch(() => undefined);
       }
     },
   );

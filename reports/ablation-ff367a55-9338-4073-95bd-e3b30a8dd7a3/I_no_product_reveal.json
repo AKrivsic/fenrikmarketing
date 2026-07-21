@@ -1,0 +1,100 @@
+{
+  "hook": "Mascot suffers, fake typing online.",
+  "voiceover": "Our mascot's out front waving at traffic. Meanwhile, our website? It's got a blinking cursor and zero answers. An accountant came back from vacation to 40 website visits. Zero contact details left. Every single visitor had a real question. The site just stared back at them. Being offline isn't a gap. It's a permanent, invisible drain — every night, every weekend, every vacation. Your website should talk back.",
+  "title": "The Mascot Who Waved at Traffic While the Leads Walked Away",
+  "concept": "Open on an absurd but instantly relatable image: a sweltering mascot costume character waving at passing cars in a parking lot while inside the building a chat widget blinks with a fake typing indicator — and then nothing. Cut to the gut-punch: an accountant returns from vacation, opens analytics, sees 40 visits, zero form fills, zero contact details. Widen to the truth: this isn't a one-time event. It happens every night, every weekend, every time you step away. Close with the reframe: your website doesn't have to be a silent room. It can answer.",
+  "script": "BEAT 1 (0–3s): HOOK — Mascot in a parking lot, waving at cars. Inside: chat widget blinks, types, sends nothing. VO: 'Mascot suffers. Fake typing online.'\n\nBEAT 2 (3–10s): UNEXPECTED FACT — Accountant opens laptop, sees analytics: 40 visits, zero contact details. VO: 'An accountant came back from vacation to 40 website visits. Zero contact details left. Every single visitor had a real question. The site just stared back at them.'\n\nBEAT 3 (10–18s): IMPLICATION — Wide shot of empty office after hours. VO: 'Being offline isn't a gap. It's a permanent, invisible drain — every night, every weekend, every vacation.'\n\nBEAT 4 (18–23s): PAYOFF + CTA — Chat widget lights up, a reply appears, a visitor stays. VO: 'Your website should talk back. Create your AI assistant.'",
+  "image_prompts": [
+    "Photorealistic portrait 9:16 vertical. A bright co-working space in daylight with warm neutral tones and low-contrast flat documentary lighting. Foreground: a person in a full mascot costume — oversized cartoon character head, bright foam suit — standing just outside a glass-fronted office, one arm raised mid-wave toward the empty parking lot beyond. Background through the glass: a desk with a monitor displaying a chat interface with a blinking ellipsis typing indicator, no message sent, cursor idle. Wide environmental framing with layered depth. Candid, believable composition. No readable text on any screen. Quiet tension before a decision.",
+    "Photorealistic portrait 9:16 vertical. A bright co-working space in daylight, warm neutral palette, flat documentary lighting. A single person — partial body, face not dominant — sits down at a desk and opens a laptop, posture conveying a slow, sinking realization. The laptop screen faces the viewer at a three-quarter angle showing a website analytics dashboard with many session rows and zero form submissions visible as a structural pattern of filled rows and an empty column — no legible numbers or text. A suitcase with a luggage tag rests on the floor beside the chair, suggesting just returned from travel. Wide environmental framing, foreground desk in focus, background office softly blurred. Candid, restrained contrast.",
+    "Photorealistic portrait 9:16 vertical. A bright co-working space at dusk transitioning to after-hours quiet — warm neutral tones, flat documentary lighting with the overhead lights still on but the outside windows dark. A single empty office chair faces a desk; a monitor screen glows with a website contact page — a static form, no chat, no movement. The chair is empty. A half-drunk coffee cup sits abandoned on the desk. Wide environmental framing, layered depth between foreground chair and background window. The stillness communicates absence and missed opportunity. No readable text on screen. Candid, believable.",
+    "Photorealistic portrait 9:16 vertical. A bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. A single person — partial body visible, face not dominant — leans slightly toward a monitor at a desk. The monitor screen shows a chat interface in active use: a conversation thread with a visitor question and a reply appearing below it, the interface layout clearly showing an exchange in progress. The person's body language is relaxed, satisfied — not stressed. Wide environmental framing with foreground desk items softly visible. The mood shifts from the earlier tension to quiet resolution. No readable text on screen."
+  ],
+  "platform_outputs": {
+    "tiktok": {
+      "caption": "came back from vacation to 40 website visits. zero contact details. every single one of them had a question. the site just stared at them 😶 your website needs to actually talk back",
+      "cta": "check the link in bio — takes about a minute to set up",
+      "hashtags": [
+        "#smallbusiness",
+        "#missedleads",
+        "#websitetips"
+      ],
+      "format": "Vertical Short (9:16) — TikTok native"
+    },
+    "instagram": {
+      "caption": "You went on vacation. Your website did not. 🙃\n\nAn accountant came back to 40 visits, zero contact details, and a whole week of missed leads — because the site had nothing but a static contact form and silence.\n\nBeing offline isn't a temporary gap. It's a permanent, invisible drain on your pipeline — every night, every weekend, every time you step away.\n\nYour website should be able to answer when you can't.",
+      "cta": "Create your AI assistant — link in bio.",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitestrategy",
+        "#AIchatbot",
+        "#missedleads",
+        "#businesstips",
+        "#SMB",
+        "#clientacquisition",
+        "#digitalmarketing",
+        "#worksmarter"
+      ],
+      "format": "Vertical Reel (9:16) — Instagram native"
+    },
+    "youtube": {
+      "caption": "An accountant returned from vacation to 40 website visits and zero contact details. Every visitor had a real question. The site had nothing but a static form — and not one person filled it out.\n\nThis isn't a one-time story. It's happening on your website right now: every evening, every weekend, every time you're unavailable.\n\nFenrik.chat creates an AI assistant for your website in about one minute — no coding, no training, no technical setup. It uses your existing website content to answer visitor questions automatically and capture leads 24/7.\n\nTry a live preview before you sign up at https://fenrik.chat",
+      "cta": "Try the free preview at fenrik.chat — no signup required.",
+      "hashtags": [
+        "#AIchatbot",
+        "#leadgeneration",
+        "#smallbusiness",
+        "#websiteautomation",
+        "#fenrikchat"
+      ],
+      "format": "YouTube Short (9:16) + description"
+    },
+    "linkedin": {
+      "caption": "An accountant came back from a two-week vacation and opened their analytics. 40 website visits. Zero contact details left behind. Every visitor had arrived with a real question — and left with nothing.\n\nThis is not an edge case. This is what happens to most small business and professional services websites every single night, every weekend, and every holiday.\n\nThe website was live. The traffic was real. The opportunity was there. But a static contact form is not a conversation — and visitors don't wait.\n\nThe invisible pipeline leak is not the vacation. It's the website that has nothing to say when you're not there.",
+      "cta": "If this sounds familiar, it's worth a look: https://fenrik.chat",
+      "hashtags": [
+        "#leadgeneration",
+        "#smallbusiness",
+        "#professionalservices"
+      ],
+      "format": "LinkedIn text post — B2B professional",
+      "title_variants": [
+        "The invisible pipeline leak that happens every time you step away from your desk",
+        "40 website visits. Zero leads. One very quiet contact form."
+      ],
+      "caption_variants": [
+        "An accountant came back from a two-week vacation and opened their analytics. 40 website visits. Zero contact details left behind. Every visitor had arrived with a real question — and left with nothing.\n\nThis is not an edge case. This is what happens to most small business and professional services websites every single night, every weekend, and every holiday.\n\nThe website was live. The traffic was real. The opportunity was there. But a static contact form is not a conversation — and visitors don't wait.\n\nThe invisible pipeline leak is not the vacation. It's the website that has nothing to say when you're not there.",
+        "Here is a number worth sitting with: the majority of website visitors who leave without converting never return.\n\nFor a small business or consulting firm, that means every hour the site is silent — every evening, every weekend, every out-of-office — is an hour the pipeline is quietly leaking.\n\nAn accountant I spoke with recently discovered 40 visits had landed on their site during a two-week break. Not one person left contact details. The site offered a form. Nobody filled it out.\n\nA form is not support. Static text is not an answer. And offline is not a temporary state — it is the default for most of the week.\n\nThe question is not whether your website is losing leads. The question is whether you have decided to notice."
+      ]
+    },
+    "x": {
+      "caption": "Mascot suffers outside. Website fakes typing inside. Nobody answers. This is most small business websites after 6pm.",
+      "cta": "Your site should talk back: https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration"
+      ],
+      "format": "X post — short-form opinionated",
+      "title_variants": [
+        "The mascot waves at traffic. The website blinks. Nobody answers.",
+        "40 visits while you were on vacation. Zero contact details. Not one form filled.",
+        "Being offline isn't a gap in your schedule. It's a permanent leak in your pipeline.",
+        "A contact form is not a conversation. Your visitors already know this.",
+        "Your website is live 24/7. Your answers are not. That's the whole problem."
+      ],
+      "caption_variants": [
+        "Mascot suffers outside. Website fakes typing inside. Nobody answers. This is most small business websites after 6pm.",
+        "Accountant comes back from vacation. 40 website visits. Zero contact details. Every visitor had a real question. The site had a form. Nobody filled it out. That's not bad luck — that's a silent website doing what silent websites do.",
+        "Being offline isn't a temporary gap. It happens every night, every weekend, every holiday. Your pipeline leaks whether you notice or not. Most people notice on Monday morning.",
+        "A contact form assumes the visitor is motivated enough to fill it out unprompted. Most aren't. They wanted an answer, not homework. #smallbusiness #missedleads",
+        "Hot take: your website is your worst employee. It's there all night, never says a word, and lets every lead walk out the door. At least the mascot waves. #leadgeneration #smallbusiness"
+      ]
+    }
+  },
+  "cta": {
+    "type": "sign_up",
+    "text": "Create your AI assistant"
+  },
+  "scenario": "An accountant returns from a two-week vacation to find that multiple small business owners visited the website asking about tax filing deadlines but never filled out the contact form."
+}

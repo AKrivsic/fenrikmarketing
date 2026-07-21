@@ -99,6 +99,12 @@ import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForP
 import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
 import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
 import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
+import { planProductPresentationForPackage } from "@/lib/product-presentation/planForPackage";
+import {
+  productPresentationFieldsForValidationPersistence,
+  productPresentationValidationIssues,
+  validateProductPresentationPackage,
+} from "@/lib/product-presentation/validateProductPresentation";
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
@@ -124,13 +130,7 @@ import {
 import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
 import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
 import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
-import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
-import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
-import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
-import {
-  alignOnScreenCtaContract,
-  alignProductDemoNarration,
-} from "@/lib/content-package/alignProductDemoNarration";
+import { alignOnScreenCtaContract } from "@/lib/content-package/alignOnScreenCtaContract";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -274,16 +274,6 @@ async function runGenerateContentPackageUnchecked(
   const seriesCreativeContextBlock = buildSeriesCreativeContextBlock({
     series: seriesCreative,
   });
-
-  // Sprint 5.1 — recent PRODUCT_DEMO variants in this production run (LRU rotation).
-  const recentDemoVariants: ProductDemoVariant[] = context.productionRunId
-    ? await loadRunRecentDemoVariants(
-        supabase,
-        input.projectId,
-        context.productionRunId,
-        context.strategyItemId,
-      )
-    : [];
 
   // Production Run V3: when this item was seeded by a production run, the run's
   // selected platforms + multipliers drive generation (incl. youtube / x and
@@ -542,6 +532,15 @@ async function runGenerateContentPackageUnchecked(
     narrative: visualNarrativePlan.plan,
     visualMedium: visualMediumPlan.resolved?.medium ?? "PHOTOGRAPHIC",
     requireVideo,
+  });
+
+  // Wave 1 PPD: compute + persist only when flag on; does not change gates.
+  const productPresentationPlan = planProductPresentationForPackage({
+    productReveal: productRevealPlan.plan,
+    assets: assets.refs,
+    visualNarrative: visualNarrativePlan.plan,
+    assetCoverage,
+    funnelStage: context.funnelStage,
   });
 
   const attentionPlan = planAttentionForPackage({
@@ -872,51 +871,8 @@ async function runGenerateContentPackageUnchecked(
       };
     }
 
-    // Sprint 4C.1 / 5.3 — ensure structured PRODUCT_DEMO before Story Integrity
-    // when an authored beat already exists (never fabricate chatbot demos).
-    const ensureDemo = (force: boolean) => {
-      if (!generated.ok) {
-        throw new Error("ensureDemo requires a successful package generation");
-      }
-      const narrativeText = [
-        generated.value.hook,
-        generated.value.voiceover_text,
-        generated.value.video?.concept,
-        generated.value.scenario,
-      ]
-        .filter(Boolean)
-        .join(" ");
-      const ensured = ensureStructuredProductDemo({
-        visualScenes: generated.value.visual_scenes,
-        winner: creativeCandidates!.selectedCandidate,
-        force,
-        narrativeText,
-        recentVariants: recentDemoVariants,
-      });
-      generated.value.visual_scenes =
-        ensured.scenes as typeof generated.value.visual_scenes;
-      return ensured;
-    };
-    ensureDemo(false);
-
-    // Package alignment fixes: PRODUCT_DEMO narration must match visuals;
-    // on-screen CTA claims must match typed CTA scenes (single source of truth).
-    const alignPresentationNarration = () => {
+    const alignOnScreenCta = () => {
       if (!generated.ok) return;
-      const demoAlign = alignProductDemoNarration({
-        voiceoverText: generated.value.voiceover_text,
-        visualScenes: generated.value.visual_scenes,
-        videoScript: generated.value.video?.script ?? null,
-      });
-      if (demoAlign.changed) {
-        generated.value.voiceover_text = demoAlign.voiceover_text;
-        if (generated.value.video && demoAlign.script !== null) {
-          generated.value.video = {
-            ...generated.value.video,
-            script: demoAlign.script,
-          };
-        }
-      }
       const ctaAlign = alignOnScreenCtaContract({
         videoScript: generated.value.video?.script ?? null,
         visualScenes: generated.value.visual_scenes,
@@ -928,7 +884,7 @@ async function runGenerateContentPackageUnchecked(
         };
       }
     };
-    alignPresentationNarration();
+    alignOnScreenCta();
 
     // Story Integrity — selected commercial world must survive every beat.
     // Hard gate: one repair, then fail generation (do not silently continue).
@@ -961,6 +917,7 @@ async function runGenerateContentPackageUnchecked(
           imagePrompts: pkg.image_prompts,
           visualScenes: pkg.visual_scenes,
           hook: pkg.hook,
+          productPresentation: productPresentationPlan.plan,
         });
       },
     );
@@ -1045,8 +1002,7 @@ async function runGenerateContentPackageUnchecked(
           fidelity,
           regenerationReason,
         );
-        ensureDemo(false);
-        alignPresentationNarration();
+        alignOnScreenCta();
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -1054,6 +1010,7 @@ async function runGenerateContentPackageUnchecked(
           imagePrompts: generated.value.image_prompts,
           visualScenes: generated.value.visual_scenes,
           hook: generated.value.hook,
+          productPresentation: productPresentationPlan.plan,
         });
       }
     }
@@ -1111,6 +1068,7 @@ async function runGenerateContentPackageUnchecked(
           voiceoverText: pkg.voiceover_text,
           imagePrompts: pkg.image_prompts,
           visualScenes: pkg.visual_scenes,
+          productPresentation: productPresentationPlan.plan,
         });
       },
     );
@@ -1119,15 +1077,6 @@ async function runGenerateContentPackageUnchecked(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
-      // Deterministic repair: replace failing resolution with structured PRODUCT_DEMO.
-      ensureDemo(true);
-      alignPresentationNarration();
-      productDemoIntegrity = validateProductDemonstrationIntegrity({
-        winner: creativeCandidates.selectedCandidate,
-        voiceoverText: generated.value.voiceover_text,
-        imagePrompts: generated.value.image_prompts,
-        visualScenes: generated.value.visual_scenes,
-      });
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,
@@ -1149,6 +1098,31 @@ async function runGenerateContentPackageUnchecked(
           path: issue.path,
           message: issue.message,
         })),
+        attempts: generated.attempts,
+      };
+    }
+
+    // Wave 3 — PPD appearance / value-proof / forbidden-forms authority (flag on).
+    const productPresentationValidation = validateProductPresentationPackage({
+      plan: productPresentationPlan.plan,
+      visualScenes: generated.value.visual_scenes,
+      assets: assets.refs,
+    });
+    if (
+      productPresentationValidation.active &&
+      !productPresentationValidation.passed
+    ) {
+      console.error(
+        "[product-presentation] validation failed",
+        productPresentationValidation.summary,
+        productPresentationValidation.violations,
+      );
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: productPresentationValidationIssues(
+          productPresentationValidation,
+        ),
         attempts: generated.attempts,
       };
     }
@@ -1348,6 +1322,14 @@ async function runGenerateContentPackageUnchecked(
     ...visualNarrativePlan.persistenceFields,
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
+    ...productPresentationPlan.persistenceFields,
+    ...productPresentationFieldsForValidationPersistence(
+      validateProductPresentationPackage({
+        plan: productPresentationPlan.plan,
+        visualScenes: generated.value.visual_scenes,
+        assets: assets.refs,
+      }),
+    ),
     ...attentionPlan.persistenceFields,
     ...(creativeCandidates
       ? creativeCandidateFieldsForPersistence(
@@ -1594,42 +1576,6 @@ async function loadRunGenerationPlan(
 // call. Best-effort: any error yields an empty list so generation is never
 // blocked by this enrichment.
 const SIBLING_ANGLE_LIMIT = 12;
-async function loadRunRecentDemoVariants(
-  supabase: SupabaseClient,
-  projectId: string,
-  productionRunId: string,
-  currentStrategyItemId: string,
-): Promise<ProductDemoVariant[]> {
-  try {
-    const { data: items, error: itemsErr } = await supabase
-      .from("content_strategy_items")
-      .select("id")
-      .eq("project_id", projectId)
-      .eq("brief->>production_run_id", productionRunId);
-    if (itemsErr || !items) return [];
-
-    const siblingItemIds = (items as { id: string }[])
-      .map((row) => row.id)
-      .filter((id) => id && id !== currentStrategyItemId);
-    if (siblingItemIds.length === 0) return [];
-
-    const { data: pkgs, error: pkgErr } = await supabase
-      .from("content_packages")
-      .select("package_brief, created_at")
-      .eq("project_id", projectId)
-      .in("strategy_item_id", siblingItemIds)
-      .order("created_at", { ascending: true })
-      .limit(24);
-    if (pkgErr || !pkgs) return [];
-
-    return extractDemoVariantsFromPackageBriefs(
-      (pkgs as { package_brief: unknown }[]).map((p) => p.package_brief),
-    );
-  } catch {
-    return [];
-  }
-}
-
 async function loadRunSiblingAngles(
   supabase: SupabaseClient,
   projectId: string,

@@ -162,6 +162,7 @@ export async function uploadProjectAsset(
         assetMode: "source",
         metadata: {
           asset_class: assetClass,
+          source: "upload",
           ...(productRole
             ? { product_role: productRole, product_role_locked: true }
             : {}),

@@ -104,7 +104,7 @@ const CONTINUOUS_CHAT_SCENES = [
 check("prompt block includes Story Integrity header", () => {
   const block = buildStoryIntegrityPromptBlock(handheldWinner());
   assert.ok(block.includes(STORY_INTEGRITY_PROMPT_HEADER));
-  assert.ok(block.includes("PRODUCT DEMONSTRATION"));
+  assert.ok(block.includes("VALUE PROOF"));
   assert.ok(block.includes("NOT ALLOWED"));
   assert.ok(block.includes("support the package CTA"));
   assert.ok(!block.includes("must match the package CTA"));
@@ -186,7 +186,7 @@ check("BEFORE: fog silhouettes mid-arc fails abstract_metaphor + product_demo; n
   assert.equal(result.passed, false);
   const hard = new Set(result.violations.map((v) => v.code));
   assert.ok(hard.has("abstract_metaphor_in_middle"));
-  assert.ok(hard.has("product_demonstration_missing"));
+  assert.ok(!hard.has("product_demonstration_missing"));
   assert.ok(!hard.has("cta_mismatch"));
   assert.ok(!result.warnings.some((v) => v.code === "cta_mismatch"));
   assert.equal(result.ctaMatch.ctaMismatch, false);
@@ -206,12 +206,9 @@ check("AFTER: continuous chat world with ask→answer→result + spoken CTA pass
       "Urgent question dies in silence. She typed it Saturday night — which color treatment, can I book tomorrow. Your site said nothing. No chat. No answer. Then the AI assistant replies with availability. She stays and books. Create your AI assistant — let your website answer while the salon is closed.",
     visualScenes: CONTINUOUS_CHAT_SCENES,
   });
-  assert.equal(
-    result.passed,
-    true,
-    `unexpected violations: ${JSON.stringify(result.violations, null, 2)}`,
-  );
-  assert.equal(result.productDemonstration.present, true);
+  assert.equal(result.passed, true, `unexpected violations: ${JSON.stringify(result.violations, null, 2)}`);
+  // PPD owns value proof; SI no longer requires chat-demo detection.
+  assert.equal(result.productDemonstration.present, false);
   // No typed CTA scene → spoken CTA alignment is not required.
   assert.equal(result.ctaMatch.voiceoverContainsCta, true);
   assert.equal(result.ctaMatch.ctaMismatch, false);
@@ -236,12 +233,8 @@ check("Sprint 5.2: typed CTA scene + soft spoken close → passes with CTA warni
       },
     ],
   });
-  assert.equal(
-    result.passed,
-    true,
-    `soft close must not hard-fail: ${JSON.stringify(result.violations, null, 2)}`,
-  );
-  assert.equal(result.productDemonstration.present, true);
+  assert.equal(result.passed, true, `soft close must not hard-fail: ${JSON.stringify(result.violations, null, 2)}`);
+  assert.equal(result.productDemonstration.present, false);
   assert.equal(result.ctaMatch.ctaMismatch, true);
   assert.equal(result.ctaMatch.voiceoverContainsCta, false);
   assert.ok(result.warnings.some((v) => v.code === "cta_mismatch"));
@@ -280,7 +273,7 @@ check("Sprint 5.2: same commercial intent, different CTA wording → passes", ()
     visualScenes: CONTINUOUS_CHAT_SCENES,
   });
   assert.equal(result.passed, true);
-  assert.equal(result.productDemonstration.present, true);
+  assert.equal(result.productDemonstration.present, false);
   // Different wording may or may not flag a soft warning — either is OK as long as we pass.
   assert.ok(result.violations.every((v) => v.code !== "cta_mismatch"));
 });
@@ -295,13 +288,13 @@ check("Sprint 5.2: awareness-style emotional spoken close → passes", () => {
     visualScenes: CONTINUOUS_CHAT_SCENES,
   });
   assert.equal(result.passed, true);
-  assert.equal(result.productDemonstration.present, true);
+  assert.equal(result.productDemonstration.present, false);
   // No typed CTA → must not warn about unspoken package CTA.
   assert.equal(result.ctaMatch.ctaMismatch, false);
   assert.ok(!result.warnings.some((w) => w.code === "cta_mismatch"));
 });
 
-check("Sprint 5.2: missing product demonstration still hard-fails", () => {
+check("PPD era: missing chat demo is not an SI hard fail", () => {
   const result = validateStoryIntegrity({
     winner: handheldWinner(),
     packageCta: PACKAGE_CTA,
@@ -324,9 +317,8 @@ check("Sprint 5.2: missing product demonstration still hard-fails", () => {
       },
     ],
   });
-  assert.equal(result.passed, false);
   assert.ok(
-    result.violations.some((v) => v.code === "product_demonstration_missing"),
+    !result.violations.some((v) => v.code === "product_demonstration_missing"),
   );
 });
 

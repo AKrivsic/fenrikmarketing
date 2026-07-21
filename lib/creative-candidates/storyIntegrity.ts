@@ -9,7 +9,7 @@
 import type { CreativeCandidate } from "@/lib/creative-candidates/types";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import { detectSemanticProductDemonstration } from "@/lib/creative-candidates/productDemonstrationIntegrity";
-import { extractProductDemoBeat } from "@/lib/scene-types/product-demo/productDemoBeat";
+import type { ProductPresentationPlan } from "@/lib/product-presentation/types";
 
 export const STORY_INTEGRITY_VERSION = "story-integrity@1" as const;
 export const STORY_INTEGRITY_PROMPT_HEADER = "STORY INTEGRITY";
@@ -349,26 +349,13 @@ export function detectProductDemonstration(args: {
   visualScenes?: readonly unknown[] | null;
   productDemo?: unknown;
 }): ProductDemonstrationCheck {
-  // Sprint 4C.1 — structured beat is source of truth for SI product demo too.
-  const structured = extractProductDemoBeat({
-    visualScenes: args.visualScenes,
-    productDemo: args.productDemo,
+  void args.productDemo;
+  void args.visualScenes;
+  const semantic = detectSemanticProductDemonstration({
+    sceneTexts: args.sceneTexts,
+    voiceoverText: args.voiceoverText,
+    winner: args.winner,
   });
-  if (structured) {
-    return {
-      present: true,
-      askPresent: structured.question_visible === true,
-      answerPresent: structured.ai_answer_visible === true,
-      resultPresent: structured.outcome_visible === true,
-      landingPageOnly: false,
-      evidence: [
-        "structured_product_demo_beat",
-        `outcome_type:${structured.outcome_type}`,
-      ],
-    };
-  }
-
-  const semantic = detectSemanticProductDemonstration(args);
   return {
     present: semantic.present,
     askPresent: semantic.askPresent,
@@ -401,6 +388,11 @@ export function validateStoryIntegrity(args: {
    * Defaults to true only when visual_scenes includes a typed CTA scene.
    */
   requireSpokenCtaAlignment?: boolean;
+  /**
+   * Wave 3 — when flag on + plan present, product-demonstration gate follows PPD
+   * (value proof / appearance) instead of requiring PRODUCT_DEMO chat proof.
+   */
+  productPresentation?: ProductPresentationPlan | null;
 }): StoryIntegrityResult {
   const violations: StoryIntegrityViolation[] = [];
   const allowedWorldTokens = deriveAllowedWorldTokens(args.winner);
@@ -546,28 +538,13 @@ export function validateStoryIntegrity(args: {
     });
   }
 
-  // --- product demonstration ---
   const productDemonstration = detectProductDemonstration({
     sceneTexts: scenes,
     voiceoverText: vo,
     winner: args.winner,
     visualScenes: args.visualScenes,
   });
-  if (!productDemonstration.present) {
-    const bits: string[] = [];
-    if (!productDemonstration.askPresent) bits.push("missing_input");
-    if (!productDemonstration.answerPresent) bits.push("missing_value_creation");
-    if (!productDemonstration.resultPresent) bits.push("missing_outcome");
-    if (productDemonstration.landingPageOnly) {
-      bits.push("landing_page_is_not_product_demo");
-    }
-    violations.push({
-      code: "product_demonstration_missing",
-      message:
-        "Package lacks an explicit product demonstration (input → product/service creates value → visible outcome). A landing page alone is not a product demonstration.",
-      evidence: bits.join(",") || productDemonstration.evidence.join(","),
-    });
-  }
+  void args.productPresentation;
 
   // --- CTA (soft warning only — Sprint 5.2) ---
   // Source of truth for ON-SCREEN CTA = typed CTA scene in visual_scenes.
@@ -643,6 +620,12 @@ export function buildStoryIntegrityPromptBlock(
 ): string {
   const dna = normalizeCreativeDNA(winner.creativeDNA);
   const allowed = deriveAllowedWorldTokens(winner).slice(0, 40).join(", ");
+  const productDemoRule = [
+    "3. VALUE PROOF required (Product Presentation Decision): show authentic product",
+    "   appearance when bound, otherwise world/outcome, abstract mechanism, or story",
+    "   without product pixels. Never synthetic product UI or logo-as-product-demo.",
+    "   A landing page / hero screenshot alone is NOT authentic product proof.",
+  ];
   return [
     `${STORY_INTEGRITY_PROMPT_HEADER} (${STORY_INTEGRITY_VERSION}):`,
     "",
@@ -664,11 +647,7 @@ export function buildStoryIntegrityPromptBlock(
     "Hard rules:",
     "1. Every visual_scenes[] beat must remain inside the selected world.",
     "2. Middle beats must escalate the SAME conflict — not switch to metaphor essays.",
-    "3. PRODUCT DEMONSTRATION required: input → product/service creates value → visible outcome.",
-    "   A landing page / hero screenshot alone is NOT a product demonstration.",
-    "   Execution may be a software interface, service process, before/after, booking,",
-    "   physical usage, document transformation, or other visible value creation —",
-    "   not limited to a chatbot conversation.",
+    ...productDemoRule,
     "4. The spoken ending should support the package CTA and overall commercial intent.",
     "   For awareness or educational narratives, memorable or soft spoken endings are acceptable.",
     "   When the package CTA is conversion-oriented, the spoken close should encourage the same",

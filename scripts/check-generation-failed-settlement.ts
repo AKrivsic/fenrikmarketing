@@ -9,7 +9,7 @@ import {
   GENERATION_TERMINAL_ERRORS,
 } from "@/lib/ai/workflows/generationTerminal";
 import {
-  RENDER_PRODUCT_DEMO_FAILED,
+  RENDER_FIDELITY_FAILED,
   RenderProductDemoFailedError,
 } from "@/lib/scene-types/presentation/renderFidelity";
 
@@ -47,10 +47,6 @@ const workflowSrc = readFileSync(
 );
 const terminalSrc = readFileSync(
   join(root, "lib/ai/workflows/generationTerminal.ts"),
-  "utf8",
-);
-const ensureSrc = readFileSync(
-  join(root, "lib/scene-types/product-demo/ensureStructuredProductDemo.ts"),
   "utf8",
 );
 
@@ -120,15 +116,15 @@ check("422 generation_failed path does not require packageId for settle", () => 
 
 console.log("\nB — Sprint 5.3 terminal settlement");
 
-check("classifyGenerationThrow maps RenderProductDemoFailedError", () => {
-  const err = new RenderProductDemoFailedError("render_product_demo_failed: test", {
+check("classifyGenerationThrow maps RenderFidelityFailedError", () => {
+  const err = new RenderProductDemoFailedError("render_fidelity_failed: test", {
     stage: "presentation_analyzer",
-    code: RENDER_PRODUCT_DEMO_FAILED,
+    code: RENDER_FIDELITY_FAILED,
   });
   const failure = classifyGenerationThrow(err);
   assert.equal(failure.ok, false);
-  assert.equal(failure.error, "render_product_demo_failed");
-  assert.match(failure.validationErrors[0]!.message, /render_product_demo_failed/);
+  assert.equal(failure.error, "render_failed");
+  assert.match(failure.validationErrors[0]!.message, /render_fidelity_failed/);
 });
 
 check("classifyGenerationThrow maps render_fidelity_failed diagnostics", () => {
@@ -204,14 +200,13 @@ check("settlement failures are not swallowed", () => {
   assert.match(n8nRouteSrc, /path:\s*"settlement"/);
 });
 
-check("ensureStructuredProductDemo never fabricates chatbot demos", () => {
-  assert.match(ensureSrc, /PRODUCT_DEMO_NOT_FABRICATED/);
-  assert.match(ensureSrc, /Never fabricates a chatbot demo/);
-  assert.match(ensureSrc, /refusing to invent a chatbot product demonstration/);
+check("workflows use PPD validation gate (no ensureStructuredProductDemo)", () => {
+  assert.doesNotMatch(workflowSrc, /ensureStructuredProductDemo/);
+  assert.match(workflowSrc, /validateProductPresentationPackage/);
   assert.match(terminalSrc, /operational_failure/);
 });
 
-check("architecture states universal input → value → outcome", () => {
+check("architecture states PPD value proof in story + presentation integrity", () => {
   const si = readFileSync(
     join(root, "lib/creative-candidates/storyIntegrity.ts"),
     "utf8",
@@ -220,12 +215,9 @@ check("architecture states universal input → value → outcome", () => {
     join(root, "lib/creative-candidates/productDemonstrationIntegrity.ts"),
     "utf8",
   );
-  assert.match(si, /input → product\/service creates value → visible outcome/);
-  assert.match(pdi, /UNIVERSAL SEMANTIC CONTRACT/);
-  assert.doesNotMatch(
-    pdi,
-    /The PRODUCT_DEMO scene is rendered as a controlled Fenrik chat UI/,
-  );
+  assert.match(si, /Product Presentation Decision/);
+  assert.match(pdi, /Product Presentation Decision is the authority/);
+  assert.doesNotMatch(pdi, /UNIVERSAL SEMANTIC CONTRACT/);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

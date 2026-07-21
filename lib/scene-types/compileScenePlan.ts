@@ -37,11 +37,6 @@ import {
   ctaPlaceholderImagePrompt,
 } from "@/lib/scene-types/cta/ctaScenePayload";
 import { CTA_SCENE_RENDERER_VERSION } from "@/lib/scene-types/renderers/ctaSceneRenderer";
-import {
-  parseProductDemoScenePayload,
-  productDemoPlaceholderImagePrompt,
-} from "@/lib/scene-types/product-demo/productDemoBeat";
-import { PRODUCT_DEMO_SCENE_RENDERER_VERSION } from "@/lib/scene-types/renderers/productDemoSceneRenderer";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
 
@@ -66,8 +61,6 @@ function assertCompilableVisualScenes(scenes: VisualScene[]): void {
     if (scene.type === "QUOTE" && isSceneTypesEnabled()) continue;
     if (scene.type === "STATISTIC" && isSceneTypesEnabled()) continue;
     if (scene.type === "CTA" && isSceneTypesEnabled()) continue;
-    // PRODUCT_DEMO is always compilable (Sprint 4C.1 hard requirement).
-    if (scene.type === "PRODUCT_DEMO") continue;
     throw new Error(
       `visual scene ${scene.id ?? "?"} has unsupported type ${scene.type}`,
     );
@@ -180,24 +173,6 @@ export async function compileVisualScenesToWorkerScenes(
         duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
         payload_snapshot: parsed.data as unknown as Record<string, unknown>,
         renderer_version: CTA_SCENE_RENDERER_VERSION,
-      };
-      continue;
-    }
-
-    if (scene.type === "PRODUCT_DEMO") {
-      const parsed = parseProductDemoScenePayload(scene.payload);
-      if (!parsed.ok) {
-        throw new Error(
-          `compileVisualScenesToWorkerScenes: product_demo scene ${id} invalid — ${parsed.reason}`,
-        );
-      }
-      slots[i] = {
-        id,
-        type: "PRODUCT_DEMO",
-        image_prompt: productDemoPlaceholderImagePrompt(id),
-        duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
-        payload_snapshot: parsed.data as unknown as Record<string, unknown>,
-        renderer_version: PRODUCT_DEMO_SCENE_RENDERER_VERSION,
       };
       continue;
     }

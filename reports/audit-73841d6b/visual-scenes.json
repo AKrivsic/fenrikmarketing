@@ -1,0 +1,18 @@
+[
+  {
+    "source": "ai",
+    "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette, soft shadows. Extreme close-up of a pair of hands holding a smartphone in low evening light, thumbs mid-type on a chat interface. The chat window shows a sent message bubble and a 'seen' status indicator below it — no reply bubble present, just empty waiting space beneath. The hands rest on a kitchen counter surface, subject placed on the left third with breathing room to the right. No readable text, no visible labels. The mood is quiet tension — a question sent into silence. Vertical mobile-first framing, 9:16."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Over-the-shoulder view of a woman seen from behind, standing at a kitchen counter on a Monday morning, looking down at an open laptop. The laptop screen shows a recognizable analytics-style dashboard layout — rows of session data, a visible visitor count column, zero conversions indicated by empty rows — no readable numbers or text, communicated through visual structure and empty state. Her posture is still, slightly tense. Subject placed on the left third with breathing room. No readable text in frame. Mood: quiet realization. Vertical 9:16."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Close on the same pair of hands from the opening — same phone, same grip — now typing into a different chat window. A reply bubble appears immediately below the sent message, visually distinct from the earlier empty thread: the bubble is present and filled, indicating a response arrived. The contrast between this filled reply and the earlier silence is the visual story. Hands placed on the left third, breathing room to the right. No readable text. Mood: the cost of silence made concrete — the visitor found an answer elsewhere. Vertical 9:16."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Portrait 9:16 vertical closing still — natural narrative conclusion without on-screen text or buttons. Visual mood supports this spoken closing thought: Got nothing.. Believable environment, soft lighting, no readable text, no UI mockups."
+  }
+]

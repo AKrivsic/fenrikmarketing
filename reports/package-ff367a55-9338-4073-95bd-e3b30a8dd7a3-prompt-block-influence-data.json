@@ -1,0 +1,554 @@
+{
+  "total_chars": 53784,
+  "sections": [
+    {
+      "name": "Product Brain",
+      "startLine": 0,
+      "endLine": 16,
+      "chars": 2258,
+      "pct": 4.2,
+      "preview": "PROJECT BRAIN: - name: Fenrik.chat - type: saas - language: en - market_scope: global - goal_type: lead_generation - tar"
+    },
+    {
+      "name": "Hard Constraints",
+      "startLine": 16,
+      "endLine": 23,
+      "chars": 381,
+      "pct": 0.71,
+      "preview": "HARD CONSTRAINTS: - Write in the project language (en) and tone of voice. - Never produce any forbidden_claims. - Never "
+    },
+    {
+      "name": "Pain Points",
+      "startLine": 23,
+      "endLine": 39,
+      "chars": 1532,
+      "pct": 2.85,
+      "preview": "PROJECT PAIN POINTS (anchor topics to these): - Unable to answer customer questions when offline - No resources to build"
+    },
+    {
+      "name": "Proof Pool",
+      "startLine": 39,
+      "endLine": 57,
+      "chars": 820,
+      "pct": 1.52,
+      "preview": "PROOF POOL (available marketing ammunition — NOT mandatory): - Starting at $69/month with transparent monthly subscripti"
+    },
+    {
+      "name": "Scenario Pool",
+      "startLine": 57,
+      "endLine": 74,
+      "chars": 2339,
+      "pct": 4.35,
+      "preview": "SCENARIO POOL (concrete customer situations — inspiration, NOT mandatory): - A potential client lands on a law firm's we"
+    },
+    {
+      "name": "Website / Link Rules",
+      "startLine": 74,
+      "endLine": 95,
+      "chars": 1828,
+      "pct": 3.4,
+      "preview": "WEBSITE / LINK RULES (canonical project website: https://fenrik.chat): - A real canonical website URL exists (above). Us"
+    },
+    {
+      "name": "Strategy Item",
+      "startLine": 95,
+      "endLine": 98,
+      "chars": 764,
+      "pct": 1.42,
+      "preview": "STRATEGY ITEM: funnel_stage=\"Problem Aware\" topic=\"The accountant who came back from vacation to a week's worth of misse"
+    },
+    {
+      "name": "Creative Directives",
+      "startLine": 98,
+      "endLine": 111,
+      "chars": 1524,
+      "pct": 2.83,
+      "preview": "CREATIVE DIRECTIVE (this piece only — shapes tone & structure, NEVER facts): - MODE: Shock — Opens on a surprising, rele"
+    },
+    {
+      "name": "Package Diversity",
+      "startLine": 111,
+      "endLine": 116,
+      "chars": 679,
+      "pct": 1.26,
+      "preview": "PACKAGE DIVERSITY (this is package 1 of 1 in ONE production run — every package in the run MUST be clearly DISTINCT, nev"
+    },
+    {
+      "name": "Attention First",
+      "startLine": 116,
+      "endLine": 123,
+      "chars": 1042,
+      "pct": 1.94,
+      "preview": "ATTENTION FIRST (internal growth engine — optimize for attention & retention, NOT corporate brand-safety): - Priority or"
+    },
+    {
+      "name": "Attention Mechanism",
+      "startLine": 123,
+      "endLine": 170,
+      "chars": 6824,
+      "pct": 12.69,
+      "preview": "ATTENTION MECHANISM (attention@1) — separate from creative mode and funnel: Primary attention mechanism: PROVOCATIVE_OPI"
+    },
+    {
+      "name": "Creative Candidate Selection",
+      "startLine": 170,
+      "endLine": 195,
+      "chars": 2463,
+      "pct": 4.58,
+      "preview": "CREATIVE CANDIDATE SELECTION (creative-candidates@2.1): Raw visual situations were clustered for scroll-stop (Creative D"
+    },
+    {
+      "name": "Content Quality",
+      "startLine": 195,
+      "endLine": 201,
+      "chars": 864,
+      "pct": 1.61,
+      "preview": "CONTENT QUALITY (hard rules — short, punchy, native short-form): - HARD video length target: 15–25s. Write for that leng"
+    },
+    {
+      "name": "Hook V2",
+      "startLine": 201,
+      "endLine": 216,
+      "chars": 1095,
+      "pct": 2.04,
+      "preview": "HOOK V2 (the first 3 seconds — make it dramatically stronger): - Write the hook in the \"confession\" HOOK ARCHETYPE above"
+    },
+    {
+      "name": "Visual Beats",
+      "startLine": 216,
+      "endLine": 230,
+      "chars": 897,
+      "pct": 1.67,
+      "preview": "VISUAL BEATS: provide 3–5 image_prompts. Each one is a GENERATED still image, and a small set is enough to carry a 20–30"
+    },
+    {
+      "name": "Scene Meaning",
+      "startLine": 230,
+      "endLine": 237,
+      "chars": 521,
+      "pct": 0.97,
+      "preview": "SCENE MEANING (priority over look): For each image prompt, first determine what a viewer should understand within one se"
+    },
+    {
+      "name": "Visual Narrative",
+      "startLine": 237,
+      "endLine": 285,
+      "chars": 4200,
+      "pct": 7.81,
+      "preview": "VISUAL NARRATIVE (visual-narrative@1.1 — how meaning is carried, not lighting adjectives):  VISUAL STORY DIRECTOR (visua"
+    },
+    {
+      "name": "Product Reveal",
+      "startLine": 285,
+      "endLine": 303,
+      "chars": 1116,
+      "pct": 2.07,
+      "preview": "PRODUCT REVEAL (product-reveal@2):  Default strategy for solution / product payoff beats: PRODUCT_OUTCOME - Use PRODUCT_"
+    },
+    {
+      "name": "Visual Medium",
+      "startLine": 303,
+      "endLine": 309,
+      "chars": 463,
+      "pct": 0.86,
+      "preview": "VISUAL MEDIUM (PHOTOGRAPHIC — one medium for ALL image_prompts in this package): - Photorealistic photographic image, cr"
+    },
+    {
+      "name": "Visual Style Guardrail",
+      "startLine": 309,
+      "endLine": 316,
+      "chars": 664,
+      "pct": 1.23,
+      "preview": "VISUAL STYLE (global default for ALL generated imagery — applies to EVERY image_prompt unless the concept EXPLICITLY req"
+    },
+    {
+      "name": "Project Visual Profile",
+      "startLine": 316,
+      "endLine": 323,
+      "chars": 430,
+      "pct": 0.8,
+      "preview": "PROJECT VISUAL PROFILE (NATURAL — treatment only, never copy or claims): - Natural lighting, believable setting, candid "
+    },
+    {
+      "name": "Creative Identity",
+      "startLine": 323,
+      "endLine": 339,
+      "chars": 974,
+      "pct": 1.81,
+      "preview": "CREATIVE IDENTITY (creative-identity@1 — one identity for ALL image_prompts in this package): - Environment: a bright co"
+    },
+    {
+      "name": "Vertical Scene Composition",
+      "startLine": 339,
+      "endLine": 345,
+      "chars": 385,
+      "pct": 0.72,
+      "preview": "VERTICAL SCENE COMPOSITION (every image_prompt — generated stills are portrait 9:16): - Portrait composition; vertical, "
+    },
+    {
+      "name": "Device & Screen Realism",
+      "startLine": 345,
+      "endLine": 352,
+      "chars": 1003,
+      "pct": 1.86,
+      "preview": "DEVICE & SCREEN REALISM (every image_prompt that shows a person using a device): - Smartphone: screen faces the viewer O"
+    },
+    {
+      "name": "Device Screens in Stills",
+      "startLine": 352,
+      "endLine": 357,
+      "chars": 381,
+      "pct": 0.71,
+      "preview": "DEVICE SCREENS IN GENERATED STILLS: - If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be bla"
+    },
+    {
+      "name": "Available Assets",
+      "startLine": 357,
+      "endLine": 360,
+      "chars": 222,
+      "pct": 0.41,
+      "preview": "AVAILABLE ASSETS (optional product library — using assets is NEVER mandatory; empty asset_usage is valid. asset_usage ru"
+    },
+    {
+      "name": "Approved Quotes",
+      "startLine": 360,
+      "endLine": 369,
+      "chars": 441,
+      "pct": 0.82,
+      "preview": "APPROVED QUOTES (copy verbatim — do not invent testimonials): - proof_id: proof-statement-3   quote: \"Simple embed scrip"
+    },
+    {
+      "name": "Smart Asset Usage",
+      "startLine": 369,
+      "endLine": 390,
+      "chars": 1683,
+      "pct": 3.13,
+      "preview": "SMART ASSET USAGE RULES (when you choose to use an asset — never mandatory): - Do not use landscape assets as full-scree"
+    },
+    {
+      "name": "Presentation Rules",
+      "startLine": 390,
+      "endLine": 560,
+      "chars": 9541,
+      "pct": 17.74,
+      "preview": "PRESENTATION (visual beat types — strongest expression wins):  For each narrative beat, ask: what is the strongest way t"
+    },
+    {
+      "name": "Visual Scene Plan",
+      "startLine": 560,
+      "endLine": 572,
+      "chars": 976,
+      "pct": 1.81,
+      "preview": "VISUAL SCENE PLAN (ordered dramaturgy — canonical for video when present): - Plan the video as visual_scenes: an ORDERED"
+    },
+    {
+      "name": "Asset Library Rules",
+      "startLine": 572,
+      "endLine": 579,
+      "chars": 645,
+      "pct": 1.2,
+      "preview": "ASSET LIBRARY RULES: - Do not invent asset_usage entries; only reference ids listed above. - Skip assets entirely when A"
+    },
+    {
+      "name": "Platform Styles",
+      "startLine": 579,
+      "endLine": 586,
+      "chars": 1234,
+      "pct": 2.29,
+      "preview": "PLATFORM STYLES (make each platform's output genuinely native — NOT one text lightly reformatted; same facts, funnel sta"
+    },
+    {
+      "name": "Output Schema / Task",
+      "startLine": 586,
+      "endLine": 620,
+      "chars": 2727,
+      "pct": 5.07,
+      "preview": "TASK: Produce ONE content package as JSON with this exact shape: {   \"title\": \"string\",   \"funnel_stage\": \"Problem Aware"
+    },
+    {
+      "name": "Multiple Outputs",
+      "startLine": 620,
+      "endLine": 626,
+      "chars": 835,
+      "pct": 1.55,
+      "preview": "MULTIPLE OUTPUTS PER PLATFORM (distinct variants — same facts, same funnel stage, same CTA type): - \"linkedin\": provide "
+    }
+  ],
+  "bucketSizes": {
+    "Product Brain": {
+      "chars": 9158,
+      "parts": [
+        {
+          "name": "Product Brain",
+          "chars": 2258,
+          "pct": 4.2
+        },
+        {
+          "name": "Hard Constraints",
+          "chars": 381,
+          "pct": 0.71
+        },
+        {
+          "name": "Pain Points",
+          "chars": 1532,
+          "pct": 2.85
+        },
+        {
+          "name": "Proof Pool",
+          "chars": 820,
+          "pct": 1.52
+        },
+        {
+          "name": "Scenario Pool",
+          "chars": 2339,
+          "pct": 4.35
+        },
+        {
+          "name": "Website / Link Rules",
+          "chars": 1828,
+          "pct": 3.4
+        }
+      ]
+    },
+    "Strategy Item": {
+      "chars": 764,
+      "parts": [
+        {
+          "name": "Strategy Item",
+          "chars": 764,
+          "pct": 1.42
+        }
+      ]
+    },
+    "Creative Directives": {
+      "chars": 3245,
+      "parts": [
+        {
+          "name": "Creative Directives",
+          "chars": 1524,
+          "pct": 2.83
+        },
+        {
+          "name": "Package Diversity",
+          "chars": 679,
+          "pct": 1.26
+        },
+        {
+          "name": "Attention First",
+          "chars": 1042,
+          "pct": 1.94
+        }
+      ]
+    },
+    "Attention Mechanism": {
+      "chars": 6824,
+      "parts": [
+        {
+          "name": "Attention Mechanism",
+          "chars": 6824,
+          "pct": 12.69
+        }
+      ]
+    },
+    "Creative Candidate Selection": {
+      "chars": 2463,
+      "parts": [
+        {
+          "name": "Creative Candidate Selection",
+          "chars": 2463,
+          "pct": 4.58
+        }
+      ]
+    },
+    "Content Quality": {
+      "chars": 864,
+      "parts": [
+        {
+          "name": "Content Quality",
+          "chars": 864,
+          "pct": 1.61
+        }
+      ]
+    },
+    "Hook V2": {
+      "chars": 1095,
+      "parts": [
+        {
+          "name": "Hook V2",
+          "chars": 1095,
+          "pct": 2.04
+        }
+      ]
+    },
+    "Scene Meaning": {
+      "chars": 1418,
+      "parts": [
+        {
+          "name": "Visual Beats",
+          "chars": 897,
+          "pct": 1.67
+        },
+        {
+          "name": "Scene Meaning",
+          "chars": 521,
+          "pct": 0.97
+        }
+      ]
+    },
+    "Visual Narrative": {
+      "chars": 4200,
+      "parts": [
+        {
+          "name": "Visual Narrative",
+          "chars": 4200,
+          "pct": 7.81
+        }
+      ]
+    },
+    "Product Reveal": {
+      "chars": 1116,
+      "parts": [
+        {
+          "name": "Product Reveal",
+          "chars": 1116,
+          "pct": 2.07
+        }
+      ]
+    },
+    "Visual Medium": {
+      "chars": 1127,
+      "parts": [
+        {
+          "name": "Visual Medium",
+          "chars": 463,
+          "pct": 0.86
+        },
+        {
+          "name": "Visual Style Guardrail",
+          "chars": 664,
+          "pct": 1.23
+        }
+      ]
+    },
+    "Project Visual Profile": {
+      "chars": 430,
+      "parts": [
+        {
+          "name": "Project Visual Profile",
+          "chars": 430,
+          "pct": 0.8
+        }
+      ]
+    },
+    "Creative Identity": {
+      "chars": 974,
+      "parts": [
+        {
+          "name": "Creative Identity",
+          "chars": 974,
+          "pct": 1.81
+        }
+      ]
+    },
+    "Presentation Rules": {
+      "chars": 15277,
+      "parts": [
+        {
+          "name": "Vertical Scene Composition",
+          "chars": 385,
+          "pct": 0.72
+        },
+        {
+          "name": "Device & Screen Realism",
+          "chars": 1003,
+          "pct": 1.86
+        },
+        {
+          "name": "Device Screens in Stills",
+          "chars": 381,
+          "pct": 0.71
+        },
+        {
+          "name": "Available Assets",
+          "chars": 222,
+          "pct": 0.41
+        },
+        {
+          "name": "Approved Quotes",
+          "chars": 441,
+          "pct": 0.82
+        },
+        {
+          "name": "Smart Asset Usage",
+          "chars": 1683,
+          "pct": 3.13
+        },
+        {
+          "name": "Presentation Rules",
+          "chars": 9541,
+          "pct": 17.74
+        },
+        {
+          "name": "Visual Scene Plan",
+          "chars": 976,
+          "pct": 1.81
+        },
+        {
+          "name": "Asset Library Rules",
+          "chars": 645,
+          "pct": 1.2
+        }
+      ]
+    },
+    "Platform Styles": {
+      "chars": 2069,
+      "parts": [
+        {
+          "name": "Platform Styles",
+          "chars": 1234,
+          "pct": 2.29
+        },
+        {
+          "name": "Multiple Outputs",
+          "chars": 835,
+          "pct": 1.55
+        }
+      ]
+    },
+    "Output Schema": {
+      "chars": 2727,
+      "parts": [
+        {
+          "name": "Output Schema / Task",
+          "chars": 2727,
+          "pct": 5.07
+        }
+      ]
+    }
+  },
+  "evidence": {
+    "hook": "Mascot suffers, fake typing online.",
+    "voiceover": "Mascot suffers, fake typing online. An accountant I know returned from two weeks off to find dozens of website visits — real people, real questions — and not one contact detail left behind. Zero. Because the site just sat there, silent. Your website isn't offline when you're away. It's open. And it's turning people away for you, every single night, without saying a word.",
+    "concept_head": "Open on an absurd, immediately readable scene: a person in a full mascot costume — sweating, wilting — waving enthusiastically at passing cars in a sun-baked parking lot, while inside the office a cha",
+    "script_head": "BEAT 1 — UNEXPECTED FACT (0–4s): Wide shot, bright co-working daylight. A person in a full mascot costume — oversized head, full suit — stands just outside a glass door waving at nobody in particular. Inside, visible through the glass, a laptop screen shows a chat widget with a blinking 'typing...' indicator that never resolves. First spoken line l",
+    "image1_head": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing with layered depth — foreground and background both visible. A person in a full mascot costume (overs",
+    "image2_head": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing. A single person, par",
+    "cta": {
+      "text": "Create your AI assistant — let your website answer while you're gone.",
+      "type": "sign_up"
+    },
+    "identity_env": "a bright co-working space in daylight",
+    "candidate_opening": "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
+    "mode": "enabled",
+    "attention_mechanism": "PROVOCATIVE_OPINION",
+    "visual_profile": "NATURAL",
+    "visual_medium": "PHOTOGRAPHIC",
+    "platform_keys": [
+      "x",
+      "tiktok",
+      "youtube",
+      "linkedin",
+      "instagram"
+    ]
+  }
+}

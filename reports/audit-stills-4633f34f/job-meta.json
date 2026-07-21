@@ -1,0 +1,83 @@
+{
+  "status": "completed",
+  "keys": [
+    "debug",
+    "mp4_url",
+    "render_spec",
+    "subtitle_url",
+    "thumbnail_url"
+  ],
+  "mp4_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/47c1e1d9-dbf5-4051-b37b-2e84f879a9fa/output.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby80N2MxZTFkOS1kYmY1LTQwNTEtYjM3Yi0yZTg0Zjg3OWE5ZmEvb3V0cHV0Lm1wNCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MDUyMTMsImV4cCI6MTgxNTk0MTIxM30.q8K6Bfgi1uIuC4xbGD4CXrfdyEhcYPuY4vjrZ8GUN_E",
+  "thumbnail_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/47c1e1d9-dbf5-4051-b37b-2e84f879a9fa/thumbnail.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby80N2MxZTFkOS1kYmY1LTQwNTEtYjM3Yi0yZTg0Zjg3OWE5ZmEvdGh1bWJuYWlsLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MDUyMTMsImV4cCI6MTgxNTk0MTIxM30.cIoMp3kMnH9zOrg8J4u0nxdMdgEhrODb0p5ueUFcIFA",
+  "subtitle_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/47c1e1d9-dbf5-4051-b37b-2e84f879a9fa/subtitles.srt?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby80N2MxZTFkOS1kYmY1LTQwNTEtYjM3Yi0yZTg0Zjg3OWE5ZmEvc3VidGl0bGVzLnNydCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MDUyMTQsImV4cCI6MTgxNTk0MTIxNH0.Sjwt5NJ1mrQv50Bl7kkDnKrdD2H4qsJm4GtaEYjP7ks",
+  "debug": {
+    "sfx_mixed": false,
+    "sfx_reason": "not_selected",
+    "match_ratio": 0.972972972972973,
+    "fallback_used": false,
+    "language_hint": null,
+    "audio_duration": 28.764,
+    "duration_delta": 0.0026670000000024174,
+    "render_warning": false,
+    "video_duration": 28.766667,
+    "render_warnings": [],
+    "speech_duration": 27.264,
+    "subtitle_source": "whisper",
+    "target_duration": 28.764,
+    "srt_last_cue_end": 27.264,
+    "subtitle_warning": false,
+    "language_detected": "english",
+    "post_mux_duration": 28.764,
+    "tts_tail_expected": [
+      "answer",
+      "even",
+      "when",
+      "youre",
+      "not",
+      "there"
+    ],
+    "tts_validation_log": [
+      {
+        "pass": true,
+        "attempt": 1,
+        "expected_tail": [
+          "answer",
+          "even",
+          "when",
+          "youre",
+          "not",
+          "there"
+        ],
+        "durationSeconds": 27.264,
+        "transcript_tail": [
+          "deserves",
+          "an",
+          "answer",
+          "even",
+          "when",
+          "youre",
+          "not",
+          "there"
+        ]
+      }
+    ],
+    "whisper_word_count": 72,
+    "tail_buffer_seconds": 1.5,
+    "tts_tail_retry_used": false,
+    "tts_tail_transcript": [
+      "deserves",
+      "an",
+      "answer",
+      "even",
+      "when",
+      "youre",
+      "not",
+      "there"
+    ],
+    "post_subtitle_duration": 28.766667,
+    "tts_validation_attempts": 1,
+    "subtitle_timeline_duration": 27.264,
+    "tts_tail_validation_passed": true,
+    "intermediate_video_duration": 28.766667
+  }
+}

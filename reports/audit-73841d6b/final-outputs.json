@@ -1,0 +1,294 @@
+{
+  "video_job_outputs": [
+    {
+      "video_job_id": "f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61",
+      "content_item_id": "86e7a802-f136-4c78-a439-398ee4c77b9a",
+      "status": "completed",
+      "output": {
+        "debug": {
+          "sfx_mixed": false,
+          "sfx_reason": "not_selected",
+          "match_ratio": 0.9605263157894737,
+          "fallback_used": false,
+          "language_hint": null,
+          "audio_duration": 30.348,
+          "duration_delta": 0.01466699999999932,
+          "render_warning": false,
+          "video_duration": 30.333333,
+          "render_warnings": [],
+          "speech_duration": 28.848,
+          "subtitle_source": "whisper",
+          "target_duration": 30.348,
+          "srt_last_cue_end": 28.848,
+          "subtitle_warning": false,
+          "language_detected": "english",
+          "post_mux_duration": 30.348,
+          "tts_tail_expected": [
+            "your",
+            "website",
+            "answer",
+            "while",
+            "youre",
+            "away"
+          ],
+          "tts_validation_log": [
+            {
+              "pass": true,
+              "attempt": 1,
+              "expected_tail": [
+                "your",
+                "website",
+                "answer",
+                "while",
+                "youre",
+                "away"
+              ],
+              "durationSeconds": 28.848,
+              "transcript_tail": [
+                "assistant",
+                "let",
+                "your",
+                "website",
+                "answer",
+                "while",
+                "youre",
+                "away"
+              ]
+            }
+          ],
+          "whisper_word_count": 74,
+          "tail_buffer_seconds": 1.5,
+          "tts_tail_retry_used": false,
+          "tts_tail_transcript": [
+            "assistant",
+            "let",
+            "your",
+            "website",
+            "answer",
+            "while",
+            "youre",
+            "away"
+          ],
+          "post_subtitle_duration": 30.333333,
+          "tts_validation_attempts": 1,
+          "subtitle_timeline_duration": 28.848,
+          "tts_tail_validation_passed": true,
+          "intermediate_video_duration": 30.333333
+        },
+        "mp4_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/output.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9mMGZhMTZjNS1jN2QwLTRjZTgtOTBiMy0xNjZjZDNhNWJmNjEvb3V0cHV0Lm1wNCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTg3NjksImV4cCI6MTgxNTk1NDc2OX0.w9FeyMbHNaVN_WlsU7dMIbImMXeDfz0tQ7Cv4EkPDj4",
+        "render_spec": {
+          "scenes": [
+            {
+              "id": "scene-1",
+              "type": "IMAGE",
+              "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/scene-scene-1.png",
+              "image_bucket": "video-renders",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette, soft shadows. Extreme close-up of a pair of hands holding a smartphone in low evening light, thumbs mid-type on a chat interface. The chat window shows a sent message bubble and a 'seen' status indicator below it — no reply bubble present, just empty waiting space beneath. The hands rest on a kitchen counter surface, subject placed on the left third with breathing room to the right. No readable text, no visible labels. The mood is quiet tension — a question sent into silence. Vertical mobile-first framing, 9:16.",
+              "duration_seconds": 4,
+              "payload_snapshot": {
+                "media": {
+                  "source": "ai",
+                  "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette, soft shadows. Extreme close-up of a pair of hands holding a smartphone in low evening light, thumbs mid-type on a chat interface. The chat window shows a sent message bubble and a 'seen' status indicator below it — no reply bubble present, just empty waiting space beneath. The hands rest on a kitchen counter surface, subject placed on the left third with breathing room to the right. No readable text, no visible labels. The mood is quiet tension — a question sent into silence. Vertical mobile-first framing, 9:16."
+                }
+              },
+              "renderer_version": "image@1"
+            },
+            {
+              "id": "scene-2",
+              "type": "IMAGE",
+              "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/scene-scene-2.png",
+              "image_bucket": "video-renders",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Over-the-shoulder view of a woman seen from behind, standing at a kitchen counter on a Monday morning, looking down at an open laptop. The laptop screen shows a recognizable analytics-style dashboard layout — rows of session data, a visible visitor count column, zero conversions indicated by empty rows — no readable numbers or text, communicated through visual structure and empty state. Her posture is still, slightly tense. Subject placed on the left third with breathing room. No readable text in frame. Mood: quiet realization. Vertical 9:16.",
+              "duration_seconds": 4,
+              "payload_snapshot": {
+                "media": {
+                  "source": "ai",
+                  "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Over-the-shoulder view of a woman seen from behind, standing at a kitchen counter on a Monday morning, looking down at an open laptop. The laptop screen shows a recognizable analytics-style dashboard layout — rows of session data, a visible visitor count column, zero conversions indicated by empty rows — no readable numbers or text, communicated through visual structure and empty state. Her posture is still, slightly tense. Subject placed on the left third with breathing room. No readable text in frame. Mood: quiet realization. Vertical 9:16."
+                }
+              },
+              "renderer_version": "image@1"
+            },
+            {
+              "id": "scene-3",
+              "type": "IMAGE",
+              "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/scene-scene-3.png",
+              "image_bucket": "video-renders",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Close on the same pair of hands from the opening — same phone, same grip — now typing into a different chat window. A reply bubble appears immediately below the sent message, visually distinct from the earlier empty thread: the bubble is present and filled, indicating a response arrived. The contrast between this filled reply and the earlier silence is the visual story. Hands placed on the left third, breathing room to the right. No readable text. Mood: the cost of silence made concrete — the visitor found an answer elsewhere. Vertical 9:16.",
+              "duration_seconds": 4,
+              "payload_snapshot": {
+                "media": {
+                  "source": "ai",
+                  "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, gentle side lighting from the left, urban gray-blue ambient palette. Close on the same pair of hands from the opening — same phone, same grip — now typing into a different chat window. A reply bubble appears immediately below the sent message, visually distinct from the earlier empty thread: the bubble is present and filled, indicating a response arrived. The contrast between this filled reply and the earlier silence is the visual story. Hands placed on the left third, breathing room to the right. No readable text. Mood: the cost of silence made concrete — the visitor found an answer elsewhere. Vertical 9:16."
+                }
+              },
+              "renderer_version": "image@1"
+            },
+            {
+              "id": "scene-4",
+              "type": "IMAGE",
+              "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/scene-scene-4.png",
+              "image_bucket": "video-renders",
+              "image_prompt": "Portrait 9:16 vertical closing still — natural narrative conclusion without on-screen text or buttons. Visual mood supports this spoken closing thought: Got nothing.. Believable environment, soft lighting, no readable text, no UI mockups.",
+              "duration_seconds": 4,
+              "payload_snapshot": {
+                "media": {
+                  "source": "ai",
+                  "image_prompt": "Portrait 9:16 vertical closing still — natural narrative conclusion without on-screen text or buttons. Visual mood supports this spoken closing thought: Got nothing.. Believable environment, soft lighting, no readable text, no UI mockups."
+                }
+              },
+              "renderer_version": "image@1"
+            }
+          ],
+          "version": 1,
+          "metadata": {
+            "rendered_at": "2026-07-18T23:52:52.040Z",
+            "semantic_motion": {
+              "beats": [
+                {
+                  "beat_id": "beat-1",
+                  "scene_id": "scene-1",
+                  "motion_intent": "ATTENTION",
+                  "motion_version": "semantic-motion@2",
+                  "motion_intensity": "MEDIUM",
+                  "motion_primitive": "zoom_in"
+                },
+                {
+                  "beat_id": "beat-2",
+                  "scene_id": "scene-2",
+                  "motion_intent": "EXPLAIN",
+                  "motion_version": "semantic-motion@2",
+                  "motion_intensity": "LOW",
+                  "motion_primitive": "drift_up"
+                },
+                {
+                  "beat_id": "beat-3",
+                  "scene_id": "scene-3",
+                  "motion_intent": "EXPLAIN",
+                  "motion_version": "semantic-motion@2",
+                  "motion_intensity": "LOW",
+                  "motion_primitive": "drift_down"
+                },
+                {
+                  "beat_id": "beat-4",
+                  "scene_id": "scene-4",
+                  "motion_intent": "REVEAL",
+                  "motion_version": "semantic-motion@2",
+                  "motion_intensity": "LOW",
+                  "motion_primitive": "drift_up"
+                },
+                {
+                  "beat_id": "beat-5",
+                  "scene_id": "scene-4",
+                  "motion_intent": "CLOSE",
+                  "motion_version": "semantic-motion@2",
+                  "motion_intensity": "LOW",
+                  "motion_primitive": "static"
+                }
+              ],
+              "version": "semantic-motion@2"
+            }
+          }
+        },
+        "subtitle_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/subtitles.srt?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9mMGZhMTZjNS1jN2QwLTRjZTgtOTBiMy0xNjZjZDNhNWJmNjEvc3VidGl0bGVzLnNydCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTg3NzAsImV4cCI6MTgxNTk1NDc3MH0.nLwwPXSWgzgYcUfUiu7bIBw0185dg0ga-7wy_J9WfcM",
+        "thumbnail_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f0fa16c5-c7d0-4ce8-90b3-166cd3a5bf61/thumbnail.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9mMGZhMTZjNS1jN2QwLTRjZTgtOTBiMy0xNjZjZDNhNWJmNjEvdGh1bWJuYWlsLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTg3NjksImV4cCI6MTgxNTk1NDc2OX0.eTsttuSNN3awRwn11HY83KsgO_0BSs3CBl_jS8X6uEA"
+      },
+      "completed_at": "2026-07-18T23:52:53.171+00:00"
+    }
+  ],
+  "platform_outputs_by_package_id": {
+    "c0a4cda3-325b-4364-b7ba-ad4a140d5f4b": {
+      "x": {
+        "cta": "fenrik.chat",
+        "format": "X Video / Post",
+        "caption": "11 visitors over the weekend. Zero leads. Her website watched every single one leave. That's not bad luck — that's a weekly revenue leak.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIchatbot"
+        ],
+        "title_variants": [
+          "11 visitors. Zero leads. The Monday morning gut punch.",
+          "Your website is open 24/7. It just refuses to talk to anyone.",
+          "The revenue leak that compounds every weekend you stay offline.",
+          "She didn't lose those leads because her product was bad.",
+          "What your website does at 11pm when a visitor needs an answer."
+        ],
+        "caption_variants": [
+          "11 visitors over the weekend. Zero leads. Her website watched every single one leave. That's not bad luck — that's a weekly revenue leak.",
+          "Your website is open 24/7. It just won't answer anyone. Every visitor who types a question after hours and gets silence is a lead your competitor picks up. #smallbusiness",
+          "The Monday morning gut punch: you had real traffic, real interest, real questions — and your website said nothing. This compounds every single week.",
+          "She didn't lose those leads because her product was bad. She lost them because her website couldn't hold a conversation at 10pm. That's fixable. fenrik.chat",
+          "What does your website do when someone types a question at 11pm? If the answer is 'nothing' — that silence has a price. And it's paid every weekend. #AIchatbot"
+        ]
+      },
+      "tiktok": {
+        "cta": "Link in bio to fix it before tonight.",
+        "format": "Vertical Short (9:16)",
+        "caption": "11 visitors over the weekend. Zero leads. Every single one got ignored by her own website 😶 This is the leak nobody talks about.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration",
+          "#AIchatbot",
+          "#businessgrowth"
+        ]
+      },
+      "youtube": {
+        "cta": "Try your own website free at fenrik.chat",
+        "format": "YouTube Shorts (9:16)",
+        "caption": "11 weekend visitors. Zero leads. Her website saw every single one — and said nothing. Here's the overlooked reason that costs service businesses every week.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIchatbot",
+          "#leadgeneration"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "Facebook Video / Reels",
+        "caption": "She opened her analytics on Monday morning and found 11 visitors from the weekend — and zero leads. 😔 Every one of them had typed a real question, waited, and moved on when nobody answered. The website wasn't broken. It just had no way to respond after hours. If your business gets any website traffic while you're offline, this is worth a look. Fenrik.chat lets you create an AI assistant from your existing website in about a minute — no coding, no setup headaches. Try a live preview before you sign up at fenrik.chat.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIassistant",
+          "#leadgeneration"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "LinkedIn Video / Post",
+        "caption": "A service business owner checked her website analytics on Monday. Eleven visitors over the weekend. Zero leads. Not because the site was down — because it couldn't answer a single question after hours. Every unanswered visitor is a compounding loss. The fix isn't a developer. It's an AI assistant that reads your existing website and responds 24/7. Most businesses don't realize how much that silence costs until they look at the numbers.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIchatbot",
+          "#leadgeneration"
+        ],
+        "title_variants": [
+          "11 weekend visitors. Zero leads. The silent revenue leak most service businesses never see.",
+          "Your website is getting traffic right now — and answering none of it."
+        ],
+        "caption_variants": [
+          "A service business owner checked her website analytics on Monday. Eleven visitors over the weekend. Zero leads. Not because the site was down — because it couldn't answer a single question after hours. Every unanswered visitor is a compounding loss. The fix isn't a developer. It's an AI assistant that reads your existing website and responds 24/7. Most businesses don't realize how much that silence costs until they look at the numbers.",
+          "Here's a pattern worth recognizing: a business gets real website traffic over the weekend. Visitors type genuine questions. The site has no way to respond. By Monday, those people have moved on — usually to a competitor who did answer. This isn't a technology gap. It's an availability gap. And it compounds every single week the site stays silent after hours. An AI assistant built from your existing website content changes that equation without adding headcount."
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio to let your website answer after hours.",
+        "format": "Reels (9:16)",
+        "caption": "She checked her stats Monday morning.\n\n11 visitors over the weekend. Real people. Real questions. Zero replies.\n\nNot because she ignored them — because her website had no way to answer.\n\nThat silence compounds every single week. And most business owners don't even know it's happening.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitestrategy",
+          "#leadgeneration",
+          "#AIassistant",
+          "#businesstips",
+          "#servicebusiness",
+          "#onlinebusiness",
+          "#chatbot",
+          "#customerexperience",
+          "#growyourbusiness"
+        ]
+      }
+    }
+  },
+  "publishing_schedule": [],
+  "content_performance": []
+}

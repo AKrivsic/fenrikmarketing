@@ -1,0 +1,32 @@
+{
+  "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+  "family": "direct_product_world",
+  "coreIdea": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+  "hookLine": "Urgent question dies in silence.",
+  "candidateId": "c3-direct_product_world-div",
+  "creativeDNA": {
+    "world": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero con…",
+    "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+    "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who wok…",
+    "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+    "mainCharacter": "A website visitor's hands sending an urgent question",
+    "immutableRules": [
+      "Do not relocate the primary story away from: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer wh…",
+      "Do not replace the main character: A website visitor's hands sending an urgent question",
+      "Do not turn the middle into a laptop analytics montage",
+      "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+      "Do not resolve the story only with a happy expression; show that visitors receive answers",
+      "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+    ],
+    "viewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+  },
+  "visualPromise": "Film the opening as a scroll-stop frame: Urgent question dies in silence. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+  "familiarityRisk": "medium",
+  "openingSituation": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+  "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+  "creativeDnaSource": "model",
+  "emotionalReaction": "tension",
+  "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+  "memorabilityReason": "Selected from divergence v2 for scroll-stop: Urgent question dies in silence",
+  "expectedViewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+}

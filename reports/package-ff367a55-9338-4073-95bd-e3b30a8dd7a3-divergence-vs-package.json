@@ -1,0 +1,66 @@
+{
+  "winner": {
+    "ending": "Next website visitor who needed an answer gets an answer while the crew stays in the field.",
+    "family": "absurd_understandable",
+    "coreIdea": "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
+    "hookLine": "Mascot suffers, fake typing online.",
+    "candidateId": "c5-absurd_understandable-div",
+    "visualPromise": "Film the opening as a scroll-stop frame: Mascot suffers, fake typing online. No generic office/laptop montage.",
+    "familiarityRisk": "low",
+    "openingSituation": "Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with no message sent.",
+    "storyProgression": "Hold the opening situation → widen to after-hours silence → reveal Unable to answer customer questions when offline on the website channel → AI chatbot platform for websites answers what humans cannot.",
+    "emotionalReaction": "amused recognition",
+    "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+    "memorabilityReason": "Selected from divergence v2 for scroll-stop: Mascot suffers, fake typing online",
+    "expectedViewerQuestion": "What happens to the person in: Mascot suffers, fake typing online?"
+  },
+  "judge": {
+    "winnerId": "c5-absurd_understandable-div",
+    "winnerReason": "weighted_total=80.0; comparative_votes=3; stop=8; comprehension=5; memorability=5; product=4; family=absurd_understandable; core=Mascot costume melting in parking lot heat; employee waves at traffic; inside, chat widget shows typing indicator with n",
+    "bestProductTopicFit": "c1-direct_product_world-div",
+    "clearestMentalImage": "c3-visual_exaggeration-div",
+    "leastInterchangeable": "c5-absurd_understandable-div",
+    "mostMemorableInOneHour": "c5-absurd_understandable-div",
+    "mostLikelyToStopScrolling": "c5-absurd_understandable-div"
+  },
+  "generated": {
+    "hook": "Mascot suffers, fake typing online.",
+    "title": "The accountant who came back from vacation to a week's worth of missed leads — and zero contact details",
+    "concept": "Open on an absurd, immediately readable scene: a person in a full mascot costume — sweating, wilting — waving enthusiastically at passing cars in a sun-baked parking lot, while inside the office a chat widget blinks a 'typing...' indicator that never sends a message. The absurdity lands the provocative opinion fast: all the effort is outside, but the website is performing nothing. The video then cuts to the gut-punch moment — an accountant sitting back down at their desk after two weeks away, scrolling through analytics showing dozens of visits and zero form submissions. The final beat reframes the pain: your website is never truly closed — it's always open, always receiving visitors, and always silently sending them away. The close is a quiet, confident invitation to fix the permanent leak.",
+    "voiceover_text": "Mascot suffers, fake typing online. An accountant I know returned from two weeks off to find dozens of website visits — real people, real questions — and not one contact detail left behind. Zero. Because the site just sat there, silent. Your website isn't offline when you're away. It's open. And it's turning people away for you, every single night, without saying a word.",
+    "image_prompts": [
+      "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing with layered depth — foreground and background both visible. A person in a full mascot costume (oversized colorful character head, full body suit) stands just inside a glass door, one arm raised mid-wave toward the empty parking lot outside. Through the glass, the daylight floods in. In the background, slightly out of focus, a laptop on a desk shows a glowing screen with a chat-style interface — a blinking ellipsis 'typing...' indicator visible as a soft glow, no readable text. The mascot's posture reads as exhausted and absurd. Single person, partial body, face not dominant. No readable text, signs, labels, or UI text anywhere in the image.",
+      "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing. A single person, partial body visible — torso and hands — sits back down at a clean desk, a small rolling carry-on bag visible just behind them in the background, suggesting a recent return from travel. Their hands rest on an open laptop keyboard; the screen faces the viewer at a three-quarter angle, showing a website analytics-style interface with visible scroll behavior — blocks of color suggesting data, no readable text or numbers. The person's posture communicates quiet dread and recognition. Foreground desk surface with a coffee cup and a notebook as natural props. No readable text, signs, labels, or UI text anywhere in the image.",
+      "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing with layered depth. A single person sits alone at a desk in the middle distance — partial body, face not dominant, slightly turned away. A large green plant in the left foreground frames the scene, creating natural depth. The laptop screen glows softly in the warm ambient light, screen facing the viewer at a three-quarter angle showing a chat interface with empty conversation threads — no readable text. The overall mood is quiet tension before a decision. The space around the subject has intentional negative space. No readable text, signs, labels, or UI text anywhere in the image.",
+      "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing. A single person, partial body, leans back slightly in their chair with a small exhale — the body language of quiet recognition and decision. The desk in front of them is clean, laptop closed now, hands resting in their lap. A plant in the left foreground and a window with soft daylight in the background create layered depth. The mood is calm resolution — tension released. No readable text, signs, labels, or UI text anywhere in the image."
+    ],
+    "visual_scenes": [
+      {
+        "source": "ai",
+        "image_prompt": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing with layered depth — foreground and background both visible. A person in a full mascot costume (oversized colorful character head, full body suit) stands just inside a glass door, one arm raised mid-wave toward the empty parking lot outside. Through the glass, the daylight floods in. In the background, slightly out of focus, a laptop on a desk shows a glowing screen with a chat-style interface — a blinking ellipsis 'typing...' indicator visible as a soft glow, no readable text. The mascot's posture reads as exhausted and absurd. Single person, partial body, face not dominant. No readable text, signs, labels, or UI text anywhere in the image."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing. A single person, partial body visible — torso and hands — sits back down at a clean desk, a small rolling carry-on bag visible just behind them in the background, suggesting a recent return from travel. Their hands rest on an open laptop keyboard; the screen faces the viewer at a three-quarter angle, showing a website analytics-style interface with visible scroll behavior — blocks of color suggesting data, no readable text or numbers. The person's posture communicates quiet dread and recognition. Foreground desk surface with a coffee cup and a notebook as natural props. No readable text, signs, labels, or UI text anywhere in the image."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing with layered depth. A single person sits alone at a desk in the middle distance — partial body, face not dominant, slightly turned away. A large green plant in the left foreground frames the scene, creating natural depth. The laptop screen glows softly in the warm ambient light, screen facing the viewer at a three-quarter angle showing a chat interface with empty conversation threads — no readable text. The overall mood is quiet tension before a decision. The space around the subject has intentional negative space. No readable text, signs, labels, or UI text anywhere in the image."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-contrast flat documentary lighting. Wide environmental framing. A single person, partial body, leans back slightly in their chair with a small exhale — the body language of quiet recognition and decision. The desk in front of them is clean, laptop closed now, hands resting in their lap. A plant in the left foreground and a window with soft daylight in the background create layered depth. The mood is calm resolution — tension released. No readable text, signs, labels, or UI text anywhere in the image."
+      }
+    ],
+    "scenario": "An accountant returns from a two-week vacation to find that multiple small business owners visited the website asking about tax filing deadlines but never filled out the contact form."
+  },
+  "conflicting_injected_blocks": {
+    "creative_identity_environment": "a bright co-working space in daylight",
+    "creative_identity_mood": "quiet tension before a decision",
+    "creative_identity_lighting": "low-contrast, flat documentary lighting",
+    "attention_selected_visual_concept": "A megaphone pointed at an empty room — volume without substance about Walk through the gut-punch moment a small business owner realizes their website was visited dozens of times while they were away, every visitor had a real question, and not one of them left a way to follow up — because the site offered nothing but static text and a contact form nobody filled out. The story exposes how 'being offline' isn't a temporary gap; it's a permanent, invisible leak in your pipeline that happens every single night, every weekend, and every vacation — whether you notice it or not.",
+    "visual_narrative_framing": "Situation first: film a person walking away unanswered / waiting for a reply — NOT a paper boat, closed notebook, or abstract prop standing in for the visitor.",
+    "strategy_topic": "The accountant who came back from vacation to a week's worth of missed leads — and zero contact details",
+    "strategy_angle": "Walk through the gut-punch moment a small business owner realizes their website was visited dozens of times while they were away, every visitor had a real question, and not one of them left a way to follow up — because the site offered nothing but static text and a contact form nobody filled out. The story exposes how 'being offline' isn't a temporary gap; it's a permanent, invisible leak in your pipeline that happens every single night, every weekend, and every vacation — whether you notice it or not."
+  }
+}

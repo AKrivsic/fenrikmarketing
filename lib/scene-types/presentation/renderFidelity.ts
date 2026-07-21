@@ -1,7 +1,6 @@
 /**
  * Sprint 5 — Render Fidelity.
  * Planned scene types must survive into rendered/worker scenes.
- * PRODUCT_DEMO must never silently become IMAGE.
  */
 
 import {
@@ -10,18 +9,20 @@ import {
   type SceneType,
 } from "@/lib/scene-types/sceneType";
 
-export const RENDER_PRODUCT_DEMO_FAILED = "render_product_demo_failed" as const;
-export const RENDER_FIDELITY_VERSION = "render-fidelity@1" as const;
+export const RENDER_FIDELITY_FAILED = "render_fidelity_failed" as const;
+/** @deprecated Legacy name — kept for generation terminal classification. */
+export const RENDER_PRODUCT_DEMO_FAILED = RENDER_FIDELITY_FAILED;
+export const RENDER_FIDELITY_VERSION = "render-fidelity@2" as const;
 
 export class RenderProductDemoFailedError extends Error {
-  readonly code = RENDER_PRODUCT_DEMO_FAILED;
+  readonly code = RENDER_FIDELITY_FAILED;
   readonly diagnostics: Record<string, unknown>;
 
   constructor(message: string, diagnostics: Record<string, unknown> = {}) {
     super(message);
     this.name = "RenderProductDemoFailedError";
     this.diagnostics = {
-      code: RENDER_PRODUCT_DEMO_FAILED,
+      code: RENDER_FIDELITY_FAILED,
       version: RENDER_FIDELITY_VERSION,
       ...diagnostics,
     };
@@ -52,7 +53,7 @@ export type RenderFidelityResult =
   | {
       passed: false;
       version: typeof RENDER_FIDELITY_VERSION;
-      code: typeof RENDER_PRODUCT_DEMO_FAILED | "render_fidelity_failed";
+      code: typeof RENDER_FIDELITY_FAILED;
       summary: string;
       planned_types: SceneType[];
       rendered_types: Array<SceneType | "MISSING">;
@@ -63,10 +64,6 @@ function asType(value: unknown): SceneType {
   return effectiveSceneType(value, DEFAULT_SCENE_TYPE);
 }
 
-/**
- * Validate planned_scene.type === rendered_scene.type for every scene.
- * PRODUCT_DEMO mismatches fail with render_product_demo_failed.
- */
 export function validateRenderFidelity(args: {
   planned: readonly RenderFidelitySceneRef[];
   rendered: readonly RenderFidelitySceneRef[];
@@ -101,10 +98,7 @@ export function validateRenderFidelity(args: {
         rendered_id: null,
         planned_type: plannedType!,
         rendered_type: "MISSING",
-        reason:
-          plannedType === "PRODUCT_DEMO"
-            ? "planned_product_demo_missing_from_render"
-            : "planned_scene_missing_from_render",
+        reason: "planned_scene_missing_from_render",
       });
       continue;
     }
@@ -116,10 +110,7 @@ export function validateRenderFidelity(args: {
         rendered_id: rendered?.id?.trim() || null,
         planned_type: plannedType!,
         rendered_type: renderedType ?? "MISSING",
-        reason:
-          plannedType === "PRODUCT_DEMO" && renderedType === DEFAULT_SCENE_TYPE
-            ? "product_demo_silently_downgraded_to_image"
-            : `type_mismatch:${plannedType}->${renderedType}`,
+        reason: `type_mismatch:${plannedType}->${renderedType}`,
       });
     }
   }
@@ -133,12 +124,6 @@ export function validateRenderFidelity(args: {
     };
   }
 
-  const productDemoViolation = violations.some(
-    (v) =>
-      v.planned_type === "PRODUCT_DEMO" ||
-      v.reason.includes("product_demo"),
-  );
-
   const renderedWithMissing: Array<SceneType | "MISSING"> = [];
   for (let i = 0; i < max; i++) {
     renderedWithMissing.push(
@@ -149,19 +134,14 @@ export function validateRenderFidelity(args: {
   return {
     passed: false,
     version: RENDER_FIDELITY_VERSION,
-    code: productDemoViolation
-      ? RENDER_PRODUCT_DEMO_FAILED
-      : "render_fidelity_failed",
-    summary: productDemoViolation
-      ? "PRODUCT_DEMO planned but not preserved in render"
-      : "planned scene types do not match rendered scene types",
+    code: RENDER_FIDELITY_FAILED,
+    summary: "planned scene types do not match rendered scene types",
     planned_types: plannedTypes,
     rendered_types: renderedWithMissing,
     violations,
   };
 }
 
-/** Throw when fidelity fails — PRODUCT_DEMO mismatches use render_product_demo_failed. */
 export function assertRenderFidelity(args: {
   planned: readonly RenderFidelitySceneRef[];
   rendered: readonly RenderFidelitySceneRef[];
@@ -181,31 +161,11 @@ export function assertRenderFidelity(args: {
   );
 }
 
-/**
- * Cap scene list to max while never dropping PRODUCT_DEMO in favor of IMAGE.
- * Removes non-PRODUCT_DEMO scenes first (from the front) until under cap.
- */
+/** @deprecated PRODUCT_DEMO cap removed — use slice cap at call site. */
 export function capScenesPreservingProductDemo<T>(
   scenes: readonly T[],
   max: number,
 ): T[] {
   if (scenes.length <= max) return [...scenes];
-  const out = [...scenes];
-  const isProductDemo = (scene: T): boolean => {
-    if (!scene || typeof scene !== "object") return false;
-    return (
-      String((scene as { type?: unknown }).type ?? "").toUpperCase() ===
-      "PRODUCT_DEMO"
-    );
-  };
-  while (out.length > max) {
-    const dropIdx = out.findIndex((s) => !isProductDemo(s));
-    if (dropIdx >= 0) {
-      out.splice(dropIdx, 1);
-      continue;
-    }
-    // Only PRODUCT_DEMO left over cap — keep the last `max` demos.
-    out.splice(0, out.length - max);
-  }
-  return out;
+  return scenes.slice(0, max);
 }

@@ -62,6 +62,12 @@ import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForP
 import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
 import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
 import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
+import { planProductPresentationForPackage } from "@/lib/product-presentation/planForPackage";
+import {
+  productPresentationFieldsForValidationPersistence,
+  productPresentationValidationIssues,
+  validateProductPresentationPackage,
+} from "@/lib/product-presentation/validateProductPresentation";
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
@@ -84,13 +90,7 @@ import {
 import { classifyFidelityFailuresForRepair } from "@/lib/creative-candidates/fidelityCheck";
 import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
 import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
-import { ensureStructuredProductDemo } from "@/lib/scene-types/product-demo/ensureStructuredProductDemo";
-import { extractDemoVariantsFromPackageBriefs } from "@/lib/scene-types/product-demo/demoVariant";
-import type { ProductDemoVariant } from "@/lib/scene-types/product-demo/demoVariant";
-import {
-  alignOnScreenCtaContract,
-  alignProductDemoNarration,
-} from "@/lib/content-package/alignProductDemoNarration";
+import { alignOnScreenCtaContract } from "@/lib/content-package/alignOnScreenCtaContract";
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
@@ -359,6 +359,15 @@ async function runRegenerateContentPackageUnchecked(
     requireVideo,
   });
 
+  // Wave 1 PPD: compute + persist only when flag on; does not change gates.
+  const productPresentationPlan = planProductPresentationForPackage({
+    productReveal: productRevealPlan.plan,
+    assets: assets.refs,
+    visualNarrative: visualNarrativePlan.plan,
+    assetCoverage: null,
+    funnelStage: context.funnelStage,
+  });
+
   const attentionPlan = planAttentionForPackage({
     project,
     projectId,
@@ -556,50 +565,8 @@ async function runRegenerateContentPackageUnchecked(
       };
     }
 
-    const ensureDemo = (force: boolean) => {
-      if (!generated.ok) {
-        throw new Error("ensureDemo requires a successful package generation");
-      }
-      const narrativeText = [
-        generated.value.hook,
-        generated.value.voiceover_text,
-        generated.value.video?.concept,
-        generated.value.scenario,
-      ]
-        .filter(Boolean)
-        .join(" ");
-      const recentVariants: ProductDemoVariant[] = extractDemoVariantsFromPackageBriefs(
-        [],
-      );
-      const ensured = ensureStructuredProductDemo({
-        visualScenes: generated.value.visual_scenes,
-        winner: creativeCandidates!.selectedCandidate,
-        force,
-        narrativeText,
-        recentVariants,
-      });
-      generated.value.visual_scenes =
-        ensured.scenes as typeof generated.value.visual_scenes;
-      return ensured;
-    };
-    ensureDemo(false);
-
-    const alignPresentationNarration = () => {
+    const alignOnScreenCta = () => {
       if (!generated.ok) return;
-      const demoAlign = alignProductDemoNarration({
-        voiceoverText: generated.value.voiceover_text,
-        visualScenes: generated.value.visual_scenes,
-        videoScript: generated.value.video?.script ?? null,
-      });
-      if (demoAlign.changed) {
-        generated.value.voiceover_text = demoAlign.voiceover_text;
-        if (generated.value.video && demoAlign.script !== null) {
-          generated.value.video = {
-            ...generated.value.video,
-            script: demoAlign.script,
-          };
-        }
-      }
       const ctaAlign = alignOnScreenCtaContract({
         videoScript: generated.value.video?.script ?? null,
         visualScenes: generated.value.visual_scenes,
@@ -611,7 +578,7 @@ async function runRegenerateContentPackageUnchecked(
         };
       }
     };
-    alignPresentationNarration();
+    alignOnScreenCta();
 
     let storyIntegrity = validateStoryIntegrity({
       winner: creativeCandidates.selectedCandidate,
@@ -620,6 +587,7 @@ async function runRegenerateContentPackageUnchecked(
       imagePrompts: generated.value.image_prompts,
       visualScenes: generated.value.visual_scenes,
       hook: generated.value.hook,
+      productPresentation: productPresentationPlan.plan,
     });
     if (!storyIntegrity.passed) {
       const integrityReason = `story_integrity:${storyIntegrity.summary}`;
@@ -678,8 +646,7 @@ async function runRegenerateContentPackageUnchecked(
           fidelity,
           regenerationReason,
         );
-        ensureDemo(false);
-        alignPresentationNarration();
+        alignOnScreenCta();
         storyIntegrity = validateStoryIntegrity({
           winner: creativeCandidates.selectedCandidate,
           voiceoverText: generated.value.voiceover_text,
@@ -687,6 +654,7 @@ async function runRegenerateContentPackageUnchecked(
           imagePrompts: generated.value.image_prompts,
           visualScenes: generated.value.visual_scenes,
           hook: generated.value.hook,
+          productPresentation: productPresentationPlan.plan,
         });
       }
     }
@@ -722,20 +690,13 @@ async function runRegenerateContentPackageUnchecked(
       voiceoverText: generated.value.voiceover_text,
       imagePrompts: generated.value.image_prompts,
       visualScenes: generated.value.visual_scenes,
+      productPresentation: productPresentationPlan.plan,
     });
     if (!productDemoIntegrity.passed) {
       const demoReason = `product_demonstration_integrity:${productDemoIntegrity.summary}`;
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
-      ensureDemo(true);
-      alignPresentationNarration();
-      productDemoIntegrity = validateProductDemonstrationIntegrity({
-        winner: creativeCandidates.selectedCandidate,
-        voiceoverText: generated.value.voiceover_text,
-        imagePrompts: generated.value.image_prompts,
-        visualScenes: generated.value.visual_scenes,
-      });
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,
@@ -753,6 +714,30 @@ async function runRegenerateContentPackageUnchecked(
         error: "generation_failed",
         validationErrors: productDemonstrationValidationIssues(
           productDemoIntegrity,
+        ),
+        attempts: generated.attempts,
+      };
+    }
+
+    const productPresentationValidation = validateProductPresentationPackage({
+      plan: productPresentationPlan.plan,
+      visualScenes: generated.value.visual_scenes,
+      assets: assets.refs,
+    });
+    if (
+      productPresentationValidation.active &&
+      !productPresentationValidation.passed
+    ) {
+      console.error(
+        "[product-presentation] validation failed",
+        productPresentationValidation.summary,
+        productPresentationValidation.violations,
+      );
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: productPresentationValidationIssues(
+          productPresentationValidation,
         ),
         attempts: generated.attempts,
       };
@@ -929,6 +914,14 @@ async function runRegenerateContentPackageUnchecked(
     ...visualNarrativePlan.persistenceFields,
     ...visualMediumPlan.persistenceFields,
     ...productRevealPlan.persistenceFields,
+    ...productPresentationPlan.persistenceFields,
+    ...productPresentationFieldsForValidationPersistence(
+      validateProductPresentationPackage({
+        plan: productPresentationPlan.plan,
+        visualScenes: pkg.visual_scenes,
+        assets: assets.refs,
+      }),
+    ),
     ...attentionPlan.persistenceFields,
     ...(creativeCandidates
       ? creativeCandidateFieldsForPersistence(

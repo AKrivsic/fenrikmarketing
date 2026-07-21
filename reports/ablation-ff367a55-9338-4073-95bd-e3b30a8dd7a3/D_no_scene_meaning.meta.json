@@ -1,0 +1,10 @@
+{
+  "id": "D_no_scene_meaning",
+  "label": "Remove Scene Meaning",
+  "found_block": true,
+  "removed_chars": 522,
+  "prompt_chars": 53261,
+  "elapsed_ms": 67120,
+  "model": "claude-sonnet-4-6",
+  "parse_ok": true
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "e26844dd-ed90-4156-bc9e-5b1597c8cff3",
+    "strategy_id": "138dfbaf-6c6d-4f1d-845e-4d875c2ab21a",
+    "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+    "platform": "tiktok",
+    "format": "reel",
+    "topic_id": null,
+    "trend_id": null,
+    "brief": {
+      "angle": "Walk through the exact moment a service business owner realizes her website had real, interested visitors over the weekend who typed in questions, waited, got nothing, and moved on to a competitor — framing website silence not as a technical gap but as a daily, invisible revenue leak that compounds every single week she stays offline after hours.",
+      "topic": "The small business owner who checked her website stats on a Monday and found 11 visitors — and zero leads",
+      "source": "production_run",
+      "package_index": 0,
+      "production_run_id": "73841d6b-b8bd-4269-bce4-6a65ba110055"
+    },
+    "priority": 1,
+    "created_at": "2026-07-18T23:38:14.020052+00:00",
+    "funnel_stage": "problem_aware"
+  }
+]

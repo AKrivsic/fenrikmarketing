@@ -1,0 +1,19 @@
+{
+  "id": "a3dd4832-528f-405c-8dc1-61a945d490fa",
+  "strategy_id": "336ccd7e-ba0d-4be1-a887-8ffb006d0ff4",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "platform": "tiktok",
+  "format": "reel",
+  "topic_id": null,
+  "trend_id": null,
+  "brief": {
+    "angle": "Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice.",
+    "topic": "The lawyer who woke up to three missed inquiries — and zero contact details to follow up with",
+    "source": "production_run",
+    "package_index": 0,
+    "production_run_id": "9d9fa60b-dc71-4c94-9b2b-6cb95e20d9b3"
+  },
+  "priority": 1,
+  "created_at": "2026-07-18T21:31:44.269564+00:00",
+  "funnel_stage": "problem_aware"
+}

@@ -4,7 +4,6 @@ import { createPhoneSceneRenderer } from "@/lib/scene-types/renderers/phoneScene
 import { createQuoteSceneRenderer } from "@/lib/scene-types/renderers/quoteSceneRenderer";
 import { createStatisticSceneRenderer } from "@/lib/scene-types/renderers/statisticSceneRenderer";
 import { createCtaSceneRenderer } from "@/lib/scene-types/renderers/ctaSceneRenderer";
-import { createProductDemoSceneRenderer } from "@/lib/scene-types/renderers/productDemoSceneRenderer";
 import { registerSceneRenderer } from "@/lib/scene-types/renderers/types";
 import { prepareImageSceneRaster } from "@/video-worker/services/prepareImageSceneRaster";
 import { prepareChecklistSceneRaster } from "@/video-worker/services/prepareChecklistSceneRaster";
@@ -12,7 +11,6 @@ import { preparePhoneSceneRaster } from "@/video-worker/services/preparePhoneSce
 import { prepareQuoteSceneRaster } from "@/video-worker/services/prepareQuoteSceneRaster";
 import { prepareStatisticSceneRaster } from "@/video-worker/services/prepareStatisticSceneRaster";
 import { prepareCtaSceneRaster } from "@/video-worker/services/prepareCtaSceneRaster";
-import { prepareProductDemoSceneRaster } from "@/video-worker/services/prepareProductDemoSceneRaster";
 
 let initialized = false;
 
@@ -44,11 +42,6 @@ export function ensureSceneRendererRegistry(): void {
   registerSceneRenderer(
     createCtaSceneRenderer({
       prepareRaster: prepareCtaSceneRaster,
-    }),
-  );
-  registerSceneRenderer(
-    createProductDemoSceneRenderer({
-      prepareRaster: prepareProductDemoSceneRaster,
     }),
   );
   initialized = true;

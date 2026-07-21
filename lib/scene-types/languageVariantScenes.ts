@@ -12,11 +12,7 @@
 import type { SceneType } from "@/lib/scene-types/sceneType";
 import { DEFAULT_SCENE_TYPE } from "@/lib/scene-types/sceneType";
 import { isSceneTypesEnabled } from "@/lib/scene-types/config";
-import {
-  assertRenderFidelity,
-  RenderProductDemoFailedError,
-} from "@/lib/scene-types/presentation/renderFidelity";
-import { parseProductDemoBeat } from "@/lib/scene-types/product-demo/productDemoBeat";
+import { assertRenderFidelity } from "@/lib/scene-types/presentation/renderFidelity";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
@@ -78,48 +74,6 @@ export class LanguageVariantVisualFidelityError extends Error {
     this.name = "LanguageVariantVisualFidelityError";
     this.diagnostics = diagnostics;
   }
-}
-
-/**
- * Preserve a PRODUCT_DEMO worker/render_spec scene for a language variant.
- * Keeps type, payload_snapshot, and durable raster refs when present.
- */
-export function preserveProductDemoForLanguageVariant(
-  scene: Record<string, unknown>,
-  sceneId: string,
-): Record<string, unknown> {
-  const payload =
-    asRecord(scene.payload_snapshot) ?? asRecord(scene.payload) ?? null;
-  if (!payload) {
-    throw new RenderProductDemoFailedError(
-      "render_product_demo_failed: language variant PRODUCT_DEMO missing payload",
-      {
-        stage: "language_variant_prepare",
-        scene_id: sceneId,
-        reason: "missing_product_demo_payload",
-        forbidden_final_type: DEFAULT_SCENE_TYPE,
-      },
-    );
-  }
-  const parsed = parseProductDemoBeat(payload);
-  if (!parsed.ok) {
-    throw new RenderProductDemoFailedError(
-      `render_product_demo_failed: language variant PRODUCT_DEMO invalid — ${parsed.reason}`,
-      {
-        stage: "language_variant_prepare",
-        scene_id: sceneId,
-        reason: parsed.reason,
-        forbidden_final_type: DEFAULT_SCENE_TYPE,
-      },
-    );
-  }
-
-  return {
-    ...scene,
-    id: sceneId,
-    type: "PRODUCT_DEMO",
-    payload_snapshot: parsed.data as unknown as Record<string, unknown>,
-  };
 }
 
 function payloadSnapshotEqual(
@@ -232,22 +186,6 @@ export function assertLanguageVariantVisualFidelity(args: {
     }
 
     if (!payloadSnapshotEqual(primary, prepared)) {
-      // PRODUCT_DEMO normalize may re-serialize equivalent beat — compare via parse
-      if (primaryType === "PRODUCT_DEMO" && preparedType === "PRODUCT_DEMO") {
-        const rawP =
-          asRecord(primary.payload_snapshot) ?? asRecord(primary.payload);
-        const rawV =
-          asRecord(prepared.payload_snapshot) ?? asRecord(prepared.payload);
-        const parsedP = rawP ? parseProductDemoBeat(rawP) : null;
-        const parsedV = rawV ? parseProductDemoBeat(rawV) : null;
-        if (
-          parsedP?.ok &&
-          parsedV?.ok &&
-          JSON.stringify(parsedP.data) === JSON.stringify(parsedV.data)
-        ) {
-          continue;
-        }
-      }
       throw new LanguageVariantVisualFidelityError(
         `language_variant_visual_fidelity_failed: scene ${primaryId} payload_snapshot changed`,
         { stage, scene_id: primaryId, index: i },
@@ -290,11 +228,6 @@ export function prepareRenderScenesForLanguageVariant(args: {
         ? scene.id.trim()
         : `scene-${index + 1}`;
 
-    if (type === "PRODUCT_DEMO") {
-      return preserveProductDemoForLanguageVariant(scene, sceneId);
-    }
-
-    // Visual clone — preserve every field including storage refs and payloads.
     return {
       ...scene,
       id: sceneId,
@@ -325,35 +258,16 @@ export function prepareRenderScenesForLanguageVariant(args: {
     stage: "language_variant_prepare",
   });
 
-  // PRODUCT_DEMO Render Fidelity (Sprint 5.3.1) — unchanged absolute rule.
-  for (let i = 0; i < planned.length; i++) {
-    if (planned[i]!.type !== "PRODUCT_DEMO") continue;
-    const renderedType = sceneTypeUpper(out[i] ?? {});
-    if (renderedType !== "PRODUCT_DEMO") {
-      throw new RenderProductDemoFailedError(
-        `render_product_demo_failed: language variant lost PRODUCT_DEMO at index ${i}`,
-        {
-          stage: "language_variant_prepare:product_demo",
-          scene_id: planned[i]!.id,
-          planned_type: "PRODUCT_DEMO",
-          rendered_type: renderedType || "MISSING",
-          reason: "product_demo_silently_downgraded_to_image",
-        },
-      );
-    }
-  }
   assertRenderFidelity({
-    planned: planned.filter((s) => s.type === "PRODUCT_DEMO"),
-    rendered: out
-      .map((scene, index) => ({
-        type: sceneTypeUpper(scene) || DEFAULT_SCENE_TYPE,
-        id:
-          typeof scene.id === "string" && scene.id.trim()
-            ? scene.id.trim()
-            : (planned[index]?.id ?? `scene-${index + 1}`),
-      }))
-      .filter((s) => s.type === "PRODUCT_DEMO"),
-    stage: "language_variant_prepare:product_demo",
+    planned,
+    rendered: out.map((scene, index) => ({
+      type: sceneTypeUpper(scene) || DEFAULT_SCENE_TYPE,
+      id:
+        typeof scene.id === "string" && scene.id.trim()
+          ? scene.id.trim()
+          : (planned[index]?.id ?? `scene-${index + 1}`),
+    })),
+    stage: "language_variant_prepare",
   });
 
   return { scenes: out, warnings };
@@ -364,7 +278,9 @@ export function sceneTypeFromWorkerScene(
 ): SceneType {
   const raw = scene.type;
   if (typeof raw === "string" && raw.trim()) {
-    return raw.trim().toUpperCase() as SceneType;
+    const upper = raw.trim().toUpperCase();
+    if (upper === "PRODUCT_DEMO") return DEFAULT_SCENE_TYPE;
+    return upper as SceneType;
   }
   return DEFAULT_SCENE_TYPE;
 }

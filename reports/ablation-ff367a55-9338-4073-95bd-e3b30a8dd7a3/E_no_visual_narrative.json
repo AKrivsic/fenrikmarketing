@@ -1,0 +1,101 @@
+{
+  "hook": "Mascot suffers, fake typing online.",
+  "voiceover": "I used to think 'offline' meant a few missed calls. Then I checked the analytics. Dozens of real visitors. Real questions. Zero replies. They didn't bounce because of the price — they bounced because the site just... stared back. Static text. An empty contact form. A blinking cursor going nowhere. Your website isn't closed when you leave. It's open — and completely silent. Every night. Every weekend. Every vacation.",
+  "title": "Mascot Melting, Leads Leaving: The Invisible Pipeline Leak",
+  "concept": "A mascot costume wilting in a sun-baked parking lot while the person inside waves desperately at passing traffic. Cut inside: a website chat widget shows a typing indicator — blinking, blinking, blinking — but nothing ever sends. The absurdity lands the gut-punch: all that effort to attract attention, and when someone actually shows up on the website, there's nothing there to greet them. The video escalates from comedic recognition to quiet dread as the analytics screen reveals row after row of anonymous visitors — then closes on the one moment that changes everything: an AI chatbot that actually answers.",
+  "script": "OPEN — WIDE SHOT, bright daylight: A person in a full mascot costume stands in a sweltering parking lot, waving at cars. Sweat visible on the costume fabric. Traffic rolls by, indifferent.\n\nVO: 'I used to think offline meant a few missed calls.'\n\nCUT — INTERIOR, co-working space, warm afternoon light: A laptop screen shows a website chat widget. The typing indicator blinks. And blinks. And blinks. No message arrives.\n\nVO: 'Then I checked the analytics. Dozens of real visitors. Real questions. Zero replies.'\n\nCUT — CLOSE-ISH on a person's hands scrolling through a website analytics dashboard — rows of sessions, timestamps, zero conversions. The camera pulls back slightly to reveal the quiet, half-empty co-working space around them.\n\nVO: 'They didn't bounce because of the price — they bounced because the site just... stared back. Static text. An empty contact form. A blinking cursor going nowhere.'\n\nPAUSE — brief beat of silence.\n\nVO: 'Your website isn't closed when you leave. It's open — and completely silent. Every night. Every weekend. Every vacation.'\n\nFINAL BEAT — same co-working space, same person, but now relaxed. The chat widget on the laptop screen shows an active, flowing conversation — the AI is answering. The mascot costume hangs on a hook in the background, retired.\n\nVO (soft, confident): 'Create your AI assistant at Fenrik.chat.'",
+  "image_prompts": [
+    "Photorealistic vertical portrait 9:16. A person in a full, slightly deflated mascot costume — a large cartoonish animal head and padded suit — stands in a sun-baked parking lot in bright midday light. The costume fabric shows heat stress; the figure's arm is raised mid-wave toward passing cars that are blurred in the background, ignoring them completely. Foreground: a strip of hot asphalt with faint heat shimmer. Background: a low commercial building with glass doors, slightly out of focus. Wide environmental framing, layered depth, warm neutral color feel, flat documentary lighting, candid composition. No text, no signs, no readable labels anywhere in the image.",
+    "Photorealistic vertical portrait 9:16. Interior of a bright co-working space in warm afternoon daylight. A laptop sits open on a wooden desk in the foreground, screen facing the viewer at a slight angle. On the screen, a website live-chat widget is visible as a recognizable interface shape — a small chat bubble panel in the corner — with a blinking ellipsis typing indicator, but no message text. The space behind the laptop is open, airy, slightly blurred: empty chairs, a plant, natural window light. A single person's forearm and hand rest near the keyboard, partially in frame. Wide environmental framing, layered depth, warm neutral tones, low-contrast flat lighting. No readable text, no labels, no UI copy visible.",
+    "Photorealistic vertical portrait 9:16. A person's hands scroll through a website analytics interface on a laptop screen — rows of session data visible as structured grid lines and colored bars, no readable text. The camera frames from slightly above and behind the person's shoulder, their face not dominant, gaze directed at the screen. The surrounding co-working space is bright and quiet: a few empty desks, soft daylight from tall windows, warm neutral color feel. Foreground: the laptop keyboard edge. Background: blurred open workspace. Flat documentary lighting, candid composition, layered depth. No text, numbers, labels, or readable copy anywhere in the image.",
+    "Photorealistic vertical portrait 9:16. Same bright co-working space, same wooden desk. A person sits relaxed in front of an open laptop, posture loose and comfortable, partial body visible — face not dominant. On the laptop screen, a chat widget interface shows a flowing back-and-forth conversation structure: alternating message bubbles in a recognizable pattern, visually active and full, no readable text. In the soft background, a mascot costume head sits propped on a hook near the wall — present but retired, slightly out of focus. Warm afternoon daylight, low-contrast flat lighting, warm neutral color feel, wide environmental framing with foreground and background depth. No readable text, labels, or UI copy in the image."
+  ],
+  "platform_outputs": {
+    "tiktok": {
+      "caption": "checked my analytics after vacation and nearly cried. dozens of visitors. zero contact details left. they had questions — my site had nothing. just a blinking cursor going absolutely nowhere 💀 the website doesn't close when you do.",
+      "cta": "drop a 👋 if your site would've failed those visitors too",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitetips",
+        "#businessowner"
+      ],
+      "format": "Vertical Short (TikTok native)"
+    },
+    "instagram": {
+      "caption": "Your website was open all weekend. You just weren't there to answer it. 👀\n\nEvery visitor who landed on your site after hours and found only a contact form — and left — was a real person with a real question. They didn't need a callback. They needed an answer. Right then.\n\nThe invisible pipeline leak isn't a tech problem. It's a timing problem. And it happens every single night.",
+      "cta": "Save this if you've ever come back to zero leads after a long weekend. Link in bio to see what changes.",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitestrategy",
+        "#businessgrowth",
+        "#digitalmarketing",
+        "#saas",
+        "#aitools",
+        "#chatbot",
+        "#entrepreneurmindset",
+        "#clientacquisition"
+      ],
+      "format": "Vertical Reel + static carousel option"
+    },
+    "youtube": {
+      "caption": "Your website is open 24/7. Your team isn't. That gap — every night, every weekend, every vacation — is where leads quietly disappear. This video walks through the gut-punch moment a business owner realizes their site was visited dozens of times while they were away, every visitor had a real question, and not one of them left a way to follow up. Because the site offered nothing but static text and a form nobody filled out. If your website can't answer a question at 11 PM, you're not just missing a conversation — you're missing a customer.",
+      "cta": "Subscribe for more on turning your website into a 24/7 lead machine.",
+      "hashtags": [
+        "#leadgeneration",
+        "#smallbusiness",
+        "#aichatbot",
+        "#websiteoptimization",
+        "#businessgrowth"
+      ],
+      "format": "YouTube Short (vertical)"
+    },
+    "linkedin": {
+      "caption": "An accountant came back from two weeks of vacation and opened her analytics dashboard. Dozens of sessions. Multiple visits to the services page. Zero contact form submissions. Zero leads. Those weren't bounces — they were questions that never got answered. The visitors had intent. The website had nothing to offer them at 10 PM on a Tuesday. This is the part nobody talks about: your pipeline doesn't pause when you do. It just leaks quietly, invisibly, every night and every weekend. The question isn't whether this is happening to your business. It's how many leads you've already lost this month.",
+      "cta": "Has this happened to you? I'd genuinely like to hear how you handle after-hours visitor questions.",
+      "hashtags": [
+        "#leadgeneration",
+        "#smallbusiness",
+        "#businessgrowth"
+      ],
+      "format": "LinkedIn native post",
+      "title_variants": [
+        "The silent pipeline leak that happens every night your website goes unanswered",
+        "She came back from vacation to dozens of website visitors — and zero leads"
+      ],
+      "caption_variants": [
+        "An accountant came back from two weeks of vacation and opened her analytics dashboard. Dozens of sessions. Multiple visits to the services page. Zero contact form submissions. Zero leads. Those weren't bounces — they were questions that never got answered. The visitors had intent. The website had nothing to offer them at 10 PM on a Tuesday. This is the part nobody talks about: your pipeline doesn't pause when you do. It just leaks quietly, invisibly, every night and every weekend. The question isn't whether this is happening to your business. It's how many leads you've already lost this month.",
+        "Most small business owners think of 'offline' as a temporary state. A few hours. A long weekend at most. But your website is open every single hour you're not. And if it can't answer a question — about pricing, availability, which service fits — that visitor doesn't wait. They move on. The lead doesn't disappear dramatically. It just never materializes. No form submitted. No email sent. No way to follow up. Just a session in your analytics that meant nothing, because the site offered nothing back. That's not a technology gap. That's a business gap."
+      ]
+    },
+    "x": {
+      "caption": "your website was open all weekend. you weren't. that's not a gap — that's a leak. and it happens every single night.",
+      "cta": "how many leads did you lose last weekend without knowing it?",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgen"
+      ],
+      "format": "X native post",
+      "title_variants": [
+        "The website doesn't close when you do",
+        "Came back from vacation to 40+ anonymous visitors and zero leads",
+        "Static text and a contact form nobody fills out is not a customer support strategy",
+        "The invisible pipeline leak that runs 24/7 whether you notice it or not",
+        "Offline isn't a temporary state. For your website visitors, it's permanent."
+      ],
+      "caption_variants": [
+        "your website was open all weekend. you weren't. that's not a gap — that's a leak. and it happens every single night.",
+        "came back from vacation. analytics showed 40+ sessions on the services page. zero form submissions. those weren't bounces. they were questions my site couldn't answer. #smallbusiness",
+        "hot take: a contact form is not customer support. it's a polite way of saying 'come back later.' most visitors won't.",
+        "the leads you don't know you lost are the most expensive ones. every unanswered website visitor is a quiet exit with no way to follow up. #leadgen",
+        "offline isn't a few missed calls. it's every visitor who landed on your site at 11pm, had a real question, got nothing, and went to your competitor instead."
+      ]
+    }
+  },
+  "cta": {
+    "type": "sign_up",
+    "text": "Create your AI assistant"
+  },
+  "scenario": "An accountant returns from a two-week vacation to find that multiple small business owners visited the website asking about tax filing deadlines but never filled out the contact form."
+}

@@ -1,0 +1,124 @@
+{
+  "summary": {
+    "funnel": "Good",
+    "topics": "Good",
+    "strengths": "Estimated",
+    "audience": "Estimated",
+    "scenarios": "Good"
+  },
+  "funnel": {
+    "totalPackages": 1,
+    "byStage": {
+      "awareness": 0,
+      "problem_aware": 1,
+      "solution_aware": 0,
+      "conversion": 0
+    }
+  },
+  "creativeModes": {
+    "available": true,
+    "byMode": {
+      "observation": 1
+    },
+    "dominantMode": "observation",
+    "dominantShare": 1
+  },
+  "topics": {
+    "totalPackages": 1,
+    "uniqueTopics": 1,
+    "uniqueAngles": 1,
+    "repeatedTopics": [],
+    "repeatedAngles": []
+  },
+  "painPoints": {
+    "total": 7,
+    "usedCount": 3,
+    "estimated": true,
+    "used": [
+      {
+        "text": "Unable to answer customer questions when offline",
+        "matchCount": 1,
+        "explicit": false
+      },
+      {
+        "text": "Visitors leave before contacting you",
+        "matchCount": 1,
+        "explicit": false
+      },
+      {
+        "text": "Repeating the same customer questions every day",
+        "matchCount": 1,
+        "explicit": false
+      }
+    ],
+    "unused": [
+      "No resources to build or maintain a custom chatbot",
+      "Losing leads due to lack of instant website support",
+      "Complexity and cost of traditional chatbot integrations",
+      "Need for 24/7 customer support without extra staff"
+    ]
+  },
+  "strengths": {
+    "total": 14,
+    "usedCount": 4,
+    "estimated": true,
+    "used": [
+      {
+        "text": "Try a preview without registration",
+        "matchCount": 1
+      },
+      {
+        "text": "Captures leads outside business hours",
+        "matchCount": 1
+      },
+      {
+        "text": "Uses your website content automatically",
+        "matchCount": 1
+      },
+      {
+        "text": "Preview before registration",
+        "matchCount": 1
+      }
+    ],
+    "unused": [
+      "AI assistant created in as little as 1 minute",
+      "No code or technical knowledge required",
+      "Fixed monthly pricing starting at $69/month",
+      "Works across many industries and business types",
+      "Simple single embed script deployment",
+      "Answers instantly",
+      "No training required",
+      "No coding required",
+      "Transparent pricing",
+      "Starts working from existing website immediately"
+    ]
+  },
+  "audience": {
+    "available": true,
+    "total": 9,
+    "usedCount": 1,
+    "estimated": true,
+    "used": [
+      {
+        "text": "Small businesses",
+        "matchCount": 1
+      }
+    ],
+    "unused": [
+      "Local services and consulting firms",
+      "Car dealers, beauty salons, and service centers",
+      "SaaS and software companies",
+      "Lawyers, accountants, and agencies",
+      "Marketing agencies",
+      "Consultants",
+      "Professional services",
+      "SMB service companies"
+    ]
+  },
+  "scenarios": {
+    "repeated": []
+  },
+  "warnings": [
+    "One creative mode dominates this run."
+  ]
+}

@@ -1,0 +1,675 @@
+{
+  "package_id": "ff367a55-9338-4073-95bd-e3b30a8dd7a3",
+  "model": "claude-sonnet-4-6",
+  "temperature": 0.7,
+  "max_tokens": 8192,
+  "note": "All arms use the same reconstructed prompt, model, and temperature. Only the named block is removed. Stochastic variance at T=0.7 may cause residual differences unrelated to the ablation.",
+  "baseline": {
+    "hook": "Mascot suffers, fake typing online.",
+    "voiceover": "Your website had visitors while you were gone. Real people. Real questions. And your contact form just... sat there. Nobody filled it out. They left. Every night, every weekend, every vacation — your site is losing leads in total silence. Not because you're bad at business. Because static text doesn't answer questions. And unanswered questions walk straight to your competitor.",
+    "concept_head": "Open on an absurd-but-relatable visual: a mascot costume figure wilting in parking lot heat, waving at passing traffic — while inside the office, a chat widget blinks with a typing indicator that never sends. Cut to a quiet analytics screen showing a spike of visitors during the owner's absence. The",
+    "script_head": "BEAT 1 (0–3s) — HOOK: [VISUAL: Mascot figure wilting in parking lot heat, waving at traffic; inside, a chat widget blinks with a typing indicator, message never sends.] VO: 'Your website had visitors while you were gone.' SUBTITLE: 'Your website had visitors while you were gone.' SFX: one short clic",
+    "image1_head": "Photorealistic vertical 9:16 portrait photograph. A person in a bulky mascot costume — cartoonish, colorful, clearly overheated — stands in a sun-baked parking lot, one arm raised in a slow wave toward passing cars that do not stop. In the background through a glass storefront window, a computer mon",
+    "visual_tags": [
+      "co-working",
+      "parking lot",
+      "parking",
+      "mascot",
+      "laptop",
+      "office",
+      "desk",
+      "outdoor",
+      "photoreal",
+      "photorealistic",
+      "documentary",
+      "heat",
+      "traffic",
+      "glass door",
+      "analytics",
+      "chat",
+      "typing"
+    ]
+  },
+  "comparisons": [
+    {
+      "id": "B_no_creative_identity",
+      "label": "Remove Creative Identity",
+      "removed_chars": 975,
+      "found_block": true,
+      "removedBlock": "Remove Creative Identity",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.177,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.295,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "analytics",
+          "chat",
+          "typing",
+          "laptop",
+          "desk",
+          "heat",
+          "traffic",
+          "outdoor",
+          "photoreal",
+          "photorealistic"
+        ],
+        "lost_tags": [
+          "co-working",
+          "glass door",
+          "documentary"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": true
+      },
+      "image_prompts_similarity": 0.238,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.423,
+      "overall_creativity_shift": "high",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "Open on a sweating mascot costume waving at passing cars in a sun-baked parking lot — absurd, committed, and completely ignored. Cut inside: a chat widget blinks with a typing indicator, but no message ever sends. Nobody's there. Then: an accountant walks back into her office, dr",
+        "script_variant_head": "BEAT 1 — HOOK (0–3s): Wide shot of mascot costume in blazing parking lot heat, waving frantically at indifferent traffic. Inside the office window behind them, a chat widget blinks with a fake typing indicator — no message ever arrives. VO: 'Mascot suffers, fake typing online.' B",
+        "image1_variant": "Photorealistic vertical 9:16 portrait. Exterior of a small business office on a bright, sun-drenched day. A person wearing a full foam mascot costume — oversized cartoon head, colorful suit — stands in the parking lot waving enthusiastically at passing cars that ignore them compl",
+        "voiceover_variant": "Mascot's out front waving at traffic. Inside, the chat widget blinks — but nobody's home. An accountant comes back from vacation. Analytics say 40 visitors. Inbox says zero leads. Every single one had a question. Not one got an answer. Your website isn't a gap when you're offline"
+      }
+    },
+    {
+      "id": "C_no_visual_profile",
+      "label": "Remove Project Visual Profile",
+      "error": "parse_or_generation_failed",
+      "estimated_influence": "UNKNOWN"
+    },
+    {
+      "id": "D_no_scene_meaning",
+      "label": "Remove Scene Meaning",
+      "removed_chars": 522,
+      "found_block": true,
+      "removedBlock": "Remove Scene Meaning",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.265,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.289,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "desk",
+          "analytics",
+          "chat",
+          "typing",
+          "heat",
+          "co-working",
+          "laptop",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "lost_tags": [
+          "office",
+          "traffic",
+          "glass door",
+          "outdoor"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.361,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.435,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "Open on a person in a full mascot costume standing in a sun-baked parking lot, waving at passing cars — absurd, sweaty, committed. Cut inside: a website chat widget shows a typing indicator blinking with no message ever sent. Then widen to after-hours silence — an empty desk, an ",
+        "script_variant_head": "BEAT 1 — HOOK (0–3s): Mascot in parking lot heat, waving at nobody. Typing indicator blinks on a chat widget. No message comes. BEAT 2 — UNEXPECTED FACT (3–8s): VO: 'I used to think being offline was temporary. It's not.' Cut to: analytics view showing a spike of visitors over a ",
+        "image1_variant": "Photorealistic vertical 9:16 portrait photograph. A person in a full oversized mascot costume — bulky foam head, colorful suit — stands alone in a sun-drenched parking lot on a hot day. The costume is visibly wilting, the figure's posture drooping. One arm raised in a half-hearte",
+        "voiceover_variant": "I used to think being offline was temporary. It's not. An accountant came back from vacation to dozens of website visits — zero contact details left. Every visitor had a question. The site just stared back. Static text. A contact form nobody touched. That's not a gap. That's a pe"
+      }
+    },
+    {
+      "id": "E_no_visual_narrative",
+      "label": "Remove Visual Narrative",
+      "removed_chars": 4201,
+      "found_block": true,
+      "removedBlock": "Remove Visual Narrative",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.253,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.259,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "laptop",
+          "desk",
+          "photoreal",
+          "photorealistic",
+          "documentary",
+          "heat",
+          "glass door",
+          "plant"
+        ],
+        "lost_tags": [
+          "office",
+          "outdoor"
+        ],
+        "gained_tags": [
+          "plant"
+        ],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.346,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.415,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "A mascot costume wilting in a sun-baked parking lot while the person inside waves desperately at passing traffic. Cut inside: a website chat widget shows a typing indicator — blinking, blinking, blinking — but nothing ever sends. The absurdity lands the gut-punch: all that effort",
+        "script_variant_head": "OPEN — WIDE SHOT, bright daylight: A person in a full mascot costume stands in a sweltering parking lot, waving at cars. Sweat visible on the costume fabric. Traffic rolls by, indifferent.\n\nVO: 'I used to think offline meant a few missed calls.'\n\nCUT — INTERIOR, co-working space,",
+        "image1_variant": "Photorealistic vertical portrait 9:16. A person in a full, slightly deflated mascot costume — a large cartoonish animal head and padded suit — stands in a sun-baked parking lot in bright midday light. The costume fabric shows heat stress; the figure's arm is raised mid-wave towar",
+        "voiceover_variant": "I used to think 'offline' meant a few missed calls. Then I checked the analytics. Dozens of real visitors. Real questions. Zero replies. They didn't bounce because of the price — they bounced because the site just... stared back. Static text. An empty contact form. A blinking cur"
+      }
+    },
+    {
+      "id": "F_no_attention_mechanism",
+      "label": "Remove Attention Mechanism",
+      "removed_chars": 6825,
+      "found_block": true,
+      "removedBlock": "Remove Attention Mechanism",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.247,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.286,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "desk",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "lost_tags": [
+          "glass door",
+          "laptop",
+          "outdoor"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.327,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.409,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "A mascot character wilting in parking lot heat waves at passing traffic while inside the office a chat widget blinks a typing indicator with no message ever sent — the perfect visual metaphor for a business that looks available but is completely unreachable. The video pivots from",
+        "script_variant_head": "OPEN: Wide shot — a person in a full mascot costume standing in a sun-baked parking lot, waving enthusiastically at cars that drive straight past. Sweat visibly soaking through the costume. Nobody stops.\n\nCUT TO: Inside a bright co-working space. A chat widget on a monitor blinks",
+        "image1_variant": "Vertical 9:16 photorealistic photograph in warm neutral tones with flat documentary lighting. Wide environmental framing of a sun-baked parking lot in full daylight. In the foreground, a person wearing a large foam mascot costume — colorful, cartoonish, slightly deflated from the",
+        "voiceover_variant": "I'll be honest — we thought a contact form was enough. Then the accountant came back from two weeks off and found dozens of site visits. Real questions. Zero contact details. The site just... sat there. Static. Smiling. Useless. Your website is open 24/7. Your ability to answer? "
+      }
+    },
+    {
+      "id": "G_no_creative_directives",
+      "label": "Remove Creative Directives",
+      "removed_chars": 1525,
+      "found_block": true,
+      "removedBlock": "Remove Creative Directives",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.213,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.305,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "desk",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "laptop",
+          "photoreal",
+          "photorealistic",
+          "documentary",
+          "traffic"
+        ],
+        "lost_tags": [
+          "office",
+          "heat",
+          "glass door",
+          "outdoor"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.279,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.401,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "A mascot costume figure sweats in a sun-baked parking lot, waving enthusiastically at passing cars — while inside the same building, a chat widget blinks a typing indicator with no message ever sent. The absurdity of performing effort while delivering nothing mirrors exactly what",
+        "script_variant_head": "BEAT 1 (0–3s) — HOOK: Wide shot, bright midday parking lot. A mascot in a full foam costume waves both arms at passing cars. Voiceover (clipped, alert): 'Your website is out there waving at everyone —' SFX: short click accent at 335ms. BEAT 2 (3–8s) — IMPLICATION: Cut inside. A c",
+        "image1_variant": "Photorealistic portrait 9:16 vertical frame. Bright midday parking lot, flat documentary lighting, warm neutral color feel. A person in a full foam mascot costume — oversized cartoon head, colorful suit — stands in the center foreground, both arms raised mid-wave toward the road.",
+        "voiceover_variant": "Your website is out there waving at everyone — but when someone actually stops and asks a question, nothing happens. An accountant came back from two weeks off to dozens of site visits. Zero contact details left. Every single visitor had a real question. The site just... stood th"
+      }
+    },
+    {
+      "id": "H_no_hook_v2",
+      "label": "Remove Hook V2",
+      "removed_chars": 1096,
+      "found_block": true,
+      "removedBlock": "Remove Hook V2",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.381,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.323,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "laptop",
+          "traffic",
+          "desk",
+          "documentary"
+        ],
+        "lost_tags": [
+          "heat",
+          "glass door",
+          "outdoor",
+          "photoreal",
+          "photorealistic"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.32,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.389,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "Open on an absurd but immediately readable scene: a person in a full mascot costume standing in a sun-baked parking lot, waving at passing cars — sweating, suffering, performing. Cut inside: a chat widget on a website screen blinks a typing indicator... then nothing. No message e",
+        "script_variant_head": "BEAT 1 — HOOK (0–3s): Mascot in a parking lot, waving at traffic. Voiceover: 'Mascot suffers, fake typing online.' Bold, clipped, urgent. SFX click accent at ~335ms.\n\nBEAT 2 — IMPLICATION (3–10s): Cut inside. Chat widget blinks. Typing indicator pulses. No message. Voiceover: 'Yo",
+        "image1_variant": "Vertical 9:16 portrait frame. A bright co-working space exterior — a sunlit parking lot adjacent to a glass-fronted office. A single person in a large, slightly deflated mascot costume (animal character, no readable text on costume) stands at the edge of the lot, arm raised mid-w",
+        "voiceover_variant": "Your website had visitors while you were gone. Real people. Real questions. And your site just... stood there. Like a mascot waving at traffic while inside, a chat box blinks with nothing to say. They didn't fill out your form. They left. That's not a vacation problem — that's ev"
+      }
+    },
+    {
+      "id": "I_no_product_reveal",
+      "label": "Remove Product Reveal",
+      "removed_chars": 1117,
+      "found_block": true,
+      "removedBlock": "Remove Product Reveal",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.187,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.299,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "analytics",
+          "chat",
+          "typing",
+          "laptop",
+          "office",
+          "co-working",
+          "desk",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "lost_tags": [
+          "heat",
+          "traffic",
+          "glass door",
+          "outdoor"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.308,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.375,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "Open on an absurd but instantly relatable image: a sweltering mascot costume character waving at passing cars in a parking lot while inside the building a chat widget blinks with a fake typing indicator — and then nothing. Cut to the gut-punch: an accountant returns from vacation",
+        "script_variant_head": "BEAT 1 (0–3s): HOOK — Mascot in a parking lot, waving at cars. Inside: chat widget blinks, types, sends nothing. VO: 'Mascot suffers. Fake typing online.'\n\nBEAT 2 (3–10s): UNEXPECTED FACT — Accountant opens laptop, sees analytics: 40 visits, zero contact details. VO: 'An accounta",
+        "image1_variant": "Photorealistic portrait 9:16 vertical. A bright co-working space in daylight with warm neutral tones and low-contrast flat documentary lighting. Foreground: a person in a full mascot costume — oversized cartoon character head, bright foam suit — standing just outside a glass-fron",
+        "voiceover_variant": "Our mascot's out front waving at traffic. Meanwhile, our website? It's got a blinking cursor and zero answers. An accountant came back from vacation to 40 website visits. Zero contact details left. Every single visitor had a real question. The site just stared back at them. Being"
+      }
+    },
+    {
+      "id": "J_no_content_quality",
+      "label": "Remove Content Quality",
+      "removed_chars": 865,
+      "found_block": true,
+      "removedBlock": "Remove Content Quality",
+      "hook": "identical",
+      "hook_baseline": "Mascot suffers, fake typing online.",
+      "hook_variant": "Mascot suffers, fake typing online.",
+      "voiceover": "major_changes",
+      "voiceover_similarity": 0.277,
+      "story_progression_changed": true,
+      "story_progression_similarity": 0.314,
+      "visual_world": {
+        "baseline_tags": [
+          "parking lot",
+          "parking",
+          "mascot",
+          "office",
+          "desk",
+          "heat",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "co-working",
+          "glass door",
+          "laptop",
+          "outdoor",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "variant_tags": [
+          "co-working",
+          "parking lot",
+          "parking",
+          "mascot",
+          "traffic",
+          "analytics",
+          "chat",
+          "typing",
+          "heat",
+          "desk",
+          "photoreal",
+          "photorealistic",
+          "documentary"
+        ],
+        "lost_tags": [
+          "office",
+          "glass door",
+          "laptop",
+          "outdoor"
+        ],
+        "gained_tags": [],
+        "changed": true,
+        "major": false
+      },
+      "image_prompts_similarity": 0.335,
+      "image_prompt_count": {
+        "baseline": 4,
+        "variant": 4
+      },
+      "platform_outputs_similarity": 0.415,
+      "overall_creativity_shift": "medium",
+      "estimated_influence": "CRITICAL",
+      "snippets": {
+        "concept_variant": "A mascot costume character waves at passing traffic in a sunny parking lot — sweating, ignored, performative. Cut inside: a chat widget blinks a typing indicator with no message ever sent. Cut to a small business owner returning from vacation, opening analytics on a monitor showi",
+        "script_variant_head": "BEAT 1 — UNEXPECTED FACT (0–3s)\n[Mascot in parking lot, waving at traffic, visibly overheated. Chat widget inside blinks a typing indicator — no message ever arrives.]\nVO: 'Mascot suffers, fake typing online.'\n\nBEAT 2 — IMPLICATION (3–18s)\n[Cut to owner at monitor, scrolling visi",
+        "image1_variant": "Photorealistic vertical 9:16 portrait. A person in a large colorful mascot costume stands in a sun-baked parking lot in bright midday light, one arm raised in an exaggerated wave toward passing cars that do not slow down. The mascot's costume fabric shows visible heat distortion ",
+        "voiceover_variant": "Mascot suffers, fake typing online. Here's the thing nobody warns you about: your website is open 24 hours a day. You are not. So while you were on vacation — or just asleep — real people landed on your site, had real questions, and left. Silently. No contact form filled. No call"
+      }
+    }
+  ],
+  "table": [
+    {
+      "Block": "Creative Identity",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=true; prog_changed=true; img_sim=0.238"
+    },
+    {
+      "Block": "Project Visual Profile",
+      "Influence": "UNKNOWN",
+      "What_changed": "parse_or_generation_failed"
+    },
+    {
+      "Block": "Scene Meaning",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.361"
+    },
+    {
+      "Block": "Visual Narrative",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.346"
+    },
+    {
+      "Block": "Attention Mechanism",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.327"
+    },
+    {
+      "Block": "Creative Directives",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.279"
+    },
+    {
+      "Block": "Hook V2",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.32"
+    },
+    {
+      "Block": "Product Reveal",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.308"
+    },
+    {
+      "Block": "Content Quality",
+      "Influence": "CRITICAL",
+      "What_changed": "hook=identical; vo=major_changes; visual_major=false; prog_changed=true; img_sim=0.335"
+    }
+  ]
+}

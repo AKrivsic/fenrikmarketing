@@ -1,0 +1,101 @@
+{
+  "hook": "Mascot suffers, fake typing online.",
+  "voiceover": "I'll be honest — we thought a contact form was enough. Then the accountant came back from two weeks off and found dozens of site visits. Real questions. Zero contact details. The site just... sat there. Static. Smiling. Useless. Your website is open 24/7. Your ability to answer? Not even close. Every night offline is a lead walking out a door you didn't know was open.",
+  "title": "The Accountant Who Came Back to Nothing",
+  "concept": "A mascot character wilting in parking lot heat waves at passing traffic while inside the office a chat widget blinks a typing indicator with no message ever sent — the perfect visual metaphor for a business that looks available but is completely unreachable. The video pivots from absurd comedy to gut-punch reality: an accountant returns from vacation to an analytics dashboard full of ghost visitors, every one of them gone. No names. No emails. Nothing. The payoff reframes the whole scene: your website never closes, but silence is the only thing it's been offering after hours.",
+  "script": "OPEN: Wide shot — a person in a full mascot costume standing in a sun-baked parking lot, waving enthusiastically at cars that drive straight past. Sweat visibly soaking through the costume. Nobody stops.\n\nCUT TO: Inside a bright co-working space. A chat widget on a monitor blinks a typing indicator — three animated dots — but no message ever arrives. The cursor just blinks. Silence.\n\nVO: 'I'll be honest — we thought a contact form was enough.'\n\nCUT TO: An accountant, back from vacation, standing at a desk in a daylit open office, scrolling through site analytics on a monitor. Dozens of visit lines. Face drops.\n\nVO: 'Then the accountant came back from two weeks off and found dozens of site visits. Real questions. Zero contact details.'\n\nCUT TO: Wide shot of the same website on a monitor — a clean, professional-looking page. Still. Empty. No chat. No response. Just a contact form nobody filled out.\n\nVO: 'The site just... sat there. Static. Smiling. Useless.'\n\nCUT TO: Clock on a wall reading 11 PM. Office dark. Website still live on a monitor in the background, glow visible through a glass partition.\n\nVO: 'Your website is open 24/7. Your ability to answer? Not even close. Every night offline is a lead walking out a door you didn't know was open.'\n\nFADE on the typing indicator blinking alone in the dark office.",
+  "image_prompts": [
+    "Vertical 9:16 photorealistic photograph in warm neutral tones with flat documentary lighting. Wide environmental framing of a sun-baked parking lot in full daylight. In the foreground, a person wearing a large foam mascot costume — colorful, cartoonish, slightly deflated from the heat — stands at the edge of the lot, one arm raised mid-wave toward passing cars on a road. Cars drive past without slowing. The mascot's posture reads exhausted and ignored. Background shows a modest commercial building facade. Natural midday light, slight heat haze visible on the asphalt. Single human presence, partial body visible, face obscured by costume head. Layered depth: mascot in foreground, road and cars in mid-ground, building in background. Believable, candid, quietly absurd.",
+    "Vertical 9:16 photorealistic photograph in warm neutral tones with low-contrast flat documentary lighting. Interior of a bright co-working space in daylight. Wide shot showing a monitor on a desk in the mid-ground. On the monitor screen, a website chat widget interface is visible — showing three animated typing dots blinking inside a chat bubble, but the chat history above is completely empty. No messages sent or received. A partial human figure sits slightly off-frame to one side, attention directed toward the screen. Foreground has a desk surface with a coffee cup and scattered papers. Background shows open co-working area with warm natural window light. Quiet tension before a decision. The scene communicates availability with no follow-through.",
+    "Vertical 9:16 photorealistic photograph in warm neutral tones with flat documentary lighting. Interior of a bright open office in daylight. A single person — partial body, face not dominant — stands at a standing desk looking at a monitor displaying a website analytics view with multiple rows of data lines representing site visits. The person's shoulders and posture convey quiet dismay, a subtle slump. Foreground shows desk surface with a travel bag partially unpacked nearby suggesting recent return. Background shows open co-working space with warm window light filtering through. Layered depth. The emotional read in one glance: someone who expected nothing and found a painful truth.",
+    "Vertical 9:16 photorealistic photograph in warm neutral tones. Interior of an office at night — low ambient light, the room mostly dark except for the glow of a monitor visible through a glass partition in the background. In the foreground, a wall clock reads close to 11 PM. The monitor in the background shows a professional website page — clean, static, no chat interaction visible. The scene is quiet and slightly eerie in its stillness. No people visible. The contrast between the live glowing website and the empty dark office communicates that the site is open but no one is there to respond. Candid, believable, restrained."
+  ],
+  "platform_outputs": {
+    "tiktok": {
+      "caption": "Came back from vacation to 40+ website visits. Not one contact detail left behind. The site was up the whole time — just completely useless after hours. This is the leak nobody talks about.",
+      "cta": "Drop a 👋 if your contact form has ever let you down like this",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitetips",
+        "#missedleads"
+      ],
+      "format": "Vertical Short (9:16) — TikTok native"
+    },
+    "instagram": {
+      "caption": "Confession: we thought a contact form was enough. 🙃\n\nThen the accountant came back from two weeks off and found dozens of website visits — real people with real questions — and zero contact details left behind.\n\nThe site was live the whole time. It just had nothing to say.\n\nYour website is open 24/7. The question is whether it's actually working for you when you're not.",
+      "cta": "Save this if you've ever come back to a week of missed leads. Link in bio to see what answering after hours actually looks like.",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitestrategy",
+        "#aichatbot",
+        "#businessgrowth",
+        "#missedleads",
+        "#clientacquisition",
+        "#smbbusiness",
+        "#onlinemarketing",
+        "#worksmarter"
+      ],
+      "format": "Vertical Short (9:16) — Instagram Reels"
+    },
+    "youtube": {
+      "caption": "Every night your website is live but you're offline, there's a version of this happening: a real visitor, a real question, and a contact form nobody fills out. This video walks through the moment a small business owner realizes their website was visited dozens of times while they were away — and not one lead came through. The problem isn't the traffic. It's the silence. Watch to see exactly where the leak is, and what actually fixes it.",
+      "cta": "Subscribe for more on turning website traffic into real leads — and visit fenrik.chat to create your AI assistant in about a minute.",
+      "hashtags": [
+        "#leadgeneration",
+        "#smallbusiness",
+        "#aichatbot",
+        "#websitestrategy",
+        "#missedleads"
+      ],
+      "format": "Vertical Short (9:16) — YouTube Shorts"
+    },
+    "linkedin": {
+      "caption": "An accountant came back from two weeks of vacation to find dozens of website visits in the analytics. Real people. Real questions. Not one contact detail left behind.\n\nThe website was live the whole time. It just couldn't answer anyone.\n\nThis isn't a rare edge case. It's what happens every night, every weekend, and every time you step away from the desk. The traffic exists. The interest exists. The gap is the silence in between.\n\nA static page and a contact form are not a support strategy. They're a polite way of saying 'come back later' — and most visitors won't.",
+      "cta": "Has your website ever quietly lost leads while you were offline? Worth thinking about.",
+      "hashtags": [
+        "#leadgeneration",
+        "#smallbusiness",
+        "#websitestrategy"
+      ],
+      "format": "Text post — LinkedIn Feed",
+      "title_variants": [
+        "The accountant came back from vacation to zero leads — the website was live the whole time",
+        "Your website is open 24/7. Is it actually answering anyone?"
+      ],
+      "caption_variants": [
+        "An accountant came back from two weeks of vacation to find dozens of website visits in the analytics. Real people. Real questions. Not one contact detail left behind.\n\nThe website was live the whole time. It just couldn't answer anyone.\n\nThis isn't a rare edge case. It's what happens every night, every weekend, and every time you step away from the desk. The traffic exists. The interest exists. The gap is the silence in between.\n\nA static page and a contact form are not a support strategy. They're a polite way of saying 'come back later' — and most visitors won't.",
+        "Most businesses assume their website is 'working' because it's online.\n\nBut being online and being responsive are two very different things.\n\nA visitor lands at 10 PM with a genuine question about your services. Your site looks professional. It loads fast. And then it offers them a contact form and a phone number for business hours.\n\nThey leave. No trace. No follow-up possible.\n\nThat's not a technology problem. That's a pipeline leak that runs every single night — and most owners only notice it when they look at the analytics after a vacation."
+      ]
+    },
+    "x": {
+      "caption": "Came back from vacation. 40+ website visits. Zero leads. The site was up the whole time — it just had nothing to say after hours. That's not bad luck. That's a permanent leak.",
+      "cta": "Does your website actually answer anyone when you're offline?",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration"
+      ],
+      "format": "Post — X Feed",
+      "title_variants": [
+        "The vacation analytics gut-punch every small business owner dreads",
+        "Your website being 'live' and your website being 'useful' are not the same thing",
+        "What a contact form actually says to a visitor at 11 PM",
+        "The leads you never knew you lost are the ones that sting the most",
+        "Being offline isn't a temporary gap — it's a permanent nightly leak"
+      ],
+      "caption_variants": [
+        "Came back from vacation. 40+ website visits. Zero leads. The site was up the whole time — it just had nothing to say after hours. That's not bad luck. That's a permanent leak.",
+        "Your website is open right now. Is it answering anyone? Or just sitting there looking professional while visitors leave with their questions unanswered?",
+        "A contact form at 11 PM says: 'We'll get back to you.' The visitor hears: 'Go find someone else.' Most of them do. #smallbusiness",
+        "The leads you lost while you were asleep don't show up as lost leads. They just never show up at all. That's the part that should keep you up at night.",
+        "Hot take: 'We have a website' stopped being a support strategy about ten years ago. A static page is not available. It's just present. #leadgeneration #smallbusiness"
+      ]
+    }
+  },
+  "cta": {
+    "type": "sign_up",
+    "text": "Create your AI assistant"
+  },
+  "scenario": "An accountant returns from a two-week vacation to find that multiple small business owners visited the website asking about tax filing deadlines but never filled out the contact form."
+}

@@ -1,0 +1,115 @@
+{
+  "whyWon": "final_selection_score=266.2; creative_score=95.2; commercial_score=171.0; family=direct_product_world; renderability=10; first_frame_clarity=9; product_demo=9; human_problem=10; narrative_survive=9; commercial_survive=10; overturned_higher_creative=c6-human_conflict-div(creative=97.1)",
+  "version": "commercial-success@1",
+  "winnerId": "c3-direct_product_world-div",
+  "creativeScore": 95.2,
+  "commercialScore": 171,
+  "losersPenalized": [
+    {
+      "family": "visual_exaggeration",
+      "lostBy": 49.30000000000001,
+      "candidateId": "c7-visual_exaggeration-div",
+      "creativeScore": 96.39999999999999,
+      "commercialScore": 120.5,
+      "primaryPenalties": [],
+      "finalSelectionScore": 216.89999999999998
+    },
+    {
+      "family": "role_reversal",
+      "lostBy": 75.69999999999999,
+      "candidateId": "c1-role_reversal-div",
+      "creativeScore": 94,
+      "commercialScore": 96.5,
+      "primaryPenalties": [],
+      "finalSelectionScore": 190.5
+    },
+    {
+      "family": "consequence_first",
+      "lostBy": 88.19999999999999,
+      "candidateId": "c5-consequence_first-div",
+      "creativeScore": 69.5,
+      "commercialScore": 108.5,
+      "primaryPenalties": [],
+      "finalSelectionScore": 178
+    },
+    {
+      "family": "human_conflict",
+      "lostBy": 94.14999999999998,
+      "candidateId": "c6-human_conflict-div",
+      "creativeScore": 97.05000000000001,
+      "commercialScore": 75,
+      "primaryPenalties": [
+        "low_renderability=3",
+        "low_first_frame_clarity=3",
+        "low_product_demonstrability=4",
+        "low_narrative_survivability=3",
+        "low_commercial_survivability=3"
+      ],
+      "finalSelectionScore": 172.05
+    },
+    {
+      "family": "absurd_understandable",
+      "lostBy": 145.54999999999998,
+      "candidateId": "c2-absurd_understandable-div",
+      "creativeScore": 96.65,
+      "commercialScore": 24,
+      "primaryPenalties": [
+        "low_renderability=0",
+        "low_first_frame_clarity=0",
+        "low_product_demonstrability=3",
+        "low_narrative_survivability=0",
+        "low_commercial_survivability=0",
+        "high_metaphor_risk=9",
+        "requires_readable_text"
+      ],
+      "finalSelectionScore": 120.65
+    },
+    {
+      "family": "social_observation",
+      "lostBy": 151.7,
+      "candidateId": "c4-social_observation-div",
+      "creativeScore": 87.5,
+      "commercialScore": 27,
+      "primaryPenalties": [
+        "low_renderability=0",
+        "low_first_frame_clarity=0",
+        "low_human_problem_visibility=4",
+        "low_narrative_survivability=0",
+        "low_commercial_survivability=0",
+        "high_metaphor_risk=7",
+        "requires_readable_text"
+      ],
+      "finalSelectionScore": 114.5
+    }
+  ],
+  "finalSelectionScore": 266.2,
+  "commercialDimensions": {
+    "renderability": 10,
+    "firstFrameClarity": 9,
+    "humanProblemVisibility": 10,
+    "narrativeSurvivability": 9,
+    "productDemonstrability": 9,
+    "commercialSurvivability": 10
+  },
+  "creativeScoresSnapshot": {
+    "stopPower": 5,
+    "originality": 5,
+    "memorability": 6,
+    "storyPotential": 5,
+    "AI_Generic_Risk": 1,
+    "emotionalCharge": 5,
+    "productRelevance": 10,
+    "visualSpecificity": 7,
+    "productionFeasibility": 8,
+    "immediateComprehension": 7
+  },
+  "overturnedCreativeLeader": true,
+  "commercialDimensionContributions": {
+    "renderability": 35,
+    "firstFrameClarity": 31.5,
+    "humanProblemVisibility": 30,
+    "narrativeSurvivability": 22.5,
+    "productDemonstrability": 27,
+    "commercialSurvivability": 25
+  }
+}

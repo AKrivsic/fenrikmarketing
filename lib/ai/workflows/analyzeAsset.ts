@@ -33,6 +33,7 @@ import {
   mergeSmartUsageIntoMetadata,
   smartUsageFromAssetMetadata,
 } from "@/lib/assets/smartUsageMetadata";
+import { stampProductPresentationAssetMetadata } from "@/lib/assets/productPresentationMetadata";
 
 const SIGNED_URL_TTL_SECONDS = 600;
 const MAX_TEXT_LENGTH = 8_000;
@@ -323,6 +324,12 @@ export async function enrichAssetMetadataWithDimensionsAndSmartUsage(
   merged = stampDefaultPresentationTemplate(
     merged as Json,
   ) as unknown as Record<string, unknown>;
+
+  // Wave 2 — provenance / authenticity for PPD (library-time; generation only reads).
+  merged = stampProductPresentationAssetMetadata(merged, {
+    sourceHint:
+      typeof merged.source === "string" ? merged.source : "upload",
+  });
 
   return merged as Json;
 }

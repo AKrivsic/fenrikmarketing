@@ -41,7 +41,7 @@ export function buildProductRevealPromptBlock(plan: ProductRevealPlan): string {
     "- Product may appear in the opening when it is part of the hook situation / event.",
     "- Forbidden in the opening meaning block: sales pitch, offer language, pricing,",
     "  CTA verbs (buy / book / sign up / learn more / subscribe), or 'ad announce' framing.",
-    "- Structured PRODUCT_DEMO belongs after the opening meaning block — not as visual_scenes[0]",
+    "- Product Presentation Decision governs value proof — not legacy PRODUCT_DEMO scenes.",
     "  and not as the first spoken sales message.",
     "- Solution / payoff strategies below apply to later beats, not to sanding down the open.",
     "",

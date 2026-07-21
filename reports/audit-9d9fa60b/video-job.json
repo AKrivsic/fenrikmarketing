@@ -1,0 +1,728 @@
+{
+  "id": "d792dbd8-36e7-492a-85b3-19b44621d848",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "content_item_id": "165abc8e-fe9d-48c2-9087-d33d37a468e1",
+  "provider": "video_engine",
+  "model": null,
+  "provider_job_id": null,
+  "status": "completed",
+  "input": {
+    "cta": "Create your AI assistant — let your website answer while you're asleep.",
+    "hook": "Someone typed an urgent question into your website last night",
+    "angle": "Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice.",
+    "topic": "The lawyer who woke up to three missed inquiries — and zero contact details to follow up with",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "script": "BEAT 1 — HOOK (0–3s): Tight close on a person's hands holding a phone in dim evening light, typing an urgent question into a website. The message sends. A 'seen' indicator appears. No reply. The screen sits quiet.\n\nBEAT 2 — SETUP (3–10s): Cut to a home kitchen, cool morning light. A professional — lawyer, consultant, service owner — stands at the counter with coffee, scrolling their phone. Inbox: empty. Analytics: traffic spike from last night. The gap between those two facts hangs in the air.\n\nBEAT 3 — ESCALATION (10–17s): We see the visitor's side again — three separate chat threads, all sent, all unanswered. No email, no name, no contact detail left behind. Each thread fades to grey. The visitor is already gone. The business owner has nothing to follow up with.\n\nBEAT 4 — RESOLUTION (17–24s): Same late-night scene. Same urgent question typed. But this time, an AI response appears instantly — calm, helpful, on-brand. The visitor replies. A name and email are captured. Cut to the owner's morning kitchen — this time, a notification in the inbox. One name. One lead. Caught while they slept.\n\nVOICEOVER runs across all beats. CTA delivered in final seconds.",
+    "concept": "Handheld urgency: the camera opens tight on a person's hands typing an urgent question into a website chat on their phone, late at night. The reply thread shows 'seen' — and nothing more. We widen to reveal the business owner's side: a morning kitchen scene, coffee in hand, checking an empty inbox. The irony lands hard — the website had visitors, the owner had no idea. We escalate: multiple missed threads, zero contact details, no way back. Then the resolution: the same website, same late-night visitor — but this time a calm AI response appears instantly. The visitor stays. The lead is captured. The owner wakes up to a name in their inbox.",
+    "scenario": "A potential client lands on a law firm's website at 11 PM to ask about a contract dispute, but there's no one available to respond and they leave without leaving any contact details.",
+    "subtitles": "Urgent question dies in silence. | Someone typed into your website last night. Hit send. And waited. | Your site said nothing back. | No answer. No form. No way to reach them this morning. | They moved on. You never knew they were there. | Every unanswered visitor is a lead you can't chase — you never got their name. | Your website was open. You just weren't in it. | Fenrik.chat answers for you. | Create your AI assistant today.",
+    "tts_voice": "cedar",
+    "package_id": "3ceab6ba-3182-47d6-9b7c-51ab3a288dbf",
+    "asset_images": [],
+    "delivery_arc": {
+      "phases": [
+        {
+          "phase": "opening",
+          "delivery": "Opening: bold, steady confidence on the first claim."
+        },
+        {
+          "phase": "body",
+          "delivery": "Body: conversational contrast — short sentences, not one long equally-paced paragraph."
+        },
+        {
+          "phase": "emphasis",
+          "delivery": "Emphasis: slight lift on the key turn, contradiction, or insight line."
+        },
+        {
+          "phase": "pause_before_reveal",
+          "delivery": "Brief pause before the reveal, punchline, or payoff."
+        },
+        {
+          "phase": "payoff",
+          "delivery": "Payoff: Dry, knowing, slightly amused."
+        },
+        {
+          "phase": "close",
+          "delivery": "Close: satisfying landing; CTA only if present, never aggressive."
+        }
+      ],
+      "reasons": [
+        "opening_style:confident",
+        "mechanism:IRONY",
+        "full_arc_not_opening_only",
+        "spoken_rhythm_contrast_pause_emphasis"
+      ],
+      "version": "delivery-arc@1",
+      "tts_instruction_fragment": "Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spoken rhythm: short sentences, contrast, and a brief pause before the reveal. Emphasize the turn or punchline — do not read every clause at the same energy. Avoid long equally-paced paragraphs; land one idea per breath. Dry, knowing, slightly amused."
+    },
+    "sfx_selected": false,
+    "voice_scores": {
+      "primary": 64,
+      "secondary": 64
+    },
+    "voice_source": "package_primary",
+    "creative_mode": "observation",
+    "image_prompts": [
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+    ],
+    "visual_medium": "SOFT_3D",
+    "visual_scenes": [
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+      }
+    ],
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_observation→steady/warmth",
+      "profile_NATURAL→warmth(+2)",
+      "topic_steadiness_cues(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+62)",
+      "fit_secondary(+64)",
+      "soft_tie_recent_secondary(5)→primary(+2)"
+    ],
+    "selected_voice": "cedar",
+    "visual_profile": "NATURAL",
+    "voiceover_text": "Someone typed an urgent question into your website last night. Hit send. And waited. Your site said nothing back. No answer, no form, no way to reach them this morning. They moved on. You never even knew they were there. Every unanswered visitor is a lead you can't chase — because you never got their name. Your website was open. You just weren't in it. Fenrik.chat answers for you. Create your AI assistant today.",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: thoughtful, reflective, steady pacing. Delivery: warm and approachable. Delivery: confident, concise, not aggressive. Language: en.",
+    "opening_delivery": "confident",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, not aggressive. Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spo",
+    "attention_version": "attention@1",
+    "creative_identity": {
+      "key": "a home kitchen with everyday realism|reflective, thoughtful pause|cool clear morning light|three-quarter angle on the subject|centered subject with generous vertical headroom|two people at conversational distance, not posed|soft pastel accents, restrained saturation",
+      "mood": "reflective, thoughtful pause",
+      "camera": "three-quarter angle on the subject",
+      "version": "creative-identity@1",
+      "lighting": "cool clear morning light",
+      "color_feel": "soft pastel accents, restrained saturation",
+      "option_ids": {
+        "mood": "reflective",
+        "camera": "three_quarter",
+        "lighting": "cool_morning",
+        "color_feel": "soft_pastel",
+        "composition": "centered_headroom",
+        "environment": "home_kitchen",
+        "human_presence": "two_at_distance"
+      },
+      "composition": "centered subject with generous vertical headroom",
+      "environment": "a home kitchen with everyday realism",
+      "human_presence": "two people at conversational distance, not posed"
+    },
+    "opening_structure": "immediate_reaction",
+    "production_run_id": "9d9fa60b-dc71-4c94-9b2b-6cb95e20d9b3",
+    "weekly_strategy_id": "336ccd7e-ba0d-4be1-a887-8ffb006d0ff4",
+    "attention_mechanism": "IRONY",
+    "creative_mode_beats": [
+      "observation",
+      "meaning",
+      "reveal",
+      "cta"
+    ],
+    "explicit_scene_plan": true,
+    "narrative_beat_roles": [
+      "HOOK",
+      "SETUP",
+      "ESCALATION",
+      "RESOLUTION"
+    ],
+    "visual_medium_source": "auto",
+    "opening_motion_intent": "ATTENTION",
+    "presentation_analyzer": {
+      "decisions": [
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-1",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-2",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-3",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-4",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        }
+      ],
+      "allowed_scene_types": [
+        "IMAGE",
+        "CHECKLIST",
+        "QUOTE",
+        "PHONE",
+        "CTA"
+      ],
+      "presentation_generation": {
+        "mode": "enabled",
+        "package_id": "3ceab6ba-3182-47d6-9b7c-51ab3a288dbf",
+        "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+        "cta_selected": false,
+        "visual_profile": "NATURAL",
+        "downgrade_rules": [],
+        "creative_identity": {
+          "key": "a home kitchen with everyday realism|reflective, thoughtful pause|cool clear morning light|three-quarter angle on the subject|centered subject with generous vertical headroom|two people at conversational distance, not posed|soft pastel accents, restrained saturation",
+          "mood": "reflective, thoughtful pause",
+          "camera": "three-quarter angle on the subject",
+          "version": "creative-identity@1",
+          "lighting": "cool clear morning light",
+          "color_feel": "soft pastel accents, restrained saturation",
+          "option_ids": {
+            "mood": "reflective",
+            "camera": "three_quarter",
+            "lighting": "cool_morning",
+            "color_feel": "soft_pastel",
+            "composition": "centered_headroom",
+            "environment": "home_kitchen",
+            "human_presence": "two_at_distance"
+          },
+          "composition": "centered subject with generous vertical headroom",
+          "environment": "a home kitchen with everyday realism",
+          "human_presence": "two people at conversational distance, not posed"
+        },
+        "history_decisions": [],
+        "visual_beat_count": 4,
+        "accepted_cta_count": 0,
+        "analyzer_decisions": [
+          {
+            "rule": "allowed",
+            "reason": "image scene",
+            "scene_id": "scene-1",
+            "final_type": "IMAGE",
+            "requested_type": "IMAGE"
+          },
+          {
+            "rule": "allowed",
+            "reason": "image scene",
+            "scene_id": "scene-2",
+            "final_type": "IMAGE",
+            "requested_type": "IMAGE"
+          },
+          {
+            "rule": "allowed",
+            "reason": "image scene",
+            "scene_id": "scene-3",
+            "final_type": "IMAGE",
+            "requested_type": "IMAGE"
+          },
+          {
+            "rule": "allowed",
+            "reason": "image scene",
+            "scene_id": "scene-4",
+            "final_type": "IMAGE",
+            "requested_type": "IMAGE"
+          }
+        ],
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_source": "package_snapshot",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "sparse_plan_adjustment": false,
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "target_visual_beat_count": 5,
+        "creative_identity_version": "creative-identity@1",
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Urgent question dies in silence.",
+            "topic": "The beauty salon that found five unread visitor questions on Tuesday — and no way to reach any of them",
+            "motifs": [
+              "phone",
+              "meeting",
+              "person_alone",
+              "close_up",
+              "product_asset"
+            ],
+            "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final CTA beat (seconds 22–25); pl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "human",
+            "opening_structure": "sudden_reveal",
+            "cta_composition_id": null,
+            "attention_mechanism": "CURIOSITY_GAP",
+            "opening_visual_motif": "door_cracked_open_onto_unfinished_half",
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+            "opening_emotional_effect": "curiosity"
+          },
+          {
+            "hook": "Departure board for the wrong channel",
+            "topic": "The marketing agency owner who lost a lead mid-pitch — and never knew it happened",
+            "motifs": [
+              "person_alone",
+              "group"
+            ],
+            "closing": "Clean flat illustration, simplified shapes, soft gradients, not photorealistic. Portrait 9:16 vertical frame. The same d",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": "swipe",
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "human",
+            "opening_structure": "immediate_reaction",
+            "cta_composition_id": null,
+            "attention_mechanism": "CONTRAST",
+            "opening_visual_motif": "left_drowning_drafts_right_clear_system",
+            "dominant_subject_motif": "person_alone",
+            "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+            "opening_emotional_effect": "tension"
+          },
+          {
+            "hook": "Departure board for the wrong channel.",
+            "topic": "The moment a visitor gives up on your website — and you never even knew they were there",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Clean flat illustration, simplified shapes, soft gradients, not photorealistic. Portrait 9:16 vertical frame. The same s",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "human",
+            "opening_structure": "immediate_reaction",
+            "cta_composition_id": null,
+            "attention_mechanism": "DILEMMA",
+            "opening_visual_motif": "hand_hovering_over_packed_suitcase_while",
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+            "opening_emotional_effect": "dilemma"
+          },
+          {
+            "hook": "Mascot suffers, fake typing online.",
+            "topic": "The accountant who came back from vacation to a week's worth of missed leads — and zero contact details",
+            "motifs": [
+              "laptop",
+              "desk",
+              "dashboard",
+              "person_alone",
+              "group",
+              "product_asset"
+            ],
+            "closing": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-cont",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": "click",
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "human",
+            "opening_structure": "bold_claim",
+            "cta_composition_id": null,
+            "attention_mechanism": "PROVOCATIVE_OPINION",
+            "opening_visual_motif": "megaphone_pointed_empty_room_volume_without",
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "PRODUCT_OUTCOME",
+            "opening_emotional_effect": "strong_opinion"
+          },
+          {
+            "hook": "Most service businesses think being busy means business is good",
+            "topic": "The HVAC company that got slammed with website traffic during a heatwave — and lost every single online lead",
+            "motifs": [
+              "laptop",
+              "phone",
+              "group",
+              "product_asset"
+            ],
+            "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final CTA beat (seconds 21–25); pl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "human",
+            "opening_structure": "immediate_reaction",
+            "cta_composition_id": null,
+            "attention_mechanism": "FRUSTRATION",
+            "opening_visual_motif": "same_notification_stacking_nice_five_more",
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "PRODUCT_OUTCOME",
+            "opening_emotional_effect": "frustration"
+          },
+          {
+            "hook": "You can preview your AI assistant live — no sign-up, no setup — and most business owners still haven't done it.",
+            "topic": "Try it on your own website before you decide anything",
+            "motifs": [
+              "person_alone",
+              "close_up",
+              "prototype"
+            ],
+            "closing": "Technical blueprint schematic aesthetic, structural lines and diagrams, muted blueprint tones. Portrait 9:16 vertical fr",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "TECHNICAL_BLUEPRINT",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "person_alone",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "visual_medium_version": "visual-medium@1",
+    "visual_profile_source": "package_snapshot",
+    "resolved_primary_voice": "cedar",
+    "visual_profile_version": "visual-profile@3",
+    "resolved_secondary_voice": "shimmer"
+  },
+  "output": {
+    "debug": {
+      "sfx_mixed": false,
+      "sfx_reason": "not_selected",
+      "match_ratio": 0.972972972972973,
+      "fallback_used": false,
+      "language_hint": null,
+      "audio_duration": 27.516,
+      "duration_delta": 0.015999999999998238,
+      "render_warning": false,
+      "video_duration": 27.5,
+      "render_warnings": [],
+      "speech_duration": 26.016,
+      "subtitle_source": "whisper",
+      "target_duration": 27.516,
+      "srt_last_cue_end": 26.016,
+      "subtitle_warning": false,
+      "language_detected": "english",
+      "post_mux_duration": 27.516,
+      "tts_tail_expected": [
+        "create",
+        "your",
+        "ai",
+        "assistant",
+        "today"
+      ],
+      "tts_validation_log": [
+        {
+          "pass": false,
+          "attempt": 1,
+          "expected_tail": [
+            "create",
+            "your",
+            "ai",
+            "assistant",
+            "today"
+          ],
+          "durationSeconds": 24.72,
+          "transcript_tail": [
+            "werent",
+            "in",
+            "it",
+            "fenric",
+            "chat",
+            "answers",
+            "for",
+            "you"
+          ]
+        },
+        {
+          "pass": true,
+          "attempt": 2,
+          "expected_tail": [
+            "create",
+            "your",
+            "ai",
+            "assistant",
+            "today"
+          ],
+          "durationSeconds": 26.016,
+          "transcript_tail": [
+            "answers",
+            "for",
+            "you",
+            "create",
+            "your",
+            "ai",
+            "assistant",
+            "today"
+          ]
+        }
+      ],
+      "whisper_word_count": 74,
+      "tail_buffer_seconds": 1.5,
+      "tts_tail_retry_used": true,
+      "tts_tail_transcript": [
+        "answers",
+        "for",
+        "you",
+        "create",
+        "your",
+        "ai",
+        "assistant",
+        "today"
+      ],
+      "post_subtitle_duration": 27.5,
+      "tts_validation_attempts": 2,
+      "subtitle_timeline_duration": 26.016,
+      "tts_tail_validation_passed": true,
+      "intermediate_video_duration": 27.5
+    },
+    "mp4_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/output.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9kNzkyZGJkOC0zNmU3LTQ5MmEtODViMy0xOWI0NDYyMWQ4NDgvb3V0cHV0Lm1wNCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTEwMzcsImV4cCI6MTgxNTk0NzAzN30.Aq0ChhYHYsgrdbpcRO6pzNhiFuvnm37ASaazKEzI13c",
+    "render_spec": {
+      "scenes": [
+        {
+          "id": "scene-1",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/scene-scene-1.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-2",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/scene-scene-2.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-3",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/scene-scene-3.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-4",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/scene-scene-4.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+            }
+          },
+          "renderer_version": "image@1"
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "rendered_at": "2026-07-18T21:44:01.256Z",
+        "semantic_motion": {
+          "beats": [
+            {
+              "beat_id": "beat-1",
+              "scene_id": "scene-1",
+              "motion_intent": "ATTENTION",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "MEDIUM",
+              "motion_primitive": "zoom_in"
+            },
+            {
+              "beat_id": "beat-2",
+              "scene_id": "scene-2",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_up"
+            },
+            {
+              "beat_id": "beat-3",
+              "scene_id": "scene-3",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_down"
+            },
+            {
+              "beat_id": "beat-4",
+              "scene_id": "scene-4",
+              "motion_intent": "REVEAL",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_up"
+            },
+            {
+              "beat_id": "beat-5",
+              "scene_id": "scene-4",
+              "motion_intent": "CLOSE",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            }
+          ],
+          "version": "semantic-motion@2"
+        }
+      }
+    },
+    "subtitle_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/subtitles.srt?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9kNzkyZGJkOC0zNmU3LTQ5MmEtODViMy0xOWI0NDYyMWQ4NDgvc3VidGl0bGVzLnNydCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTEwMzksImV4cCI6MTgxNTk0NzAzOX0.BzGsFHQKCxJKRV6e6t2sDp8AWznEuz1Ac8aN4KNIG4Y",
+    "thumbnail_url": "https://syijxdgekowpcboxpeyl.supabase.co/storage/v1/object/sign/video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/d792dbd8-36e7-492a-85b3-19b44621d848/thumbnail.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZDI5MDcyNC0zODNkLTQ5ZWUtYjEzZi0xNTY2MGI2ZjY0ZGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlby1yZW5kZXJzL2FhYmFiOWZmLTlkYjQtNDAxMi1hNTNjLTEzNWUzYmZlYTZjZC92aWRlby9kNzkyZGJkOC0zNmU3LTQ5MmEtODViMy0xOWI0NDYyMWQ4NDgvdGh1bWJuYWlsLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0MTEwMzgsImV4cCI6MTgxNTk0NzAzOH0.79hhhTapl8vA3xvjB0MG7kZ4U4pW6gzE3kvjopgEVBs"
+  },
+  "error_message": null,
+  "created_at": "2026-07-18T21:39:14.969314+00:00",
+  "completed_at": "2026-07-18T21:44:02.678+00:00",
+  "updated_at": "2026-07-18T21:44:02.960211+00:00"
+}

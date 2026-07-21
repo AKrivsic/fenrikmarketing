@@ -1,0 +1,71 @@
+{
+  "sfx_gain": 0.18,
+  "sfx_mixed": true,
+  "sfx_reason": "opening_accent:CONTRAST:immediate_reaction",
+  "sfx_source": "programmatic_v1",
+  "match_ratio": 0.9838709677419355,
+  "sfx_category": "swipe",
+  "fallback_used": false,
+  "language_hint": null,
+  "sfx_timing_ms": 584,
+  "audio_duration": 23.604,
+  "duration_delta": 0.029333000000001164,
+  "render_warning": false,
+  "video_duration": 23.633333,
+  "render_warnings": [],
+  "sfx_duration_ms": 180,
+  "speech_duration": 22.104,
+  "subtitle_source": "whisper",
+  "target_duration": 23.604,
+  "srt_last_cue_end": 22.104,
+  "subtitle_warning": false,
+  "language_detected": "english",
+  "post_mux_duration": 23.604,
+  "tts_tail_expected": [
+    "thats",
+    "not",
+    "optional",
+    "anymore"
+  ],
+  "tts_validation_log": [
+    {
+      "pass": true,
+      "attempt": 1,
+      "expected_tail": [
+        "thats",
+        "not",
+        "optional",
+        "anymore"
+      ],
+      "durationSeconds": 22.104,
+      "transcript_tail": [
+        "answer",
+        "when",
+        "you",
+        "cant",
+        "thats",
+        "not",
+        "optional",
+        "anymore"
+      ]
+    }
+  ],
+  "whisper_word_count": 61,
+  "tail_buffer_seconds": 1.5,
+  "tts_tail_retry_used": false,
+  "tts_tail_transcript": [
+    "answer",
+    "when",
+    "you",
+    "cant",
+    "thats",
+    "not",
+    "optional",
+    "anymore"
+  ],
+  "post_subtitle_duration": 23.633333,
+  "tts_validation_attempts": 1,
+  "subtitle_timeline_duration": 22.104,
+  "tts_tail_validation_passed": true,
+  "intermediate_video_duration": 23.633333
+}

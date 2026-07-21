@@ -1,0 +1,10 @@
+{
+  "id": "F_no_attention_mechanism",
+  "label": "Remove Attention Mechanism",
+  "found_block": true,
+  "removed_chars": 6825,
+  "prompt_chars": 46958,
+  "elapsed_ms": 70814,
+  "model": "claude-sonnet-4-6",
+  "parse_ok": true
+}

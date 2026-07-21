@@ -16,6 +16,12 @@ export function buildCreativeCandidatePromptBlock(
   const w = plan.selectedCandidate;
   const integrityBlock = buildStoryIntegrityPromptBlock(w);
   const productDemoBlock = buildProductDemonstrationPromptBlock(w);
+  const productDemoHardRule = [
+    "- PRODUCT PRESENTATION: follow Product Presentation Decision — authentic asset,",
+    "  world/outcome, abstract mechanism, or story without product pixels.",
+    "  Do NOT emit legacy PRODUCT_DEMO / synthetic product UI. Do not recreate a full",
+    "  ask→answer→result chat sequence in IMAGE scenes.",
+  ];
   return [
     `${CREATIVE_CANDIDATE_PROMPT_HEADER} (${CREATIVE_CANDIDATE_VERSION}):`,
     "Raw visual situations were clustered for scroll-stop (Creative Divergence v2); a winner was selected with Attention First policy",
@@ -50,10 +56,7 @@ export function buildCreativeCandidatePromptBlock(
     "- Creative Identity may change lighting, camera, color, composition treatment — NEVER the location, environment, main event, or openingSituation.",
     "- When CANONICAL CREATIVE DNA is present below, it overrides conflicting staging from Identity / Narrative / Product Reveal.",
     "- STORY INTEGRITY: every visual beat must stay inside the selected world — no mid-video metaphor escape.",
-    "- PRODUCT DEMONSTRATION INTEGRITY: the package must include one structured PRODUCT_DEMO",
-    "  scene that visibly presents the visitor question, AI answer, and useful result.",
-    "  Human identity continuity follows Product Demonstration Integrity; ordinary IMAGE",
-    "  scenes must not recreate the complete demo sequence.",
+    ...productDemoHardRule,
     "- Product may appear in the opening when it is part of the hook situation.",
     "  Forbidden in the opening meaning block: sales pitch, offer language, CTA, pricing, 'buy/book/sign up now'.",
     "",

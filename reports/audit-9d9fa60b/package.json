@@ -1,0 +1,1944 @@
+{
+  "id": "3ceab6ba-3182-47d6-9b7c-51ab3a288dbf",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "strategy_item_id": "a3dd4832-528f-405c-8dc1-61a945d490fa",
+  "title": "The lawyer who woke up to three missed inquiries — and zero contact details to follow up with",
+  "status": "draft",
+  "package_brief": {
+    "cta": {
+      "text": "Create your AI assistant — let your website answer while you're asleep.",
+      "type": "sign_up"
+    },
+    "hook": "Someone typed an urgent question into your website last night",
+    "video": {
+      "script": "BEAT 1 — HOOK (0–3s): Tight close on a person's hands holding a phone in dim evening light, typing an urgent question into a website. The message sends. A 'seen' indicator appears. No reply. The screen sits quiet.\n\nBEAT 2 — SETUP (3–10s): Cut to a home kitchen, cool morning light. A professional — lawyer, consultant, service owner — stands at the counter with coffee, scrolling their phone. Inbox: empty. Analytics: traffic spike from last night. The gap between those two facts hangs in the air.\n\nBEAT 3 — ESCALATION (10–17s): We see the visitor's side again — three separate chat threads, all sent, all unanswered. No email, no name, no contact detail left behind. Each thread fades to grey. The visitor is already gone. The business owner has nothing to follow up with.\n\nBEAT 4 — RESOLUTION (17–24s): Same late-night scene. Same urgent question typed. But this time, an AI response appears instantly — calm, helpful, on-brand. The visitor replies. A name and email are captured. Cut to the owner's morning kitchen — this time, a notification in the inbox. One name. One lead. Caught while they slept.\n\nVOICEOVER runs across all beats. CTA delivered in final seconds.",
+      "concept": "Handheld urgency: the camera opens tight on a person's hands typing an urgent question into a website chat on their phone, late at night. The reply thread shows 'seen' — and nothing more. We widen to reveal the business owner's side: a morning kitchen scene, coffee in hand, checking an empty inbox. The irony lands hard — the website had visitors, the owner had no idea. We escalate: multiple missed threads, zero contact details, no way back. Then the resolution: the same website, same late-night visitor — but this time a calm AI response appears instantly. The visitor stays. The lead is captured. The owner wakes up to a name in their inbox.",
+      "duration_seconds": "24"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#AIchatbot",
+      "#leadgeneration",
+      "#websitetips",
+      "#AIassistant",
+      "#servicebusiness",
+      "#digitalmarketing",
+      "#chatbot",
+      "#professionalservices",
+      "#fenrikchat"
+    ],
+    "scenario": "A potential client lands on a law firm's website at 11 PM to ask about a contract dispute, but there's no one available to respond and they leave without leaving any contact details.",
+    "subtitles": "Urgent question dies in silence. | Someone typed into your website last night. Hit send. And waited. | Your site said nothing back. | No answer. No form. No way to reach them this morning. | They moved on. You never knew they were there. | Every unanswered visitor is a lead you can't chase — you never got their name. | Your website was open. You just weren't in it. | Fenrik.chat answers for you. | Create your AI assistant today.",
+    "asset_usage": [],
+    "image_prompts": [
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace.",
+      "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+    ],
+    "visual_scenes": [
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. Centered subject with generous vertical headroom. Close on a person's hands holding a smartphone in dim evening-toned light — the phone screen glows softly, showing a chat interface with a sent message bubble and a small 'seen' indicator beneath it. No reply bubble. The screen is quiet. The hands are still, waiting. Natural textures, restrained saturation, soft pastel accents. No readable text, no UI labels, no notifications visible as text. The emotional state is tension — a question sent into silence."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light from above-left, soft pastel accents, restrained saturation. Three-quarter angle on a professional figure — gender-neutral, business-casual — standing at a kitchen counter holding a coffee cup in one hand, scrolling a phone with the other. Their expression is mildly puzzled, searching. The phone screen shows a soft glow suggesting an analytics or inbox view — no readable text. A sense of quiet unease: something happened last night and the inbox is empty. Two people at conversational distance not posed — a second figure visible softly blurred in background, going about their morning. Centered subject, generous vertical headroom."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle. The scene shows a person's hand holding a phone, screen facing the viewer — three faded chat thread previews visible as abstract rounded shapes, no readable text, each progressively greyed out suggesting unanswered conversations. The emotional tone is loss — opportunities that dissolved. Soft pastel accents, natural kitchen textures in background. No labels, no metrics, no visible words. The visual meaning: multiple visitors came, asked, and left without a trace."
+      },
+      {
+        "source": "ai",
+        "image_prompt": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarter angle on a professional figure at the kitchen counter, same setting as beat 2. This time their expression is calm and quietly pleased — they are looking at their phone with a small smile. The phone screen glows with a soft notification indicator, abstract shape suggesting a new message received. A sense of relief and quiet optimism. Soft pastel accents, restrained saturation, centered subject with generous vertical headroom. The emotional shift: something was captured while they slept. No readable text, no UI labels."
+      }
+    ],
+    "voiceover_text": "Someone typed an urgent question into your website last night. Hit send. And waited. Your site said nothing back. No answer, no form, no way to reach them this morning. They moved on. You never even knew they were there. Every unanswered visitor is a lead you can't chase — because you never got their name. Your website was open. You just weren't in it. Fenrik.chat answers for you. Create your AI assistant today.",
+    "platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "X Video / Short",
+        "caption": "Your website had visitors last night. Your inbox has zero of them. That's not a quiet night — that's a lead gap you can't close.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIchatbot"
+        ],
+        "title_variants": [
+          "Traffic up. Inbox empty. The math doesn't add up.",
+          "The lead that never left a name",
+          "Being 'open' online means nothing if your site can't answer",
+          "Three visitors. Zero contact details. One avoidable problem.",
+          "Your website is getting questions it's not allowed to answer"
+        ],
+        "caption_variants": [
+          "Your website had visitors last night. Your inbox has zero of them. That's not a quiet night — that's a lead gap you can't close.",
+          "Someone typed an urgent question into your site at 11 PM. Saw no response. Left. You woke up to an empty inbox and a traffic spike that means nothing now.",
+          "Being available online isn't the same as being responsive. Your website is open 24/7. Your answers aren't. That's the gap.",
+          "Three people visited a law firm's site after hours last week. All three had real questions. None left contact details. All three moved on. This is fixable.",
+          "Your contact form isn't availability. It's a polite way of saying 'come back later.' Most visitors won't."
+        ]
+      },
+      "tiktok": {
+        "cta": "Link in bio — create your AI assistant before tonight.",
+        "format": "Vertical Short (9:16)",
+        "caption": "Someone visited your site last night with an urgent question. Your website said nothing. They're gone. 👀",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration",
+          "#AIchatbot",
+          "#businessgrowth"
+        ]
+      },
+      "youtube": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "YouTube Shorts (9:16)",
+        "caption": "Your website had visitors last night. Your inbox didn't know. Here's the silent cost of being offline after hours.",
+        "hashtags": [
+          "#AIchatbot",
+          "#smallbusiness",
+          "#leadgeneration"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "Facebook Video / Reel",
+        "caption": "Ever open your inbox in the morning and find... nothing — even though your analytics show people visited your website overnight? 😬 That's not a quiet night. That's missed leads with no way to follow up. An AI assistant on your website answers visitors the moment they ask — even at 11 PM on a Tuesday. No staff needed, no coding, no setup headache. Create yours at fenrik.chat and see it live before you commit.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AIassistant"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "LinkedIn Video / Short",
+        "caption": "Here's a pattern worth paying attention to: a professional services website gets real traffic overnight — a lawyer, a consultant, an accountant — but the inbox is empty every morning. Not because nobody came. Because nobody answered. Visitors with genuine intent don't wait. They move to the next result. The gap isn't marketing. It's response time outside business hours. An AI assistant on your website closes that gap without adding headcount.",
+        "hashtags": [
+          "#leadgeneration",
+          "#professionalservices",
+          "#AIchatbot"
+        ],
+        "title_variants": [
+          "The silent cost of an empty inbox after a traffic spike",
+          "Why professional services websites lose leads while the owner sleeps"
+        ],
+        "caption_variants": [
+          "Here's a pattern worth paying attention to: a professional services website gets real traffic overnight — a lawyer, a consultant, an accountant — but the inbox is empty every morning. Not because nobody came. Because nobody answered. Visitors with genuine intent don't wait. They move to the next result. The gap isn't marketing. It's response time outside business hours. An AI assistant on your website closes that gap without adding headcount.",
+          "Most professional services websites have the same quiet problem: they attract qualified visitors after hours and have no mechanism to respond. No chat, no instant answer, no captured contact. The visitor leaves. The owner never knew. It's not a traffic problem — it's a response problem. And it's one an AI assistant can solve without a developer, a new hire, or a complex integration."
+        ]
+      },
+      "instagram": {
+        "cta": "Create your AI assistant — link in bio.",
+        "format": "Reels (9:16)",
+        "caption": "They came to your website at 11 PM with a real question.\n\nYour site had no answer. No chat. No form they bothered to fill.\n\nBy morning, they were already somewhere else — and you had no idea they'd even shown up.\n\nThis is what 'we'll get back to you' actually costs.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitestrategy",
+          "#leadgeneration",
+          "#AIassistant",
+          "#businesstips",
+          "#servicebusiness",
+          "#chatbot",
+          "#digitalmarketing",
+          "#clientacquisition",
+          "#fenrikchat"
+        ]
+      }
+    },
+    "presentation_generation": {
+      "mode": "enabled",
+      "attention": {
+        "opening": {
+          "emotional_effect": "humor",
+          "opening_delivery": "confident",
+          "opening_structure": "immediate_reaction",
+          "first_motion_intent": "ATTENTION",
+          "land_within_seconds": [
+            1,
+            1.8
+          ],
+          "first_spoken_guidance": "Open with an immediate reaction using Irony — not context or setup. The first spoken thought should land in ~1.0–1.8 seconds (one short phrase, or two very short phrases). The stored hook MUST be the same thought as the first spoken line — do not dilute a strong hook into a weaker voiceover setup. Lead with the ironic mismatch between what people claim and what they do. Narrative seed: Unexpected but relevant: Lead with the ironic mismatch between what people claim and what they do. Keep the link to Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice. / Unable to answer customer questions when offline clear by the next beat.",
+          "first_visual_guidance": "The first visual is an attention event, not a sentence illustration. Visual contradiction: appearance vs reality in one readable frame. Preferred opening visual concept: A productivity trophy collecting dust next to an overflowing unread ideas pile about Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice. Do not default to calm desks, empty boards, laptop+coffee, or faceless screen-staring unless that is genuinely the strongest idea. Render coherently via Visual Narrative / Medium / Profile / Identity — attention chooses the idea, those systems choose the look.",
+          "first_subtitle_guidance": "First subtitle mirrors the first spoken thought — same words, no softer paraphrase.",
+          "align_hook_with_first_spoken": true
+        },
+        "sfx_gain": 0,
+        "sfx_reason": "omitted_optional_no_pressure",
+        "sfx_source": "omitted_no_fit",
+        "originality": {
+          "candidates": [
+            {
+              "id": "obvious",
+              "scores": {
+                "novelty": 1,
+                "relevance": 7,
+                "visual_clarity": 7,
+                "recognisability": 8,
+                "what_happens_next": 2,
+                "emotional_reaction": 3
+              },
+              "rejected": true,
+              "reject_reasons": [
+                "office_cliche:\\blaptop\\s+and\\s+coffee\\b",
+                "first_obvious_idea",
+                "visual_story:office_cliche_backslide"
+              ],
+              "visual_concept": "A modern office desk with laptop and coffee illustrating Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice."
+            },
+            {
+              "id": "less_obvious",
+              "scores": {
+                "novelty": 6,
+                "relevance": 8,
+                "visual_clarity": 7,
+                "recognisability": 7,
+                "what_happens_next": 7,
+                "emotional_reaction": 7
+              },
+              "rejected": false,
+              "reject_reasons": [],
+              "visual_concept": "A concrete human moment from Fenrik.chat that makes Unable to answer customer questions when offline visible in one glance"
+            },
+            {
+              "id": "unexpected",
+              "scores": {
+                "novelty": 9,
+                "relevance": 7,
+                "visual_clarity": 6,
+                "recognisability": 6,
+                "what_happens_next": 9,
+                "emotional_reaction": 9
+              },
+              "rejected": false,
+              "reject_reasons": [],
+              "visual_concept": "A productivity trophy collecting dust next to an overflowing unread ideas pile about Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice."
+            }
+          ],
+          "reject_summary": [
+            "obvious:office_cliche:\\blaptop\\s+and\\s+coffee\\b",
+            "obvious:first_obvious_idea",
+            "obvious:visual_story:office_cliche_backslide"
+          ],
+          "selected_candidate_id": "unexpected",
+          "selected_narrative_seed": "Unexpected but relevant: Lead with the ironic mismatch between what people claim and what they do. Keep the link to Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice. / Unable to answer customer questions when offline clear by the next beat.",
+          "selected_visual_concept": "A productivity trophy collecting dust next to an overflowing unread ideas pile about Walk through the exact moment a small business owner realizes their website was visited overnight by ready-to-hire prospects who left no trace — exposing the silent cost of having no way to respond to visitors outside business hours. The story centers on a professional services owner checking their analytics in the morning and seeing the traffic spike, but finding an empty inbox. No names, no emails, no way back in. The pain point is visceral: you were open for business on paper, but completely closed in practice.",
+          "selected_emotional_effect": "humor"
+        },
+        "delivery_arc": {
+          "phases": [
+            {
+              "phase": "opening",
+              "delivery": "Opening: bold, steady confidence on the first claim."
+            },
+            {
+              "phase": "body",
+              "delivery": "Body: conversational contrast — short sentences, not one long equally-paced paragraph."
+            },
+            {
+              "phase": "emphasis",
+              "delivery": "Emphasis: slight lift on the key turn, contradiction, or insight line."
+            },
+            {
+              "phase": "pause_before_reveal",
+              "delivery": "Brief pause before the reveal, punchline, or payoff."
+            },
+            {
+              "phase": "payoff",
+              "delivery": "Payoff: Dry, knowing, slightly amused."
+            },
+            {
+              "phase": "close",
+              "delivery": "Close: satisfying landing; CTA only if present, never aggressive."
+            }
+          ],
+          "reasons": [
+            "opening_style:confident",
+            "mechanism:IRONY",
+            "full_arc_not_opening_only",
+            "spoken_rhythm_contrast_pause_emphasis"
+          ],
+          "version": "delivery-arc@1",
+          "tts_instruction_fragment": "Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spoken rhythm: short sentences, contrast, and a brief pause before the reveal. Emphasize the turn or punchline — do not read every clause at the same energy. Avoid long equally-paced paragraphs; land one idea per breath. Dry, knowing, slightly amused."
+        },
+        "sfx_category": null,
+        "sfx_selected": false,
+        "sfx_timing_ms": null,
+        "attention_source": "deterministic_v1",
+        "attention_reasons": [
+          "selected:IRONY",
+          "source:deterministic_v1",
+          "funnel_soft_affinity:problem_aware:2",
+          "creative_mode_soft_affinity:observation:2",
+          "independent_of_funnel_mapping"
+        ],
+        "attention_version": "attention@1",
+        "opening_structure": "immediate_reaction",
+        "attention_mechanism": "IRONY",
+        "opening_visual_motif": "productivity_trophy_collecting_dust_next_overflowing",
+        "sfx_render_supported": true,
+        "opening_emotional_effect": "humor"
+      },
+      "tts_voice": "cedar",
+      "package_id": "3ceab6ba-3182-47d6-9b7c-51ab3a288dbf",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "cta_selected": false,
+      "voice_scores": {
+        "primary": 64,
+        "secondary": 64
+      },
+      "voice_source": "package_primary",
+      "visual_medium": "SOFT_3D",
+      "voice_reasons": [
+        "funnel_problem→warmth(+2)",
+        "mode_observation→steady/warmth",
+        "profile_NATURAL→warmth(+2)",
+        "topic_steadiness_cues(+2)",
+        "roles_close/proof→steadiness(+1)",
+        "fit_primary(+62)",
+        "fit_secondary(+64)",
+        "soft_tie_recent_secondary(5)→primary(+2)"
+      ],
+      "product_reveal": {
+        "reasons": [
+          "story_prefers_outcome_over_framed:human",
+          "fallback:abstract_system"
+        ],
+        "version": "product-reveal@2",
+        "solution_beat_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+        "sample_payoff_visual_required": false
+      },
+      "selected_voice": "cedar",
+      "visual_profile": "NATURAL",
+      "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: thoughtful, reflective, steady pacing. Delivery: warm and approachable. Delivery: confident, concise, not aggressive. Language: en.",
+      "downgrade_rules": [],
+      "narrative_beats": {
+        "beats": [
+          {
+            "role": "HOOK",
+            "whatChanged": "",
+            "whyContinue": "What happens to the person in: Urgent question dies in silence?",
+            "sourceFields": [
+              "openingSituation",
+              "hookLine",
+              "expectedViewerQuestion"
+            ],
+            "viewerLearns": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; r…",
+            "comprehension": {
+              "viewer_question": "What happens to the person in: Urgent question dies in silence?",
+              "viewer_expectation": "The explanation is coming.",
+              "viewer_understands": "Something unusual is happening: Handheld urgency"
+            },
+            "informationKey": "anomaly|open|handheld_urgency_close_customer",
+            "modeBeatLabels": [
+              "observation"
+            ]
+          },
+          {
+            "role": "SETUP",
+            "whatChanged": "From cold open to the established problem world (tension).",
+            "whyContinue": "Stakes become clear — Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero c…",
+            "sourceFields": [
+              "storyProgression",
+              "coreIdea",
+              "emotionalReaction"
+            ],
+            "viewerLearns": "Hold the opening situation → widen to peak demand overload",
+            "comprehension": {
+              "viewer_question": "Why is this happening / what does it cost?",
+              "viewer_expectation": "Someone should solve this — or stakes will rise.",
+              "viewer_understands": "The problem is: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquirie…"
+            },
+            "informationKey": "problem_named|open|hold_opening_situation_widen",
+            "modeBeatLabels": [
+              "meaning"
+            ]
+          },
+          {
+            "role": "ESCALATION",
+            "whatChanged": "Failure / consequence deepens — not a restatement of the setup.",
+            "whyContinue": "Viewer needs the fix: AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "sourceFields": [
+              "storyProgression",
+              "visualPromise",
+              "productConnection"
+            ],
+            "viewerLearns": "reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what hu…",
+            "comprehension": {
+              "viewer_question": "Can this be fixed?",
+              "viewer_expectation": "Show the solution.",
+              "viewer_understands": "The business is losing opportunities: reveal Unable to answer customer questions when offline (every unanswered online lead walks to a comp…"
+            },
+            "informationKey": "cost_rising|open|reveal_unable_answer_customer",
+            "modeBeatLabels": [
+              "reveal"
+            ]
+          },
+          {
+            "role": "RESOLUTION",
+            "whatChanged": "Problem turns into solution / outcome: Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "whyContinue": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "sourceFields": [
+              "productConnection",
+              "ending"
+            ],
+            "viewerLearns": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "comprehension": {
+              "viewer_question": "none",
+              "viewer_expectation": "Finished.",
+              "viewer_understands": "The product solves this: AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's h…"
+            },
+            "informationKey": "solution_shown|closed|chatbot_platform_websites_handles",
+            "modeBeatLabels": [
+              "cta"
+            ]
+          }
+        ],
+        "version": "narrative-beats@1.1",
+        "timeline_debug": {
+          "version": "narrative-timeline-debug@1",
+          "timeline": [
+            {
+              "role": "HOOK",
+              "index": 0,
+              "share": 0.192,
+              "sceneSummary": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…",
+              "comprehension": {
+                "viewer_question": "What happens to the person in: Urgent question dies in silence?",
+                "viewer_expectation": "The explanation is coming.",
+                "viewer_understands": "Something unusual is happening: Handheld urgency"
+              },
+              "informationKey": "anomaly|open|handheld_urgency_close_customer",
+              "durationSeconds": 4.79
+            },
+            {
+              "role": "SETUP",
+              "index": 1,
+              "share": 0.288,
+              "sceneSummary": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light fro…",
+              "comprehension": {
+                "viewer_question": "Why is this happening / what does it cost?",
+                "viewer_expectation": "Someone should solve this — or stakes will rise.",
+                "viewer_understands": "The problem is: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquirie…"
+              },
+              "informationKey": "problem_named|open|hold_opening_situation_widen",
+              "durationSeconds": 7.19
+            },
+            {
+              "role": "ESCALATION",
+              "index": 2,
+              "share": 0.315,
+              "sceneSummary": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…",
+              "comprehension": {
+                "viewer_question": "Can this be fixed?",
+                "viewer_expectation": "Show the solution.",
+                "viewer_understands": "The business is losing opportunities: reveal Unable to answer customer questions when offline (every unanswered online lead walks to a comp…"
+              },
+              "informationKey": "cost_rising|open|reveal_unable_answer_customer",
+              "durationSeconds": 7.88
+            },
+            {
+              "role": "RESOLUTION",
+              "index": 3,
+              "share": 0.206,
+              "sceneSummary": "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…",
+              "comprehension": {
+                "viewer_question": "none",
+                "viewer_expectation": "Finished.",
+                "viewer_understands": "The product solves this: AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's h…"
+              },
+              "informationKey": "solution_shown|closed|chatbot_platform_websites_handles",
+              "durationSeconds": 5.14
+            }
+          ],
+          "voiceover": {
+            "text": "Someone typed an urgent question into your website last night. Hit send. And waited. Your site said nothing back. No answer, no form, no way to reach them this morning. They moved on. You never even knew they were there. Every unanswered visitor is a lead you can't chase — because you never got their name. Your website was open. You just weren't in it. Fenrik.chat answers for you. Create your AI assistant today.",
+            "wordCount": 74
+          },
+          "storyboard": {
+            "sceneCount": 4,
+            "sceneSummaries": [
+              "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…",
+              "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen with everyday realism, cool clear morning light fro…",
+              "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…",
+              "Soft polished 3D render, portrait 9:16 vertical frame. Home kitchen environment, cool clear morning light. Three-quarte…"
+            ]
+          },
+          "duration_plan": {
+            "roles": [
+              "HOOK",
+              "SETUP",
+              "ESCALATION",
+              "RESOLUTION"
+            ],
+            "shares": [
+              0.192,
+              0.288,
+              0.315,
+              0.206
+            ],
+            "validation": {
+              "passed": true,
+              "shares": [
+                0.192,
+                0.288,
+                0.315,
+                0.206
+              ],
+              "summary": [],
+              "version": "duration-validation@1",
+              "warnings": []
+            },
+            "durationsSeconds": [
+              4.79,
+              7.19,
+              7.88,
+              5.14
+            ],
+            "justifiedOverMax": [
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          "narrative_beats": [
+            {
+              "role": "HOOK",
+              "whatChanged": "",
+              "whyContinue": "What happens to the person in: Urgent question dies in silence?",
+              "viewerLearns": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; r…",
+              "informationKey": "anomaly|open|handheld_urgency_close_customer",
+              "modeBeatLabels": [
+                "observation"
+              ]
+            },
+            {
+              "role": "SETUP",
+              "whatChanged": "From cold open to the established problem world (tension).",
+              "whyContinue": "Stakes become clear — Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero c…",
+              "viewerLearns": "Hold the opening situation → widen to peak demand overload",
+              "informationKey": "problem_named|open|hold_opening_situation_widen",
+              "modeBeatLabels": [
+                "meaning"
+              ]
+            },
+            {
+              "role": "ESCALATION",
+              "whatChanged": "Failure / consequence deepens — not a restatement of the setup.",
+              "whyContinue": "Viewer needs the fix: AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "viewerLearns": "reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what hu…",
+              "informationKey": "cost_rising|open|reveal_unable_answer_customer",
+              "modeBeatLabels": [
+                "reveal"
+              ]
+            },
+            {
+              "role": "RESOLUTION",
+              "whatChanged": "Problem turns into solution / outcome: Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "whyContinue": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "viewerLearns": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "informationKey": "solution_shown|closed|chatbot_platform_websites_handles",
+              "modeBeatLabels": [
+                "cta"
+              ]
+            }
+          ],
+          "metaphor_clarity": {
+            "reasons": [
+              "class:one_mental_step",
+              "understandable_within_~10s",
+              "understandable_within_first_third"
+            ],
+            "guidance": null,
+            "metaphorClass": "one_mental_step",
+            "understandableWithin10s": true,
+            "preferEarlyProductProblem": false,
+            "understandableWithinFirstThird": true
+          },
+          "creative_candidate": {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "direct_product_world",
+            "coreIdea": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "hookLine": "Urgent question dies in silence.",
+            "candidateId": "c3-direct_product_world-div",
+            "openingSituation": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes."
+          },
+          "corrective_guidance": null,
+          "viewer_comprehension": [
+            {
+              "viewer_question": "What happens to the person in: Urgent question dies in silence?",
+              "viewer_expectation": "The explanation is coming.",
+              "viewer_understands": "Something unusual is happening: Handheld urgency"
+            },
+            {
+              "viewer_question": "Why is this happening / what does it cost?",
+              "viewer_expectation": "Someone should solve this — or stakes will rise.",
+              "viewer_understands": "The problem is: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquirie…"
+            },
+            {
+              "viewer_question": "Can this be fixed?",
+              "viewer_expectation": "Show the solution.",
+              "viewer_understands": "The business is losing opportunities: reveal Unable to answer customer questions when offline (every unanswered online lead walks to a comp…"
+            },
+            {
+              "viewer_question": "none",
+              "viewer_expectation": "Finished.",
+              "viewer_understands": "The product solves this: AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's h…"
+            }
+          ],
+          "information_progression": {
+            "passed": true,
+            "summary": [],
+            "version": "information-progression@1",
+            "warnings": [],
+            "correctiveGuidance": null
+          }
+        },
+        "metaphorClarity": {
+          "reasons": [
+            "class:one_mental_step",
+            "understandable_within_~10s",
+            "understandable_within_first_third"
+          ],
+          "guidance": null,
+          "metaphorClass": "one_mental_step",
+          "understandableWithin10s": true,
+          "preferEarlyProductProblem": false,
+          "understandableWithinFirstThird": true
+        },
+        "correctiveGuidance": null,
+        "durationValidation": {
+          "passed": true,
+          "shares": [
+            0.192,
+            0.288,
+            0.315,
+            0.206
+          ],
+          "summary": [],
+          "version": "duration-validation@1",
+          "warnings": []
+        },
+        "progressionWarnings": [],
+        "informationProgression": {
+          "passed": true,
+          "summary": [],
+          "version": "information-progression@1",
+          "warnings": [],
+          "correctiveGuidance": null
+        },
+        "storyProgressionDiagnostics": {
+          "passed": true,
+          "summary": [],
+          "version": "story-progression@1",
+          "warnings": []
+        },
+        "visualProgressionDiagnostics": {
+          "passed": true,
+          "summary": [],
+          "version": "visual-progression@1",
+          "warnings": []
+        },
+        "postLlmInformationProgression": {
+          "passed": true,
+          "summary": [],
+          "version": "information-progression@1",
+          "warnings": [],
+          "correctiveGuidance": null
+        }
+      },
+      "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, not aggressive. Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spo",
+      "visual_narrative": {
+        "key": "human|body language that shows the relationship to the idea in one glance — not a device hero frame",
+        "version": "visual-narrative@1.1",
+        "subject_focus": "body language that shows the relationship to the idea in one glance — not a device hero frame",
+        "metaphor_policy": "understandable_preferred",
+        "director_version": "visual-story-director@1",
+        "storytelling_mode": "situation_first",
+        "product_world_hints": [
+          "Digital assistant world (meaning, not scenery): film unanswered visitors, people waiting for a reply, someone walking away, after-hours silence becoming answered — NOT automatic storefronts, NOT dashboards, NOT abstract boats/notebooks standing in for visitors.",
+          "Agency world: client conversations, missed follow-ups, collaborative tension — situations first, workshop props only when they are part of the event.",
+          "Product Brain constrains MEANING (who hurts, what changed), not scenery. Do not force browser UI, dashboards, or physical stores unless that situation is truly strongest."
+        ],
+        "recent_motif_counts": {
+          "desk": 2,
+          "group": 4,
+          "phone": 3,
+          "laptop": 5,
+          "meeting": 1,
+          "close_up": 5,
+          "dashboard": 2,
+          "prototype": 2,
+          "person_alone": 6,
+          "sticky_notes": 1,
+          "product_asset": 6
+        },
+        "supporting_carriers": [
+          "place",
+          "process",
+          "comparison"
+        ],
+        "primary_meaning_carrier": "human",
+        "reject_abstract_riddles": true,
+        "preferred_situation_framing": "Situation first: film a person walking away unanswered / waiting for a reply — NOT a paper boat, closed notebook, or abstract prop standing in for the visitor."
+      },
+      "creative_identity": {
+        "key": "a home kitchen with everyday realism|reflective, thoughtful pause|cool clear morning light|three-quarter angle on the subject|centered subject with generous vertical headroom|two people at conversational distance, not posed|soft pastel accents, restrained saturation",
+        "mood": "reflective, thoughtful pause",
+        "camera": "three-quarter angle on the subject",
+        "version": "creative-identity@1",
+        "lighting": "cool clear morning light",
+        "color_feel": "soft pastel accents, restrained saturation",
+        "option_ids": {
+          "mood": "reflective",
+          "camera": "three_quarter",
+          "lighting": "cool_morning",
+          "color_feel": "soft_pastel",
+          "composition": "centered_headroom",
+          "environment": "home_kitchen",
+          "human_presence": "two_at_distance"
+        },
+        "composition": "centered subject with generous vertical headroom",
+        "environment": "a home kitchen with everyday realism",
+        "human_presence": "two people at conversational distance, not posed"
+      },
+      "history_decisions": [],
+      "visual_beat_count": 4,
+      "accepted_cta_count": 0,
+      "cta_composition_id": null,
+      "creative_candidates": {
+        "version": "creative-candidates@3.0",
+        "storyIntegrity": {
+          "passed": true,
+          "summary": "story_integrity_passed",
+          "version": "story-integrity@1",
+          "ctaMatch": {
+            "evidence": "cta_action_hits:create,assistant",
+            "packageCta": "Create your AI assistant — let your website answer while you're asleep.",
+            "voiceoverContainsCta": true
+          },
+          "violations": [],
+          "allowedWorldTokens": [
+            "answer",
+            "answers",
+            "assistant",
+            "booking",
+            "business",
+            "cannot",
+            "chat",
+            "chatbot",
+            "close",
+            "competitor",
+            "contact",
+            "customer",
+            "details",
+            "dies",
+            "dramatized",
+            "empty",
+            "every",
+            "film",
+            "form",
+            "frame",
+            "generic",
+            "gets",
+            "handles",
+            "hands",
+            "hold",
+            "human",
+            "humans",
+            "inquiries",
+            "laptop",
+            "lawyer",
+            "lead",
+            "message",
+            "missed",
+            "moment",
+            "montage",
+            "needed",
+            "office",
+            "offline",
+            "online",
+            "opening",
+            "owner",
+            "phone",
+            "platform",
+            "question",
+            "questions",
+            "replacing",
+            "reply",
+            "reveal",
+            "scene",
+            "scroll",
+            "seen",
+            "sending",
+            "setting",
+            "shown",
+            "shows",
+            "silence",
+            "situation",
+            "stakes",
+            "stay",
+            "stop",
+            "thread",
+            "three",
+            "unable",
+            "unanswered",
+            "urgent",
+            "visitor",
+            "waiting",
+            "walks",
+            "website",
+            "websites",
+            "what",
+            "widen",
+            "woke",
+            "zero"
+          ],
+          "productDemonstration": {
+            "present": true,
+            "evidence": [
+              "ask_signal",
+              "answer_signal",
+              "result_signal"
+            ],
+            "askPresent": true,
+            "answerPresent": true,
+            "resultPresent": true,
+            "landingPageOnly": false
+          }
+        },
+        "candidateScores": [
+          {
+            "family": "role_reversal",
+            "scores": {
+              "stopPower": 6,
+              "originality": 7,
+              "memorability": 8,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 1,
+              "emotionalCharge": 5,
+              "productRelevance": 7,
+              "visualSpecificity": 6,
+              "productionFeasibility": 8,
+              "immediateComprehension": 5
+            },
+            "coreIdea": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+            "hookLine": "Nobody home except the waiting chat.",
+            "rejected": false,
+            "candidateId": "c1-role_reversal-div",
+            "rejectReasons": [],
+            "weightedTotal": 94,
+            "commercialTotal": 96.5,
+            "commercialScores": {
+              "renderability": 6,
+              "firstFrameClarity": 5,
+              "humanProblemVisibility": 5,
+              "narrativeSurvivability": 5,
+              "productDemonstrability": 6,
+              "commercialSurvivability": 5
+            },
+            "openingSituation": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+            "finalSelectionScore": 190.5
+          },
+          {
+            "family": "absurd_understandable",
+            "scores": {
+              "stopPower": 7,
+              "originality": 7,
+              "memorability": 8,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 1,
+              "emotionalCharge": 5,
+              "productRelevance": 7,
+              "visualSpecificity": 6,
+              "productionFeasibility": 7,
+              "immediateComprehension": 5
+            },
+            "coreIdea": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+            "hookLine": "Departure board for the wrong channel.",
+            "rejected": false,
+            "candidateId": "c2-absurd_understandable-div",
+            "rejectReasons": [],
+            "weightedTotal": 96.65,
+            "commercialTotal": 24,
+            "commercialScores": {
+              "renderability": 0,
+              "firstFrameClarity": 0,
+              "humanProblemVisibility": 5,
+              "narrativeSurvivability": 0,
+              "productDemonstrability": 3,
+              "commercialSurvivability": 0
+            },
+            "openingSituation": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+            "finalSelectionScore": 120.65
+          },
+          {
+            "family": "direct_product_world",
+            "scores": {
+              "stopPower": 5,
+              "originality": 5,
+              "memorability": 6,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 1,
+              "emotionalCharge": 5,
+              "productRelevance": 10,
+              "visualSpecificity": 7,
+              "productionFeasibility": 8,
+              "immediateComprehension": 7
+            },
+            "coreIdea": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "hookLine": "Urgent question dies in silence.",
+            "rejected": false,
+            "candidateId": "c3-direct_product_world-div",
+            "rejectReasons": [],
+            "weightedTotal": 95.2,
+            "commercialTotal": 171,
+            "commercialScores": {
+              "renderability": 10,
+              "firstFrameClarity": 9,
+              "humanProblemVisibility": 10,
+              "narrativeSurvivability": 9,
+              "productDemonstrability": 9,
+              "commercialSurvivability": 10
+            },
+            "openingSituation": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "finalSelectionScore": 266.2
+          },
+          {
+            "family": "social_observation",
+            "scores": {
+              "stopPower": 5,
+              "originality": 5,
+              "memorability": 6,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 1,
+              "emotionalCharge": 5,
+              "productRelevance": 8,
+              "visualSpecificity": 6,
+              "productionFeasibility": 8,
+              "immediateComprehension": 6
+            },
+            "coreIdea": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+            "hookLine": "Dual clocks, one shameful.",
+            "rejected": false,
+            "candidateId": "c4-social_observation-div",
+            "rejectReasons": [],
+            "weightedTotal": 87.5,
+            "commercialTotal": 27,
+            "commercialScores": {
+              "renderability": 0,
+              "firstFrameClarity": 0,
+              "humanProblemVisibility": 4,
+              "narrativeSurvivability": 0,
+              "productDemonstrability": 5,
+              "commercialSurvivability": 0
+            },
+            "openingSituation": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+            "finalSelectionScore": 114.5
+          },
+          {
+            "family": "consequence_first",
+            "scores": {
+              "stopPower": 8,
+              "originality": 5,
+              "memorability": 3,
+              "storyPotential": 6,
+              "AI_Generic_Risk": 6,
+              "emotionalCharge": 6,
+              "productRelevance": 4,
+              "visualSpecificity": 5,
+              "productionFeasibility": 8,
+              "immediateComprehension": 5
+            },
+            "coreIdea": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+            "hookLine": "Competitor wins before you pick up.",
+            "rejected": true,
+            "candidateId": "c5-consequence_first-div",
+            "rejectReasons": [
+              "topic_collapsed_to_generic_business"
+            ],
+            "weightedTotal": 69.5,
+            "commercialTotal": 108.5,
+            "commercialScores": {
+              "renderability": 6,
+              "firstFrameClarity": 6,
+              "humanProblemVisibility": 8,
+              "narrativeSurvivability": 5,
+              "productDemonstrability": 5,
+              "commercialSurvivability": 6
+            },
+            "openingSituation": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+            "finalSelectionScore": 178
+          },
+          {
+            "family": "human_conflict",
+            "scores": {
+              "stopPower": 7,
+              "originality": 6,
+              "memorability": 7,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 0,
+              "emotionalCharge": 7,
+              "productRelevance": 7,
+              "visualSpecificity": 6,
+              "productionFeasibility": 7,
+              "immediateComprehension": 5
+            },
+            "coreIdea": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+            "hookLine": "Airport logic applied to the wrong queue.",
+            "rejected": false,
+            "candidateId": "c6-human_conflict-div",
+            "rejectReasons": [],
+            "weightedTotal": 97.05000000000001,
+            "commercialTotal": 75,
+            "commercialScores": {
+              "renderability": 3,
+              "firstFrameClarity": 3,
+              "humanProblemVisibility": 9,
+              "narrativeSurvivability": 3,
+              "productDemonstrability": 4,
+              "commercialSurvivability": 3
+            },
+            "openingSituation": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+            "finalSelectionScore": 172.05
+          },
+          {
+            "family": "visual_exaggeration",
+            "scores": {
+              "stopPower": 7,
+              "originality": 5,
+              "memorability": 8,
+              "storyPotential": 5,
+              "AI_Generic_Risk": 1,
+              "emotionalCharge": 5,
+              "productRelevance": 7,
+              "visualSpecificity": 8,
+              "productionFeasibility": 8,
+              "immediateComprehension": 5
+            },
+            "coreIdea": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+            "hookLine": "After hours, chats still screaming.",
+            "rejected": false,
+            "candidateId": "c7-visual_exaggeration-div",
+            "rejectReasons": [],
+            "weightedTotal": 96.39999999999999,
+            "commercialTotal": 120.5,
+            "commercialScores": {
+              "renderability": 8,
+              "firstFrameClarity": 7,
+              "humanProblemVisibility": 6,
+              "narrativeSurvivability": 7,
+              "productDemonstrability": 5,
+              "commercialSurvivability": 7
+            },
+            "openingSituation": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+            "finalSelectionScore": 216.89999999999998
+          }
+        ],
+        "comparativeJudge": {
+          "winnerId": "c3-direct_product_world-div",
+          "winnerReason": "final_selection_score=266.2; creative_score=95.2; commercial_score=171.0; stop=5; comprehension=7; originality=5; renderability=10; first_frame=9; product_demo=9; human_problem=10; family=direct_product_world; core=Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up t",
+          "mostRenderable": "c3-direct_product_world-div",
+          "clearestFirstFrame": "c3-direct_product_world-div",
+          "bestProductTopicFit": "c3-direct_product_world-div",
+          "clearestMentalImage": "c7-visual_exaggeration-div",
+          "leastInterchangeable": "c2-absurd_understandable-div",
+          "strongestHumanProblem": "c3-direct_product_world-div",
+          "mostMemorableInOneHour": "c2-absurd_understandable-div",
+          "mostLikelyToStopScrolling": "c6-human_conflict-div",
+          "bestProductDemonstrability": "c3-direct_product_world-div",
+          "bestCommercialSurvivability": "c3-direct_product_world-div"
+        },
+        "selectedCandidate": {
+          "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+          "family": "direct_product_world",
+          "coreIdea": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+          "hookLine": "Urgent question dies in silence.",
+          "candidateId": "c3-direct_product_world-div",
+          "creativeDNA": {
+            "world": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero con…",
+            "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who wok…",
+            "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "mainCharacter": "A website visitor's hands sending an urgent question",
+            "immutableRules": [
+              "Do not relocate the primary story away from: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer wh…",
+              "Do not replace the main character: A website visitor's hands sending an urgent question",
+              "Do not turn the middle into a laptop analytics montage",
+              "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+              "Do not resolve the story only with a happy expression; show that visitors receive answers",
+              "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+            ],
+            "viewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+          },
+          "visualPromise": "Film the opening as a scroll-stop frame: Urgent question dies in silence. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+          "familiarityRisk": "medium",
+          "openingSituation": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+          "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+          "creativeDnaSource": "model",
+          "emotionalReaction": "tension",
+          "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+          "memorabilityReason": "Selected from divergence v2 for scroll-stop: Urgent question dies in silence",
+          "expectedViewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+        },
+        "creativeDivergence": {
+          "version": "creative-divergence@2.1",
+          "clusters": [
+            {
+              "clusterId": "cl-1",
+              "memberIds": [
+                "raw-12-8358",
+                "raw-2-5832"
+              ],
+              "centroidScene": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+              "representativeId": "raw-12-8358"
+            },
+            {
+              "clusterId": "cl-2",
+              "memberIds": [
+                "raw-13-5886",
+                "raw-3-3131"
+              ],
+              "centroidScene": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+              "representativeId": "raw-13-5886"
+            },
+            {
+              "clusterId": "cl-3",
+              "memberIds": [
+                "raw-15-933",
+                "raw-5-8817"
+              ],
+              "centroidScene": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+              "representativeId": "raw-15-933"
+            },
+            {
+              "clusterId": "cl-4",
+              "memberIds": [
+                "raw-14-3223",
+                "raw-1-667",
+                "raw-11-4059"
+              ],
+              "centroidScene": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+              "representativeId": "raw-14-3223"
+            },
+            {
+              "clusterId": "cl-5",
+              "memberIds": [
+                "raw-16-4801",
+                "raw-4-3477"
+              ],
+              "centroidScene": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+              "representativeId": "raw-16-4801"
+            },
+            {
+              "clusterId": "cl-6",
+              "memberIds": [
+                "raw-10-4966",
+                "raw-7-3474"
+              ],
+              "centroidScene": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+              "representativeId": "raw-10-4966"
+            },
+            {
+              "clusterId": "cl-7",
+              "memberIds": [
+                "raw-9-6541",
+                "raw-6-8706"
+              ],
+              "centroidScene": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+              "representativeId": "raw-9-6541"
+            }
+          ],
+          "survivors": [
+            {
+              "id": "raw-12-8358",
+              "tags": [
+                "role_reversal",
+                "empty",
+                "chat",
+                "v0"
+              ],
+              "scene": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+              "rejected": false,
+              "clusterId": "cl-1",
+              "rejectReason": null,
+              "scrollStopCue": "Nobody home except the waiting chat",
+              "stopScrollScore": 7,
+              "visualDistinctScore": 8
+            },
+            {
+              "id": "raw-13-5886",
+              "tags": [
+                "departure",
+                "board",
+                "delay",
+                "v1"
+              ],
+              "scene": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+              "rejected": false,
+              "clusterId": "cl-2",
+              "rejectReason": null,
+              "scrollStopCue": "Departure board for the wrong channel",
+              "stopScrollScore": 7,
+              "visualDistinctScore": 8
+            },
+            {
+              "id": "raw-15-933",
+              "tags": [
+                "absurd",
+                "queue",
+                "lobby",
+                "v0"
+              ],
+              "scene": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+              "rejected": false,
+              "clusterId": "cl-3",
+              "rejectReason": null,
+              "scrollStopCue": "Airport logic applied to the wrong queue",
+              "stopScrollScore": 7,
+              "visualDistinctScore": 8
+            },
+            {
+              "id": "raw-14-3223",
+              "tags": [
+                "hands",
+                "urgent",
+                "customer",
+                "v0"
+              ],
+              "scene": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+              "rejected": false,
+              "clusterId": "cl-4",
+              "rejectReason": null,
+              "scrollStopCue": "Urgent question dies in silence",
+              "stopScrollScore": 7.5,
+              "visualDistinctScore": 7
+            },
+            {
+              "id": "raw-16-4801",
+              "tags": [
+                "clocks",
+                "timer",
+                "shame",
+                "v0"
+              ],
+              "scene": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+              "rejected": false,
+              "clusterId": "cl-5",
+              "rejectReason": null,
+              "scrollStopCue": "Dual clocks, one shameful",
+              "stopScrollScore": 7,
+              "visualDistinctScore": 7
+            },
+            {
+              "id": "raw-10-4966",
+              "tags": [
+                "consequence",
+                "competitor",
+                "v1"
+              ],
+              "scene": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+              "rejected": false,
+              "clusterId": "cl-6",
+              "rejectReason": null,
+              "scrollStopCue": "Competitor wins before you pick up",
+              "stopScrollScore": 7,
+              "visualDistinctScore": 6.5
+            },
+            {
+              "id": "raw-9-6541",
+              "tags": [
+                "night",
+                "security",
+                "chats",
+                "v0"
+              ],
+              "scene": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+              "rejected": false,
+              "clusterId": "cl-7",
+              "rejectReason": null,
+              "scrollStopCue": "After hours, chats still screaming",
+              "stopScrollScore": 5,
+              "visualDistinctScore": 7
+            }
+          ],
+          "rawGeneratedCount": 20,
+          "candidateSourceIds": [
+            "raw-12-8358",
+            "raw-13-5886",
+            "raw-14-3223",
+            "raw-16-4801",
+            "raw-10-4966",
+            "raw-15-933",
+            "raw-9-6541"
+          ],
+          "rawAfterFilterCount": 15,
+          "rejectedGenericSamples": [
+            {
+              "id": "raw-8-8229",
+              "scene": "Physical stack of printed missed-web-session logs grows on the The lawyer who woke up to three missed inquiries — and zero contact details to f counter while st",
+              "reason": "prop_without_situation"
+            },
+            {
+              "id": "raw-17-7070",
+              "scene": "Handheld urgency: Physical stack of printed missed-web-session logs grows on the The lawyer who woke up to three missed inquiries — and zero contact details to ",
+              "reason": "prop_without_situation"
+            },
+            {
+              "id": "raw-18-4980",
+              "scene": "Person staring at a laptop in a modern office meeting room explaining the product on a dashboard",
+              "reason": "raw_generic:\\bmodern\\s+office\\b"
+            },
+            {
+              "id": "raw-19-4204",
+              "scene": "A website-led service business worker holds a phone to their ear at a calm desk thinking about workflow efficiency",
+              "reason": "raw_generic:\\bcalm\\s+desk\\b"
+            },
+            {
+              "id": "raw-20-1727",
+              "scene": "Outside a HVAC / cooling service van in blazing heat, a technician sprints while an accountant topic is ignored",
+              "reason": "unrelated_industry:technician"
+            }
+          ]
+        },
+        "regenerationReason": "opening_situation_missing_from_scene1:main_subject_missing_from_scene1_opening_frame,hook_not_preserved_in_first_spoken",
+        "rejectedCandidates": [
+          {
+            "reasons": [
+              "topic_collapsed_to_generic_business"
+            ],
+            "candidateId": "c5-consequence_first-div"
+          }
+        ],
+        "finalScriptFidelity": {
+          "passed": false,
+          "failureReasons": [
+            "opening_situation_missing_from_scene1:main_subject_missing_from_scene1_opening_frame",
+            "hook_not_preserved_in_first_spoken"
+          ],
+          "coreIdeaRecognizable": true,
+          "productOrTopicImplied": true,
+          "voiceoverEssayCadence": false,
+          "collapsedToGenericOffice": false,
+          "hookPreservedInFirstSpoken": false,
+          "openingSituationVisibleInScene1": false
+        },
+        "generatedCandidates": [
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "role_reversal",
+            "coreIdea": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+            "hookLine": "Nobody home except the waiting chat.",
+            "candidateId": "c1-role_reversal-div",
+            "creativeDNA": {
+              "world": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand o…",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and z…",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "An empty desk / wall screen while the digital receptionist works alone",
+              "immutableRules": [
+                "Do not replace the main character: An empty desk / wall screen while the digital receptionist works alone",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Nobody home except the waiting chat?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Nobody home except the waiting chat. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Empty front desk at The lawyer who woke up to three missed inquiries — and zero contact details to f during peak demand overload; phones blink alone; a wall tablet chat calmly waits with nobody typing.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "unease",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Nobody home except the waiting chat",
+            "expectedViewerQuestion": "What happens to the person in: Nobody home except the waiting chat?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "absurd_understandable",
+            "coreIdea": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+            "hookLine": "Departure board for the wrong channel.",
+            "candidateId": "c2-absurd_understandable-div",
+            "creativeDNA": {
+              "world": "A The lawyer who woke up to three missed inquiries — and zero contact details to f lobby / service counter",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "The recurring subject of: Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding",
+              "immutableRules": [
+                "Do not relocate the primary story away from: A The lawyer who woke up to three missed inquiries — and zero contact details to f lobby…",
+                "Do not replace the main character: The recurring subject of: Handheld urgency: Train-station style departure board: \"Phone c…",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Departure board for the wrong channel?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Departure board for the wrong channel. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Train-station style departure board: \"Phone caller #47\" boarding; \"Website visitor\" stuck on Delayed — at The lawyer who woke up to three missed inquiries — and zero contact details to f.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "curiosity",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Departure board for the wrong channel",
+            "expectedViewerQuestion": "What happens to the person in: Departure board for the wrong channel?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "direct_product_world",
+            "coreIdea": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "hookLine": "Urgent question dies in silence.",
+            "candidateId": "c3-direct_product_world-div",
+            "creativeDNA": {
+              "world": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero con…",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who wok…",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "A website visitor's hands sending an urgent question",
+              "immutableRules": [
+                "Do not relocate the primary story away from: Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer wh…",
+                "Do not replace the main character: A website visitor's hands sending an urgent question",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Urgent question dies in silence. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Close on a customer's hands sending an urgent question to The lawyer who woke up to three missed inquiries — and zero contact details to f; reply thread shows \"seen\" with no answer during peak demand overload.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "tension",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Urgent question dies in silence",
+            "expectedViewerQuestion": "What happens to the person in: Urgent question dies in silence?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "social_observation",
+            "coreIdea": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+            "hookLine": "Dual clocks, one shameful.",
+            "candidateId": "c4-social_observation-div",
+            "creativeDNA": {
+              "world": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg websit…",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero co…",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "The recurring subject of: Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero c…",
+              "immutableRules": [
+                "Do not relocate the primary story away from: Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and ze…",
+                "Do not replace the main character: The recurring subject of: Handheld urgency: Two clocks at The lawyer who woke up to three…",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Dual clocks, one shameful?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Dual clocks, one shameful. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Two clocks at The lawyer who woke up to three missed inquiries — and zero contact details to f: shop hours vs \"avg website reply\" spinning into hours during peak demand overload.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "curiosity",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Dual clocks, one shameful",
+            "expectedViewerQuestion": "What happens to the person in: Dual clocks, one shameful?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "consequence_first",
+            "coreIdea": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+            "hookLine": "Competitor wins before you pick up.",
+            "candidateId": "c5-consequence_first-div",
+            "creativeDNA": {
+              "world": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "A competitor already claiming the job on the driveway",
+              "immutableRules": [
+                "Do not relocate the primary story away from: Handheld urgency: Consequence: rival already quoted the website visitor who needed an ans…",
+                "Do not replace the main character: A competitor already claiming the job on the driveway",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Competitor wins before you pick up?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Competitor wins before you pick up. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Consequence: rival already quoted the website visitor who needed an answer; your site chat still idle from peak demand overload.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "urgency",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Competitor wins before you pick up",
+            "expectedViewerQuestion": "What happens to the person in: Competitor wins before you pick up?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "human_conflict",
+            "coreIdea": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+            "hookLine": "Airport logic applied to the wrong queue.",
+            "candidateId": "c6-human_conflict-div",
+            "creativeDNA": {
+              "world": "A The lawyer who woke up to three missed inquiries — and zero contact details to f lobby / service counter",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up…",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "An absurd boarding-ticket queue for phone callers (website line empty)",
+              "immutableRules": [
+                "Do not relocate the primary story away from: A The lawyer who woke up to three missed inquiries — and zero contact details to f lobby…",
+                "Do not replace the main character: An absurd boarding-ticket queue for phone callers (website line empty)",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: Airport logic applied to the wrong queue?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: Airport logic applied to the wrong queue. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "low",
+            "openingSituation": "Handheld urgency: Absurd boarding-ticket dispenser for phone callers at The lawyer who woke up to three missed inquiries — and zero contact details to f; website chat on the counter glows with zero replies.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "amused recognition",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: Airport logic applied to the wrong queue",
+            "expectedViewerQuestion": "What happens to the person in: Airport logic applied to the wrong queue?"
+          },
+          {
+            "ending": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+            "family": "visual_exaggeration",
+            "coreIdea": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+            "hookLine": "After hours, chats still screaming.",
+            "candidateId": "c7-visual_exaggeration-div",
+            "creativeDNA": {
+              "world": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark",
+              "productRole": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+              "coreConflict": "Unable to answer customer questions when offline, dramatized as: Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact d…",
+              "endingIntent": "Next website visitor who needed an answer gets an answer even when the owner cannot.",
+              "mainCharacter": "The recurring subject of: Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact…",
+              "immutableRules": [
+                "Do not relocate the primary story away from: Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero cont…",
+                "Do not replace the main character: The recurring subject of: Handheld urgency: Night: The lawyer who woke up to three missed…",
+                "Do not turn the middle into a laptop analytics montage",
+                "Do not replace the core conflict (Unable to answer customer questions when offline, dramatized as: Handheld urgen…) with a different marketing problem",
+                "Do not resolve the story only with a happy expression; show that visitors receive answers",
+                "Do not reduce the product to a generic success mood; show or clearly communicate: AI chatbot platform for websites handles the website moment shown in the opening — withou…"
+              ],
+              "viewerQuestion": "What happens to the person in: After hours, chats still screaming?"
+            },
+            "visualPromise": "Film the opening as a scroll-stop frame: After hours, chats still screaming. Setting must stay business website moment / empty reply thread. No generic office/laptop montage.",
+            "familiarityRisk": "medium",
+            "openingSituation": "Handheld urgency: Night: The lawyer who woke up to three missed inquiries — and zero contact details to f dark; security light on; tablet shows unanswered website chats glowing during peak demand overload.",
+            "storyProgression": "Hold the opening situation → widen to peak demand overload → reveal Unable to answer customer questions when offline (every unanswered online lead walks to a competitor) → AI chatbot platform for websites answers what humans cannot.",
+            "creativeDnaSource": "model",
+            "emotionalReaction": "unease",
+            "productConnection": "AI chatbot platform for websites handles the website moment shown in the opening — without replacing the scene's human stakes.",
+            "memorabilityReason": "Selected from divergence v2 for scroll-stop: After hours, chats still screaming",
+            "expectedViewerQuestion": "What happens to the person in: After hours, chats still screaming?"
+          }
+        ],
+        "selectionDiagnostics": {
+          "whyWon": "final_selection_score=266.2; creative_score=95.2; commercial_score=171.0; family=direct_product_world; renderability=10; first_frame_clarity=9; product_demo=9; human_problem=10; narrative_survive=9; commercial_survive=10; overturned_higher_creative=c6-human_conflict-div(creative=97.1)",
+          "version": "commercial-success@1",
+          "winnerId": "c3-direct_product_world-div",
+          "creativeScore": 95.2,
+          "commercialScore": 171,
+          "losersPenalized": [
+            {
+              "family": "visual_exaggeration",
+              "lostBy": 49.30000000000001,
+              "candidateId": "c7-visual_exaggeration-div",
+              "creativeScore": 96.39999999999999,
+              "commercialScore": 120.5,
+              "primaryPenalties": [],
+              "finalSelectionScore": 216.89999999999998
+            },
+            {
+              "family": "role_reversal",
+              "lostBy": 75.69999999999999,
+              "candidateId": "c1-role_reversal-div",
+              "creativeScore": 94,
+              "commercialScore": 96.5,
+              "primaryPenalties": [],
+              "finalSelectionScore": 190.5
+            },
+            {
+              "family": "consequence_first",
+              "lostBy": 88.19999999999999,
+              "candidateId": "c5-consequence_first-div",
+              "creativeScore": 69.5,
+              "commercialScore": 108.5,
+              "primaryPenalties": [],
+              "finalSelectionScore": 178
+            },
+            {
+              "family": "human_conflict",
+              "lostBy": 94.14999999999998,
+              "candidateId": "c6-human_conflict-div",
+              "creativeScore": 97.05000000000001,
+              "commercialScore": 75,
+              "primaryPenalties": [
+                "low_renderability=3",
+                "low_first_frame_clarity=3",
+                "low_product_demonstrability=4",
+                "low_narrative_survivability=3",
+                "low_commercial_survivability=3"
+              ],
+              "finalSelectionScore": 172.05
+            },
+            {
+              "family": "absurd_understandable",
+              "lostBy": 145.54999999999998,
+              "candidateId": "c2-absurd_understandable-div",
+              "creativeScore": 96.65,
+              "commercialScore": 24,
+              "primaryPenalties": [
+                "low_renderability=0",
+                "low_first_frame_clarity=0",
+                "low_product_demonstrability=3",
+                "low_narrative_survivability=0",
+                "low_commercial_survivability=0",
+                "high_metaphor_risk=9",
+                "requires_readable_text"
+              ],
+              "finalSelectionScore": 120.65
+            },
+            {
+              "family": "social_observation",
+              "lostBy": 151.7,
+              "candidateId": "c4-social_observation-div",
+              "creativeScore": 87.5,
+              "commercialScore": 27,
+              "primaryPenalties": [
+                "low_renderability=0",
+                "low_first_frame_clarity=0",
+                "low_human_problem_visibility=4",
+                "low_narrative_survivability=0",
+                "low_commercial_survivability=0",
+                "high_metaphor_risk=7",
+                "requires_readable_text"
+              ],
+              "finalSelectionScore": 114.5
+            }
+          ],
+          "finalSelectionScore": 266.2,
+          "commercialDimensions": {
+            "renderability": 10,
+            "firstFrameClarity": 9,
+            "humanProblemVisibility": 10,
+            "narrativeSurvivability": 9,
+            "productDemonstrability": 9,
+            "commercialSurvivability": 10
+          },
+          "creativeScoresSnapshot": {
+            "stopPower": 5,
+            "originality": 5,
+            "memorability": 6,
+            "storyPotential": 5,
+            "AI_Generic_Risk": 1,
+            "emotionalCharge": 5,
+            "productRelevance": 10,
+            "visualSpecificity": 7,
+            "productionFeasibility": 8,
+            "immediateComprehension": 7
+          },
+          "overturnedCreativeLeader": true,
+          "commercialDimensionContributions": {
+            "renderability": 35,
+            "firstFrameClarity": 31.5,
+            "humanProblemVisibility": 30,
+            "narrativeSurvivability": 22.5,
+            "productDemonstrability": 27,
+            "commercialSurvivability": 25
+          }
+        },
+        "creativeDnaDiagnostics": {
+          "present": true,
+          "validation": {
+            "passed": true,
+            "violations": []
+          },
+          "candidateId": "c3-direct_product_world-div",
+          "fallbackUsed": false,
+          "fallbackReason": null,
+          "candidateVersion": "creative-candidates@3.0",
+          "dnaPromptVersion": "creative-dna@1",
+          "creativeDnaSource": "model",
+          "modelDnaConsistency": {
+            "passed": true,
+            "violations": []
+          },
+          "identityEnvironmentSuppressed": false
+        },
+        "finalStoryboardFidelity": {
+          "passed": false,
+          "failureReasons": [
+            "opening_situation_missing_from_scene1:main_subject_missing_from_scene1_opening_frame",
+            "hook_not_preserved_in_first_spoken"
+          ],
+          "coreIdeaRecognizable": true,
+          "productOrTopicImplied": true,
+          "voiceoverEssayCadence": false,
+          "collapsedToGenericOffice": false,
+          "hookPreservedInFirstSpoken": false,
+          "openingSituationVisibleInScene1": false
+        }
+      },
+      "cta_decision_reason": "no typed CTA requested in visual plan",
+      "frequency_decisions": [],
+      "requested_cta_count": 0,
+      "accepted_phone_count": 0,
+      "accepted_quote_count": 0,
+      "cta_renderer_version": null,
+      "downgraded_cta_count": 0,
+      "visual_medium_scores": {
+        "SOFT_3D": 2,
+        "PHOTOGRAPHIC": 1,
+        "GRAPHIC_COLLAGE": 0,
+        "CLEAN_ILLUSTRATION": 0,
+        "TECHNICAL_BLUEPRINT": 0
+      },
+      "visual_medium_source": "auto",
+      "requested_phone_count": 0,
+      "requested_quote_count": 0,
+      "visual_medium_reasons": [
+        "SOFT_3D:digital_product(+2)",
+        "CLEAN_ILLUSTRATION:abstract_workflow(+1)",
+        "PHOTOGRAPHIC:carrier_human(+3)",
+        "CLEAN_ILLUSTRATION:recent_repeat(-2)",
+        "PHOTOGRAPHIC:recent_repeat(-2)"
+      ],
+      "visual_medium_version": "visual-medium@1",
+      "visual_profile_scores": null,
+      "visual_profile_source": "package_snapshot",
+      "downgraded_phone_count": 0,
+      "downgraded_quote_count": 0,
+      "phone_renderer_version": null,
+      "quote_renderer_version": null,
+      "resolved_primary_voice": "cedar",
+      "sparse_plan_adjustment": false,
+      "visual_profile_reasons": null,
+      "visual_profile_version": "visual-profile@3",
+      "accepted_checklist_count": 0,
+      "accepted_statistic_count": 0,
+      "final_worker_scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "resolved_secondary_voice": "shimmer",
+      "target_visual_beat_count": 5,
+      "creative_identity_version": "creative-identity@1",
+      "prompt_presentation_types": [
+        "IMAGE",
+        "CHECKLIST",
+        "PHONE",
+        "QUOTE",
+        "CTA"
+      ],
+      "requested_checklist_count": 0,
+      "requested_statistic_count": 0,
+      "series_context_considered": true,
+      "checklist_allowlist_status": "allowlisted",
+      "checklist_renderer_version": null,
+      "downgraded_checklist_count": 0,
+      "downgraded_statistic_count": 0,
+      "scene_type_diversity_notes": [],
+      "statistic_renderer_version": null,
+      "recent_creative_fingerprints": [
+        {
+          "hook": "Urgent question dies in silence.",
+          "topic": "The beauty salon that found five unread visitor questions on Tuesday — and no way to reach any of them",
+          "motifs": [
+            "phone",
+            "meeting",
+            "person_alone",
+            "close_up",
+            "product_asset"
+          ],
+          "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final CTA beat (seconds 22–25); pl",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "SOFT_3D",
+          "meaning_carrier": "human",
+          "opening_structure": "sudden_reveal",
+          "cta_composition_id": null,
+          "attention_mechanism": "CURIOSITY_GAP",
+          "opening_visual_motif": "door_cracked_open_onto_unfinished_half",
+          "dominant_subject_motif": "phone",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "curiosity"
+        },
+        {
+          "hook": "Departure board for the wrong channel",
+          "topic": "The marketing agency owner who lost a lead mid-pitch — and never knew it happened",
+          "motifs": [
+            "person_alone",
+            "group"
+          ],
+          "closing": "Clean flat illustration, simplified shapes, soft gradients, not photorealistic. Portrait 9:16 vertical frame. The same d",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": "swipe",
+          "creative_mode": null,
+          "visual_medium": "CLEAN_ILLUSTRATION",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "CONTRAST",
+          "opening_visual_motif": "left_drowning_drafts_right_clear_system",
+          "dominant_subject_motif": "person_alone",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "tension"
+        },
+        {
+          "hook": "Departure board for the wrong channel.",
+          "topic": "The moment a visitor gives up on your website — and you never even knew they were there",
+          "motifs": [
+            "phone",
+            "close_up"
+          ],
+          "closing": "Clean flat illustration, simplified shapes, soft gradients, not photorealistic. Portrait 9:16 vertical frame. The same s",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "CLEAN_ILLUSTRATION",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "DILEMMA",
+          "opening_visual_motif": "hand_hovering_over_packed_suitcase_while",
+          "dominant_subject_motif": "phone",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "dilemma"
+        },
+        {
+          "hook": "Mascot suffers, fake typing online.",
+          "topic": "The accountant who came back from vacation to a week's worth of missed leads — and zero contact details",
+          "motifs": [
+            "laptop",
+            "desk",
+            "dashboard",
+            "person_alone",
+            "group",
+            "product_asset"
+          ],
+          "closing": "Portrait 9:16 vertical photorealistic photograph. Bright co-working space in daylight, warm neutral color feel, low-cont",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": "click",
+          "creative_mode": null,
+          "visual_medium": "PHOTOGRAPHIC",
+          "meaning_carrier": "human",
+          "opening_structure": "bold_claim",
+          "cta_composition_id": null,
+          "attention_mechanism": "PROVOCATIVE_OPINION",
+          "opening_visual_motif": "megaphone_pointed_empty_room_volume_without",
+          "dominant_subject_motif": "laptop",
+          "product_reveal_strategy": "PRODUCT_OUTCOME",
+          "opening_emotional_effect": "strong_opinion"
+        },
+        {
+          "hook": "Most service businesses think being busy means business is good",
+          "topic": "The HVAC company that got slammed with website traffic during a heatwave — and lost every single online lead",
+          "motifs": [
+            "laptop",
+            "phone",
+            "group",
+            "product_asset"
+          ],
+          "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final CTA beat (seconds 21–25); pl",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "PHOTOGRAPHIC",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "FRUSTRATION",
+          "opening_visual_motif": "same_notification_stacking_nice_five_more",
+          "dominant_subject_motif": "laptop",
+          "product_reveal_strategy": "PRODUCT_OUTCOME",
+          "opening_emotional_effect": "frustration"
+        },
+        {
+          "hook": "You can preview your AI assistant live — no sign-up, no setup — and most business owners still haven't done it.",
+          "topic": "Try it on your own website before you decide anything",
+          "motifs": [
+            "person_alone",
+            "close_up",
+            "prototype"
+          ],
+          "closing": "Technical blueprint schematic aesthetic, structural lines and diagrams, muted blueprint tones. Portrait 9:16 vertical fr",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "TECHNICAL_BLUEPRINT",
+          "meaning_carrier": "object",
+          "opening_structure": null,
+          "cta_composition_id": null,
+          "attention_mechanism": null,
+          "opening_visual_motif": null,
+          "dominant_subject_motif": "person_alone",
+          "product_reveal_strategy": "FRAMED_ASSET",
+          "opening_emotional_effect": null
+        }
+      ]
+    }
+  },
+  "created_at": "2026-07-18T21:39:11.808195+00:00",
+  "updated_at": "2026-07-18T21:44:03.07771+00:00",
+  "weekly_strategy_id": "336ccd7e-ba0d-4be1-a887-8ffb006d0ff4",
+  "funnel_stage": "problem_aware"
+}

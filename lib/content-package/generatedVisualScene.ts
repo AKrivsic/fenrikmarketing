@@ -19,10 +19,6 @@ import {
   type CtaScenePayload,
 } from "@/lib/scene-types/cta/ctaScenePayload";
 import {
-  productDemoScenePayloadSchema,
-  type ProductDemoScenePayload,
-} from "@/lib/scene-types/product-demo/productDemoBeat";
-import {
   normalizeSceneType,
   type SceneType,
 } from "@/lib/scene-types/sceneType";
@@ -76,21 +72,13 @@ export interface VisualSceneCtaStored {
   id?: string;
 }
 
-/** PRODUCT_DEMO scene stored in package visual_scenes (generation output). */
-export interface VisualSceneProductDemoStored {
-  type: "PRODUCT_DEMO";
-  payload: ProductDemoScenePayload;
-  id?: string;
-}
-
 export type PackageVisualSceneEntry =
   | VisualScenePlanItem
   | VisualSceneChecklistStored
   | VisualScenePhoneStored
   | VisualSceneQuoteStored
   | VisualSceneStatisticStored
-  | VisualSceneCtaStored
-  | VisualSceneProductDemoStored;
+  | VisualSceneCtaStored;
 
 const GENERATION_SCENE_TYPES = [
   "IMAGE",
@@ -99,7 +87,6 @@ const GENERATION_SCENE_TYPES = [
   "QUOTE",
   "STATISTIC",
   "CTA",
-  "PRODUCT_DEMO",
 ] as const;
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -162,17 +149,6 @@ export function isCtaVisualSceneEntry(
   );
 }
 
-export function isProductDemoVisualSceneEntry(
-  entry: PackageVisualSceneEntry,
-): entry is VisualSceneProductDemoStored {
-  return (
-    typeof entry === "object" &&
-    entry !== null &&
-    "type" in entry &&
-    (entry as VisualSceneProductDemoStored).type === "PRODUCT_DEMO"
-  );
-}
-
 export function isTypedNonImageVisualSceneEntry(
   entry: PackageVisualSceneEntry,
 ): entry is
@@ -180,15 +156,13 @@ export function isTypedNonImageVisualSceneEntry(
   | VisualScenePhoneStored
   | VisualSceneQuoteStored
   | VisualSceneStatisticStored
-  | VisualSceneCtaStored
-  | VisualSceneProductDemoStored {
+  | VisualSceneCtaStored {
   return (
     isChecklistVisualSceneEntry(entry) ||
     isPhoneVisualSceneEntry(entry) ||
     isQuoteVisualSceneEntry(entry) ||
     isStatisticVisualSceneEntry(entry) ||
-    isCtaVisualSceneEntry(entry) ||
-    isProductDemoVisualSceneEntry(entry)
+    isCtaVisualSceneEntry(entry)
   );
 }
 
@@ -318,25 +292,6 @@ function validateCtaEntry(
   return [];
 }
 
-function validateProductDemoEntry(
-  value: unknown,
-  path: string,
-): ValidationIssue[] {
-  const record = asRecord(value);
-  if (!record) return [{ path, message: "expected product_demo scene object" }];
-  const parsed = productDemoScenePayloadSchema.safeParse(record.payload);
-  if (!parsed.success) {
-    const issue = parsed.error.issues[0];
-    return [
-      {
-        path: `${path}.payload${issue?.path?.length ? `.${issue.path.join(".")}` : ""}`,
-        message: issue?.message ?? "invalid product_demo payload",
-      },
-    ];
-  }
-  return [];
-}
-
 /** Validates one visual_scenes entry for content-package generation. */
 export function generatedVisualSceneEntryValidator(
   value: unknown,
@@ -344,6 +299,18 @@ export function generatedVisualSceneEntryValidator(
 ): ValidationIssue[] {
   const record = asRecord(value);
   if (!record) return [{ path, message: "expected visual scene object" }];
+
+  if (
+    typeof record.type === "string" &&
+    record.type.trim().toUpperCase() === "PRODUCT_DEMO"
+  ) {
+    return [
+      {
+        path: `${path}.type`,
+        message: "PRODUCT_DEMO is no longer supported — use PPD-authorized presentation",
+      },
+    ];
+  }
 
   const explicitType = normalizeSceneType(record.type);
 
@@ -374,10 +341,6 @@ export function generatedVisualSceneEntryValidator(
 
   if (explicitType === "CTA") {
     return validateCtaEntry(value, path);
-  }
-
-  if (explicitType === "PRODUCT_DEMO") {
-    return validateProductDemoEntry(value, path);
   }
 
   if (explicitType === "IMAGE") {

@@ -1,0 +1,98 @@
+{
+  "hook": "Mascot suffers, fake typing online.",
+  "voiceover": "Mascot suffers, fake typing online. Here's the thing nobody warns you about: your website is open 24 hours a day. You are not. So while you were on vacation — or just asleep — real people landed on your site, had real questions, and left. Silently. No contact form filled. No callback requested. Just gone. And you'll never know their names. That's not a one-time gap. That's every night. Every weekend. Every holiday. A slow, invisible drain on your pipeline that runs whether you notice it or not. Your website was visited. It just had nothing to say back.",
+  "title": "The Mascot Who Kept Waving While the Leads Walked Away",
+  "concept": "A mascot costume character waves at passing traffic in a sunny parking lot — sweating, ignored, performative. Cut inside: a chat widget blinks a typing indicator with no message ever sent. Cut to a small business owner returning from vacation, opening analytics on a monitor showing a spike of visitors — then scanning a contact inbox that is completely empty. The absurdity of the opening (effort with zero result) mirrors the real gut-punch: the website was busy, but it was mute. The video closes on the owner sitting in a bright co-working space, staring at that empty inbox — the quiet tension before a decision.",
+  "script": "BEAT 1 — UNEXPECTED FACT (0–3s)\n[Mascot in parking lot, waving at traffic, visibly overheated. Chat widget inside blinks a typing indicator — no message ever arrives.]\nVO: 'Mascot suffers, fake typing online.'\n\nBEAT 2 — IMPLICATION (3–18s)\n[Cut to owner at monitor, scrolling visitor analytics spike. Cut to empty contact inbox.]\nVO: 'Here's the thing nobody warns you about: your website is open 24 hours a day. You are not. So while you were on vacation — or just asleep — real people landed on your site, had real questions, and left. Silently. No contact form filled. No callback requested. Just gone. And you'll never know their names.'\n\nBEAT 3 — PROOF / ESCALATION (18–27s)\n[Wide shot: co-working space, owner alone, quiet daylight. The empty inbox still on screen.]\nVO: 'That's not a one-time gap. That's every night. Every weekend. Every holiday. A slow, invisible drain on your pipeline that runs whether you notice it or not.'\n\nBEAT 4 — CTA (27–32s)\n[Same owner, same quiet room. A moment of stillness before a decision.]\nVO: 'Your website was visited. It just had nothing to say back.'",
+  "image_prompts": [
+    "Photorealistic vertical 9:16 portrait. A person in a large colorful mascot costume stands in a sun-baked parking lot in bright midday light, one arm raised in an exaggerated wave toward passing cars that do not slow down. The mascot's costume fabric shows visible heat distortion and sweat staining. Wide environmental framing with the empty road stretching behind, layered depth showing the building entrance in the background. Warm neutral color feel, flat documentary lighting, no dramatic shadows. The scene communicates effort completely ignored — absurd but instantly understandable.",
+    "Photorealistic vertical 9:16 portrait. Inside a bright co-working space in natural daylight, a single person — partial body, face not dominant — sits at a wide desk facing a monitor. On the monitor screen, a website analytics dashboard shape shows a clear spike of visitor traffic rendered as a simple bar chart silhouette — no readable text or numbers. The person's posture is still, slightly slumped, shoulders carrying quiet disappointment. Foreground desk surface in warm neutral tones, background shows open co-working space softly out of focus. Low-contrast flat documentary lighting. Wide environmental framing. The scene communicates: many visitors came, but something went wrong.",
+    "Photorealistic vertical 9:16 portrait. Close view of a monitor screen showing an email or contact inbox interface — the inbox is visibly empty, no messages listed, a blank list state with a simple empty-state icon shape visible but no readable text. The person's hand rests on the desk beside the keyboard, still, not typing. Bright co-working space daylight behind. Warm neutral color feel, flat documentary lighting. The scene communicates: visitors came, nobody left a message — the inbox is silent.",
+    "Photorealistic vertical 9:16 portrait. A single person sits alone in a wide, bright co-working space bathed in natural window light. Wide environmental framing with layered depth — empty chairs and tables softly visible behind. The person is still, partial body visible, gaze directed slightly downward toward the desk surface. The mood is quiet tension before a decision — not despair, but the moment of realizing something must change. Warm neutral color feel, low-contrast flat documentary lighting. The scene communicates: the invisible pipeline leak has been noticed; now what?"
+  ],
+  "platform_outputs": {
+    "tiktok": {
+      "caption": "came back from vacation. analytics said 60+ visitors. inbox said zero. not one contact form filled. they had questions. the site had nothing to say. that's not bad luck — that's just how a silent website works every single night 💀",
+      "cta": "if your site can't talk back, check the link in bio",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#websitetips"
+      ],
+      "format": "Vertical Short (TikTok)"
+    },
+    "instagram": {
+      "caption": "You went on vacation. Your website stayed open. Dozens of real people visited, had real questions — and left without a trace. 📭 No form filled. No callback. Just a spike in analytics and a very empty inbox. This isn't a one-time thing. It happens every night, every weekend, every holiday. Your website is always on. The question is whether it can actually respond.",
+      "cta": "See what an AI assistant on your site looks like — link in bio.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitestrategy",
+        "#leadgeneration",
+        "#digitalmarketing",
+        "#aichatbot",
+        "#businessgrowth",
+        "#onlinebusiness",
+        "#customerexperience"
+      ],
+      "format": "Vertical Short (Instagram Reels)"
+    },
+    "youtube": {
+      "caption": "Your website is open 24/7. You are not — and that gap is costing you leads every single night. In this video, we walk through the quiet, invisible moment a small business owner returns from vacation to find dozens of website visitors, zero contact details, and no way to follow up. This isn't a one-time problem. It's a permanent, silent leak in your pipeline that runs every weekend, every holiday, and every night you're offline. Watch to see exactly how it happens — and what changes when your website can finally talk back. Create your AI assistant at https://fenrik.chat",
+      "cta": "Create your AI assistant at https://fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIChatbot",
+        "#WebsiteTips",
+        "#BusinessGrowth"
+      ],
+      "format": "Vertical Short (YouTube Shorts)"
+    },
+    "linkedin": {
+      "caption": "An accountant returned from two weeks of vacation. Analytics showed 40+ website visitors. The contact inbox had zero messages. Not one form filled. Every one of those visitors had a question — about tax deadlines, about services, about whether this firm was the right fit. The website had one answer for all of them: silence. This is not a tech problem. It is not a staffing problem. It is a structural gap that exists on most small business websites, every night, every weekend, and every time you step away. The pipeline leaks whether you are watching or not.",
+      "cta": "Has your website ever gone quiet while you were away? I'd be curious to hear how you've handled it.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#CustomerExperience"
+      ],
+      "format": "LinkedIn Post",
+      "title_variants": [
+        "The accountant came back from vacation to 40 website visitors and zero contact details",
+        "Your website is open 24 hours a day. Is it actually answering anyone?"
+      ],
+      "caption_variants": [
+        "An accountant returned from two weeks of vacation. Analytics showed 40+ website visitors. The contact inbox had zero messages. Not one form filled. Every one of those visitors had a question — about tax deadlines, about services, about whether this firm was the right fit. The website had one answer for all of them: silence. This is not a tech problem. It is not a staffing problem. It is a structural gap that exists on most small business websites, every night, every weekend, and every time you step away. The pipeline leaks whether you are watching or not.",
+        "Most small business websites are open 24 hours a day. Most small business owners are not. That gap — between when visitors arrive and when anyone can respond — is where leads disappear quietly, without complaint, without a trace. No angry email. No missed call. Just a visitor who had a question, found no answer, and moved on. The problem is not that you were away. The problem is that your website had nothing to say while you were gone. That happens every night. Not just on vacation."
+      ]
+    },
+    "x": {
+      "caption": "came back from vacation. 40+ website visitors. zero messages in the inbox. not one form filled. they had questions. the site was silent. that's not bad luck. that's just how offline works.",
+      "cta": "your website runs 24/7 — does it actually respond?",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGen"
+      ],
+      "format": "X Post",
+      "title_variants": [
+        "The accountant came back from vacation to 40 visitors and zero leads",
+        "Your website is open 24/7. Is it answering anyone?",
+        "The silent website problem nobody talks about",
+        "Every night your website goes quiet, leads leave without a trace",
+        "Static text and a contact form nobody fills out — that's not a website strategy"
+      ],
+      "caption_variants": [
+        "came back from vacation. 40+ website visitors. zero messages in the inbox. not one form filled. they had questions. the site was silent. that's not bad luck. that's just how offline works.",
+        "your website is open right now. are you? because if not, every visitor with a real question is getting the same answer: nothing. and they're not waiting around.",
+        "the invisible pipeline leak: visitors arrive, have questions, find static text, leave. no complaint. no callback request. just gone. happens every night. most owners never notice.",
+        "hot take: a contact form is not a support strategy. it's a polite way of saying 'come back when we're ready for you.' most visitors won't.",
+        "40 people visited a law firm's website at 11pm last month. zero left contact details. the site had answers — they were just buried in static text nobody read. that's the gap."
+      ]
+    }
+  },
+  "cta": {
+    "type": "sign_up",
+    "text": "Create your AI assistant"
+  },
+  "scenario": "An accountant returns from a two-week vacation to find that multiple small business owners visited the website asking about tax filing deadlines but never filled out the contact form."
+}

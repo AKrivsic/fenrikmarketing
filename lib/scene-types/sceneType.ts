@@ -5,7 +5,6 @@ export const SCENE_TYPES = [
   "QUOTE",
   "PHONE",
   "CTA",
-  "PRODUCT_DEMO",
 ] as const;
 
 export type SceneType = (typeof SCENE_TYPES)[number];

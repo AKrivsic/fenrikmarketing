@@ -43,6 +43,7 @@ import type { WebsiteImageCandidate } from "@/lib/knowledge/extractWebsiteImageC
 import { isSvgUrl } from "@/lib/knowledge/websiteImageParseHelpers";
 import { mergeAssetAnalysis, fallbackAnalysis } from "@/lib/assets/analysis";
 import { computeSmartUsageMetadata } from "@/lib/assets/smartUsageMetadata";
+import { stampProductPresentationAssetMetadata } from "@/lib/assets/productPresentationMetadata";
 import { enrichAssetMetadataWithDimensionsAndSmartUsage } from "@/lib/ai/workflows/analyzeAsset";
 import {
   isComponentCaptureEnabled,
@@ -266,6 +267,13 @@ async function uploadIngestedImage(
     source: "website_ingestion",
   });
   Object.assign(metadata, smart);
+  Object.assign(
+    metadata,
+    stampProductPresentationAssetMetadata(metadata, {
+      tags: ["website_ingestion"],
+      sourceHint: "website_ingestion",
+    }),
+  );
 
   const { data: created, error: insertError } = await supabase
     .from("assets")
@@ -343,6 +351,13 @@ async function persistSvgIngestAnalysisFallback(
     source: "website_ingestion",
   });
   Object.assign(merged, smart);
+  Object.assign(
+    merged,
+    stampProductPresentationAssetMetadata(merged, {
+      tags: ["website_ingestion"],
+      sourceHint: "website_ingestion",
+    }),
+  );
 
   try {
     const supabase = createSupabaseAdminClient();

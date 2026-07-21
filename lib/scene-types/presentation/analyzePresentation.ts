@@ -15,7 +15,6 @@ import { parseStatisticScenePayload } from "@/lib/scene-types/statistic/statisti
 import { shouldRenderStatisticScenes } from "@/lib/scene-types/statistic/statisticRenderGate";
 import { parseCtaScenePayload } from "@/lib/scene-types/cta/ctaScenePayload";
 import { shouldRenderCtaScenes } from "@/lib/scene-types/cta/ctaRenderGate";
-import { parseProductDemoScenePayload } from "@/lib/scene-types/product-demo/productDemoBeat";
 import { resolveAuthoritativeCtaReference } from "@/lib/scene-types/cta/ctaSourceOfTruth";
 import { validateCtaSceneEligibility } from "@/lib/scene-types/presentation/ctaEligibility";
 import { validateQuoteSceneEligibility } from "@/lib/scene-types/presentation/quoteEligibility";
@@ -29,7 +28,6 @@ import {
   listLikeNarration,
   narrationForScene,
 } from "@/lib/scene-types/presentation/downgradeToImage";
-import { RenderProductDemoFailedError } from "@/lib/scene-types/presentation/renderFidelity";
 import type { ProofIndex } from "@/lib/scene-types/presentation/proofIndex";
 import type { ProjectPresentationSignals } from "@/lib/scene-types/presentation/projectSignals";
 import { narrationSupportsPhoneBeat } from "@/lib/scene-types/presentation/projectSignals";
@@ -333,9 +331,7 @@ function eligibilityCheck(args: {
               ? "statistic_not_permitted"
               : requested === "CTA"
                 ? "cta_not_permitted"
-                : requested === "PRODUCT_DEMO"
-                  ? "type_not_permitted"
-                  : "type_not_permitted",
+                : "type_not_permitted",
       reason: `${requested} not in project allowed_scene_types ceiling`,
     };
   }
@@ -401,17 +397,6 @@ function eligibilityCheck(args: {
       }
       return { pass: true };
     }
-    case "PRODUCT_DEMO": {
-      const parsed = parseProductDemoScenePayload(args.scene.payload);
-      if (!parsed.ok) {
-        return {
-          pass: false,
-          rule: "type_not_permitted",
-          reason: parsed.reason,
-        };
-      }
-      return { pass: true };
-    }
     default:
       return {
         pass: false,
@@ -444,6 +429,27 @@ export function analyzePresentation(
       narrationHint: scene.narration_hint,
     });
 
+    const requestedRaw =
+      typeof scene.type === "string" ? scene.type.toUpperCase() : scene.type;
+    if (requestedRaw === "PRODUCT_DEMO") {
+      const downgraded = downgradeSceneToImage({
+        scene: { ...scene, id: sceneId },
+        narration,
+        projectName: input.projectName,
+        requestedType: requested,
+      });
+      outScenes.push({ ...downgraded, id: sceneId, type: DEFAULT_SCENE_TYPE });
+      decisions.push({
+        scene_id: sceneId,
+        requested_type: requested,
+        final_type: DEFAULT_SCENE_TYPE,
+        rule: "downgraded_to_image",
+        reason: "legacy_product_demo_removed_ppd_only",
+      });
+      warnings.push(`${sceneId}: legacy PRODUCT_DEMO downgraded to IMAGE`);
+      continue;
+    }
+
     if (requested === DEFAULT_SCENE_TYPE) {
       outScenes.push({ ...scene, id: sceneId, type: DEFAULT_SCENE_TYPE });
       decisions.push({
@@ -471,20 +477,6 @@ export function analyzePresentation(
     let working: VisualScene = { ...scene, id: sceneId };
 
     if (!gate.pass) {
-      // Sprint 5 — never silently downgrade PRODUCT_DEMO → IMAGE.
-      if (requested === "PRODUCT_DEMO") {
-        throw new RenderProductDemoFailedError(
-          `render_product_demo_failed: ${gate.reason}`,
-          {
-            stage: "presentation_analyzer",
-            scene_id: sceneId,
-            rule: gate.rule,
-            reason: gate.reason,
-            requested_type: "PRODUCT_DEMO",
-            forbidden_final_type: DEFAULT_SCENE_TYPE,
-          },
-        );
-      }
       working = downgradeSceneToImage({
         scene: working,
         narration,
@@ -671,30 +663,7 @@ export function analyzePresentation(
       continue;
     }
 
-    if (requested === "PRODUCT_DEMO" && gate.pass) {
-      outScenes.push({ ...working, id: sceneId, type: "PRODUCT_DEMO" });
-      decisions.push({
-        scene_id: sceneId,
-        requested_type: requested,
-        final_type: "PRODUCT_DEMO",
-        rule: "allowed",
-        reason: "structured product_demo; deterministic chat renderer",
-      });
-      continue;
-    }
-
     // Eligible non-IMAGE without renderer — worker-safe as IMAGE until implemented.
-    // PRODUCT_DEMO must never reach this fallthrough (handled above / fail-closed).
-    if (requested === "PRODUCT_DEMO") {
-      throw new RenderProductDemoFailedError(
-        "render_product_demo_failed: PRODUCT_DEMO reached image fallthrough",
-        {
-          stage: "presentation_analyzer",
-          scene_id: sceneId,
-          reason: "product_demo_fallthrough_forbidden",
-        },
-      );
-    }
     working = downgradeSceneToImage({
       scene: working,
       narration,
