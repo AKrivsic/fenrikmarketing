@@ -1,0 +1,15 @@
+services:
+  content-package-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.content-package-worker
+    container_name: content-package-worker
+    restart: unless-stopped
+    env_file:
+      - .env.worker
+    networks:
+      - n8n_web
+
+networks:
+  n8n_web:
+    external: true
