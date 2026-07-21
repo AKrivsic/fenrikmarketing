@@ -139,6 +139,16 @@ export function safeJsonParse(text: string): JsonParseResult {
       // try next candidate
     }
   }
+  // TEMP debug — ideation_failed / "Failed to parse JSON from model output"
+  console.error(
+    "[safeJsonParse] TEMP raw model output before JSON parse failure",
+    JSON.stringify({
+      length: text.length,
+      first_1000: text.slice(0, 1000),
+      last_1000: text.slice(-1000),
+      raw: text,
+    }),
+  );
   return { ok: false, error: "Failed to parse JSON from model output" };
 }
 
