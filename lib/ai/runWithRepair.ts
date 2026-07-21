@@ -40,6 +40,8 @@ export interface GenerateValidatedJsonInput<T> {
   maxAttempts?: number;
   temperature?: number;
   maxTokens?: number;
+  /** Optional model override forwarded to textProvider.complete. */
+  model?: string;
   // Per-call Claude/OpenAI transport overrides forwarded to textProvider.complete.
   timeoutMs?: number;
   maxTransportAttempts?: number;
@@ -137,6 +139,7 @@ async function runGenerateValidatedJson<T>(
     maxAttempts = 3,
     temperature,
     maxTokens,
+    model,
     timeoutMs,
     maxTransportAttempts,
     repairProvider,
@@ -189,6 +192,7 @@ async function runGenerateValidatedJson<T>(
       json: true,
       temperature,
       maxTokens,
+      model,
       timeoutMs,
       maxTransportAttempts,
     });

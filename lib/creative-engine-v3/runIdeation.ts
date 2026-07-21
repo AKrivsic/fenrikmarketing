@@ -53,7 +53,8 @@ export async function runCreativeIdeation(args: {
     expectedShape: CREATIVE_IDEATION_EXPECTED_SHAPE,
     maxAttempts: CREATIVE_IDEATION_MAX_ATTEMPTS,
     temperature: 0.9,
-    maxTokens: 8192,
+    maxTokens: 16000,
+    model: args.model,
     timeoutMs: CREATIVE_IDEATION_TIMEOUT_MS,
     maxTransportAttempts: CREATIVE_IDEATION_MAX_TRANSPORT_ATTEMPTS,
     telemetry: {
