@@ -8,6 +8,7 @@ import { FailedVideoJobEditor } from "@/components/projects/FailedVideoJobEditor
 import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
 import { VideoJobFailureBlock } from "@/components/projects/VideoJobFailureBlock/VideoJobFailureBlock";
 import { isSubtitleFallback } from "@/lib/api/content-shared";
+import { isOperatorCancelMessage } from "@/lib/api/production-run-cancel";
 import type { PackageVideo } from "@/lib/api/project-review-admin";
 import styles from "./PackageVideoPanel.module.css";
 import editorStyles from "@/components/projects/ProjectVideoList/ProjectVideoList.module.css";
@@ -198,7 +199,12 @@ export function PackageVideoPanel({
             headline={active.failureHeadline}
             detail={active.failureDetail}
           />
-          <RetryVideoRenderButton projectId={projectId} videoJobId={active.jobId} />
+          <RetryVideoRenderButton
+            projectId={projectId}
+            videoJobId={active.jobId}
+            errorMessage={active.failureDetail}
+          />
+          {isOperatorCancelMessage(active.failureDetail) ? null : (
           <div className={editorStyles.editorToggle}>
             <button
               type="button"
@@ -218,6 +224,7 @@ export function PackageVideoPanel({
               />
             ) : null}
           </div>
+          )}
         </>
       ) : null}
 

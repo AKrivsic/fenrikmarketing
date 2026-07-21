@@ -13,6 +13,7 @@ import { VideoVisualSourcePanel } from "@/components/projects/VideoVisualSourceP
 import { FailedVideoJobEditor } from "@/components/projects/FailedVideoJobEditor/FailedVideoJobEditor";
 import { VideoJobFailureBlock } from "@/components/projects/VideoJobFailureBlock/VideoJobFailureBlock";
 import { RetryVideoRenderButton } from "@/components/review/RetryVideoRenderButton/RetryVideoRenderButton";
+import { isOperatorCancelMessage } from "@/lib/api/production-run-cancel";
 import type { ProjectVideoGroup } from "@/lib/api/project-content-admin";
 import styles from "./ProjectVideoList.module.css";
 
@@ -237,7 +238,9 @@ function VideoGroupCard({
           <RetryVideoRenderButton
             projectId={projectId}
             videoJobId={selected.jobId}
+            errorMessage={selected.failureDetail}
           />
+          {isOperatorCancelMessage(selected.failureDetail) ? null : (
           <div className={styles.editorToggle}>
             <button
               type="button"
@@ -257,6 +260,7 @@ function VideoGroupCard({
               />
             ) : null}
           </div>
+          )}
         </>
       ) : null}
 

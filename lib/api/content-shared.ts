@@ -1,4 +1,5 @@
 import type { ContentItem, Json, LanguageCode } from "@/lib/supabase/types";
+import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cancel";
 
 // Shared, server-only read helpers over content_items / video_jobs. These were
 // previously duplicated across review-queue.ts, project-content-admin.ts and
@@ -54,6 +55,13 @@ export function describeVideoJobFailure(raw: string | null): {
   detail: string | null;
 } {
   if (!raw) return { headline: null, detail: null };
+  // Exact operator Stop message — do not treat as a generic render failure.
+  if (raw === PRODUCTION_RUN_CANCELLED_MESSAGE) {
+    return {
+      headline: "Běh byl zastaven operátorem — render nelze znovu spustit.",
+      detail: raw,
+    };
+  }
   const code = raw.split(":")[0]?.trim();
   const headline =
     (code && VIDEO_JOB_FAILURE_HINTS[code]) ?? "Render videa selhal.";

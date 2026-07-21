@@ -4,8 +4,14 @@
 import assert from "node:assert/strict";
 import {
   PRODUCTION_RUN_CANCELLED_MESSAGE,
+  filterContentItemIdsForProductionRun,
   isOperatorCancelMessage,
+  isOperatorCancelledVideoJobRetryBlocked,
+  productionRunStatusBlocksNewRun,
+  readProductionRunIdFromMetadata,
+  shouldRejectCompletedCallbackForOperatorCancel,
 } from "@/lib/api/production-run-cancel";
+import { describeVideoJobFailure } from "@/lib/api/content-shared";
 import {
   clearJobAbort,
   isJobCancelRequested,
@@ -84,6 +90,91 @@ check("cancelQueuedVideoJobs signals all ids even when none pending", () => {
   assert.deepEqual(new Set(cancelQueuedVideoJobs([a])), new Set([a]));
   clearJobAbort(a);
   clearJobAbort(b);
+});
+
+section("Stop only affects the selected production run");
+check("filterContentItemIdsForProductionRun keeps only stamped run items", () => {
+  const runA = "run-aaa";
+  const runB = "run-bbb";
+  const ids = filterContentItemIdsForProductionRun(
+    [
+      { id: "item-a1", generation_metadata: { production_run_id: runA } },
+      { id: "item-b1", generation_metadata: { production_run_id: runB } },
+      { id: "item-a2", generation_metadata: { production_run_id: runA } },
+      { id: "item-none", generation_metadata: { other: true } },
+      { id: "item-null", generation_metadata: null },
+    ],
+    runA,
+  );
+  assert.deepEqual(ids.sort(), ["item-a1", "item-a2"].sort());
+  assert.equal(readProductionRunIdFromMetadata({ production_run_id: runB }), runB);
+});
+
+section("Cancelled jobs cannot become completed again");
+check("shouldRejectCompletedCallbackForOperatorCancel covers app guard cases", () => {
+  assert.equal(
+    shouldRejectCompletedCallbackForOperatorCancel({
+      callbackStatus: "completed",
+      jobStatus: "failed",
+      jobErrorMessage: PRODUCTION_RUN_CANCELLED_MESSAGE,
+      productionRunIsCancelled: false,
+    }),
+    true,
+  );
+  assert.equal(
+    shouldRejectCompletedCallbackForOperatorCancel({
+      callbackStatus: "completed",
+      jobStatus: "processing",
+      jobErrorMessage: null,
+      productionRunIsCancelled: true,
+    }),
+    true,
+  );
+  assert.equal(
+    shouldRejectCompletedCallbackForOperatorCancel({
+      callbackStatus: "completed",
+      jobStatus: "processing",
+      jobErrorMessage: null,
+      productionRunIsCancelled: false,
+    }),
+    false,
+  );
+  assert.equal(
+    shouldRejectCompletedCallbackForOperatorCancel({
+      callbackStatus: "failed",
+      jobStatus: "failed",
+      jobErrorMessage: PRODUCTION_RUN_CANCELLED_MESSAGE,
+      productionRunIsCancelled: true,
+    }),
+    false,
+  );
+});
+
+section("Operator-cancelled jobs cannot be manually retried");
+check("isOperatorCancelledVideoJobRetryBlocked gates retry", () => {
+  assert.equal(
+    isOperatorCancelledVideoJobRetryBlocked(PRODUCTION_RUN_CANCELLED_MESSAGE),
+    true,
+  );
+  assert.equal(
+    isOperatorCancelledVideoJobRetryBlocked("tts_tail_validation_failed:…"),
+    false,
+  );
+  assert.equal(isOperatorCancelledVideoJobRetryBlocked(null), false);
+});
+check("describeVideoJobFailure surfaces operator Stop distinctly", () => {
+  const desc = describeVideoJobFailure(PRODUCTION_RUN_CANCELLED_MESSAGE);
+  assert.equal(desc.detail, PRODUCTION_RUN_CANCELLED_MESSAGE);
+  assert.match(desc.headline ?? "", /zastaven/i);
+});
+
+section("A new production run can still be started after Stop");
+check("cancelled status does not block a new run (active gate)", () => {
+  assert.equal(productionRunStatusBlocksNewRun("queued"), true);
+  assert.equal(productionRunStatusBlocksNewRun("running"), true);
+  assert.equal(productionRunStatusBlocksNewRun("cancelled"), false);
+  assert.equal(productionRunStatusBlocksNewRun("completed"), false);
+  assert.equal(productionRunStatusBlocksNewRun("failed"), false);
 });
 
 section("callback / claim race contracts");

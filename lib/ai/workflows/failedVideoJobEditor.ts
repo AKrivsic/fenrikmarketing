@@ -9,6 +9,10 @@ import {
   type FailedVideoJobEditorDraft,
 } from "@/lib/video-scene-editor/failedJobEditorMetadata";
 import { readSourceVoiceoverText } from "@/lib/video-scene-editor/voiceoverDraft";
+import {
+  isOperatorCancelledVideoJobRetryBlocked,
+  PRODUCTION_RUN_CANCELLED_MESSAGE,
+} from "@/lib/api/production-run-cancel";
 
 export interface FailedVideoJobEditorState {
   sourceVideoJobId: string;
@@ -30,7 +34,7 @@ async function loadFailedJob(
 ) {
   const { data, error } = await supabase
     .from("video_jobs")
-    .select("id, project_id, content_item_id, status, input")
+    .select("id, project_id, content_item_id, status, input, error_message")
     .eq("id", videoJobId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -41,12 +45,20 @@ async function loadFailedJob(
       `video job ${videoJobId} not found for project ${projectId}`,
     );
   }
-  return data as {
+  const job = data as {
     id: string;
     content_item_id: string | null;
     status: string;
     input: unknown;
+    error_message: string | null;
   };
+  if (isOperatorCancelledVideoJobRetryBlocked(job.error_message)) {
+    throw new WorkflowError(
+      "invalid_input",
+      `video job was stopped by the operator (${PRODUCTION_RUN_CANCELLED_MESSAGE}) and cannot be edited or retried`,
+    );
+  }
+  return job;
 }
 
 async function assertNoActiveRender(

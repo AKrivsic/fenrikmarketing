@@ -13,6 +13,10 @@ import {
   applySemanticMotionPreservationFromSourceJob,
   resolveSourceJobOutputForSemanticMotion,
 } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
+import {
+  isOperatorCancelledVideoJobRetryBlocked,
+  PRODUCTION_RUN_CANCELLED_MESSAGE,
+} from "@/lib/api/production-run-cancel";
 
 // Retry a FAILED video render/upload for ONE language without touching any
 // generated text, content_items or scene images.
@@ -124,7 +128,9 @@ export async function runRetryVideoJob(
   // Load the job the user is retrying, strictly scoped to the project.
   const { data: jobRow, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, project_id, content_item_id, provider, status, input, output")
+    .select(
+      "id, project_id, content_item_id, provider, status, input, output, error_message",
+    )
     .eq("id", videoJobId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -141,6 +147,7 @@ export async function runRetryVideoJob(
   const provider = (jobRow.provider as string | null) ?? "video_engine";
   const failedInput = jobRow.input;
   const failedOutput = jobRow.output;
+  const errorMessage = (jobRow.error_message as string | null) ?? null;
 
   // Only a FAILED render is retried here. A queued/processing job is still in
   // flight, and a completed one already succeeded — re-rendering either would be
@@ -149,6 +156,14 @@ export async function runRetryVideoJob(
     throw new WorkflowError(
       "invalid_input",
       `video job ${videoJobId} is '${failedStatus}', only 'failed' jobs can be retried`,
+    );
+  }
+
+  // Operator Stop: never restart a job cancelled by Stop (no accidental re-spend).
+  if (isOperatorCancelledVideoJobRetryBlocked(errorMessage)) {
+    throw new WorkflowError(
+      "invalid_input",
+      `video job ${videoJobId} was stopped by the operator (${PRODUCTION_RUN_CANCELLED_MESSAGE}) and cannot be retried`,
     );
   }
 

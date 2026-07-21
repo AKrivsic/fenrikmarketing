@@ -8,12 +8,55 @@ export function isOperatorCancelMessage(message: string | null | undefined): boo
   return message === PRODUCTION_RUN_CANCELLED_MESSAGE;
 }
 
-function readProductionRunIdFromMetadata(metadata: unknown): string | null {
+/** Manual retry / re-render must not restart operator-cancelled jobs. */
+export function isOperatorCancelledVideoJobRetryBlocked(
+  errorMessage: string | null | undefined,
+): boolean {
+  return isOperatorCancelMessage(errorMessage);
+}
+
+/**
+ * Pure mirror of the app-level late-callback reject rule (handlers.ts).
+ * DB trigger 023 is defense-in-depth for the same case.
+ */
+export function shouldRejectCompletedCallbackForOperatorCancel(args: {
+  callbackStatus: string;
+  jobStatus: string;
+  jobErrorMessage: string | null | undefined;
+  productionRunIsCancelled: boolean;
+}): boolean {
+  if (args.callbackStatus !== "completed") return false;
+  if (args.productionRunIsCancelled) return true;
+  return (
+    args.jobStatus === "failed" &&
+    isOperatorCancelMessage(args.jobErrorMessage)
+  );
+}
+
+/** Only queued/running runs gate GENERATE; cancelled does not block a new run. */
+export function productionRunStatusBlocksNewRun(status: string): boolean {
+  return status === "queued" || status === "running";
+}
+
+export function readProductionRunIdFromMetadata(metadata: unknown): string | null {
   if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
     return null;
   }
   const value = (metadata as Record<string, unknown>)["production_run_id"];
   return typeof value === "string" && value.length > 0 ? value : null;
+}
+
+/** Pure helper: content items stamped with this production_run_id only. */
+export function filterContentItemIdsForProductionRun(
+  items: Array<{ id: string; generation_metadata?: unknown }>,
+  runId: string,
+): string[] {
+  return items
+    .filter(
+      (item) =>
+        readProductionRunIdFromMetadata(item.generation_metadata) === runId,
+    )
+    .map((item) => item.id);
 }
 
 /** Looks up production_run_id stamped on a content_item's generation_metadata. */
