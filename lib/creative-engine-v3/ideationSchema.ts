@@ -94,7 +94,7 @@ export const creativeIdeationResultValidator: Validator<CreativeIdeationResult> 
   vObject({
     version: vNonEmptyString(),
     concepts: adaptiveConceptsValidator(),
-  });
+  }) as Validator<CreativeIdeationResult>;
 
 export function validateCreativeIdeationResult(
   value: unknown,

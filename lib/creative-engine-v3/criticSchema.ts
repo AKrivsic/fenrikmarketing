@@ -44,7 +44,7 @@ export const conceptEvaluationResultValidator: Validator<
   ranking: vArray(vNonEmptyString(), { min: 1 }),
   winner_id: vNonEmptyString(),
   winner_reason: vNonEmptyString(),
-});
+}) as Validator<Omit<ConceptEvaluationResult, "source">>;
 
 export function validateConceptEvaluationResult(
   value: unknown,

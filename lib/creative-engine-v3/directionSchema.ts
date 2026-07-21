@@ -47,7 +47,7 @@ export const creativeDirectionGenerationValidator: Validator<CreativeDirectionGe
   vObject({
     version: vNonEmptyString(),
     directions: adaptiveDirectionsValidator(),
-  });
+  }) as Validator<CreativeDirectionGenerationResult>;
 
 export function validateCreativeDirectionGeneration(
   value: unknown,

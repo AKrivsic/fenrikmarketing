@@ -43,7 +43,7 @@ export const directionEvaluationValidator: Validator<
     min: DIRECTION_SELECT_MIN,
   }),
   selection_reason: vNonEmptyString(),
-});
+}) as Validator<Omit<CreativeDirectionEvaluationResult, "source">>;
 
 export function validateDirectionEvaluation(
   value: unknown,
