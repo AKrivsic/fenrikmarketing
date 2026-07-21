@@ -1,0 +1,20 @@
+# Snippet for the existing Caddy reverse proxy (renderer.fenrik.chat host).
+# Apply on the DigitalOcean host — do not publish raw port 8081.
+#
+# Insert into the `renderer.fenrik.chat` site block so package generation is
+# reachable from Vercel via HTTPS while video /render stays on video-worker.
+#
+# Resulting public URL for Vercel CONTENT_PACKAGE_WORKER_URL:
+#   https://renderer.fenrik.chat/content-package/generate-content-package
+#
+# Health (optional check):
+#   https://renderer.fenrik.chat/content-package/health
+#
+# handle_path strips `/content-package` before proxying to the worker.
+
+# renderer.fenrik.chat {
+#   handle_path /content-package/* {
+#     reverse_proxy content-package-worker:8081
+#   }
+#   reverse_proxy video-worker:8080
+# }

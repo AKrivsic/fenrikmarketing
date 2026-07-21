@@ -72,12 +72,21 @@ check("settles run counters after generation failure", () => {
   assert.match(adminSrc, /generationFailedSlots/);
 });
 
-check("n8n generate route delegates to shared handler", () => {
+check("n8n generate route prefers worker proxy or shared handler", () => {
   assert.match(n8nRouteSrc, /export const maxDuration = 300/);
+  assert.match(n8nRouteSrc, /getContentPackageWorkerUrl/);
+  assert.match(n8nRouteSrc, /forwardGenerateContentPackageToWorker/);
   assert.match(n8nRouteSrc, /handleGenerateContentPackageRequest/);
+});
+
+check("n8n bridge targets content-package-worker for N3 generate", () => {
   assert.match(
-    n8nRouteSrc,
-    /return handleGenerateContentPackageRequest\(request\)/,
+    bridgeSrc,
+    /content-package-worker:8081\/generate-content-package/,
+  );
+  assert.doesNotMatch(
+    bridgeSrc,
+    /fenrikmarketing\.vercel\.app\/api\/n8n\/generate-content-package/,
   );
 });
 

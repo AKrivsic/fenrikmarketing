@@ -183,13 +183,15 @@
       "onError": "continueRegularOutput",
       "parameters": {
         "method": "POST",
-        "url": "https://fenrikmarketing.vercel.app/api/n8n/generate-content-package",
+        "url": "http://content-package-worker:8081/generate-content-package",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { \"project_id\": $('N1 — Webhook Trigger').first().json.body.project_id, \"strategy_item_id\": $json.id, \"week_start\": ($('N1 — Webhook Trigger').first().json.body.payload && $('N1 — Webhook Trigger').first().json.body.payload.week_start) ? $('N1 — Webhook Trigger').first().json.body.payload.week_start : undefined } }}",
-        "options": {}
+        "options": {
+          "timeout": 900000
+        }
       },
       "credentials": {
         "httpHeaderAuth": {
