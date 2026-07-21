@@ -1,9 +1,0 @@
-{
-  "reasons": [
-    "story_prefers_outcome_over_framed:human",
-    "fallback:abstract_system"
-  ],
-  "version": "product-reveal@2",
-  "solution_beat_strategy": "ABSTRACT_PRODUCT_SYSTEM",
-  "sample_payoff_visual_required": false
-}
