@@ -83,6 +83,8 @@ function emptyTelemetry(
     directions_generated: [],
     directions_selected: [],
     direction_evaluation: null,
+    direction_memory_filter_passes: [],
+    memory_filter_fallback_all_rejected: false,
     concepts_generated: [],
     rejected: [],
     evaluation: null,
@@ -178,8 +180,15 @@ export async function planCreativeEngineV3ForPackage(
 
   let directionsGenerated = directionGen.value.directions;
   telemetry.directions_generated = directionsGenerated;
+  const originalDirections: CreativeDirection[] = [...directionsGenerated];
 
   let filtered = filterDirectionsAgainstMemory(directionsGenerated, brief);
+  telemetry.direction_memory_filter_passes.push({
+    pass: 1,
+    ...filtered.telemetry,
+    fallback_used: false,
+  });
+
   if (filtered.survivors.length < 2) {
     const appendix = filtered.rejected
       .map((r) => `- ${r.direction_id}: ${r.reasons.join(", ")}`)
@@ -199,19 +208,28 @@ export async function planCreativeEngineV3ForPackage(
     directionsGenerated = second.value.directions;
     telemetry.directions_generated = directionsGenerated;
     filtered = filterDirectionsAgainstMemory(directionsGenerated, brief);
+    telemetry.direction_memory_filter_passes.push({
+      pass: 2,
+      ...filtered.telemetry,
+      fallback_used: false,
+    });
   }
 
-  if (filtered.survivors.length === 0) {
-    return fail(
-      "all_directions_rejected",
-      telemetry.direction_attempts,
-      { directions_generated: directionsGenerated },
-    );
+  // Memory filter is anti-repetition protection, not a fatal quality gate.
+  // If the second pass still yields zero survivors, forward the original
+  // generated batch into Direction Evaluation with an explicit warning.
+  let directionsForEval = filtered.survivors;
+  if (directionsForEval.length === 0) {
+    directionsForEval = originalDirections;
+    telemetry.memory_filter_fallback_all_rejected = true;
+    telemetry.errors.push("memory_filter_fallback_all_rejected");
+    const lastPass = telemetry.direction_memory_filter_passes.at(-1);
+    if (lastPass) lastPass.fallback_used = true;
   }
 
   const directionEval = await runCreativeDirectionEvaluation({
     brief,
-    directions: filtered.survivors,
+    directions: directionsForEval,
     textProvider: input.textProvider,
   });
   telemetry.direction_eval_attempts = directionEval.attempts;
@@ -219,9 +237,8 @@ export async function planCreativeEngineV3ForPackage(
 
   const selectedIds = directionEval.evaluation.selected_direction_ids;
   const selectedDirections: CreativeDirection[] = selectedIds
-    .map((id) => filtered.survivors.find((d) => d.direction_id === id))
+    .map((id) => directionsForEval.find((d) => d.direction_id === id))
     .filter((d): d is CreativeDirection => Boolean(d));
-
   if (selectedDirections.length === 0) {
     return fail(
       "no_directions_selected",

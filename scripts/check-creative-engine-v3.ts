@@ -365,8 +365,118 @@ check("filters directions that collide with recent memory", () => {
   ];
   const { survivors, rejected } = filterDirectionsAgainstMemory(dirs, brief);
   assert.ok(rejected.some((r) => r.direction_id === "d1"));
+  assert.ok(
+    rejected.some(
+      (r) =>
+        r.direction_id === "d1" &&
+        r.collision_kind === "label_containment",
+    ),
+  );
   assert.ok(survivors.some((d) => d.direction_id === "d2"));
+  // Legacy helper still used elsewhere; memory filter no longer depends on it.
   assert.ok(creativeDirectionsCollide("myth vs reality", "myth vs reality reveal"));
+});
+
+check("memory filter keeps directions that only share generic product words", () => {
+  const proximity =
+    "Proximity Without Contact — the visitor was right there, on the page, for 94 seconds, and nothing happened. The mechanism makes physical-digital proximity visceral through the ticking timer and the ghost question, then exposes the structural gap that prevented connection.";
+  const brief = buildCreativeBrief({
+    project: mockProject(),
+    topic: "t",
+    funnelStage: "awareness",
+    platform: "instagram",
+    format: "reel",
+    assets: [],
+    memory: { ...EMPTY_MEMORY, directions: [proximity] },
+  });
+
+  const mustSurvive = [
+    makeDirection(
+      "d_unanswered",
+      "Unanswered Question Accumulation",
+      "Operates through the logic of compounding — a single unanswered question is trivial, but unanswered questions accumulate into a silent revenue leak.",
+    ),
+    makeDirection(
+      "d_handoff",
+      "Invisible Handoff",
+      "Tracks a single unit of work — a visitor question — as it passes through a system that has no designed receiving end.",
+    ),
+    makeDirection(
+      "d_asym",
+      "Asymmetry Reveal",
+      "Exposes a structural imbalance while the business reveals effort creating website content for visitors.",
+    ),
+    makeDirection(
+      "d_peer",
+      "Overlooked Ingredient",
+      "Reveals that a familiar working toolkit already contains everything needed; the solution was dormant inside existing infrastructure.",
+    ),
+  ];
+  const { survivors, rejected } = filterDirectionsAgainstMemory(
+    mustSurvive,
+    brief,
+  );
+  assert.equal(rejected.length, 0);
+  assert.equal(survivors.length, mustSurvive.length);
+});
+
+check("memory filter rejects exact label, near-label, paraphrased mechanism, story language", () => {
+  const brief = buildCreativeBrief({
+    project: mockProject(),
+    topic: "t",
+    funnelStage: "awareness",
+    platform: "instagram",
+    format: "reel",
+    assets: [],
+    memory: {
+      ...EMPTY_MEMORY,
+      directions: [
+        "Default Setting",
+        "Frames a business current state not as a choice but as a factory default — something never consciously decided, just never changed. The communication reveals that inaction is itself a configuration with real consequences, and most businesses run on an out-of-the-box configuration they inherited without realizing it.",
+      ],
+    },
+  });
+
+  const dirs = [
+    makeDirection(
+      "d_exact",
+      "Default Setting",
+      "Completely different abstract mechanism about staffing coverage gaps overnight.",
+    ),
+    makeDirection(
+      "d_near",
+      "Default Setting Audit",
+      "Completely different abstract mechanism about staffing coverage gaps overnight.",
+    ),
+    makeDirection(
+      "d_para",
+      "Inherited Configuration Trap",
+      "Frames the current state not as a choice but as a factory default — something never consciously decided, just never changed. Shows that inaction is itself a configuration with real consequences, and most operators run on an out-of-the-box configuration they inherited without realizing it.",
+    ),
+    makeDirection(
+      "d_story",
+      "Clean Abstract Angle",
+      "Uses a storyboard opening shot to establish the first frame before any abstract mechanism appears.",
+    ),
+  ];
+  const { survivors, rejected } = filterDirectionsAgainstMemory(dirs, brief);
+  const byId = new Map(rejected.map((r) => [r.direction_id, r]));
+  assert.ok(byId.get("d_exact")?.reasons.includes("direction_collision_recent_memory"));
+  assert.equal(byId.get("d_exact")?.collision_kind, "label_exact");
+  assert.ok(byId.get("d_near")?.reasons.includes("direction_collision_recent_memory"));
+  assert.equal(byId.get("d_near")?.collision_kind, "label_containment");
+  assert.ok(byId.get("d_para")?.reasons.includes("direction_collision_recent_memory"));
+  assert.equal(byId.get("d_para")?.collision_kind, "mechanism_similarity");
+  assert.ok(
+    (byId.get("d_para")?.shared_tokens.length ?? 0) >= 4,
+    "paraphrase should share many significant tokens",
+  );
+  assert.ok(
+    byId.get("d_story")?.reasons.includes(
+      "direction_contains_story_or_hook_language",
+    ),
+  );
+  assert.equal(survivors.length, 0);
 });
 
 check("deterministic direction fallback selects diverse shortlist", () => {

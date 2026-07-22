@@ -11,37 +11,61 @@ import {
   validateDirectionEvaluation,
 } from "@/lib/creative-engine-v3/directionEvalSchema";
 import { deterministicEvaluateDirections } from "@/lib/creative-engine-v3/deterministicDirectionFallback";
-import { creativeDirectionsCollide } from "@/lib/creative-engine-v3/conceptFingerprint";
+import { directionMemoryCollides } from "@/lib/creative-engine-v3/conceptFingerprint";
 import type {
   CreativeBrief,
   CreativeDirection,
   CreativeDirectionEvaluationResult,
+  DirectionMemoryFilterPassTelemetry,
+  DirectionMemoryFilterRejection,
 } from "@/lib/creative-engine-v3/types";
 
 export const CREATIVE_DIRECTION_EVAL_MAX_TRANSPORT_ATTEMPTS = 3;
 
-/** Drop directions that collide with recent memory before evaluation. */
+export interface DirectionMemoryFilterResult {
+  survivors: CreativeDirection[];
+  rejected: DirectionMemoryFilterRejection[];
+  telemetry: Omit<DirectionMemoryFilterPassTelemetry, "pass" | "fallback_used">;
+}
+
+/**
+ * Drop directions that collide with recent memory before evaluation.
+ * Uses conservative directionMemoryCollides (not creativeDirectionsCollide).
+ */
 export function filterDirectionsAgainstMemory(
   directions: readonly CreativeDirection[],
   brief: CreativeBrief,
-): { survivors: CreativeDirection[]; rejected: Array<{ direction_id: string; reasons: string[] }> } {
-  const rejected: Array<{ direction_id: string; reasons: string[] }> = [];
+): DirectionMemoryFilterResult {
+  const rejected: DirectionMemoryFilterRejection[] = [];
   const survivors: CreativeDirection[] = [];
   const seenLabels = new Set<string>();
 
   for (const d of directions) {
     const reasons: string[] = [];
+    let matchedMemory: string | null = null;
+    let sharedTokens: string[] = [];
+    let similarity: number | null = null;
+    let collisionKind: DirectionMemoryFilterRejection["collision_kind"] = null;
+
     const labelKey = d.label.trim().toLowerCase();
     if (seenLabels.has(labelKey)) reasons.push("duplicate_label_in_batch");
+
     for (const recent of brief.memory.recent_directions) {
-      if (
-        creativeDirectionsCollide(d.label, recent) ||
-        creativeDirectionsCollide(d.mechanism, recent)
-      ) {
+      const hit = directionMemoryCollides({
+        label: d.label,
+        mechanism: d.mechanism,
+        memoryItem: recent,
+      });
+      if (hit.collides) {
         reasons.push("direction_collision_recent_memory");
+        matchedMemory = hit.matched_memory_item;
+        sharedTokens = hit.shared_tokens;
+        similarity = hit.similarity;
+        collisionKind = hit.kind;
         break;
       }
     }
+
     // Story/hook leakage into direction (must stay abstract)
     if (
       /\b(hook|scene|storyboard|voiceover|first frame|opening shot)\b/i.test(
@@ -50,14 +74,32 @@ export function filterDirectionsAgainstMemory(
     ) {
       reasons.push("direction_contains_story_or_hook_language");
     }
+
     if (reasons.length) {
-      rejected.push({ direction_id: d.direction_id, reasons });
+      rejected.push({
+        direction_id: d.direction_id,
+        reasons,
+        matched_memory_item: matchedMemory,
+        shared_tokens: sharedTokens,
+        similarity,
+        collision_kind: collisionKind,
+      });
       continue;
     }
     seenLabels.add(labelKey);
     survivors.push(d);
   }
-  return { survivors, rejected };
+
+  return {
+    survivors,
+    rejected,
+    telemetry: {
+      generated_count: directions.length,
+      survivor_count: survivors.length,
+      rejected_count: rejected.length,
+      rejected,
+    },
+  };
 }
 
 export async function runCreativeDirectionEvaluation(args: {

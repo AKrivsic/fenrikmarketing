@@ -33,6 +33,8 @@ export {
   isCreativeConceptFingerprint,
   isDarkOfficeAtmosphere,
   creativeDirectionsCollide,
+  directionMemoryCollides,
+  DIRECTION_MEMORY_GENERIC_TOKENS,
 } from "@/lib/creative-engine-v3/conceptFingerprint";
 
 export { vetoInventedConcepts } from "@/lib/creative-engine-v3/vetoes";

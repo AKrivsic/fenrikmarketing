@@ -247,6 +247,10 @@ export interface ProductionRunItem {
   platform: string;
   content_type: ProductionContentType;
   status: ProductionRunStatus;
+  /** Stable slot identity within the run (0-based). */
+  package_index: number;
+  /** Strategy item that drives this slot; set at seed. Settlement key. */
+  strategy_item_id: string | null;
   content_package_id: string | null;
   content_item_id: string | null;
   video_job_id: string | null;

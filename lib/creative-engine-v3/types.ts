@@ -225,6 +225,30 @@ export interface ConceptVeto {
   reasons: string[];
 }
 
+/** One rejected direction from a memory-filter pass (no raw prompts). */
+export interface DirectionMemoryFilterRejection {
+  direction_id: string;
+  reasons: string[];
+  matched_memory_item: string | null;
+  shared_tokens: string[];
+  similarity: number | null;
+  collision_kind:
+    | "label_exact"
+    | "label_containment"
+    | "mechanism_similarity"
+    | null;
+}
+
+/** Telemetry for one filterDirectionsAgainstMemory invocation. */
+export interface DirectionMemoryFilterPassTelemetry {
+  pass: number;
+  generated_count: number;
+  survivor_count: number;
+  rejected_count: number;
+  rejected: DirectionMemoryFilterRejection[];
+  fallback_used: boolean;
+}
+
 export interface CreativeEngineV3Telemetry {
   version: typeof CREATIVE_ENGINE_V3_VERSION;
   brief_digest: {
@@ -242,6 +266,10 @@ export interface CreativeEngineV3Telemetry {
   directions_generated: CreativeDirection[];
   directions_selected: CreativeDirection[];
   direction_evaluation: CreativeDirectionEvaluationResult | null;
+  /** Per-pass memory filter stats (anti-repetition only; not a quality gate). */
+  direction_memory_filter_passes: DirectionMemoryFilterPassTelemetry[];
+  /** True when survivors===0 after re-filter and original directions were forwarded to eval. */
+  memory_filter_fallback_all_rejected: boolean;
   concepts_generated: InventedCreativeConcept[];
   rejected: ConceptVeto[];
   evaluation: ConceptEvaluationResult | null;

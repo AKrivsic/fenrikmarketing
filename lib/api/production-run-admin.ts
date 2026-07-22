@@ -21,6 +21,14 @@ import {
   planRequiresVideo,
   resolvePackageReconcileStatus,
 } from "@/lib/api/packageReconcileStatus";
+import {
+  applyPackageOutcomesByStrategyItemId,
+  computeProductionRunOpenSlots,
+  findRunItemByStrategyItemId,
+  mergeRunItemPatches,
+  type PackageOutcomeIdentity,
+  type RunItemIdentity,
+} from "@/lib/production-runs/settleRunItemIdentity";
 
 // ---------------------------------------------------------------------------
 // Production run data layer — V3 Package Based Model (service-role admin client,
@@ -92,6 +100,8 @@ interface ProductionRunItemRow {
   platform: string;
   content_type: string;
   status: ProductionRunStatus;
+  package_index: number;
+  strategy_item_id: string | null;
   content_package_id: string | null;
   content_item_id: string | null;
   video_job_id: string | null;
@@ -164,6 +174,7 @@ export async function createProductionRun(
       project_id: projectId,
       platform: slot.platform,
       content_type: slot.contentType,
+      package_index: slot.index,
       status: "queued" as const,
     }));
     const { error: itemErr } = await supabase
@@ -286,9 +297,11 @@ export async function markProductionRunItemGenerationFailed(args: {
       : 0;
 
   const items = await loadRunItems(supabase, runId);
+  // Primary identity: strategy_item_id (same key success reconcile uses).
+  // package_index is only a legacy/backfill fallback.
   const target =
-    items[packageIndex] ??
-    items.find((i) => i.status === "queued" || i.status === "running") ??
+    findRunItemByStrategyItemId(items, args.strategyItemId) ??
+    items.find((i) => i.package_index === packageIndex) ??
     null;
   if (!target) {
     const run = await loadRun(supabase, runId);
@@ -350,13 +363,14 @@ async function settleProductionRunAfterItemFailure(
   }
 
   // Refresh items from the in-memory list (caller already updated target).
-  const generated = items.filter(
-    (i) => i.status === "completed" && i.content_package_id,
-  ).length;
-  const failed = items.filter((i) => i.status === "failed").length;
-  const open = run.requested_total - generated - failed;
+  const openSlots = computeProductionRunOpenSlots({
+    requestedTotal: run.requested_total,
+    items: items.map(toRunItemIdentity),
+  });
+  const generated = openSlots.generated;
+  const failed = openSlots.failed;
   const nextStatus: ProductionRunStatus =
-    open <= 0 ? "completed" : "running";
+    openSlots.open <= 0 ? "completed" : "running";
 
   const firstFailMsg =
     items.find((i) => i.status === "failed" && i.error_message)?.error_message ??
@@ -600,12 +614,23 @@ async function loadRunItems(
   const { data, error } = await supabase
     .from("production_run_items")
     .select(
-      "id, production_run_id, project_id, platform, content_type, status, content_package_id, content_item_id, video_job_id, error_message",
+      "id, production_run_id, project_id, platform, content_type, status, package_index, strategy_item_id, content_package_id, content_item_id, video_job_id, error_message",
     )
     .eq("production_run_id", runId)
-    .order("created_at", { ascending: true });
+    .order("package_index", { ascending: true });
   if (error) throw error;
   return (data ?? []) as ProductionRunItemRow[];
+}
+
+function toRunItemIdentity(item: ProductionRunItemRow): RunItemIdentity {
+  return {
+    id: item.id,
+    package_index: item.package_index,
+    strategy_item_id: item.strategy_item_id,
+    status: item.status,
+    content_package_id: item.content_package_id,
+    error_message: item.error_message,
+  };
 }
 
 type PackageItemStatus = "completed" | "running" | "failed";
@@ -626,8 +651,12 @@ interface PlatformCount {
 // (content_items tagged with the run id + their video_jobs) — never derived
 // from `packages × multiplier`.
 interface RealProgress {
-  // Package status in created order (first appearance of each package_id).
-  packages: { packageId: string; status: PackageItemStatus }[];
+  // Package outcomes keyed for identity settlement (NOT array ordinal → item ordinal).
+  packages: {
+    packageId: string;
+    strategyItemId: string | null;
+    status: PackageItemStatus;
+  }[];
   // Real per-platform content_items counts, bucketed by their package status.
   perPlatform: Map<string, PlatformCount>;
   // Completed video_jobs (one shared video per video package).
@@ -673,6 +702,22 @@ async function reconcileFromRealContent(
     list.push(item);
   }
 
+  const strategyByPackage = new Map<string, string | null>();
+  if (packageOrder.length > 0) {
+    const { data: pkgRows, error: pkgErr } = await supabase
+      .from("content_packages")
+      .select("id, strategy_item_id")
+      .eq("project_id", run.project_id)
+      .in("id", packageOrder);
+    if (pkgErr) throw pkgErr;
+    for (const row of (pkgRows ?? []) as {
+      id: string;
+      strategy_item_id: string | null;
+    }[]) {
+      strategyByPackage.set(row.id, row.strategy_item_id);
+    }
+  }
+
   // Package status from its (shared) video job: failed > running > completed.
   // Video requirement comes from the run plan — never infer text-only from
   // jobs.length === 0 (that false-completed video packages in production).
@@ -711,6 +756,7 @@ async function reconcileFromRealContent(
   return {
     packages: packageOrder.map((packageId) => ({
       packageId,
+      strategyItemId: strategyByPackage.get(packageId) ?? null,
       status: packageStatus.get(packageId) ?? "running",
     })),
     perPlatform,
@@ -765,31 +811,35 @@ export function shouldClearSupersededProductionRunError(args: {
   );
 }
 
-// Pairs each generated package onto the run's package items (in created order)
-// and refreshes the run counters/status from the REAL package outcomes.
+// Pairs each generated package onto the run item that owns the same
+// strategy_item_id, then refreshes counters. Never uses packages[i] → items[i].
 async function syncRunItemsAndCounters(
   supabase: SupabaseClient,
   run: ProductionRunRow,
   items: ProductionRunItemRow[],
   progress: RealProgress,
 ): Promise<void> {
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const pkg = progress.packages[i];
-    if (!pkg) continue; // not generated yet — leave queued/running
-    const nextStatus = pkg.status;
-    const errorMessage =
-      nextStatus === "failed" ? "Renderování videa selhalo." : null;
+  const identities = items.map(toRunItemIdentity);
+  const outcomes: PackageOutcomeIdentity[] = progress.packages.map((pkg) => ({
+    packageId: pkg.packageId,
+    strategyItemId: pkg.strategyItemId,
+    status: pkg.status,
+  }));
+  const patches = applyPackageOutcomesByStrategyItemId(identities, outcomes);
+
+  for (const patch of patches) {
+    const item = items.find((i) => i.id === patch.id);
+    if (!item) continue;
     if (
-      item.status === nextStatus &&
-      item.content_package_id === pkg.packageId &&
-      item.error_message === errorMessage
+      item.status === patch.status &&
+      item.content_package_id === patch.content_package_id &&
+      item.error_message === patch.error_message
     ) {
       continue;
     }
-    item.status = nextStatus;
-    item.content_package_id = pkg.packageId;
-    item.error_message = errorMessage;
+    item.status = patch.status;
+    item.content_package_id = patch.content_package_id;
+    item.error_message = patch.error_message;
     const { error } = await supabase
       .from("production_run_items")
       .update({
@@ -801,37 +851,36 @@ async function syncRunItemsAndCounters(
     if (error) throw error;
   }
 
-  const generated = progress.packages.filter(
-    (p) => p.status === "completed",
-  ).length;
-  const failedFromPackages = progress.packages.filter(
-    (p) => p.status === "failed",
-  ).length;
-  // Generation failures leave no package — count those failed items too.
-  const generationFailedSlots = items.filter(
-    (i) => i.status === "failed" && !i.content_package_id,
-  ).length;
-  const failed = failedFromPackages + generationFailedSlots;
-  const cancelledSlots =
-    run.status === "cancelled"
-      ? Math.max(0, run.requested_total - progress.packages.length - generationFailedSlots)
-      : 0;
-  const failedWithCancelled = failed + cancelledSlots;
-  // The run is done when every requested package reached a terminal state.
-  const open = run.requested_total - generated - failedWithCancelled;
-  const nextStatus: ProductionRunStatus =
+  const merged = mergeRunItemPatches(identities, patches);
+  const openSlots = computeProductionRunOpenSlots({
+    requestedTotal: run.requested_total,
+    items: merged,
+  });
+  let generated = openSlots.generated;
+  let failedWithCancelled = openSlots.failed;
+
+  if (run.status === "cancelled") {
+    // Operator stop: count every non-completed slot as failed (including
+    // cancel-marked rows and any leftover open slots).
+    generated = merged.filter(
+      (i) => i.status === "completed" && i.content_package_id,
+    ).length;
+    failedWithCancelled = Math.max(0, run.requested_total - generated);
+  }
+
+  const resolvedNext: ProductionRunStatus =
     run.status === "cancelled"
       ? "cancelled"
-      : open <= 0
+      : openSlots.open <= 0
         ? "completed"
         : run.status === "queued" &&
             progress.packages.length === 0 &&
-            generationFailedSlots === 0
+            openSlots.failed === 0
           ? "queued"
           : "running";
 
   const clearStaleError = shouldClearSupersededProductionRunError({
-    nextStatus,
+    nextStatus: resolvedNext,
     generated,
     failed: failedWithCancelled,
     currentErrorMessage: run.error_message,
@@ -840,13 +889,13 @@ async function syncRunItemsAndCounters(
   const changed =
     run.generated_total !== generated ||
     run.failed_total !== failedWithCancelled ||
-    run.status !== nextStatus ||
+    run.status !== resolvedNext ||
     clearStaleError;
   if (!changed) return;
 
   run.generated_total = generated;
   run.failed_total = failedWithCancelled;
-  run.status = nextStatus;
+  run.status = resolvedNext;
   if (clearStaleError) {
     run.error_message = null;
   }
@@ -856,7 +905,7 @@ async function syncRunItemsAndCounters(
     .update({
       generated_total: generated,
       failed_total: failedWithCancelled,
-      status: nextStatus,
+      status: resolvedNext,
       ...(clearStaleError ? { error_message: null } : {}),
     })
     .eq("id", run.id);
@@ -1015,8 +1064,62 @@ export async function seedProductionStrategyInputs(args: {
       package_index: i,
     } as unknown as Record<string, unknown>,
   }));
-  const { error: itemsErr } = await supabase
+  const { data: insertedItems, error: itemsErr } = await supabase
     .from("content_strategy_items")
-    .insert(itemRows);
+    .insert(itemRows)
+    .select("id, brief");
   if (itemsErr) throw itemsErr;
+
+  await linkStrategyItemsToProductionRunItems({
+    runId,
+    strategyItemIds: (insertedItems ?? []).map((row) => {
+      const brief =
+        row.brief && typeof row.brief === "object"
+          ? (row.brief as Record<string, unknown>)
+          : {};
+      const idx =
+        typeof brief.package_index === "number" &&
+        Number.isFinite(brief.package_index)
+          ? Math.max(0, Math.trunc(brief.package_index))
+          : null;
+      return { strategyItemId: row.id as string, packageIndex: idx };
+    }),
+  });
+}
+
+/**
+ * Bind strategy items onto production_run_items by package_index.
+ * Shared by legacy seed and AI production-run planner paths.
+ */
+export async function linkStrategyItemsToProductionRunItems(args: {
+  runId: string;
+  strategyItemIds: ReadonlyArray<{
+    strategyItemId: string;
+    packageIndex: number | null;
+  }>;
+}): Promise<void> {
+  const supabase = createSupabaseAdminClient();
+  for (const row of args.strategyItemIds) {
+    if (row.packageIndex === null) continue;
+    const { error: linkErr } = await supabase
+      .from("production_run_items")
+      .update({ strategy_item_id: row.strategyItemId })
+      .eq("production_run_id", args.runId)
+      .eq("package_index", row.packageIndex);
+    if (linkErr) throw linkErr;
+  }
+}
+
+/** Convenience: itemIds[i] belongs to package_index i (planner contract). */
+export async function linkStrategyItemIdsByOrder(args: {
+  runId: string;
+  strategyItemIds: readonly string[];
+}): Promise<void> {
+  await linkStrategyItemsToProductionRunItems({
+    runId: args.runId,
+    strategyItemIds: args.strategyItemIds.map((strategyItemId, packageIndex) => ({
+      strategyItemId,
+      packageIndex,
+    })),
+  });
 }

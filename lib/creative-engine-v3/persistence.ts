@@ -26,6 +26,10 @@ export function creativeEngineV3FieldsForPersistence(args: {
     directions_generated: args.telemetry.directions_generated,
     directions_selected: args.telemetry.directions_selected,
     direction_evaluation: args.telemetry.direction_evaluation,
+    direction_memory_filter_passes:
+      args.telemetry.direction_memory_filter_passes,
+    memory_filter_fallback_all_rejected:
+      args.telemetry.memory_filter_fallback_all_rejected,
     concepts_generated: args.telemetry.concepts_generated,
     rejected: args.telemetry.rejected,
     evaluation: args.telemetry.evaluation,

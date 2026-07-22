@@ -22,6 +22,7 @@ import {
   getActiveProductionRun,
   reconcileProductionRun,
   seedProductionStrategyInputs,
+  linkStrategyItemIdsByOrder,
   setProductionRunStatus,
   type ProductionRunView,
 } from "@/lib/api/production-run-admin";
@@ -132,6 +133,13 @@ async function prepareProductionStrategyInputs(args: {
       `Očekáváno ${plan.packageCount} položek strategie, vytvořeno ${result.data.itemIds.length}.`,
     );
   }
+
+  // Bind strategy items onto run slots by package_index identity (not ordinal
+  // reconcile later). Planner contract: itemIds[i] ↔ package_index i.
+  await linkStrategyItemIdsByOrder({
+    runId,
+    strategyItemIds: result.data.itemIds,
+  });
 }
 
 function triggerErrorMessage(err: unknown): string {
