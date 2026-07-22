@@ -463,6 +463,187 @@ export function isAffirmativeGenericOfficeCollapse(
   return true;
 }
 
+/** TEMP diagnostics — evidence for affirmative_generic_office (logging only). */
+export type AffirmativeGenericOfficeEvidence = {
+  collapsed: boolean;
+  generic_pattern: string | null;
+  officey: boolean;
+  officey_tokens_hit: boolean;
+  officey_exempt_hit: boolean;
+  win_subjects: string[];
+  win_actions: string[];
+  scene_subjects: string[];
+  scene_actions: string[];
+  subject_overlap: string[];
+  action_overlap: string[];
+  departure_board_preserved: boolean;
+  visitor_hands_preserved: boolean;
+};
+
+/**
+ * Same decision as isAffirmativeGenericOfficeCollapse, plus the matches that
+ * drove it. TEMP — for worker log diagnosis only; do not use to change gates.
+ */
+export function explainAffirmativeGenericOfficeCollapse(
+  openingSituation: string,
+  scene1: string,
+): AffirmativeGenericOfficeEvidence {
+  const scene = stripVisualStyleBoilerplate(scene1);
+  const generic_pattern = matchesGenericConcept(scene);
+  const genericHit = Boolean(generic_pattern);
+  const officey_tokens_hit = /\b(laptop|desk|office|co-?working|meeting\s+room)\b/i.test(
+    scene,
+  );
+  const officey_exempt_hit =
+    /\b(departure[\s-]+board|mascot|contact\s+form|smartphone|chat\s+widget|visitor'?s\s+hands|customer'?s\s+hands)\b/i.test(
+      scene,
+    );
+  const officey = officey_tokens_hit && !officey_exempt_hit;
+
+  const winVisual = visualIntentText(openingSituation);
+  const win_subjects = axisKeys(SUBJECT_AXIS, winVisual).filter(
+    (s) => s !== "visitor",
+  );
+  const win_actions = axisKeys(ACTION_AXIS, winVisual);
+  const scene_subjects = axisKeys(SUBJECT_AXIS, scene);
+  const scene_actions = axisKeys(ACTION_AXIS, scene);
+  const subject_overlap = win_subjects.filter((s) => scene_subjects.includes(s));
+  const action_overlap = win_actions.filter((a) => scene_actions.includes(a));
+
+  const departure_board_preserved =
+    win_subjects.includes("departure_board") &&
+    /\bdeparture[\s-]+board\b/i.test(scene);
+  const visitor_hands_preserved =
+    win_subjects.includes("visitor_hands") &&
+    /\bhands\b/i.test(scene) &&
+    /\b(phone|form|chat)\b/i.test(scene);
+
+  let collapsed = false;
+  if (genericHit || officey) {
+    if (
+      subject_overlap.length === 0 &&
+      action_overlap.length === 0 &&
+      !departure_board_preserved &&
+      !visitor_hands_preserved
+    ) {
+      collapsed = true;
+    }
+  }
+
+  return {
+    collapsed,
+    generic_pattern,
+    officey,
+    officey_tokens_hit,
+    officey_exempt_hit,
+    win_subjects,
+    win_actions,
+    scene_subjects,
+    scene_actions,
+    subject_overlap,
+    action_overlap,
+    departure_board_preserved,
+    visitor_hands_preserved,
+  };
+}
+
+function clipDiag(text: string, max = 500): string {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  return `${t.slice(0, max)}…`;
+}
+
+/** TEMP — brief storyboard rows for generic-office collapse logs. */
+export function briefStoryboardForGenericOfficeDiag(args: {
+  voiceoverText: string;
+  visualScenes?: readonly unknown[] | null;
+  imagePrompts?: readonly string[] | null;
+}): Array<{ scene: number; visual: string; voiceover: string }> {
+  const scenes = args.visualScenes ?? [];
+  const vo = clipDiag(args.voiceoverText);
+  if (scenes.length > 0) {
+    return scenes.map((raw, i) => {
+      let visual = "";
+      if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+        const r = raw as Record<string, unknown>;
+        if (typeof r.image_prompt === "string") visual = r.image_prompt;
+        else if (typeof r.type === "string") {
+          visual = `[${r.type}] ${JSON.stringify(r.payload ?? r).slice(0, 400)}`;
+        }
+      }
+      return {
+        scene: i + 1,
+        visual: clipDiag(visual),
+        // Package VO is shared; attach to scene 1 only to keep the log short.
+        voiceover: i === 0 ? vo : "",
+      };
+    });
+  }
+  const prompts = args.imagePrompts ?? [];
+  if (prompts.length > 0) {
+    return prompts.map((p, i) => ({
+      scene: i + 1,
+      visual: clipDiag(typeof p === "string" ? p : ""),
+      voiceover: i === 0 ? vo : "",
+    }));
+  }
+  return [{ scene: 1, visual: "", voiceover: vo }];
+}
+
+/**
+ * TEMP log when storyboard_collapsed_to_generic_office / affirmative_generic_office
+ * is involved. Call with before_repair snapshot and optional after_repair.
+ */
+export function tempLogAffirmativeGenericOfficeCollapse(args: {
+  winner: CreativeCandidate;
+  before: {
+    voiceoverText: string;
+    visualScenes?: readonly unknown[] | null;
+    imagePrompts?: readonly string[] | null;
+  };
+  after?: {
+    voiceoverText: string;
+    visualScenes?: readonly unknown[] | null;
+    imagePrompts?: readonly string[] | null;
+  } | null;
+}): void {
+  const fp = args.winner.conceptFingerprint;
+  const opening = stripCosmeticOpeningPrefixes(args.winner.openingSituation);
+  const scene1Before = scene1Text(args.before);
+  const evidenceBefore = explainAffirmativeGenericOfficeCollapse(
+    opening,
+    scene1Before,
+  );
+  const evidenceAfter =
+    args.after != null
+      ? explainAffirmativeGenericOfficeCollapse(
+          opening,
+          scene1Text(args.after),
+        )
+      : null;
+
+  console.error(
+    "[TEMP affirmative_generic_office]",
+    JSON.stringify({
+      concept_id: args.winner.candidateId,
+      concept_title: fp?.core_premise ?? args.winner.coreIdea,
+      creative_direction: fp?.creative_direction ?? null,
+      hero_object:
+        fp?.hero_object ??
+        args.winner.creativeDNA?.mainCharacter ??
+        null,
+      opening_mechanism: fp?.opening_mechanism ?? null,
+      visual_world: fp?.visual_world ?? null,
+      storyboard_before_repair: briefStoryboardForGenericOfficeDiag(args.before),
+      evidence_before_repair: evidenceBefore,
+      storyboard_after_repair: args.after
+        ? briefStoryboardForGenericOfficeDiag(args.after)
+        : null,
+      evidence_after_repair: evidenceAfter,
+    }),
+  );
+}
+
 export function checkConceptFidelity(args: {
   winner: CreativeCandidate;
   hook: string;

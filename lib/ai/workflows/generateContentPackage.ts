@@ -128,6 +128,7 @@ import {
 } from "@/lib/creative-engine-v3";
 import {
   classifyFidelityFailuresForRepair,
+  tempLogAffirmativeGenericOfficeCollapse,
 } from "@/lib/creative-candidates/fidelityCheck";
 import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
 import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
@@ -812,6 +813,23 @@ async function runGenerateContentPackageUnchecked(
       );
     }
 
+    // TEMP — snapshot for affirmative_generic_office hard-fail diagnosis.
+    let genericOfficeBefore: {
+      voiceoverText: string;
+      visualScenes?: readonly unknown[] | null;
+      imagePrompts?: readonly string[] | null;
+    } | null = null;
+    if (
+      fidelity.failureReasons.includes("storyboard_collapsed_to_generic_office")
+    ) {
+      const pkg = requireOkPackage();
+      genericOfficeBefore = {
+        voiceoverText: pkg.voiceover_text,
+        visualScenes: pkg.visual_scenes,
+        imagePrompts: pkg.image_prompts,
+      };
+    }
+
     const classification = classifyFidelityFailuresForRepair(fidelity);
     if (!fidelity.passed && classification.material) {
       regenerationReason = classification.materialReasons.join(",");
@@ -887,6 +905,20 @@ async function runGenerateContentPackageUnchecked(
           angle: context.angle,
         });
       }
+      if (genericOfficeBefore) {
+        const afterPkg = generated.ok ? generated.value : null;
+        tempLogAffirmativeGenericOfficeCollapse({
+          winner: creativeCandidates.selectedCandidate,
+          before: genericOfficeBefore,
+          after: afterPkg
+            ? {
+                voiceoverText: afterPkg.voiceover_text,
+                visualScenes: afterPkg.visual_scenes,
+                imagePrompts: afterPkg.image_prompts,
+              }
+            : null,
+        });
+      }
     } else if (!fidelity.passed && !classification.material) {
       // Deterministic-only residues — do not burn a full Claude regenerate.
       regenerationReason = null;
@@ -894,6 +926,29 @@ async function runGenerateContentPackageUnchecked(
         "[concept-fidelity] non-material failures after deterministic fixes",
         classification.deterministicReasons,
       );
+      if (genericOfficeBefore) {
+        tempLogAffirmativeGenericOfficeCollapse({
+          winner: creativeCandidates.selectedCandidate,
+          before: genericOfficeBefore,
+          after: null,
+        });
+      }
+    } else if (
+      genericOfficeBefore &&
+      !fidelity.failureReasons.includes(
+        "storyboard_collapsed_to_generic_office",
+      )
+    ) {
+      // First pass flagged collapse but subsequent deterministic path cleared it.
+      tempLogAffirmativeGenericOfficeCollapse({
+        winner: creativeCandidates.selectedCandidate,
+        before: genericOfficeBefore,
+        after: {
+          voiceoverText: requireOkPackage().voiceover_text,
+          visualScenes: requireOkPackage().visual_scenes,
+          imagePrompts: requireOkPackage().image_prompts,
+        },
+      });
     }
     creativeCandidates = attachFidelityToPlan(
       creativeCandidates,
