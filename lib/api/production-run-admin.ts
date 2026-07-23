@@ -23,8 +23,10 @@ import {
 } from "@/lib/api/packageReconcileStatus";
 import {
   applyPackageOutcomesByStrategyItemId,
+  clampPatchesForTerminalParent,
   computeProductionRunOpenSlots,
   findRunItemByStrategyItemId,
+  isTerminalProductionRunStatus,
   mergeRunItemPatches,
   type PackageOutcomeIdentity,
   type RunItemIdentity,
@@ -1013,7 +1015,12 @@ async function syncRunItemsAndCounters(
     strategyItemId: pkg.strategyItemId,
     status: pkg.status,
   }));
-  const patches = applyPackageOutcomesByStrategyItemId(identities, outcomes);
+  const rawPatches = applyPackageOutcomesByStrategyItemId(identities, outcomes);
+  // Post-run video retry can report "running" while the parent is already
+  // terminal; never write open statuses (DB trigger + review-page crash).
+  const patches = isTerminalProductionRunStatus(run.status)
+    ? clampPatchesForTerminalParent(identities, rawPatches)
+    : rawPatches;
 
   for (const patch of patches) {
     const item = items.find((i) => i.id === patch.id);
@@ -1056,16 +1063,19 @@ async function syncRunItemsAndCounters(
     failedWithCancelled = Math.max(0, run.requested_total - generated);
   }
 
+  // Terminal parents stay terminal — post-run regen must not revive the run.
   const resolvedNext: ProductionRunStatus =
     run.status === "cancelled"
       ? "cancelled"
-      : openSlots.open <= 0
-        ? "completed"
-        : run.status === "queued" &&
-            progress.packages.length === 0 &&
-            openSlots.failed === 0
-          ? "queued"
-          : "running";
+      : run.status === "completed" || run.status === "failed"
+        ? run.status
+        : openSlots.open <= 0
+          ? "completed"
+          : run.status === "queued" &&
+              progress.packages.length === 0 &&
+              openSlots.failed === 0
+            ? "queued"
+            : "running";
 
   const clearStaleError = shouldClearSupersededProductionRunError({
     nextStatus: resolvedNext,

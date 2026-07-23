@@ -120,6 +120,57 @@ export function mergeRunItemPatches(
   });
 }
 
+/** True when the parent production_run must not gain new open children. */
+export function isTerminalProductionRunStatus(status: string): boolean {
+  return (
+    status === "completed" || status === "failed" || status === "cancelled"
+  );
+}
+
+/**
+ * Drop / rewrite patches that would reopen slots under a terminal parent.
+ * DB trigger `trg_no_open_item_under_terminal_run` rejects queued/running
+ * writes once the run is completed/failed/cancelled — e.g. post-run video
+ * retry leaves the newest job "processing" and naive reconcile would try to
+ * set the already-completed run item back to "running".
+ */
+export function clampPatchesForTerminalParent(
+  items: readonly RunItemIdentity[],
+  patches: readonly RunItemSettlementPatch[],
+): RunItemSettlementPatch[] {
+  const byId = new Map(items.map((item) => [item.id, item]));
+  const out: RunItemSettlementPatch[] = [];
+  for (const patch of patches) {
+    if (patch.status !== "queued" && patch.status !== "running") {
+      out.push(patch);
+      continue;
+    }
+    const item = byId.get(patch.id);
+    if (!item) continue;
+    if (
+      item.status === "completed" ||
+      item.status === "failed" ||
+      item.status === "cancelled"
+    ) {
+      // Keep the terminal slot closed; post-run regen must not reopen it.
+      continue;
+    }
+    // Orphan open child under a terminal parent — close it as failed.
+    out.push({
+      id: patch.id,
+      status: "failed",
+      content_package_id: patch.content_package_id,
+      error_message:
+        patch.error_message ??
+        JSON.stringify({
+          error: "open_under_terminal_run",
+          message: "Closed open slot under terminal production run.",
+        }),
+    });
+  }
+  return out;
+}
+
 /** Parent-run open-slot arithmetic used by reconcile + fail settlement. */
 export function computeProductionRunOpenSlots(args: {
   requestedTotal: number;

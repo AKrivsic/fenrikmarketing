@@ -10,8 +10,10 @@
 import assert from "node:assert/strict";
 import {
   applyPackageOutcomesByStrategyItemId,
+  clampPatchesForTerminalParent,
   computeProductionRunOpenSlots,
   findRunItemByStrategyItemId,
+  isTerminalProductionRunStatus,
   mergeRunItemPatches,
   productionRunHasOrphanOpenSlots,
   type PackageOutcomeIdentity,
@@ -343,6 +345,62 @@ check("stolen package moves to owner; thief becomes failed", () => {
   assert.equal(item12?.status, "failed");
   assert.equal(item12?.content_package_id, null);
   assertNoOrphans(merged, 14);
+});
+
+section("terminal parent — never reopen slots");
+check("isTerminalProductionRunStatus covers completed/failed/cancelled", () => {
+  assert.equal(isTerminalProductionRunStatus("completed"), true);
+  assert.equal(isTerminalProductionRunStatus("failed"), true);
+  assert.equal(isTerminalProductionRunStatus("cancelled"), true);
+  assert.equal(isTerminalProductionRunStatus("running"), false);
+  assert.equal(isTerminalProductionRunStatus("queued"), false);
+});
+
+check("running patch under completed item is dropped (post-run video retry)", () => {
+  const items: RunItemIdentity[] = [
+    {
+      id: "item-0",
+      package_index: 0,
+      strategy_item_id: "s0",
+      status: "completed",
+      content_package_id: "pkg-0",
+      error_message: null,
+    },
+  ];
+  const raw = applyPackageOutcomesByStrategyItemId(items, [
+    { packageId: "pkg-0", strategyItemId: "s0", status: "running" },
+  ]);
+  assert.equal(raw.length, 1);
+  assert.equal(raw[0]?.status, "running");
+  const clamped = clampPatchesForTerminalParent(items, raw);
+  assert.equal(clamped.length, 0);
+  const merged = mergeRunItemPatches(items, clamped);
+  assert.equal(merged[0]?.status, "completed");
+  assert.equal(merged[0]?.content_package_id, "pkg-0");
+});
+
+check("orphan open item under terminal parent is forced failed", () => {
+  const items: RunItemIdentity[] = [
+    {
+      id: "item-0",
+      package_index: 0,
+      strategy_item_id: "s0",
+      status: "queued",
+      content_package_id: null,
+      error_message: null,
+    },
+  ];
+  const clamped = clampPatchesForTerminalParent(items, [
+    {
+      id: "item-0",
+      status: "running",
+      content_package_id: "pkg-0",
+      error_message: null,
+    },
+  ]);
+  assert.equal(clamped.length, 1);
+  assert.equal(clamped[0]?.status, "failed");
+  assert.equal(clamped[0]?.content_package_id, "pkg-0");
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

@@ -152,14 +152,20 @@ async function buildRunCards(
 ): Promise<ReviewRunCard[]> {
   const cards: ReviewRunCard[] = [];
   for (const run of runs) {
-    const view = await reconcileProductionRun(run.id);
-    const reconciled: ProductionRun = {
-      ...run,
-      status: view.status,
-      generated_total: view.generatedTotal,
-      failed_total: view.failedTotal,
-      updated_at: view.updatedAt,
-    };
+    let reconciled = run;
+    try {
+      const view = await reconcileProductionRun(run.id);
+      reconciled = {
+        ...run,
+        status: view.status,
+        generated_total: view.generatedTotal,
+        failed_total: view.failedTotal,
+        updated_at: view.updatedAt,
+      };
+    } catch {
+      // Review is a read surface: a single reconcile failure must not blank
+      // the whole project page (e.g. transient terminal-run open-item races).
+    }
     cards.push(await buildRunCard(supabase, reconciled));
   }
   return cards;
