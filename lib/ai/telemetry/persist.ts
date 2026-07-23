@@ -1,3 +1,4 @@
+import { PRICING_VERSION } from "@/lib/ai/telemetry/cost";
 import {
   PIPELINE_TELEMETRY_VERSION,
   type GenerationTelemetryDocument,
@@ -20,6 +21,10 @@ export function buildGenerationTelemetryDocument(args: {
   return {
     ...legacy,
     version: PIPELINE_TELEMETRY_VERSION,
+    pricing_version:
+      typeof legacy.pricing_version === "string"
+        ? legacy.pricing_version
+        : PRICING_VERSION,
     phases,
     steps: [...args.steps],
   };

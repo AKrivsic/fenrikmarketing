@@ -112,6 +112,10 @@ export async function localizeContentPackageForLanguage(
     guardrails: makePlatformPreservationGuardrail(
       source.platformItems.map((item) => item.platform),
     ),
+    telemetry: {
+      stepName: "Language Localization",
+      inputSummary: `Localize package → ${targetLanguage}`,
+    },
   });
 
   if (!generated.ok) {

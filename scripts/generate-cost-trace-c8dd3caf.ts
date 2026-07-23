@@ -1,6 +1,7 @@
 /**
  * Read-only financial cost trace for production run c8dd3caf-c407-418c-be49-d4cf0a3b7bf9.
- * Exact costs come only from persisted estimated_cost. All other figures are labeled estimates.
+ * Exact costs come only from persisted estimated_cost.
+ * Historical immutability: never reprice null-cost steps with current list rates.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -8,11 +9,6 @@ import { join, resolve } from "node:path";
 const RUN_ID = "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9";
 const OUT = resolve("docs/audits/cost-trace-c8dd3caf");
 const MARKDOWN = resolve("docs/audits/cost-trace-c8dd3caf.md");
-
-/** OpenAI list prices used only when worker estimated_cost is null. */
-const IMAGE_USD_PER_STILL = 0.042; // gpt-image-1 medium ~1024x1536
-const TTS_USD_PER_1K_CHARS = 0.015; // gpt-4o-mini-tts
-const WHISPER_USD_PER_MIN = 0.006; // whisper-1
 
 type CostBasis =
   | "exact_telemetry"
@@ -187,33 +183,26 @@ function workerCost(
   step: RecordLike,
   priorTtsSeconds: number | null,
 ): { cost: number; basis: CostBasis; detail: string } {
+  // Historical cost immutability: only persisted estimated_cost is authoritative.
+  // Never recompute from current IMAGE_USD / TTS / Whisper rate constants.
   const exact = number(step.estimated_cost);
-  if (exact != null) return { cost: exact, basis: "exact_telemetry", detail: "telemetry estimated_cost" };
+  if (exact != null) {
+    return {
+      cost: exact,
+      basis: "exact_telemetry",
+      detail: "telemetry estimated_cost (immutable historical)",
+    };
+  }
   const stage = stageForStep(text(step.step_name), text(step.provider));
-  if (stage === "images") {
-    const count = parseGeneratedCount(text(step.output_summary));
+  if (stage === "images" || stage === "voice" || stage === "whisper") {
     return {
-      cost: count * IMAGE_USD_PER_STILL,
-      basis: "estimated_list_price",
-      detail: `ESTIMATED: generated=${count} × $${IMAGE_USD_PER_STILL} (gpt-image-1 medium list price)`,
+      cost: 0,
+      basis: "unmetered",
+      detail:
+        "No stored estimated_cost — left unmetered (historical invariant: do not reprice with current list rates)",
     };
   }
-  if (stage === "voice") {
-    const characters = number(step.prompt_characters) ?? 0;
-    return {
-      cost: (characters / 1000) * TTS_USD_PER_1K_CHARS,
-      basis: "estimated_list_price",
-      detail: `ESTIMATED: ${characters} chars / 1000 × $${TTS_USD_PER_1K_CHARS}`,
-    };
-  }
-  if (stage === "whisper") {
-    const seconds = priorTtsSeconds ?? 0;
-    return {
-      cost: (seconds / 60) * WHISPER_USD_PER_MIN,
-      basis: "estimated_list_price",
-      detail: `ESTIMATED: ${seconds.toFixed(2)}s TTS audio / 60 × $${WHISPER_USD_PER_MIN}`,
-    };
-  }
+  void priorTtsSeconds;
   return {
     cost: 0,
     basis: "unmetered",
@@ -962,17 +951,13 @@ async function main() {
       note: "Failed-package waste is ESTIMATED from completed medians; no failed telemetry exists.",
     },
     pricing_assumptions: {
-      image_usd_per_still: IMAGE_USD_PER_STILL,
-      tts_usd_per_1k_chars: TTS_USD_PER_1K_CHARS,
-      whisper_usd_per_min: WHISPER_USD_PER_MIN,
+      note: "Authoritative costs use stored estimated_cost only. Rate constants are not applied to historical rows.",
     },
     telemetry_gaps: [
-      "Worker Image/TTS/Whisper/Render steps have estimated_cost=null — list-price estimates only.",
-      "Failed packages persist no generation_telemetry — stage costs estimated from completed package medians × attempts.",
+      "Steps with estimated_cost=null are reported as unmetered (never repriced from current list rates).",
+      "Failed packages without generation_telemetry may still use median-based waste estimates (not pricing-table recomputation).",
       "Presentation retry_count>0 stores combined cost; per-attempt split is not available.",
-      "Provider field sometimes says 'claude' for gpt-4o-mini steps.",
       "Render/compute (ffmpeg/worker VM) is unmetered.",
-      "No language-variant translation costs in this run (language IS NULL content items only).",
     ],
   };
   writeFileSync(join(OUT, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`);
@@ -1001,22 +986,21 @@ async function main() {
   md.push("");
   md.push("| Label | Meaning |");
   md.push("| --- | --- |");
-  md.push("| `exact_telemetry` | Persisted `estimated_cost` on strategy/package steps |");
+  md.push("| `exact_telemetry` | Persisted `estimated_cost` — authoritative historical cost |");
   md.push(
-    `| \`estimated_list_price\` | Worker media with null \`estimated_cost\`: image = generated × $${IMAGE_USD_PER_STILL}; TTS = chars/1000 × $${TTS_USD_PER_1K_CHARS}; Whisper = TTS seconds/60 × $${WHISPER_USD_PER_MIN} |`,
+    "| `unmetered` | Missing `estimated_cost` or render/compute — never repriced from current list rates |",
   );
   md.push(
-    "| `estimated_from_medians` | Failed packages have **no telemetry**. Cost = median completed package stage total × attempt multipliers |",
+    "| `estimated_from_medians` | Failed packages without telemetry — median sibling stage totals (not pricing-table reprice) |",
   );
-  md.push("| `unmetered` | Deterministic validators / render compute — $0 API in telemetry |");
   md.push("");
   md.push("## Executive totals");
   md.push("");
   md.push(...markdownTable(
     ["Basis", "USD", "Share"],
     [
-      ["Exact telemetry (strategy + package AI)", dollars(exactTotal), pct(exactTotal, total)],
-      ["Media list-price estimates (images/TTS/Whisper)", dollars(listTotal), pct(listTotal, total)],
+      ["Exact telemetry (stored estimated_cost)", dollars(exactTotal), pct(exactTotal, total)],
+      ["Legacy list-price rows (should be 0 under immutability)", dollars(listTotal), pct(listTotal, total)],
       ["Failed-package median estimates [ESTIMATED]", dollars(failedTotal), pct(failedTotal, total)],
       ["**Total traceable / estimated**", dollars(total), "100%"],
     ],

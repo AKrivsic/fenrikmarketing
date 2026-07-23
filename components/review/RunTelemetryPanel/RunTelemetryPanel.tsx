@@ -42,6 +42,8 @@ function formatBytes(n: number | null | undefined): string {
 function sourceLabel(source: RunTelemetryStepView["source"]): string {
   if (source === "strategy") return "strategy";
   if (source === "package") return "package";
+  if (source === "localization") return "localization";
+  if (source === "failure") return "failed attempt";
   return "video job";
 }
 
@@ -65,7 +67,7 @@ function SummaryGrid({ summary }: { summary: RunTelemetrySummary }) {
         <dd>{formatDurationMs(summary.videoPipelineDurationMs)}</dd>
       </div>
       <div className={styles.stat}>
-        <dt>Est. AI cost</dt>
+        <dt>Est. cost</dt>
         <dd>{formatCost(summary.estimatedAiCostUsd)}</dd>
       </div>
       <div className={styles.stat}>

@@ -1,5 +1,9 @@
 import { getTelemetryCollector } from "@/lib/ai/telemetry/collector";
-import { estimateTokenCostUsd } from "@/lib/ai/telemetry/cost";
+import {
+  estimateTokenCostUsd,
+  PRICING_SOURCE,
+  PRICING_VERSION,
+} from "@/lib/ai/telemetry/cost";
 import type {
   PipelineTelemetryStep,
   WithTelemetryOptions,
@@ -18,6 +22,65 @@ function resolveSummary(
     }
   }
   return value;
+}
+
+function buildStepFields(args: {
+  options: WithTelemetryOptions<unknown>;
+  startedAt: Date;
+  startMs: number;
+  inputSummary: string | null;
+  inputSize: number | null;
+  promptCharacters: number | null;
+  success: boolean;
+  retryCount: number;
+  warnings: string[];
+  errorMessage: string | null;
+  usage: {
+    prompt_tokens: number | null;
+    completion_tokens: number | null;
+    cached_tokens: number | null;
+    model?: string | null;
+  } | null;
+  estimatedCost: number | null;
+  pricingVersion: string | null;
+  pricingSource: string | null;
+  rawUsage: Record<string, unknown> | null;
+  providerRequestId: string | null;
+  outputSizeBytes: number | null;
+  completionCharacters: number | null;
+  outputSummary: string | null;
+  finishedAt: Date;
+}): PipelineTelemetryStep {
+  return {
+    step_name: args.options.stepName,
+    provider: args.options.provider ?? null,
+    model: args.usage?.model ?? args.options.model ?? null,
+    started_at: args.startedAt.toISOString(),
+    finished_at: args.finishedAt.toISOString(),
+    duration_ms: Date.now() - args.startMs,
+    success: args.success,
+    retry_count: args.retryCount,
+    repair: args.options.repair ?? false,
+    input_size_bytes: args.inputSize,
+    output_size_bytes: args.outputSizeBytes,
+    prompt_characters: args.promptCharacters,
+    completion_characters: args.completionCharacters,
+    prompt_tokens: args.usage?.prompt_tokens ?? null,
+    completion_tokens: args.usage?.completion_tokens ?? null,
+    cached_tokens: args.usage?.cached_tokens ?? null,
+    estimated_cost: args.estimatedCost,
+    pricing_version: args.pricingVersion,
+    pricing_source: args.pricingSource,
+    raw_usage: args.rawUsage,
+    provider_request_id: args.providerRequestId,
+    temperature: args.options.temperature ?? null,
+    max_tokens: args.options.maxTokens ?? null,
+    response_format: args.options.responseFormat ?? null,
+    warnings: args.warnings,
+    error_message: args.errorMessage,
+    input_summary: args.inputSummary,
+    output_summary: args.outputSummary,
+  };
 }
 
 /**
@@ -58,79 +121,86 @@ export async function withTelemetry<T>(
     const outputMeasured = options.measureOutput
       ? options.measureOutput(result)
       : undefined;
+    const customCost = options.estimatedCostFromResult?.(result);
     const estimatedCost =
-      options.estimatedCostFromResult?.(result) ??
-      estimateTokenCostUsd({
-        provider: options.provider,
-        model: usage?.model ?? options.model,
-        promptTokens: usage?.prompt_tokens ?? null,
-        completionTokens: usage?.completion_tokens ?? null,
-        cachedTokens: usage?.cached_tokens ?? null,
-      });
+      customCost !== undefined
+        ? (customCost ?? null)
+        : estimateTokenCostUsd({
+            provider: options.provider,
+            model: usage?.model ?? options.model,
+            promptTokens: usage?.prompt_tokens ?? null,
+            completionTokens: usage?.completion_tokens ?? null,
+            cachedTokens: usage?.cached_tokens ?? null,
+          });
     const success = options.successFromResult
       ? options.successFromResult(result)
       : true;
     const softError = options.errorMessageFromResult?.(result) ?? null;
+    const rawUsage = options.rawUsageFromResult?.(result) ?? null;
+    const providerRequestId =
+      options.providerRequestIdFromResult?.(result) ?? null;
+    const pricingVersion =
+      estimatedCost != null
+        ? (options.pricingVersion ?? PRICING_VERSION)
+        : (options.pricingVersion ?? null);
+    const pricingSource =
+      estimatedCost != null ? PRICING_SOURCE : null;
 
-    const step: PipelineTelemetryStep = {
-      step_name: options.stepName,
-      provider: options.provider ?? null,
-      model: usage?.model ?? options.model ?? null,
-      started_at: startedAt.toISOString(),
-      finished_at: finishedAt.toISOString(),
-      duration_ms: Date.now() - startMs,
-      success,
-      retry_count: retryCount,
-      repair: options.repair ?? false,
-      input_size_bytes: inputSize,
-      output_size_bytes:
-        outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
-      prompt_characters: promptCharacters,
-      completion_characters:
-        outputMeasured !== undefined ? characterLength(outputMeasured) : null,
-      prompt_tokens: usage?.prompt_tokens ?? null,
-      completion_tokens: usage?.completion_tokens ?? null,
-      cached_tokens: usage?.cached_tokens ?? null,
-      estimated_cost: estimatedCost,
-      temperature: options.temperature ?? null,
-      max_tokens: options.maxTokens ?? null,
-      response_format: options.responseFormat ?? null,
-      warnings,
-      error_message: softError,
-      input_summary: inputSummary,
-      output_summary: options.outputSummary?.(result) ?? null,
-    };
-    collector.push(step);
+    collector.push(
+      buildStepFields({
+        options: options as WithTelemetryOptions<unknown>,
+        startedAt,
+        startMs,
+        inputSummary,
+        inputSize,
+        promptCharacters,
+        success,
+        retryCount,
+        warnings,
+        errorMessage: softError,
+        usage,
+        estimatedCost,
+        pricingVersion,
+        pricingSource,
+        rawUsage,
+        providerRequestId,
+        outputSizeBytes:
+          outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
+        completionCharacters:
+          outputMeasured !== undefined ? characterLength(outputMeasured) : null,
+        outputSummary: options.outputSummary?.(result) ?? null,
+        finishedAt,
+      }),
+    );
     return result;
   } catch (err) {
     const finishedAt = new Date();
     const message = err instanceof Error ? err.message : String(err);
-    collector.push({
-      step_name: options.stepName,
-      provider: options.provider ?? null,
-      model: options.model ?? null,
-      started_at: startedAt.toISOString(),
-      finished_at: finishedAt.toISOString(),
-      duration_ms: Date.now() - startMs,
-      success: false,
-      retry_count: typeof options.retryCount === "number" ? options.retryCount : 0,
-      repair: options.repair ?? false,
-      input_size_bytes: inputSize,
-      output_size_bytes: null,
-      prompt_characters: promptCharacters,
-      completion_characters: null,
-      prompt_tokens: null,
-      completion_tokens: null,
-      cached_tokens: null,
-      estimated_cost: null,
-      temperature: options.temperature ?? null,
-      max_tokens: options.maxTokens ?? null,
-      response_format: options.responseFormat ?? null,
-      warnings: [],
-      error_message: message.slice(0, 2000),
-      input_summary: inputSummary,
-      output_summary: null,
-    });
+    collector.push(
+      buildStepFields({
+        options: options as WithTelemetryOptions<unknown>,
+        startedAt,
+        startMs,
+        inputSummary,
+        inputSize,
+        promptCharacters,
+        success: false,
+        retryCount:
+          typeof options.retryCount === "number" ? options.retryCount : 0,
+        warnings: [],
+        errorMessage: message.slice(0, 2000),
+        usage: null,
+        estimatedCost: null,
+        pricingVersion: null,
+        pricingSource: null,
+        rawUsage: null,
+        providerRequestId: null,
+        outputSizeBytes: null,
+        completionCharacters: null,
+        outputSummary: null,
+        finishedAt,
+      }),
+    );
     throw err;
   }
 }
@@ -165,64 +235,60 @@ export function withTelemetrySync<T>(
       ? options.measureOutput(result)
       : undefined;
 
-    collector.push({
-      step_name: options.stepName,
-      provider: options.provider ?? "deterministic",
-      model: options.model ?? null,
-      started_at: startedAt.toISOString(),
-      finished_at: finishedAt.toISOString(),
-      duration_ms: Date.now() - startMs,
-      success: true,
-      retry_count: 0,
-      repair: options.repair ?? false,
-      input_size_bytes: inputSize,
-      output_size_bytes:
-        outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
-      prompt_characters: promptCharacters,
-      completion_characters:
-        outputMeasured !== undefined ? characterLength(outputMeasured) : null,
-      prompt_tokens: null,
-      completion_tokens: null,
-      cached_tokens: null,
-      estimated_cost: null,
-      temperature: null,
-      max_tokens: null,
-      response_format: null,
-      warnings,
-      error_message: null,
-      input_summary: inputSummary,
-      output_summary: options.outputSummary?.(result) ?? null,
-    });
+    collector.push(
+      buildStepFields({
+        options: options as WithTelemetryOptions<unknown>,
+        startedAt,
+        startMs,
+        inputSummary,
+        inputSize,
+        promptCharacters,
+        success: true,
+        retryCount: 0,
+        warnings,
+        errorMessage: null,
+        usage: null,
+        estimatedCost: null,
+        pricingVersion: null,
+        pricingSource: null,
+        rawUsage: null,
+        providerRequestId: null,
+        outputSizeBytes:
+          outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
+        completionCharacters:
+          outputMeasured !== undefined ? characterLength(outputMeasured) : null,
+        outputSummary: options.outputSummary?.(result) ?? null,
+        finishedAt,
+      }),
+    );
     return result;
   } catch (err) {
     const finishedAt = new Date();
     const message = err instanceof Error ? err.message : String(err);
-    collector.push({
-      step_name: options.stepName,
-      provider: options.provider ?? "deterministic",
-      model: options.model ?? null,
-      started_at: startedAt.toISOString(),
-      finished_at: finishedAt.toISOString(),
-      duration_ms: Date.now() - startMs,
-      success: false,
-      retry_count: 0,
-      repair: options.repair ?? false,
-      input_size_bytes: inputSize,
-      output_size_bytes: null,
-      prompt_characters: promptCharacters,
-      completion_characters: null,
-      prompt_tokens: null,
-      completion_tokens: null,
-      cached_tokens: null,
-      estimated_cost: null,
-      temperature: null,
-      max_tokens: null,
-      response_format: null,
-      warnings: [],
-      error_message: message.slice(0, 2000),
-      input_summary: inputSummary,
-      output_summary: null,
-    });
+    collector.push(
+      buildStepFields({
+        options: options as WithTelemetryOptions<unknown>,
+        startedAt,
+        startMs,
+        inputSummary,
+        inputSize,
+        promptCharacters,
+        success: false,
+        retryCount: 0,
+        warnings: [],
+        errorMessage: message.slice(0, 2000),
+        usage: null,
+        estimatedCost: null,
+        pricingVersion: null,
+        pricingSource: null,
+        rawUsage: null,
+        providerRequestId: null,
+        outputSizeBytes: null,
+        completionCharacters: null,
+        outputSummary: null,
+        finishedAt,
+      }),
+    );
     throw err;
   }
 }

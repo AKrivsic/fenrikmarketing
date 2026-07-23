@@ -87,6 +87,8 @@ export {
 
 export {
   persistPackageGenerationFailureTelemetry,
+  persistActiveCollectorFailureTelemetry,
+  lookupProductionRunItemId,
   type FailureTelemetrySnapshot,
 } from "@/lib/production-runtime/failureTelemetry";
 

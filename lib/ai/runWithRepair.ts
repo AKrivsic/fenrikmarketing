@@ -12,6 +12,7 @@ import {
 } from "@/lib/ai/validateAiOutput";
 import { withTelemetry } from "@/lib/ai/telemetry/withTelemetry";
 import type { ProviderUsageMetrics } from "@/lib/ai/telemetry/types";
+import { PRICING_VERSION } from "@/lib/ai/telemetry/cost";
 
 export interface GenerateValidatedJsonTelemetry {
   stepName: string;
@@ -73,6 +74,10 @@ export type GenerateValidatedJsonResult<T> =
 //   4. run business guardrails (forbidden_claims / product_is_not / etc.)
 //   5. on any failure, regenerate — up to maxAttempts (default 3)
 //   6. after the final failed attempt return generation_failed + errors
+//
+// Cost accounting: primary text-provider tokens stay on the outer telemetry
+// step. OpenAI JSON repair calls are recorded as separate "JSON Repair" steps
+// so Claude and OpenAI pricing are never mixed in one aggregated usage blob.
 export async function generateValidatedJson<T>(
   input: GenerateValidatedJsonInput<T>,
 ): Promise<GenerateValidatedJsonResult<T>> {
@@ -116,6 +121,18 @@ export async function generateValidatedJson<T>(
           .__telemetryUsage;
         return meta ?? null;
       },
+      pricingVersion: PRICING_VERSION,
+      rawUsageFromResult: (result) => {
+        const meta = (result as { __telemetryUsage?: ProviderUsageMetrics })
+          .__telemetryUsage;
+        if (!meta) return null;
+        return {
+          prompt_tokens: meta.prompt_tokens,
+          completion_tokens: meta.completion_tokens,
+          cached_tokens: meta.cached_tokens,
+          model: meta.model ?? null,
+        };
+      },
     },
     async () => {
       const result = await runGenerateValidatedJson(input);
@@ -153,9 +170,8 @@ async function runGenerateValidatedJson<T>(
     cached_tokens: null,
   };
   let sawUsage = false;
-  let jsonRepairUsed = false;
 
-  const addUsage = (u: TextProviderCompleteUsage | null | undefined) => {
+  const addPrimaryUsage = (u: TextProviderCompleteUsage | null | undefined) => {
     if (!u) return;
     const hasAny =
       u.prompt_tokens != null ||
@@ -176,7 +192,8 @@ async function runGenerateValidatedJson<T>(
         u.cached_tokens != null
           ? (usageAcc.cached_tokens ?? 0) + u.cached_tokens
           : usageAcc.cached_tokens,
-      model: u.model ?? usageAcc.model,
+      // Keep the primary text-provider model — never overwrite with repair model.
+      model: usageAcc.model ?? u.model ?? model ?? textProvider.name,
     };
   };
 
@@ -197,7 +214,7 @@ async function runGenerateValidatedJson<T>(
       maxTransportAttempts,
     });
     lastRaw = completion.text;
-    addUsage({
+    addPrimaryUsage({
       prompt_tokens: completion.usage?.prompt_tokens ?? null,
       completion_tokens: completion.usage?.completion_tokens ?? null,
       cached_tokens: completion.usage?.cached_tokens ?? null,
@@ -214,9 +231,7 @@ async function runGenerateValidatedJson<T>(
         expectedShape,
       );
       if (repaired) {
-        jsonRepairUsed = true;
         lastRaw = repaired.text;
-        addUsage(repaired.usage);
         parsed = safeJsonParse(repaired.text);
       }
     }
@@ -236,11 +251,9 @@ async function runGenerateValidatedJson<T>(
         expectedShape,
       );
       if (repaired) {
-        jsonRepairUsed = true;
         const reparsed = safeJsonParse(repaired.text);
         if (reparsed.ok) {
           lastRaw = repaired.text;
-          addUsage(repaired.usage);
           result = validate(validator, reparsed.value);
         }
       }
@@ -262,7 +275,6 @@ async function runGenerateValidatedJson<T>(
           expectedShape,
         );
         if (repaired) {
-          jsonRepairUsed = true;
           const reparsed = safeJsonParse(repaired.text);
           if (reparsed.ok) {
             const revalidated = validate(validator, reparsed.value);
@@ -271,16 +283,12 @@ async function runGenerateValidatedJson<T>(
                 ? guardrails(revalidated.value)
                 : [];
               if (repairGuardIssues.length === 0) {
-                return attachUsage(
-                  {
-                    ok: true,
-                    value: revalidated.value,
-                    attempts: attempt,
-                    raw: repaired.text,
-                  },
-                  sawUsage ? usageAcc : undefined,
-                  jsonRepairUsed,
-                );
+                return attachUsage({
+                  ok: true,
+                  value: revalidated.value,
+                  attempts: attempt,
+                  raw: repaired.text,
+                }, sawUsage ? usageAcc : undefined);
               }
             }
           }
@@ -298,7 +306,6 @@ async function runGenerateValidatedJson<T>(
         raw: lastRaw ?? completion.text,
       },
       sawUsage ? usageAcc : undefined,
-      jsonRepairUsed,
     );
   }
 
@@ -311,7 +318,6 @@ async function runGenerateValidatedJson<T>(
       lastRaw,
     },
     sawUsage ? usageAcc : undefined,
-    jsonRepairUsed,
   );
 }
 
@@ -320,7 +326,6 @@ type TextProviderCompleteUsage = ProviderUsageMetrics & { model?: string | null 
 function attachUsage<T>(
   result: GenerateValidatedJsonResult<T>,
   usage: ProviderUsageMetrics | undefined,
-  _jsonRepairUsed: boolean,
 ): GenerateValidatedJsonResult<T> & { __telemetryUsage?: ProviderUsageMetrics } {
   if (!usage) return result;
   return Object.assign(result, { __telemetryUsage: usage });
@@ -332,20 +337,61 @@ async function repairJson(
   repairProvider: TextProvider | undefined,
   expectedShape?: string,
 ): Promise<{ text: string; usage: TextProviderCompleteUsage | null } | null> {
+  const provider = repairProvider ?? getJsonRepairProvider();
   try {
-    const provider = repairProvider ?? getJsonRepairProvider();
-    const completion = await provider.complete({
-      system: JSON_REPAIR_SYSTEM,
-      prompt: buildJsonRepairPrompt({ brokenOutput, issues, expectedShape }),
-      json: true,
-      temperature: 0,
-    });
-    return {
-      text: completion.text,
-      usage: completion.usage
-        ? { ...completion.usage, model: completion.model }
-        : { prompt_tokens: null, completion_tokens: null, cached_tokens: null, model: completion.model },
-    };
+    return await withTelemetry(
+      {
+        stepName: "JSON Repair",
+        provider: provider.name,
+        model: null,
+        repair: true,
+        responseFormat: "json",
+        temperature: 0,
+        inputSummary: "JSON Repair input:\n- Broken model output\n- Validation issues",
+        measureInput: brokenOutput,
+        measureOutput: (r) => (r ? r.text : null),
+        outputSummary: (r) => (r ? "repaired JSON" : "repair unavailable"),
+        successFromResult: (r) => r != null,
+        usageFromResult: (r) =>
+          r?.usage
+            ? {
+                prompt_tokens: r.usage.prompt_tokens ?? null,
+                completion_tokens: r.usage.completion_tokens ?? null,
+                cached_tokens: r.usage.cached_tokens ?? null,
+                model: r.usage.model ?? null,
+              }
+            : null,
+        pricingVersion: PRICING_VERSION,
+        rawUsageFromResult: (r) =>
+          r?.usage
+            ? {
+                prompt_tokens: r.usage.prompt_tokens,
+                completion_tokens: r.usage.completion_tokens,
+                cached_tokens: r.usage.cached_tokens,
+                model: r.usage.model ?? null,
+              }
+            : null,
+      },
+      async () => {
+        const completion = await provider.complete({
+          system: JSON_REPAIR_SYSTEM,
+          prompt: buildJsonRepairPrompt({ brokenOutput, issues, expectedShape }),
+          json: true,
+          temperature: 0,
+        });
+        return {
+          text: completion.text,
+          usage: completion.usage
+            ? { ...completion.usage, model: completion.model }
+            : {
+                prompt_tokens: null,
+                completion_tokens: null,
+                cached_tokens: null,
+                model: completion.model,
+              },
+        };
+      },
+    );
   } catch {
     // Repair provider unavailable (e.g. missing key) — fall back to the
     // original output and let validation fail naturally.

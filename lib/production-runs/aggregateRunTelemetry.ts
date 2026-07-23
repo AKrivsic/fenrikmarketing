@@ -1,7 +1,14 @@
 import type { PipelineTelemetryStep } from "@/lib/ai/telemetry/types";
+import { flattenTelemetryStepsWithHistory } from "@/lib/ai/telemetry/costRollup";
 import { readTelemetrySteps } from "@/lib/ai/telemetry/formatAudit";
+import { buildCostRollup, type CostRollup } from "@/lib/ai/telemetry/costRollup";
 
-export type TelemetryStepSource = "strategy" | "package" | "video_job";
+export type TelemetryStepSource =
+  | "strategy"
+  | "package"
+  | "video_job"
+  | "localization"
+  | "failure";
 
 /** One merged timeline row for admin review. */
 export interface RunTelemetryStepView extends PipelineTelemetryStep {
@@ -9,6 +16,7 @@ export interface RunTelemetryStepView extends PipelineTelemetryStep {
   packageId: string | null;
   videoJobId: string | null;
   strategyId: string | null;
+  contentItemId?: string | null;
 }
 
 export interface RunTelemetrySummary {
@@ -20,8 +28,13 @@ export interface RunTelemetrySummary {
   aiDurationMs: number;
   /** Worker / media pipeline step duration sum. */
   videoPipelineDurationMs: number;
-  /** Sum of estimated_cost where present. */
+  /**
+   * Sum of estimated_cost where present (AI text + metered media).
+   * Kept as estimatedAiCostUsd for Review UI backwards compatibility.
+   */
   estimatedAiCostUsd: number | null;
+  /** Deterministic rollup over the same steps (no duplicated storage). */
+  costRollup: CostRollup;
   stepCount: number;
   failedStepCount: number;
   retryCount: number;
@@ -82,11 +95,10 @@ export function buildRunTelemetrySummary(
   let videoPipelineDurationMs = 0;
   let failedStepCount = 0;
   let retryCount = 0;
-  let costSum = 0;
-  let costPresent = false;
 
   let slowestStep: RunTelemetrySummary["slowestStep"] = null;
   const providerMs = new Map<string, number>();
+  const costRollup = buildCostRollup(steps);
 
   for (const step of steps) {
     const ms = Number.isFinite(step.duration_ms) ? step.duration_ms : 0;
@@ -98,10 +110,6 @@ export function buildRunTelemetrySummary(
     }
     if (!step.success) failedStepCount += 1;
     if (step.retry_count > 0) retryCount += step.retry_count;
-    if (typeof step.estimated_cost === "number" && Number.isFinite(step.estimated_cost)) {
-      costSum += step.estimated_cost;
-      costPresent = true;
-    }
     if (!slowestStep || ms > slowestStep.durationMs) {
       slowestStep = { name: step.step_name, durationMs: ms };
     }
@@ -121,7 +129,8 @@ export function buildRunTelemetrySummary(
     totalRecordedDurationMs,
     aiDurationMs,
     videoPipelineDurationMs,
-    estimatedAiCostUsd: costPresent ? costSum : null,
+    estimatedAiCostUsd: costRollup.estimatedCostUsd,
+    costRollup,
     stepCount: steps.length,
     failedStepCount,
     retryCount,
@@ -165,6 +174,39 @@ export function filterStepsForProductionRun(
   return [...steps];
 }
 
+function pushFilteredSteps(args: {
+  merged: RunTelemetryStepView[];
+  productionRunId: string;
+  generationTelemetry: unknown;
+  relationshipScoped: boolean;
+  /** When true, include history[] steps for lifetime package cost. */
+  includeHistory: boolean;
+  source: TelemetryStepSource;
+  packageId: string | null;
+  videoJobId: string | null;
+  strategyId: string | null;
+  contentItemId?: string | null;
+}): void {
+  const raw = args.includeHistory
+    ? flattenTelemetryStepsWithHistory(args.generationTelemetry)
+    : readTelemetrySteps(args.generationTelemetry);
+  const steps = filterStepsForProductionRun(raw, {
+    productionRunId: args.productionRunId,
+    generationTelemetry: args.generationTelemetry,
+    relationshipScoped: args.relationshipScoped,
+  });
+  for (const step of steps) {
+    args.merged.push({
+      ...step,
+      source: args.source,
+      packageId: args.packageId,
+      videoJobId: args.videoJobId,
+      strategyId: args.strategyId,
+      contentItemId: args.contentItemId ?? null,
+    });
+  }
+}
+
 export function mergeRunTelemetrySteps(args: {
   productionRunId: string;
   totalRunDurationMs: number | null;
@@ -181,61 +223,88 @@ export function mergeRunTelemetrySteps(args: {
     packageId: string | null;
     generationTelemetry: unknown;
   }>;
+  localizationDocs?: ReadonlyArray<{
+    contentItemId: string;
+    packageId: string | null;
+    generationTelemetry: unknown;
+  }>;
+  failureDocs?: ReadonlyArray<{
+    packageId?: string | null;
+    strategyId?: string | null;
+    generationTelemetry: unknown;
+  }>;
 }): RunTelemetryView {
   const merged: RunTelemetryStepView[] = [];
 
   for (const doc of args.strategyDocs) {
-    const raw = readTelemetrySteps(doc.generationTelemetry);
-    const steps = filterStepsForProductionRun(raw, {
+    pushFilteredSteps({
+      merged,
       productionRunId: args.productionRunId,
       generationTelemetry: doc.generationTelemetry,
       relationshipScoped: true,
+      includeHistory: false,
+      source: "strategy",
+      packageId: null,
+      videoJobId: null,
+      strategyId: doc.strategyId,
     });
-    for (const step of steps) {
-      merged.push({
-        ...step,
-        source: "strategy",
-        packageId: null,
-        videoJobId: null,
-        strategyId: doc.strategyId,
-      });
-    }
   }
 
   for (const doc of args.packageDocs) {
-    const raw = readTelemetrySteps(doc.generationTelemetry);
-    const steps = filterStepsForProductionRun(raw, {
+    pushFilteredSteps({
+      merged,
       productionRunId: args.productionRunId,
       generationTelemetry: doc.generationTelemetry,
       relationshipScoped: true,
+      includeHistory: true,
+      source: "package",
+      packageId: doc.packageId,
+      videoJobId: null,
+      strategyId: null,
     });
-    for (const step of steps) {
-      merged.push({
-        ...step,
-        source: "package",
-        packageId: doc.packageId,
-        videoJobId: null,
-        strategyId: null,
-      });
-    }
+  }
+
+  for (const doc of args.localizationDocs ?? []) {
+    pushFilteredSteps({
+      merged,
+      productionRunId: args.productionRunId,
+      generationTelemetry: doc.generationTelemetry,
+      relationshipScoped: true,
+      includeHistory: false,
+      source: "localization",
+      packageId: doc.packageId,
+      videoJobId: null,
+      strategyId: null,
+      contentItemId: doc.contentItemId,
+    });
   }
 
   for (const doc of args.videoJobDocs) {
-    const raw = readTelemetrySteps(doc.generationTelemetry);
-    const steps = filterStepsForProductionRun(raw, {
+    pushFilteredSteps({
+      merged,
       productionRunId: args.productionRunId,
       generationTelemetry: doc.generationTelemetry,
       relationshipScoped: true,
+      includeHistory: false,
+      source: "video_job",
+      packageId: doc.packageId,
+      videoJobId: doc.videoJobId,
+      strategyId: null,
     });
-    for (const step of steps) {
-      merged.push({
-        ...step,
-        source: "video_job",
-        packageId: doc.packageId,
-        videoJobId: doc.videoJobId,
-        strategyId: null,
-      });
-    }
+  }
+
+  for (const doc of args.failureDocs ?? []) {
+    pushFilteredSteps({
+      merged,
+      productionRunId: args.productionRunId,
+      generationTelemetry: doc.generationTelemetry,
+      relationshipScoped: true,
+      includeHistory: false,
+      source: "failure",
+      packageId: doc.packageId ?? null,
+      videoJobId: null,
+      strategyId: doc.strategyId ?? null,
+    });
   }
 
   const steps = sortTelemetryStepsChronologically(merged);
@@ -244,4 +313,27 @@ export function mergeRunTelemetrySteps(args: {
     summary: buildRunTelemetrySummary(steps, args.totalRunDurationMs),
     steps,
   };
+}
+
+/** Package-level cost rollup from brief + related video job telemetries. */
+export function rollupPackageCost(args: {
+  packageBrief: unknown;
+  videoJobOutputs?: unknown[];
+  localizationMetadatas?: unknown[];
+}): CostRollup {
+  const brief = asRecord(args.packageBrief);
+  const pg = asRecord(brief?.presentation_generation);
+  const steps: PipelineTelemetryStep[] = [
+    ...flattenTelemetryStepsWithHistory(pg?.generation_telemetry),
+  ];
+  for (const meta of args.localizationMetadatas ?? []) {
+    const m = asRecord(meta);
+    steps.push(...readTelemetrySteps(m?.generation_telemetry));
+  }
+  for (const output of args.videoJobOutputs ?? []) {
+    const out = asRecord(output);
+    const debug = asRecord(out?.debug);
+    steps.push(...readTelemetrySteps(debug?.generation_telemetry));
+  }
+  return buildCostRollup(steps);
 }

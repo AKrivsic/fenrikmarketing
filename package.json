@@ -55,6 +55,7 @@
     "check:narrative-beats": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-narrative-beats.ts",
     "check:pipeline-telemetry": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-pipeline-telemetry.ts",
     "check:run-telemetry-ui": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-run-telemetry-ui.ts",
+    "check:business-cost-accounting": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-business-cost-accounting.ts",
     "check:smart-asset-usage": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-smart-asset-usage.ts",
     "check:component-capture-integration": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-component-capture-integration.ts",
     "check:component-capture-worker": "npm run check --prefix component-capture-worker",

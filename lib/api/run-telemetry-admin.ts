@@ -1,5 +1,4 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { newestByContentItem } from "@/lib/api/content-shared";
 import {
   mergeRunTelemetrySteps,
   type RunTelemetryView,
@@ -28,6 +27,16 @@ function videoJobGenerationTelemetry(output: unknown): unknown {
   return debug?.generation_telemetry ?? null;
 }
 
+function itemLocalizationTelemetry(generationMetadata: unknown): unknown {
+  const meta = asRecord(generationMetadata);
+  return meta?.generation_telemetry ?? null;
+}
+
+function failureGenerationTelemetry(failureTelemetry: unknown): unknown {
+  const ft = asRecord(failureTelemetry);
+  return ft?.generation_telemetry ?? null;
+}
+
 function runWallDurationMs(run: ProductionRun): number | null {
   const terminal = run.status === "completed" || run.status === "failed";
   if (!terminal) return null;
@@ -39,7 +48,8 @@ function runWallDurationMs(run: ProductionRun): number | null {
 
 /**
  * Lazy-load aggregated pipeline telemetry for one production run.
- * Selects only the JSON paths needed for steps[] — not full briefs/outputs.
+ * Includes primary packages, language variants, all video jobs (retries),
+ * and failed-attempt telemetry. Cost is summed from stored estimated_cost.
  */
 export async function loadProductionRunTelemetry(args: {
   projectId: string;
@@ -60,21 +70,27 @@ export async function loadProductionRunTelemetry(args: {
   if (!runRow) return null;
   const run = runRow as ProductionRun;
 
-  const [strategiesRes, itemsRes] = await Promise.all([
+  const [strategiesRes, itemsRes, runItemsRes] = await Promise.all([
     supabase
       .from("content_strategies")
       .select("id, strategy_brief")
       .eq("project_id", projectId)
       .eq("strategy_brief->>production_run_id", productionRunId),
+    // Primary + language variants for this run.
     supabase
       .from("content_items")
-      .select("id, package_id")
+      .select("id, package_id, language, generation_metadata")
       .eq("project_id", projectId)
-      .eq("generation_metadata->>production_run_id", productionRunId)
-      .is("language", null),
+      .eq("generation_metadata->>production_run_id", productionRunId),
+    supabase
+      .from("production_run_items")
+      .select("id, strategy_item_id, content_package_id, failure_telemetry")
+      .eq("production_run_id", productionRunId)
+      .eq("project_id", projectId),
   ]);
   if (strategiesRes.error) throw strategiesRes.error;
   if (itemsRes.error) throw itemsRes.error;
+  if (runItemsRes.error) throw runItemsRes.error;
 
   const strategyDocs = ((strategiesRes.data ?? []) as Array<{
     id: string;
@@ -87,10 +103,16 @@ export async function loadProductionRunTelemetry(args: {
   const items = (itemsRes.data ?? []) as Array<{
     id: string;
     package_id: string | null;
+    language: string | null;
+    generation_metadata: unknown;
   }>;
+
+  const primaryItems = items.filter((i) => i.language == null);
+  const variantItems = items.filter((i) => i.language != null);
+
   const packageIds = Array.from(
     new Set(
-      items
+      primaryItems
         .map((i) => i.package_id)
         .filter((id): id is string => typeof id === "string" && id.length > 0),
     ),
@@ -115,6 +137,14 @@ export async function loadProductionRunTelemetry(args: {
     }));
   }
 
+  const localizationDocs = variantItems
+    .map((row) => ({
+      contentItemId: row.id,
+      packageId: row.package_id,
+      generationTelemetry: itemLocalizationTelemetry(row.generation_metadata),
+    }))
+    .filter((d) => d.generationTelemetry != null);
+
   let videoJobDocs: Array<{
     videoJobId: string;
     packageId: string | null;
@@ -126,14 +156,14 @@ export async function loadProductionRunTelemetry(args: {
       .select("id, content_item_id, output, created_at")
       .eq("project_id", projectId)
       .in("content_item_id", itemIds)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: true });
     if (jobErr) throw jobErr;
 
-    const newest = newestByContentItem((jobRows ?? []) as VideoJob[]);
     const packageByItem = new Map(
       items.map((i) => [i.id, i.package_id] as const),
     );
-    videoJobDocs = Array.from(newest.values())
+    // Include ALL jobs (retries) so historical spend stays cost-visible.
+    videoJobDocs = ((jobRows ?? []) as VideoJob[])
       .filter((job): job is VideoJob & { content_item_id: string } =>
         typeof job.content_item_id === "string",
       )
@@ -144,11 +174,54 @@ export async function loadProductionRunTelemetry(args: {
       }));
   }
 
+  const failureDocs = (
+    (runItemsRes.data ?? []) as Array<{
+      id: string;
+      strategy_item_id: string | null;
+      content_package_id: string | null;
+      failure_telemetry: unknown;
+    }>
+  )
+    .map((row) => ({
+      packageId: row.content_package_id,
+      strategyId: row.strategy_item_id,
+      generationTelemetry: failureGenerationTelemetry(row.failure_telemetry),
+    }))
+    .filter((d) => d.generationTelemetry != null);
+
+  // Also pull dedicated failure table rows (covers cases without item jsonb).
+  const { data: failureRows } = await supabase
+    .from("production_run_item_failure_telemetry")
+    .select("strategy_item_id, generation_telemetry, estimated_cost_usd")
+    .eq("production_run_id", productionRunId)
+    .eq("project_id", projectId);
+  for (const row of (failureRows ?? []) as Array<{
+    strategy_item_id: string | null;
+    generation_telemetry: unknown;
+  }>) {
+    if (!row.generation_telemetry) continue;
+    // Avoid double-counting when the same steps were already copied onto the item.
+    const already = failureDocs.some(
+      (d) =>
+        d.strategyId === row.strategy_item_id &&
+        JSON.stringify(d.generationTelemetry) ===
+          JSON.stringify(row.generation_telemetry),
+    );
+    if (already) continue;
+    failureDocs.push({
+      packageId: null,
+      strategyId: row.strategy_item_id,
+      generationTelemetry: row.generation_telemetry,
+    });
+  }
+
   return mergeRunTelemetrySteps({
     productionRunId,
     totalRunDurationMs: runWallDurationMs(run),
     strategyDocs,
     packageDocs,
     videoJobDocs,
+    localizationDocs,
+    failureDocs,
   });
 }

@@ -1,7 +1,12 @@
 import { readFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { getTranscriptionProvider } from "@/lib/ai";
-import { withTelemetry } from "@/lib/ai/telemetry";
+import {
+  estimateWhisperCostUsd,
+  PRICING_VERSION,
+  WHISPER_USD_PER_MIN,
+  withTelemetry,
+} from "@/lib/ai/telemetry";
 import type { WordTimestamp } from "@/lib/ai/types";
 
 // Word Timestamp Subtitles V1.
@@ -67,6 +72,8 @@ export interface TranscribeWordTimestampsInput {
   audioPath: string;
   // Free-form language value from the job input (e.g. "cs"); optional.
   language?: unknown;
+  /** Optional audio duration (seconds) for cost metering when known from TTS. */
+  audioDurationSeconds?: number | null;
 }
 
 export interface TranscribeWordTimestampsResult {
@@ -74,6 +81,8 @@ export interface TranscribeWordTimestampsResult {
   // Language echoed back / detected by whisper (verbose_json `language`), when
   // present. Recorded for diagnostics (Part G); never affects the render.
   languageDetected?: string;
+  /** Best-effort duration used for cost (from input or last word end). */
+  billedDurationSeconds?: number | null;
 }
 
 // Transcribes the audio file and returns clean word timestamps, or null on ANY
@@ -96,6 +105,23 @@ export async function transcribeWordTimestamps(
         r
           ? { wordCount: r.words.length, language: r.languageDetected ?? null }
           : null,
+      estimatedCostFromResult: (r) => {
+        const seconds =
+          r?.billedDurationSeconds ??
+          input.audioDurationSeconds ??
+          (r && r.words.length > 0 ? r.words[r.words.length - 1]!.end : null);
+        return estimateWhisperCostUsd(seconds);
+      },
+      pricingVersion: PRICING_VERSION,
+      rawUsageFromResult: (r) => ({
+        duration_seconds:
+          r?.billedDurationSeconds ??
+          input.audioDurationSeconds ??
+          (r && r.words.length > 0 ? r.words[r.words.length - 1]!.end : null),
+        word_count: r?.words.length ?? 0,
+        usd_per_min: WHISPER_USD_PER_MIN,
+        fallback_used: r == null,
+      }),
     },
     async () => {
       try {
@@ -117,8 +143,15 @@ export async function transcribeWordTimestamps(
           );
           return null;
         }
+        const fromWords = words[words.length - 1]!.end;
+        const billedDurationSeconds =
+          typeof input.audioDurationSeconds === "number" &&
+          Number.isFinite(input.audioDurationSeconds)
+            ? input.audioDurationSeconds
+            : fromWords;
         return {
           words,
+          billedDurationSeconds,
           ...(typeof result.language === "string"
             ? { languageDetected: result.language }
             : {}),

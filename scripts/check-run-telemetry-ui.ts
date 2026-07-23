@@ -278,6 +278,124 @@ check("summary totals from empty cost stay null", () => {
   );
   assert.equal(summary.estimatedAiCostUsd, null);
   assert.equal(summary.totalRecordedDurationMs, 10);
+  assert.equal(summary.costRollup.estimatedCostUsd, null);
+});
+
+check("localization + failure + all video jobs included in merge", () => {
+  const view = mergeRunTelemetrySteps({
+    productionRunId: "run-1",
+    totalRunDurationMs: 1000,
+    strategyDocs: [],
+    packageDocs: [
+      {
+        packageId: "p1",
+        generationTelemetry: {
+          production_run_id: "run-1",
+          steps: [
+            step({
+              step_name: "Presentation Generation",
+              provider: "claude",
+              started_at: "2026-07-20T18:00:00.000Z",
+              duration_ms: 1000,
+              estimated_cost: 0.1,
+            }),
+          ],
+          history: [
+            {
+              captured_at: "2026-07-20T17:00:00.000Z",
+              reason: "regenerate",
+              document: {
+                steps: [
+                  step({
+                    step_name: "Presentation Generation",
+                    provider: "claude",
+                    started_at: "2026-07-20T16:00:00.000Z",
+                    duration_ms: 900,
+                    estimated_cost: 0.08,
+                  }),
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ],
+    videoJobDocs: [
+      {
+        videoJobId: "vj-old",
+        packageId: "p1",
+        generationTelemetry: {
+          steps: [
+            step({
+              step_name: "TTS",
+              provider: "tts",
+              started_at: "2026-07-20T18:01:00.000Z",
+              duration_ms: 100,
+              estimated_cost: 0.01,
+            }),
+          ],
+        },
+      },
+      {
+        videoJobId: "vj-new",
+        packageId: "p1",
+        generationTelemetry: {
+          steps: [
+            step({
+              step_name: "TTS",
+              provider: "tts",
+              started_at: "2026-07-20T18:02:00.000Z",
+              duration_ms: 100,
+              estimated_cost: 0.01,
+            }),
+          ],
+        },
+      },
+    ],
+    localizationDocs: [
+      {
+        contentItemId: "ci-de",
+        packageId: "p1",
+        generationTelemetry: {
+          production_run_id: "run-1",
+          steps: [
+            step({
+              step_name: "Language Localization",
+              provider: "claude",
+              started_at: "2026-07-20T18:03:00.000Z",
+              duration_ms: 500,
+              estimated_cost: 0.05,
+            }),
+          ],
+        },
+      },
+    ],
+    failureDocs: [
+      {
+        strategyId: "si-fail",
+        generationTelemetry: {
+          production_run_id: "run-1",
+          steps: [
+            step({
+              step_name: "Creative Ideation",
+              provider: "claude",
+              started_at: "2026-07-20T17:30:00.000Z",
+              duration_ms: 800,
+              estimated_cost: 0.2,
+              success: false,
+            }),
+          ],
+        },
+      },
+    ],
+  });
+
+  assert.equal(view.steps.filter((s) => s.source === "video_job").length, 2);
+  assert.equal(view.steps.filter((s) => s.source === "localization").length, 1);
+  assert.equal(view.steps.filter((s) => s.source === "failure").length, 1);
+  // history (0.08) + live pkg (0.1) + 2 TTS (0.02) + localize (0.05) + fail (0.2)
+  assert.ok(Math.abs((view.summary.estimatedAiCostUsd ?? 0) - 0.45) < 0.0001);
+  assert.equal(view.summary.costRollup.costedStepCount, 6);
 });
 
 console.log(`\n${passed} checks passed`);

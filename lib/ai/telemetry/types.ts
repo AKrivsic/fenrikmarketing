@@ -37,6 +37,21 @@ export interface PipelineTelemetryStep {
   cached_tokens: number | null;
   /** USD estimate when token/pricing data is available; otherwise null. */
   estimated_cost: number | null;
+  /**
+   * Which list-price table produced estimated_cost (e.g. list-price@2026-07-23).
+   * Optional for backwards-compatible historical steps.
+   * Informational only — rollups use estimated_cost, never reprice from this.
+   */
+  pricing_version?: string | null;
+  /**
+   * How estimated_cost was produced (e.g. list_price_estimate).
+   * Informational only — never used to recompute historical totals.
+   */
+  pricing_source?: string | null;
+  /** Compact raw provider usage / metering inputs (never full prompts). */
+  raw_usage?: Record<string, unknown> | null;
+  /** Provider request / response id when the API returns one. */
+  provider_request_id?: string | null;
   temperature: number | null;
   max_tokens: number | null;
   response_format: string | null;
@@ -78,6 +93,12 @@ export interface WithTelemetryOptions<T = unknown> {
   /** Merge provider usage after success. */
   usageFromResult?: (result: T) => ProviderUsageMetrics | null | undefined;
   estimatedCostFromResult?: (result: T) => number | null | undefined;
+  /** Optional metering payload stored on the step (counts, chars, seconds). */
+  rawUsageFromResult?: (result: T) => Record<string, unknown> | null | undefined;
+  /** Optional provider request id from the result or raw response. */
+  providerRequestIdFromResult?: (result: T) => string | null | undefined;
+  /** Override pricing table id when estimatedCostFromResult is used. */
+  pricingVersion?: string | null;
   /**
    * When the wrapped function returns a soft-failure object instead of throwing
    * (e.g. generateValidatedJson `{ ok: false }`), map to telemetry success.
@@ -91,6 +112,8 @@ export interface GenerationTelemetryDocument {
   version: typeof PIPELINE_TELEMETRY_VERSION;
   strategy_item_id?: string | null;
   production_run_id?: string | null;
+  /** List-price table id used when steps were written (optional). */
+  pricing_version?: string | null;
   full_package_generations?: number;
   fidelity_first_pass_passed?: boolean | null;
   fidelity_first_pass_failure_reasons?: string[];
@@ -101,4 +124,15 @@ export interface GenerationTelemetryDocument {
   phases: Array<Record<string, unknown>>;
   /** Chronological detailed steps (pipeline-telemetry@1). */
   steps: PipelineTelemetryStep[];
+  /**
+   * Prior generation_telemetry documents preserved across regenerate
+   * (newest last). Live `steps` always reflect the latest session only.
+   */
+  history?: GenerationTelemetryHistoryEntry[];
+}
+
+export interface GenerationTelemetryHistoryEntry {
+  captured_at: string;
+  reason: "regenerate" | "superseded";
+  document: GenerationTelemetryDocument | Record<string, unknown>;
 }

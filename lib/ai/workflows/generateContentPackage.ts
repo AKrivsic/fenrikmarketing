@@ -147,7 +147,8 @@ import {
   releasePackageGenerationClaim,
   startPackageGenerationHeartbeat,
   PackageGenerationClaimLostError,
-  persistPackageGenerationFailureTelemetry,
+  persistActiveCollectorFailureTelemetry,
+  lookupProductionRunItemId,
   runtimeLog,
   shouldHardFailFidelityAfterRepair,
   shouldHardFailStoryIntegrityAfterRepair,
@@ -355,6 +356,38 @@ async function runGenerateContentPackageUnchecked(
         owner_token: generationOwnerToken,
         outcome: result.error,
       });
+      // Persist paid steps so failed attempts never lose cost accounting.
+      try {
+        const context = await loadStrategyItemContext(
+          supabase,
+          input.projectId,
+          input.strategyItemId,
+        ).catch(() => null);
+        const productionRunId = context?.productionRunId ?? null;
+        const productionRunItemId =
+          productionRunId
+            ? await lookupProductionRunItemId(supabase, {
+                productionRunId,
+                strategyItemId: input.strategyItemId,
+              })
+            : null;
+        await persistActiveCollectorFailureTelemetry(supabase, {
+          projectId: input.projectId,
+          strategyItemId: input.strategyItemId,
+          productionRunId,
+          productionRunItemId,
+          ownerToken: generationOwnerToken,
+          phase: "package_generation_failed",
+          terminalClassification: result.error,
+          errorTruncated: result.validationErrors
+            ?.map((e) => `${e.path}: ${e.message}`)
+            .slice(0, 5)
+            .join("; "),
+          attemptCount: result.attempts,
+        });
+      } catch {
+        // Telemetry must never fail the generation path.
+      }
     } else {
       runtimeLog("info", {
         event: "package_generation_end",
@@ -368,7 +401,7 @@ async function runGenerateContentPackageUnchecked(
     return result;
   } catch (err) {
     if (err instanceof PackageGenerationClaimLostError) {
-      await persistPackageGenerationFailureTelemetry(supabase, {
+      await persistActiveCollectorFailureTelemetry(supabase, {
         projectId: input.projectId,
         strategyItemId: input.strategyItemId,
         ownerToken: generationOwnerToken,

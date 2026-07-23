@@ -3,7 +3,12 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { getSpeechProvider } from "@/lib/ai";
-import { withTelemetry } from "@/lib/ai/telemetry";
+import {
+  estimateTtsCostUsd,
+  PRICING_VERSION,
+  TTS_USD_PER_1K_CHARS,
+  withTelemetry,
+} from "@/lib/ai/telemetry";
 
 export interface GenerateVoiceoverInput {
   text: string;
@@ -163,6 +168,13 @@ export async function generateVoiceover(
       measureOutput: (r) => ({
         durationSeconds: r.durationSeconds,
         audioPath: r.audioPath,
+      }),
+      estimatedCostFromResult: () => estimateTtsCostUsd(input.text.length),
+      pricingVersion: PRICING_VERSION,
+      rawUsageFromResult: (r) => ({
+        character_count: input.text.length,
+        duration_seconds: r.durationSeconds ?? null,
+        usd_per_1k_chars: TTS_USD_PER_1K_CHARS,
       }),
     },
     async () => {

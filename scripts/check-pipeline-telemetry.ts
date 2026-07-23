@@ -7,14 +7,21 @@ import assert from "node:assert/strict";
 import {
   buildGenerationTelemetryDocument,
   estimateTokenCostUsd,
+  estimateImageCostUsd,
+  estimateTtsCostUsd,
+  estimateWhisperCostUsd,
   extractProviderUsage,
+  flattenTelemetryStepsWithHistory,
   formatAiCostTable,
   formatExecutionTimeTable,
   formatPackageGenerationBreakdown,
   formatTechnicalAuditTelemetrySection,
   PIPELINE_TELEMETRY_VERSION,
+  PRICING_VERSION,
   readTelemetrySteps,
   runWithTelemetrySession,
+  sumEstimatedCostUsd,
+  supersedeGenerationTelemetry,
   withTelemetry,
   withTelemetrySync,
   type PipelineTelemetryStep,
@@ -155,6 +162,82 @@ await check("estimateTokenCostUsd returns number for known models", () => {
     completionTokens: 0,
   });
   assert.equal(cost, 3);
+});
+
+await check("media list-price helpers", () => {
+  assert.equal(estimateImageCostUsd(4), 0.168);
+  assert.equal(estimateTtsCostUsd(1000), 0.015);
+  assert.equal(estimateWhisperCostUsd(60), 0.006);
+  assert.equal(estimateImageCostUsd(0), 0);
+});
+
+await check("withTelemetry stores media cost + pricing_version", async () => {
+  const { steps } = await runWithTelemetrySession(async () => {
+    return withTelemetry(
+      {
+        stepName: "Image generation",
+        provider: "image",
+        model: "gpt-image-1",
+        estimatedCostFromResult: () => estimateImageCostUsd(2),
+        pricingVersion: PRICING_VERSION,
+        rawUsageFromResult: () => ({ generated_still_count: 2 }),
+      },
+      async () => ({ ok: true }),
+    );
+  });
+  assert.equal(steps[0]!.estimated_cost, 0.084);
+  assert.equal(steps[0]!.pricing_version, PRICING_VERSION);
+  assert.equal(steps[0]!.pricing_source, "list_price_estimate");
+  assert.equal(steps[0]!.raw_usage?.generated_still_count, 2);
+});
+
+await check("supersedeGenerationTelemetry preserves history", () => {
+  const first = buildGenerationTelemetryDocument({
+    legacy: { production_run_id: "run-1" },
+    steps: [
+      {
+        step_name: "Presentation Generation",
+        provider: "claude",
+        model: "claude-sonnet-4-6",
+        started_at: "2026-01-01T00:00:00.000Z",
+        finished_at: "2026-01-01T00:00:01.000Z",
+        duration_ms: 1000,
+        success: true,
+        retry_count: 0,
+        repair: false,
+        input_size_bytes: null,
+        output_size_bytes: null,
+        prompt_characters: null,
+        completion_characters: null,
+        prompt_tokens: 100,
+        completion_tokens: 10,
+        cached_tokens: 0,
+        estimated_cost: 0.01,
+        temperature: null,
+        max_tokens: null,
+        response_format: null,
+        warnings: [],
+        error_message: null,
+        input_summary: null,
+        output_summary: null,
+      },
+    ],
+  });
+  const second = supersedeGenerationTelemetry({
+    previous: first,
+    nextSteps: [],
+    reason: "regenerate",
+  });
+  assert.equal(second.history?.length, 1);
+  assert.equal(second.steps.length, 0);
+  assert.equal(
+    flattenTelemetryStepsWithHistory(second).length,
+    1,
+  );
+  assert.ok(
+    Math.abs((sumEstimatedCostUsd(flattenTelemetryStepsWithHistory(second)) ?? 0) - 0.01) <
+      0.000001,
+  );
 });
 
 await check("buildGenerationTelemetryDocument preserves legacy phases", () => {

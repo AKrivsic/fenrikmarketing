@@ -1,6 +1,7 @@
 export {
   PIPELINE_TELEMETRY_VERSION,
   type GenerationTelemetryDocument,
+  type GenerationTelemetryHistoryEntry,
   type PipelineTelemetryStep,
   type ProviderUsageMetrics,
   type WithTelemetryOptions,
@@ -17,7 +18,16 @@ export {
   utf8ByteLength,
   characterLength,
 } from "@/lib/ai/telemetry/usage";
-export { estimateTokenCostUsd } from "@/lib/ai/telemetry/cost";
+export { estimateTokenCostUsd, PRICING_VERSION, PRICING_SOURCE, estimateImageCostUsd, estimateTtsCostUsd, estimateWhisperCostUsd, IMAGE_USD_PER_STILL, TTS_USD_PER_1K_CHARS, WHISPER_USD_PER_MIN } from "@/lib/ai/telemetry/cost";
+export {
+  buildCostRollup,
+  sumEstimatedCostUsd,
+  flattenTelemetryStepsWithHistory,
+  supersedeGenerationTelemetry,
+  packageCostFromBrief,
+  videoJobCostFromOutput,
+  type CostRollup,
+} from "@/lib/ai/telemetry/costRollup";
 export {
   summarizeLines,
   creativeCandidatesSummaries,

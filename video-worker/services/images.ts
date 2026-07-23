@@ -3,7 +3,12 @@ import type { SceneImageGenerationWarning } from "@/lib/video-engine/sceneImageG
 import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import { prepareSceneRaster } from "@/lib/scene-types/renderers/types";
 import { ensureSceneRendererRegistry } from "@/video-worker/services/sceneRendererRegistry";
-import { withTelemetry } from "@/lib/ai/telemetry";
+import {
+  estimateImageCostUsd,
+  IMAGE_USD_PER_STILL,
+  PRICING_VERSION,
+  withTelemetry,
+} from "@/lib/ai/telemetry";
 
 export interface GenerateSceneImagesInput {
   scenes: Scene[];
@@ -57,6 +62,13 @@ export async function generateSceneImagesWithTelemetry(
         generatedImageCount: r.generatedImageCount,
         reusedVisualAssetCount: r.reusedVisualAssetCount,
         sceneCount: r.images.length,
+      }),
+      estimatedCostFromResult: (r) => estimateImageCostUsd(r.generatedImageCount),
+      pricingVersion: PRICING_VERSION,
+      rawUsageFromResult: (r) => ({
+        generated_still_count: r.generatedImageCount,
+        reused_still_count: r.reusedVisualAssetCount,
+        usd_per_still: IMAGE_USD_PER_STILL,
       }),
     },
     () => generateSceneImagesWithTelemetryInner(input),

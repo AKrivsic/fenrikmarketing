@@ -30,6 +30,10 @@ import {
 import { prepareRenderScenesForLanguageVariant } from "@/lib/scene-types/languageVariantScenes";
 import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
 import { applySemanticMotionPreservationFromSourceJob } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
+import {
+  buildGenerationTelemetryDocument,
+  runWithTelemetrySession,
+} from "@/lib/ai/telemetry";
 import { mergeProductionRunIdIntoVariantMetadata } from "@/lib/production-runtime";
 
 // Injectable dependencies. videoCallbackUrl is supplied by the route (derived
@@ -338,7 +342,8 @@ export async function runGenerateLanguageVariantsForItem(
       },
     };
 
-    const localized = await localize(localizeInput);
+    const { result: localized, steps: localizeSteps } =
+      await runWithTelemetrySession(async () => localize(localizeInput));
     if (!localized.ok) {
       summary.warnings.push(
         `language ${language}: localization failed (${localized.error}); skipped`,
@@ -402,6 +407,15 @@ export async function runGenerateLanguageVariantsForItem(
             source_video_job_id: sourceVideoJobId,
             generated_from_render_spec: Boolean(scenes),
             item_level: true,
+            generation_telemetry: buildGenerationTelemetryDocument({
+              legacy: {
+                production_run_id:
+                  asRecord(source.generation_metadata)?.production_run_id ??
+                  null,
+                target_language: language,
+              },
+              steps: localizeSteps,
+            }),
           },
         ) as unknown as Json,
       })

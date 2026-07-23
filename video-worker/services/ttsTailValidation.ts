@@ -234,6 +234,7 @@ export async function generateValidatedVoiceover(args: {
     const transcription = await transcribeWordTimestamps({
       audioPath: voiceover.audioPath,
       language: args.language,
+      audioDurationSeconds: voiceover.durationSeconds ?? null,
     });
 
     lastTranscriptTail = transcription

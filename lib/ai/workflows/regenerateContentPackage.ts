@@ -4,6 +4,11 @@ import type { ContentItem, Json } from "@/lib/supabase/types";
 import { getCopywritingProvider } from "@/lib/ai/index";
 import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
+  getTelemetryCollector,
+  runWithTelemetrySession,
+  supersedeGenerationTelemetry,
+} from "@/lib/ai/telemetry";
+import {
   buildRegenerateContentPackagePrompt,
   buildRegeneratePackageSystem,
 } from "@/lib/ai/prompts/regenerateContentPackage";
@@ -161,7 +166,10 @@ export async function runRegenerateContentPackage(
   client?: SupabaseClient,
 ): Promise<WorkflowResult<RegeneratedPackageData>> {
   try {
-    return await runRegenerateContentPackageUnchecked(input, client);
+    const { result } = await runWithTelemetrySession(() =>
+      runRegenerateContentPackageUnchecked(input, client),
+    );
+    return result;
   } catch (err) {
     if (err instanceof WorkflowError) throw err;
     return classifyGenerationThrow(err);
@@ -513,6 +521,10 @@ async function runRegenerateContentPackageUnchecked(
       requireVideo,
       preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
     }),
+    telemetry: {
+      stepName: "Presentation Generation",
+      inputSummary: "Regenerate Presentation input:\n- Existing package\n- Feedback",
+    },
   });
 
   if (!generated.ok) {
@@ -600,6 +612,10 @@ async function runRegenerateContentPackageUnchecked(
             ? preferredVideoUsageById
             : undefined,
         }),
+        telemetry: {
+          stepName: "Concept Fidelity Repair",
+          repair: true,
+        },
       });
       if (repaired.ok) {
         generated = {
@@ -725,6 +741,10 @@ async function runRegenerateContentPackageUnchecked(
             ? preferredVideoUsageById
             : undefined,
         }),
+        telemetry: {
+          stepName: "Story Integrity Repair",
+          repair: true,
+        },
       });
       if (repairedIntegrity.ok) {
         generated = {
@@ -854,6 +874,10 @@ async function runRegenerateContentPackageUnchecked(
             ? preferredVideoUsageById
             : undefined,
         }),
+        telemetry: {
+          stepName: "Product Demonstration Integrity Repair",
+          repair: true,
+        },
       });
       if (repairedDemo.ok) {
         generated = {
@@ -1062,6 +1086,17 @@ async function runRegenerateContentPackageUnchecked(
       };
     }
   }
+  const previousPg =
+    existing.package_brief &&
+    typeof existing.package_brief === "object" &&
+    !Array.isArray(existing.package_brief)
+      ? (
+          (existing.package_brief as Record<string, unknown>)
+            .presentation_generation as Record<string, unknown> | undefined
+        )
+      : null;
+  const previousTelemetry = previousPg?.generation_telemetry ?? null;
+
   pkg.presentation_generation = {
     mode: resolveChecklistGenerationMode(),
     requested_checklist_count: requestedChecklistCount,
@@ -1116,6 +1151,16 @@ async function runRegenerateContentPackageUnchecked(
           timelineDebug,
         })
       : {}),
+    generation_telemetry: supersedeGenerationTelemetry({
+      previous: previousTelemetry,
+      nextSteps: getTelemetryCollector()?.snapshot() ?? [],
+      legacy: {
+        strategy_item_id: context.strategyItemId,
+        production_run_id: context.productionRunId ?? null,
+        regenerated: true,
+      },
+      reason: "regenerate",
+    }),
   };
   normalizeImagePrompts(pkg, { workflow: "regenerate", package_id: packageId });
   // Preserve the strategy item's canonical funnel stage across regeneration.

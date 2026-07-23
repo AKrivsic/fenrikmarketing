@@ -114,11 +114,6 @@ function summarizeSteps(steps: TelemetryStep[]) {
   };
 }
 
-/** gpt-image-1 medium quality 1024x1536 ≈ $0.07 list (approx). */
-const EST_IMAGE_USD = 0.07;
-/** gpt-4o-mini-tts ≈ $0.015 / 1k chars (approx from OpenAI). */
-const EST_TTS_PER_1K_CHARS = 0.015;
-
 async function downloadFile(url: string, dest: string): Promise<boolean> {
   try {
     const res = await fetch(url);
@@ -337,9 +332,16 @@ async function dumpRun(
     totalTts += Math.max(voText ? 1 : 0, ttsSteps.length);
     totalRenders += Math.max(job?.status === "completed" ? 1 : 0, renderSteps.length);
 
-    const estImage = imgCount * EST_IMAGE_USD;
-    const estTts = (voText.length / 1000) * EST_TTS_PER_1K_CHARS;
-    const estMedia = estImage + estTts;
+    const storedMediaCost = workerSteps.reduce((sum, s) => {
+      const c = num(s.estimated_cost);
+      return c != null ? sum + c : sum;
+    }, 0);
+    const hasStoredMedia = workerSteps.some(
+      (s) => num(s.estimated_cost) != null,
+    );
+    // Historical invariant: use stored estimated_cost only. Never multiply
+    // scene/char counts by current list-price constants.
+    const estMedia = hasStoredMedia ? storedMediaCost : 0;
     runEstMediaCost += estMedia;
 
     const itemDurationSec =
@@ -498,11 +500,10 @@ async function dumpRun(
       cost_estimate: {
         ai_text_usd: pkgTele.estimated_cost_usd,
         media_estimate_usd: estMedia,
-        image_estimate_usd: estImage,
-        tts_estimate_usd: estTts,
+        media_from_stored_estimated_cost: hasStoredMedia,
         image_count: imgCount,
         note:
-          "AI text from persisted telemetry estimated_cost. Image/TTS from public list-price approximations (gpt-image-1 ~$0.07/still, TTS ~$0.015/1k chars). Render cost not metered.",
+          "AI text + media from persisted telemetry estimated_cost only (historical immutability). Null/missing media steps are unmetered — never repriced from current list rates.",
       },
       local_assets: {
         images: localImages,
@@ -658,7 +659,7 @@ async function main() {
           "AI text costs from package_brief.presentation_generation.generation_telemetry.steps.estimated_cost",
           "Old/reference runs often lack package telemetry — ai_text_cost_usd may be null",
           "Failed packages have no content_package; intermediate creative outputs are not persisted",
-          "Image/TTS costs are list-price estimates, not billing truth",
+          "Image/TTS costs from stored worker estimated_cost only (no current-rate reprice)",
           "Render/compute cost cannot be determined from available data",
         ],
       },
