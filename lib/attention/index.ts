@@ -18,6 +18,7 @@ export {
   attentionFieldsForPersistence,
   attentionFieldsForVideoJob,
   ATTENTION_PROMPT_HEADER,
+  ATTENTION_MECHANISM_HEADER_LEGACY,
   readAttentionFromBrief,
   readAttentionPlanFromPackagePresentation,
 } from "@/lib/attention/promptBlocks";

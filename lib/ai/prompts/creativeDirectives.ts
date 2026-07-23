@@ -1,5 +1,12 @@
 // Content Quality V3 — Creative Directives.
 //
+// Phase 2A ownership:
+//   Story Structure owner: MODE BEATS (mode.narrativeBeats) — C1 contenders
+//     (Preferred Arc, Narrative Beats) remain present but are NOT owners.
+//   Voice Persona owner: VOICE PERSONAS (copy tone only; TTS voice id is separate).
+//   Safety prompt companion: CREATIVE SAFETY (facts still owned by guardrails).
+//   Hook archetype: fallback reader path only when no Winner Candidate exists.
+//
 // A deterministic, dependency-free catalogue of creative MODES, HOOK
 // ARCHETYPES and VOICE PERSONAS plus a pure picker. The picker derives a stable
 // selection from a SEED built out of existing data (funnel stage, topic, angle

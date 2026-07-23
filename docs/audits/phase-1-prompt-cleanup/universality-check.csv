@@ -1,0 +1,6 @@
+fixture_id,project_name,product_is,result,notes
+software,Acme Analytics,analytics reporting platform,pass,no unrelated hospitality/clinic injection
+local_physical_service,Bright Clean Co,residential cleaning,pass,no SaaS/dashboard default injection
+hospitality_food,Harbor Kitchen,seasonal restaurant,pass,no SaaS/office-worker injection
+professional_service,Clear Counsel,business advisory,pass,no restaurant/e-commerce injection
+physical_consumer_product,Trail Flask,insulated water bottle,pass,no SaaS/clinic injection

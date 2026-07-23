@@ -1,0 +1,9 @@
+priority,recommendation,estimated_saving_usd,difficulty,risk,quality_impact
+1,Persist full generation_telemetry on failed package attempts (including intermediate outputs),telemetry_only,Medium,Low,None — enables exact waste accounting
+2,Convert hard story_integrity / concept_fidelity fails to repair-or-advisory instead of discarding paid presentation,1.7134,Medium,Medium,High impact if repair preserves concept; Low if advisory-only softens quality gates
+3,"Cap ideation/veto retries (pkg 4×4, pkg 12×3 wasted ~median ideation×extra attempts)",0.9712,Low,Medium,Medium — fewer retries may reduce rescue rate; prefer repair over blind re-ideation
+4,Write estimated_cost for Image/TTS/Whisper/Render in worker telemetry (and provider request IDs),precision_gain,Low,Low,None
+5,Eliminate duplicate TTS+Whisper calls (observed pkgs 7 and 10),0.0156,Low,Low,None — pure duplicate work
+6,Shrink Creative Ideation output tokens (largest exact AI cost center at ~$1.64 on 8 completed pkgs),0.30-0.80_estimated,Medium,Medium,High impact on diversity if over-compressed; Medium if structured shorter JSON
+7,Reduce Presentation Generation prompt size (avg ~25k–53k input tokens) / avoid full retry when possible,0.15-0.40_estimated,Medium,Medium,Medium — large context drives cost; repair may replace full regeneration
+8,Evaluate Creative Evaluation (critic) ROI — $0.23 exact on completed; often skipped,0.4684,Medium,High,Unknown — may prevent some vetoes or be redundant with deterministic gates

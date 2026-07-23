@@ -1,0 +1,8 @@
+workflow,complexity_score_0_100,debt_score_0_100,maintainability_score_0_100,stability_score_0_100,highest_debt_drivers,notes
+"Weekly Strategy","28","22","78","82","Minor triple restatement of source/ID rules","Low debt."
+"Direction","38","30","74","78","System vs WHAT A DIRECTION IS duplication","Low-moderate."
+"Direction Evaluation","40","35","72","76","Overlap with Critic diversity logic","Low-moderate."
+"Ideation","65","55","48","60","Hard requirements accretion; veto-overlapped bans; C5 opening product tension","Moderate debt; fat outputs dominate $. "
+"Creative Critic","52","45","58","70","C2 tension with Attention First","Keep; document tradeoff."
+"Presentation","92","88","22","38","C1 triple arcs; Attention/Hook/Candidate stack; Opening Priority meta-debt; asset policy echoes","Highest prompt debt."
+"Repair","94","86","20","34","Full prompt replay; C6 PPD wording conflict","Rooted in Presentation debt."

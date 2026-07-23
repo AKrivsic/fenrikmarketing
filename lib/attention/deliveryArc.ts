@@ -5,6 +5,12 @@ import type {
   OpeningDeliveryStyle,
 } from "@/lib/attention/types";
 
+// Phase 2A ownership:
+//   Decision: Voice Emotion
+//   Owner: delivery_arc (this module / planAttentionForPackage)
+//   Readers: ATTENTION DELIVERY prompt, TTS merge, video-worker
+//   Illegal writers: Voice Persona catalog; Repair rewriting delivery phases
+
 const OPENING_LINE: Record<OpeningDeliveryStyle, string> = {
   curious: "Opening: curious lean-in, slightly quicker first phrase.",
   urgent: "Opening: alert, clipped first phrase — not shouted.",

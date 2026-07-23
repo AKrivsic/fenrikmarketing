@@ -1,0 +1,9 @@
+concern,owner,location,phase1_status
+hook,Winner Candidate (+ Creative Directive fallback),creative-candidates/promptBlocks.ts; OPENING HOOK in generateContentPackage.ts,cleaned
+story_structure,MODE BEATS (Creative Directive),creativeDirectives.ts — C1 vs Preferred Arc / Narrative Beats unresolved,unchanged
+voice_emotion,Attention Delivery delivery_arc,attention/promptBlocks.ts,thinned
+visual_identity,Creative DNA + Identity + composition/device,creativeDNA; creative-identity; visualStyle.ts,cleaned
+asset_policy,PACKAGE ASSET COVERAGE (Funnel fallback),assetCoveragePolicy.ts; funnelAssetPolicy.ts,cleaned
+safety,CREATIVE SAFETY + HARD CONSTRAINTS + no-fake-UI invariant,creativeDirectives.ts; context.ts; VISUAL BEATS,retained
+schema,Presentation JSON shape,generateContentPackage.ts; presentationGeneration.ts,unchanged
+validation,Deterministic validators/guardrails,lib/ai/guardrails + scene-type validators,unchanged thresholds

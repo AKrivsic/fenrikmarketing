@@ -1,5 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { cancelVideoWorkerJobs } from "@/lib/video-worker/client";
+import {
+  cancelTranslationJobsForPackages,
+  collectContentItemIdsForRunCancel,
+} from "@/lib/production-runtime/cancelPropagation";
 
 /** Operator-facing cancel message persisted on runs, items, and video jobs. */
 export const PRODUCTION_RUN_CANCELLED_MESSAGE = "Zastaveno operátorem.";
@@ -114,29 +118,45 @@ export async function cancelOpenVideoJobsForProductionRun(
   projectId: string,
   runId: string,
 ): Promise<string[]> {
-  const { data: items, error: itemErr } = await supabase
-    .from("content_items")
-    .select("id")
+  const itemIds = await collectContentItemIdsForRunCancel(
+    supabase,
+    projectId,
+    runId,
+  );
+
+  let cancelled: Array<{ id: string }> = [];
+  if (itemIds.length > 0) {
+    const { data, error: jobErr } = await supabase
+      .from("video_jobs")
+      .update({
+        status: "failed",
+        error_message: PRODUCTION_RUN_CANCELLED_MESSAGE,
+      })
+      .eq("project_id", projectId)
+      .in("content_item_id", itemIds)
+      .in("status", ["queued", "processing"])
+      .select("id");
+    if (jobErr) throw jobErr;
+    cancelled = (data ?? []) as Array<{ id: string }>;
+  }
+
+  const { data: runItems, error: runItemErr } = await supabase
+    .from("production_run_items")
+    .select("content_package_id")
+    .eq("production_run_id", runId)
     .eq("project_id", projectId)
-    .eq("generation_metadata->>production_run_id", runId);
-  if (itemErr) throw itemErr;
+    .not("content_package_id", "is", null);
+  if (runItemErr) throw runItemErr;
+  const packageIds = [
+    ...new Set(
+      (runItems ?? [])
+        .map((row) => row.content_package_id as string | null)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  ];
+  await cancelTranslationJobsForPackages(supabase, { projectId, packageIds });
 
-  const itemIds = (items ?? []).map((row) => row.id as string);
-  if (itemIds.length === 0) return [];
-
-  const { data: cancelled, error: jobErr } = await supabase
-    .from("video_jobs")
-    .update({
-      status: "failed",
-      error_message: PRODUCTION_RUN_CANCELLED_MESSAGE,
-    })
-    .eq("project_id", projectId)
-    .in("content_item_id", itemIds)
-    .in("status", ["queued", "processing"])
-    .select("id");
-  if (jobErr) throw jobErr;
-
-  return (cancelled ?? []).map((row) => row.id as string);
+  return cancelled.map((row) => row.id);
 }
 
 /** Best-effort: ask the Video Worker to drop pending / abort in-flight jobs. */

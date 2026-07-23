@@ -73,7 +73,7 @@ async function parseJsonPayload(request: Request): Promise<unknown> {
 // tiny and guarantees consistent 401 / 400 / 200 behaviour.
 export async function handleN8nCallback(
   request: Request,
-  handler: (payload: unknown) => Promise<void> | void,
+  handler: (payload: unknown) => Promise<unknown> | unknown,
 ): Promise<Response> {
   if (!verifyN8nSecret(request)) {
     return unauthorizedResponse();

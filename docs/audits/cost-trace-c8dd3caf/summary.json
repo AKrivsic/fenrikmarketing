@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-07-22T21:34:47.083Z",
+  "production_run_id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "packages": {
+    "total": 14,
+    "completed": 8,
+    "failed": 6
+  },
+  "totals_usd": {
+    "exact_telemetry": 3.7006240000000012,
+    "estimated_list_price": 1.5105714000000001,
+    "estimated_from_medians": 3.3408060000000006,
+    "total": 8.552001400000002
+  },
+  "stage_medians_completed_usd": {
+    "direction": 0.07392,
+    "ideation": 0.194244,
+    "critic": 0.029964,
+    "presentation": 0.13022250000000002
+  },
+  "stage_costs_usd": {
+    "ideation": 3.7755269999999994,
+    "presentation": 1.6244939999999999,
+    "images": 1.4279999999999997,
+    "direction": 1.0368419999999998,
+    "critic": 0.468384,
+    "repair": 0.132897,
+    "voice": 0.057644999999999995,
+    "whisper": 0.024926399999999998,
+    "strategy": 0.003286,
+    "validation": 0,
+    "other": 0,
+    "render": 0
+  },
+  "waste_usd": {
+    "total_failed_package_estimates": 3.3408060000000006,
+    "duplicate_worker_calls": 0.0156366,
+    "total_marked_waste": 3.3564426000000007,
+    "note": "Failed-package waste is ESTIMATED from completed medians; no failed telemetry exists."
+  },
+  "pricing_assumptions": {
+    "image_usd_per_still": 0.042,
+    "tts_usd_per_1k_chars": 0.015,
+    "whisper_usd_per_min": 0.006
+  },
+  "telemetry_gaps": [
+    "Worker Image/TTS/Whisper/Render steps have estimated_cost=null — list-price estimates only.",
+    "Failed packages persist no generation_telemetry — stage costs estimated from completed package medians × attempts.",
+    "Presentation retry_count>0 stores combined cost; per-attempt split is not available.",
+    "Provider field sometimes says 'claude' for gpt-4o-mini steps.",
+    "Render/compute (ffmpeg/worker VM) is unmetered.",
+    "No language-variant translation costs in this run (language IS NULL content items only)."
+  ]
+}

@@ -60,7 +60,6 @@ import {
   MAX_VIDEO_SCENE_STILLS,
   SHORT_PROFILE,
   TAIL_BUFFER_SECONDS,
-  type StoredSemanticMotionBeat,
 } from "@/lib/video-engine/storyboard";
 import { parseStoredSemanticMotionFromJobInput } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
 import { parseVisualProfile } from "@/lib/visual-profile/visualProfile";
@@ -77,6 +76,16 @@ import {
   registerJobAbort,
 } from "@/video-worker/cancellation";
 import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cancel";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
+  buildDurableArtifactOutput,
+  getWorkerInstanceId,
+  persistVideoJobArtifacts,
+  promoteVideoJobIfArtifactsReady,
+  renewVideoJobLease,
+  shouldSendFailedCallbackAfterUpload,
+  VIDEO_JOB_HEARTBEAT_INTERVAL_MS,
+} from "@/lib/production-runtime";
 
 const DEFAULT_SCENE_DURATION_SECONDS = 4;
 
@@ -366,6 +375,50 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
   // voiceover MP3 and SRT use random names, so tracking the actual paths is the
   // only reliable way to clean them up.
   const tempFiles = new Set<string>();
+  const leaseOwner = payload.video_job_id;
+  const leaseSupabase = createSupabaseAdminClient();
+  let artifactsPersisted = false;
+  let completedCallbackSucceeded = false;
+  const workerInstanceId = getWorkerInstanceId();
+  console.info(
+    JSON.stringify({
+      scope: "video-worker",
+      event: "job_start",
+      video_job_id: payload.video_job_id,
+      project_id: payload.project_id,
+      worker_instance_id: workerInstanceId,
+      owner_token: leaseOwner,
+    }),
+  );
+  void leaseSupabase
+    .from("video_jobs")
+    .update({ worker_instance_id: workerInstanceId })
+    .eq("id", payload.video_job_id)
+    .eq("project_id", payload.project_id)
+    .then(({ error }) => {
+      if (error) {
+        console.warn(
+          "[video-worker] worker_instance_id persist failed",
+          error.message,
+        );
+      }
+    });
+  const heartbeat = setInterval(() => {
+    void renewVideoJobLease(leaseSupabase, {
+      jobId: payload.video_job_id,
+      projectId: payload.project_id,
+      ownerToken: leaseOwner,
+    }).catch((err: unknown) => {
+      console.warn(
+        "[video-worker] lease heartbeat failed",
+        JSON.stringify({
+          video_job_id: payload.video_job_id,
+          worker_instance_id: workerInstanceId,
+          error: err instanceof Error ? err.message : String(err),
+        }),
+      );
+    });
+  }, VIDEO_JOB_HEARTBEAT_INTERVAL_MS);
 
   try {
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
@@ -729,7 +782,20 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       render_spec: renderSpec,
       debug,
     };
+    artifactsPersisted = await persistVideoJobArtifacts(leaseSupabase, {
+      jobId: payload.video_job_id,
+      projectId: payload.project_id,
+      ownerToken: leaseOwner,
+      output: buildDurableArtifactOutput({
+        mp4_url: mp4Upload.signedUrl,
+        thumbnail_url: thumbUpload.signedUrl,
+        subtitle_url: srtUpload.signedUrl,
+        render_spec: renderSpec,
+        debug,
+      }),
+    });
     await sendVideoCallback(payload.callback_url, callback, transport);
+    completedCallbackSucceeded = true;
 
     console.log(
       "[video-worker] job completed",
@@ -751,7 +817,33 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       }),
     );
 
-    try {
+    if (artifactsPersisted) {
+      try {
+        await promoteVideoJobIfArtifactsReady(leaseSupabase, {
+          jobId: payload.video_job_id,
+          projectId: payload.project_id,
+        });
+      } catch (promoteErr) {
+        console.error(
+          "[video-worker] artifact promotion failed",
+          JSON.stringify({
+            video_job_id: payload.video_job_id,
+            error:
+              promoteErr instanceof Error
+                ? promoteErr.message
+                : String(promoteErr),
+          }),
+        );
+      }
+    }
+
+    if (
+      shouldSendFailedCallbackAfterUpload({
+        artifactsPersisted,
+        completedCallbackSucceeded,
+      })
+    ) {
+      try {
       const failureDebug =
         err instanceof TtsTailValidationError
           ? {
@@ -769,19 +861,21 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
         },
         transport,
       );
-    } catch (callbackErr) {
-      console.error(
-        "[video-worker] failed callback also failed",
-        JSON.stringify({
-          video_job_id: payload.video_job_id,
-          error:
-            callbackErr instanceof Error
-              ? callbackErr.message
-              : String(callbackErr),
-        }),
-      );
+      } catch (callbackErr) {
+        console.error(
+          "[video-worker] failed callback also failed",
+          JSON.stringify({
+            video_job_id: payload.video_job_id,
+            error:
+              callbackErr instanceof Error
+                ? callbackErr.message
+                : String(callbackErr),
+          }),
+        );
+      }
     }
   } finally {
+    clearInterval(heartbeat);
     clearJobAbort(payload.video_job_id);
     // Task 3 — always reclaim the job's temp files (success OR failure). The
     // durable artifacts are already in Storage by this point; these are local

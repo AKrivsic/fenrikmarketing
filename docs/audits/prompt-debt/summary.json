@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-07-22T22:07:54.972Z",
+  "scope": "Production prompt debt audit only; no production prompts changed.",
+  "source_telemetry": {
+    "run_id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+    "completed_packages": 8,
+    "exact_input_tokens": 372236,
+    "exact_ai_cost_usd": 3.700624,
+    "presentation_input_tokens": 234889,
+    "presentation_avg_input_tokens": 29361
+  },
+  "inventory": {
+    "instruction_families": 56,
+    "by_category": {
+      "Critical": 25,
+      "Important": 14,
+      "Useful": 4,
+      "Legacy": 3,
+      "Redundant": 3,
+      "Conflicting": 7,
+      "Unknown": 0
+    },
+    "estimated_family_tokens": 9940,
+    "redundant_or_legacy_family_tokens": 1220,
+    "token_estimate_method": "Per-family ceil(chars/4)-style estimates; comparative only."
+  },
+  "cost_assumption": {
+    "label": "ESTIMATED",
+    "claude_input_list_rate_usd_per_million_tokens": 3,
+    "formula": "token_est × executions per completed package × package volume × 3e-6"
+  },
+  "highest_prompt_debt_workflow": "Presentation",
+  "estimated_unnecessary_prompt_text_pct": "8–15% conservative; 25–35% after validator migration; 50–65% aggressive rewrite",
+  "deletion_simulations": [
+    {
+      "name": "Conservative",
+      "cut": "8–15%",
+      "risk": "low",
+      "scope": "Redundant + clear validator-backed repeats (Attention Mechanism, Hook V2, Funnel echo, Visual Style, Scene Type Memory prose)."
+    },
+    {
+      "name": "Moderate",
+      "cut": "25–35%",
+      "risk": "medium",
+      "scope": "Also collapse C1 arcs, thin Story/PPD prose, Opening Priority, Visual Narrative essay."
+    },
+    {
+      "name": "Aggressive",
+      "cut": "50–65%",
+      "risk": "high",
+      "scope": "Rebuild Presentation from Product Brain + Strategy + Candidate/DNA + safety + schema; delta Repair."
+    }
+  ],
+  "recommendation": "Do not incrementally patch Presentation. Resolve conflicts C1/C2/C6, prove conservative deletions with validator tests, then rewrite Presentation and delta Repair."
+}

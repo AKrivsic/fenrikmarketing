@@ -1,0 +1,5 @@
+metric,before,after,notes
+story_structure_owners,3,1,C1
+presentation_tokens_est_fixture,~8374 (phase1),~8098,Math.ceil(chars/4); not a token-optimization goal
+dangerous_conflicts,1 (C1),0,
+decisions_in_packs,0,14,scene_order/diversity deferred

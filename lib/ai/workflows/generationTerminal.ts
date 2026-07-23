@@ -11,6 +11,10 @@ export const GENERATION_TERMINAL_ERRORS = [
   "render_product_demo_failed",
   "render_failed",
   "operational_failure",
+  /** Another owner holds the package-generation claim — retry, do not settle failed. */
+  "generation_in_progress",
+  /** Heartbeat lost ownership — retryable operational, do not settle as content failure. */
+  "generation_claim_lost",
 ] as const;
 
 export type GenerationTerminalError = (typeof GENERATION_TERMINAL_ERRORS)[number];
@@ -45,6 +49,24 @@ export function classifyGenerationThrow(
         {
           path: `render.${stage}`,
           message: err.message,
+        },
+      ],
+    };
+  }
+
+  if (
+    err instanceof Error &&
+    (err.name === "PackageGenerationClaimLostError" ||
+      (err as { code?: string }).code === "generation_claim_lost")
+  ) {
+    return {
+      ok: false,
+      error: "generation_claim_lost",
+      attempts,
+      validationErrors: [
+        {
+          path: "strategy_item_id",
+          message: err instanceof Error ? err.message : "claim ownership lost",
         },
       ],
     };

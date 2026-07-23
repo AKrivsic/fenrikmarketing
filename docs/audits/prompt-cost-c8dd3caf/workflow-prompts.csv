@@ -1,0 +1,8 @@
+workflow,calls,total_input_tokens,total_output_tokens,estimated_cost_usd,avg_input_tokens,avg_output_tokens,models,notes
+Weekly Strategy,1,5889,4005,0.003286,5889,4005,gpt-4o-mini-2024-07-18,Telemetry totals exact where present; section allocations use measured reconstruction.
+Direction,8,17701,15914,0.291813,2213,1989,claude-sonnet-4-6,Telemetry totals exact where present; section allocations use measured reconstruction.
+Direction Evaluation,8,21743,15752,0.301509,2718,1969,claude-sonnet-4-6,Telemetry totals exact where present; section allocations use measured reconstruction.
+Ideation,9,38741,101508,1.638843,4305,11279,claude-sonnet-4-6,Telemetry totals exact where present; section allocations use measured reconstruction.
+Presentation Generation,8,234889,39560,1.103604,29361,4945,claude-sonnet-4-6 | gpt-4o-mini-2024-07-18,Telemetry totals exact where present; section allocations use measured reconstruction.
+Creative Critic,7,27419,9761,0.228672,3917,1394,claude-sonnet-4-6,Telemetry totals exact where present; section allocations use measured reconstruction.
+Story Integrity Repair,1,25854,3689,0.132897,25854,3689,claude-sonnet-4-6,Telemetry totals exact where present; section allocations use measured reconstruction.

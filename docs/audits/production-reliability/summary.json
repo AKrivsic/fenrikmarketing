@@ -1,0 +1,82 @@
+{
+  "audit": "production-reliability",
+  "date": "2026-07-23",
+  "verdict": "Safe with specific restrictions",
+  "verdict_rationale": "Operator Stop for production runs is hardened (app guards + DB trigger 023); package uniqueness and video claim/callback CAS prevent most revive/duplication bugs. Residual P0/P1 risks: pre-insert concurrent AI duplication, upload-success marked failed on callback error, nested paid retry waste on hard package fails, mid-flight generation after Stop, missing video heartbeats, regenerate without active-job guard, and stuck runs when packages exist but videos hang.",
+  "counts": {
+    "P0": 2,
+    "P1": 9,
+    "P2": 9,
+    "P3": 2
+  },
+  "p0_ids": ["PR-001", "PR-002"],
+  "p1_ids": [
+    "PR-003",
+    "PR-004",
+    "PR-005",
+    "PR-006",
+    "PR-007",
+    "PR-008",
+    "PR-009",
+    "PR-010",
+    "PR-021"
+  ],
+  "cancellation": {
+    "run_stop_protected": true,
+    "video_late_completed_revive_blocked": true,
+    "in_flight_package_ai_aborted": false,
+    "translation_cancelled": false,
+    "language_variant_jobs_always_cancelled": false,
+    "completed_outputs_kept": true
+  },
+  "worst_case_claude_completes_per_package_path": 63,
+  "worst_case_video_image_gens": 10,
+  "worst_case_tts_attempts": 3,
+  "unbounded_paid_loops": false,
+  "safeguards_that_work": [
+    "uniq_content_packages_strategy_item",
+    "video_claim_where_status",
+    "video_callback_where_processing",
+    "cancel_jobs_before_run_cancelled",
+    "trigger_023_operator_cancel_revive",
+    "variant_video_slot_advisory_rpc",
+    "translation_unique_source_language",
+    "settle_on_generation_failure",
+    "one_active_production_run_gate",
+    "retry_video_blocks_operator_cancelled",
+    "image_moderation_local_fallback",
+    "tts_tail_max_3"
+  ],
+  "missing_test_coverage": [
+    "upload_success_completed_callback_failure",
+    "stale_reclaim_while_worker_alive",
+    "pre_insert_concurrent_generate_cost",
+    "PDI_repair_wiring",
+    "language_variant_cancel_on_stop",
+    "regenerate_with_active_video_job",
+    "package_callback_terminal_guard",
+    "run_stuck_with_packages_and_hung_videos"
+  ],
+  "recommended_deploy": "Deploy with restrictions",
+  "restrictions": [
+    "Operator-attended runs only for multi-package production",
+    "Prefer content-package-worker path (avoid 300s Vercel inline)",
+    "Stop early if failed_total climbs; do not leave overnight unattended",
+    "Avoid overlapping regenerate while video processing",
+    "Treat language-variant pipelines as not covered by run Stop",
+    "After Stop, verify no processing video_jobs remain"
+  ],
+  "deliverables": [
+    "README.md",
+    "execution-flow.md",
+    "state-machines.md",
+    "cost-exposure.md",
+    "guard-review.md",
+    "retry-loop-review.md",
+    "concurrency-review.md",
+    "stuck-state-review.md",
+    "findings.csv",
+    "failure-propagation.csv",
+    "summary.json"
+  ]
+}

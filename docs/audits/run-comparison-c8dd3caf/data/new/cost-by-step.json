@@ -1,0 +1,98 @@
+{
+  "Creative Direction Generation": {
+    "count": 8,
+    "cost": 0.291813,
+    "ms": 348559,
+    "retries": 0
+  },
+  "Creative Direction Evaluation": {
+    "count": 8,
+    "cost": 0.301509,
+    "ms": 294067,
+    "retries": 0
+  },
+  "Creative Ideation": {
+    "count": 9,
+    "cost": 1.6388429999999998,
+    "ms": 2010299,
+    "retries": 0
+  },
+  "Creative Engine": {
+    "count": 8,
+    "cost": 0,
+    "ms": 0,
+    "retries": 0
+  },
+  "Candidate Judge": {
+    "count": 8,
+    "cost": 0,
+    "ms": 0,
+    "retries": 0
+  },
+  "Narrative Beats": {
+    "count": 8,
+    "cost": 0,
+    "ms": 35,
+    "retries": 0
+  },
+  "Presentation Generation": {
+    "count": 8,
+    "cost": 1.103604,
+    "ms": 661387,
+    "retries": 1
+  },
+  "Hook Enforcement": {
+    "count": 8,
+    "cost": 0,
+    "ms": 2,
+    "retries": 0
+  },
+  "Concept Fidelity": {
+    "count": 8,
+    "cost": 0,
+    "ms": 56,
+    "retries": 0
+  },
+  "Story Integrity": {
+    "count": 8,
+    "cost": 0,
+    "ms": 31,
+    "retries": 0
+  },
+  "Product Demonstration Integrity": {
+    "count": 8,
+    "cost": 0,
+    "ms": 17,
+    "retries": 0
+  },
+  "Platform Outputs": {
+    "count": 8,
+    "cost": 0,
+    "ms": 0,
+    "retries": 0
+  },
+  "Persist Package": {
+    "count": 8,
+    "cost": 0,
+    "ms": 28981,
+    "retries": 0
+  },
+  "Creative Evaluation": {
+    "count": 6,
+    "cost": 0.19128599999999998,
+    "ms": 173291,
+    "retries": 0
+  },
+  "Creative Evaluation Retry": {
+    "count": 1,
+    "cost": 0.037386,
+    "ms": 31198,
+    "retries": 0
+  },
+  "Story Integrity Repair": {
+    "count": 1,
+    "cost": 0.132897,
+    "ms": 66273,
+    "retries": 0
+  }
+}

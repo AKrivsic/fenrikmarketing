@@ -109,7 +109,7 @@ check("includes portrait / vertical framing guidance", () => {
 
 section("generateContentPackage prompt injection");
 
-check("video packages inject the visual guardrail", () => {
+check("video packages inject composition + device blocks (not VISUAL STYLE prose)", () => {
   const prompt = buildGenerateContentPackagePrompt({
     project: buildProject(),
     funnelStage: "awareness",
@@ -118,12 +118,14 @@ check("video packages inject the visual guardrail", () => {
     availableAssets: [],
     requireVideo: true,
   });
-  assert.ok(prompt.includes(VISUAL_STYLE_HEADER));
+  // Phase 1: VISUAL STYLE guardrail prose removed from Presentation injection.
+  assert.ok(!prompt.includes(`${VISUAL_STYLE_HEADER} (global default`));
   assert.ok(prompt.includes("image_prompts"));
   assert.ok(prompt.includes("VERTICAL SCENE COMPOSITION"));
+  assert.ok(prompt.includes("DEVICE & SCREEN REALISM"));
 });
 
-check("text-only packages do NOT inject the visual guardrail", () => {
+check("text-only packages do NOT inject visual composition blocks", () => {
   const prompt = buildGenerateContentPackagePrompt({
     project: buildProject(),
     funnelStage: "awareness",
@@ -133,11 +135,11 @@ check("text-only packages do NOT inject the visual guardrail", () => {
     requireVideo: false,
     targetPlatforms: ["linkedin"],
   });
-  // No image_prompts for text-only → no visual style guardrail either.
-  assert.ok(!prompt.includes(VISUAL_STYLE_HEADER));
+  assert.ok(!prompt.includes(`${VISUAL_STYLE_HEADER} (global default`));
+  assert.ok(!prompt.includes("VERTICAL SCENE COMPOSITION"));
 });
 
-check("guardrail is attached to the visual beats, not the CTA shape", () => {
+check("composition blocks attach to visual beats, not the CTA shape", () => {
   const prompt = buildGenerateContentPackagePrompt({
     project: buildProject(),
     funnelStage: "awareness",
@@ -146,10 +148,13 @@ check("guardrail is attached to the visual beats, not the CTA shape", () => {
     availableAssets: [],
     requireVideo: true,
   });
-  const styleIdx = prompt.indexOf(VISUAL_STYLE_HEADER);
+  const compositionIdx = prompt.indexOf("VERTICAL SCENE COMPOSITION");
   const visualBeatsIdx = prompt.indexOf("VISUAL BEATS");
   assert.ok(visualBeatsIdx >= 0);
-  assert.ok(styleIdx > visualBeatsIdx, "style block should follow VISUAL BEATS");
+  assert.ok(
+    compositionIdx > visualBeatsIdx,
+    "composition block should follow VISUAL BEATS",
+  );
 });
 
 // --- summary ----------------------------------------------------------------

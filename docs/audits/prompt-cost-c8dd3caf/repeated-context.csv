@@ -1,0 +1,11 @@
+context_name,appearances,total_tokens,cumulative_cost_usd,mostly_static
+Product Brain,27,13788,0.275015,no
+Pain Points,10,4170,0.017817,no
+Proof Pool,10,2050,0.008760,no
+Scenario Pool,10,6087,0.025128,no
+Website Rules,9,3393,0.015897,yes
+Creative Directive / Safety,18,3405,0.015958,yes
+Presentation Block,9,21465,0.100569,yes
+Task / Output JSON Shape,10,5262,0.023569,yes
+Output JSON Shape,32,5718,0.171528,yes
+Hard Constraints,27,4357,0.138934,yes

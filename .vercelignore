@@ -1,0 +1,13 @@
+node_modules
+.next
+.video-worker-tmp
+.content-package-worker-tmp
+.git
+docs/audits.zip
+docs/audits 2.zip
+docs/audits 3.zip
+*.mp4
+*.png
+*.jpg
+.env*
+.vercel

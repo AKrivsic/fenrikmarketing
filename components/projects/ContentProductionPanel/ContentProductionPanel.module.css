@@ -343,3 +343,58 @@
   border-radius: 999px;
   transition: width 0.4s ease;
 }
+
+.failedItems {
+  margin: 0.75rem 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, var(--color-border) 25%, transparent);
+}
+
+.failedItems summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.failedItemList {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.failedItem {
+  padding: 0.45rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.failedItemHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: baseline;
+  font-size: 0.85rem;
+}
+
+.failedItemPhase,
+.failedItemRetry {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.failedItemError {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.failedItemMeta {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}

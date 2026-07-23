@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-07-22T19:34:43.743Z",
+  "new_run_id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+  "ref_run_id": "f6c0c74d-1548-44fe-a920-b96b21d3db58",
+  "new": {
+    "label": "new",
+    "run_id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+    "run": {
+      "id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "status": "completed",
+      "requested_config": {
+        "plan": {
+          "videoCount": 14,
+          "packageCount": 14,
+          "totalOutputs": 147,
+          "platformOutputs": [
+            {
+              "kind": "video",
+              "label": "TikTok",
+              "outputs": 14,
+              "platform": "tiktok",
+              "multiplier": 1
+            },
+            {
+              "kind": "video",
+              "label": "Instagram",
+              "outputs": 14,
+              "platform": "instagram",
+              "multiplier": 1
+            },
+            {
+              "kind": "text",
+              "label": "Facebook",
+              "outputs": 14,
+              "platform": "facebook",
+              "multiplier": 1
+            },
+            {
+              "kind": "video",
+              "label": "YouTube",
+              "outputs": 14,
+              "platform": "youtube",
+              "multiplier": 1
+            },
+            {
+              "kind": "text",
+              "label": "LinkedIn",
+              "outputs": 21,
+              "platform": "linkedin",
+              "multiplier": 1.5
+            },
+            {
+              "kind": "text",
+              "label": "X",
+              "outputs": 70,
+              "platform": "x",
+              "multiplier": 5
+            }
+          ],
+          "textOutputsTotal": 105,
+          "videoOutputsTotal": 42,
+          "activeVideoPlatforms": [
+            "tiktok",
+            "instagram",
+            "youtube"
+          ]
+        },
+        "config": {
+          "platforms": [
+            "tiktok",
+            "instagram",
+            "facebook",
+            "youtube",
+            "linkedin",
+            "x"
+          ],
+          "multipliers": {
+            "x": 5,
+            "tiktok": 1,
+            "youtube": 1,
+            "facebook": 1,
+            "linkedin": 1.5,
+            "instagram": 1
+          },
+          "packageCount": 14,
+          "platformContentTypes": {
+            "x": "text_only",
+            "tiktok": "video",
+            "youtube": "video",
+            "facebook": "text_only",
+            "linkedin": "text_only",
+            "instagram": "video",
+            "google_business": "text_only"
+          }
+        }
+      },
+      "package_count": 14,
+      "requested_total": 14,
+      "generated_total": 8,
+      "failed_total": 6,
+      "error_message": null,
+      "created_at": "2026-07-22T10:11:25.953781+00:00",
+      "updated_at": "2026-07-22T14:42:34.911184+00:00"
+    },
+    "wall_duration_sec": 16268.958,
+    "requested": 14,
+    "completed": 8,
+    "failed": 6,
+    "success_rate": 0.5714285714285714,
+    "ai_calls": 113,
+    "repairs": 2,
+    "image_generations_est": 33,
+    "tts_calls_est": 10,
+    "renders_est": 8,
+    "ai_text_cost_usd": 3.697338,
+    "media_estimate_usd": 2.3567100000000005,
+    "total_cost_estimate_usd": 6.054048,
+    "cost_per_completed_usd": 0.756756,
+    "cost_per_requested_usd": 0.432432,
+    "avg_delivery_sec": 323.7005,
+    "median_delivery_sec": 324.623,
+    "package_count_in_dump": 14
+  },
+  "ref": {
+    "label": "ref",
+    "run_id": "f6c0c74d-1548-44fe-a920-b96b21d3db58",
+    "run": {
+      "id": "f6c0c74d-1548-44fe-a920-b96b21d3db58",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "status": "completed",
+      "requested_config": {
+        "plan": {
+          "videoCount": 14,
+          "packageCount": 14,
+          "totalOutputs": 133,
+          "platformOutputs": [
+            {
+              "kind": "video",
+              "label": "TikTok",
+              "outputs": 14,
+              "platform": "tiktok",
+              "multiplier": 1
+            },
+            {
+              "kind": "video",
+              "label": "Instagram",
+              "outputs": 14,
+              "platform": "instagram",
+              "multiplier": 1
+            },
+            {
+              "kind": "video",
+              "label": "YouTube",
+              "outputs": 14,
+              "platform": "youtube",
+              "multiplier": 1
+            },
+            {
+              "kind": "text",
+              "label": "LinkedIn",
+              "outputs": 21,
+              "platform": "linkedin",
+              "multiplier": 1.5
+            },
+            {
+              "kind": "text",
+              "label": "X",
+              "outputs": 70,
+              "platform": "x",
+              "multiplier": 5
+            }
+          ],
+          "textOutputsTotal": 91,
+          "videoOutputsTotal": 42
+        },
+        "config": {
+          "platforms": [
+            "tiktok",
+            "instagram",
+            "youtube",
+            "linkedin",
+            "x"
+          ],
+          "multipliers": {
+            "x": 5,
+            "tiktok": 1,
+            "youtube": 1,
+            "linkedin": 1.5,
+            "instagram": 1
+          },
+          "packageCount": 14,
+          "platformContentTypes": {
+            "x": "text_only",
+            "tiktok": "video",
+            "youtube": "video",
+            "facebook": "text_only",
+            "linkedin": "text_only",
+            "instagram": "video",
+            "google_business": "text_only"
+          }
+        }
+      },
+      "package_count": 14,
+      "requested_total": 14,
+      "generated_total": 14,
+      "failed_total": 0,
+      "error_message": null,
+      "created_at": "2026-06-28T21:02:49.45832+00:00",
+      "updated_at": "2026-06-29T04:48:06.457394+00:00"
+    },
+    "wall_duration_sec": 27916.999,
+    "requested": 14,
+    "completed": 14,
+    "failed": 0,
+    "success_rate": 1,
+    "ai_calls": 0,
+    "repairs": 0,
+    "image_generations_est": 59,
+    "tts_calls_est": 14,
+    "renders_est": 14,
+    "ai_text_cost_usd": null,
+    "media_estimate_usd": 4.211795,
+    "total_cost_estimate_usd": null,
+    "cost_per_completed_usd": null,
+    "cost_per_requested_usd": null,
+    "avg_delivery_sec": 3504.681,
+    "median_delivery_sec": 1819.0529999999999,
+    "package_count_in_dump": 14
+  },
+  "notes": [
+    "AI text costs from package_brief.presentation_generation.generation_telemetry.steps.estimated_cost",
+    "Old/reference runs often lack package telemetry — ai_text_cost_usd may be null",
+    "Failed packages have no content_package; intermediate creative outputs are not persisted",
+    "Image/TTS costs are list-price estimates, not billing truth",
+    "Render/compute cost cannot be determined from available data"
+  ]
+}

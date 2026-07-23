@@ -1,0 +1,9 @@
+package_index,workflow,model,retry_count_or_extra_calls,cost_usd,basis,useful,notes
+2,Presentation Generation,claude-sonnet-4-6,1,0.310422,exact_telemetry,yes_succeeded,telemetry retry_count > 0 (cost is total for step including retries)
+6,Creative Ideation,claude-sonnet-4-6,1,0.170982,exact_telemetry,yes_package_completed,2 ideation calls on completed package (re-ideation)
+7,TTS,gpt-4o-mini-tts,1,0.006240,estimated_list_price,no_duplicate,ESTIMATED: 416 chars / 1000 × $0.015; DUPLICATE_CALL
+7,Whisper,whisper-1,1,0.002676,estimated_list_price,no_duplicate,ESTIMATED: 26.76s TTS audio / 60 × $0.006; DUPLICATE_CALL
+10,TTS,gpt-4o-mini-tts,1,0.004695,estimated_list_price,no_duplicate,ESTIMATED: 313 chars / 1000 × $0.015; DUPLICATE_CALL
+10,Whisper,whisper-1,1,0.002026,estimated_list_price,no_duplicate,ESTIMATED: 20.26s TTS audio / 60 × $0.006; DUPLICATE_CALL
+4,failed_all_concepts_vetoed,n/a,3,0.672624,estimated_from_medians,no_package_failed,4 attempts before hard fail; retries did not save the package
+12,failed_ideation_failed,n/a,2,0.388488,estimated_from_medians,no_package_failed,3 attempts before hard fail; retries did not save the package

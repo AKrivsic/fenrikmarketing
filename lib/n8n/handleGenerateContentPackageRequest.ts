@@ -85,7 +85,12 @@ export async function handleGenerateContentPackageRequest(
     );
 
     // Sprint 4C.1 / 5.3 / 5.3.1 — settle on terminal failure; never swallow.
-    if (!result.ok) {
+    // Ownership contention / lost claim — retryable; do not settle as content failure.
+    if (
+      !result.ok &&
+      result.error !== "generation_in_progress" &&
+      result.error !== "generation_claim_lost"
+    ) {
       await settleOrRespondOperational({
         projectId,
         strategyItemId,

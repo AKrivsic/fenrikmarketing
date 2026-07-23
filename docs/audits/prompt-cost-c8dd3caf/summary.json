@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-07-22T21:51:48.065Z",
+  "production_run_id": "c8dd3caf-c407-418c-be49-d4cf0a3b7bf9",
+  "completed_packages": 8,
+  "failed_run_items": 6,
+  "asset_count": 5,
+  "exact_input_tokens": 372236,
+  "estimated_cost_usd": 3.700624,
+  "product_brain_chars": 2257,
+  "product_brain_tokens_est": 565,
+  "calibration": "known text is ceil(chars/4); gaps become unallocated_missing_context; overcounts only scale down",
+  "overlap": "average per-call compositions with min shared tokens"
+}

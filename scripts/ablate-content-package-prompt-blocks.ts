@@ -75,20 +75,20 @@ const EXPERIMENTS: Experiment[] = [
   },
   {
     id: "F_no_attention_mechanism",
-    label: "Remove Attention Mechanism",
-    removeFrom: "ATTENTION MECHANISM (attention@",
+    label: "Remove Attention Delivery",
+    removeFrom: "ATTENTION DELIVERY (attention@",
     removeUntil: ["CREATIVE CANDIDATE SELECTION", "CONTENT QUALITY (hard rules"],
   },
   {
     id: "G_no_creative_directives",
     label: "Remove Creative Directives",
     removeFrom: "CREATIVE DIRECTIVE (this piece",
-    removeUntil: ["PACKAGE DIVERSITY", "ATTENTION FIRST", "ATTENTION MECHANISM (attention@"],
+    removeUntil: ["PACKAGE DIVERSITY", "ATTENTION FIRST", "ATTENTION DELIVERY (attention@"],
   },
   {
     id: "H_no_hook_v2",
-    label: "Remove Hook V2",
-    removeFrom: "HOOK V2 (the first",
+    label: "Remove Opening Hook bridge (legacy Hook V2)",
+    removeFrom: "OPENING HOOK:",
     removeUntil: ["VISUAL BEATS:", "SCENE MEANING (priority"],
   },
   {
@@ -105,7 +105,7 @@ const EXPERIMENTS: Experiment[] = [
     id: "J_no_content_quality",
     label: "Remove Content Quality",
     removeFrom: "CONTENT QUALITY (hard rules",
-    removeUntil: ["HOOK V2 (the first", "VISUAL BEATS:"],
+    removeUntil: ["OPENING HOOK:", "VISUAL BEATS:"],
   },
 ];
 

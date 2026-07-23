@@ -1,0 +1,7 @@
+section,before_tokens_est,after_tokens_est,delta_tokens_est,notes
+Presentation prompt (full fixture),9937,8374,-1563,Math.ceil(chars/4); reconstructed before
+Attention Mechanism / Delivery,718,93,-625,Thinned to delivery_arc + SFX
+Hook V2,~180,0,-180,Replaced by OPENING HOOK bridge + Candidate
+Funnel Asset Policy (when Coverage present),~70,0,-70,Coverage authoritative
+Visual Style injection,~90,0,-90,Module retained; not injected
+Scene Type Memory prose,~200,0,-200,Guardrail still runs in code

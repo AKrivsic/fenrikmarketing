@@ -30,6 +30,7 @@ import {
 import { prepareRenderScenesForLanguageVariant } from "@/lib/scene-types/languageVariantScenes";
 import { attachTtsToVideoJobInput } from "@/lib/voice/videoJobTtsInput";
 import { applySemanticMotionPreservationFromSourceJob } from "@/lib/video-engine/semanticMotion/storedSemanticMotionJobInput";
+import { mergeProductionRunIdIntoVariantMetadata } from "@/lib/production-runtime";
 
 // Injectable dependencies. videoCallbackUrl is supplied by the route (derived
 // from the request origin, mirroring /api/n8n/start-video-job); without it the
@@ -390,16 +391,19 @@ export async function runGenerateLanguageVariantsForItem(
         caption: out.caption,
         hashtags: out.hashtags ?? [],
         cta: out.cta,
-        generation_metadata: {
-          source: "language_variant",
-          kind: "language_variant",
-          source_language: localized.data.sourceLanguage,
-          target_language: language,
-          source_content_item_id: source.id,
-          source_video_job_id: sourceVideoJobId,
-          generated_from_render_spec: Boolean(scenes),
-          item_level: true,
-        } as unknown as Json,
+        generation_metadata: mergeProductionRunIdIntoVariantMetadata(
+          source.generation_metadata,
+          {
+            source: "language_variant",
+            kind: "language_variant",
+            source_language: localized.data.sourceLanguage,
+            target_language: language,
+            source_content_item_id: source.id,
+            source_video_job_id: sourceVideoJobId,
+            generated_from_render_spec: Boolean(scenes),
+            item_level: true,
+          },
+        ) as unknown as Json,
       })
       .select("id")
       .single();

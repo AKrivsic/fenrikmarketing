@@ -83,8 +83,6 @@ import { countCtaEntries } from "@/lib/scene-types/presentation/ctaFrequencyGuar
 import { resolveChecklistGenerationMode } from "@/lib/scene-types/checklistGenerationMode";
 import { resolveChecklistAllowlistStatus } from "@/lib/scene-types/checklistProductionRollout";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
-import { loadSceneTypeProjectHistory } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
-import { buildSceneTypeHistoryRestraintBlock } from "@/lib/scene-types/presentation/sceneTypeHistoryPrompt";
 import {
   loadSeriesCreativeContext,
 } from "@/lib/series/loadSeriesCreativeContext";
@@ -107,6 +105,14 @@ import {
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
+import { buildTypedDecisionPacks } from "@/lib/architecture/typedDecisionPacks";
+import {
+  buildFidelityRepairDelta,
+  buildStoryIntegrityRepairDelta,
+  buildProductDemonstrationRepairDelta,
+  buildRepairDeltaPrompt,
+  mergeRepairedPackage,
+} from "@/lib/architecture/repairDelta";
 import {
   attachFidelityToPlan,
   attachProductDemonstrationIntegrityToPlan,
@@ -114,8 +120,6 @@ import {
   buildCreativeDnaDiagnostics,
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
-  fidelityRepairAppendix,
-  storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
   validateProductDemonstrationIntegrity,
@@ -137,6 +141,17 @@ import { alignOnScreenCtaContract } from "@/lib/content-package/alignOnScreenCta
 import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
 import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
 import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
+import {
+  claimPackageGeneration,
+  newOwnerToken,
+  releasePackageGenerationClaim,
+  startPackageGenerationHeartbeat,
+  PackageGenerationClaimLostError,
+  persistPackageGenerationFailureTelemetry,
+  runtimeLog,
+  shouldHardFailFidelityAfterRepair,
+  shouldHardFailStoryIntegrityAfterRepair,
+} from "@/lib/production-runtime";
 import {
   buildNarrativeBeatPromptBlock,
   buildNarrativeTimelineDebug,
@@ -257,6 +272,157 @@ async function runGenerateContentPackageUnchecked(
     return { ok: true, data: healed.data };
   }
 
+  // Invariant 1 — exclusive ownership before any paid Creative Engine / Presentation work.
+  const generationOwnerToken = newOwnerToken();
+  const claim = await claimPackageGeneration(supabase, {
+    projectId: input.projectId,
+    strategyItemId: input.strategyItemId,
+    ownerToken: generationOwnerToken,
+  });
+  if (claim.status === "existing_package") {
+    runtimeLog("info", {
+      event: "package_claim_acquired",
+      project_id: input.projectId,
+      strategy_item_id: input.strategyItemId,
+      package_id: claim.packageId,
+      outcome: "existing_package",
+    });
+    const raced = await loadExistingPackageData(
+      supabase,
+      input.projectId,
+      input.strategyItemId,
+    );
+    if (raced) {
+      return { ok: true, data: { ...raced, reused: true } };
+    }
+  }
+  if (claim.status === "busy") {
+    runtimeLog("info", {
+      event: "package_claim_busy",
+      project_id: input.projectId,
+      strategy_item_id: input.strategyItemId,
+      owner_token: claim.ownerToken,
+      outcome: "busy",
+    });
+    return {
+      ok: false,
+      error: "generation_in_progress",
+      validationErrors: [
+        {
+          path: "strategy_item_id",
+          message:
+            "another worker holds the package-generation claim for this strategy item",
+        },
+      ],
+      attempts: 0,
+    };
+  }
+
+  runtimeLog("info", {
+    event: "package_claim_acquired",
+    project_id: input.projectId,
+    strategy_item_id: input.strategyItemId,
+    owner_token: generationOwnerToken,
+    outcome: "claimed",
+  });
+
+  const heartbeat = startPackageGenerationHeartbeat(supabase, {
+    strategyItemId: input.strategyItemId,
+    ownerToken: generationOwnerToken,
+    projectId: input.projectId,
+    phase: "after_claim",
+  });
+
+  try {
+    runtimeLog("info", {
+      event: "package_generation_start",
+      project_id: input.projectId,
+      strategy_item_id: input.strategyItemId,
+      owner_token: generationOwnerToken,
+      outcome: "start",
+    });
+    const result = await runGenerateContentPackageAfterClaim(
+      input,
+      supabase,
+      generationOwnerToken,
+      heartbeat,
+    );
+    if (!result.ok) {
+      runtimeLog("warn", {
+        event: "package_generation_fail",
+        project_id: input.projectId,
+        strategy_item_id: input.strategyItemId,
+        owner_token: generationOwnerToken,
+        outcome: result.error,
+      });
+    } else {
+      runtimeLog("info", {
+        event: "package_generation_end",
+        project_id: input.projectId,
+        strategy_item_id: input.strategyItemId,
+        package_id: result.data.packageId,
+        owner_token: generationOwnerToken,
+        outcome: "ok",
+      });
+    }
+    return result;
+  } catch (err) {
+    if (err instanceof PackageGenerationClaimLostError) {
+      await persistPackageGenerationFailureTelemetry(supabase, {
+        projectId: input.projectId,
+        strategyItemId: input.strategyItemId,
+        ownerToken: generationOwnerToken,
+        phase: "claim_heartbeat",
+        terminalClassification: "generation_claim_lost",
+        errorTruncated: err.message,
+      }).catch(() => undefined);
+      return {
+        ok: false,
+        error: "generation_claim_lost",
+        validationErrors: [
+          {
+            path: "strategy_item_id",
+            message: err.message,
+          },
+        ],
+        attempts: 0,
+      };
+    }
+    throw err;
+  } finally {
+    heartbeat.stop();
+    await releasePackageGenerationClaim(supabase, {
+      strategyItemId: input.strategyItemId,
+      ownerToken: generationOwnerToken,
+      finalStatus: "released",
+    }).catch((err) => {
+      runtimeLog("warn", {
+        event: "package_claim_released",
+        strategy_item_id: input.strategyItemId,
+        owner_token: generationOwnerToken,
+        outcome: "release_failed",
+        detail: err instanceof Error ? err.message : String(err),
+      });
+    });
+    runtimeLog("info", {
+      event: "package_claim_released",
+      strategy_item_id: input.strategyItemId,
+      owner_token: generationOwnerToken,
+      outcome: "released",
+    });
+  }
+}
+
+async function runGenerateContentPackageAfterClaim(
+  input: GenerateContentPackageInput,
+  supabase: SupabaseClient,
+  generationOwnerToken: string,
+  heartbeat: {
+    assertOwned: (phase: string) => void;
+    isLost: () => boolean;
+  },
+): Promise<WorkflowResult<ContentPackageData>> {
+  heartbeat.assertOwned("load_context");
   const project = await loadProjectOrThrow(supabase, input.projectId);
   const context = await loadStrategyItemContext(
     supabase,
@@ -270,13 +436,8 @@ async function runGenerateContentPackageUnchecked(
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
-  const sceneTypeHistory = await loadSceneTypeProjectHistory(
-    supabase,
-    input.projectId,
-    { currentWeeklyStrategyId: context.weeklyStrategyId },
-  );
-  const sceneTypeHistoryBlock =
-    buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
+  // Phase 1: Scene Type Memory prose no longer injected into Presentation.
+  // Soft restraint remains in applySceneTypeHistoryGuardrail (loads history itself).
   const seriesCreative = await loadSeriesCreativeContext({
     supabase,
     projectId: input.projectId,
@@ -403,6 +564,8 @@ async function runGenerateContentPackageUnchecked(
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
+  heartbeat.assertOwned("creative_engine");
+
   // Creative Engine v3 — sole production path (AI invents directions + concepts).
   // Candidates first so Creative DNA can neutralize conflicting Identity environments.
   let creativeEnginePersistence: Record<string, unknown> = {};
@@ -522,9 +685,6 @@ async function runGenerateContentPackageUnchecked(
             }),
         )
       : null;
-  const narrativeBeatPromptBlock = narrativeBeatPlan
-    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan)
-    : "";
   let storyProgressionDiagnostics: StoryProgressionDiagnostics | null = null;
   let visualProgressionDiagnostics: VisualProgressionDiagnostics | null = null;
   let postLlmInformationProgression: InformationProgressionDiagnostics | null =
@@ -606,6 +766,38 @@ async function runGenerateContentPackageUnchecked(
     requireVideo,
   });
 
+  // Phase 2B — Typed Decision Packs (authoritative ownership boundary).
+  const decisionPacks = buildTypedDecisionPacks({
+    project,
+    directives,
+    funnelStage: context.funnelStage,
+    generationMode,
+    assetCoverage,
+    selectedCandidate: creativeCandidates?.selectedCandidate
+      ? {
+          hookLine: creativeCandidates.selectedCandidate.hookLine,
+          openingSituation: creativeCandidates.selectedCandidate.openingSituation,
+          emotionalReaction: creativeCandidates.selectedCandidate.emotionalReaction,
+          creativeDNA: creativeCandidates.selectedCandidate.creativeDNA ?? null,
+        }
+      : null,
+    creativeDna: selectedDna,
+    creativeIdentity: creativeIdentityPlan.identity,
+    attentionDeliveryArc: attentionPlan.plan?.delivery_arc ?? null,
+    attentionPromptBlock: attentionPlan.promptBlock || null,
+    creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || null,
+    creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || null,
+    targetPlatforms,
+    requireVideo,
+    videoPlatforms,
+  });
+
+  const narrativeBeatPromptBlock = narrativeBeatPlan
+    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan, {
+        modeBeatArc: decisionPacks.storyStructure.beatArc,
+      })
+    : "";
+
   const buildPackagePrompt = (fidelityRepair?: string) =>
     buildGenerateContentPackagePrompt({
       project,
@@ -624,22 +816,21 @@ async function runGenerateContentPackageUnchecked(
       directives,
       packageDiversity,
       generationMode,
-      assetCoverage,
       promptPresentationTypes,
-      sceneTypeHistoryBlock,
       seriesCreativeContextBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
-      creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || undefined,
       visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
-      attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
       narrativeBeatPromptBlock: narrativeBeatPromptBlock || undefined,
-      creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
+      // Phase 3 — packs are authoritative; Presentation renders only.
+      decisionPacks,
     });
+
+  heartbeat.assertOwned("presentation");
 
   let generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
@@ -834,15 +1025,23 @@ async function runGenerateContentPackageUnchecked(
     if (!fidelity.passed && classification.material) {
       regenerationReason = classification.materialReasons.join(",");
       const repairStart = Date.now();
+      const priorPackage = requireOkPackage();
+      const fidelityDelta = buildFidelityRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        fidelity,
+      });
       const repaired = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildPackagePrompt(
-          fidelityRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            fidelity,
-          ),
-        ),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: fidelityDelta,
+          generatedPackage: priorPackage,
+          validationResults: { fidelity },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
         validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
         guardrails: makePackageGuardrails({
           project,
@@ -862,7 +1061,7 @@ async function runGenerateContentPackageUnchecked(
           stepName: "Concept Fidelity Repair",
           repair: true,
           inputSummary:
-            "Concept Fidelity Repair input:\n- Selected Candidate\n- Failed fidelity rules\n- Prior package draft",
+            "Concept Fidelity Repair input:\n- Selected Candidate\n- Failed fidelity rules\n- Prior package draft\n- RepairDelta (packs immutable)",
           outputSummary: (r) =>
             r.ok ? "Repaired package" : "Repair failed",
         },
@@ -873,7 +1072,16 @@ async function runGenerateContentPackageUnchecked(
       });
       if (repaired.ok) {
         fullPackageGenerations += 1;
-        generated = repaired;
+        generated = {
+          ...repaired,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repaired.value,
+            delta: fidelityDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
           project,
@@ -956,9 +1164,10 @@ async function runGenerateContentPackageUnchecked(
       regenerationReason,
     );
 
-    // Hard gate: after at most one material fidelity repair, do not persist a
-    // package that still fails concept fidelity (same terminal pattern as story).
-    if (!fidelity.passed) {
+    // Hard gate: after at most one material fidelity repair, only material
+    // residues hard-fail. Deterministic/heuristic residues soft-continue so
+    // Creative Engine work is not discarded (Invariant 4 / PR-006).
+    if (shouldHardFailFidelityAfterRepair(fidelity)) {
       console.error(
         "[concept-fidelity] hard fail after repair",
         creativeCandidates.selectedCandidate.candidateId,
@@ -973,6 +1182,12 @@ async function runGenerateContentPackageUnchecked(
         })),
         attempts: generated.attempts,
       };
+    }
+    if (!fidelity.passed) {
+      console.warn(
+        "[concept-fidelity] soft-continue after non-material residues",
+        fidelity.failureReasons,
+      );
     }
 
     const alignOnScreenCta = () => {
@@ -1031,16 +1246,24 @@ async function runGenerateContentPackageUnchecked(
         ? `${regenerationReason};${integrityReason}`
         : integrityReason;
       const storyStart = Date.now();
+      const priorPackage = requireOkPackage();
+      const storyDelta = buildStoryIntegrityRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        integrity: storyIntegrity,
+        packageCta: priorPackage.cta?.text ?? "",
+      });
       const repairedIntegrity = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildPackagePrompt(
-          storyIntegrityRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            storyIntegrity,
-            generated.value.cta?.text ?? "",
-          ),
-        ),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: storyDelta,
+          generatedPackage: priorPackage,
+          validationResults: { storyIntegrity, fidelity },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
         validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
         guardrails: makePackageGuardrails({
           project,
@@ -1060,7 +1283,7 @@ async function runGenerateContentPackageUnchecked(
           stepName: "Story Integrity Repair",
           repair: true,
           inputSummary:
-            "Story Integrity Repair input:\n- Selected Candidate\n- Integrity violations\n- Prior package draft",
+            "Story Integrity Repair input:\n- Selected Candidate\n- Integrity violations\n- Prior package draft\n- RepairDelta (packs immutable)",
           outputSummary: (r) =>
             r.ok ? "Repaired package" : "Repair failed",
         },
@@ -1070,7 +1293,16 @@ async function runGenerateContentPackageUnchecked(
       });
       if (repairedIntegrity.ok) {
         fullPackageGenerations += 1;
-        generated = repairedIntegrity;
+        generated = {
+          ...repairedIntegrity,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repairedIntegrity.value,
+            delta: storyDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
           project,
@@ -1131,7 +1363,8 @@ async function runGenerateContentPackageUnchecked(
         storyIntegrity.ctaMatch,
       );
     }
-    if (!storyIntegrity.passed) {
+    // After one repair, only unrecoverable story codes hard-fail (Invariant 4).
+    if (shouldHardFailStoryIntegrityAfterRepair(storyIntegrity)) {
       console.error(
         "[story-integrity] hard fail after repair",
         creativeCandidates.selectedCandidate.candidateId,
@@ -1149,9 +1382,15 @@ async function runGenerateContentPackageUnchecked(
         attempts: generated.attempts,
       };
     }
+    if (!storyIntegrity.passed) {
+      console.warn(
+        "[story-integrity] soft-continue after repairable residues",
+        storyIntegrity.violations,
+      );
+    }
 
-    // Sprint 4C.1 — Product Demonstration Integrity (structured beat +
-    // controlled chat visual). One deterministic repair (force inject), then fail.
+    // Sprint 4C.1 — Product Demonstration Integrity. One LLM repair via
+    // RepairDelta, then hard-fail only if still failing (PR-005).
     let productDemoIntegrity = withTelemetrySync(
       {
         stepName: "Product Demonstration Integrity",
@@ -1181,6 +1420,75 @@ async function runGenerateContentPackageUnchecked(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
+      const demoStart = Date.now();
+      const priorPackage = requireOkPackage();
+      const demoDelta = buildProductDemonstrationRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        integrity: productDemoIntegrity,
+      });
+      const repairedDemo = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildGeneratePackageSystem(requireVideo),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: demoDelta,
+          generatedPackage: priorPackage,
+          validationResults: {
+            productDemonstration: productDemoIntegrity,
+            fidelity,
+            storyIntegrity,
+          },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          assetCoverage,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+        maxTransportAttempts:
+          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+        telemetry: {
+          stepName: "Product Demonstration Integrity Repair",
+          repair: true,
+          inputSummary:
+            "PDI Repair input:\n- Selected Candidate\n- PDI violations\n- Prior package\n- RepairDelta",
+          outputSummary: (r) =>
+            r.ok ? "Repaired package" : "Repair failed",
+        },
+      });
+      recordPhase("product_demo_repair", demoStart, {
+        ok: repairedDemo.ok,
+      });
+      if (repairedDemo.ok) {
+        fullPackageGenerations += 1;
+        generated = {
+          ...repairedDemo,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repairedDemo.value,
+            delta: demoDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
+        productDemoIntegrity = validateProductDemonstrationIntegrity({
+          winner: creativeCandidates.selectedCandidate,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          productPresentation: productPresentationPlan.plan,
+        });
+      }
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,
@@ -2030,6 +2338,8 @@ async function persistNewPackage(
         .insert({
           project_id: projectId,
           content_item_id: videoItemId,
+          package_id: packageId,
+          render_kind: "package",
           provider: "video_engine",
           status: "queued",
           input: videoInput,
@@ -2270,6 +2580,8 @@ async function healMissingVideoJobIfRequired(
       .insert({
         project_id: projectId,
         content_item_id: videoItemId,
+        package_id: existing.packageId,
+        render_kind: "package",
         provider: "video_engine",
         status: "queued",
         input: videoInput,

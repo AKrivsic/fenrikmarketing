@@ -8,6 +8,22 @@ export function workflowResponse<T>(result: WorkflowResult<T>): Response {
   if (result.ok) {
     return Response.json({ ok: true, data: result.data });
   }
+  // Concurrent owner or lost claim heartbeat — retryable, not a content failure.
+  if (
+    result.error === "generation_in_progress" ||
+    result.error === "generation_claim_lost"
+  ) {
+    return Response.json(
+      {
+        ok: false,
+        error: result.error,
+        attempts: result.attempts,
+        validation_errors: result.validationErrors,
+        retryable: true,
+      },
+      { status: 503 },
+    );
+  }
   // Validation failed even after repair + retries.
   return Response.json(
     {

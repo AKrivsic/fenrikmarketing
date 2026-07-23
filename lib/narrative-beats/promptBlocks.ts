@@ -10,6 +10,11 @@ import { NARRATIVE_BEAT_VERSION } from "@/lib/narrative-beats/types";
 
 export const NARRATIVE_BEAT_PROMPT_HEADER = "NARRATIVE BEATS";
 
+// Phase 2B ownership:
+//   Story Structure owner: MODE BEATS / StoryStructurePack only (C1 resolved).
+//   This block is Candidate-derived comprehension + progression guidance —
+//   labels map onto MODE BEATS; it must NOT inject a competing required arc.
+
 /**
  * Prompt block between Creative Candidate and visual/storyboard generation.
  * Includes viewer comprehension + any pre-LLM corrective guidance
@@ -17,14 +22,19 @@ export const NARRATIVE_BEAT_PROMPT_HEADER = "NARRATIVE BEATS";
  */
 export function buildNarrativeBeatPromptBlock(
   plan: NarrativeBeatPlan,
+  opts?: { modeBeatArc?: string },
 ): string {
+  const modeArc =
+    opts?.modeBeatArc?.trim() ||
+    "(see MODE BEATS / StoryStructurePack — authoritative structure)";
   const lines: string[] = [
     `${NARRATIVE_BEAT_PROMPT_HEADER} (${NARRATIVE_BEAT_VERSION}):`,
     "Derived from the selected Creative Candidate — NOT a new concept.",
-    "Map voiceover_text and visual_scenes onto this story spine.",
-    "MODE BEATS still label tone/structure; these beats are the STORY progression.",
+    "Map voiceover_text and visual_scenes onto these Candidate-derived beat labels.",
+    `Authoritative story structure is MODE BEATS only: ${modeArc}.`,
+    "HOOK / SETUP / ESCALATION / RESOLUTION here are comprehension labels mapped",
+    "onto that MODE BEATS structure — NOT a second required story grammar.",
     "",
-    "Required arc: HOOK → SETUP → ESCALATION → RESOLUTION",
     "Every beat must introduce NEW INFORMATION (not just a new camera or device).",
     "Never let two consecutive beats communicate the same claim",
     "(e.g. unanswered channel A → unanswered channel B is still a failure).",

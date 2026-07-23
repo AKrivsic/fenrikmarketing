@@ -1,0 +1,45 @@
+workflow,model,provider,calls,successful,failed,retries,tokens_in,tokens_out,cost_usd,avg_cost_usd,total_runtime_ms,avg_runtime_ms,cost_basis
+Creative Ideation,claude-sonnet-4-6,claude,9,9,0,0,38741,101508,1.638843,0.182094,2010299,223366.6,exact_telemetry
+Image generation,gpt-image-1,image,8,8,0,0,0,0,1.428000,0.178500,901698,112712.3,estimated_list_price
+Presentation Generation,claude-sonnet-4-6,claude,7,7,0,1,205693,31834,1.094589,0.156370,552181,78883.0,exact_telemetry
+ESTIMATED ideation (failed pkg 4),n/a,estimated_from_medians,1,0,1,0,0,0,0.776976,0.776976,0,0.0,estimated_from_medians
+ESTIMATED ideation (failed pkg 12),n/a,estimated_from_medians,1,0,1,0,0,0,0.582732,0.582732,0,0.0,estimated_from_medians
+Creative Direction Evaluation,claude-sonnet-4-6,claude,8,8,0,0,21743,15752,0.301509,0.037689,294067,36758.4,exact_telemetry
+Creative Direction Generation,claude-sonnet-4-6,claude,8,8,0,0,17701,15914,0.291813,0.036477,348559,43569.9,exact_telemetry
+ESTIMATED ideation (failed pkg 3),n/a,estimated_from_medians,1,0,1,0,0,0,0.194244,0.194244,0,0.0,estimated_from_medians
+ESTIMATED ideation (failed pkg 5),n/a,estimated_from_medians,1,0,1,0,0,0,0.194244,0.194244,0,0.0,estimated_from_medians
+ESTIMATED ideation (failed pkg 9),n/a,estimated_from_medians,1,0,1,0,0,0,0.194244,0.194244,0,0.0,estimated_from_medians
+ESTIMATED ideation (failed pkg 13),n/a,estimated_from_medians,1,0,1,0,0,0,0.194244,0.194244,0,0.0,estimated_from_medians
+Creative Evaluation,claude-sonnet-4-6,claude,6,6,0,0,22687,8215,0.191286,0.031881,173291,28881.8,exact_telemetry
+Story Integrity Repair,claude-sonnet-4-6,claude,1,1,0,0,25854,3689,0.132897,0.132897,66273,66273.0,exact_telemetry
+ESTIMATED presentation (failed pkg 3),n/a,estimated_from_medians,1,0,1,0,0,0,0.130223,0.130223,0,0.0,estimated_from_medians
+ESTIMATED presentation (failed pkg 5),n/a,estimated_from_medians,1,0,1,0,0,0,0.130223,0.130223,0,0.0,estimated_from_medians
+ESTIMATED presentation (failed pkg 9),n/a,estimated_from_medians,1,0,1,0,0,0,0.130223,0.130223,0,0.0,estimated_from_medians
+ESTIMATED presentation (failed pkg 13),n/a,estimated_from_medians,1,0,1,0,0,0,0.130223,0.130223,0,0.0,estimated_from_medians
+ESTIMATED critic (failed pkg 4),n/a,estimated_from_medians,1,0,1,0,0,0,0.119856,0.119856,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 3),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 4),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 5),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 9),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 12),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+ESTIMATED direction (failed pkg 13),n/a,estimated_from_medians,1,0,1,0,0,0,0.073920,0.073920,0,0.0,estimated_from_medians
+TTS,gpt-4o-mini-tts,tts,10,10,0,0,0,0,0.057645,0.005764,44864,4486.4,estimated_list_price
+Creative Evaluation Retry,claude-sonnet-4-6,claude,1,1,0,0,4732,1546,0.037386,0.037386,31198,31198.0,exact_telemetry
+ESTIMATED critic (failed pkg 3),n/a,estimated_from_medians,1,0,1,0,0,0,0.029964,0.029964,0,0.0,estimated_from_medians
+ESTIMATED critic (failed pkg 5),n/a,estimated_from_medians,1,0,1,0,0,0,0.029964,0.029964,0,0.0,estimated_from_medians
+ESTIMATED critic (failed pkg 9),n/a,estimated_from_medians,1,0,1,0,0,0,0.029964,0.029964,0,0.0,estimated_from_medians
+ESTIMATED critic (failed pkg 13),n/a,estimated_from_medians,1,0,1,0,0,0,0.029964,0.029964,0,0.0,estimated_from_medians
+Whisper,whisper-1,whisper,10,10,0,0,0,0,0.024926,0.002493,26975,2697.5,estimated_list_price
+Presentation Generation,gpt-4o-mini-2024-07-18,claude,1,1,0,0,29196,7726,0.009015,0.009015,109206,109206.0,exact_telemetry
+Weekly Strategy,gpt-4o-mini-2024-07-18,claude,1,1,0,0,5889,4005,0.003286,0.003286,70357,70357.0,exact_telemetry
+Strategy Items,deterministic,deterministic,1,1,0,0,0,0,0.000000,0.000000,492,492.0,unmetered
+Creative Engine,unknown,claude,8,8,0,0,0,0,0.000000,0.000000,0,0.0,unmetered
+Candidate Judge,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,0,0.0,unmetered
+Narrative Beats,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,35,4.4,unmetered
+Hook Enforcement,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,2,0.3,unmetered
+Concept Fidelity,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,56,7.0,unmetered
+Story Integrity,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,31,3.9,unmetered
+Product Demonstration Integrity,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,17,2.1,unmetered
+Platform Outputs,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,0,0.0,unmetered
+Persist Package,deterministic,deterministic,8,8,0,0,0,0,0.000000,0.000000,28981,3622.6,unmetered
+Video rendering,unknown,video,8,8,0,0,0,0,0.000000,0.000000,1488288,186036.0,unmetered

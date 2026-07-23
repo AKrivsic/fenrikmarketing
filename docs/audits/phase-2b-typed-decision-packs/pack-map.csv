@@ -1,0 +1,17 @@
+pack,decision_ids,owner,deferred
+productGrounding,product_grounding,product_brain,false
+hook,hook,winner_candidate,false
+opening,opening,winner_candidate,false
+storyStructure,story_structure,mode_beats,false
+emotionalArc,emotional_arc,winner_candidate,false
+voice,voice_emotion|voice_persona,attention_delivery+persona,false
+visualIdentity,visual_identity,creative_dna,false
+characterConsistency,character_consistency,creative_dna,false
+cameraStyle,camera_style,creative_identity,false
+assetPolicy,asset_policy,asset_coverage|funnel_fallback,false
+cta,cta,cta_guardrails,false
+safety,safety,safety_guardrails,false
+platformAdaptation,platform_adaptation,platform_styles,false
+jsonSchema,json_schema,content_package_schema,false
+(none),scene_order,,true
+(none),scene_diversity,,true

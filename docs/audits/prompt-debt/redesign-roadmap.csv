@@ -1,0 +1,9 @@
+priority,action,target_instructions_or_workflows,expected_debt_reduction,expected_cost_impact,quality_risk,difficulty,belongs_in
+"1","Collapse Presentation to typed contract: Product Brain + Strategy + Winner Candidate/DNA + compact safety + schema","Presentation; pkg-*","Very High","25–40% Presentation input ESTIMATED","Medium","High","prompt+product_brain"
+"2","Resolve C1: one story structure owner; delete Preferred Arc and/or Narrative Beats prose","pkg-creative-directive; pkg-content-quality; pkg-narrative-beats","High","5–10% Presentation ESTIMATED","Medium","Medium","prompt"
+"3","Make Repair delta-only (violations + prior JSON + candidate); align C6 with PPD","repair-*; Story Integrity Repair","High","~70% of repair input ESTIMATED","Medium","High","repair"
+"4","Delete redundant Attention Mechanism + Hook V2 after Candidate+enforceCandidateHook coverage tests","pkg-attention-mechanism; pkg-hook-v2","High","~600 tok/call ESTIMATED","Low–Medium","Medium","validator"
+"5","Single asset stance from code; delete Funnel Asset Policy echo; fix C3","pkg-funnel-asset-policy; pkg-asset-coverage","Medium","Moderate","Low","Medium","code"
+"6","One no-fake-UI / no-readable-text invariant at final boundary; remove repeats","ideate-hard-requirements; pkg-visual-beats; pkg-product-reveal; visual medium","Medium","Small–moderate","Low","Low","validator"
+"7","Thin Ideation hard requirements; move dark-office/B2B bans to veto-only; fix C5","ideate-hard-requirements","Medium","Modest input; larger if output schema shrinks","Medium","Medium","prompt+code"
+"8","Version instruction packs with owner, test, metric, sunset criterion","all workflows","Medium (process)","Indirect","Low","Medium","config"

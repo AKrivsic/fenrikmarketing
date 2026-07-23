@@ -16,15 +16,12 @@ import {
   startVideoWorkerJob,
   VideoWorkerConfigError,
 } from "@/lib/video-worker/client";
-
-// Stuck-processing recovery threshold (Task 4). A `processing` video_jobs row
-// that has not advanced for longer than this is considered stuck (the worker
-// died or timed out) and may be re-dispatched. Kept well above the worker's
-// own FFmpeg timeout (10 min) so a job that is merely slow is never re-rendered.
-const STALE_PROCESSING_MINUTES = (() => {
-  const raw = Number(process.env.VIDEO_JOB_STALE_MINUTES);
-  return Number.isFinite(raw) && raw > 0 ? raw : 30;
-})();
+import {
+  claimVideoJobForDispatch,
+  newOwnerToken,
+  promoteVideoJobIfArtifactsReady,
+} from "@/lib/production-runtime";
+import { reconcileProductionRunForContentItem } from "@/lib/api/production-run-admin";
 
 // n8n-invoked endpoint that hands an existing video_jobs row to the Video
 // Worker. Vercel only prepares the payload, marks the job and calls the worker;
@@ -93,24 +90,6 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    // Idempotence guard (C1). A duplicate render is pure wasted worker cost
-    // (TTS + image generation + FFmpeg), so it must never happen.
-    //
-    // Terminal jobs are never re-dispatched: a `completed` render must survive,
-    // and a `failed` job is closed out (re-running it is an explicit new
-    // generation, not a dispatch retry).
-    if (job.status === "completed" || job.status === "failed") {
-      return Response.json(
-        {
-          ok: true,
-          video_job_id: job.id,
-          status: job.status,
-          idempotent: true,
-        },
-        { status: 202 },
-      );
-    }
-
     // Production-run Stop: never claim/dispatch jobs whose run was cancelled.
     if (
       await isProductionRunCancelledForContentItem(
@@ -139,55 +118,62 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    // Build the atomic claim (-> processing). A `queued` job claims normally.
-    // A `processing` job is re-claimable ONLY when stuck (Task 4): its
-    // updated_at (bumped on every status change, migration 014) is older than
-    // the stale threshold, meaning the worker never reported back. A freshly
-    // `processing` job is a duplicate delivery while the worker still runs and
-    // is a safe no-op.
-    let claimQuery = supabase
-      .from("video_jobs")
-      .update({ status: "processing" })
-      .eq("id", job.id)
-      .eq("project_id", projectId);
-
-    if (job.status === "queued") {
-      claimQuery = claimQuery.eq("status", "queued");
-    } else {
-      const staleBefore = new Date(
-        Date.now() - STALE_PROCESSING_MINUTES * 60_000,
-      ).toISOString();
-      const isStale = !!job.updatedAt && job.updatedAt < staleBefore;
-      if (!isStale) {
-        return Response.json(
-          {
-            ok: true,
-            video_job_id: job.id,
-            status: "processing",
-            idempotent: true,
-          },
-          { status: 202 },
-        );
+    // Stable owner lets the worker renew the lease without passing a new token
+    // through the transport payload.
+    const ownerToken = job.id || newOwnerToken();
+    const claim = await claimVideoJobForDispatch(supabase, {
+      jobId: job.id,
+      projectId,
+      ownerToken,
+    });
+    if (claim.status === "artifacts_ready") {
+      const promoted = await promoteVideoJobIfArtifactsReady(supabase, {
+        jobId: job.id,
+        projectId,
+      });
+      if (promoted) {
+        const { error: packageErr } = await supabase
+          .from("content_packages")
+          .update({ status: "draft" })
+          .eq("id", contentPackageId)
+          .eq("project_id", projectId);
+        if (packageErr) throw packageErr;
       }
-      // Re-claim a still-stale processing row. The set_updated_at trigger bumps
-      // updated_at = now() on this UPDATE, so a concurrent recovery attempt no
-      // longer matches the < staleBefore guard -> only one re-dispatch wins.
-      claimQuery = claimQuery.eq("status", "processing").lt("updated_at", staleBefore);
-    }
-
-    const { data: claimed, error: claimErr } = await claimQuery.select("id");
-    if (claimErr) throw claimErr;
-    if (!claimed || claimed.length === 0) {
-      // Lost the race: another delivery / recovery already claimed it.
+      await reconcileProductionRunForContentItem(projectId, job.contentItemId);
       return Response.json(
         {
           ok: true,
           video_job_id: job.id,
-          status: "processing",
+          status: promoted ? "completed" : "artifacts_ready",
           idempotent: true,
         },
         { status: 202 },
       );
+    }
+    if (claim.status === "terminal") {
+      return Response.json(
+        {
+          ok: true,
+          video_job_id: job.id,
+          status: claim.jobStatus,
+          idempotent: true,
+        },
+        { status: 202 },
+      );
+    }
+    if (claim.status === "busy") {
+      return Response.json(
+        {
+          ok: true,
+          video_job_id: job.id,
+          status: claim.jobStatus,
+          idempotent: true,
+        },
+        { status: 202 },
+      );
+    }
+    if (claim.status === "missing") {
+      throw new WorkflowError("not_found", `video job ${job.id} not found`);
     }
 
     // Worker reports back to the existing video callback (absolute URL derived
@@ -208,7 +194,11 @@ export async function POST(request: Request): Promise<Response> {
       // later retry can re-claim and re-dispatch it (no job stuck processing).
       await supabase
         .from("video_jobs")
-        .update({ status: "queued" })
+        .update({
+          status: "queued",
+          lease_owner: null,
+          lease_expires_at: null,
+        })
         .eq("id", job.id)
         .eq("project_id", projectId)
         .eq("status", "processing");
@@ -235,9 +225,6 @@ interface ResolvedVideoJob {
   status: string;
   contentItemId: string | null;
   input: unknown;
-  // ISO timestamp of the last status change (migration 014). Used to detect a
-  // stuck `processing` job for recovery.
-  updatedAt: string | null;
 }
 
 /**
@@ -322,7 +309,7 @@ async function findVideoJob(
   if (videoJobId) {
     const { data, error } = await supabase
       .from("video_jobs")
-      .select("id, status, content_item_id, input, updated_at")
+      .select("id, status, content_item_id, input")
       .eq("id", videoJobId)
       .eq("project_id", projectId)
       .maybeSingle();
@@ -333,7 +320,6 @@ async function findVideoJob(
           status: data.status as string,
           contentItemId: (data.content_item_id as string | null) ?? null,
           input: data.input,
-          updatedAt: (data.updated_at as string | null) ?? null,
         }
       : null;
   }
@@ -349,7 +335,7 @@ async function findVideoJob(
 
   const { data: jobs, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("id, status, content_item_id, input, created_at, updated_at")
+    .select("id, status, content_item_id, input, created_at")
     .eq("project_id", projectId)
     .in("content_item_id", itemIds)
     .order("created_at", { ascending: false })
@@ -362,7 +348,6 @@ async function findVideoJob(
         status: latest.status as string,
         contentItemId: (latest.content_item_id as string | null) ?? null,
         input: latest.input,
-        updatedAt: (latest.updated_at as string | null) ?? null,
       }
     : null;
 }

@@ -1,0 +1,2 @@
+variant,chars,tokens_est,observed_calls,avg_cost_per_call_usd,cost_at_100_calls_usd,cost_at_500_calls_usd,cost_at_1000_calls_usd
+projectBrainBlock(project) only,2257,565,27,0.010186,1.018574,5.092870,10.185741

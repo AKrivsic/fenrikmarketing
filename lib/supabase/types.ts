@@ -203,6 +203,9 @@ export interface VideoJob {
   id: string;
   project_id: string;
   content_item_id: string | null;
+  package_id?: string | null;
+  render_language?: LanguageCode | null;
+  render_kind?: "package" | "variant" | "scene";
   provider: string;
   model: string | null;
   provider_job_id: string | null;
@@ -210,6 +213,9 @@ export interface VideoJob {
   input: Json;
   output: Json;
   error_message: string | null;
+  lease_owner?: string | null;
+  lease_expires_at?: string | null;
+  worker_instance_id?: string | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
@@ -255,6 +261,7 @@ export interface ProductionRunItem {
   content_item_id: string | null;
   video_job_id: string | null;
   error_message: string | null;
+  failure_telemetry?: Json | null;
   created_at: string;
   updated_at: string;
 }

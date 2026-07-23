@@ -1,7 +1,8 @@
 import { FUNNEL_STAGE_LABELS, type FunnelStage } from "@/lib/ai/types";
 
-// Prompt-only funnel guidance. Hard requirements live in PACKAGE ASSET COVERAGE
-// (sample / production series). Assets stay optional when no quality library exists.
+// Owner: Funnel Asset Policy (fallback only)
+// Responsibility: stage-level asset guidance when PACKAGE ASSET COVERAGE is absent.
+// When coverage is present, Presentation injects coverage only — do not echo both.
 export function buildFunnelAssetPolicyBlock(funnelStage: FunnelStage): string {
   const label = FUNNEL_STAGE_LABELS[funnelStage];
   const stageGuidance: Record<FunnelStage, string> = {
@@ -15,11 +16,11 @@ export function buildFunnelAssetPolicyBlock(funnelStage: FunnelStage): string {
       "- Prefer one asset at most when it strengthens context.",
     ].join("\n"),
     solution_aware: [
-      "- product_ui / dashboard assets are recommended when they show the solution.",
+      "- Product surface / interface assets are recommended when they show the solution.",
       "- Still story-first — do not turn every beat into a product screenshot.",
     ].join("\n"),
     conversion: [
-      "- Logo + product UI / homepage visuals are recommended near CTA framing.",
+      "- Logo + product surface / homepage visuals are recommended near CTA framing.",
       "- Use logo sparingly (often near the CTA, not the opening hook).",
     ].join("\n"),
   };

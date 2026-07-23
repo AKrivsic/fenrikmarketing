@@ -1,6 +1,11 @@
 /**
  * Creative DNA — canonical immutable creative decisions for a Creative Candidate.
  *
+ * Phase 2A ownership:
+ *   Owner: Visual Identity (world + immutableRules); Character Consistency (mainCharacter)
+ *   Readers: Presentation, story integrity, Identity neutralize, video stamp
+ *   Illegal writers: Identity relocating world; Repair swapping mainCharacter/world
+ *
  * Primary path: authored with the invented concept in Creative Engine v3
  * (`creative_dna` on the concept). Source label: `"model"`.
  *

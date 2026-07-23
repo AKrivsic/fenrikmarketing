@@ -1,0 +1,7 @@
+priority,recommendation,current_tokens,est_token_reduction,est_cost_reduction_usd,difficulty,risk,quality_impact
+1,Shrink Creative Ideation output schema (fewer concepts / shorter fields / lower max_tokens),101508,30000-50000 output,0.40-0.80,Medium,Medium,Medium — keep direction+winner diversity; cut verbose fingerprint/DNA duplication in every concept
+2,Split Presentation prompt: static instruction pack once (cache) + dynamic package payload,234889,80000-120000 input across run,0.25-0.45,Medium,Low,Near-zero if Product Brain + candidate/DNA stay verbatim
+3,"Story Integrity Repair = delta only (violations + prior JSON + candidate), not full presentation resend",25854,18098,0.08-0.12,Medium,Medium,Low if integrity rules retained in appendix
+4,Compress PRESENTATION() examples block (~2.4k tok/call measured),21465,10733,0.04-0.08,Low,Low,Low — replace long examples with compact type cards
+5,Persist prompt snapshots + section token metrics on every call (including failed packages),n/a,telemetry_only,precision_gain,Medium,Low,None — enables exact section costing
+6,Compact EXPECTED_SHAPE strings (esp. ideation ~350 tok/call),3150,40%,0.135451,Low,Medium,Validate parsers before shrinking

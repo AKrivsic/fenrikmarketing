@@ -1,0 +1,673 @@
+workflow,package_index,section,chars,tokens_est,section_tokens,pct_of_prompt,cost_usd,quality_roi,static_or_dynamic,calibration,notes
+Weekly Strategy,strategy,Product Brain,2257,565,565,9.59,0.000315,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,Hard Constraints,244,61,61,1.04,0.000034,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,Pain Points,1667,417,417,7.08,0.000233,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,Proof Pool,819,205,205,3.48,0.000114,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,Scenario Pool,3286,822,822,13.96,0.000459,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,Task / Output JSON Shape,1045,262,262,4.45,0.000146,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Weekly Strategy,strategy,unallocated_missing_context,0,0,3557,60.40,0.001985,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,0,System Prompt,341,86,86,5.32,0.001811,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Unlabelled Prompt,73,19,19,1.18,0.000400,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Product Brain,1897,475,475,29.39,0.010001,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Strategy Item,158,40,40,2.48,0.000842,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Run Context,156,39,39,2.41,0.000821,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Anti-Repetition / Recent Memory,159,40,40,2.48,0.000842,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Direction Definition,448,112,112,6.93,0.002358,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Hard Constraints,471,118,118,7.30,0.002484,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,Output JSON Shape,507,127,127,7.86,0.002674,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,0,unallocated_missing_context,0,0,560,34.65,0.011790,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,0,System Prompt,275,69,67,2.71,0.000970,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Unlabelled Prompt,72,18,17,0.69,0.000246,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Strategy Item,678,170,166,6.71,0.002403,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Anti-Repetition / Recent Memory,44,11,10,0.40,0.000145,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Scoring Instructions,155,39,38,1.54,0.000550,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1136,284,278,11.23,0.004025,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1144,286,281,11.35,0.004069,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1182,296,290,11.72,0.004199,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1181,296,290,11.72,0.004199,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1224,306,300,12.12,0.004344,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1249,313,307,12.40,0.004445,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Selected Directions / Concepts,1224,306,300,12.12,0.004344,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Direction Evaluation,0,Output JSON Shape,535,134,131,5.29,0.001897,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Ideation,0,System Prompt,240,60,60,1.80,0.003663,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Unlabelled Prompt,182,46,46,1.38,0.002808,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Product Brain,1925,482,482,14.48,0.029428,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Strategy Item,158,40,40,1.20,0.002442,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Run Context,190,48,48,1.44,0.002931,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Available Assets,250,63,63,1.89,0.003846,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Anti-Repetition / Recent Memory,140,35,35,1.05,0.002137,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Selected Directions / Concepts,77,20,20,0.60,0.001221,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Selected Directions / Concepts,899,225,225,6.76,0.013737,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Selected Directions / Concepts,889,223,223,6.70,0.013615,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Selected Directions / Concepts,924,231,231,6.94,0.014103,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Selected Directions / Concepts,865,217,217,6.52,0.013249,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Hard Constraints,1238,310,310,9.31,0.018927,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,Output JSON Shape,1398,350,350,10.51,0.021369,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,0,unallocated_missing_context,0,0,979,29.41,0.059771,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Presentation Generation,0,System Prompt,349,88,88,0.36,0.000449,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Product Brain,2257,565,565,2.28,0.002882,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Hard Constraints,244,61,61,0.25,0.000311,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Pain Points,1667,417,417,1.68,0.002127,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Proof Pool,819,205,205,0.83,0.001046,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Scenario Pool,2338,585,585,2.36,0.002984,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Website Rules,1506,377,377,1.52,0.001923,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Funnel Asset Policy,347,87,87,0.35,0.000444,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Strategy Item,158,40,40,0.16,0.000204,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Creative Directive / Safety,862,216,216,0.87,0.001102,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Creative Directive / Safety,624,156,156,0.63,0.000796,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Package Diversity,707,177,177,0.71,0.000903,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Attention First,1141,286,286,1.16,0.001459,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Creative Candidate,8875,2219,2219,8.96,0.011317,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Creative DNA,2367,592,592,2.39,0.003019,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Content Quality,1413,354,354,1.43,0.001805,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Hook V2,1277,320,320,1.29,0.001632,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Visual Creative Rules,539,135,135,0.55,0.000689,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Visual Creative Rules,6694,1674,1674,6.76,0.008538,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Available Assets,3443,861,861,3.48,0.004391,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Asset Evidence,440,110,110,0.44,0.000561,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Smart Asset Rules,1682,421,421,1.70,0.002147,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Presentation Block,9540,2385,2385,9.63,0.012164,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Visual Scene Plan,975,244,244,0.99,0.001244,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Asset Library Rules,644,161,161,0.65,0.000821,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Platform Style,578,145,145,0.59,0.000740,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Platform Style,2611,653,653,2.64,0.003330,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,Task / Output JSON Shape,2214,554,554,2.24,0.002825,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,0,unallocated_missing_context,0,0,10668,43.09,0.054408,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,1,System Prompt,341,86,86,4.79,0.001746,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Unlabelled Prompt,73,19,19,1.06,0.000386,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Product Brain,1897,475,475,26.46,0.009642,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Strategy Item,158,40,40,2.23,0.000812,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Run Context,153,39,39,2.17,0.000792,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Anti-Repetition / Recent Memory,159,40,40,2.23,0.000812,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Direction Definition,448,112,112,6.24,0.002273,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Hard Constraints,471,118,118,6.57,0.002395,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,Output JSON Shape,507,127,127,7.08,0.002578,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,1,unallocated_missing_context,0,0,739,41.17,0.015000,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,1,System Prompt,275,69,69,2.59,0.000974,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Unlabelled Prompt,72,18,18,0.68,0.000254,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Strategy Item,678,170,170,6.39,0.002400,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Anti-Repetition / Recent Memory,44,11,11,0.41,0.000155,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Scoring Instructions,155,39,39,1.47,0.000551,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1158,290,290,10.89,0.004094,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1278,320,320,12.02,0.004518,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1250,313,313,11.76,0.004419,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1255,314,314,11.80,0.004433,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1197,300,300,11.27,0.004235,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1281,321,321,12.06,0.004532,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Selected Directions / Concepts,1299,325,325,12.21,0.004588,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,Output JSON Shape,535,134,134,5.03,0.001892,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,1,unallocated_missing_context,0,0,38,1.43,0.000536,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,1,System Prompt,240,60,60,1.72,0.002768,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Unlabelled Prompt,182,46,46,1.32,0.002122,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Product Brain,1925,482,482,13.81,0.022239,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Strategy Item,158,40,40,1.15,0.001846,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Run Context,187,47,47,1.35,0.002169,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Available Assets,250,63,63,1.81,0.002907,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Anti-Repetition / Recent Memory,140,35,35,1.00,0.001615,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Selected Directions / Concepts,77,20,20,0.57,0.000923,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Selected Directions / Concepts,925,232,232,6.65,0.010704,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Selected Directions / Concepts,944,236,236,6.76,0.010889,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Selected Directions / Concepts,858,215,215,6.16,0.009920,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Hard Constraints,1238,310,310,8.88,0.014303,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,Output JSON Shape,1398,350,350,10.03,0.016149,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,1,unallocated_missing_context,0,0,1354,38.80,0.062472,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,1,System Prompt,373,94,50,1.06,0.000414,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Scoring Instructions,59,15,8,0.17,0.000066,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Strategy Item,881,221,118,2.51,0.000976,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Scoring Instructions,262,66,35,0.74,0.000290,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5445,1362,730,15.53,0.006039,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5255,1314,703,14.96,0.005815,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5268,1317,706,15.02,0.005840,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5669,1418,760,16.17,0.006287,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5710,1428,765,16.28,0.006328,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5480,1370,734,15.62,0.006072,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Output JSON Shape,677,170,91,1.94,0.000753,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,System Prompt,373,94,50,1.06,0.000395,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Scoring Instructions,59,15,8,0.17,0.000063,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Strategy Item,881,221,119,2.51,0.000940,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Scoring Instructions,262,66,35,0.74,0.000277,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5445,1362,735,15.53,0.005807,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5255,1314,708,14.96,0.005594,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5268,1317,711,15.03,0.005617,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5669,1418,765,16.17,0.006044,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5710,1428,771,16.29,0.006091,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Selected Directions / Concepts,5480,1370,739,15.62,0.005839,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,1,Output JSON Shape,677,170,91,1.92,0.000719,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,1,System Prompt,349,88,88,0.35,0.000465,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Product Brain,2257,565,565,2.24,0.002988,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Hard Constraints,244,61,61,0.24,0.000323,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Pain Points,1667,417,417,1.65,0.002205,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Proof Pool,819,205,205,0.81,0.001084,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Scenario Pool,2338,585,585,2.32,0.003093,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Website Rules,1506,377,377,1.50,0.001994,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Funnel Asset Policy,347,87,87,0.35,0.000460,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Strategy Item,158,40,40,0.16,0.000212,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Creative Directive / Safety,862,216,216,0.86,0.001142,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Creative Directive / Safety,624,156,156,0.62,0.000825,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Package Diversity,704,176,176,0.70,0.000931,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Attention First,1141,286,286,1.13,0.001512,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Creative Candidate,10472,2618,2618,10.39,0.013844,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Creative DNA,2488,622,622,2.47,0.003289,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Content Quality,1413,354,354,1.40,0.001872,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Hook V2,1277,320,320,1.27,0.001692,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Visual Creative Rules,539,135,135,0.54,0.000714,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Visual Creative Rules,6694,1674,1674,6.64,0.008852,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Available Assets,3443,861,861,3.42,0.004553,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Asset Evidence,440,110,110,0.44,0.000582,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Smart Asset Rules,1682,421,421,1.67,0.002226,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Presentation Block,9540,2385,2385,9.46,0.012611,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Visual Scene Plan,975,244,244,0.97,0.001290,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Asset Library Rules,644,161,161,0.64,0.000851,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Platform Style,578,145,145,0.58,0.000767,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Platform Style,2611,653,653,2.59,0.003453,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,Task / Output JSON Shape,2214,554,554,2.20,0.002929,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,1,unallocated_missing_context,0,0,10687,42.40,0.056511,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,2,System Prompt,341,86,86,4.40,0.001576,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Unlabelled Prompt,73,19,19,0.97,0.000348,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Product Brain,1897,475,475,24.31,0.008703,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Strategy Item,166,42,42,2.15,0.000770,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Run Context,155,39,39,2.00,0.000715,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Anti-Repetition / Recent Memory,159,40,40,2.05,0.000733,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Direction Definition,448,112,112,5.73,0.002052,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Hard Constraints,475,119,119,6.09,0.002180,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,Output JSON Shape,507,127,127,6.50,0.002327,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,2,unallocated_missing_context,0,0,895,45.80,0.016399,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,2,System Prompt,275,69,69,2.60,0.000960,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Unlabelled Prompt,72,18,18,0.68,0.000250,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Strategy Item,682,171,171,6.46,0.002378,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Anti-Repetition / Recent Memory,44,11,11,0.42,0.000153,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Scoring Instructions,155,39,39,1.47,0.000542,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1275,319,319,12.04,0.004436,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1141,286,286,10.80,0.003977,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1224,306,306,11.55,0.004255,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1210,303,303,11.44,0.004214,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1280,320,320,12.08,0.004450,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1241,311,311,11.74,0.004325,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Selected Directions / Concepts,1308,327,327,12.34,0.004547,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,Output JSON Shape,535,134,134,5.06,0.001863,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,2,unallocated_missing_context,0,0,35,1.32,0.000487,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,2,System Prompt,240,60,60,1.58,0.002372,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Unlabelled Prompt,182,46,46,1.21,0.001819,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Product Brain,1925,482,482,12.72,0.019058,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Strategy Item,166,42,42,1.11,0.001661,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Run Context,189,48,48,1.27,0.001898,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Available Assets,250,63,63,1.66,0.002491,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Anti-Repetition / Recent Memory,140,35,35,0.92,0.001384,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Selected Directions / Concepts,77,20,20,0.53,0.000791,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Selected Directions / Concepts,925,232,232,6.12,0.009173,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Selected Directions / Concepts,842,211,211,5.57,0.008343,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Selected Directions / Concepts,883,221,221,5.83,0.008738,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Hard Constraints,1242,311,311,8.21,0.012297,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,Output JSON Shape,1398,350,350,9.24,0.013839,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,2,unallocated_missing_context,0,0,1668,44.02,0.065953,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,2,System Prompt,373,94,37,1.12,0.000316,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Scoring Instructions,59,15,5,0.15,0.000043,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Strategy Item,885,222,88,2.67,0.000751,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Scoring Instructions,262,66,26,0.79,0.000222,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5063,1266,503,15.25,0.004292,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5008,1252,496,15.03,0.004233,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5040,1260,501,15.19,0.004275,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5082,1271,505,15.31,0.004309,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5477,1370,544,16.49,0.004642,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Selected Directions / Concepts,5308,1327,527,15.97,0.004497,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,2,Output JSON Shape,677,170,67,2.03,0.000572,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,2,System Prompt,349,88,88,0.16,0.000511,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Product Brain,2257,565,565,1.06,0.003280,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Hard Constraints,244,61,61,0.11,0.000354,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Pain Points,1667,417,417,0.78,0.002421,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Proof Pool,819,205,205,0.38,0.001190,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Scenario Pool,2338,585,585,1.09,0.003396,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Website Rules,1506,377,377,0.70,0.002188,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Funnel Asset Policy,319,80,80,0.15,0.000464,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Strategy Item,162,41,41,0.08,0.000238,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Creative Directive / Safety,888,222,222,0.42,0.001289,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Creative Directive / Safety,624,156,156,0.29,0.000906,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Package Diversity,706,177,177,0.33,0.001027,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Attention First,1150,288,288,0.54,0.001672,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Creative Candidate,9846,2462,2462,4.60,0.014291,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Creative DNA,2174,544,544,1.02,0.003158,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Content Quality,1413,354,354,0.66,0.002055,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Hook V2,1313,329,329,0.62,0.001910,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Visual Creative Rules,548,137,137,0.26,0.000795,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Visual Creative Rules,6694,1674,1674,3.13,0.009717,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Available Assets,3443,861,861,1.61,0.004998,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Asset Evidence,440,110,110,0.21,0.000639,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Smart Asset Rules,1682,421,421,0.79,0.002444,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Presentation Block,9540,2385,2385,4.46,0.013844,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Visual Scene Plan,975,244,244,0.46,0.001416,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Asset Library Rules,644,161,161,0.30,0.000935,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Platform Style,578,145,145,0.27,0.000842,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Platform Style,2611,653,653,1.22,0.003790,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,Task / Output JSON Shape,2222,556,556,1.04,0.003227,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,2,unallocated_missing_context,0,0,39181,73.26,0.227428,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Story Integrity Repair,2,System Prompt,349,88,88,0.34,0.000452,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Product Brain,2257,565,565,2.19,0.002904,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Hard Constraints,244,61,61,0.24,0.000314,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Pain Points,1667,417,417,1.61,0.002144,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Proof Pool,819,205,205,0.79,0.001054,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Scenario Pool,2338,585,585,2.26,0.003007,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Website Rules,1506,377,377,1.46,0.001938,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Funnel Asset Policy,319,80,80,0.31,0.000411,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Strategy Item,162,41,41,0.16,0.000211,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Creative Directive / Safety,888,222,222,0.86,0.001141,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Creative Directive / Safety,624,156,156,0.60,0.000802,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Package Diversity,706,177,177,0.68,0.000910,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Attention First,1150,288,288,1.11,0.001480,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Creative Candidate,9846,2462,2462,9.52,0.012655,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Creative DNA,2174,544,544,2.10,0.002796,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Content Quality,1413,354,354,1.37,0.001820,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Hook V2,1313,329,329,1.27,0.001691,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Visual Creative Rules,548,137,137,0.53,0.000704,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Visual Creative Rules,6694,1674,1674,6.47,0.008605,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Available Assets,3443,861,861,3.33,0.004426,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Asset Evidence,440,110,110,0.43,0.000565,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Smart Asset Rules,1682,421,421,1.63,0.002164,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Presentation Block,9540,2385,2385,9.22,0.012260,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Visual Scene Plan,975,244,244,0.94,0.001254,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Asset Library Rules,644,161,161,0.62,0.000828,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Platform Style,578,145,145,0.56,0.000745,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Platform Style,2611,653,653,2.53,0.003357,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Task / Output JSON Shape,2222,556,556,2.15,0.002858,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,Repair Appendix,94,24,24,0.09,0.000123,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Story Integrity Repair,2,unallocated_missing_context,0,0,11532,44.60,0.059278,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,6,System Prompt,341,86,86,4.15,0.001467,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Unlabelled Prompt,73,19,19,0.92,0.000324,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Product Brain,1897,475,475,22.90,0.008103,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Strategy Item,166,42,42,2.03,0.000717,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Run Context,147,37,37,1.78,0.000631,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Anti-Repetition / Recent Memory,159,40,40,1.93,0.000682,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Direction Definition,448,112,112,5.40,0.001911,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Hard Constraints,475,119,119,5.74,0.002030,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,Output JSON Shape,507,127,127,6.12,0.002167,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,6,unallocated_missing_context,0,0,1017,49.04,0.017350,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,6,System Prompt,275,69,69,2.63,0.001014,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Unlabelled Prompt,72,18,18,0.69,0.000265,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Strategy Item,682,171,171,6.51,0.002514,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Anti-Repetition / Recent Memory,44,11,11,0.42,0.000162,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Scoring Instructions,155,39,39,1.49,0.000573,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1118,280,280,10.67,0.004117,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1177,295,295,11.24,0.004337,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1198,300,300,11.43,0.004411,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1145,287,287,10.93,0.004220,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1133,284,284,10.82,0.004176,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1133,284,284,10.82,0.004176,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Selected Directions / Concepts,1197,300,300,11.43,0.004411,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,Output JSON Shape,535,134,134,5.10,0.001970,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,6,unallocated_missing_context,0,0,153,5.83,0.002250,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,6,System Prompt,240,60,60,1.49,0.002303,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Unlabelled Prompt,182,46,46,1.14,0.001766,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Product Brain,1925,482,482,11.97,0.018501,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Strategy Item,166,42,42,1.04,0.001612,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Run Context,181,46,46,1.14,0.001766,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Available Assets,250,63,63,1.56,0.002418,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Anti-Repetition / Recent Memory,140,35,35,0.87,0.001343,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,77,20,20,0.50,0.000768,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,827,207,207,5.14,0.007945,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,842,211,211,5.24,0.008099,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,813,204,204,5.07,0.007830,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Hard Constraints,1242,311,311,7.72,0.011937,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Output JSON Shape,1398,350,350,8.69,0.013434,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,unallocated_missing_context,0,0,1949,48.41,0.074810,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,6,System Prompt,240,60,60,1.45,0.002485,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Unlabelled Prompt,182,46,46,1.11,0.001905,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Product Brain,1925,482,482,11.67,0.019960,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Strategy Item,166,42,42,1.02,0.001739,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Run Context,181,46,46,1.11,0.001905,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Available Assets,250,63,63,1.53,0.002609,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Anti-Repetition / Recent Memory,140,35,35,0.85,0.001449,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,77,20,20,0.48,0.000828,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,827,207,207,5.01,0.008572,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,842,211,211,5.11,0.008738,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Selected Directions / Concepts,813,204,204,4.94,0.008448,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Hard Constraints,1242,311,311,7.53,0.012879,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,Output JSON Shape,1398,350,350,8.48,0.014494,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,6,unallocated_missing_context,0,0,2052,49.70,0.084973,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,6,System Prompt,373,94,37,0.98,0.000319,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Scoring Instructions,59,15,5,0.13,0.000043,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Strategy Item,885,222,87,2.29,0.000751,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Scoring Instructions,262,66,25,0.66,0.000216,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,5833,1459,574,15.13,0.004956,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,5953,1489,587,15.47,0.005068,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,6160,1540,607,16.00,0.005241,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,5914,1479,583,15.37,0.005034,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,6098,1525,601,15.84,0.005189,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Selected Directions / Concepts,6312,1578,622,16.39,0.005370,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,6,Output JSON Shape,677,170,66,1.74,0.000570,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,6,System Prompt,349,88,88,0.30,0.000027,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Product Brain,2257,565,565,1.94,0.000174,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Hard Constraints,244,61,61,0.21,0.000019,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Pain Points,1667,417,417,1.43,0.000129,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Proof Pool,819,205,205,0.70,0.000063,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Scenario Pool,2338,585,585,2.00,0.000181,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Website Rules,1506,377,377,1.29,0.000116,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Funnel Asset Policy,319,80,80,0.27,0.000025,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Strategy Item,162,41,41,0.14,0.000013,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Creative Directive / Safety,888,222,222,0.76,0.000069,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Creative Directive / Safety,624,156,156,0.53,0.000048,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Package Diversity,698,175,175,0.60,0.000054,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Attention First,1150,288,288,0.99,0.000089,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Creative Candidate,10582,2646,2646,9.06,0.000817,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Creative DNA,2339,585,585,2.00,0.000181,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Content Quality,1413,354,354,1.21,0.000109,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Hook V2,1313,329,329,1.13,0.000102,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Visual Creative Rules,548,137,137,0.47,0.000042,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Visual Creative Rules,6694,1674,1674,5.73,0.000517,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Available Assets,3443,861,861,2.95,0.000266,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Asset Evidence,440,110,110,0.38,0.000034,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Smart Asset Rules,1682,421,421,1.44,0.000130,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Presentation Block,9540,2385,2385,8.17,0.000736,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Visual Scene Plan,975,244,244,0.84,0.000075,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Asset Library Rules,644,161,161,0.55,0.000050,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Platform Style,578,145,145,0.50,0.000045,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Platform Style,2611,653,653,2.24,0.000202,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,Task / Output JSON Shape,2222,556,556,1.90,0.000172,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,6,unallocated_missing_context,0,0,14675,50.26,0.004531,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,7,System Prompt,341,86,86,3.78,0.001359,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Unlabelled Prompt,73,19,19,0.83,0.000300,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Product Brain,1897,475,475,20.87,0.007508,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Strategy Item,166,42,42,1.85,0.000664,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Run Context,163,41,41,1.80,0.000648,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Anti-Repetition / Recent Memory,159,40,40,1.76,0.000632,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Direction Definition,448,112,112,4.92,0.001770,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Hard Constraints,475,119,119,5.23,0.001881,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,Output JSON Shape,507,127,127,5.58,0.002007,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,7,unallocated_missing_context,0,0,1215,53.38,0.019204,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,7,System Prompt,275,69,69,2.57,0.000875,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Unlabelled Prompt,72,18,18,0.67,0.000228,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Strategy Item,682,171,171,6.36,0.002168,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Anti-Repetition / Recent Memory,44,11,11,0.41,0.000139,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Scoring Instructions,155,39,39,1.45,0.000494,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1124,281,281,10.45,0.003563,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1229,308,308,11.45,0.003905,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1140,285,285,10.60,0.003613,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1227,307,307,11.42,0.003892,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1188,297,297,11.04,0.003765,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1212,303,303,11.27,0.003842,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Selected Directions / Concepts,1226,307,307,11.42,0.003892,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,Output JSON Shape,535,134,134,4.98,0.001699,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,7,unallocated_missing_context,0,0,159,5.91,0.002016,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,7,System Prompt,240,60,60,1.37,0.002536,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Unlabelled Prompt,182,46,46,1.05,0.001945,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Product Brain,1925,482,482,11.00,0.020376,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Strategy Item,166,42,42,0.96,0.001775,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Run Context,197,50,50,1.14,0.002114,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Available Assets,250,63,63,1.44,0.002663,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Anti-Repetition / Recent Memory,140,35,35,0.80,0.001480,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Selected Directions / Concepts,77,20,20,0.46,0.000845,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Selected Directions / Concepts,874,219,219,5.00,0.009258,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Selected Directions / Concepts,861,216,216,4.93,0.009131,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Selected Directions / Concepts,831,208,208,4.75,0.008793,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Hard Constraints,1242,311,311,7.10,0.013147,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,Output JSON Shape,1398,350,350,7.99,0.014796,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,7,unallocated_missing_context,0,0,2280,52.03,0.096383,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Presentation Generation,7,System Prompt,349,88,88,0.35,0.000450,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Product Brain,2257,565,565,2.22,0.002887,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Hard Constraints,244,61,61,0.24,0.000312,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Pain Points,1667,417,417,1.64,0.002131,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Proof Pool,819,205,205,0.81,0.001048,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Scenario Pool,2338,585,585,2.30,0.002990,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Website Rules,1506,377,377,1.48,0.001927,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Funnel Asset Policy,319,80,80,0.31,0.000409,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Strategy Item,162,41,41,0.16,0.000210,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Creative Directive / Safety,888,222,222,0.87,0.001135,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Creative Directive / Safety,624,156,156,0.61,0.000797,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Package Diversity,714,179,179,0.70,0.000915,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Attention First,1150,288,288,1.13,0.001472,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Creative Candidate,8604,2151,2151,8.46,0.010993,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Creative DNA,2209,553,553,2.17,0.002826,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Content Quality,1413,354,354,1.39,0.001809,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Hook V2,1313,329,329,1.29,0.001681,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Visual Creative Rules,548,137,137,0.54,0.000700,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Visual Creative Rules,6694,1674,1674,6.58,0.008555,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Available Assets,3443,861,861,3.38,0.004400,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Asset Evidence,440,110,110,0.43,0.000562,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Smart Asset Rules,1682,421,421,1.66,0.002152,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Presentation Block,9540,2385,2385,9.38,0.012189,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Visual Scene Plan,975,244,244,0.96,0.001247,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Asset Library Rules,644,161,161,0.63,0.000823,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Platform Style,578,145,145,0.57,0.000741,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Platform Style,2611,653,653,2.57,0.003337,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,Task / Output JSON Shape,2222,556,556,2.19,0.002841,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,7,unallocated_missing_context,0,0,11439,44.97,0.058459,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,8,System Prompt,341,86,86,3.47,0.001259,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Unlabelled Prompt,73,19,19,0.77,0.000278,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Product Brain,1897,475,475,19.16,0.006952,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Strategy Item,168,42,42,1.69,0.000615,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Run Context,156,39,39,1.57,0.000571,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Anti-Repetition / Recent Memory,159,40,40,1.61,0.000585,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Direction Definition,448,112,112,4.52,0.001639,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Hard Constraints,476,119,119,4.80,0.001742,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,Output JSON Shape,507,127,127,5.12,0.001859,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,8,unallocated_missing_context,0,0,1420,57.28,0.020783,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,8,System Prompt,275,69,69,2.52,0.000947,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Unlabelled Prompt,72,18,18,0.66,0.000247,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Strategy Item,683,171,171,6.25,0.002348,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Anti-Repetition / Recent Memory,44,11,11,0.40,0.000151,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Scoring Instructions,155,39,39,1.42,0.000535,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1267,317,317,11.58,0.004353,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1118,280,280,10.23,0.003845,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1221,306,306,11.18,0.004202,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1169,293,293,10.71,0.004023,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1187,297,297,10.85,0.004078,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1154,289,289,10.56,0.003968,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Selected Directions / Concepts,1252,313,313,11.44,0.004298,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,Output JSON Shape,535,134,134,4.90,0.001840,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,8,unallocated_missing_context,0,0,200,7.31,0.002746,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,8,System Prompt,240,60,60,1.27,0.002325,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Unlabelled Prompt,182,46,46,0.98,0.001782,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Product Brain,1925,482,482,10.23,0.018675,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Strategy Item,168,42,42,0.89,0.001627,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Run Context,190,48,48,1.02,0.001860,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Available Assets,250,63,63,1.34,0.002441,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Anti-Repetition / Recent Memory,140,35,35,0.74,0.001356,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Selected Directions / Concepts,77,20,20,0.42,0.000775,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Selected Directions / Concepts,804,201,201,4.27,0.007788,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Selected Directions / Concepts,780,195,195,4.14,0.007555,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Selected Directions / Concepts,831,208,208,4.42,0.008059,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Hard Constraints,1243,311,311,6.60,0.012049,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,Output JSON Shape,1398,350,350,7.43,0.013560,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,8,unallocated_missing_context,0,0,2650,56.25,0.102672,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,8,System Prompt,373,94,34,0.94,0.000296,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Scoring Instructions,59,15,5,0.14,0.000044,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Strategy Item,886,222,82,2.26,0.000714,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Scoring Instructions,262,66,24,0.66,0.000209,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5236,1309,488,13.45,0.004246,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,4948,1237,460,12.68,0.004003,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5381,1346,501,13.81,0.004359,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5141,1286,479,13.20,0.004168,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5451,1363,508,14.00,0.004420,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5420,1355,505,13.92,0.004394,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Selected Directions / Concepts,5147,1287,479,13.20,0.004168,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,8,Output JSON Shape,677,170,63,1.74,0.000548,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,8,System Prompt,349,88,88,0.35,0.000469,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Product Brain,2257,565,565,2.22,0.003008,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Hard Constraints,244,61,61,0.24,0.000325,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Pain Points,1667,417,417,1.64,0.002220,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Proof Pool,819,205,205,0.81,0.001092,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Scenario Pool,2338,585,585,2.30,0.003115,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Website Rules,1506,377,377,1.48,0.002007,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Funnel Asset Policy,348,87,87,0.34,0.000463,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Strategy Item,163,41,41,0.16,0.000218,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Creative Directive / Safety,906,227,227,0.89,0.001209,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Creative Directive / Safety,624,156,156,0.61,0.000831,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Package Diversity,707,177,177,0.70,0.000942,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Attention First,1146,287,287,1.13,0.001528,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Creative Candidate,10016,2504,2504,9.84,0.013333,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Creative DNA,2308,577,577,2.27,0.003072,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Content Quality,1413,354,354,1.39,0.001885,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Hook V2,1289,323,323,1.27,0.001720,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Visual Creative Rules,544,136,136,0.53,0.000724,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Visual Creative Rules,6694,1674,1674,6.58,0.008913,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Available Assets,3443,861,861,3.38,0.004584,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Asset Evidence,440,110,110,0.43,0.000586,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Smart Asset Rules,1682,421,421,1.65,0.002242,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Presentation Block,9540,2385,2385,9.37,0.012699,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Visual Scene Plan,975,244,244,0.96,0.001299,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Asset Library Rules,644,161,161,0.63,0.000857,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Platform Style,578,145,145,0.57,0.000772,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Platform Style,2611,653,653,2.57,0.003477,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,Task / Output JSON Shape,2224,556,556,2.18,0.002960,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,8,unallocated_missing_context,0,0,11080,43.52,0.058996,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,10,System Prompt,341,86,86,3.25,0.001192,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Unlabelled Prompt,73,19,19,0.72,0.000263,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Product Brain,1897,475,475,17.94,0.006583,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Strategy Item,168,42,42,1.59,0.000582,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Run Context,156,39,39,1.47,0.000541,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Anti-Repetition / Recent Memory,159,40,40,1.51,0.000554,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Direction Definition,448,112,112,4.23,0.001552,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Hard Constraints,476,119,119,4.49,0.001649,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,Output JSON Shape,507,127,127,4.80,0.001760,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,10,unallocated_missing_context,0,0,1589,60.01,0.022022,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,10,System Prompt,275,69,69,2.48,0.000985,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Unlabelled Prompt,72,18,18,0.65,0.000257,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Strategy Item,683,171,171,6.15,0.002441,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Anti-Repetition / Recent Memory,44,11,11,0.40,0.000157,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Scoring Instructions,155,39,39,1.40,0.000557,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1084,271,271,9.74,0.003868,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1246,312,312,11.21,0.004454,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1197,300,300,10.78,0.004282,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1125,282,282,10.14,0.004025,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1100,275,275,9.88,0.003925,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1248,312,312,11.21,0.004454,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Selected Directions / Concepts,1170,293,293,10.53,0.004182,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,Output JSON Shape,535,134,134,4.82,0.001913,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,10,unallocated_missing_context,0,0,295,10.60,0.004211,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,10,System Prompt,240,60,60,1.15,0.002512,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Unlabelled Prompt,182,46,46,0.88,0.001926,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Product Brain,1925,482,482,9.24,0.020179,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Strategy Item,168,42,42,0.81,0.001758,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Run Context,190,48,48,0.92,0.002010,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Available Assets,250,63,63,1.21,0.002637,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Anti-Repetition / Recent Memory,140,35,35,0.67,0.001465,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Selected Directions / Concepts,77,20,20,0.38,0.000837,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Selected Directions / Concepts,831,208,208,3.99,0.008708,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Selected Directions / Concepts,798,200,200,3.84,0.008373,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Selected Directions / Concepts,829,208,208,3.99,0.008708,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Selected Directions / Concepts,867,217,217,4.16,0.009085,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Hard Constraints,1243,311,311,5.96,0.013020,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,Output JSON Shape,1398,350,350,6.71,0.014653,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,10,unallocated_missing_context,0,0,2925,56.09,0.122455,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,10,System Prompt,373,94,28,0.80,0.000246,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Scoring Instructions,59,15,4,0.11,0.000035,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Strategy Item,886,222,66,1.88,0.000579,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Scoring Instructions,262,66,19,0.54,0.000167,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,4581,1146,344,9.81,0.003020,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,4426,1107,332,9.47,0.002915,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,5016,1254,377,10.75,0.003310,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,4693,1174,353,10.07,0.003099,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,4859,1215,365,10.41,0.003205,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,5028,1257,378,10.78,0.003319,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,5381,1346,405,11.55,0.003556,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,5262,1316,396,11.29,0.003477,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Selected Directions / Concepts,5157,1290,388,11.07,0.003407,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,10,Output JSON Shape,677,170,51,1.45,0.000448,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,10,System Prompt,349,88,88,0.35,0.000448,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Product Brain,2257,565,565,2.23,0.002874,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Hard Constraints,244,61,61,0.24,0.000310,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Pain Points,1667,417,417,1.65,0.002121,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Proof Pool,819,205,205,0.81,0.001043,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Scenario Pool,2338,585,585,2.31,0.002976,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Website Rules,1506,377,377,1.49,0.001918,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Funnel Asset Policy,348,87,87,0.34,0.000443,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Strategy Item,163,41,41,0.16,0.000209,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Creative Directive / Safety,906,227,227,0.90,0.001155,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Creative Directive / Safety,624,156,156,0.62,0.000794,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Package Diversity,707,177,177,0.70,0.000900,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Attention First,1146,287,287,1.13,0.001460,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Creative Candidate,9094,2274,2274,8.99,0.011569,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Creative DNA,2142,536,536,2.12,0.002727,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Content Quality,1413,354,354,1.40,0.001801,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Hook V2,1289,323,323,1.28,0.001643,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Visual Creative Rules,544,136,136,0.54,0.000692,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Visual Creative Rules,6694,1674,1674,6.62,0.008516,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Available Assets,3443,861,861,3.40,0.004380,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Asset Evidence,440,110,110,0.43,0.000560,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Smart Asset Rules,1682,421,421,1.66,0.002142,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Presentation Block,9540,2385,2385,9.43,0.012133,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Visual Scene Plan,975,244,244,0.96,0.001241,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Asset Library Rules,644,161,161,0.64,0.000819,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Platform Style,578,145,145,0.57,0.000738,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Platform Style,2611,653,653,2.58,0.003322,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,Task / Output JSON Shape,2224,556,556,2.20,0.002829,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,10,unallocated_missing_context,0,0,11182,44.22,0.056887,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction,11,System Prompt,341,86,86,3.01,0.001240,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Unlabelled Prompt,73,19,19,0.66,0.000274,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Product Brain,1897,475,475,16.61,0.006848,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Strategy Item,168,42,42,1.47,0.000605,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Run Context,160,40,40,1.40,0.000577,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Anti-Repetition / Recent Memory,159,40,40,1.40,0.000577,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Direction Definition,448,112,112,3.92,0.001615,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Hard Constraints,476,119,119,4.16,0.001716,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,Output JSON Shape,507,127,127,4.44,0.001831,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction,11,unallocated_missing_context,0,0,1799,62.92,0.025935,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Direction Evaluation,11,System Prompt,275,69,69,2.21,0.000912,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Unlabelled Prompt,72,18,18,0.58,0.000238,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Strategy Item,683,171,171,5.47,0.002259,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Anti-Repetition / Recent Memory,44,11,11,0.35,0.000145,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Scoring Instructions,155,39,39,1.25,0.000515,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1195,299,299,9.57,0.003951,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1287,322,322,10.31,0.004255,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1285,322,322,10.31,0.004255,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1359,340,340,10.88,0.004492,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1328,332,332,10.63,0.004387,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1410,353,353,11.30,0.004664,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Selected Directions / Concepts,1435,359,359,11.49,0.004743,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,Output JSON Shape,535,134,134,4.29,0.001771,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Direction Evaluation,11,unallocated_missing_context,0,0,355,11.36,0.004691,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Ideation,11,System Prompt,240,60,60,1.06,0.002256,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Unlabelled Prompt,182,46,46,0.81,0.001729,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Product Brain,1925,482,482,8.50,0.018120,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Strategy Item,168,42,42,0.74,0.001579,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Run Context,194,49,49,0.86,0.001842,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Available Assets,250,63,63,1.11,0.002368,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Anti-Repetition / Recent Memory,140,35,35,0.62,0.001316,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Selected Directions / Concepts,77,20,20,0.35,0.000752,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Selected Directions / Concepts,924,231,231,4.07,0.008684,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Selected Directions / Concepts,944,236,236,4.16,0.008872,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Selected Directions / Concepts,852,213,213,3.76,0.008007,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Selected Directions / Concepts,982,246,246,4.34,0.009248,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Hard Constraints,1243,311,311,5.49,0.011691,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,Output JSON Shape,1398,350,350,6.17,0.013157,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Ideation,11,unallocated_missing_context,0,0,3286,57.95,0.123529,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.
+Creative Critic,11,System Prompt,373,94,29,0.77,0.000225,Critical,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Scoring Instructions,59,15,4,0.11,0.000031,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Strategy Item,886,222,70,1.86,0.000543,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Scoring Instructions,262,66,20,0.53,0.000155,Unknown,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5255,1314,418,11.12,0.003240,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5378,1345,428,11.38,0.003318,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5470,1368,435,11.57,0.003372,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5672,1418,451,11.99,0.003496,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5562,1391,443,11.78,0.003434,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5691,1423,453,12.05,0.003511,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,5798,1450,462,12.29,0.003581,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Selected Directions / Concepts,6198,1550,493,13.11,0.003821,Critical,dynamic,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Creative Critic,11,Output JSON Shape,677,170,54,1.44,0.000419,Useful,static,scaled_down_to_telemetry,Measured chars / 4; never scaled upward.
+Presentation Generation,11,System Prompt,349,88,88,0.34,0.000440,Critical,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Product Brain,2257,565,565,2.17,0.002827,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Hard Constraints,244,61,61,0.23,0.000305,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Pain Points,1667,417,417,1.60,0.002086,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Proof Pool,819,205,205,0.79,0.001026,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Scenario Pool,2338,585,585,2.24,0.002927,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Website Rules,1506,377,377,1.45,0.001886,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Funnel Asset Policy,348,87,87,0.33,0.000435,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Strategy Item,163,41,41,0.16,0.000205,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Creative Directive / Safety,906,227,227,0.87,0.001136,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Creative Directive / Safety,624,156,156,0.60,0.000781,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Package Diversity,711,178,178,0.68,0.000891,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Attention First,1146,287,287,1.10,0.001436,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Creative Candidate,10045,2512,2512,9.63,0.012568,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Creative DNA,2333,584,584,2.24,0.002922,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Content Quality,1413,354,354,1.36,0.001771,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Hook V2,1289,323,323,1.24,0.001616,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Visual Creative Rules,544,136,136,0.52,0.000680,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Visual Creative Rules,6694,1674,1674,6.42,0.008375,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Available Assets,3443,861,861,3.30,0.004308,Critical,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Asset Evidence,440,110,110,0.42,0.000550,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Smart Asset Rules,1682,421,421,1.61,0.002106,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Presentation Block,9540,2385,2385,9.15,0.011933,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Visual Scene Plan,975,244,244,0.94,0.001221,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Asset Library Rules,644,161,161,0.62,0.000806,Unknown,dynamic,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Platform Style,578,145,145,0.56,0.000725,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Platform Style,2611,653,653,2.50,0.003267,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,Task / Output JSON Shape,2224,556,556,2.13,0.002782,Useful,static,measured_plus_unallocated_missing_context,Measured chars / 4; never scaled upward.
+Presentation Generation,11,unallocated_missing_context,0,0,11680,44.80,0.058438,Unknown,dynamic,measured_plus_unallocated_missing_context,Exact telemetry exceeds reconstructed text; likely persisted visual/attention/identity/medium context.

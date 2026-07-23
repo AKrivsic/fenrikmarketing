@@ -3,23 +3,14 @@ import {
   startVideoWorkerJob,
   type VideoWorkerJobPayload,
 } from "@/lib/video-worker/client";
+import {
+  claimVideoJobForDispatch,
+  runtimeLog,
+} from "@/lib/production-runtime";
 
-// Task 5 — atomic claim + dispatch for language-variant video jobs.
-//
-// Both the generate- and regenerate-language-variant flows insert a `queued`
-// video job and then hand it to the worker. The previous code dispatched FIRST
-// and only afterwards set the row to `processing` with an unguarded UPDATE. The
-// worker's completed/failed callback can land at ANY time after dispatch, so
-// that trailing UPDATE could clobber an already-`completed` job back to
-// `processing`.
-//
-// This helper applies the same principle as /api/n8n/start-video-job: it claims
-// the job atomically (queued -> processing) BEFORE dispatch. Because the row is
-// already `processing` before the worker can call back, the callback's terminal
-// status is never overwritten. If the claim does not match (the row is no
-// longer `queued`), the dispatch is skipped. If dispatch fails, the job is
-// released back to `queued` (guarded by the `processing` status) so a later
-// retry can re-claim it.
+// Task 5 / Phase 6G — atomic lease claim + dispatch for language-variant video jobs.
+// Uses the same claim_video_job_for_dispatch RPC as /api/n8n/start-video-job
+// (no direct queued→processing update).
 
 export interface DispatchVariantVideoJobArgs {
   videoJobId: string;
@@ -43,25 +34,52 @@ export async function claimAndDispatchVariantVideoJob(
   args: DispatchVariantVideoJobArgs,
 ): Promise<DispatchVariantVideoJobResult> {
   const start = args.startVideoJob ?? startVideoWorkerJob;
+  const ownerToken = args.videoJobId;
 
-  // Atomic claim: only a still-`queued` row transitions to processing.
-  const { data: claimed, error: claimErr } = await supabase
-    .from("video_jobs")
-    .update({ status: "processing" })
-    .eq("id", args.videoJobId)
-    .eq("project_id", args.projectId)
-    .eq("status", "queued")
-    .select("id");
-  if (claimErr) throw claimErr;
+  const claim = await claimVideoJobForDispatch(supabase, {
+    jobId: args.videoJobId,
+    projectId: args.projectId,
+    ownerToken,
+  });
 
-  if (!claimed || claimed.length === 0) {
-    // Not `queued` anymore (already processing/completed/failed). Never force it
-    // back to processing — a completed callback must survive.
+  if (claim.status === "busy" || claim.status === "terminal") {
+    runtimeLog("info", {
+      event: "video_lease_busy",
+      project_id: args.projectId,
+      package_id: args.contentPackageId,
+      content_item_id: args.contentItemId,
+      video_job_id: args.videoJobId,
+      outcome: claim.status,
+    });
     return {
       dispatched: false,
-      warning: `video job ${args.videoJobId} was not in 'queued' state; inline start skipped (idempotent)`,
+      warning: `video job ${args.videoJobId} claim=${claim.status}; inline start skipped (idempotent)`,
     };
   }
+
+  if (claim.status === "artifacts_ready") {
+    return {
+      dispatched: false,
+      warning: `video job ${args.videoJobId} already has durable artifacts; promote via reconcile/start-video`,
+    };
+  }
+
+  if (claim.status === "missing") {
+    return {
+      dispatched: false,
+      warning: `video job ${args.videoJobId} missing`,
+    };
+  }
+
+  runtimeLog("info", {
+    event: "video_lease_claimed",
+    project_id: args.projectId,
+    package_id: args.contentPackageId,
+    content_item_id: args.contentItemId,
+    video_job_id: args.videoJobId,
+    owner_token: ownerToken,
+    outcome: "claimed",
+  });
 
   try {
     await start({
@@ -76,10 +94,15 @@ export async function claimAndDispatchVariantVideoJob(
   } catch (err) {
     // Release the claim so a later retry can re-claim and re-dispatch. Guarded
     // by `processing` so a callback that already moved the job to a terminal
-    // status is not overwritten.
+    // status is not overwritten. Clear lease fields so CHECK still holds if
+    // status returns to queued.
     await supabase
       .from("video_jobs")
-      .update({ status: "queued" })
+      .update({
+        status: "queued",
+        lease_owner: null,
+        lease_expires_at: null,
+      })
       .eq("id", args.videoJobId)
       .eq("project_id", args.projectId)
       .eq("status", "processing");

@@ -740,7 +740,8 @@ check("generate workflow always uses Creative Engine v3 (no Divergence fallback)
   assert.doesNotMatch(wf, /planCreativeCandidatesForPackage|generateCreativeCandidatesWithDivergence|resolveCreativeEngineV3Mode/);
   assert.doesNotMatch(regen, /planCreativeCandidatesForPackage|generateCreativeCandidatesWithDivergence|resolveCreativeEngineV3Mode/);
   assert.match(wf, /validateStoryIntegrity/);
-  assert.match(wf, /storyIntegrityRepairAppendix/);
+  assert.match(wf, /buildStoryIntegrityRepairDelta|buildRepairDeltaPrompt/);
+  assert.match(wf, /mergeRepairedPackage/);
   assert.match(wf, /validateProductDemonstrationIntegrity/);
   assert.match(wf, /planCreativeEngineV3ForPackage/);
 });

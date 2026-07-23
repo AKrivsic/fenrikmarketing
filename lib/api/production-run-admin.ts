@@ -29,6 +29,14 @@ import {
   type PackageOutcomeIdentity,
   type RunItemIdentity,
 } from "@/lib/production-runs/settleRunItemIdentity";
+import {
+  evaluateRunWatchdog,
+  promoteVideoJobIfArtifactsReady,
+  settleProductionRunTerminal,
+  recomputeProductionRunCounters,
+  runtimeLog,
+  STUCK_VIDEO_JOB_MESSAGE,
+} from "@/lib/production-runtime";
 
 // ---------------------------------------------------------------------------
 // Production run data layer — V3 Package Based Model (service-role admin client,
@@ -56,6 +64,19 @@ export interface ProductionRunPlatformProgress {
   failed: number;
 }
 
+export interface ProductionRunFailedItemView {
+  id: string;
+  packageIndex: number;
+  strategyItemId: string | null;
+  errorMessage: string | null;
+  errorHeadline: string | null;
+  errorPhase: string | null;
+  retryable: boolean | null;
+  contentPackageId: string | null;
+  videoJobId: string | null;
+  failureTelemetry: Record<string, unknown> | null;
+}
+
 export interface ProductionRunView {
   id: string;
   status: ProductionRunStatus;
@@ -77,6 +98,8 @@ export interface ProductionRunView {
   totalOutputsCompleted: number;
   createdAt: string;
   updatedAt: string;
+  /** Failed slots for operator expandable view (P2.2). */
+  failedItems: ProductionRunFailedItemView[];
 }
 
 interface ProductionRunRow {
@@ -106,6 +129,7 @@ interface ProductionRunItemRow {
   content_item_id: string | null;
   video_job_id: string | null;
   error_message: string | null;
+  failure_telemetry?: Record<string, unknown> | null;
 }
 
 // Persisted alongside the submitted config so the view can report the derived
@@ -187,21 +211,32 @@ export async function createProductionRun(
 }
 
 // Marks the run running (generation triggered) or failed (trigger could not be
-// dispatched). error message is only set on failure.
+// dispatched). Terminal failed/cancelled routes through settle RPC so open
+// children cannot remain queued/running (Phase 6G / P0.3).
 export async function setProductionRunStatus(
   runId: string,
   status: ProductionRunStatus,
   errorMessage?: string,
 ): Promise<void> {
   const supabase = createSupabaseAdminClient();
-  const update: Record<string, unknown> = { status };
   if (status === "failed" || status === "cancelled") {
-    update.error_message =
-      errorMessage ??
-      (status === "cancelled"
-        ? "Zastaveno operátorem."
-        : "Generování se nepodařilo spustit.");
+    await settleProductionRunTerminal(supabase, {
+      runId,
+      status,
+      errorMessage:
+        errorMessage ??
+        (status === "cancelled"
+          ? "Zastaveno operátorem."
+          : "Generování se nepodařilo spustit."),
+      itemErrorMessage:
+        errorMessage ??
+        (status === "cancelled"
+          ? PRODUCTION_RUN_CANCELLED_MESSAGE
+          : "Generování se nepodařilo spustit."),
+    });
+    return;
   }
+  const update: Record<string, unknown> = { status };
   const { error } = await supabase
     .from("production_runs")
     .update(update)
@@ -495,12 +530,69 @@ export async function reconcileProductionRun(
 
   const run = await loadRun(supabase, runId);
   const items = await loadRunItems(supabase, runId);
+  runtimeLog("info", {
+    event: "run_reconcile_started",
+    production_run_id: runId,
+    project_id: run.project_id,
+    outcome: run.status,
+  });
+
+  let promotedVideoJobs = 0;
+  let failedStaleJobs = 0;
 
   // Terminal trigger failures are returned as-is. Cancelled runs still reconcile
   // counters as in-flight videos finish, but never return to "running".
   let progress: RealProgress | null = null;
   if (run.status !== "failed") {
     progress = await reconcileFromRealContent(supabase, run);
+    const watchdog = evaluateRunWatchdog({
+      runStatus: run.status,
+      runUpdatedAt: run.updated_at,
+      packageCount: progress.packages.length,
+      jobs: await loadRunVideoJobsForWatchdog(supabase, run),
+    });
+    for (const jobId of watchdog.promoteJobIds) {
+      const promoted = await promoteVideoJobIfArtifactsReady(supabase, {
+        jobId,
+        projectId: run.project_id,
+      });
+      if (promoted) {
+        promotedVideoJobs += 1;
+        runtimeLog("info", {
+          event: "watchdog_promoted",
+          production_run_id: runId,
+          project_id: run.project_id,
+          video_job_id: jobId,
+          outcome: "promoted",
+        });
+      }
+    }
+    if (watchdog.failStaleJobIds.length > 0) {
+      const { data: failedRows, error } = await supabase
+        .from("video_jobs")
+        .update({
+          status: "failed",
+          error_message: STUCK_VIDEO_JOB_MESSAGE,
+        })
+        .eq("project_id", run.project_id)
+        .in("id", watchdog.failStaleJobIds)
+        .in("status", ["queued", "processing"])
+        .select("id");
+      if (error) throw error;
+      failedStaleJobs = failedRows?.length ?? 0;
+      if (failedStaleJobs > 0) {
+        runtimeLog("info", {
+          event: "watchdog_failed_stale",
+          production_run_id: runId,
+          project_id: run.project_id,
+          outcome: "failed_stale",
+          detail: `count=${failedStaleJobs}`,
+        });
+      }
+    }
+    if (watchdog.shouldForceReconcile) {
+      progress = await reconcileFromRealContent(supabase, run);
+    }
     if (run.status !== "cancelled") {
       const markedStale = await failStaleProductionRunIfNeeded(
         supabase,
@@ -515,7 +607,50 @@ export async function reconcileProductionRun(
     }
   }
 
-  return buildView(run, items, progress);
+  // Always derive counters from items (P1.3).
+  try {
+    const counters = await recomputeProductionRunCounters(supabase, runId);
+    run.requested_total = counters.requested_total;
+    run.generated_total = counters.generated_total;
+    run.failed_total = counters.failed_total;
+  } catch {
+    // RPC may be unavailable before migration; fall through to view from rows.
+  }
+
+  const refreshed = await loadRun(supabase, runId);
+  const refreshedItems = await loadRunItems(supabase, runId);
+  const view = buildView(refreshed, refreshedItems, progress);
+  runtimeLog("info", {
+    event: "run_reconcile_completed",
+    production_run_id: runId,
+    project_id: run.project_id,
+    outcome: refreshed.status,
+    detail: `promoted=${promotedVideoJobs};stale_failed=${failedStaleJobs}`,
+  });
+  (view as ProductionRunView & { _recovery?: { promotedVideoJobs: number; failedStaleJobs: number } })._recovery =
+    { promotedVideoJobs, failedStaleJobs };
+  return view;
+}
+
+/** Recovery entry: reconcile + expose watchdog metrics. */
+export async function reconcileProductionRunForRecovery(
+  runId: string,
+): Promise<{
+  status: string;
+  promotedVideoJobs: number;
+  failedStaleJobs: number;
+}> {
+  const view = await reconcileProductionRun(runId);
+  const recovery = (
+    view as ProductionRunView & {
+      _recovery?: { promotedVideoJobs: number; failedStaleJobs: number };
+    }
+  )._recovery;
+  return {
+    status: view.status,
+    promotedVideoJobs: recovery?.promotedVideoJobs ?? 0,
+    failedStaleJobs: recovery?.failedStaleJobs ?? 0,
+  };
 }
 
 // When a video job finishes (or is retried), refresh the tagged production run
@@ -587,7 +722,12 @@ async function failStaleProductionRunIfNeeded(
   if (error) throw error;
   if ((count ?? 0) === 0) return false;
 
-  await setProductionRunStatus(run.id, "failed", STALE_PRODUCTION_RUN_MESSAGE);
+  await settleProductionRunTerminal(supabase, {
+    runId: run.id,
+    status: "failed",
+    errorMessage: STALE_PRODUCTION_RUN_MESSAGE,
+    itemErrorMessage: STALE_PRODUCTION_RUN_MESSAGE,
+  });
   run.status = "failed";
   run.error_message = STALE_PRODUCTION_RUN_MESSAGE;
   return true;
@@ -614,11 +754,22 @@ async function loadRunItems(
   const { data, error } = await supabase
     .from("production_run_items")
     .select(
-      "id, production_run_id, project_id, platform, content_type, status, package_index, strategy_item_id, content_package_id, content_item_id, video_job_id, error_message",
+      "id, production_run_id, project_id, platform, content_type, status, package_index, strategy_item_id, content_package_id, content_item_id, video_job_id, error_message, failure_telemetry",
     )
     .eq("production_run_id", runId)
     .order("package_index", { ascending: true });
-  if (error) throw error;
+  if (error) {
+    // Pre-migration fallback without failure_telemetry column.
+    const fallback = await supabase
+      .from("production_run_items")
+      .select(
+        "id, production_run_id, project_id, platform, content_type, status, package_index, strategy_item_id, content_package_id, content_item_id, video_job_id, error_message",
+      )
+      .eq("production_run_id", runId)
+      .order("package_index", { ascending: true });
+    if (fallback.error) throw fallback.error;
+    return (fallback.data ?? []) as ProductionRunItemRow[];
+  }
   return (data ?? []) as ProductionRunItemRow[];
 }
 
@@ -661,6 +812,43 @@ interface RealProgress {
   perPlatform: Map<string, PlatformCount>;
   // Completed video_jobs (one shared video per video package).
   videosCompleted: number;
+}
+
+async function loadRunVideoJobsForWatchdog(
+  supabase: SupabaseClient,
+  run: ProductionRunRow,
+): Promise<
+  Array<{
+    id: string;
+    status: string;
+    leaseExpiresAt: string | null;
+    updatedAt: string | null;
+    output: unknown;
+  }>
+> {
+  const { data: itemRows, error: itemErr } = await supabase
+    .from("content_items")
+    .select("id")
+    .eq("project_id", run.project_id)
+    .eq("generation_metadata->>production_run_id", run.id)
+    .is("language", null);
+  if (itemErr) throw itemErr;
+  const itemIds = (itemRows ?? []).map((row) => row.id as string);
+  if (itemIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("video_jobs")
+    .select("id, status, lease_expires_at, updated_at, output")
+    .eq("project_id", run.project_id)
+    .in("content_item_id", itemIds);
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    status: row.status as string,
+    leaseExpiresAt: (row.lease_expires_at as string | null) ?? null,
+    updatedAt: (row.updated_at as string | null) ?? null,
+    output: row.output,
+  }));
 }
 
 // Reconciles a run from the real content it produced. content_items carry
@@ -959,6 +1147,30 @@ function buildView(
     0,
   );
 
+  const failedItems: ProductionRunFailedItemView[] = items
+    .filter((i) => i.status === "failed")
+    .map((i) => {
+      const parsed = parseItemError(i.error_message);
+      const telem =
+        i.failure_telemetry && typeof i.failure_telemetry === "object"
+          ? (i.failure_telemetry as Record<string, unknown>)
+          : null;
+      return {
+        id: i.id,
+        packageIndex: i.package_index,
+        strategyItemId: i.strategy_item_id,
+        errorMessage: i.error_message,
+        errorHeadline: parsed.headline,
+        errorPhase:
+          parsed.phase ??
+          (typeof telem?.phase === "string" ? telem.phase : null),
+        retryable: parsed.retryable,
+        contentPackageId: i.content_package_id,
+        videoJobId: i.video_job_id,
+        failureTelemetry: telem,
+      };
+    });
+
   return {
     id: run.id,
     status: run.status,
@@ -977,7 +1189,40 @@ function buildView(
     totalOutputsCompleted,
     createdAt: run.created_at,
     updatedAt: run.updated_at,
+    failedItems,
   };
+}
+
+function parseItemError(raw: string | null): {
+  headline: string | null;
+  phase: string | null;
+  retryable: boolean | null;
+} {
+  if (!raw) return { headline: null, phase: null, retryable: null };
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const message =
+      typeof parsed.message === "string"
+        ? parsed.message
+        : typeof parsed.error === "string"
+          ? parsed.error
+          : raw;
+    const phase =
+      typeof parsed.phase === "string"
+        ? parsed.phase
+        : typeof parsed.path === "string"
+          ? parsed.path
+          : null;
+    const retryable =
+      typeof parsed.retryable === "boolean" ? parsed.retryable : null;
+    return {
+      headline: message.slice(0, 240),
+      phase,
+      retryable,
+    };
+  } catch {
+    return { headline: raw.slice(0, 240), phase: null, retryable: null };
+  }
 }
 
 function readStoredConfig(value: unknown): StoredConfig | null {

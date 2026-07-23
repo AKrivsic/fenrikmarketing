@@ -113,7 +113,8 @@ check("prompt block includes viewer comprehension fields", () => {
   const plan = deriveNarrativeBeats({ winner });
   const block = buildNarrativeBeatPromptBlock(plan);
   assert.ok(block.includes(NARRATIVE_BEAT_PROMPT_HEADER));
-  assert.ok(block.includes("HOOK → SETUP → ESCALATION → RESOLUTION"));
+  assert.ok(/HOOK \/ SETUP \/ ESCALATION \/ RESOLUTION/i.test(block) || /HOOK → SETUP → ESCALATION → RESOLUTION/.test(block));
+  assert.ok(/Authoritative story structure is MODE BEATS only|MODE BEATS/i.test(block));
   assert.ok(block.includes("viewer_understands:"));
   assert.ok(block.includes("viewer_question:"));
   assert.ok(block.includes("viewer_expectation:"));

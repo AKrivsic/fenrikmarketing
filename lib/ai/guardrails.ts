@@ -15,6 +15,12 @@ import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 // Business guardrails enforced AFTER structural validation. These encode the
 // product rules from the spec; a non-empty issue list triggers reject /
 // regenerate in the workflow runner.
+//
+// Phase 2A ownership:
+//   Safety owner: checkContentPackageGuardrails + Product Brain constraints
+//   CTA owner: cta.type constrained by CTA_TYPES_BY_GOAL (this module)
+//   Platform Adaptation: platform-native checks (companion to PLATFORM_STYLE_SPECS)
+//   Illegal writers: Attention First inventing facts; Repair inventing metrics
 
 function issue(path: string, message: string): ValidationIssue {
   return { path, message };

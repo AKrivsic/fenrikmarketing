@@ -1,0 +1,673 @@
+workflow,package_index,section,tokens,cost_usd,calibration
+Weekly Strategy,strategy,Product Brain,565,0.000315,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,Hard Constraints,61,0.000034,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,Pain Points,417,0.000233,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,Proof Pool,205,0.000114,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,Scenario Pool,822,0.000459,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,Task / Output JSON Shape,262,0.000146,measured_plus_unallocated_missing_context
+Weekly Strategy,strategy,unallocated_missing_context,3557,0.001985,measured_plus_unallocated_missing_context
+Direction,0,System Prompt,86,0.001811,measured_plus_unallocated_missing_context
+Direction,0,Unlabelled Prompt,19,0.000400,measured_plus_unallocated_missing_context
+Direction,0,Product Brain,475,0.010001,measured_plus_unallocated_missing_context
+Direction,0,Strategy Item,40,0.000842,measured_plus_unallocated_missing_context
+Direction,0,Run Context,39,0.000821,measured_plus_unallocated_missing_context
+Direction,0,Anti-Repetition / Recent Memory,40,0.000842,measured_plus_unallocated_missing_context
+Direction,0,Direction Definition,112,0.002358,measured_plus_unallocated_missing_context
+Direction,0,Hard Constraints,118,0.002484,measured_plus_unallocated_missing_context
+Direction,0,Output JSON Shape,127,0.002674,measured_plus_unallocated_missing_context
+Direction,0,unallocated_missing_context,560,0.011790,measured_plus_unallocated_missing_context
+Direction Evaluation,0,System Prompt,67,0.000970,scaled_down_to_telemetry
+Direction Evaluation,0,Unlabelled Prompt,17,0.000246,scaled_down_to_telemetry
+Direction Evaluation,0,Strategy Item,166,0.002403,scaled_down_to_telemetry
+Direction Evaluation,0,Anti-Repetition / Recent Memory,10,0.000145,scaled_down_to_telemetry
+Direction Evaluation,0,Scoring Instructions,38,0.000550,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,278,0.004025,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,281,0.004069,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,290,0.004199,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,290,0.004199,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,300,0.004344,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,307,0.004445,scaled_down_to_telemetry
+Direction Evaluation,0,Selected Directions / Concepts,300,0.004344,scaled_down_to_telemetry
+Direction Evaluation,0,Output JSON Shape,131,0.001897,scaled_down_to_telemetry
+Ideation,0,System Prompt,60,0.003663,measured_plus_unallocated_missing_context
+Ideation,0,Unlabelled Prompt,46,0.002808,measured_plus_unallocated_missing_context
+Ideation,0,Product Brain,482,0.029428,measured_plus_unallocated_missing_context
+Ideation,0,Strategy Item,40,0.002442,measured_plus_unallocated_missing_context
+Ideation,0,Run Context,48,0.002931,measured_plus_unallocated_missing_context
+Ideation,0,Available Assets,63,0.003846,measured_plus_unallocated_missing_context
+Ideation,0,Anti-Repetition / Recent Memory,35,0.002137,measured_plus_unallocated_missing_context
+Ideation,0,Selected Directions / Concepts,20,0.001221,measured_plus_unallocated_missing_context
+Ideation,0,Selected Directions / Concepts,225,0.013737,measured_plus_unallocated_missing_context
+Ideation,0,Selected Directions / Concepts,223,0.013615,measured_plus_unallocated_missing_context
+Ideation,0,Selected Directions / Concepts,231,0.014103,measured_plus_unallocated_missing_context
+Ideation,0,Selected Directions / Concepts,217,0.013249,measured_plus_unallocated_missing_context
+Ideation,0,Hard Constraints,310,0.018927,measured_plus_unallocated_missing_context
+Ideation,0,Output JSON Shape,350,0.021369,measured_plus_unallocated_missing_context
+Ideation,0,unallocated_missing_context,979,0.059771,measured_plus_unallocated_missing_context
+Presentation Generation,0,System Prompt,88,0.000449,measured_plus_unallocated_missing_context
+Presentation Generation,0,Product Brain,565,0.002882,measured_plus_unallocated_missing_context
+Presentation Generation,0,Hard Constraints,61,0.000311,measured_plus_unallocated_missing_context
+Presentation Generation,0,Pain Points,417,0.002127,measured_plus_unallocated_missing_context
+Presentation Generation,0,Proof Pool,205,0.001046,measured_plus_unallocated_missing_context
+Presentation Generation,0,Scenario Pool,585,0.002984,measured_plus_unallocated_missing_context
+Presentation Generation,0,Website Rules,377,0.001923,measured_plus_unallocated_missing_context
+Presentation Generation,0,Funnel Asset Policy,87,0.000444,measured_plus_unallocated_missing_context
+Presentation Generation,0,Strategy Item,40,0.000204,measured_plus_unallocated_missing_context
+Presentation Generation,0,Creative Directive / Safety,216,0.001102,measured_plus_unallocated_missing_context
+Presentation Generation,0,Creative Directive / Safety,156,0.000796,measured_plus_unallocated_missing_context
+Presentation Generation,0,Package Diversity,177,0.000903,measured_plus_unallocated_missing_context
+Presentation Generation,0,Attention First,286,0.001459,measured_plus_unallocated_missing_context
+Presentation Generation,0,Creative Candidate,2219,0.011317,measured_plus_unallocated_missing_context
+Presentation Generation,0,Creative DNA,592,0.003019,measured_plus_unallocated_missing_context
+Presentation Generation,0,Content Quality,354,0.001805,measured_plus_unallocated_missing_context
+Presentation Generation,0,Hook V2,320,0.001632,measured_plus_unallocated_missing_context
+Presentation Generation,0,Visual Creative Rules,135,0.000689,measured_plus_unallocated_missing_context
+Presentation Generation,0,Visual Creative Rules,1674,0.008538,measured_plus_unallocated_missing_context
+Presentation Generation,0,Available Assets,861,0.004391,measured_plus_unallocated_missing_context
+Presentation Generation,0,Asset Evidence,110,0.000561,measured_plus_unallocated_missing_context
+Presentation Generation,0,Smart Asset Rules,421,0.002147,measured_plus_unallocated_missing_context
+Presentation Generation,0,Presentation Block,2385,0.012164,measured_plus_unallocated_missing_context
+Presentation Generation,0,Visual Scene Plan,244,0.001244,measured_plus_unallocated_missing_context
+Presentation Generation,0,Asset Library Rules,161,0.000821,measured_plus_unallocated_missing_context
+Presentation Generation,0,Platform Style,145,0.000740,measured_plus_unallocated_missing_context
+Presentation Generation,0,Platform Style,653,0.003330,measured_plus_unallocated_missing_context
+Presentation Generation,0,Task / Output JSON Shape,554,0.002825,measured_plus_unallocated_missing_context
+Presentation Generation,0,unallocated_missing_context,10668,0.054408,measured_plus_unallocated_missing_context
+Direction,1,System Prompt,86,0.001746,measured_plus_unallocated_missing_context
+Direction,1,Unlabelled Prompt,19,0.000386,measured_plus_unallocated_missing_context
+Direction,1,Product Brain,475,0.009642,measured_plus_unallocated_missing_context
+Direction,1,Strategy Item,40,0.000812,measured_plus_unallocated_missing_context
+Direction,1,Run Context,39,0.000792,measured_plus_unallocated_missing_context
+Direction,1,Anti-Repetition / Recent Memory,40,0.000812,measured_plus_unallocated_missing_context
+Direction,1,Direction Definition,112,0.002273,measured_plus_unallocated_missing_context
+Direction,1,Hard Constraints,118,0.002395,measured_plus_unallocated_missing_context
+Direction,1,Output JSON Shape,127,0.002578,measured_plus_unallocated_missing_context
+Direction,1,unallocated_missing_context,739,0.015000,measured_plus_unallocated_missing_context
+Direction Evaluation,1,System Prompt,69,0.000974,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Unlabelled Prompt,18,0.000254,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Strategy Item,170,0.002400,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Anti-Repetition / Recent Memory,11,0.000155,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Scoring Instructions,39,0.000551,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,290,0.004094,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,320,0.004518,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,313,0.004419,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,314,0.004433,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,300,0.004235,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,321,0.004532,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Selected Directions / Concepts,325,0.004588,measured_plus_unallocated_missing_context
+Direction Evaluation,1,Output JSON Shape,134,0.001892,measured_plus_unallocated_missing_context
+Direction Evaluation,1,unallocated_missing_context,38,0.000536,measured_plus_unallocated_missing_context
+Ideation,1,System Prompt,60,0.002768,measured_plus_unallocated_missing_context
+Ideation,1,Unlabelled Prompt,46,0.002122,measured_plus_unallocated_missing_context
+Ideation,1,Product Brain,482,0.022239,measured_plus_unallocated_missing_context
+Ideation,1,Strategy Item,40,0.001846,measured_plus_unallocated_missing_context
+Ideation,1,Run Context,47,0.002169,measured_plus_unallocated_missing_context
+Ideation,1,Available Assets,63,0.002907,measured_plus_unallocated_missing_context
+Ideation,1,Anti-Repetition / Recent Memory,35,0.001615,measured_plus_unallocated_missing_context
+Ideation,1,Selected Directions / Concepts,20,0.000923,measured_plus_unallocated_missing_context
+Ideation,1,Selected Directions / Concepts,232,0.010704,measured_plus_unallocated_missing_context
+Ideation,1,Selected Directions / Concepts,236,0.010889,measured_plus_unallocated_missing_context
+Ideation,1,Selected Directions / Concepts,215,0.009920,measured_plus_unallocated_missing_context
+Ideation,1,Hard Constraints,310,0.014303,measured_plus_unallocated_missing_context
+Ideation,1,Output JSON Shape,350,0.016149,measured_plus_unallocated_missing_context
+Ideation,1,unallocated_missing_context,1354,0.062472,measured_plus_unallocated_missing_context
+Creative Critic,1,System Prompt,50,0.000414,scaled_down_to_telemetry
+Creative Critic,1,Scoring Instructions,8,0.000066,scaled_down_to_telemetry
+Creative Critic,1,Strategy Item,118,0.000976,scaled_down_to_telemetry
+Creative Critic,1,Scoring Instructions,35,0.000290,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,730,0.006039,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,703,0.005815,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,706,0.005840,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,760,0.006287,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,765,0.006328,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,734,0.006072,scaled_down_to_telemetry
+Creative Critic,1,Output JSON Shape,91,0.000753,scaled_down_to_telemetry
+Creative Critic,1,System Prompt,50,0.000395,scaled_down_to_telemetry
+Creative Critic,1,Scoring Instructions,8,0.000063,scaled_down_to_telemetry
+Creative Critic,1,Strategy Item,119,0.000940,scaled_down_to_telemetry
+Creative Critic,1,Scoring Instructions,35,0.000277,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,735,0.005807,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,708,0.005594,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,711,0.005617,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,765,0.006044,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,771,0.006091,scaled_down_to_telemetry
+Creative Critic,1,Selected Directions / Concepts,739,0.005839,scaled_down_to_telemetry
+Creative Critic,1,Output JSON Shape,91,0.000719,scaled_down_to_telemetry
+Presentation Generation,1,System Prompt,88,0.000465,measured_plus_unallocated_missing_context
+Presentation Generation,1,Product Brain,565,0.002988,measured_plus_unallocated_missing_context
+Presentation Generation,1,Hard Constraints,61,0.000323,measured_plus_unallocated_missing_context
+Presentation Generation,1,Pain Points,417,0.002205,measured_plus_unallocated_missing_context
+Presentation Generation,1,Proof Pool,205,0.001084,measured_plus_unallocated_missing_context
+Presentation Generation,1,Scenario Pool,585,0.003093,measured_plus_unallocated_missing_context
+Presentation Generation,1,Website Rules,377,0.001994,measured_plus_unallocated_missing_context
+Presentation Generation,1,Funnel Asset Policy,87,0.000460,measured_plus_unallocated_missing_context
+Presentation Generation,1,Strategy Item,40,0.000212,measured_plus_unallocated_missing_context
+Presentation Generation,1,Creative Directive / Safety,216,0.001142,measured_plus_unallocated_missing_context
+Presentation Generation,1,Creative Directive / Safety,156,0.000825,measured_plus_unallocated_missing_context
+Presentation Generation,1,Package Diversity,176,0.000931,measured_plus_unallocated_missing_context
+Presentation Generation,1,Attention First,286,0.001512,measured_plus_unallocated_missing_context
+Presentation Generation,1,Creative Candidate,2618,0.013844,measured_plus_unallocated_missing_context
+Presentation Generation,1,Creative DNA,622,0.003289,measured_plus_unallocated_missing_context
+Presentation Generation,1,Content Quality,354,0.001872,measured_plus_unallocated_missing_context
+Presentation Generation,1,Hook V2,320,0.001692,measured_plus_unallocated_missing_context
+Presentation Generation,1,Visual Creative Rules,135,0.000714,measured_plus_unallocated_missing_context
+Presentation Generation,1,Visual Creative Rules,1674,0.008852,measured_plus_unallocated_missing_context
+Presentation Generation,1,Available Assets,861,0.004553,measured_plus_unallocated_missing_context
+Presentation Generation,1,Asset Evidence,110,0.000582,measured_plus_unallocated_missing_context
+Presentation Generation,1,Smart Asset Rules,421,0.002226,measured_plus_unallocated_missing_context
+Presentation Generation,1,Presentation Block,2385,0.012611,measured_plus_unallocated_missing_context
+Presentation Generation,1,Visual Scene Plan,244,0.001290,measured_plus_unallocated_missing_context
+Presentation Generation,1,Asset Library Rules,161,0.000851,measured_plus_unallocated_missing_context
+Presentation Generation,1,Platform Style,145,0.000767,measured_plus_unallocated_missing_context
+Presentation Generation,1,Platform Style,653,0.003453,measured_plus_unallocated_missing_context
+Presentation Generation,1,Task / Output JSON Shape,554,0.002929,measured_plus_unallocated_missing_context
+Presentation Generation,1,unallocated_missing_context,10687,0.056511,measured_plus_unallocated_missing_context
+Direction,2,System Prompt,86,0.001576,measured_plus_unallocated_missing_context
+Direction,2,Unlabelled Prompt,19,0.000348,measured_plus_unallocated_missing_context
+Direction,2,Product Brain,475,0.008703,measured_plus_unallocated_missing_context
+Direction,2,Strategy Item,42,0.000770,measured_plus_unallocated_missing_context
+Direction,2,Run Context,39,0.000715,measured_plus_unallocated_missing_context
+Direction,2,Anti-Repetition / Recent Memory,40,0.000733,measured_plus_unallocated_missing_context
+Direction,2,Direction Definition,112,0.002052,measured_plus_unallocated_missing_context
+Direction,2,Hard Constraints,119,0.002180,measured_plus_unallocated_missing_context
+Direction,2,Output JSON Shape,127,0.002327,measured_plus_unallocated_missing_context
+Direction,2,unallocated_missing_context,895,0.016399,measured_plus_unallocated_missing_context
+Direction Evaluation,2,System Prompt,69,0.000960,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Unlabelled Prompt,18,0.000250,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Strategy Item,171,0.002378,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Anti-Repetition / Recent Memory,11,0.000153,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Scoring Instructions,39,0.000542,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,319,0.004436,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,286,0.003977,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,306,0.004255,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,303,0.004214,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,320,0.004450,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,311,0.004325,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Selected Directions / Concepts,327,0.004547,measured_plus_unallocated_missing_context
+Direction Evaluation,2,Output JSON Shape,134,0.001863,measured_plus_unallocated_missing_context
+Direction Evaluation,2,unallocated_missing_context,35,0.000487,measured_plus_unallocated_missing_context
+Ideation,2,System Prompt,60,0.002372,measured_plus_unallocated_missing_context
+Ideation,2,Unlabelled Prompt,46,0.001819,measured_plus_unallocated_missing_context
+Ideation,2,Product Brain,482,0.019058,measured_plus_unallocated_missing_context
+Ideation,2,Strategy Item,42,0.001661,measured_plus_unallocated_missing_context
+Ideation,2,Run Context,48,0.001898,measured_plus_unallocated_missing_context
+Ideation,2,Available Assets,63,0.002491,measured_plus_unallocated_missing_context
+Ideation,2,Anti-Repetition / Recent Memory,35,0.001384,measured_plus_unallocated_missing_context
+Ideation,2,Selected Directions / Concepts,20,0.000791,measured_plus_unallocated_missing_context
+Ideation,2,Selected Directions / Concepts,232,0.009173,measured_plus_unallocated_missing_context
+Ideation,2,Selected Directions / Concepts,211,0.008343,measured_plus_unallocated_missing_context
+Ideation,2,Selected Directions / Concepts,221,0.008738,measured_plus_unallocated_missing_context
+Ideation,2,Hard Constraints,311,0.012297,measured_plus_unallocated_missing_context
+Ideation,2,Output JSON Shape,350,0.013839,measured_plus_unallocated_missing_context
+Ideation,2,unallocated_missing_context,1668,0.065953,measured_plus_unallocated_missing_context
+Creative Critic,2,System Prompt,37,0.000316,scaled_down_to_telemetry
+Creative Critic,2,Scoring Instructions,5,0.000043,scaled_down_to_telemetry
+Creative Critic,2,Strategy Item,88,0.000751,scaled_down_to_telemetry
+Creative Critic,2,Scoring Instructions,26,0.000222,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,503,0.004292,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,496,0.004233,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,501,0.004275,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,505,0.004309,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,544,0.004642,scaled_down_to_telemetry
+Creative Critic,2,Selected Directions / Concepts,527,0.004497,scaled_down_to_telemetry
+Creative Critic,2,Output JSON Shape,67,0.000572,scaled_down_to_telemetry
+Presentation Generation,2,System Prompt,88,0.000511,measured_plus_unallocated_missing_context
+Presentation Generation,2,Product Brain,565,0.003280,measured_plus_unallocated_missing_context
+Presentation Generation,2,Hard Constraints,61,0.000354,measured_plus_unallocated_missing_context
+Presentation Generation,2,Pain Points,417,0.002421,measured_plus_unallocated_missing_context
+Presentation Generation,2,Proof Pool,205,0.001190,measured_plus_unallocated_missing_context
+Presentation Generation,2,Scenario Pool,585,0.003396,measured_plus_unallocated_missing_context
+Presentation Generation,2,Website Rules,377,0.002188,measured_plus_unallocated_missing_context
+Presentation Generation,2,Funnel Asset Policy,80,0.000464,measured_plus_unallocated_missing_context
+Presentation Generation,2,Strategy Item,41,0.000238,measured_plus_unallocated_missing_context
+Presentation Generation,2,Creative Directive / Safety,222,0.001289,measured_plus_unallocated_missing_context
+Presentation Generation,2,Creative Directive / Safety,156,0.000906,measured_plus_unallocated_missing_context
+Presentation Generation,2,Package Diversity,177,0.001027,measured_plus_unallocated_missing_context
+Presentation Generation,2,Attention First,288,0.001672,measured_plus_unallocated_missing_context
+Presentation Generation,2,Creative Candidate,2462,0.014291,measured_plus_unallocated_missing_context
+Presentation Generation,2,Creative DNA,544,0.003158,measured_plus_unallocated_missing_context
+Presentation Generation,2,Content Quality,354,0.002055,measured_plus_unallocated_missing_context
+Presentation Generation,2,Hook V2,329,0.001910,measured_plus_unallocated_missing_context
+Presentation Generation,2,Visual Creative Rules,137,0.000795,measured_plus_unallocated_missing_context
+Presentation Generation,2,Visual Creative Rules,1674,0.009717,measured_plus_unallocated_missing_context
+Presentation Generation,2,Available Assets,861,0.004998,measured_plus_unallocated_missing_context
+Presentation Generation,2,Asset Evidence,110,0.000639,measured_plus_unallocated_missing_context
+Presentation Generation,2,Smart Asset Rules,421,0.002444,measured_plus_unallocated_missing_context
+Presentation Generation,2,Presentation Block,2385,0.013844,measured_plus_unallocated_missing_context
+Presentation Generation,2,Visual Scene Plan,244,0.001416,measured_plus_unallocated_missing_context
+Presentation Generation,2,Asset Library Rules,161,0.000935,measured_plus_unallocated_missing_context
+Presentation Generation,2,Platform Style,145,0.000842,measured_plus_unallocated_missing_context
+Presentation Generation,2,Platform Style,653,0.003790,measured_plus_unallocated_missing_context
+Presentation Generation,2,Task / Output JSON Shape,556,0.003227,measured_plus_unallocated_missing_context
+Presentation Generation,2,unallocated_missing_context,39181,0.227428,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,System Prompt,88,0.000452,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Product Brain,565,0.002904,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Hard Constraints,61,0.000314,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Pain Points,417,0.002144,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Proof Pool,205,0.001054,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Scenario Pool,585,0.003007,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Website Rules,377,0.001938,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Funnel Asset Policy,80,0.000411,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Strategy Item,41,0.000211,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Creative Directive / Safety,222,0.001141,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Creative Directive / Safety,156,0.000802,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Package Diversity,177,0.000910,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Attention First,288,0.001480,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Creative Candidate,2462,0.012655,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Creative DNA,544,0.002796,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Content Quality,354,0.001820,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Hook V2,329,0.001691,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Visual Creative Rules,137,0.000704,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Visual Creative Rules,1674,0.008605,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Available Assets,861,0.004426,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Asset Evidence,110,0.000565,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Smart Asset Rules,421,0.002164,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Presentation Block,2385,0.012260,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Visual Scene Plan,244,0.001254,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Asset Library Rules,161,0.000828,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Platform Style,145,0.000745,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Platform Style,653,0.003357,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Task / Output JSON Shape,556,0.002858,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,Repair Appendix,24,0.000123,measured_plus_unallocated_missing_context
+Story Integrity Repair,2,unallocated_missing_context,11532,0.059278,measured_plus_unallocated_missing_context
+Direction,6,System Prompt,86,0.001467,measured_plus_unallocated_missing_context
+Direction,6,Unlabelled Prompt,19,0.000324,measured_plus_unallocated_missing_context
+Direction,6,Product Brain,475,0.008103,measured_plus_unallocated_missing_context
+Direction,6,Strategy Item,42,0.000717,measured_plus_unallocated_missing_context
+Direction,6,Run Context,37,0.000631,measured_plus_unallocated_missing_context
+Direction,6,Anti-Repetition / Recent Memory,40,0.000682,measured_plus_unallocated_missing_context
+Direction,6,Direction Definition,112,0.001911,measured_plus_unallocated_missing_context
+Direction,6,Hard Constraints,119,0.002030,measured_plus_unallocated_missing_context
+Direction,6,Output JSON Shape,127,0.002167,measured_plus_unallocated_missing_context
+Direction,6,unallocated_missing_context,1017,0.017350,measured_plus_unallocated_missing_context
+Direction Evaluation,6,System Prompt,69,0.001014,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Unlabelled Prompt,18,0.000265,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Strategy Item,171,0.002514,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Anti-Repetition / Recent Memory,11,0.000162,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Scoring Instructions,39,0.000573,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,280,0.004117,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,295,0.004337,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,300,0.004411,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,287,0.004220,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,284,0.004176,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,284,0.004176,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Selected Directions / Concepts,300,0.004411,measured_plus_unallocated_missing_context
+Direction Evaluation,6,Output JSON Shape,134,0.001970,measured_plus_unallocated_missing_context
+Direction Evaluation,6,unallocated_missing_context,153,0.002250,measured_plus_unallocated_missing_context
+Ideation,6,System Prompt,60,0.002303,measured_plus_unallocated_missing_context
+Ideation,6,Unlabelled Prompt,46,0.001766,measured_plus_unallocated_missing_context
+Ideation,6,Product Brain,482,0.018501,measured_plus_unallocated_missing_context
+Ideation,6,Strategy Item,42,0.001612,measured_plus_unallocated_missing_context
+Ideation,6,Run Context,46,0.001766,measured_plus_unallocated_missing_context
+Ideation,6,Available Assets,63,0.002418,measured_plus_unallocated_missing_context
+Ideation,6,Anti-Repetition / Recent Memory,35,0.001343,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,20,0.000768,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,207,0.007945,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,211,0.008099,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,204,0.007830,measured_plus_unallocated_missing_context
+Ideation,6,Hard Constraints,311,0.011937,measured_plus_unallocated_missing_context
+Ideation,6,Output JSON Shape,350,0.013434,measured_plus_unallocated_missing_context
+Ideation,6,unallocated_missing_context,1949,0.074810,measured_plus_unallocated_missing_context
+Ideation,6,System Prompt,60,0.002485,measured_plus_unallocated_missing_context
+Ideation,6,Unlabelled Prompt,46,0.001905,measured_plus_unallocated_missing_context
+Ideation,6,Product Brain,482,0.019960,measured_plus_unallocated_missing_context
+Ideation,6,Strategy Item,42,0.001739,measured_plus_unallocated_missing_context
+Ideation,6,Run Context,46,0.001905,measured_plus_unallocated_missing_context
+Ideation,6,Available Assets,63,0.002609,measured_plus_unallocated_missing_context
+Ideation,6,Anti-Repetition / Recent Memory,35,0.001449,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,20,0.000828,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,207,0.008572,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,211,0.008738,measured_plus_unallocated_missing_context
+Ideation,6,Selected Directions / Concepts,204,0.008448,measured_plus_unallocated_missing_context
+Ideation,6,Hard Constraints,311,0.012879,measured_plus_unallocated_missing_context
+Ideation,6,Output JSON Shape,350,0.014494,measured_plus_unallocated_missing_context
+Ideation,6,unallocated_missing_context,2052,0.084973,measured_plus_unallocated_missing_context
+Creative Critic,6,System Prompt,37,0.000319,scaled_down_to_telemetry
+Creative Critic,6,Scoring Instructions,5,0.000043,scaled_down_to_telemetry
+Creative Critic,6,Strategy Item,87,0.000751,scaled_down_to_telemetry
+Creative Critic,6,Scoring Instructions,25,0.000216,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,574,0.004956,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,587,0.005068,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,607,0.005241,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,583,0.005034,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,601,0.005189,scaled_down_to_telemetry
+Creative Critic,6,Selected Directions / Concepts,622,0.005370,scaled_down_to_telemetry
+Creative Critic,6,Output JSON Shape,66,0.000570,scaled_down_to_telemetry
+Presentation Generation,6,System Prompt,88,0.000027,measured_plus_unallocated_missing_context
+Presentation Generation,6,Product Brain,565,0.000174,measured_plus_unallocated_missing_context
+Presentation Generation,6,Hard Constraints,61,0.000019,measured_plus_unallocated_missing_context
+Presentation Generation,6,Pain Points,417,0.000129,measured_plus_unallocated_missing_context
+Presentation Generation,6,Proof Pool,205,0.000063,measured_plus_unallocated_missing_context
+Presentation Generation,6,Scenario Pool,585,0.000181,measured_plus_unallocated_missing_context
+Presentation Generation,6,Website Rules,377,0.000116,measured_plus_unallocated_missing_context
+Presentation Generation,6,Funnel Asset Policy,80,0.000025,measured_plus_unallocated_missing_context
+Presentation Generation,6,Strategy Item,41,0.000013,measured_plus_unallocated_missing_context
+Presentation Generation,6,Creative Directive / Safety,222,0.000069,measured_plus_unallocated_missing_context
+Presentation Generation,6,Creative Directive / Safety,156,0.000048,measured_plus_unallocated_missing_context
+Presentation Generation,6,Package Diversity,175,0.000054,measured_plus_unallocated_missing_context
+Presentation Generation,6,Attention First,288,0.000089,measured_plus_unallocated_missing_context
+Presentation Generation,6,Creative Candidate,2646,0.000817,measured_plus_unallocated_missing_context
+Presentation Generation,6,Creative DNA,585,0.000181,measured_plus_unallocated_missing_context
+Presentation Generation,6,Content Quality,354,0.000109,measured_plus_unallocated_missing_context
+Presentation Generation,6,Hook V2,329,0.000102,measured_plus_unallocated_missing_context
+Presentation Generation,6,Visual Creative Rules,137,0.000042,measured_plus_unallocated_missing_context
+Presentation Generation,6,Visual Creative Rules,1674,0.000517,measured_plus_unallocated_missing_context
+Presentation Generation,6,Available Assets,861,0.000266,measured_plus_unallocated_missing_context
+Presentation Generation,6,Asset Evidence,110,0.000034,measured_plus_unallocated_missing_context
+Presentation Generation,6,Smart Asset Rules,421,0.000130,measured_plus_unallocated_missing_context
+Presentation Generation,6,Presentation Block,2385,0.000736,measured_plus_unallocated_missing_context
+Presentation Generation,6,Visual Scene Plan,244,0.000075,measured_plus_unallocated_missing_context
+Presentation Generation,6,Asset Library Rules,161,0.000050,measured_plus_unallocated_missing_context
+Presentation Generation,6,Platform Style,145,0.000045,measured_plus_unallocated_missing_context
+Presentation Generation,6,Platform Style,653,0.000202,measured_plus_unallocated_missing_context
+Presentation Generation,6,Task / Output JSON Shape,556,0.000172,measured_plus_unallocated_missing_context
+Presentation Generation,6,unallocated_missing_context,14675,0.004531,measured_plus_unallocated_missing_context
+Direction,7,System Prompt,86,0.001359,measured_plus_unallocated_missing_context
+Direction,7,Unlabelled Prompt,19,0.000300,measured_plus_unallocated_missing_context
+Direction,7,Product Brain,475,0.007508,measured_plus_unallocated_missing_context
+Direction,7,Strategy Item,42,0.000664,measured_plus_unallocated_missing_context
+Direction,7,Run Context,41,0.000648,measured_plus_unallocated_missing_context
+Direction,7,Anti-Repetition / Recent Memory,40,0.000632,measured_plus_unallocated_missing_context
+Direction,7,Direction Definition,112,0.001770,measured_plus_unallocated_missing_context
+Direction,7,Hard Constraints,119,0.001881,measured_plus_unallocated_missing_context
+Direction,7,Output JSON Shape,127,0.002007,measured_plus_unallocated_missing_context
+Direction,7,unallocated_missing_context,1215,0.019204,measured_plus_unallocated_missing_context
+Direction Evaluation,7,System Prompt,69,0.000875,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Unlabelled Prompt,18,0.000228,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Strategy Item,171,0.002168,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Anti-Repetition / Recent Memory,11,0.000139,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Scoring Instructions,39,0.000494,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,281,0.003563,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,308,0.003905,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,285,0.003613,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,307,0.003892,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,297,0.003765,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,303,0.003842,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Selected Directions / Concepts,307,0.003892,measured_plus_unallocated_missing_context
+Direction Evaluation,7,Output JSON Shape,134,0.001699,measured_plus_unallocated_missing_context
+Direction Evaluation,7,unallocated_missing_context,159,0.002016,measured_plus_unallocated_missing_context
+Ideation,7,System Prompt,60,0.002536,measured_plus_unallocated_missing_context
+Ideation,7,Unlabelled Prompt,46,0.001945,measured_plus_unallocated_missing_context
+Ideation,7,Product Brain,482,0.020376,measured_plus_unallocated_missing_context
+Ideation,7,Strategy Item,42,0.001775,measured_plus_unallocated_missing_context
+Ideation,7,Run Context,50,0.002114,measured_plus_unallocated_missing_context
+Ideation,7,Available Assets,63,0.002663,measured_plus_unallocated_missing_context
+Ideation,7,Anti-Repetition / Recent Memory,35,0.001480,measured_plus_unallocated_missing_context
+Ideation,7,Selected Directions / Concepts,20,0.000845,measured_plus_unallocated_missing_context
+Ideation,7,Selected Directions / Concepts,219,0.009258,measured_plus_unallocated_missing_context
+Ideation,7,Selected Directions / Concepts,216,0.009131,measured_plus_unallocated_missing_context
+Ideation,7,Selected Directions / Concepts,208,0.008793,measured_plus_unallocated_missing_context
+Ideation,7,Hard Constraints,311,0.013147,measured_plus_unallocated_missing_context
+Ideation,7,Output JSON Shape,350,0.014796,measured_plus_unallocated_missing_context
+Ideation,7,unallocated_missing_context,2280,0.096383,measured_plus_unallocated_missing_context
+Presentation Generation,7,System Prompt,88,0.000450,measured_plus_unallocated_missing_context
+Presentation Generation,7,Product Brain,565,0.002887,measured_plus_unallocated_missing_context
+Presentation Generation,7,Hard Constraints,61,0.000312,measured_plus_unallocated_missing_context
+Presentation Generation,7,Pain Points,417,0.002131,measured_plus_unallocated_missing_context
+Presentation Generation,7,Proof Pool,205,0.001048,measured_plus_unallocated_missing_context
+Presentation Generation,7,Scenario Pool,585,0.002990,measured_plus_unallocated_missing_context
+Presentation Generation,7,Website Rules,377,0.001927,measured_plus_unallocated_missing_context
+Presentation Generation,7,Funnel Asset Policy,80,0.000409,measured_plus_unallocated_missing_context
+Presentation Generation,7,Strategy Item,41,0.000210,measured_plus_unallocated_missing_context
+Presentation Generation,7,Creative Directive / Safety,222,0.001135,measured_plus_unallocated_missing_context
+Presentation Generation,7,Creative Directive / Safety,156,0.000797,measured_plus_unallocated_missing_context
+Presentation Generation,7,Package Diversity,179,0.000915,measured_plus_unallocated_missing_context
+Presentation Generation,7,Attention First,288,0.001472,measured_plus_unallocated_missing_context
+Presentation Generation,7,Creative Candidate,2151,0.010993,measured_plus_unallocated_missing_context
+Presentation Generation,7,Creative DNA,553,0.002826,measured_plus_unallocated_missing_context
+Presentation Generation,7,Content Quality,354,0.001809,measured_plus_unallocated_missing_context
+Presentation Generation,7,Hook V2,329,0.001681,measured_plus_unallocated_missing_context
+Presentation Generation,7,Visual Creative Rules,137,0.000700,measured_plus_unallocated_missing_context
+Presentation Generation,7,Visual Creative Rules,1674,0.008555,measured_plus_unallocated_missing_context
+Presentation Generation,7,Available Assets,861,0.004400,measured_plus_unallocated_missing_context
+Presentation Generation,7,Asset Evidence,110,0.000562,measured_plus_unallocated_missing_context
+Presentation Generation,7,Smart Asset Rules,421,0.002152,measured_plus_unallocated_missing_context
+Presentation Generation,7,Presentation Block,2385,0.012189,measured_plus_unallocated_missing_context
+Presentation Generation,7,Visual Scene Plan,244,0.001247,measured_plus_unallocated_missing_context
+Presentation Generation,7,Asset Library Rules,161,0.000823,measured_plus_unallocated_missing_context
+Presentation Generation,7,Platform Style,145,0.000741,measured_plus_unallocated_missing_context
+Presentation Generation,7,Platform Style,653,0.003337,measured_plus_unallocated_missing_context
+Presentation Generation,7,Task / Output JSON Shape,556,0.002841,measured_plus_unallocated_missing_context
+Presentation Generation,7,unallocated_missing_context,11439,0.058459,measured_plus_unallocated_missing_context
+Direction,8,System Prompt,86,0.001259,measured_plus_unallocated_missing_context
+Direction,8,Unlabelled Prompt,19,0.000278,measured_plus_unallocated_missing_context
+Direction,8,Product Brain,475,0.006952,measured_plus_unallocated_missing_context
+Direction,8,Strategy Item,42,0.000615,measured_plus_unallocated_missing_context
+Direction,8,Run Context,39,0.000571,measured_plus_unallocated_missing_context
+Direction,8,Anti-Repetition / Recent Memory,40,0.000585,measured_plus_unallocated_missing_context
+Direction,8,Direction Definition,112,0.001639,measured_plus_unallocated_missing_context
+Direction,8,Hard Constraints,119,0.001742,measured_plus_unallocated_missing_context
+Direction,8,Output JSON Shape,127,0.001859,measured_plus_unallocated_missing_context
+Direction,8,unallocated_missing_context,1420,0.020783,measured_plus_unallocated_missing_context
+Direction Evaluation,8,System Prompt,69,0.000947,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Unlabelled Prompt,18,0.000247,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Strategy Item,171,0.002348,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Anti-Repetition / Recent Memory,11,0.000151,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Scoring Instructions,39,0.000535,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,317,0.004353,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,280,0.003845,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,306,0.004202,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,293,0.004023,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,297,0.004078,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,289,0.003968,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Selected Directions / Concepts,313,0.004298,measured_plus_unallocated_missing_context
+Direction Evaluation,8,Output JSON Shape,134,0.001840,measured_plus_unallocated_missing_context
+Direction Evaluation,8,unallocated_missing_context,200,0.002746,measured_plus_unallocated_missing_context
+Ideation,8,System Prompt,60,0.002325,measured_plus_unallocated_missing_context
+Ideation,8,Unlabelled Prompt,46,0.001782,measured_plus_unallocated_missing_context
+Ideation,8,Product Brain,482,0.018675,measured_plus_unallocated_missing_context
+Ideation,8,Strategy Item,42,0.001627,measured_plus_unallocated_missing_context
+Ideation,8,Run Context,48,0.001860,measured_plus_unallocated_missing_context
+Ideation,8,Available Assets,63,0.002441,measured_plus_unallocated_missing_context
+Ideation,8,Anti-Repetition / Recent Memory,35,0.001356,measured_plus_unallocated_missing_context
+Ideation,8,Selected Directions / Concepts,20,0.000775,measured_plus_unallocated_missing_context
+Ideation,8,Selected Directions / Concepts,201,0.007788,measured_plus_unallocated_missing_context
+Ideation,8,Selected Directions / Concepts,195,0.007555,measured_plus_unallocated_missing_context
+Ideation,8,Selected Directions / Concepts,208,0.008059,measured_plus_unallocated_missing_context
+Ideation,8,Hard Constraints,311,0.012049,measured_plus_unallocated_missing_context
+Ideation,8,Output JSON Shape,350,0.013560,measured_plus_unallocated_missing_context
+Ideation,8,unallocated_missing_context,2650,0.102672,measured_plus_unallocated_missing_context
+Creative Critic,8,System Prompt,34,0.000296,scaled_down_to_telemetry
+Creative Critic,8,Scoring Instructions,5,0.000044,scaled_down_to_telemetry
+Creative Critic,8,Strategy Item,82,0.000714,scaled_down_to_telemetry
+Creative Critic,8,Scoring Instructions,24,0.000209,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,488,0.004246,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,460,0.004003,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,501,0.004359,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,479,0.004168,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,508,0.004420,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,505,0.004394,scaled_down_to_telemetry
+Creative Critic,8,Selected Directions / Concepts,479,0.004168,scaled_down_to_telemetry
+Creative Critic,8,Output JSON Shape,63,0.000548,scaled_down_to_telemetry
+Presentation Generation,8,System Prompt,88,0.000469,measured_plus_unallocated_missing_context
+Presentation Generation,8,Product Brain,565,0.003008,measured_plus_unallocated_missing_context
+Presentation Generation,8,Hard Constraints,61,0.000325,measured_plus_unallocated_missing_context
+Presentation Generation,8,Pain Points,417,0.002220,measured_plus_unallocated_missing_context
+Presentation Generation,8,Proof Pool,205,0.001092,measured_plus_unallocated_missing_context
+Presentation Generation,8,Scenario Pool,585,0.003115,measured_plus_unallocated_missing_context
+Presentation Generation,8,Website Rules,377,0.002007,measured_plus_unallocated_missing_context
+Presentation Generation,8,Funnel Asset Policy,87,0.000463,measured_plus_unallocated_missing_context
+Presentation Generation,8,Strategy Item,41,0.000218,measured_plus_unallocated_missing_context
+Presentation Generation,8,Creative Directive / Safety,227,0.001209,measured_plus_unallocated_missing_context
+Presentation Generation,8,Creative Directive / Safety,156,0.000831,measured_plus_unallocated_missing_context
+Presentation Generation,8,Package Diversity,177,0.000942,measured_plus_unallocated_missing_context
+Presentation Generation,8,Attention First,287,0.001528,measured_plus_unallocated_missing_context
+Presentation Generation,8,Creative Candidate,2504,0.013333,measured_plus_unallocated_missing_context
+Presentation Generation,8,Creative DNA,577,0.003072,measured_plus_unallocated_missing_context
+Presentation Generation,8,Content Quality,354,0.001885,measured_plus_unallocated_missing_context
+Presentation Generation,8,Hook V2,323,0.001720,measured_plus_unallocated_missing_context
+Presentation Generation,8,Visual Creative Rules,136,0.000724,measured_plus_unallocated_missing_context
+Presentation Generation,8,Visual Creative Rules,1674,0.008913,measured_plus_unallocated_missing_context
+Presentation Generation,8,Available Assets,861,0.004584,measured_plus_unallocated_missing_context
+Presentation Generation,8,Asset Evidence,110,0.000586,measured_plus_unallocated_missing_context
+Presentation Generation,8,Smart Asset Rules,421,0.002242,measured_plus_unallocated_missing_context
+Presentation Generation,8,Presentation Block,2385,0.012699,measured_plus_unallocated_missing_context
+Presentation Generation,8,Visual Scene Plan,244,0.001299,measured_plus_unallocated_missing_context
+Presentation Generation,8,Asset Library Rules,161,0.000857,measured_plus_unallocated_missing_context
+Presentation Generation,8,Platform Style,145,0.000772,measured_plus_unallocated_missing_context
+Presentation Generation,8,Platform Style,653,0.003477,measured_plus_unallocated_missing_context
+Presentation Generation,8,Task / Output JSON Shape,556,0.002960,measured_plus_unallocated_missing_context
+Presentation Generation,8,unallocated_missing_context,11080,0.058996,measured_plus_unallocated_missing_context
+Direction,10,System Prompt,86,0.001192,measured_plus_unallocated_missing_context
+Direction,10,Unlabelled Prompt,19,0.000263,measured_plus_unallocated_missing_context
+Direction,10,Product Brain,475,0.006583,measured_plus_unallocated_missing_context
+Direction,10,Strategy Item,42,0.000582,measured_plus_unallocated_missing_context
+Direction,10,Run Context,39,0.000541,measured_plus_unallocated_missing_context
+Direction,10,Anti-Repetition / Recent Memory,40,0.000554,measured_plus_unallocated_missing_context
+Direction,10,Direction Definition,112,0.001552,measured_plus_unallocated_missing_context
+Direction,10,Hard Constraints,119,0.001649,measured_plus_unallocated_missing_context
+Direction,10,Output JSON Shape,127,0.001760,measured_plus_unallocated_missing_context
+Direction,10,unallocated_missing_context,1589,0.022022,measured_plus_unallocated_missing_context
+Direction Evaluation,10,System Prompt,69,0.000985,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Unlabelled Prompt,18,0.000257,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Strategy Item,171,0.002441,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Anti-Repetition / Recent Memory,11,0.000157,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Scoring Instructions,39,0.000557,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,271,0.003868,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,312,0.004454,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,300,0.004282,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,282,0.004025,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,275,0.003925,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,312,0.004454,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Selected Directions / Concepts,293,0.004182,measured_plus_unallocated_missing_context
+Direction Evaluation,10,Output JSON Shape,134,0.001913,measured_plus_unallocated_missing_context
+Direction Evaluation,10,unallocated_missing_context,295,0.004211,measured_plus_unallocated_missing_context
+Ideation,10,System Prompt,60,0.002512,measured_plus_unallocated_missing_context
+Ideation,10,Unlabelled Prompt,46,0.001926,measured_plus_unallocated_missing_context
+Ideation,10,Product Brain,482,0.020179,measured_plus_unallocated_missing_context
+Ideation,10,Strategy Item,42,0.001758,measured_plus_unallocated_missing_context
+Ideation,10,Run Context,48,0.002010,measured_plus_unallocated_missing_context
+Ideation,10,Available Assets,63,0.002637,measured_plus_unallocated_missing_context
+Ideation,10,Anti-Repetition / Recent Memory,35,0.001465,measured_plus_unallocated_missing_context
+Ideation,10,Selected Directions / Concepts,20,0.000837,measured_plus_unallocated_missing_context
+Ideation,10,Selected Directions / Concepts,208,0.008708,measured_plus_unallocated_missing_context
+Ideation,10,Selected Directions / Concepts,200,0.008373,measured_plus_unallocated_missing_context
+Ideation,10,Selected Directions / Concepts,208,0.008708,measured_plus_unallocated_missing_context
+Ideation,10,Selected Directions / Concepts,217,0.009085,measured_plus_unallocated_missing_context
+Ideation,10,Hard Constraints,311,0.013020,measured_plus_unallocated_missing_context
+Ideation,10,Output JSON Shape,350,0.014653,measured_plus_unallocated_missing_context
+Ideation,10,unallocated_missing_context,2925,0.122455,measured_plus_unallocated_missing_context
+Creative Critic,10,System Prompt,28,0.000246,scaled_down_to_telemetry
+Creative Critic,10,Scoring Instructions,4,0.000035,scaled_down_to_telemetry
+Creative Critic,10,Strategy Item,66,0.000579,scaled_down_to_telemetry
+Creative Critic,10,Scoring Instructions,19,0.000167,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,344,0.003020,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,332,0.002915,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,377,0.003310,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,353,0.003099,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,365,0.003205,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,378,0.003319,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,405,0.003556,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,396,0.003477,scaled_down_to_telemetry
+Creative Critic,10,Selected Directions / Concepts,388,0.003407,scaled_down_to_telemetry
+Creative Critic,10,Output JSON Shape,51,0.000448,scaled_down_to_telemetry
+Presentation Generation,10,System Prompt,88,0.000448,measured_plus_unallocated_missing_context
+Presentation Generation,10,Product Brain,565,0.002874,measured_plus_unallocated_missing_context
+Presentation Generation,10,Hard Constraints,61,0.000310,measured_plus_unallocated_missing_context
+Presentation Generation,10,Pain Points,417,0.002121,measured_plus_unallocated_missing_context
+Presentation Generation,10,Proof Pool,205,0.001043,measured_plus_unallocated_missing_context
+Presentation Generation,10,Scenario Pool,585,0.002976,measured_plus_unallocated_missing_context
+Presentation Generation,10,Website Rules,377,0.001918,measured_plus_unallocated_missing_context
+Presentation Generation,10,Funnel Asset Policy,87,0.000443,measured_plus_unallocated_missing_context
+Presentation Generation,10,Strategy Item,41,0.000209,measured_plus_unallocated_missing_context
+Presentation Generation,10,Creative Directive / Safety,227,0.001155,measured_plus_unallocated_missing_context
+Presentation Generation,10,Creative Directive / Safety,156,0.000794,measured_plus_unallocated_missing_context
+Presentation Generation,10,Package Diversity,177,0.000900,measured_plus_unallocated_missing_context
+Presentation Generation,10,Attention First,287,0.001460,measured_plus_unallocated_missing_context
+Presentation Generation,10,Creative Candidate,2274,0.011569,measured_plus_unallocated_missing_context
+Presentation Generation,10,Creative DNA,536,0.002727,measured_plus_unallocated_missing_context
+Presentation Generation,10,Content Quality,354,0.001801,measured_plus_unallocated_missing_context
+Presentation Generation,10,Hook V2,323,0.001643,measured_plus_unallocated_missing_context
+Presentation Generation,10,Visual Creative Rules,136,0.000692,measured_plus_unallocated_missing_context
+Presentation Generation,10,Visual Creative Rules,1674,0.008516,measured_plus_unallocated_missing_context
+Presentation Generation,10,Available Assets,861,0.004380,measured_plus_unallocated_missing_context
+Presentation Generation,10,Asset Evidence,110,0.000560,measured_plus_unallocated_missing_context
+Presentation Generation,10,Smart Asset Rules,421,0.002142,measured_plus_unallocated_missing_context
+Presentation Generation,10,Presentation Block,2385,0.012133,measured_plus_unallocated_missing_context
+Presentation Generation,10,Visual Scene Plan,244,0.001241,measured_plus_unallocated_missing_context
+Presentation Generation,10,Asset Library Rules,161,0.000819,measured_plus_unallocated_missing_context
+Presentation Generation,10,Platform Style,145,0.000738,measured_plus_unallocated_missing_context
+Presentation Generation,10,Platform Style,653,0.003322,measured_plus_unallocated_missing_context
+Presentation Generation,10,Task / Output JSON Shape,556,0.002829,measured_plus_unallocated_missing_context
+Presentation Generation,10,unallocated_missing_context,11182,0.056887,measured_plus_unallocated_missing_context
+Direction,11,System Prompt,86,0.001240,measured_plus_unallocated_missing_context
+Direction,11,Unlabelled Prompt,19,0.000274,measured_plus_unallocated_missing_context
+Direction,11,Product Brain,475,0.006848,measured_plus_unallocated_missing_context
+Direction,11,Strategy Item,42,0.000605,measured_plus_unallocated_missing_context
+Direction,11,Run Context,40,0.000577,measured_plus_unallocated_missing_context
+Direction,11,Anti-Repetition / Recent Memory,40,0.000577,measured_plus_unallocated_missing_context
+Direction,11,Direction Definition,112,0.001615,measured_plus_unallocated_missing_context
+Direction,11,Hard Constraints,119,0.001716,measured_plus_unallocated_missing_context
+Direction,11,Output JSON Shape,127,0.001831,measured_plus_unallocated_missing_context
+Direction,11,unallocated_missing_context,1799,0.025935,measured_plus_unallocated_missing_context
+Direction Evaluation,11,System Prompt,69,0.000912,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Unlabelled Prompt,18,0.000238,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Strategy Item,171,0.002259,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Anti-Repetition / Recent Memory,11,0.000145,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Scoring Instructions,39,0.000515,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,299,0.003951,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,322,0.004255,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,322,0.004255,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,340,0.004492,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,332,0.004387,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,353,0.004664,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Selected Directions / Concepts,359,0.004743,measured_plus_unallocated_missing_context
+Direction Evaluation,11,Output JSON Shape,134,0.001771,measured_plus_unallocated_missing_context
+Direction Evaluation,11,unallocated_missing_context,355,0.004691,measured_plus_unallocated_missing_context
+Ideation,11,System Prompt,60,0.002256,measured_plus_unallocated_missing_context
+Ideation,11,Unlabelled Prompt,46,0.001729,measured_plus_unallocated_missing_context
+Ideation,11,Product Brain,482,0.018120,measured_plus_unallocated_missing_context
+Ideation,11,Strategy Item,42,0.001579,measured_plus_unallocated_missing_context
+Ideation,11,Run Context,49,0.001842,measured_plus_unallocated_missing_context
+Ideation,11,Available Assets,63,0.002368,measured_plus_unallocated_missing_context
+Ideation,11,Anti-Repetition / Recent Memory,35,0.001316,measured_plus_unallocated_missing_context
+Ideation,11,Selected Directions / Concepts,20,0.000752,measured_plus_unallocated_missing_context
+Ideation,11,Selected Directions / Concepts,231,0.008684,measured_plus_unallocated_missing_context
+Ideation,11,Selected Directions / Concepts,236,0.008872,measured_plus_unallocated_missing_context
+Ideation,11,Selected Directions / Concepts,213,0.008007,measured_plus_unallocated_missing_context
+Ideation,11,Selected Directions / Concepts,246,0.009248,measured_plus_unallocated_missing_context
+Ideation,11,Hard Constraints,311,0.011691,measured_plus_unallocated_missing_context
+Ideation,11,Output JSON Shape,350,0.013157,measured_plus_unallocated_missing_context
+Ideation,11,unallocated_missing_context,3286,0.123529,measured_plus_unallocated_missing_context
+Creative Critic,11,System Prompt,29,0.000225,scaled_down_to_telemetry
+Creative Critic,11,Scoring Instructions,4,0.000031,scaled_down_to_telemetry
+Creative Critic,11,Strategy Item,70,0.000543,scaled_down_to_telemetry
+Creative Critic,11,Scoring Instructions,20,0.000155,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,418,0.003240,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,428,0.003318,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,435,0.003372,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,451,0.003496,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,443,0.003434,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,453,0.003511,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,462,0.003581,scaled_down_to_telemetry
+Creative Critic,11,Selected Directions / Concepts,493,0.003821,scaled_down_to_telemetry
+Creative Critic,11,Output JSON Shape,54,0.000419,scaled_down_to_telemetry
+Presentation Generation,11,System Prompt,88,0.000440,measured_plus_unallocated_missing_context
+Presentation Generation,11,Product Brain,565,0.002827,measured_plus_unallocated_missing_context
+Presentation Generation,11,Hard Constraints,61,0.000305,measured_plus_unallocated_missing_context
+Presentation Generation,11,Pain Points,417,0.002086,measured_plus_unallocated_missing_context
+Presentation Generation,11,Proof Pool,205,0.001026,measured_plus_unallocated_missing_context
+Presentation Generation,11,Scenario Pool,585,0.002927,measured_plus_unallocated_missing_context
+Presentation Generation,11,Website Rules,377,0.001886,measured_plus_unallocated_missing_context
+Presentation Generation,11,Funnel Asset Policy,87,0.000435,measured_plus_unallocated_missing_context
+Presentation Generation,11,Strategy Item,41,0.000205,measured_plus_unallocated_missing_context
+Presentation Generation,11,Creative Directive / Safety,227,0.001136,measured_plus_unallocated_missing_context
+Presentation Generation,11,Creative Directive / Safety,156,0.000781,measured_plus_unallocated_missing_context
+Presentation Generation,11,Package Diversity,178,0.000891,measured_plus_unallocated_missing_context
+Presentation Generation,11,Attention First,287,0.001436,measured_plus_unallocated_missing_context
+Presentation Generation,11,Creative Candidate,2512,0.012568,measured_plus_unallocated_missing_context
+Presentation Generation,11,Creative DNA,584,0.002922,measured_plus_unallocated_missing_context
+Presentation Generation,11,Content Quality,354,0.001771,measured_plus_unallocated_missing_context
+Presentation Generation,11,Hook V2,323,0.001616,measured_plus_unallocated_missing_context
+Presentation Generation,11,Visual Creative Rules,136,0.000680,measured_plus_unallocated_missing_context
+Presentation Generation,11,Visual Creative Rules,1674,0.008375,measured_plus_unallocated_missing_context
+Presentation Generation,11,Available Assets,861,0.004308,measured_plus_unallocated_missing_context
+Presentation Generation,11,Asset Evidence,110,0.000550,measured_plus_unallocated_missing_context
+Presentation Generation,11,Smart Asset Rules,421,0.002106,measured_plus_unallocated_missing_context
+Presentation Generation,11,Presentation Block,2385,0.011933,measured_plus_unallocated_missing_context
+Presentation Generation,11,Visual Scene Plan,244,0.001221,measured_plus_unallocated_missing_context
+Presentation Generation,11,Asset Library Rules,161,0.000806,measured_plus_unallocated_missing_context
+Presentation Generation,11,Platform Style,145,0.000725,measured_plus_unallocated_missing_context
+Presentation Generation,11,Platform Style,653,0.003267,measured_plus_unallocated_missing_context
+Presentation Generation,11,Task / Output JSON Shape,556,0.002782,measured_plus_unallocated_missing_context
+Presentation Generation,11,unallocated_missing_context,11680,0.058438,measured_plus_unallocated_missing_context

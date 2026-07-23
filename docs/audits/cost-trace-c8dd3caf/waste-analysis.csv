@@ -1,0 +1,26 @@
+package_index,category,stage,cost_usd,basis,recoverable,reason
+3,failed_package,direction,0.073920,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+3,failed_package,ideation,0.194244,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+3,failed_package,critic,0.029964,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+3,failed_package,presentation,0.130223,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+4,failed_package,direction,0.073920,estimated_from_medians,no,Failed at all_concepts_vetoed after 4 attempt(s); early creative fail
+4,failed_package,ideation,0.776976,estimated_from_medians,no,Failed at all_concepts_vetoed after 4 attempt(s); early creative fail
+4,failed_package,critic,0.119856,estimated_from_medians,no,Failed at all_concepts_vetoed after 4 attempt(s); early creative fail
+5,failed_package,direction,0.073920,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+5,failed_package,ideation,0.194244,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+5,failed_package,critic,0.029964,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+5,failed_package,presentation,0.130223,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+9,failed_package,direction,0.073920,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+9,failed_package,ideation,0.194244,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+9,failed_package,critic,0.029964,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+9,failed_package,presentation,0.130223,estimated_from_medians,yes_content_existed_but_discarded,Failed at story_integrity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+12,failed_package,direction,0.073920,estimated_from_medians,no,Failed at ideation_failed after 3 attempt(s); early creative fail
+12,failed_package,ideation,0.582732,estimated_from_medians,no,Failed at ideation_failed after 3 attempt(s); early creative fail
+13,failed_package,direction,0.073920,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+13,failed_package,ideation,0.194244,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+13,failed_package,critic,0.029964,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+13,failed_package,presentation,0.130223,estimated_from_medians,yes_content_existed_but_discarded,Failed at concept_fidelity after 1 attempt(s); late validation — potentially recoverable via repair/advisory
+7,duplicate_worker_call,voice,0.006240,estimated_list_price,n/a,ESTIMATED: 416 chars / 1000 × $0.015; DUPLICATE_CALL
+7,duplicate_worker_call,whisper,0.002676,estimated_list_price,n/a,ESTIMATED: 26.76s TTS audio / 60 × $0.006; DUPLICATE_CALL
+10,duplicate_worker_call,voice,0.004695,estimated_list_price,n/a,ESTIMATED: 313 chars / 1000 × $0.015; DUPLICATE_CALL
+10,duplicate_worker_call,whisper,0.002026,estimated_list_price,n/a,ESTIMATED: 20.26s TTS audio / 60 × $0.006; DUPLICATE_CALL

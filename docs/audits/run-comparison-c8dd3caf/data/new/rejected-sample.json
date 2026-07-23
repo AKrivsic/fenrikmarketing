@@ -1,0 +1,305 @@
+[
+  {
+    "idx": 0,
+    "winner": "c4",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c2",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c2\"}"
+      },
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d3",
+      "d7",
+      "d6",
+      "d2"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 1,
+    "winner": "c1",
+    "rejected": [
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c4",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c4\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"generic_b2b_fallback\"],\"concept_id\":\"c6\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d4",
+      "d6",
+      "d1"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 2,
+    "winner": "c2",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d7",
+      "d4",
+      "d5"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 6,
+    "winner": "c4",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c2",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c2\"}"
+      },
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c4",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c4\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d2",
+      "d7",
+      "d4"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 7,
+    "winner": "c2",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c4",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c4\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d7",
+      "d2",
+      "d5"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 8,
+    "winner": "c3",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c2",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c2\"}"
+      },
+      {
+        "id": "c4",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c4\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d5",
+      "d4",
+      "d1"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 10,
+    "winner": "c2",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c3",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c3\"}"
+      },
+      {
+        "id": "c4",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c4\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      },
+      {
+        "id": "c7",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c7\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d4",
+      "d1",
+      "d7",
+      "d3"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  },
+  {
+    "idx": 11,
+    "winner": "c3",
+    "rejected": [
+      {
+        "id": "c1",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c1\"}"
+      },
+      {
+        "id": "c2",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c2\"}"
+      },
+      {
+        "id": "c5",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c5\"}"
+      },
+      {
+        "id": "c6",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c6\"}"
+      },
+      {
+        "id": "c7",
+        "reason": "{\"reasons\":[\"fingerprint_collision_recent_package\"],\"concept_id\":\"c7\"}"
+      }
+    ],
+    "dirs_sel": [
+      "d3",
+      "d5",
+      "d1",
+      "d4"
+    ],
+    "dir_eval": [
+      "source",
+      "ranking",
+      "version",
+      "evaluations",
+      "selection_reason",
+      "selected_direction_ids"
+    ]
+  }
+]

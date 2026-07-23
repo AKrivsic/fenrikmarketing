@@ -472,7 +472,8 @@ check("awareness prompt does not force product into every package", () => {
     }).promptBlock,
   });
   assert.ok(prompt.includes(ATTENTION_PROMPT_HEADER));
-  assert.ok(/product need not appear|product does not need|NO_PRODUCT|memorable/i.test(prompt));
+  assert.ok(prompt.includes("EMOTIONAL PERFORMANCE"));
+  assert.ok(/Product assets optional|product need not appear|memorable/i.test(prompt));
   assert.ok(prompt.includes("funnel_stage=\"Awareness\"") || prompt.includes("Awareness"));
 });
 

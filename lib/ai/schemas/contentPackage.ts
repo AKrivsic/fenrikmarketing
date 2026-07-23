@@ -15,6 +15,12 @@ import {
 } from "@/lib/content-package/generatedVisualScene";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 
+// Phase 2A ownership:
+//   Decision: JSON Schema
+//   Owner: buildContentPackageSchema / contentPackageSchema (this module)
+//   Readers: generateValidatedJson, runWithRepair, workers
+//   Illegal writers: prompt JSON inventing new required fields
+
 const platformOutputSchema = vObject({
   caption: vNonEmptyString(),
   cta: vNonEmptyString(),

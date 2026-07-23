@@ -449,6 +449,47 @@ function RunStatus({
         <p className={styles.error}>{run.errorMessage}</p>
       ) : null}
 
+      {(run.failedItems?.length ?? 0) > 0 ? (
+        <details className={styles.failedItems}>
+          <summary>
+            Selhané položky ({run.failedItems.length})
+          </summary>
+          <ul className={styles.failedItemList}>
+            {run.failedItems.map((item) => (
+              <li key={item.id} className={styles.failedItem}>
+                <div className={styles.failedItemHead}>
+                  <strong>Balíček #{item.packageIndex + 1}</strong>
+                  {item.errorPhase ? (
+                    <span className={styles.failedItemPhase}>
+                      {item.errorPhase}
+                    </span>
+                  ) : null}
+                  {item.retryable === true ? (
+                    <span className={styles.failedItemRetry}>retryable</span>
+                  ) : item.retryable === false ? (
+                    <span className={styles.failedItemRetry}>not retryable</span>
+                  ) : null}
+                </div>
+                <p className={styles.failedItemError}>
+                  {item.errorHeadline ?? item.errorMessage ?? "Neznámá chyba"}
+                </p>
+                <p className={styles.failedItemMeta}>
+                  {item.strategyItemId
+                    ? `strategy ${item.strategyItemId.slice(0, 8)}…`
+                    : "strategy —"}
+                  {item.contentPackageId
+                    ? ` · package ${item.contentPackageId.slice(0, 8)}…`
+                    : ""}
+                  {item.videoJobId
+                    ? ` · video ${item.videoJobId.slice(0, 8)}…`
+                    : ""}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
+
       <ProgressRow
         label="Videos (packages)"
         done={run.videosCompleted}

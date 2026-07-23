@@ -1,0 +1,5 @@
+from_workflow,to_workflow,shared_avg_tokens,avg_tokens_a,avg_tokens_b,overlap_pct_of_smaller,notes
+Direction,Ideation,2082,2213,4843,94.07,"Average per-call composition; shared labels use min(avg A, avg B)."
+Direction Evaluation,Ideation,1265,2718,4843,46.55,"Average per-call composition; shared labels use min(avg A, avg B)."
+Ideation,Presentation Generation,3175,4843,29361,65.57,"Average per-call composition; shared labels use min(avg A, avg B)."
+Presentation Generation,Story Integrity Repair,25784,29361,25854,99.73,"Average per-call composition; shared labels use min(avg A, avg B)."

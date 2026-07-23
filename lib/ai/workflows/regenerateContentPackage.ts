@@ -51,8 +51,6 @@ import {
 } from "@/lib/assets/loadRecentAssetUsage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
-import { loadSceneTypeProjectHistory } from "@/lib/scene-types/presentation/sceneTypeProjectHistory";
-import { buildSceneTypeHistoryRestraintBlock } from "@/lib/scene-types/presentation/sceneTypeHistoryPrompt";
 import {
   resolveVisualProfileForPackage,
 } from "@/lib/visual-profile/packageVisualProfile";
@@ -71,6 +69,20 @@ import {
 import { planAttentionForPackage } from "@/lib/attention/planForPackage";
 import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
+import { buildTypedDecisionPacks } from "@/lib/architecture/typedDecisionPacks";
+import {
+  buildFidelityRepairDelta,
+  buildProductDemonstrationRepairDelta,
+  buildStoryIntegrityRepairDelta,
+  buildRepairDeltaPrompt,
+  mergeRepairedPackage,
+} from "@/lib/architecture/repairDelta";
+import {
+  assertNoActivePackageRender,
+  findActivePackageVideoJobIds,
+  shouldHardFailFidelityAfterRepair,
+  shouldHardFailStoryIntegrityAfterRepair,
+} from "@/lib/production-runtime";
 import {
   attachFidelityToPlan,
   attachProductDemonstrationIntegrityToPlan,
@@ -78,9 +90,7 @@ import {
   buildCreativeDnaDiagnostics,
   checkConceptFidelity,
   creativeCandidateFieldsForPersistence,
-  fidelityRepairAppendix,
   productDemonstrationValidationIssues,
-  storyIntegrityRepairAppendix,
   storyIntegrityValidationIssues,
   validateCreativeDnaAgainstPackage,
   validateProductDemonstrationIntegrity,
@@ -187,6 +197,7 @@ async function runRegenerateContentPackageUnchecked(
       "package has no strategy_item_id; cannot preserve strategic context",
     );
   }
+  await assertNoActivePackageRender(supabase, { projectId, packageId });
 
   // Preserved strategic context (project_id, weekly_strategy_id,
   // strategy_item_id, funnel_stage) is re-derived from the strategy item.
@@ -202,12 +213,8 @@ async function runRegenerateContentPackageUnchecked(
   // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
   // regenerated package avoids repeating prior content.
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
-  const sceneTypeHistory = await loadSceneTypeProjectHistory(supabase, projectId, {
-    excludePackageId: packageId,
-    currentWeeklyStrategyId: context.weeklyStrategyId,
-  });
-  const sceneTypeHistoryBlock =
-    buildSceneTypeHistoryRestraintBlock(sceneTypeHistory);
+  // Phase 1: Scene Type Memory prose no longer injected into Presentation.
+  // Soft restraint remains in applySceneTypeHistoryGuardrail (loads history itself).
 
   // Respect projects.platforms (falls back to the full required set).
   const targetPlatforms = resolvePackagePlatforms(project.platforms);
@@ -339,9 +346,6 @@ async function runRegenerateContentPackageUnchecked(
           productIs: project.product_is ?? [],
         })
       : null;
-  const narrativeBeatPromptBlock = narrativeBeatPlan
-    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan)
-    : "";
   let storyProgressionDiagnostics: StoryProgressionDiagnostics | null = null;
   let visualProgressionDiagnostics: VisualProgressionDiagnostics | null = null;
   let postLlmInformationProgression: InformationProgressionDiagnostics | null =
@@ -427,6 +431,38 @@ async function runRegenerateContentPackageUnchecked(
     requireVideo,
   });
 
+  const decisionPacks = buildTypedDecisionPacks({
+    project,
+    directives,
+    funnelStage: context.funnelStage,
+    generationMode: DEFAULT_GENERATION_MODE,
+    assetCoverage: null,
+    selectedCandidate: creativeCandidates?.selectedCandidate
+      ? {
+          hookLine: creativeCandidates.selectedCandidate.hookLine,
+          openingSituation: creativeCandidates.selectedCandidate.openingSituation,
+          emotionalReaction:
+            creativeCandidates.selectedCandidate.emotionalReaction,
+          creativeDNA: creativeCandidates.selectedCandidate.creativeDNA ?? null,
+        }
+      : null,
+    creativeDna: selectedDna,
+    creativeIdentity: creativeIdentityPlan.identity,
+    attentionDeliveryArc: attentionPlan.plan?.delivery_arc ?? null,
+    attentionPromptBlock: attentionPlan.promptBlock || null,
+    creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || null,
+    creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || null,
+    targetPlatforms,
+    requireVideo,
+    videoPlatforms,
+  });
+
+  const narrativeBeatPromptBlock = narrativeBeatPlan
+    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan, {
+        modeBeatArc: decisionPacks.storyStructure.beatArc,
+      })
+    : "";
+
   const promptPresentationTypes = derivePromptPresentationTypes({
     projectId,
     project,
@@ -451,19 +487,17 @@ async function runRegenerateContentPackageUnchecked(
       videoPlatforms,
       directives,
       promptPresentationTypes,
-      sceneTypeHistoryBlock,
       visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
-      creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || undefined,
       visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
       productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
       visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
-      attentionPromptBlock: attentionPlan.promptBlock || undefined,
       creativeCandidatePromptBlock:
         creativeCandidatePlan.promptBlock || undefined,
       narrativeBeatPromptBlock: narrativeBeatPromptBlock || undefined,
-      creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || undefined,
       creativeCandidateFidelityRepair: fidelityRepair,
       creativeSeedSalt: regenerateCreativeSalt,
+      // Phase 3 — packs are authoritative; Presentation renders only.
+      decisionPacks,
     });
 
   let generated = await generateValidatedJson({
@@ -538,15 +572,23 @@ async function runRegenerateContentPackageUnchecked(
     const classification = classifyFidelityFailuresForRepair(fidelity);
     if (!fidelity.passed && classification.material) {
       regenerationReason = classification.materialReasons.join(",");
+      const priorPackage = generated.value;
+      const fidelityDelta = buildFidelityRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        fidelity,
+      });
       const repaired = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildRegeneratePackageSystem(requireVideo),
-        prompt: buildRegenPrompt(
-          fidelityRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            fidelity,
-          ),
-        ),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: fidelityDelta,
+          generatedPackage: priorPackage,
+          validationResults: { fidelity },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
         validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
         guardrails: makePackageGuardrails({
           project,
@@ -560,7 +602,16 @@ async function runRegenerateContentPackageUnchecked(
         }),
       });
       if (repaired.ok) {
-        generated = repaired;
+        generated = {
+          ...repaired,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repaired.value,
+            delta: fidelityDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
           project,
@@ -598,7 +649,7 @@ async function runRegenerateContentPackageUnchecked(
       fidelity,
       regenerationReason,
     );
-    if (!fidelity.passed) {
+    if (shouldHardFailFidelityAfterRepair(fidelity)) {
       return {
         ok: false,
         error: "generation_failed",
@@ -608,6 +659,12 @@ async function runRegenerateContentPackageUnchecked(
         })),
         attempts: generated.attempts,
       };
+    }
+    if (!fidelity.passed) {
+      console.warn(
+        "[concept-fidelity] soft-continue after non-material residues",
+        fidelity.failureReasons,
+      );
     }
 
     const alignOnScreenCta = () => {
@@ -639,16 +696,24 @@ async function runRegenerateContentPackageUnchecked(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${integrityReason}`
         : integrityReason;
+      const priorPackage = generated.value;
+      const storyDelta = buildStoryIntegrityRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        integrity: storyIntegrity,
+        packageCta: priorPackage.cta?.text ?? "",
+      });
       const repairedIntegrity = await generateValidatedJson({
         textProvider: getCopywritingProvider(),
         system: buildRegeneratePackageSystem(requireVideo),
-        prompt: buildRegenPrompt(
-          storyIntegrityRepairAppendix(
-            creativeCandidates.selectedCandidate,
-            storyIntegrity,
-            generated.value.cta?.text ?? "",
-          ),
-        ),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: storyDelta,
+          generatedPackage: priorPackage,
+          validationResults: { storyIntegrity, fidelity },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
         validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
         guardrails: makePackageGuardrails({
           project,
@@ -662,7 +727,16 @@ async function runRegenerateContentPackageUnchecked(
         }),
       });
       if (repairedIntegrity.ok) {
-        generated = repairedIntegrity;
+        generated = {
+          ...repairedIntegrity,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repairedIntegrity.value,
+            delta: storyDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
         generated.value.hook = await ensureUniqueHook({
           hook: generated.value.hook,
           project,
@@ -716,7 +790,7 @@ async function runRegenerateContentPackageUnchecked(
         storyIntegrity.ctaMatch,
       );
     }
-    if (!storyIntegrity.passed) {
+    if (shouldHardFailStoryIntegrityAfterRepair(storyIntegrity)) {
       console.error(
         "[story-integrity] hard fail after repair",
         creativeCandidates.selectedCandidate.candidateId,
@@ -728,6 +802,12 @@ async function runRegenerateContentPackageUnchecked(
         validationErrors: storyIntegrityValidationIssues(storyIntegrity),
         attempts: generated.attempts,
       };
+    }
+    if (!storyIntegrity.passed) {
+      console.warn(
+        "[story-integrity] soft-continue after repairable residues",
+        storyIntegrity.violations,
+      );
     }
 
     let productDemoIntegrity = validateProductDemonstrationIntegrity({
@@ -742,6 +822,58 @@ async function runRegenerateContentPackageUnchecked(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${demoReason}`
         : demoReason;
+      const priorPackage = generated.value;
+      const demoDelta = buildProductDemonstrationRepairDelta({
+        winner: creativeCandidates.selectedCandidate,
+        integrity: productDemoIntegrity,
+      });
+      const repairedDemo = await generateValidatedJson({
+        textProvider: getCopywritingProvider(),
+        system: buildRegeneratePackageSystem(requireVideo),
+        prompt: buildRepairDeltaPrompt({
+          decisionPacks,
+          repairDelta: demoDelta,
+          generatedPackage: priorPackage,
+          validationResults: {
+            productDemonstration: productDemoIntegrity,
+            fidelity,
+            storyIntegrity,
+          },
+          winner: creativeCandidates.selectedCandidate,
+          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
+          requireVideo,
+        }),
+        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
+        guardrails: makePackageGuardrails({
+          project,
+          context,
+          classById: assets.classById,
+          requiredPlatforms: targetPlatforms,
+          requireVideo,
+          preferredVideoUsageById: requireVideo
+            ? preferredVideoUsageById
+            : undefined,
+        }),
+      });
+      if (repairedDemo.ok) {
+        generated = {
+          ...repairedDemo,
+          value: mergeRepairedPackage({
+            prior: priorPackage,
+            repaired: repairedDemo.value,
+            delta: demoDelta,
+            decisionPacks,
+            winner: creativeCandidates.selectedCandidate,
+          }),
+        };
+        productDemoIntegrity = validateProductDemonstrationIntegrity({
+          winner: creativeCandidates.selectedCandidate,
+          voiceoverText: generated.value.voiceover_text,
+          imagePrompts: generated.value.image_prompts,
+          visualScenes: generated.value.visual_scenes,
+          productPresentation: productPresentationPlan.plan,
+        });
+      }
     }
     creativeCandidates = attachProductDemonstrationIntegrityToPlan(
       creativeCandidates,
@@ -1026,6 +1158,7 @@ async function runRegenerateContentPackageUnchecked(
   const videoPlatformSet = new Set<string>(videoPlatforms);
   let videoJobId = "";
   if (requireVideo) {
+    await assertNoActivePackageRender(supabase, { projectId, packageId });
     const videoItemId =
       upserted.find((r) => videoPlatformSet.has(r.platform))?.id ??
       primaryItemId;
@@ -1052,14 +1185,36 @@ async function runRegenerateContentPackageUnchecked(
       .insert({
         project_id: projectId,
         content_item_id: videoItemId,
+        package_id: packageId,
+        render_kind: "package",
         provider: "video_engine",
         status: "queued",
         input: videoInput,
       })
       .select("id")
       .single();
-    if (videoErr) throw videoErr;
-    videoJobId = videoRow.id as string;
+    if (videoErr) {
+      if (
+        typeof videoErr === "object" &&
+        videoErr !== null &&
+        "code" in videoErr &&
+        (videoErr as { code?: unknown }).code === "23505"
+      ) {
+        const active = await findActivePackageVideoJobIds(supabase, {
+          projectId,
+          packageId,
+        });
+        if (active[0]) {
+          videoJobId = active[0];
+        } else {
+          throw videoErr;
+        }
+      } else {
+        throw videoErr;
+      }
+    } else {
+      videoJobId = videoRow.id as string;
+    }
     const { error: briefErr } = await supabase
       .from("content_packages")
       .update({ package_brief: buildPackageBrief(pkg) })

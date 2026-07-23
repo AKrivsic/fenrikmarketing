@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-07-22T23:34:54.295Z",
+  "phase": "phase-2b-typed-decision-packs",
+  "method": "Math.ceil(chars/4)",
+  "after_presentation_tokens_est": 8098,
+  "phase1_after_tokens_est": 8374,
+  "decisions_migrated": 14,
+  "deferred_decisions": 2,
+  "story_structure_owners_before": 3,
+  "story_structure_owners_after": 1,
+  "dangerous_conflicts_remaining": 0,
+  "c1_resolved": true,
+  "ready_for_presentation_v2": true
+}

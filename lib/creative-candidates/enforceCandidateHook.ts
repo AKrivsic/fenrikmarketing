@@ -1,6 +1,12 @@
 /**
  * Deterministic enforcement of the selected Creative Candidate hookLine onto
  * the package hook + first spoken voiceover line — no LLM.
+ *
+ * Phase 2A ownership:
+ *   Decision: Hook
+ *   Owner: Winner Candidate hookLine (this enforcer)
+ *   Readers: Presentation, Repair/fidelity, Narrative Beats
+ *   Illegal writers: Attention, Opening Priority Resolver, Repair soft-rewrites
  */
 
 export interface EnforceCandidateHookResult {

@@ -5,6 +5,11 @@ import {
 
 export const CREATIVE_IDENTITY_PROMPT_HEADER = "CREATIVE IDENTITY";
 
+// Phase 2A ownership:
+//   Camera Style owner: identity.camera
+//   Visual Identity (treatment): lighting/camera/composition/color — NEVER world/location
+//   Illegal writer of Opening/DNA world: must not relocate openingSituation
+
 export function buildCreativeIdentityPromptBlock(
   identity: CreativeIdentity,
   recentIdentityKeys: readonly string[],

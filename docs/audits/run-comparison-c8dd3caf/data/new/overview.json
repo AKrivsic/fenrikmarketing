@@ -1,0 +1,816 @@
+[
+  {
+    "idx": 0,
+    "status": "completed",
+    "title": "The Window Is Open. No One's Behind It.",
+    "funnel": "awareness",
+    "topic": "The small business owner who realized her website had a job — and it had never shown up for work",
+    "hook": "The window is open. No one's behind it.",
+    "concept": "A professional services reception window — frosted glass, warm backlight, the institutional promise of presence — becomes a mirror for every website that signals help but delivers silence. Visitor hands tap the panel. It",
+    "vo": "The window is open. No one's behind it. Every visitor who lands on your site after hours is standing right there — tapping the glass. And your website? It just stares back. Empty desk. Warm light. Zero answers. That warm light was always your website. It just never had anyone ins",
+    "tts": "shimmer",
+    "profile": "NATURAL",
+    "medium": "PHOTOGRAPHIC",
+    "ai_cost": 0.399363,
+    "media_est": 0.285235,
+    "images": 4,
+    "delivery_sec": 329.37,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "Your website has a reception window. It's been open this whole time. Nobody's ever been behind it.",
+    "linkedin": "The window is open. No one's behind it. Every visitor who lands on your site after hours is standing right there — tapping the glass. And your website? It just stares back. Empty d",
+    "identity": {
+      "key": "a maker workbench with tools and materials|curious, alert attention|cool clear morning light|close detail on hands or objects|subject placed on the left third with breathing room|two people at conversational distance, not posed|warm neutral color feel",
+      "mood": "curious, alert attention",
+      "camera": "close detail on hands or objects",
+      "version": "creative-identity@1",
+      "lighting": "cool clear morning light",
+      "color_feel": "warm neutral color feel",
+      "option_ids": {
+        "mood": "curious",
+        "camera": "close_detail",
+        "lighting": "cool_morning",
+        "color_feel": "warm_neutral",
+        "composition": "subject_left_third",
+        "environment": "maker_workbench",
+        "human_presence": "two_at_distance"
+      },
+      "composition": "subject placed on the left third with breathing room",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A professional services reception of genuine institutional weight — the kind of space that signals 'someone serious is here to help you' — with a window that has always been lit and always been empty",
+      "human_presence": "two people at conversational distance, not posed"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c4",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 1,
+    "status": "completed",
+    "title": "The consultant who planned every channel — and forgot the landing zone",
+    "funnel": "awareness",
+    "topic": "Every business posts on social media to drive traffic — almost none of them have thought about what happens when that traffic arrives",
+    "hook": "You planned the campaign down to the hour. Then sent everyone to a page that can't answer a single question.",
+    "concept": "A meticulous, color-coded campaign launch wall fills the frame — every channel scheduled, every asset pinned, a circled launch date in red. The campaign fires. Traffic spikes on a phone screen. Then a slow, uncomfortable",
+    "vo": "You planned the campaign down to the hour. Then sent everyone to a page that can't answer a single question. Every channel mapped. Every dollar allocated. The ad goes live — traffic spikes. Then visitors land on your site and hit a contact form with a two-business-day reply promi",
+    "tts": "cedar",
+    "profile": "EDITORIAL",
+    "medium": "CLEAN_ILLUSTRATION",
+    "ai_cost": 0.44457599999999997,
+    "media_est": 0.28690000000000004,
+    "images": 4,
+    "delivery_sec": 363.32,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "You mapped every channel. Then sent traffic to a form that replies in 2 business days. 💀",
+    "linkedin": "You planned the campaign down to the hour. Then sent everyone to a page that can't answer a single question. Every channel mapped. Every dollar allocated. The ad goes live — traffi",
+    "identity": {
+      "key": "a soft-focus urban street exterior|curious, alert attention|warm late-afternoon side light|static documentary framing|subject placed on the left third with breathing room|a single person, partial body, face not dominant|natural greens from plants or outdoor context",
+      "mood": "curious, alert attention",
+      "camera": "static documentary framing",
+      "version": "creative-identity@1",
+      "lighting": "warm late-afternoon side light",
+      "color_feel": "natural greens from plants or outdoor context",
+      "option_ids": {
+        "mood": "curious",
+        "camera": "static_documentary",
+        "lighting": "warm_late_afternoon",
+        "color_feel": "natural_greens",
+        "composition": "subject_left_third",
+        "environment": "urban_street_soft",
+        "human_presence": "single_partial"
+      },
+      "composition": "subject placed on the left third with breathing room",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A bright, analog-creative home studio where a consultant has mapped a full campaign launch with the rigor of an architect — printed timelines, color codes, handwritten notes — then sent all that traffic to a website that has never been prepared to receive it.",
+      "human_presence": "a single person, partial body, face not dominant"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c1",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 2,
+    "status": "completed",
+    "title": "She left a five-star review. Just not for you.",
+    "funnel": "problem_aware",
+    "topic": "The local service company that tracked every call — and never once tracked how many people visited the website and left without a word",
+    "hook": "She left a five-star review. Just not for you.",
+    "concept": "A clean white desktop tells the whole story through two printed documents. A competitor's five-star Google review — one sentence highlighted in warm yellow — sits beside a crumpled analytics printout showing dozens of se",
+    "vo": "She left a five-star review. Just not for you. She was on your website last Tuesday. Had a question. No one answered. So she found someone who did. And now their Google listing has her name on it. You have the sessions in your analytics. Forty-three visits. Zero contacts. The lea",
+    "tts": "shimmer",
+    "profile": "NATURAL",
+    "medium": "CLEAN_ILLUSTRATION",
+    "ai_cost": 0.693927,
+    "media_est": 0.28498,
+    "images": 4,
+    "delivery_sec": 310.365,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "She left a 5-star review for your competitor. She was on YOUR website first. 👀",
+    "linkedin": "She left a five-star review. Just not for you. She was on your website last Tuesday. Had a question. No one answered. So she found someone who did. And now their Google listing has",
+    "identity": {
+      "key": "a soft-focus urban street exterior|determined, forward-leaning energy|gentle side lighting with soft shadows|close detail on hands or objects|layered depth with foreground and background|person seen from behind or as silhouette|soft pastel accents, restrained saturation",
+      "mood": "determined, forward-leaning energy",
+      "camera": "close detail on hands or objects",
+      "version": "creative-identity@1",
+      "lighting": "gentle side lighting with soft shadows",
+      "color_feel": "soft pastel accents, restrained saturation",
+      "option_ids": {
+        "mood": "determined",
+        "camera": "close_detail",
+        "lighting": "gentle_side_light",
+        "color_feel": "soft_pastel",
+        "composition": "layered_depth",
+        "environment": "urban_street_soft",
+        "human_presence": "silhouette_back"
+      },
+      "composition": "layered depth with foreground and background",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A clean white desktop where the story is told entirely through two printed documents and the connection between them",
+      "human_presence": "person seen from behind or as silhouette"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c2",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 3,
+    "status": "failed",
+    "title": null,
+    "funnel": "problem_aware",
+    "topic": "The consulting firm that launched a new website and immediately went back to losing leads the same way they always had",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "Primary actor from selected concept missing from opening scene (expected one of: outcome, strips, identical, objects)",
+      "validation_errors": [
+        {
+          "path": "story_integrity.primary_actor_changed.scene_0",
+          "message": "Primary actor from selected concept missing from opening scene (expected one of: outcome, strips, identical, objects)"
+        }
+      ],
+      "attempts": 1
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  },
+  {
+    "idx": 4,
+    "status": "failed",
+    "title": null,
+    "funnel": "problem_aware",
+    "topic": "What your website says to every visitor who arrives after 6 PM",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "all_concepts_vetoed_after_re_ideation",
+      "validation_errors": [
+        {
+          "path": "creative_engine_v3",
+          "message": "all_concepts_vetoed_after_re_ideation"
+        }
+      ],
+      "attempts": 4
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  },
+  {
+    "idx": 5,
+    "status": "failed",
+    "title": null,
+    "funnel": "problem_aware",
+    "topic": "The accountant who answered the same six questions in every client onboarding call — for four years straight",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "storyboard_collapsed_to_generic_office",
+      "validation_errors": [
+        {
+          "path": "concept_fidelity",
+          "message": "storyboard_collapsed_to_generic_office"
+        }
+      ],
+      "attempts": 1
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  },
+  {
+    "idx": 6,
+    "status": "completed",
+    "title": "Everything Rehearsed. Except the Questions.",
+    "funnel": "problem_aware",
+    "topic": "The software company that spent six months building a pricing page — and still couldn't stop visitors from leaving it confused",
+    "hook": "Everything rehearsed. Except what happens when someone asks a question.",
+    "concept": "A theater backstage metaphor grounded in a real SaaS business truth: a team rewrites their pricing page three times, adds every possible static answer, and visitors still drop off. The insight is delivered through a stag",
+    "vo": "Everything rehearsed. Except what happens when someone asks a question. The pricing page was rewritten three times. FAQs added. Comparison tables. Testimonials. Visitors still left. Because the page couldn't catch the one specific thing they needed to know. There was no one — and",
+    "tts": "shimmer",
+    "profile": "NATURAL",
+    "medium": "SOFT_3D",
+    "ai_cost": 0.44126399999999993,
+    "media_est": 0.35625500000000004,
+    "images": 5,
+    "delivery_sec": 360.575,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "Rewrote the pricing page 3 times. Visitors still left. The page was fine. The problem was the unanswered question.",
+    "linkedin": "Everything rehearsed. Except what happens when someone asks a question. The pricing page was rewritten three times. FAQs added. Comparison tables. Testimonials. Visitors still left",
+    "identity": {
+      "key": "a bright co-working space in daylight|quiet tension before a decision|bright, even indoor illumination|wide environmental framing|wide frame with intentional negative space|face intentionally not visible|natural greens from plants or outdoor context",
+      "mood": "quiet tension before a decision",
+      "camera": "wide environmental framing",
+      "version": "creative-identity@1",
+      "lighting": "bright, even indoor illumination",
+      "color_feel": "natural greens from plants or outdoor context",
+      "option_ids": {
+        "mood": "quietly_tense",
+        "camera": "wide_environmental",
+        "lighting": "bright_even_indoor",
+        "color_feel": "natural_greens",
+        "composition": "wide_negative_space",
+        "environment": "co_working_daylight",
+        "human_presence": "face_not_visible"
+      },
+      "composition": "wide frame with intentional negative space",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A professional theater backstage space where the production of a business's web presence has been meticulously prepared — except for the interactive response layer",
+      "human_presence": "face intentionally not visible"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c4",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 7,
+    "status": "completed",
+    "title": "One tab closed. No record. No email. Just gone.",
+    "funnel": "problem_aware",
+    "topic": "Why hiring more staff doesn't fix the problem of visitors who leave before they ever make contact",
+    "hook": "One tab closed. No email. No missed call. No record. Just gone.",
+    "concept": "A physical corkboard holds a row of card-stock browser tabs — each one a business shortlisted by a late-night researcher. One tab is slowly, deliberately lifted off the board. The gap it leaves is the entire story. We pi",
+    "vo": "One tab closed. No email. No missed call. No record. Just gone. Someone was comparing you to three other businesses last night. They had a question. Your website said nothing. So they lifted your tab right off their shortlist. You checked your inbox this morning — quiet night, ri",
+    "tts": "shimmer",
+    "profile": "NATURAL",
+    "medium": "SOFT_3D",
+    "ai_cost": 0.385302,
+    "media_est": 0.35624000000000006,
+    "images": 5,
+    "delivery_sec": 383.776,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "They had one question. Your site said nothing. Tab closed. You'll never know it happened.",
+    "linkedin": "One tab closed. No email. No missed call. No record. Just gone. Someone was comparing you to three other businesses last night. They had a question. Your website said nothing. So t",
+    "identity": {
+      "key": "a clean, quiet studio-like interior|determined, forward-leaning energy|cool clear morning light|three-quarter angle on the subject|layered depth with foreground and background|two people at conversational distance, not posed|natural greens from plants or outdoor context",
+      "mood": "determined, forward-leaning energy",
+      "camera": "three-quarter angle on the subject",
+      "version": "creative-identity@1",
+      "lighting": "cool clear morning light",
+      "color_feel": "natural greens from plants or outdoor context",
+      "option_ids": {
+        "mood": "determined",
+        "camera": "three_quarter",
+        "lighting": "cool_morning",
+        "color_feel": "natural_greens",
+        "composition": "layered_depth",
+        "environment": "quiet_studio",
+        "human_presence": "two_at_distance"
+      },
+      "composition": "layered depth with foreground and background",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: Analog corkboard with physical card-stock tab props — browser research behavior made visible and tactile",
+      "human_presence": "two people at conversational distance, not posed"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c2",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 8,
+    "status": "completed",
+    "title": "You Built the Whole Pipeline. You Just Forgot to Put Anything at the End of It.",
+    "funnel": "solution_aware",
+    "topic": "What changes when your website can actually answer a visitor's question — the moment they ask it",
+    "hook": "You built the whole pipeline. You just forgot to put anything at the end of it.",
+    "concept": "A physical copper pipe system — beautifully assembled, clearly expensive and deliberate — carries water from an elevated source through a series of solid joints and fixtures. The camera slowly traces each connection: thi",
+    "vo": "You built the whole pipeline. You just forgot to put anything at the end of it. The SEO. The ads. The content. All of it flowing toward your website. And then — nothing. A visitor arrives, types a question, gets silence, and leaves. Every bit of upstream investment pours straight",
+    "tts": "cedar",
+    "profile": "MINIMAL",
+    "medium": "SOFT_3D",
+    "ai_cost": 0.423501,
+    "media_est": 0.28675,
+    "images": 4,
+    "delivery_sec": 319.876,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "You spent months building traffic. Your website still can't answer a single question when someone actually shows up.",
+    "linkedin": "You built the whole pipeline. You just forgot to put anything at the end of it. The SEO. The ads. The content. All of it flowing toward your website. And then — nothing. A visitor ",
+    "identity": {
+      "key": "a home kitchen with everyday realism|curious, alert attention|soft natural window daylight|wide environmental framing|wide frame with intentional negative space|no people visible — objects and environment tell the story|warm neutral color feel",
+      "mood": "curious, alert attention",
+      "camera": "wide environmental framing",
+      "version": "creative-identity@1",
+      "lighting": "soft natural window daylight",
+      "color_feel": "warm neutral color feel",
+      "option_ids": {
+        "mood": "curious",
+        "camera": "wide_environmental",
+        "lighting": "soft_window_daylight",
+        "color_feel": "warm_neutral",
+        "composition": "wide_negative_space",
+        "environment": "home_kitchen",
+        "human_presence": "no_people"
+      },
+      "composition": "wide frame with intentional negative space",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: Workshop bench, raw wood background, copper pipe system, shallow sand tray — tactile, craft-forward, no digital elements",
+      "human_presence": "no people visible — objects and environment tell the story"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c3",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 9,
+    "status": "failed",
+    "title": null,
+    "funnel": "solution_aware",
+    "topic": "How a small law firm started capturing after-hours leads without hiring anyone or changing how they work",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "Middle beats abandon the primary actor / product world for unrelated subjects (actor tokens: empty, measurement, system, attorney)",
+      "validation_errors": [
+        {
+          "path": "story_integrity.primary_actor_changed",
+          "message": "Middle beats abandon the primary actor / product world for unrelated subjects (actor tokens: empty, measurement, system, attorney)"
+        }
+      ],
+      "attempts": 1
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  },
+  {
+    "idx": 10,
+    "status": "completed",
+    "title": "Every other chatbot integration looks like this.",
+    "funnel": "solution_aware",
+    "topic": "The part of setting up an AI assistant for your website that most business owners expect to be hard — and isn't",
+    "hook": "Every other chatbot integration looks like this.",
+    "concept": "A long linen-colored paper timeline strip is slowly unrolled across a pale birch table — milestone markers hand-lettered in dark ink, dev phases, QA windows, training periods — the strip keeps going, past the edge of the",
+    "vo": "Every other chatbot integration looks like this. Weeks of planning. Dev sprints. QA cycles. Training phases. Then a launch date that keeps moving. We assumed adding AI to a website worked the same way. It doesn't. Paste your URL. It reads your content. You preview it live. One em",
+    "tts": "cedar",
+    "profile": "EDITORIAL",
+    "medium": "PHOTOGRAPHIC",
+    "ai_cost": 0.454167,
+    "media_est": 0.21469500000000002,
+    "images": 3,
+    "delivery_sec": 227.104,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "CTA"
+    ],
+    "err": null,
+    "tiktok": "We thought adding AI to a website meant months of dev work. It's embarrassingly shorter than that.",
+    "linkedin": "Every other chatbot integration looks like this. Weeks of planning. Dev sprints. QA cycles. Training phases. Then a launch date that keeps moving. We assumed adding AI to a website",
+    "identity": {
+      "key": "a quiet neighborhood café corner|focused calm|soft natural window daylight|eye-level medium shot|layered depth with foreground and background|two people at conversational distance, not posed|cool neutral color feel",
+      "mood": "focused calm",
+      "camera": "eye-level medium shot",
+      "version": "creative-identity@1",
+      "lighting": "soft natural window daylight",
+      "color_feel": "cool neutral color feel",
+      "option_ids": {
+        "mood": "focused_calm",
+        "camera": "eye_level_medium",
+        "lighting": "soft_window_daylight",
+        "color_feel": "cool_neutral",
+        "composition": "layered_depth",
+        "environment": "neighborhood_cafe",
+        "human_presence": "two_at_distance"
+      },
+      "composition": "layered depth with foreground and background",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A project planning surface — familiar territory for any business owner who has ever been handed a development timeline",
+      "human_presence": "two people at conversational distance, not posed"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c2",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 11,
+    "status": "completed",
+    "title": "The Blank Field",
+    "funnel": "solution_aware",
+    "topic": "Why the businesses that capture the most leads aren't always the ones with the best product — they're the ones whose websites respond first",
+    "hook": "You track everything. Except the thing that's costing you the most.",
+    "concept": "A printed analytics report on a pale eucalyptus desk reveals every metric a consulting business tracks — except one. The final row is blank. Not zero. Empty. A hand circles the blank field with a pencil. The report is fl",
+    "vo": "You track everything. Except the thing that's costing you the most. Every number has a row. But there's one row your analytics will never fill in on its own — visitors who left with a question you never knew they had. Not a bad number. An absent one. You can't improve what you ca",
+    "tts": "shimmer",
+    "profile": "NATURAL",
+    "medium": "PHOTOGRAPHIC",
+    "ai_cost": 0.45523800000000003,
+    "media_est": 0.28565500000000005,
+    "images": 4,
+    "delivery_sec": 295.218,
+    "scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "err": null,
+    "tiktok": "Your analytics have a blank row you've never noticed. That row is costing you leads every night.",
+    "linkedin": "You track everything. Except the thing that's costing you the most. Every number has a row. But there's one row your analytics will never fill in on its own — visitors who left wit",
+    "identity": {
+      "key": "a quiet neighborhood café corner|curious, alert attention|overcast diffused daylight|close detail on hands or objects|foreground framing element (door, shelf, plant)|implied human presence just off-screen|muted earth tones",
+      "mood": "curious, alert attention",
+      "camera": "close detail on hands or objects",
+      "version": "creative-identity@1",
+      "lighting": "overcast diffused daylight",
+      "color_feel": "muted earth tones",
+      "option_ids": {
+        "mood": "curious",
+        "camera": "close_detail",
+        "lighting": "overcast_diffused",
+        "color_feel": "muted_earth",
+        "composition": "foreground_frame",
+        "environment": "neighborhood_cafe",
+        "human_presence": "implied_offscreen"
+      },
+      "composition": "foreground framing element (door, shelf, plant)",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A clean analytical desk where a printed report reveals not a bad number but the absence of any number — the gap in the data is the gap in the business",
+      "human_presence": "implied human presence just off-screen"
+    },
+    "engine": {
+      "version": "creative-engine@3",
+      "selected_direction_id": null,
+      "selected_concept_id": "c3",
+      "keys": [
+        "errors",
+        "models",
+        "version",
+        "rejected",
+        "evaluation",
+        "fingerprint",
+        "brief_digest",
+        "critic_attempts",
+        "ideation_attempts",
+        "winner_concept_id",
+        "concepts_generated",
+        "direction_attempts",
+        "directions_selected",
+        "dna_repair_attempts",
+        "direction_evaluation",
+        "directions_generated",
+        "direction_eval_attempts",
+        "direction_memory_filter_passes",
+        "memory_filter_fallback_all_rejected"
+      ]
+    }
+  },
+  {
+    "idx": 12,
+    "status": "failed",
+    "title": null,
+    "funnel": "conversion",
+    "topic": "You can see exactly what your website would say to a visitor — before you commit to anything",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "ideation_failed: missing concepts for selected direction_id d7",
+      "validation_errors": [
+        {
+          "path": "creative_engine_v3",
+          "message": "ideation_failed: missing concepts for selected direction_id d7"
+        }
+      ],
+      "attempts": 3
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  },
+  {
+    "idx": 13,
+    "status": "failed",
+    "title": null,
+    "funnel": "conversion",
+    "topic": "The website visitor your business will lose tonight — and the one thing that would have kept them",
+    "hook": null,
+    "concept": "null",
+    "vo": "",
+    "tts": null,
+    "profile": null,
+    "medium": null,
+    "ai_cost": null,
+    "media_est": 0,
+    "images": 0,
+    "scene_types": [],
+    "err": {
+      "error": "generation_failed",
+      "message": "opening_situation_missing_from_scene1:main_subject_missing_from_scene1_opening_frame",
+      "validation_errors": [
+        {
+          "path": "concept_fidelity",
+          "message": "opening_situation_missing_from_scene1:main_subject_missing_from_scene1_opening_frame"
+        },
+        {
+          "path": "concept_fidelity",
+          "message": "storyboard_collapsed_to_generic_office"
+        },
+        {
+          "path": "concept_fidelity",
+          "message": "opening_event_missing_from_scene1"
+        },
+        {
+          "path": "concept_fidelity",
+          "message": "stop_scroll_idea_not_preserved"
+        }
+      ],
+      "attempts": 1
+    },
+    "tiktok": "",
+    "linkedin": "",
+    "identity": {},
+    "engine": {
+      "version": null,
+      "selected_direction_id": null,
+      "selected_concept_id": null,
+      "keys": []
+    }
+  }
+]

@@ -366,8 +366,11 @@ check("prompt states the 40–70 word target and the 80 hard cap", () => {
   assert.ok(new RegExp(`exceed ${VOICEOVER_HARD_CAP_WORDS} words`).test(prompt));
 });
 
-check("prompt names the preferred Hook -> Twist -> Payoff -> CTA arc", () => {
-  assert.ok(/Hook -> Twist -> Payoff -> CTA/.test(prompt));
+check("prompt names MODE BEATS as the only story structure (C1 resolved)", () => {
+  assert.ok(/ONLY story structure/i.test(prompt));
+  assert.ok(/MODE BEATS/i.test(prompt));
+  assert.ok(!/PREFERRED STORY ARC:/i.test(prompt));
+  assert.ok(/PACING \(non-authoritative/i.test(prompt));
 });
 
 check("prompt forbids long explanations / background story / corporate copy", () => {

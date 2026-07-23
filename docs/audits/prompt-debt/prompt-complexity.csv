@@ -1,0 +1,8 @@
+workflow,instruction_blocks,approx_prompt_tokens_avg,repeated_concepts,nesting_depth_est,simplicity_score_0_100,notes
+"Weekly Strategy","4","5889","3","2","72","Bounded planning contract; low debt."
+"Direction","4","2213","4","2","68","Clear mechanism role."
+"Direction Evaluation","2","2718","3","2","70","Focused selector."
+"Ideation","4","4305","8","3","48","Hard requirements overgrown; output is the cost center."
+"Creative Critic","2","3917","4","2","62","Intentional counterweight to Attention First."
+"Presentation","28","29361","18","7","18","Highest debt: many overlapping control layers."
+"Repair","4","25854","14","8","12","Full Presentation replay + appendix = structural debt."

@@ -1,0 +1,31 @@
+stage,failure,local_effect,package_effect,run_effect,paid_work_already_done,retry,terminal_state,risk
+strategy_plan,planContentStrategy throws,startProductionRun catch,none,run→failed,strategy AI maybe,operator restart,run failed,P2
+n8n_trigger,sendN8nWebhook fails,status→failed,none,run failed,strategy paid,operator restart,run failed,P2
+package_generate,cancelled at handler entry,skip success,none,item later cancelled/failed,none,n/a,skipped,ok
+package_generate,schema/guardrail after 3 attempts,generation_failed + settle,no package,item→failed; run continues,CE+Presentation attempts,n8n next item only,item failed,P1
+package_generate,fidelity hard fail after repair,generation_failed + settle,no package,item→failed,CE+Presentation+repair,none auto,item failed,P1
+package_generate,story integrity hard fail,generation_failed + settle,no package,item→failed,CE+Presentation+repair,none auto,item failed,P1
+package_generate,PDI hard fail,generation_failed + settle,no package,item→failed,CE+Presentation,none,item failed,P0/P1
+package_generate,settlement DB fail after gen fail,operational_failure response,no package,item may stay open,paid AI,settle retries×3,stuck risk,P1
+package_generate,hard process kill mid-AI,no catch,no package,item open; stale run only if zero pkgs,paid AI partial,Stop/stale,stuck,P1
+package_persist,unique race,return existing,one package,OK,possible double AI,idempotent return,package exists,P0 cost
+package_persist,crash mid multi-insert,partial rows,orphan draft,item may running,AI done,heal/rollback,partial,P2
+video_start,run cancelled,job→failed skip,package kept,item→failed,package AI done,none,job failed,ok
+video_start,dispatch fail after claim,release→queued,package kept,item running,none video,n8n retry,queued,ok
+video_render,TTS tail fail×3,job→failed callback,package draft unchanged,item→failed via reconcile,TTS×3 + maybe images,manual retry,job failed,P1
+video_render,image moderation exhausted,local fallback continues,continues,continues,1-2 image attempts,n/a,continues,ok
+video_render,operator cancel mid-job,JobCancelledError→failed,package kept,item→failed,partial TTS/images possible,blocked manual retry,job failed,P2 waste
+video_render,upload OK completed callback fail,failed callback or stuck processing,package not promoted,item failed/stuck,full render paid,manual retry duplicates,false failed,P0
+video_render,stale reclaim dual worker,duplicate work; one terminal wins,one outcome,slot settles once,2× render,n/a,one terminal,P1
+video_callback,late completed after cancel,no-op / reject,no revive,run stays cancelled,worker may have spent,n/a,stays failed,ok protected
+reconcile,any job failed,package slot failed,package status stays draft,item→failed; run continues,prior success possible,manual,item failed,P2
+reconcile,all slots terminal mixed,counters sync,mixed,run→completed (not failed),varies,n/a,run completed,ok by design
+stale_run,12m zero packages,run→failed,none,run failed,strategy maybe,restart,run failed,ok narrow
+regenerate,overlap active job,new job+AI,text last-write,may confuse run linkage,double,user,multi jobs,P1
+translation,unit fail,job failed,source intact,run N/A,partial loc,stale reclaim,unit failed,P2
+translation,no cancel on Stop,continues,variants may appear,run cancelled,loc/video,n/a,continues,P1
+scene_regen,concurrent,orphan images,draft last-write,n/a,double image,user,draft,P2
+one_platform_output_guard,platform caption fail,regen/fail package,whole package,item fail,Presentation attempts,×3,item failed,P2 scope
+one_scene_video,render fidelity fail,job failed,package kept,item failed,images+TTS+partial ffmpeg,manual,job failed,P1
+one_video_run,item failed,local,package kept,run continues to completed if others done,that package paid,n/a,run completed mixed,ok
+optional_asset_guard,asset coverage hard,package fail,no package,item fail,CE+Presentation,none,item failed,P2

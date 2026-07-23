@@ -1,57 +1,35 @@
 import { ATTENTION_VERSION, type AttentionPlan } from "@/lib/attention/types";
 import { attentionSpec } from "@/lib/attention/catalog";
 
-export const ATTENTION_PROMPT_HEADER = "ATTENTION MECHANISM";
+// Owner: Attention Delivery (voice emotion / performance intent)
+// Responsibility: compact delivery_arc + optional SFX for Presentation + TTS persistence.
+// Opening hook ownership lives on Winner Candidate (+ Creative Directive hook archetype).
+// Opening situation / originality live on Candidate + DNA — not restated here.
+export const ATTENTION_PROMPT_HEADER = "ATTENTION DELIVERY";
 
+/** @deprecated Phase 1 — legacy header; use ATTENTION_PROMPT_HEADER. */
+export const ATTENTION_MECHANISM_HEADER_LEGACY = "ATTENTION MECHANISM";
+
+/**
+ * Phase 1 Prompt Cleanup — thin delivery block.
+ * Preserves mechanism id (for continuity) + EMOTIONAL PERFORMANCE + optional SFX.
+ * Removed from Presentation prompt (owned elsewhere): ORIGINALITY PASS, OPENING
+ * CONTRACT, FULL SCRIPT QUALITY, SAFETY WITHOUT CREATIVE SANITIZATION.
+ */
 export function buildAttentionPromptBlock(plan: AttentionPlan): string {
   const spec = attentionSpec(plan.attention_mechanism);
-  const o = plan.opening;
   const sfx = plan.sfx;
 
   return [
-    `${ATTENTION_PROMPT_HEADER} (${ATTENTION_VERSION}) — separate from creative mode and funnel:`,
-    `Primary attention mechanism: ${plan.attention_mechanism} (${spec.name})`,
-    `- ${spec.description}`,
-    `- Script: ${spec.script_guidance}`,
-    `- Visual: ${spec.visual_guidance}`,
-    `- Avoid: ${spec.avoid}`,
+    `${ATTENTION_PROMPT_HEADER} (${ATTENTION_VERSION}) — voice/performance intent only:`,
+    `Mechanism: ${plan.attention_mechanism} (${spec.name}) — ${spec.description}`,
     "",
-    "ORIGINALITY PASS (do not accept the first obvious idea):",
-    `- Rejected paths: ${plan.originality.reject_summary.join("; ") || "(none)"}`,
-    `- Selected opening concept (${plan.originality.selected_candidate_id}): ${plan.originality.selected_visual_concept}`,
-    `- Narrative seed: ${plan.originality.selected_narrative_seed}`,
-    "- Internally prefer unexpected-but-relevant over literal office clichés (calm desk, empty board, laptop+coffee, notebook vs paper, generic busy entrepreneur).",
-    "- Unexpected must still connect back to the Product Brain / topic once the video continues.",
-    "",
-    "OPENING CONTRACT (0–3 seconds — one coordinated unit):",
-    `- First spoken: ${o.first_spoken_guidance}`,
-    `- First subtitle: ${o.first_subtitle_guidance}`,
-    `- First visual: ${o.first_visual_guidance}`,
-    `- Opening structure: ${o.opening_structure}; delivery: ${o.opening_delivery}; effect: ${o.emotional_effect}`,
-    `- First motion intent hint: ${o.first_motion_intent} (Semantic Motion still applies; do not force LOW EXPLAIN when an attention event is required unless stillness is the interruption).`,
-    `- Land the first spoken thought within ~${o.land_within_seconds[0]}–${o.land_within_seconds[1]}s.`,
-    "- Stored hook and first spoken line MUST match the same thought — never dilute a strong hook into a weaker setup.",
-    "",
-    "FULL SCRIPT QUALITY (not only the first sentence):",
-    "- Open with immediate reaction, not context.",
-    "- Each beat earns the next; include a turn / escalation / contrast / reveal / punchline / payoff in the body.",
-    "- End with a satisfying conclusion, not a generic summary.",
-    "- Avoid long setup openers (\"most businesses...\", \"everyone says...\", \"here's what nobody tells you...\") unless the next words immediately land.",
-    "- Bold / playful / ironic / provocative / absurd / warm are allowed when truthful and appropriate.",
-    "- Forbidden: dishonest claims, defamation, cruelty, fake outrage, unrelated shock, generic clickbait.",
-    "- CTA remains optional and funnel-aware; product need not appear in every video; awareness can succeed by being memorable.",
-    "",
-    "EMOTIONAL PERFORMANCE (full voiceover arc):",
+    "EMOTIONAL PERFORMANCE (full voiceover arc — delivery intent for spoken VO):",
     ...plan.delivery_arc.phases.map((p) => `- ${p.phase}: ${p.delivery}`),
     "",
     sfx.sfx_selected
       ? `OPTIONAL SFX: one short ${sfx.sfx_category} accent near ${sfx.sfx_timing_ms}ms (${sfx.sfx_reason}). Never mandatory; never louder than voice.`
       : "OPTIONAL SFX: none for this package (omitted when no suitable accent).",
-    "",
-    "SAFETY WITHOUT CREATIVE SANITIZATION:",
-    "- Do not automatically soften strong opinions, adult nightlife/alcohol held by adults, frustration, black humor, exaggerated metaphor, or stylized destruction of generic objects into a bland desk scene.",
-    "- Still reject illegal instructions, dangerous encouragement, hate, exploitation, minors in adult contexts, deceptive claims, real-person defamation, graphic violence, unsafe brand claims.",
-    "- When adjusting a concept, preserve its mechanism and intensity — do not replace it with a notebook/office metaphor merely because it feels safer creatively.",
   ].join("\n");
 }
 

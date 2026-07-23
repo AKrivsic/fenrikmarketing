@@ -1,0 +1,8 @@
+provider,calls,cost_usd,pct_of_total,notes
+claude,50,3.700624,43.3%,Note: some gpt-4o-mini steps are labeled provider=claude in telemetry
+estimated_from_medians,21,3.340806,39.1%,NOT a real provider — failed-package estimates
+image,8,1.428000,16.7%,
+tts,10,0.057645,0.7%,
+whisper,10,0.024926,0.3%,
+deterministic,65,0.000000,0.0%,
+video,8,0.000000,0.0%,

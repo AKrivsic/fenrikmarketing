@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-07-22T22:59:28.288Z",
+  "phase": "phase-1-prompt-cleanup",
+  "method": "Math.ceil(chars/4)",
+  "fixture": "software + full capability pack (candidate/DNA/attention/coverage/memory)",
+  "before": {
+    "presentation_tokens_est": 9937,
+    "attention_tokens_est": 718,
+    "duplicated_instruction_family_count": 6,
+    "vertical_hardcoded_default_count_in_cleaned_modules": 1
+  },
+  "after": {
+    "presentation_tokens_est": 8374,
+    "attention_tokens_est": 93,
+    "duplicated_instruction_family_count": 0,
+    "vertical_hardcoded_default_count_in_cleaned_modules": 0
+  },
+  "pct_reduction_est": 15.7,
+  "estimated_run_level_cost_effect": "ESTIMATED: Presentation input tokens ~15.7% lower per call. On run c8dd3caf Presentation was 234,889 input tokens / dominant share of $3.70 AI cost — ~15% of that slice ≈ $0.25–0.40 ESTIMATED savings on completed packages only (Repair still full-replays Presentation until Repair V2).",
+  "estimated_latency_effect": "ESTIMATED: modest latency reduction from shorter prompts; no model/provider change. Expect smaller TTFT/input processing, not a step-change.",
+  "removed_families": [
+    "Attention Mechanism prose (thinned to Attention Delivery)",
+    "Hook V2",
+    "Funnel Asset Policy echo when Coverage present",
+    "Visual Style guardrail injection",
+    "Scene Type Memory prose injection",
+    "Repeated no-readable-text line in PRODUCT DEMONSTRATION"
+  ],
+  "retained_unchanged_due_to_risk": [
+    "Opening Priority Resolver",
+    "Preferred Story Arc",
+    "Narrative Beats",
+    "MODE BEATS",
+    "ATTENTION FIRST",
+    "CREATIVE SAFETY",
+    "Anti-repetition memory block"
+  ],
+  "ownership": {
+    "hook": "Winner Candidate hookLine (fallback: Creative Directive HOOK ARCHETYPE + OPENING HOOK bridge)",
+    "story_structure": "MODE BEATS (Creative Directive) — C1 unresolved vs Preferred Arc / Narrative Beats",
+    "voice_emotion": "Attention Delivery delivery_arc (+ Voice Persona wording)",
+    "visual_identity": "Creative DNA + Creative Identity + VERTICAL SCENE COMPOSITION / DEVICE blocks",
+    "asset_policy": "PACKAGE ASSET COVERAGE when present; Funnel Asset Policy fallback otherwise",
+    "safety": "CREATIVE SAFETY + HARD CONSTRAINTS + no-readable-text invariant",
+    "schema": "buildPresentationGenerationBlock + JSON shape in generateContentPackage",
+    "validation": "deterministic validators / guardrails (unchanged thresholds)"
+  },
+  "ready_for_decision_ownership_packs": true
+}

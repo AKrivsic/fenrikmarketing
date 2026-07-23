@@ -10,6 +10,13 @@ import { buildProductDemonstrationPromptBlock } from "@/lib/creative-candidates/
 
 export const CREATIVE_CANDIDATE_PROMPT_HEADER = "CREATIVE CANDIDATE SELECTION";
 
+// Phase 2A ownership (Winner Candidate block):
+//   Hook owner: hookLine (+ enforceCandidateHook)
+//   Opening owner: openingSituation (+ DNA world)
+//   Emotional Arc owner: emotionalReaction
+//   Readers: Presentation, Repair, Narrative Beats
+//   Illegal writers: Attention / Identity / Repair replacing the winner
+
 export function buildCreativeCandidatePromptBlock(
   plan: CreativeCandidatePlan,
 ): string {

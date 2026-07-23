@@ -49,6 +49,7 @@ next-env.d.ts
 
 # --- Local script exports (production audits, prompt experiments, markdown dumps) ---
 scripts/output/
+exports/
 
 # --- Test / coverage / Playwright ---
 coverage/

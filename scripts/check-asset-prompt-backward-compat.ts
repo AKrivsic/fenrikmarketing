@@ -203,6 +203,28 @@ check("prompt includes FUNNEL ASSET POLICY for the stage", () => {
   assert.ok(emptyAssetsPrompt.includes("funnel_stage=Awareness"));
 });
 
+check("PACKAGE ASSET COVERAGE suppresses FUNNEL ASSET POLICY echo", () => {
+  const withCoverage = buildGenerateContentPackagePrompt({
+    project,
+    funnelStage: "awareness",
+    topic: "empty library",
+    angle: null,
+    availableAssets: [],
+    requireVideo: true,
+    directives,
+    assetCoverage: {
+      stance: "should_use",
+      qualityAssetCount: 2,
+      seriesSlotIndices: [0],
+      preferredRoles: ["product_ui"],
+      packageIndex: 0,
+      packageCount: 4,
+    },
+  });
+  assert.ok(withCoverage.includes("PACKAGE ASSET COVERAGE"));
+  assert.ok(!withCoverage.includes("FUNNEL ASSET POLICY"));
+});
+
 check("funnel policy block does not mandate asset_usage globally", () => {
   const block = buildFunnelAssetPolicyBlock("awareness");
   assert.equal(/must include asset_usage/i.test(block), false);

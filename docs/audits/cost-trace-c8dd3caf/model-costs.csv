@@ -1,0 +1,9 @@
+model,calls,tokens_in,tokens_out,cost_usd,pct_of_total
+claude-sonnet-4-6,40,337151,178458,3.688323,43.1%
+n/a,21,0,0,3.340806,39.1%
+gpt-image-1,8,0,0,1.428000,16.7%
+gpt-4o-mini-tts,10,0,0,0.057645,0.7%
+whisper-1,10,0,0,0.024926,0.3%
+gpt-4o-mini-2024-07-18,2,35085,11731,0.012301,0.1%
+deterministic,65,0,0,0.000000,0.0%
+unknown,16,0,0,0.000000,0.0%

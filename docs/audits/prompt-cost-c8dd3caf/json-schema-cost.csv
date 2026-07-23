@@ -1,0 +1,8 @@
+workflow,schema_rows,schema_tokens_run,schema_cost_run_usd,avg_schema_tokens,notes
+Weekly Strategy,1,262,0.000146,262,"Aggregated once per workflow, not per package call."
+Direction,8,1016,0.017203,127,"Aggregated once per workflow, not per package call."
+Direction Evaluation,8,1069,0.014845,134,"Aggregated once per workflow, not per package call."
+Ideation,9,3150,0.135451,350,"Aggregated once per workflow, not per package call."
+Presentation Generation,8,4444,0.020565,556,"Aggregated once per workflow, not per package call."
+Creative Critic,7,483,0.004029,69,"Aggregated once per workflow, not per package call."
+Story Integrity Repair,1,556,0.002858,556,"Aggregated once per workflow, not per package call."

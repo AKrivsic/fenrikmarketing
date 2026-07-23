@@ -215,7 +215,7 @@ check("generate prompt includes visual narrative block when provided", () => {
   });
   assert.ok(prompt.includes(VISUAL_NARRATIVE_PROMPT_HEADER));
   assert.ok(prompt.includes("Primary meaning carrier"));
-  assert.ok(prompt.indexOf(VISUAL_NARRATIVE_PROMPT_HEADER) < prompt.indexOf("VISUAL STYLE"));
+  assert.ok(prompt.indexOf(VISUAL_NARRATIVE_PROMPT_HEADER) < prompt.indexOf("VERTICAL SCENE COMPOSITION"));
 });
 
 check("extended motif detection includes whiteboard", () => {

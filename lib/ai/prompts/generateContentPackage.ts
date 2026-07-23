@@ -1,76 +1,56 @@
-import {
-  buildSampleProductClarityBlock,
-} from "@/lib/ai/prompts/sampleProductClarity";
-import type { Project } from "@/lib/supabase/types";
-import {
-  antiRepetitionBlock,
-  constraintsBlock,
-  painPointFirstBlock,
-  projectBrainBlock,
-  proofBlock,
-  scenarioBlock,
-  websiteLinkRulesBlock,
-} from "@/lib/ai/prompts/context";
-import {
-  buildCreativeDirectiveBlock,
-  buildCreativeSeed,
-  type CreativeDirectives,
-  pickCreativeDirectives,
-  PREFERRED_STORY_ARC,
-} from "@/lib/ai/prompts/creativeDirectives";
-import {
-  VOICEOVER_HARD_CAP_WORDS,
-  VOICEOVER_TARGET_MAX_WORDS,
-  VOICEOVER_TARGET_MIN_WORDS,
-} from "@/lib/ai/guardrails";
-import {
-  deviceScreenInteractionBlock,
-  videoSceneCompositionBlock,
-  visualStyleGuardrailBlock,
-} from "@/lib/ai/prompts/visualStyle";
-import { MAX_VIDEO_SCENE_STILLS, SHORT_PROFILE } from "@/lib/video-engine/storyboard";
-import { angleLensForIndex } from "@/lib/projects/productionRun";
-import { formatAvailableAssetPromptLine } from "@/lib/assets/formatAvailableAssetLine";
-import { buildSmartAssetUsageRulesBlock } from "@/lib/assets/smartUsageMetadata";
-import { buildFunnelAssetPolicyBlock } from "@/lib/ai/prompts/funnelAssetPolicy";
-import {
-  buildAssetCoveragePromptBlock,
-  type AssetCoverageDecision,
-} from "@/lib/assets/assetCoveragePolicy";
-import {
-  buildPresentationGenerationBlock,
-  buildPresentationJsonShapeLines,
-} from "@/lib/ai/prompts/presentationGeneration";
-import type { PromptPresentationType } from "@/lib/scene-types/presentation/promptPresentationTypes";
-import {
-  promptAllowsPhone,
-  promptAllowsQuote,
-  promptAllowsStatistic,
-} from "@/lib/scene-types/presentation/promptPresentationTypes";
-import { buildPhoneEligibleAssetsPromptBlock } from "@/lib/scene-types/presentation/phonePromptAssets";
-import { buildApprovedQuotesPromptBlock } from "@/lib/scene-types/presentation/quotePromptCandidates";
-import { buildApprovedStatisticsPromptBlock } from "@/lib/scene-types/presentation/statisticPromptCandidates";
-import { buildProofIndex } from "@/lib/scene-types/presentation/proofIndex";
-import type { Json } from "@/lib/supabase/types";
-import {
-  DEFAULT_GENERATION_MODE,
-  type GenerationMode,
-} from "@/lib/ai/generationMode";
-import {
-  type AntiRepetitionMemory,
-  CTA_TYPES_BY_GOAL,
-  FUNNEL_STAGE_LABELS,
-  REQUIRED_PACKAGE_PLATFORMS,
-  type FunnelStage,
-} from "@/lib/ai/types";
+/**
+ * Content-package Presentation prompt — public API.
+ *
+ * Phase 3: this module owns types + system message + thin orchestration.
+ * Ownership resolution lives upstream (Typed Decision Packs) or in
+ * ensureDecisionPacks (TEMPORARY COMPAT for tests / legacy callers).
+ * Section text is produced by lib/architecture/presentation renderers.
+ */
 
+import type { Project } from "@/lib/supabase/types";
+import type { CreativeDirectives } from "@/lib/ai/prompts/creativeDirectives";
+import type {
+  TypedDecisionPacks,
+  BuildTypedDecisionPacksInput,
+} from "@/lib/architecture/typedDecisionPacks";
+import type { CreativeDNA } from "@/lib/creative-candidates/creativeDNA";
+import type { CreativeIdentity } from "@/lib/creative-identity/types";
+import type { DeliveryArc } from "@/lib/attention/types";
+import type { AssetCoverageDecision } from "@/lib/assets/assetCoveragePolicy";
+import type { PromptPresentationType } from "@/lib/scene-types/presentation/promptPresentationTypes";
+import type { GenerationMode } from "@/lib/ai/generationMode";
+import type {
+  AntiRepetitionMemory,
+  FunnelStage,
+} from "@/lib/ai/types";
 import type { ProductRole } from "@/lib/assets/productRole";
-import type { PreferredVideoUsage, VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
+import type {
+  PreferredVideoUsage,
+  VideoUsageRenderMode,
+} from "@/lib/assets/preferredVideoUsage";
 import type {
   AuthenticityForProductClaim,
   ProvenanceClass,
   RecommendedPresentationClass,
 } from "@/lib/assets/productPresentationMetadata";
+import {
+  buildPresentationPrompt,
+  toPresentationRenderInput,
+} from "@/lib/architecture/presentation";
+
+export type {
+  PlatformStyleSpec,
+} from "@/lib/ai/prompts/platformStyles";
+export {
+  PLATFORM_STYLE_SPECS,
+  PLATFORM_NATIVE_WRITING_HEADER,
+  buildPlatformNativeWritingRulesBlock,
+  buildPlatformStyleBlock,
+} from "@/lib/ai/prompts/platformStyles";
+export {
+  buildSamplePackageRulesBlock,
+  buildSampleModePromptAppendix,
+} from "@/lib/ai/prompts/sampleModePrompt";
 
 export interface AssetRef {
   id: string;
@@ -98,145 +78,6 @@ export interface AssetRef {
   provenance_class?: ProvenanceClass | null;
   authenticity_for_product_claim?: AuthenticityForProductClaim | null;
   recommended_presentation_classes?: RecommendedPresentationClass[] | null;
-}
-
-// Content Quality Sprint (Platform Styles) — per-platform output style. Pure
-// prompt guidance: no new DB column, no new workflow, no schema change. Each
-// target platform gets its own tone / structure / CTA style / expected length
-// so the captions are genuinely platform-native instead of one reused text.
-// Sprint 4B deepens native writing rules (TikTok punch, YouTube Shorts ≠ SEO).
-export interface PlatformStyleSpec {
-  tone: string;
-  structure: string;
-  cta: string;
-  length: string;
-  /** Extra hard writing rules (Sprint 4B). Shown in the prompt when present. */
-  rules?: readonly string[];
-}
-
-export const PLATFORM_STYLE_SPECS: Record<string, PlatformStyleSpec> = {
-  tiktok: {
-    tone: "raw, fast, punchy, curiosity-first — like a native TikTok comment caption",
-    structure:
-      "strongest curiosity hook in line 1 → one punch payoff → stop. Minimal storytelling.",
-    cta: "implicit and casual (link in bio / watch again) — never essay CTAs",
-    length: "1 short sentence preferred, max 2. Roughly ≤25 words before hashtags. 3–5 trend hashtags.",
-    rules: [
-      "Do NOT retell or paraphrase the full voiceover",
-      "First line must create curiosity or tension — not setup/context",
-      "Forbidden: long story arcs, SEO phrases, 'This video…'",
-    ],
-  },
-  instagram: {
-    tone: "emotional, human, scannable — Reels-native, not brochure",
-    structure:
-      "emotional hook → 1–2 SHORT paragraphs with line breaks → soft CTA",
-    cta: 'save / share / "link in bio"',
-    length: "2–4 short sentences total. Short paragraphs. Easy scanning. 5–10 hashtags.",
-    rules: [
-      "Prefer line breaks between thoughts for mobile scanning",
-      "Do NOT paste the voiceover as the caption",
-      "Keep emotion; cut corporate padding",
-    ],
-  },
-  youtube: {
-    tone: "native YouTube Shorts — direct curiosity, NOT a search/SEO article",
-    structure:
-      "first line = curiosity hook the viewer would tap; optional second line = stakes; optional third = soft CTA",
-    cta: "subscribe / watch next — one short line max",
-    length:
-      "caption ≤ 2 short sentences (≈ ≤40 words). NEVER a 4–6 sentence SEO description.",
-    rules: [
-      "FORBIDDEN openers: 'This video breaks down', 'In this video', 'Watch to learn', 'If you've ever wondered', 'This Short explains'",
-      "Do NOT write blog/SEO description energy — write like a Shorts caption",
-      "Do NOT duplicate the voiceover essay into the description",
-    ],
-  },
-  x: {
-    tone: "terse, opinionated, hook-diverse",
-    structure: "one strong claim or sharp observation — no filler, no VO retell",
-    cta: "spark a reply or repost; URL only when conversion CTA requires it",
-    length: "≤ 280 characters, 0–2 hashtags",
-    rules: [
-      "When caption_variants exist, each MUST open with a DIFFERENT hook angle",
-      "Do NOT reuse the same first five words across variants",
-      "Never paste voiceover sentences",
-    ],
-  },
-  google_business: {
-    tone: "factual, local, trustworthy",
-    structure: "offer / update -> concrete benefit -> action",
-    cta: "local action (call / visit / book)",
-    length: "2–3 sentences, NO hashtags",
-    rules: ["Keep factual — no viral-hook theatrics"],
-  },
-  linkedin: {
-    tone: "professional, expert, B2B (no hype) — keep the current LinkedIn style",
-    structure: "insight → context → takeaway (tight — do not expand unnecessarily)",
-    cta: "invite a comment / connect / clear product CTA when conversion",
-    length: "3–6 sentences, 0–3 hashtags, no decorative emoji",
-    rules: [
-      "Avoid unnecessary expansion and fluff paragraphs",
-      "Do not turn a sharp insight into a long LinkedIn essay",
-      "Do not duplicate the voiceover verbatim",
-    ],
-  },
-  facebook: {
-    tone: "friendly, community-oriented, approachable local / SMB",
-    structure: "relatable hook → clear value → one next step",
-    cta: "message / book / one clean link for lead or conversion content",
-    length: "2–4 sentences, light emoji ok, 0–3 hashtags",
-    rules: [
-      "Always produce a Facebook-native post — never omit this platform",
-      "Warmer and more conversational than LinkedIn; less punchy than TikTok",
-      "Do not paste the voiceover",
-    ],
-  },
-};
-
-/** Shared Sprint 4B rules injected above per-platform specs. */
-export const PLATFORM_NATIVE_WRITING_HEADER = "PLATFORM-NATIVE WRITING (Sprint 4B)";
-
-export function buildPlatformNativeWritingRulesBlock(): string {
-  return [
-    `${PLATFORM_NATIVE_WRITING_HEADER}:`,
-    "- Do NOT duplicate voiceover_text into any platform caption.",
-    "- Every platform must feel native to that feed — rewrite facts, do not lightly reformat one master text.",
-    "- TikTok = shorter + stronger first line + curiosity + punch.",
-    "- Instagram = emotional + short scannable paragraphs.",
-    "- YouTube Shorts = short direct curiosity metadata — NOT an SEO article.",
-    "- LinkedIn = keep current professional style; avoid unnecessary expansion.",
-    "- Facebook = always generate a friendly community post.",
-    "- X = concise; maximize hook diversity across variants.",
-  ].join("\n");
-}
-
-// Renders the per-platform style guidance for the platforms a package targets.
-// Only the selected platforms are listed, so the block scales with the run.
-function buildPlatformStyleBlock(platforms: readonly string[]): string {
-  const lines = platforms
-    .map((p) => {
-      const spec = PLATFORM_STYLE_SPECS[p];
-      if (!spec) return null;
-      const rules =
-        spec.rules && spec.rules.length > 0
-          ? ` rules=[${spec.rules.map((r) => `"${r}"`).join("; ")}]`
-          : "";
-      return (
-        `- ${p}: tone=${spec.tone}; structure=${spec.structure}; ` +
-        `cta=${spec.cta}; length=${spec.length}${rules}`
-      );
-    })
-    .filter((l): l is string => l !== null);
-  if (lines.length === 0) return "";
-  return [
-    buildPlatformNativeWritingRulesBlock(),
-    "",
-    "PLATFORM STYLES (make each platform's output genuinely native — NOT one " +
-      "text lightly reformatted; same facts, funnel stage and CTA type, but a " +
-      "platform-specific voice, structure and length):",
-    ...lines,
-  ].join("\n");
 }
 
 export interface GenerateContentPackagePromptInput {
@@ -290,15 +131,25 @@ export interface GenerateContentPackagePromptInput {
   promptPresentationTypes?: readonly PromptPresentationType[];
   /** Sample mode adds SAMPLE PACKAGE RULES; production leaves the prompt unchanged. */
   generationMode?: GenerationMode;
-  /** Per-package asset coverage (production series + sample). Omitted when not computed. */
+  /**
+   * @deprecated Phase 3 — Coverage is owned by AssetPolicyPack. Prefer passing
+   * decisionPacks. Still accepted by ensureDecisionPacks TEMPORARY COMPAT.
+   */
   assetCoverage?: AssetCoverageDecision;
-  /** Recent typed-scene usage for cross-package restraint (prompt-only guidance). */
+  /**
+   * @deprecated Phase 1 — Scene Type Memory prose is no longer injected.
+   * Soft restraint remains in applySceneTypeHistoryGuardrail (deterministic).
+   * Accepted for backward-compatible callers; ignored by the builder.
+   */
   sceneTypeHistoryBlock?: string;
   /** Series-aware creative fingerprints for weekly/monthly runs. */
   seriesCreativeContextBlock?: string;
   /** Profile-aware image prompt guidance (generation-time). */
   visualProfileImagePromptBlock?: string;
-  /** Creative Identity v1 — resolved staging axes for all image_prompts in this package. */
+  /**
+   * @deprecated Phase 3 — prefer decisionPacks.visualIdentity.identityPromptBlock.
+   * Still accepted by ensureDecisionPacks when packs are rebuilt.
+   */
   creativeIdentityPromptBlock?: string;
   /** Visual Narrative v1 — meaning carrier and storytelling direction before image prompts. */
   visualNarrativePromptBlock?: string;
@@ -306,55 +157,49 @@ export interface GenerateContentPackagePromptInput {
   visualMediumPromptBlock?: string;
   /** Product Reveal v2 — solution beat visual strategy. */
   productRevealPromptBlock?: string;
-  /** Attention & Engagement v1 — mechanism, originality, opening contract. */
+  /**
+   * @deprecated Phase 3 — prefer decisionPacks.voice.deliveryPromptBlock.
+   * Still accepted by ensureDecisionPacks when packs are rebuilt.
+   */
   attentionPromptBlock?: string;
   /** Creative Candidate Selection v1 — winning complete concept controls script + storyboard. */
   creativeCandidatePromptBlock?: string;
   /**
-   * Narrative Beats — derived story spine (HOOK → SETUP → ESCALATION → RESOLUTION)
-   * between Creative Candidate and visual scene generation. No new LLM call.
+   * Narrative Beats — derived story spine labels mapped onto MODE BEATS.
+   * Pre-rendered fragment (not ownership resolution).
    */
   narrativeBeatPromptBlock?: string;
   /**
-   * Canonical Creative DNA — placed immediately after the candidate block.
-   * Absent for historical candidates without creativeDNA.
+   * @deprecated Phase 3 — prefer decisionPacks.visualIdentity.dnaPromptBlock.
+   * Still accepted by ensureDecisionPacks when packs are rebuilt.
    */
   creativeDnaPromptBlock?: string;
   /** Optional fidelity repair appendix after a failed concept fidelity check. */
   creativeCandidateFidelityRepair?: string;
-}
-
-export function buildSamplePackageRulesBlock(): string {
-  return [
-    "SAMPLE PACKAGE RULES",
-    "",
-    "This content serves as a sample for the product owner.",
-    "",
-    "The goal is NOT to create the best organic content.",
-    "",
-    "The goal is for the product owner to recognize themselves within seconds.",
-    "",
-    "If quality product assets exist:",
-    "- prefer product UI when the renderer can show it in a framed insert (laptop, phone, monitor, floating card)",
-    "- prefer homepage visuals",
-    "- prefer logo",
-    "- prefer hero image",
-    "",
-    "Use 0–2 assets when they improve the story — never force an asset.",
-    "",
-    "It is better to use a relevant framed asset than a generic AI image when placement is concrete.",
-    "",
-    "Assets are NOT mandatory. Empty asset_usage is always valid.",
-    "If a static asset cannot be shown well (full scene with people, unknown video_usage, raw crop), use IMAGE instead.",
-    "If assets are not quality or not relevant, do not use them.",
-  ].join("\n");
-}
-
-/** Prompt appendix inserted only when generationMode === "sample". */
-export function buildSampleModePromptAppendix(project: Project): string {
-  return [buildSamplePackageRulesBlock(), buildSampleProductClarityBlock(project)].join(
-    "\n\n",
-  );
+  /**
+   * Phase 2B/3 — Typed Decision Packs (authoritative intermediate representation).
+   * Production workflows MUST pass packs. When omitted, ensureDecisionPacks
+   * TEMPORARY COMPAT rebuilds them for tests / legacy callers.
+   */
+  decisionPacks?: TypedDecisionPacks;
+  /**
+   * @deprecated Phase 3 — pack-assembly inputs for ensureDecisionPacks only.
+   * Not read by Presentation renderers when decisionPacks is provided.
+   */
+  selectedCandidateForPacks?: BuildTypedDecisionPacksInput["selectedCandidate"];
+  /** @deprecated Phase 3 — ensureDecisionPacks only. */
+  creativeDnaForPacks?: CreativeDNA | null;
+  /** @deprecated Phase 3 — ensureDecisionPacks only. */
+  creativeIdentityForPacks?: CreativeIdentity | null;
+  /** @deprecated Phase 3 — ensureDecisionPacks only. */
+  attentionDeliveryArcForPacks?: DeliveryArc | null;
+  /** @deprecated Phase 3 — ensureDecisionPacks only. */
+  ttsVoiceIdForPacks?: string | null;
+  /**
+   * Optional pre-formatted CREATIVE DIRECTIVE block. When omitted, compat
+   * formats from directives / pickCreativeDirectives.
+   */
+  creativeDirectiveBlock?: string;
 }
 
 // One sibling package already produced for the same production run, summarized
@@ -386,72 +231,6 @@ export interface PackageDiversitySpec {
   painPointMode?: "primary" | "supporting";
 }
 
-// Run Package Diversity V1 — builds the PACKAGE DIVERSITY block. It tells the
-// model this is package N (of M), forces a distinct hook angle / pain point /
-// scenario / visual motif / CTA framing, leads with a deterministic angle lens,
-// and (when siblings exist) lists their angles as "do not repeat".
-function buildPackageDiversityLines(spec: PackageDiversitySpec): string[] {
-  const human = Math.trunc(spec.packageIndex) + 1;
-  const ofM =
-    typeof spec.packageCount === "number" && spec.packageCount > 0
-      ? ` of ${Math.trunc(spec.packageCount)}`
-      : "";
-  const lens = spec.angleLens ?? angleLensForIndex(spec.packageIndex);
-
-  const lines = [
-    `PACKAGE DIVERSITY (this is package ${human}${ofM} in ONE production run — ` +
-      "every package in the run MUST be clearly DISTINCT, never a near-duplicate " +
-      "of a sibling):",
-    "- Keep the SAME project, topic and funnel stage, but commit to a DIFFERENT " +
-      "ANGLE than the other packages. The hook angle, pain point, scenario, " +
-      "visual motif and CTA framing must ALL differ from the other packages in " +
-      "this run.",
-    `- For THIS package, lead through this ANGLE LENS: "${lens}". Sharpen the ` +
-      "strategy topic/angle specifically through that lens — do not drift to a " +
-      "generic take that could fit any package in the run.",
-    "- Pick a different concrete moment from the SCENARIO POOL than a " +
-      "neighbouring package would pick.",
-  ];
-
-  // Pain Point First V1 — pin THIS package to its assigned pain point. Primary
-  // packages make the pain point the central topic; supporting packages may use
-  // a detail/insight, but it must still connect back to the SAME pain point.
-  const painPoint = spec.painPoint?.trim();
-  if (painPoint) {
-    if (spec.painPointMode === "supporting") {
-      lines.push(
-        `- PAIN POINT FOCUS (this package is a SUPPORTING one): connect to the ` +
-          `pain point "${painPoint}". You may lead with a supporting detail, ` +
-          "mistake or observation, but it MUST clearly tie back to that pain " +
-          "point — never let the detail become a standalone topic.",
-      );
-    } else {
-      lines.push(
-        `- PAIN POINT FOCUS (this package is PRIMARY): the central topic MUST ` +
-          `solve, expose, amplify or dramatize this pain point: "${painPoint}". ` +
-          "Do NOT make a minor detail the main topic.",
-      );
-    }
-  }
-
-  const prev = (spec.previousAngles ?? []).filter(
-    (p) => typeof p.title === "string" && p.title.trim().length > 0,
-  );
-  if (prev.length > 0) {
-    lines.push(
-      "- DO NOT REPEAT these angles already used by other packages in this run " +
-        "(use a genuinely different angle, hook and scenario):",
-      ...prev.map((p) => {
-        const hook = p.hook?.trim() ? ` — hook: "${p.hook.trim()}"` : "";
-        const topic = p.topic?.trim() ? ` (topic: ${p.topic.trim()})` : "";
-        return `  - "${p.title.trim()}"${hook}${topic}`;
-      }),
-    );
-  }
-
-  return lines;
-}
-
 const PACKAGE_SYSTEM_INTRO =
   "You are the Creative Engine for an AI Content Manager. You generate a " +
   "complete content PACKAGE derived from a weekly strategy item. ";
@@ -480,493 +259,50 @@ export function buildGeneratePackageSystem(requireVideo: boolean): string {
 // Backwards-compatible constant: the video-mandatory system message.
 export const GENERATE_PACKAGE_SYSTEM = buildGeneratePackageSystem(true);
 
+/**
+ * Presentation entrypoint — orchestrates Typed Decision Packs → renderers → prompt.
+ * Does not redesign prompts; preserves Repair-compatible rendered output.
+ */
 export function buildGenerateContentPackagePrompt(
   input: GenerateContentPackagePromptInput,
 ): string {
-  const { project, funnelStage, topic, angle, availableAssets } = input;
-  const generationMode = input.generationMode ?? DEFAULT_GENERATION_MODE;
-  const allowedCtas = CTA_TYPES_BY_GOAL[project.goal_type] ?? [];
-  const funnelLabel = FUNNEL_STAGE_LABELS[funnelStage];
-  const targetPlatforms =
-    input.targetPlatforms && input.targetPlatforms.length > 0
-      ? input.targetPlatforms
-      : REQUIRED_PACKAGE_PLATFORMS;
-  const requireVideo = input.requireVideo ?? true;
-  const videoPlatforms = input.videoPlatforms ?? [];
-  const textOnlyPlatforms = targetPlatforms.filter(
-    (p) => !videoPlatforms.includes(p),
-  );
-  // Mixed only matters for video packages: ≥1 video platform AND ≥1 text-only.
-  const isMixed =
-    requireVideo && videoPlatforms.length > 0 && textOnlyPlatforms.length > 0;
-  const promptPresentationTypes: PromptPresentationType[] =
-    input.promptPresentationTypes && input.promptPresentationTypes.length > 0
-      ? [...input.promptPresentationTypes]
-      : ["IMAGE"];
+  const renderInput = toPresentationRenderInput({
+    project: input.project,
+    funnelStage: input.funnelStage,
+    topic: input.topic,
+    angle: input.angle,
+    creativeSeedSalt: input.creativeSeedSalt,
+    directives: input.directives,
+    decisionPacks: input.decisionPacks,
+    generationMode: input.generationMode,
+    assetCoverage: input.assetCoverage,
+    selectedCandidateForPacks: input.selectedCandidateForPacks,
+    creativeDnaForPacks: input.creativeDnaForPacks,
+    creativeIdentityForPacks: input.creativeIdentityForPacks,
+    attentionDeliveryArcForPacks: input.attentionDeliveryArcForPacks,
+    attentionPromptBlock: input.attentionPromptBlock,
+    creativeDnaPromptBlock: input.creativeDnaPromptBlock,
+    creativeIdentityPromptBlock: input.creativeIdentityPromptBlock,
+    ttsVoiceIdForPacks: input.ttsVoiceIdForPacks,
+    targetPlatforms: input.targetPlatforms,
+    requireVideo: input.requireVideo,
+    videoPlatforms: input.videoPlatforms,
+    creativeDirectiveBlock: input.creativeDirectiveBlock,
+    creativeCandidatePromptBlock: input.creativeCandidatePromptBlock,
+    narrativeBeatPromptBlock: input.narrativeBeatPromptBlock,
+    creativeCandidateFidelityRepair: input.creativeCandidateFidelityRepair,
+    visualNarrativePromptBlock: input.visualNarrativePromptBlock,
+    visualMediumPromptBlock: input.visualMediumPromptBlock,
+    productRevealPromptBlock: input.productRevealPromptBlock,
+    visualProfileImagePromptBlock: input.visualProfileImagePromptBlock,
+    seriesCreativeContextBlock: input.seriesCreativeContextBlock,
+    availableAssets: input.availableAssets,
+    memory: input.memory,
+    recentAssetUsageBlock: input.recentAssetUsageBlock,
+    packageDiversity: input.packageDiversity,
+    variantCounts: input.variantCounts,
+    promptPresentationTypes: input.promptPresentationTypes,
+  });
 
-  const painPointFirst = painPointFirstBlock(project);
-  const proof = proofBlock(project);
-  const scenarios = scenarioBlock(project);
-  const websiteLinks = websiteLinkRulesBlock(project);
-  const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
-  const recentAssetUsage = input.recentAssetUsageBlock?.trim() ?? "";
-  const funnelAssetPolicy = buildFunnelAssetPolicyBlock(funnelStage);
-  const assetCoverageBlock =
-    input.assetCoverage &&
-    (input.assetCoverage.qualityAssetCount > 0 || generationMode === "sample")
-      ? buildAssetCoveragePromptBlock(input.assetCoverage, generationMode)
-      : "";
-
-  // Content Quality V3 / Attention First V1 — deterministic creative directives.
-  // Prefer the directive the workflow resolved (so prompt + storyboard + video
-  // input share one mode); otherwise resolve it here from the strategy item and
-  // optional regeneration salt. Same inputs -> same directive. Prompt-only: no
-  // new JSON output field, no DB, no workflow change.
-  const directives =
-    input.directives ??
-    pickCreativeDirectives(
-      buildCreativeSeed(funnelLabel, topic, angle, input.creativeSeedSalt),
-    );
-  const creativeDirective = buildCreativeDirectiveBlock(directives);
-  const modeBeatArc = directives.mode.narrativeBeats.join(" -> ");
-
-  // Run Package Diversity V1 — present only for production-run items, so legacy
-  // single-package generation keeps the prompt unchanged.
-  const packageDiversityLines = input.packageDiversity
-    ? buildPackageDiversityLines(input.packageDiversity)
-    : [];
-
-  // Attention First V1 — the priorities block. The audit found every mode
-  // collapsing into the same safe marketing arc; this restates the goal of an
-  // INTERNAL growth engine (attention/retention) over corporate brand-safety,
-  // while the CREATIVE SAFETY rules in the directive still hard-block lies and
-  // forbidden claims.
-  const attentionFirstLines = [
-    "ATTENTION FIRST (internal growth engine — optimize for attention & " +
-      "retention, NOT corporate brand-safety):",
-    "- Priority order: 1) scroll-stop, 2) watch time, 3) curiosity, " +
-      "4) emotion / conflict / surprise. proof, benefit and CTA come AFTER " +
-      "attention is earned — they serve the story, they are not the structure.",
-    `- Follow the MODE BEATS above as the structure: ${modeBeatArc}. Do NOT fall ` +
-      "back to a generic hook -> problem -> scenario -> proof -> CTA template.",
-    "- Fully COMMIT to the mode: if humor, be genuinely funny; if shock, lead " +
-      "with the actually surprising; if contrarian, take a real stance; if story, " +
-      "stay in one scene. Never sand it down into safe, generic marketing.",
-    "- Open ONE curiosity loop (tension / contrast / an unanswered question) in " +
-      "the opening meaning block and pay it off LATE (the reveal / twist / punchline " +
-      "near the end), never by explaining the topic first.",
-    "- Attention ≠ chaos: optimize information value and curiosity, not aggression.",
-    "- Bound by CREATIVE SAFETY above: no lies, no invented numbers / results, no " +
-      "forbidden_claims, no product_is_not. Attention is NOT ragebait or fake claims.",
-  ];
-
-  // Attention & Engagement v1 — mechanism + originality + opening contract
-  // (injected when the workflow resolved a plan). Separate from creative mode
-  // and funnel; does not change funnel distribution or CTA rules.
-  const attentionEngagementLines = input.attentionPromptBlock
-    ? [input.attentionPromptBlock]
-    : [];
-
-  const creativeCandidateLines = input.creativeCandidatePromptBlock
-    ? [input.creativeCandidatePromptBlock]
-    : [];
-  const narrativeBeatLines = input.narrativeBeatPromptBlock
-    ? [input.narrativeBeatPromptBlock]
-    : [];
-  const creativeDnaLines = input.creativeDnaPromptBlock
-    ? [input.creativeDnaPromptBlock]
-    : [];
-  const fidelityRepairLines = input.creativeCandidateFidelityRepair
-    ? [input.creativeCandidateFidelityRepair]
-    : [];
-
-  // Content Quality Sprint 2 — hard length / pacing / forbidden rules. These
-  // keep the short tight (15–25s), the narration punchy (40–70 words, never
-  // > 80) and the structure on the preferred Hook -> Twist -> Payoff -> CTA arc,
-  // and they explicitly forbid the long-explanation / background-story /
-  // corporate-copy failure modes.
-  const preferredArc = PREFERRED_STORY_ARC.map((b) =>
-    b === "cta" ? "CTA" : b.charAt(0).toUpperCase() + b.slice(1),
-  ).join(" -> ");
-  const qualityLines = [
-    "CONTENT QUALITY (hard rules — short, punchy, native short-form):",
-    ...(requireVideo
-      ? [
-          `- HARD video length target: ${SHORT_PROFILE.minDurationSeconds}–${SHORT_PROFILE.maxDurationSeconds}s. ` +
-            "Write for that length: a fast vertical short, not an explainer.",
-        ]
-      : []),
-    `- VOICEOVER LENGTH: write voiceover_text as ${VOICEOVER_TARGET_MIN_WORDS}–${VOICEOVER_TARGET_MAX_WORDS} words. ` +
-      `NEVER exceed ${VOICEOVER_HARD_CAP_WORDS} words — over the cap is rejected. ` +
-      "Every word must earn its place; cut filler.",
-    "- VOICEOVER RHYTHM (spoken delivery — do NOT write a flat paragraph):",
-    "  Prefer short sentences. Use contrast (belief → reversal). Land one idea per breath.",
-    "  Put a natural pause before the reveal. Emphasize the turn — not every clause equally.",
-    "  Avoid long equally-paced sentences that read like an essay.",
-    "- AFTER THE OPENING MEANING BLOCK: the next spoken thought must raise cost,",
-    "  contradiction, surprise, or consequence — do NOT restate the topic as setup/lecture.",
-    "  A short bridge clause (≤6 words) is allowed only when the mode truly needs it.",
-    `- PREFERRED STORY ARC: ${preferredArc}. Favor a real TWIST (an early turn / ` +
-      "reversal) and land the PAYOFF late, just before the CTA. Map it onto the " +
-      "MODE BEATS above — do not flatten it into a linear explanation.",
-    "- FORBIDDEN (Zakázat): NO long explanations or lectures; NO background / " +
-      "company-history story (who you are, when you were founded, your mission); " +
-      "NO corporate copy or jargon (industry-leading, world-class, cutting-edge, " +
-      'value proposition, "we are committed to ...", synergy, etc.). ' +
-      "Speak like a person, not a brochure.",
-  ];
-
-  // Hook block. The final narration line differs for text-only (no visual beats).
-  const hookLines = [
-    "HOOK V2 (opening meaning block — make it dramatically stronger):",
-    `- Write the hook in the "${directives.hook.id}" HOOK ARCHETYPE above: ${directives.hook.instruction}`,
-    "- Open on a concrete moment: pull from the SCENARIO POOL, a sharp PAIN",
-    "  POINT, or a striking PROOF point above. Never use a generic intro.",
-    "- The hook must create curiosity or tension in one short, punchy line, and",
-    "  set up a loop the rest of the video keeps open until the payoff.",
-    "- ATTENTION ALIGNMENT: the stored hook and the first spoken line of",
-    "  voiceover_text MUST be the same thought — never dilute a strong hook",
-    "  into a weaker voiceover setup. The opening spoken thought must land as",
-    "  one complete meaning unit (short phrase or two ultra-short phrases).",
-    "- When a Creative Candidate winner is present, its hookLine is canonical:",
-    "  do not invent a softer opening than that hookLine.",
-    ...(requireVideo
-      ? [
-          `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
-          "  narrated in the VOICE PERSONA and MODE above, so the narration maps onto",
-          "  fast visual beats. Do NOT collapse it into a generic marketing template.",
-          "  Follow ATTENTION MECHANISM + OPENING CONTRACT when present: immediate",
-          "  reaction first, body turn/payoff later, satisfying ending — not a summary.",
-        ]
-      : [
-          `- voiceover_text MUST open on that hook, then run the MODE BEATS (${modeBeatArc})`,
-          "  written in the VOICE PERSONA and MODE above. It is the core body copy for",
-          "  this TEXT-ONLY package (no video). Do NOT collapse it into a generic template.",
-        ]),
-  ];
-
-  // Visual beats / image prompts only apply to video packages. They follow the
-  // MODE BEATS (not the old marketing arc) so the visuals tell the mode's story
-  // and escalate toward the reveal.
-  const visualBeatsLines = requireVideo
-    ? [
-        "",
-        `VISUAL BEATS: provide 3–${MAX_VIDEO_SCENE_STILLS} image_prompts. Each one is a`,
-        "GENERATED still image, and a small set is enough to carry a 20–30s short",
-        "(the stills are reused across the moving beats). Do NOT provide more than",
-        `${MAX_VIDEO_SCENE_STILLS}. They should follow the MODE BEATS above`,
-        `(${modeBeatArc}), but do NOT force one image per narration beat — fewer or`,
-        "more narration labels is fine. Make the stills visually distinct from each",
-        "other and escalate the tension / curiosity toward the reveal. Do NOT default",
-        "to a generic, interchangeable beat set.",
-        "VISUAL PROGRESSION (consecutive IMAGE scenes): adjacent IMAGE stills must",
-        "normally differ across at least two meaningful axes — for example primary",
-        "subject, action, consequence, narrative function, information revealed,",
-        "location within the same Creative DNA world, object focus, or human versus",
-        "environment versus consequence view. Prefer: problem world → failure →",
-        "consequence → solution. NOT sufficient alone: a small hand gesture, a slightly",
-        "moved phone, a new abstract UI bubble, a minor emotional change in the same",
-        "shot, or the same subject/device/environment with only micro-action changes.",
-        "Do NOT require changing Creative Identity treatment (lighting, camera language,",
-        "composition treatment, color treatment, or established visual style) — diversity",
-        "happens inside the same coherent treatment and DNA world.",
-        "Each image_prompt MUST describe a PURELY VISUAL scene. NEVER request",
-        "readable words, letters, numbers, captions, signs, labels, or typography",
-        "inside the image — image models render these as garbled noise.",
-        "All spoken messaging is delivered through voiceover and burned-in subtitles.",
-        "PRODUCT DEMONSTRATION IN IMAGE SCENES:",
-        "- An IMAGE scene may show a problem-state phone or abstract chat interface when",
-        "  narratively useful.",
-        "- Do not rely on readable text inside AI-generated IMAGE scenes.",
-        "- Do not use a floating icon, smiling person, or generic landing page as product",
-        "  proof.",
-        "- Do not recreate the complete ask→answer→result sequence in IMAGE scenes.",
-        "- Value proof follows Product Presentation Decision (authentic asset, outcome,",
-        "  abstract mechanism, or story without product pixels) — never synthetic UI",
-        "  and never legacy PRODUCT_DEMO scene types.",
-        "When the creative metaphor needs labels to be understood, convey meaning via",
-        "visual state (empty rows, red panels, person walking away) + spoken voiceover,",
-        "never via readable text in the frame.",
-        "",
-        "PRIMARY_ACTOR IDENTITY CONTINUITY:",
-        "- Keep the established PRIMARY_ACTOR identity consistent in scenes where that",
-        "  actor appears (from Creative DNA / openingSituation).",
-        "- Do not introduce a different human face, age, gender presentation, profession,",
-        "  or identity mid-package without an explicit narrative reason.",
-        "- UI-only scenes, device close-ups, environment shots, consequence shots, and",
-        "  product-surface inserts do not need to show the actor's face.",
-        "- Do not require the same phone, hands, location, or framing across ordinary",
-        "  IMAGE scenes.",
-        "- Lifestyle, environment, and consequence scenes are allowed when they remain",
-        "  inside the selected Creative DNA world.",
-        "",
-        "OPENING PRIORITY RESOLVER (mandatory — Attention First):",
-        "When instructions conflict for the FIRST visual / opening meaning block, apply this order:",
-        "1) Creative Candidate openingSituation + hookLine (the stop-scroll idea) — never replace or sand down.",
-        "2) Opening Contract / Attention Mechanism first-visual guidance (amplify the winner).",
-        "3) Creative DNA world (if present) — stay inside that world.",
-        "4) Creative Identity — treatment only: lighting, camera, color, composition, visual language.",
-        "   Identity MUST NOT change location, environment, main event, or openingSituation.",
-        "5) Visual Narrative / Scene Meaning — clarify the event's meaning; do not swap the event.",
-        "Penalize only LOW-INFORMATION openings: frames that add no new meaning and no curiosity",
-        "in the opening meaning block. Calm, empty, or quiet frames are allowed when they carry",
-        "a clear stakes/absence/consequence meaning. Decorative empties with no readable situation are not.",
-        "Product may appear in the opening when it is part of the hook situation.",
-        "Forbidden in the opening meaning block: sales pitch, offer language, CTA, pricing,",
-        "or 'buy / book / sign up / learn more' as the first spoken or visual message.",
-        "Do not simplify the winner into a safer, more generic montage.",
-        "",
-        "SCENE MEANING (priority over look):",
-        "For each image prompt, first determine what a viewer should understand from that beat's meaning.",
-        "For the opening beat: communicate the winner's openingSituation event/meaning — not a generic theme illustration.",
-        "Prioritize meaning over visual style.",
-        "Describe concrete subjects, actions, environments and objects that naturally communicate that message.",
-        "Do not default to interchangeable stock staging or decorative empties with no situation meaning.",
-        "",
-        ...(input.visualNarrativePromptBlock
-          ? [input.visualNarrativePromptBlock, ""]
-          : []),
-        ...(input.productRevealPromptBlock
-          ? [input.productRevealPromptBlock, ""]
-          : []),
-        ...(input.visualMediumPromptBlock
-          ? [input.visualMediumPromptBlock, ""]
-          : []),
-        // Visual Style Guardrail V1 (Part 3) — anti dark/cinematic default;
-        // scene-appropriate lighting and composition. Imagery only — never copy.
-        visualStyleGuardrailBlock(),
-        "",
-        ...(input.visualProfileImagePromptBlock
-          ? [input.visualProfileImagePromptBlock, ""]
-          : []),
-        ...(input.creativeIdentityPromptBlock
-          ? [input.creativeIdentityPromptBlock, ""]
-          : []),
-        videoSceneCompositionBlock(),
-        "",
-        deviceScreenInteractionBlock(),
-        "",
-        "DEVICE SCREENS IN GENERATED STILLS:",
-        "- If a scene shows a laptop, phone, monitor, or tablet, the screen must NEVER be blank white or empty.",
-        "- The content displayed on a screen should visually reinforce the purpose of the current scene using recognizable interface layouts, imagery or structure without relying on readable text.",
-        "- Do not generate empty laptop/phone/monitor screens.",
-      ]
-    : [];
-
-  // Multiplier Variants MVP-1 — a platform that must produce N>1 outputs this
-  // package emits N DISTINCT captions in caption_variants (one per output);
-  // platforms producing a single output keep the historical single-caption
-  // shape. variantCount falls back to 1 when no count is supplied.
-  const variantCount = (p: string): number => {
-    const n = input.variantCounts?.[p];
-    return typeof n === "number" && Number.isFinite(n) && n > 1 ? Math.trunc(n) : 1;
-  };
-  const platformsWithVariants = targetPlatforms.filter((p) => variantCount(p) > 1);
-
-  // JSON shape, assembled so the video/image_prompts fields are present only
-  // when a video is required (video packages keep the exact historical shape).
-  const platformOutputsBlock = targetPlatforms
-    .map((p) => {
-      const count = variantCount(p);
-      if (count > 1) {
-        const variantsArray = Array.from({ length: count }, () => `"string"`).join(
-          ", ",
-        );
-        return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string", "title_variants": [${variantsArray}], "caption_variants": [${variantsArray}] }`;
-      }
-      return `    "${p}": { "caption": "string", "cta": "string", "hashtags": ["string"], "format": "string" }`;
-    })
-    .join(",\n");
-
-  // Instruction block describing how the caption_variants must differ. Only
-  // emitted when at least one platform needs multiple outputs, so single-output
-  // packages keep the historical prompt verbatim.
-  const variantsLines =
-    platformsWithVariants.length > 0
-      ? [
-          "",
-          "MULTIPLE OUTPUTS PER PLATFORM (distinct variants — same facts, same " +
-            "funnel stage, same CTA type):",
-          ...platformsWithVariants.map(
-            (p) =>
-              `- "${p}": provide EXACTLY ${variantCount(p)} captions in "caption_variants" ` +
-              `AND EXACTLY ${variantCount(p)} matching titles in "title_variants" (same order). ` +
-              `Set "caption" to the first caption too.`,
-          ),
-          "- Each variant MUST be a genuinely different take: a different ANGLE, " +
-            "opening line and structure (e.g. question vs bold claim vs mini-story). " +
-            "Never reword the same sentence. Never produce near-duplicates.",
-          "- Each title in \"title_variants\" MUST match the ANGLE of the caption at " +
-            "the same index, and the titles must differ from one another.",
-          "- Keep every variant on-topic, truthful and within the platform's style.",
-        ]
-      : [];
-  const jsonShape = [
-    "{",
-    `  "title": "string",`,
-    `  "funnel_stage": "${funnelLabel}",`,
-    `  "hook": "string",`,
-    `  "voiceover_text": "string",`,
-    `  "subtitles": "string",`,
-    `  "cta": { "type": "one of allowed cta types", "text": "string" },`,
-    ...(requireVideo
-      ? [
-          `  "video": { "concept": "string", "script": "string", "duration_seconds": "string" },`,
-          `  "visual_scenes": [`,
-          ...buildPresentationJsonShapeLines({
-            allowedTypes: promptPresentationTypes,
-          }).map((line) => `  ${line}`),
-          `  ],`,
-        ]
-      : []),
-    ...(requireVideo ? [`  "image_prompts": ["string"],`] : []),
-    `  "platform_outputs": {`,
-    platformOutputsBlock,
-    `  },`,
-    `  "hashtags": ["string"],`,
-    `  "asset_usage": [ { "asset_id": "uuid", "used_as": "string", "modify": "true|false" } ],`,
-    `  "scenario": "the SCENARIO POOL line you drew on (verbatim), or \"\" if none"`,
-    "}",
-  ].join("\n");
-
-  // Rules line. Video packages keep the historical wording verbatim; text-only
-  // packages explicitly forbid a video and keep the schema-required narration.
-  const rulesLine = requireVideo
-    ? `Rules: funnel_stage MUST equal "${funnelLabel}". video is mandatory. ` +
-      `Provide outputs for ALL of these platforms: ${targetPlatforms.join(", ")}. ` +
-      "Never modify a STATIC asset. " +
-      'If you used a scenario, set "scenario" to that pool line verbatim; ' +
-      "otherwise set it to an empty string."
-    : `Rules: funnel_stage MUST equal "${funnelLabel}". This is a TEXT-ONLY package: ` +
-      'do NOT generate a video — omit the "video" field entirely. ' +
-      `Provide outputs for ALL of these platforms: ${targetPlatforms.join(", ")}. ` +
-      "Still produce voiceover_text (use it as the body copy) and subtitles (a short " +
-      "text version) — they are required. Never modify a STATIC asset. " +
-      'If you used a scenario, set "scenario" to that pool line verbatim; ' +
-      "otherwise set it to an empty string.";
-
-  // Mixed-package clarification (video packages that also target text-only
-  // platforms). Appended only when mixed, so pure-video packages are unchanged.
-  const mixedNote = isMixed
-    ? [
-        "",
-        `MIXED PLATFORMS: video is required because ${videoPlatforms.join(", ")} ` +
-          `${videoPlatforms.length === 1 ? "is a video platform" : "are video platforms"}. ` +
-          "Produce ONE shared video for the package. The text-only platforms " +
-          `(${textOnlyPlatforms.join(", ")}) still need their own platform-specific ` +
-          "caption, CTA and hashtags — they simply do not get a separate video.",
-      ]
-    : [];
-
-  return [
-    projectBrainBlock(project),
-    "",
-    constraintsBlock(project),
-    ...(painPointFirst ? ["", painPointFirst] : []),
-    ...(proof ? ["", proof] : []),
-    ...(scenarios ? ["", scenarios] : []),
-    ...(websiteLinks ? ["", websiteLinks] : []),
-    ...(memory ? ["", memory] : []),
-    ...(recentAssetUsage ? ["", recentAssetUsage] : []),
-    "",
-    funnelAssetPolicy,
-    ...(assetCoverageBlock ? ["", assetCoverageBlock] : []),
-    "",
-    `STRATEGY ITEM: funnel_stage="${funnelLabel}" topic="${topic}" angle="${angle ?? ""}"`,
-    `CTA type MUST be one of (goal=${project.goal_type}): ${allowedCtas.join(", ")}`,
-    "",
-    creativeDirective,
-    "",
-    ...(packageDiversityLines.length > 0 ? [...packageDiversityLines, ""] : []),
-    ...attentionFirstLines,
-    "",
-    ...(attentionEngagementLines.length > 0
-      ? [...attentionEngagementLines, ""]
-      : []),
-    ...(creativeCandidateLines.length > 0
-      ? [...creativeCandidateLines, ""]
-      : []),
-    // Narrative Beats sit between the winner and DNA / visual generation so
-    // scenes follow a story spine instead of a flat shot list.
-    ...(narrativeBeatLines.length > 0 ? [...narrativeBeatLines, ""] : []),
-    // Creative DNA sits immediately after the winner and before Identity /
-    // Narrative / Product Reveal (those live inside VISUAL BEATS below).
-    ...(creativeDnaLines.length > 0 ? [...creativeDnaLines, ""] : []),
-    ...(fidelityRepairLines.length > 0 ? [...fidelityRepairLines, ""] : []),
-    ...qualityLines,
-    "",
-    ...hookLines,
-    ...visualBeatsLines,
-    "",
-    "AVAILABLE ASSETS (optional product library — using assets is NEVER mandatory; " +
-      "empty asset_usage is valid. asset_usage rules: STATIC must not be modified; " +
-      "EDITABLE may have a variant; REFERENCE is inspiration only):",
-    availableAssets.length
-      ? availableAssets.map((a) => formatAvailableAssetPromptLine(a)).join("\n")
-      : "(none)",
-    ...(promptAllowsPhone(promptPresentationTypes)
-      ? (() => {
-          const phoneBlock = buildPhoneEligibleAssetsPromptBlock(availableAssets);
-          return phoneBlock ? ["", phoneBlock] : [];
-        })()
-      : []),
-    ...(promptAllowsQuote(promptPresentationTypes)
-      ? (() => {
-          const block = buildApprovedQuotesPromptBlock(
-            buildProofIndex((project.knowledge as Json | null | undefined) ?? null),
-          );
-          return block ? ["", block] : [];
-        })()
-      : []),
-    ...(promptAllowsStatistic(promptPresentationTypes)
-      ? (() => {
-          const block = buildApprovedStatisticsPromptBlock(
-            buildProofIndex((project.knowledge as Json | null | undefined) ?? null),
-          );
-          return block ? ["", block] : [];
-        })()
-      : []),
-    "",
-    buildSmartAssetUsageRulesBlock(),
-    "",
-    ...(input.sceneTypeHistoryBlock
-      ? [input.sceneTypeHistoryBlock, ""]
-      : []),
-    ...(input.seriesCreativeContextBlock
-      ? [input.seriesCreativeContextBlock, ""]
-      : []),
-    buildPresentationGenerationBlock({
-      allowedTypes: promptPresentationTypes,
-    }),
-    "",
-    "VISUAL SCENE PLAN (ordered dramaturgy — canonical for video when present):",
-    "- Plan the video as visual_scenes: an ORDERED list where each entry is ONE on-screen beat.",
-    "- Choose scene count for a 20–40s short (typically 3–5 scenes). Do not pad to a maximum.",
-    "- Each scene is either source=\"ai\" (with image_prompt) OR source=\"asset\" (with asset_id + used_as). Never both.",
-    "- Assets are OPTIONAL. AI-only packages are valid (all ai scenes).",
-    "- Place an asset ONLY where it strengthens the story at that moment in the voiceover.",
-    "- Do NOT list assets separately from scene order. Do NOT use an asset just because it exists.",
-    "- Avoid back-to-back asset scenes unless the story truly needs it.",
-    "- Respect each asset's product role, ai_description, suggested_usage, and Preferred usage line.",
-    "- Only use asset_id values from AVAILABLE ASSETS above.",
-    "- When you include visual_scenes, also keep image_prompts (ai prompts only, same order) and asset_usage (asset scenes only) for compatibility.",
-    "",
-    "ASSET LIBRARY RULES:",
-    "- Do not invent asset_usage entries; only reference ids listed above.",
-    "- Skip assets entirely when AI scenes alone tell the story better.",
-    "- Use source=\"asset\" ONLY when used_as describes a placement the renderer supports: framed laptop/monitor/phone, floating card, ui_hero, or similar insert — set video_usage to a known value (framed_laptop, framed_screen, framed_phone, floating_card, ui_hero) when possible.",
-    "- Do NOT use source=\"asset\" for beats that need people, rooms, or action around the product unless modify=true on a non-static asset.",
-    "- If unsure, use source=\"ai\" with image_prompt instead of a weak asset insert.",
-    ...(generationMode === "sample"
-      ? ["", buildSampleModePromptAppendix(project)]
-      : []),
-    "",
-    buildPlatformStyleBlock(targetPlatforms),
-    "",
-    "TASK: Produce ONE content package as JSON with this exact shape:",
-    jsonShape,
-    rulesLine,
-    ...mixedNote,
-    ...variantsLines,
-  ].join("\n");
+  return buildPresentationPrompt(renderInput);
 }

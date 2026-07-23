@@ -8,6 +8,11 @@ import {
 } from "@/lib/api/production-run-cancel";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { CallbackValidationError } from "@/lib/n8n/callback";
+import type { PackageStatus } from "@/lib/supabase/types";
+import {
+  decidePackageCallbackTransition,
+  runtimeLog,
+} from "@/lib/production-runtime";
 
 // n8n callback handlers.
 //
@@ -149,10 +154,10 @@ async function requirePackageInProject(
   supabase: SupabaseClient,
   contentPackageId: string,
   projectId: string,
-): Promise<{ id: string; package_brief: unknown }> {
+): Promise<{ id: string; package_brief: unknown; status: string }> {
   const { data, error } = await supabase
     .from("content_packages")
-    .select("id, package_brief")
+    .select("id, package_brief, status")
     .eq("id", contentPackageId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -162,7 +167,11 @@ async function requirePackageInProject(
       `content package ${contentPackageId} not found for project ${projectId}`,
     );
   }
-  return { id: data.id as string, package_brief: data.package_brief };
+  return {
+    id: data.id as string,
+    package_brief: data.package_brief,
+    status: data.status as string,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -170,7 +179,10 @@ async function requirePackageInProject(
 // ---------------------------------------------------------------------------
 export async function handleContentPackageCallback(
   payload: unknown,
-): Promise<void> {
+): Promise<{
+  outcome: "accepted" | "ignored" | "rejected" | "idempotent";
+  reason: string;
+}> {
   const body = asRecord(payload);
   const projectId = requireString(body, "project_id");
   const contentPackageId = requireString(body, "content_package_id");
@@ -184,10 +196,32 @@ export async function handleContentPackageCallback(
     projectId,
   );
 
+  const currentStatus = pkg.status as PackageStatus;
+  const decision = decidePackageCallbackTransition(currentStatus, status);
+
+  runtimeLog(
+    decision.outcome === "rejected" ? "warn" : "info",
+    {
+      event:
+        decision.outcome === "accepted" || decision.outcome === "idempotent"
+          ? "callback_accepted"
+          : decision.outcome === "ignored"
+            ? "callback_ignored"
+            : "callback_rejected",
+      project_id: projectId,
+      package_id: contentPackageId,
+      outcome: decision.outcome,
+      detail: decision.reason,
+      phase: `package_callback:${currentStatus}->${status}`,
+    },
+  );
+
   const update: Record<string, unknown> = {
-    status,
     updated_at: new Date().toISOString(),
   };
+  if (decision.applyStatus) {
+    update.status = status;
+  }
 
   // platform_outputs is NOT a column and has no dedicated table; fold it into
   // the existing package_brief jsonb (same convention as the AI layer).
@@ -208,12 +242,26 @@ export async function handleContentPackageCallback(
     update.package_brief = { ...prevBrief, last_callback_message: message };
   }
 
-  const { error } = await supabase
+  // Idempotent / ignored / rejected still may attach brief metadata, but never
+  // overwrite status backwards. CAS status when applying.
+  let query = supabase
     .from("content_packages")
     .update(update)
     .eq("id", contentPackageId)
     .eq("project_id", projectId);
+  if (decision.applyStatus) {
+    query = query.eq("status", currentStatus);
+  }
+
+  const { error, data } = await query.select("id");
   if (error) throw error;
+  if (decision.applyStatus && (!data || data.length === 0)) {
+    return {
+      outcome: "ignored",
+      reason: "cas_lost_race",
+    };
+  }
+  return { outcome: decision.outcome, reason: decision.reason };
 }
 
 // ---------------------------------------------------------------------------

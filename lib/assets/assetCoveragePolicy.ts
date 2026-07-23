@@ -4,6 +4,12 @@ import type { FunnelStage } from "@/lib/ai/types";
 import type { AssetQualityTier } from "@/lib/assets/assetIngestMetadata";
 import type { ProductRole } from "@/lib/assets/productRole";
 
+// Phase 2A ownership:
+//   Decision: Asset Policy
+//   Owner: PACKAGE ASSET COVERAGE (this module) when quality assets exist
+//   Fallback: Funnel Asset Policy (lib/ai/prompts/funnelAssetPolicy.ts)
+//   Illegal writers: Funnel echo when Coverage present; invented asset ids
+
 export type AssetCoverageStance =
   | "required"
   | "should_use"
