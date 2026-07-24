@@ -74,6 +74,8 @@ export {
   storyIntegrityValidationIssues,
   storyIntegrityWarningIssues,
   isHardStoryIntegrityViolation,
+  openingIsHandsOrPropLed,
+  sceneSatisfiesHandsOrPropOpening,
 } from "@/lib/creative-candidates/storyIntegrity";
 export type {
   StoryIntegrityResult,

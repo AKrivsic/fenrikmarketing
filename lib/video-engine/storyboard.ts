@@ -354,14 +354,19 @@ export function sceneIdForStoryboardBeat(
   if (!explicitSceneOrder) {
     return sceneIds[beatIndex % n] ?? sceneIds[0];
   }
-  if (n > numBeats) {
-    const idx = Math.floor((beatIndex * n) / numBeats);
-    return sceneIds[Math.min(idx, n - 1)] ?? sceneIds[0];
+  // Explicit order: distribute beats evenly across scenes. Never pin overflow
+  // beats exclusively onto the last still (that created ~10s endings when
+  // 5 beats mapped onto 4 scenes).
+  if (numBeats <= 1 || n === 1) {
+    return sceneIds[0] ?? "scene-1";
   }
-  if (numBeats > n && beatIndex >= n) {
-    return sceneIds[n - 1] ?? sceneIds[0];
+  if (n === numBeats) {
+    return sceneIds[Math.min(beatIndex, n - 1)] ?? sceneIds[0];
   }
-  return sceneIds[Math.min(beatIndex, n - 1)] ?? sceneIds[0];
+  const idx = Math.round(
+    (beatIndex * (n - 1)) / Math.max(1, numBeats - 1),
+  );
+  return sceneIds[Math.min(Math.max(0, idx), n - 1)] ?? sceneIds[0];
 }
 
 // Task 1 — deterministically builds the beat timeline.

@@ -152,6 +152,8 @@ import {
   runtimeLog,
   shouldHardFailFidelityAfterRepair,
   shouldHardFailStoryIntegrityAfterRepair,
+  shouldInvokeStoryIntegrityRepair,
+  storyIntegrityAfterSkippedRepair,
 } from "@/lib/production-runtime";
 import {
   buildNarrativeBeatPromptBlock,
@@ -1278,8 +1280,41 @@ async function runGenerateContentPackageAfterClaim(
       regenerationReason = regenerationReason
         ? `${regenerationReason};${integrityReason}`
         : integrityReason;
-      const storyStart = Date.now();
       const priorPackage = requireOkPackage();
+      const openingSceneText =
+        (priorPackage.image_prompts?.[0] ?? "").trim() ||
+        (typeof (priorPackage.visual_scenes?.[0] as { image_prompt?: string } | undefined)
+          ?.image_prompt === "string"
+          ? String(
+              (priorPackage.visual_scenes?.[0] as { image_prompt?: string })
+                .image_prompt,
+            )
+          : "") ||
+        (typeof (priorPackage.visual_scenes?.[0] as { used_as?: string } | undefined)
+          ?.used_as === "string"
+          ? String(
+              (priorPackage.visual_scenes?.[0] as { used_as?: string }).used_as,
+            )
+          : "");
+      const invokeRepair = shouldInvokeStoryIntegrityRepair({
+        integrity: storyIntegrity,
+        winner: creativeCandidates.selectedCandidate,
+        openingSceneText,
+      });
+      if (!invokeRepair) {
+        console.warn(
+          "[story-integrity] skip repair — intentional hands/prop opening",
+          {
+            codes: storyIntegrity.violations.map((v) => v.code),
+            summary: storyIntegrity.summary,
+          },
+        );
+        storyIntegrity = storyIntegrityAfterSkippedRepair(storyIntegrity);
+        regenerationReason = regenerationReason
+          ? `${regenerationReason};story_integrity_skip_repair_hands_prop`
+          : "story_integrity_skip_repair_hands_prop";
+      } else {
+      const storyStart = Date.now();
       const storyDelta = buildStoryIntegrityRepairDelta({
         winner: creativeCandidates.selectedCandidate,
         integrity: storyIntegrity,
@@ -1381,6 +1416,7 @@ async function runGenerateContentPackageAfterClaim(
           hook: generated.value.hook,
           productPresentation: productPresentationPlan.plan,
         });
+      }
       }
     }
     creativeCandidates = attachStoryIntegrityToPlan(

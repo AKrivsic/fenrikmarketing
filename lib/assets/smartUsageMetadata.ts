@@ -367,6 +367,10 @@ export function shouldIncludeAssetInVideoWorker(args: {
 export function buildSmartAssetUsageRulesBlock(): string {
   return [
     "SMART ASSET USAGE RULES (when you choose to use an asset — never mandatory):",
+    "- Assets are optional enhancements. Prefer 4–5 AI stills; use an asset only when quality improves the story.",
+    "- At most ONE asset may accompany AI on a standard short (prefer 4 AI + 1 asset; never ship 3 AI).",
+    "- Prefer quality=high product screenshots, UI, real photography, and brand material.",
+    "- Reject quality=low, decorative-only, duplicate, irrelevant, or recently overused assets.",
     "- Do not use landscape assets as full-screen vertical scenes.",
     "- If using a landscape product asset, present it inside a laptop, desktop monitor, tablet, or as a framed screen insert.",
     "- If using a portrait/mobile asset, it may be shown inside a phone.",

@@ -476,5 +476,49 @@ check("repair appendix lists hard failure codes and soft CTA guidance", () => {
   assert.ok(!appendix.includes("must appear in spoken close"));
 });
 
+check("hands/prop opening with consultant DNA does not hard-fail primary_actor", () => {
+  const winner = {
+    ...handheldWinner(),
+    openingSituation:
+      "Close on a hand pressing a marker against a whiteboard mid-stroke while bounce rate climbs",
+    visualPromise: "Hands and marker only — no face",
+    creativeDNA: {
+      ...handheldWinner().creativeDNA!,
+      world: "Whiteboard and marker close-up",
+      mainCharacter: "A marketing consultant who teaches analytics",
+      immutableRules: [
+        "Do not replace the hands-only marker opening",
+        "Keep the whiteboard freeze as scene 1",
+      ],
+    },
+  };
+  const result = validateStoryIntegrity({
+    winner,
+    packageCta: PACKAGE_CTA,
+    voiceoverText:
+      "The marker freezes mid-stroke. Bounce rate climbs while nobody answers. Fenrik.chat replies for you.",
+    visualScenes: [
+      {
+        source: "ai",
+        image_prompt:
+          "Close-up of a hand pressing a thick black marker against a pale whiteboard mid-stroke",
+      },
+      {
+        source: "ai",
+        image_prompt: "Empty website chat thread with unanswered visitor bubble",
+      },
+      {
+        source: "ai",
+        image_prompt: "Phone showing an AI reply landing while the owner stays busy",
+      },
+    ],
+  });
+  assert.equal(
+    result.violations.some((v) => v.code === "primary_actor_changed"),
+    false,
+    JSON.stringify(result.violations),
+  );
+});
+
 console.log(`\nstory-integrity: ${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);

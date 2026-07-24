@@ -186,7 +186,7 @@ await check("7 checklist can still be selected by analyzer", () => {
   }
 });
 
-await check("8 25s video with 2 narrative visuals is not padded with filler", () => {
+await check("8 25s video with 2 narrative visuals is expanded to min 4 AI", () => {
   const { scenes, density } = expandSparseVisualPlan({
     visualScenes: [
       { source: "ai", image_prompt: "Opening still." },
@@ -200,14 +200,13 @@ await check("8 25s video with 2 narrative visuals is not padded with filler", ()
   const ai = scenes.filter(
     (s) => (s as { source?: string }).source === "ai",
   ).length;
-  assert.equal(ai, 2);
-  assert.equal(scenes.length, 3);
-  assert.equal(density.sparse_plan_adjustment, false);
-  assert.equal(density.narrative_ai_added, 0);
+  assert.equal(ai, 4);
+  assert.equal(density.sparse_plan_adjustment, true);
+  assert.equal(density.narrative_ai_added, 2);
 });
 
-await check("9 12s video is not unnecessarily expanded", () => {
-  const { density } = expandSparseVisualPlan({
+await check("9 12s video keeps short-form min of 3 AI", () => {
+  const { density, scenes } = expandSparseVisualPlan({
     visualScenes: [
       { source: "ai", image_prompt: "A" },
       { source: "ai", image_prompt: "B" },
@@ -218,13 +217,21 @@ await check("9 12s video is not unnecessarily expanded", () => {
   });
   assert.equal(density.sparse_plan_adjustment, false);
   assert.equal(targetVisualBeatCount(12), 3);
+  assert.equal(
+    scenes.filter((s) => (s as { source?: string }).source === "ai").length,
+    3,
+  );
 });
 
-await check("10 asset + CTA plan is kept without filler expansion", () => {
+await check("10 high-quality asset enhances (expands to 4 AI + 1 asset)", () => {
+  const qualityByAssetId = new Map([
+    ["11111111-1111-4111-8111-111111111111", "high" as const],
+  ]);
   const { scenes, density } = expandSparseVisualPlan({
     visualScenes: [
       { source: "ai", image_prompt: "Narrative one." },
       { source: "ai", image_prompt: "Narrative two." },
+      { source: "ai", image_prompt: "Narrative three." },
       {
         source: "asset",
         asset_id: "11111111-1111-4111-8111-111111111111",
@@ -234,14 +241,36 @@ await check("10 asset + CTA plan is kept without filler expansion", () => {
     ],
     voiceoverText: "One. Two. Three. Four. Five. Six. Seven.",
     durationSeconds: "28",
+    qualityByAssetId,
   });
   assert.ok(density.target_visual_beat_count >= 4);
-  assert.equal(scenes.length, 4);
-  assert.equal(density.sparse_plan_adjustment, false);
+  assert.equal(density.sparse_plan_adjustment, true);
+  assert.equal(density.narrative_ai_added, 1);
   const ai = scenes.filter(
     (s) => (s as { source?: string }).source === "ai",
   ).length;
-  assert.equal(ai, 2);
+  const assets = scenes.filter(
+    (s) => (s as { source?: string }).source === "asset",
+  ).length;
+  assert.equal(ai, 4);
+  assert.equal(assets, 1);
+});
+
+await check("10b 3 AI without asset is expanded to 4 on standard duration", () => {
+  const { scenes, density } = expandSparseVisualPlan({
+    visualScenes: [
+      { source: "ai", image_prompt: "A" },
+      { source: "ai", image_prompt: "B" },
+      { source: "ai", image_prompt: "C" },
+    ],
+    voiceoverText: "One. Two. Three. Four. Five.",
+    durationSeconds: "24",
+  });
+  const ai = scenes.filter(
+    (s) => (s as { source?: string }).source === "ai",
+  ).length;
+  assert.equal(ai, 4);
+  assert.equal(density.narrative_ai_added, 1);
 });
 
 console.log("\nSeries prompt & assets");

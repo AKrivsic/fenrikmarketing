@@ -50,8 +50,11 @@ export {
 export {
   shouldHardFailFidelityAfterRepair,
   shouldHardFailStoryIntegrityAfterRepair,
+  shouldInvokeStoryIntegrityRepair,
+  storyIntegrityAfterSkippedRepair,
   classifyStoryIntegrityForHardFail,
   STORY_INTEGRITY_SOFT_AFTER_REPAIR_CODES,
+  STORY_INTEGRITY_SKIP_REPAIR_WHEN_HANDS_PROP_CODES,
 } from "@/lib/production-runtime/repairPolicy";
 
 export {

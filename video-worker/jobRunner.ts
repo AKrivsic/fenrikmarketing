@@ -844,20 +844,27 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       })
     ) {
       try {
+      const failureTelemetry = buildGenerationTelemetryDocument({
+        legacy: { phases: [], terminal: true },
+        steps: getTelemetryCollector()?.snapshot() ?? [],
+      });
       const failureDebug =
         err instanceof TtsTailValidationError
           ? {
               ...err.meta,
               tts_tail_validation_passed: false,
+              generation_telemetry: failureTelemetry,
             }
-          : undefined;
+          : {
+              generation_telemetry: failureTelemetry,
+            };
       await sendVideoCallback(
         payload.callback_url,
         {
           video_job_id: payload.video_job_id,
           status: "failed",
           error_message: errorMessage,
-          ...(failureDebug ? { debug: failureDebug } : {}),
+          debug: failureDebug,
         },
         transport,
       );

@@ -87,6 +87,8 @@ import {
   findActivePackageVideoJobIds,
   shouldHardFailFidelityAfterRepair,
   shouldHardFailStoryIntegrityAfterRepair,
+  shouldInvokeStoryIntegrityRepair,
+  storyIntegrityAfterSkippedRepair,
 } from "@/lib/production-runtime";
 import {
   attachFidelityToPlan,
@@ -713,6 +715,34 @@ async function runRegenerateContentPackageUnchecked(
         ? `${regenerationReason};${integrityReason}`
         : integrityReason;
       const priorPackage = generated.value;
+      const openingSceneText =
+        (priorPackage.image_prompts?.[0] ?? "").trim() ||
+        (typeof (priorPackage.visual_scenes?.[0] as { image_prompt?: string } | undefined)
+          ?.image_prompt === "string"
+          ? String(
+              (priorPackage.visual_scenes?.[0] as { image_prompt?: string })
+                .image_prompt,
+            )
+          : "");
+      if (
+        !shouldInvokeStoryIntegrityRepair({
+          integrity: storyIntegrity,
+          winner: creativeCandidates.selectedCandidate,
+          openingSceneText,
+        })
+      ) {
+        console.warn(
+          "[story-integrity] skip repair — intentional hands/prop opening",
+          {
+            codes: storyIntegrity.violations.map((v) => v.code),
+            summary: storyIntegrity.summary,
+          },
+        );
+        storyIntegrity = storyIntegrityAfterSkippedRepair(storyIntegrity);
+        regenerationReason = regenerationReason
+          ? `${regenerationReason};story_integrity_skip_repair_hands_prop`
+          : "story_integrity_skip_repair_hands_prop";
+      } else {
       const storyDelta = buildStoryIntegrityRepairDelta({
         winner: creativeCandidates.selectedCandidate,
         integrity: storyIntegrity,
@@ -795,6 +825,7 @@ async function runRegenerateContentPackageUnchecked(
           hook: generated.value.hook,
           productPresentation: productPresentationPlan.plan,
         });
+      }
       }
     }
     creativeCandidates = attachStoryIntegrityToPlan(

@@ -4,7 +4,7 @@
 //
 // Goal under test: 1 video = at most MAX_VIDEO_SCENE_STILLS generated stills =
 // at most that many AI image generations. Covers the four enforcement layers:
-//   a) the content prompt asks for 3–5 image_prompts (NOT 5–8)
+//   a) the content prompt asks for 4–5 image_prompts (NOT 5–8 / NOT 3–5)
 //   b) guardrails reject missing / >5 image_prompts when a video is required
 //   c) the worker render path produces at most MAX generated scenes for a NEW
 //      job, preserves reused asset stills, and never re-truncates the reuse
@@ -139,8 +139,8 @@ check("prompt no longer asks for 5–8 image_prompts", () => {
   assert.ok(!videoPrompt().includes("5-8 image_prompts"));
 });
 
-check("prompt asks for 3–5 image_prompts", () => {
-  assert.ok(videoPrompt().includes("3–5 image_prompts"));
+check("prompt asks for 4–5 image_prompts", () => {
+  assert.ok(videoPrompt().includes("4–5 image_prompts"));
 });
 
 check("prompt does not request more than the max", () => {

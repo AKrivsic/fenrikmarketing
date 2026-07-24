@@ -10,6 +10,8 @@ import {
   shouldSendFailedCallbackAfterUpload,
   shouldHardFailFidelityAfterRepair,
   shouldHardFailStoryIntegrityAfterRepair,
+  shouldInvokeStoryIntegrityRepair,
+  storyIntegrityAfterSkippedRepair,
   classifyStoryIntegrityForHardFail,
   STORY_INTEGRITY_SOFT_AFTER_REPAIR_CODES,
   evaluateRunWatchdog,
@@ -235,6 +237,48 @@ check("primary_actor_changed soft after repair", () => {
       .shouldHardFail,
     false,
   );
+});
+check("hands/prop opening skips story integrity repair", () => {
+  const winner = {
+    candidateId: "c-hands",
+    family: "direct_product_world",
+    coreIdea: "Hand freezes mid-stroke on a whiteboard while bounce rate climbs",
+    emotionalReaction: "tension",
+    hookLine: "The marker stops.",
+    openingSituation:
+      "Close on a hand pressing a marker against a whiteboard mid-stroke",
+    visualPromise: "Hand and marker only — no face",
+    storyProgression: "Hold the freeze → name the cost → show the fix",
+    productConnection: "Product answers while the owner is busy",
+    ending: "The next visitor gets an answer",
+    expectedViewerQuestion: "What happens when the marker freezes?",
+    familiarityRisk: "medium",
+    memorabilityReason: "Marker freeze",
+    creativeDNA: {
+      world: "Whiteboard and marker close-up",
+      mainCharacter: "A marketing consultant who teaches analytics",
+      coreConflict: "Cannot answer while mid-task",
+      productRole: "AI answers for the website",
+      viewerQuestion: "What happens when the marker freezes?",
+      endingIntent: "Show answers arrive without the owner",
+      immutableRules: ["Do not replace the hands-only opening"],
+    },
+    creativeDnaSource: "model",
+  } as const;
+  const opening =
+    "Close-up of a hand pressing a thick black marker against a pale whiteboard mid-stroke";
+  const integrity = story(["primary_actor_changed"]);
+  assert.equal(
+    shouldInvokeStoryIntegrityRepair({
+      integrity,
+      winner: winner as never,
+      openingSceneText: opening,
+    }),
+    false,
+  );
+  const soft = storyIntegrityAfterSkippedRepair(integrity);
+  assert.equal(soft.passed, true);
+  assert.ok(soft.summary.includes("soft_skip_repair"));
 });
 check("world_abandoned hard after repair", () => {
   assert.equal(

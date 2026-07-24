@@ -362,15 +362,28 @@ async function repairJson(
               }
             : null,
         pricingVersion: PRICING_VERSION,
-        rawUsageFromResult: (r) =>
-          r?.usage
-            ? {
-                prompt_tokens: r.usage.prompt_tokens,
-                completion_tokens: r.usage.completion_tokens,
-                cached_tokens: r.usage.cached_tokens,
-                model: r.usage.model ?? null,
-              }
-            : null,
+        warnings: () =>
+          issues.slice(0, 12).map((i) => `${i.path}: ${i.message}`),
+        rawUsageFromResult: (r) => {
+          const issueSummary = issues.slice(0, 12).map((i) => ({
+            path: i.path,
+            message: i.message,
+          }));
+          if (r?.usage) {
+            return {
+              prompt_tokens: r.usage.prompt_tokens,
+              completion_tokens: r.usage.completion_tokens,
+              cached_tokens: r.usage.cached_tokens,
+              model: r.usage.model ?? null,
+              validation_issues: issueSummary,
+              repair_reason: "json_or_schema_repair",
+            };
+          }
+          return {
+            validation_issues: issueSummary,
+            repair_reason: "json_or_schema_repair",
+          };
+        },
       },
       async () => {
         const completion = await provider.complete({

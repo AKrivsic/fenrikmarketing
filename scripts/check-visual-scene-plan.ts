@@ -307,7 +307,7 @@ check("explicit scenes skip legacy merge", () => {
   assert.equal(spec.scenes.some((s) => s.id === "asset-1"), false);
 });
 
-check("explicit storyboard order clamps extra beats to final scene", () => {
+check("explicit storyboard order distributes overflow beats evenly", () => {
   const ids = ["scene-1", "scene-2", "scene-3"];
   const beats = 5;
   const mapped = Array.from({ length: beats }, (_, i) =>
@@ -316,7 +316,7 @@ check("explicit storyboard order clamps extra beats to final scene", () => {
   assert.deepEqual(mapped, [
     "scene-1",
     "scene-2",
-    "scene-3",
+    "scene-2",
     "scene-3",
     "scene-3",
   ]);

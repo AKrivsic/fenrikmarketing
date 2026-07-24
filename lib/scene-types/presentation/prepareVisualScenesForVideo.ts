@@ -67,6 +67,7 @@ import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/re
 import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
 import { CREATIVE_IDENTITY_VERSION } from "@/lib/creative-identity/types";
 import { assertRenderFidelity } from "@/lib/scene-types/presentation/renderFidelity";
+import type { AssetQualityTier } from "@/lib/assets/assetIngestMetadata";
 
 export interface PreparedVisualScenesResult {
   scenes: VisualScene[];
@@ -106,6 +107,7 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     .eq("media_type", "image");
   if (assetClassErr) throw assetClassErr;
   const classById = new Map<string, AssetClass>();
+  const qualityByAssetId = new Map<string, AssetQualityTier | null>();
   for (const row of assetClassRows ?? []) {
     classById.set(
       row.id as string,
@@ -113,6 +115,12 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
         row.asset_mode as string,
         (row.metadata as Record<string, unknown> | null) ?? null,
       ),
+    );
+    const meta = (row.metadata as Record<string, unknown> | null) ?? null;
+    const q = meta?.asset_quality;
+    qualityByAssetId.set(
+      row.id as string,
+      q === "high" || q === "medium" || q === "low" ? q : null,
     );
   }
 
@@ -133,10 +141,12 @@ export async function prepareAnalyzedVisualScenesForPackage(args: {
     visualScenes: planEntries,
     voiceoverText: pkg.voiceover_text,
     durationSeconds: pkg.video?.duration_seconds,
+    qualityByAssetId,
   });
   planEntries = density.scenes;
   if (density.density.sparse_plan_adjustment) {
     pkg.visual_scenes = planEntries as ContentPackageOutput["visual_scenes"];
+    syncLegacyFieldsFromVisualScenes(pkg);
   }
 
   const typedCtaPolicy = applyTypedCtaSeriesPolicyToVisualScenes({

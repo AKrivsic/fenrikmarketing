@@ -65,5 +65,23 @@ check("handles empty input", () => {
   assert.equal(sanitizeImagePrompt(""), NO_TEXT_DIRECTIVE);
 });
 
+check("preserves controlled whiteboard / marker writing concepts", () => {
+  const raw =
+    "Eye-level medium shot on hands and whiteboard. A hand presses a thick black marker — the word 'BOUNCE RATE' is half-formed, the final letters unfinished. The marker is frozen mid-stroke. No readable text rendered — the partial word is suggested by the marker position and gesture, not legible letters.";
+  const out = sanitizeImagePrompt(raw);
+  const body = out.replace(NO_TEXT_DIRECTIVE, "");
+  assert.ok(/whiteboard|marker|mid-stroke|glyph|letterform/i.test(body), body);
+  assert.ok(!/BOUNCE RATE/i.test(body), "quoted readable word must be stripped");
+  assert.ok(out.includes(NO_TEXT_DIRECTIVE));
+});
+
+check("still drops phone notification readable text", () => {
+  const out = sanitizeImagePrompt(
+    "A hand holding a phone, a phone notification reading 'New message', soft light",
+  );
+  assert.ok(!/notification/i.test(out.replace(NO_TEXT_DIRECTIVE, "")));
+  assert.ok(out.toLowerCase().includes("hand holding a phone"));
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

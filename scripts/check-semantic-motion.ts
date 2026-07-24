@@ -3,6 +3,7 @@ import {
   buildStoryboard,
   SHORT_PROFILE,
   coerceMotionType,
+  sceneIdForStoryboardBeat,
   type StoryboardBeat,
 } from "@/lib/video-engine/storyboard";
 import { buildPhraseCues } from "@/video-worker/services/phraseCaptions";
@@ -268,6 +269,21 @@ check("22 audio-master duration remains correct", () => {
   });
   const total = timelineTotalSeconds(beats, SHORT_PROFILE.transitionSeconds);
   assert.ok(Math.abs(total - 30) < 0.15);
+});
+
+check("22b explicit order distributes overflow beats (no last-scene pin)", () => {
+  const scenes = ["scene-1", "scene-2", "scene-3", "scene-4"];
+  const mapped = [0, 1, 2, 3, 4].map((i) =>
+    sceneIdForStoryboardBeat(i, 5, scenes, true),
+  );
+  assert.deepEqual(mapped, [
+    "scene-1",
+    "scene-2",
+    "scene-3",
+    "scene-3",
+    "scene-4",
+  ]);
+  assert.notEqual(mapped[3], "scene-4");
 });
 
 check("23 subtitle timing unchanged with semantic beats", () => {

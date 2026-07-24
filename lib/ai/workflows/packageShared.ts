@@ -194,7 +194,13 @@ export async function loadAvailableAssets(
       },
     });
   }
-  const refs = sortAvailableAssetEntries(entries);
+  const refs = sortAvailableAssetEntries(entries).filter((ref) => {
+    // P2 asset selection: never offer low-quality / decorative-only assets to
+    // Presentation — they reduce richness without improving credibility.
+    if (ref.asset_quality === "low") return false;
+    if (ref.product_role === "decorative") return false;
+    return true;
+  });
   return { refs, classById };
 }
 

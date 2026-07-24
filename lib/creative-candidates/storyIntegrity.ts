@@ -247,6 +247,43 @@ function voiceoverContainsPackageCta(
   return { ok: false, evidence: "weak_cta_overlap" };
 }
 
+/**
+ * Hands / prop close-ups are intentional commercial openings (Creative DNA
+ * hands_focus, marker/whiteboard hooks). They must not trip primary_actor
+ * when the opening scene matches that concept.
+ */
+const HANDS_PROP_CUE_RE =
+  /\b(hands?|handheld|fingers?|marker|whiteboard|white board|prop close[- ]?up|close[- ]?up on (a )?(hand|marker|phone|desk|board)|mid[- ]stroke)\b/i;
+
+export function openingIsHandsOrPropLed(winner: CreativeCandidate): boolean {
+  const dna = normalizeCreativeDNA(winner.creativeDNA);
+  const blob = [
+    winner.openingSituation,
+    winner.visualPromise,
+    winner.coreIdea,
+    dna?.mainCharacter,
+    dna?.world,
+    ...(dna?.immutableRules ?? []),
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return HANDS_PROP_CUE_RE.test(blob);
+}
+
+export function sceneSatisfiesHandsOrPropOpening(
+  scene: string,
+  winner: CreativeCandidate,
+): boolean {
+  if (!openingIsHandsOrPropLed(winner)) return false;
+  if (!HANDS_PROP_CUE_RE.test(scene)) return false;
+  // Prefer overlap with the openingSituation; fall back to any hands/prop cue
+  // when the opening itself is already hands/prop-led.
+  return (
+    tokenOverlap(winner.openingSituation, scene, 1) ||
+    HANDS_PROP_CUE_RE.test(winner.openingSituation)
+  );
+}
+
 function scenePromptTexts(args: {
   imagePrompts?: readonly string[] | null;
   visualScenes?: readonly unknown[] | null;
@@ -442,8 +479,15 @@ export function validateStoryIntegrity(args: {
       ? actorTokens
       : significantTokens(actorSource).slice(0, 4);
   if (actorCheck.length > 0 && scenes.length > 0) {
+    const openingScene = scenes[0] ?? "";
     const openingHits = actorCheck.filter((t) =>
-      normalize(scenes[0] ?? "").includes(t),
+      normalize(openingScene).includes(t),
+    );
+    // Intentional hands/prop openings (e.g. hand + marker) satisfy the selected
+    // concept even when mainCharacter tokens name a broader role ("consultant").
+    const handsPropOpeningOk = sceneSatisfiesHandsOrPropOpening(
+      openingScene,
+      args.winner,
     );
     const anyLater = scenes
       .slice(1)
@@ -464,7 +508,7 @@ export function validateStoryIntegrity(args: {
         );
       },
     );
-    if (openingHits.length === 0) {
+    if (openingHits.length === 0 && !handsPropOpeningOk) {
       violations.push({
         code: "primary_actor_changed",
         message: "Primary actor from selected concept missing from opening scene",
