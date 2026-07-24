@@ -86,6 +86,36 @@ export async function isProductionRunCancelledForStrategyItem(
   return runRow?.status === "cancelled";
 }
 
+/**
+ * True when the production_run_item for this strategy item is already failed.
+ * Used to refuse duplicate paid generation after n8n retries a 422 settle.
+ */
+export async function isProductionRunItemAlreadyFailed(
+  supabase: SupabaseClient,
+  args: { projectId: string; strategyItemId: string },
+): Promise<boolean> {
+  const { data: itemRow, error: itemErr } = await supabase
+    .from("content_strategy_items")
+    .select("brief")
+    .eq("id", args.strategyItemId)
+    .eq("project_id", args.projectId)
+    .maybeSingle();
+  if (itemErr) throw itemErr;
+  if (!itemRow) return false;
+
+  const runId = readProductionRunId(itemRow.brief);
+  if (!runId) return false;
+
+  const { data: runItem, error: runItemErr } = await supabase
+    .from("production_run_items")
+    .select("status")
+    .eq("production_run_id", runId)
+    .eq("strategy_item_id", args.strategyItemId)
+    .maybeSingle();
+  if (runItemErr) throw runItemErr;
+  return runItem?.status === "failed";
+}
+
 // Weekly Prepare flow: strategy for week_start must exist and the item must
 // belong to it. Production-run items (brief.production_run_id) skip this gate.
 export async function assertGenerateContentPackagePreconditions(

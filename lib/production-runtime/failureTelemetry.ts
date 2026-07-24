@@ -1,6 +1,7 @@
 /**
  * Phase 6G — bounded failure telemetry (no prompts / full responses).
- * Extended for cost accounting: estimated_cost_usd + generation_telemetry steps.
+ * Extended for cost accounting: estimated_cost_usd + generation_telemetry steps
+ * + bounded output snapshot/hash for fail forensics.
  */
 
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -9,6 +10,11 @@ import { sumEstimatedCostUsd } from "@/lib/ai/telemetry/costRollup";
 import { getTelemetryCollector } from "@/lib/ai/telemetry/collector";
 import type { PipelineTelemetryStep } from "@/lib/ai/telemetry/types";
 import { PRICING_VERSION } from "@/lib/ai/telemetry/cost";
+import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import {
+  buildBoundedFailureOutputSnapshot,
+  hashOutputRaw,
+} from "@/lib/production-runtime/boundedFailureSnapshot";
 
 export interface FailureTelemetrySnapshot {
   productionRunId?: string | null;
@@ -28,6 +34,9 @@ export interface FailureTelemetrySnapshot {
   terminalClassification?: string | null;
   /** Pipeline steps already paid for before failure (compact). */
   steps?: readonly PipelineTelemetryStep[] | null;
+  validationErrors?: readonly ValidationIssue[] | null;
+  /** Last raw model output for bounded snapshot (never stored unbounded). */
+  outputRaw?: string | null;
 }
 
 function truncate(value: string | null | undefined, max = 500): string | null {
@@ -86,6 +95,15 @@ export async function persistPackageGenerationFailureTelemetry(
         })
       : null;
 
+  const outputHash = hashOutputRaw(snap.outputRaw);
+  const outputSnapshot =
+    snap.outputRaw || (snap.validationErrors && snap.validationErrors.length > 0)
+      ? buildBoundedFailureOutputSnapshot({
+          raw: snap.outputRaw,
+          validationErrors: snap.validationErrors,
+        })
+      : null;
+
   const row = {
     production_run_id: snap.productionRunId ?? null,
     production_run_item_id: snap.productionRunItemId ?? null,
@@ -104,6 +122,8 @@ export async function persistPackageGenerationFailureTelemetry(
     error_truncated: truncate(snap.errorTruncated),
     terminal_classification: snap.terminalClassification ?? null,
     generation_telemetry: generationTelemetry,
+    output_hash: outputHash,
+    output_snapshot: outputSnapshot,
   };
 
   const { error } = await supabase
@@ -111,14 +131,40 @@ export async function persistPackageGenerationFailureTelemetry(
     .insert(row);
   if (error) {
     // Best-effort: never fail the generation path on telemetry insert.
-    // Pre-migration DBs may lack generation_telemetry — retry without it.
-    if (String(error.message).includes("generation_telemetry")) {
-      const { generation_telemetry: _drop, ...withoutSteps } = row;
+    // Pre-migration DBs may lack newer columns — peel them off and retry.
+    const msg = String(error.message);
+    if (
+      msg.includes("generation_telemetry") ||
+      msg.includes("output_hash") ||
+      msg.includes("output_snapshot")
+    ) {
+      const {
+        generation_telemetry: _gt,
+        output_hash: _oh,
+        output_snapshot: _os,
+        ...base
+      } = row;
+      let retryPayload: Record<string, unknown> = { ...base };
+      if (!msg.includes("generation_telemetry") && generationTelemetry) {
+        retryPayload = { ...retryPayload, generation_telemetry: generationTelemetry };
+      }
+      if (!msg.includes("output_hash") && outputHash) {
+        retryPayload = { ...retryPayload, output_hash: outputHash };
+      }
+      if (!msg.includes("output_snapshot") && outputSnapshot) {
+        retryPayload = { ...retryPayload, output_snapshot: outputSnapshot };
+      }
       const retry = await supabase
         .from("production_run_item_failure_telemetry")
-        .insert(withoutSteps);
+        .insert(retryPayload);
       if (retry.error) {
-        console.warn("[failure-telemetry] insert failed", retry.error.message);
+        // Last resort: base columns only.
+        const last = await supabase
+          .from("production_run_item_failure_telemetry")
+          .insert(base);
+        if (last.error) {
+          console.warn("[failure-telemetry] insert failed", last.error.message);
+        }
       }
     } else {
       console.warn("[failure-telemetry] insert failed", error.message);
@@ -139,6 +185,8 @@ export async function persistPackageGenerationFailureTelemetry(
       error_truncated: row.error_truncated,
       terminal_classification: row.terminal_classification,
       generation_telemetry: generationTelemetry,
+      output_hash: outputHash,
+      output_snapshot: outputSnapshot,
       captured_at: new Date().toISOString(),
     };
     await supabase
@@ -167,10 +215,12 @@ export async function persistActiveCollectorFailureTelemetry(
     errorTruncated?: string | null;
     terminalClassification?: string | null;
     attemptCount?: number;
+    validationErrors?: readonly ValidationIssue[] | null;
+    outputRaw?: string | null;
   },
 ): Promise<void> {
   const steps = getTelemetryCollector()?.snapshot() ?? [];
-  if (steps.length === 0 && !args.errorTruncated) return;
+  if (steps.length === 0 && !args.errorTruncated && !args.outputRaw) return;
   await persistPackageGenerationFailureTelemetry(supabase, {
     projectId: args.projectId,
     strategyItemId: args.strategyItemId,
@@ -182,6 +232,8 @@ export async function persistActiveCollectorFailureTelemetry(
     errorTruncated: args.errorTruncated,
     terminalClassification: args.terminalClassification,
     steps,
+    validationErrors: args.validationErrors,
+    outputRaw: args.outputRaw,
   });
 }
 

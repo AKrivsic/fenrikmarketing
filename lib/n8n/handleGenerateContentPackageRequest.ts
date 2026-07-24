@@ -3,6 +3,7 @@ import { optionalGenerationModeFromBody } from "@/lib/ai/generationMode";
 import {
   assertGenerateContentPackagePreconditions,
   isProductionRunCancelledForStrategyItem,
+  isProductionRunItemAlreadyFailed,
   MissingWeeklyStrategyError,
   missingWeeklyStrategyResponse,
 } from "@/lib/ai/workflows/weeklyStrategyGate";
@@ -70,6 +71,24 @@ export async function handleGenerateContentPackageRequest(
         success: true,
         skipped: true,
         reason: "production_run_cancelled",
+      });
+    }
+
+    // Guard against n8n retryOnFail re-running paid generation after 422 settle.
+    // HTTP 200 so Axios/n8n does not treat this as a retryable node failure.
+    if (
+      await isProductionRunItemAlreadyFailed(supabase, {
+        projectId,
+        strategyItemId,
+      })
+    ) {
+      return Response.json({
+        ok: false,
+        skipped: true,
+        error: "already_settled_failed",
+        retryable: false,
+        message:
+          "production_run_item already failed; refusing duplicate package generation",
       });
     }
 

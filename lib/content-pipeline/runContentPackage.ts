@@ -11,8 +11,12 @@ import {
   buildContentPackageSystem,
   type ContentPackagePromptInput,
 } from "@/lib/content-pipeline/prompts/contentPackage";
+import { buildContentPackageExpectedShape } from "@/lib/content-pipeline/prompts/contentPackageVisualScenes";
 
 const TIMEOUT_MS = 180_000;
+
+/** Explicit primary Claude attempts after prompt+repair hardening (was implicit 3). */
+export const CONTENT_PACKAGE_MAX_ATTEMPTS = 2;
 
 export async function runContentPackageGeneration(args: {
   promptInput: ContentPackagePromptInput;
@@ -27,9 +31,11 @@ export async function runContentPackageGeneration(args: {
     validator: buildContentPackageSchema(promptInput.targetPlatforms, {
       requireVideo: promptInput.requireVideo,
     }),
+    expectedShape: buildContentPackageExpectedShape(),
     guardrails,
     timeoutMs: TIMEOUT_MS,
     maxTransportAttempts: 1,
+    maxAttempts: CONTENT_PACKAGE_MAX_ATTEMPTS,
     telemetry: {
       stepName: "Content Package",
       inputSummary:
@@ -47,6 +53,7 @@ export async function runContentPackageGeneration(args: {
       error: "generation_failed",
       validationErrors: generated.validationErrors,
       attempts: generated.attempts,
+      lastRaw: generated.lastRaw,
     };
   }
 

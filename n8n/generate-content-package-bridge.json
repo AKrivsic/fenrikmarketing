@@ -177,8 +177,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [1000, 0],
-      "retryOnFail": true,
-      "maxTries": 3,
+      "retryOnFail": false,
+      "maxTries": 1,
       "waitBetweenTries": 2000,
       "onError": "continueRegularOutput",
       "parameters": {

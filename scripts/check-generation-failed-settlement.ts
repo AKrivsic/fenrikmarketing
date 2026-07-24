@@ -90,6 +90,22 @@ check("n8n bridge targets content-package-worker for N3 generate", () => {
   );
 });
 
+check("n8n N3 does not retryOnFail paid generation (incident d15447f4)", () => {
+  const bridge = JSON.parse(bridgeSrc) as {
+    nodes: Array<Record<string, unknown>>;
+  };
+  const n3 = bridge.nodes.find(
+    (n) => n.name === "N3 — Generate Content Package",
+  );
+  assert.ok(n3);
+  assert.equal(n3.retryOnFail, false);
+});
+
+check("handler short-circuits already-failed run items (HTTP 200 skip)", () => {
+  assert.match(n8nHandlerSrc, /isProductionRunItemAlreadyFailed/);
+  assert.match(n8nHandlerSrc, /already_settled_failed/);
+});
+
 check("n8n generate handler settles item on !result.ok", () => {
   assert.match(
     n8nHandlerSrc,

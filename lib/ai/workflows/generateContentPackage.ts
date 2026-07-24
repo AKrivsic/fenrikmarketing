@@ -265,6 +265,8 @@ async function runGenerateContentPackageUnchecked(
             .slice(0, 5)
             .join("; "),
           attemptCount: result.attempts,
+          validationErrors: result.validationErrors,
+          outputRaw: result.lastRaw ?? null,
         });
       } catch {
         // Telemetry must never fail the generation path.

@@ -189,6 +189,7 @@ export async function runCreativePipeline(
       error: packageResult.error,
       validationErrors: packageResult.validationErrors,
       attempts: packageResult.attempts,
+      lastRaw: packageResult.lastRaw,
     };
   }
 

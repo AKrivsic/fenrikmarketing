@@ -67,10 +67,23 @@ export type GenerateValidatedJsonResult<T> =
       lastRaw?: string;
     };
 
+/**
+ * Stable fingerprint of validation issues (order-independent).
+ * Used to skip repeated schema repairs that cannot change the error set.
+ */
+export function validationIssuesFingerprint(
+  issues: readonly ValidationIssue[],
+): string {
+  return [...issues]
+    .map((i) => `${i.path}\0${i.message}`)
+    .sort()
+    .join("\n");
+}
+
 // Core error-handling flow:
 //   1. ask the text provider for JSON
 //   2. parse; on parse failure run the OpenAI JSON repair prompt and re-parse
-//   3. validate the schema
+//   3. validate the schema (at most one schema-repair call per primary attempt)
 //   4. run business guardrails (forbidden_claims / product_is_not / etc.)
 //   5. on any failure, regenerate — up to maxAttempts (default 3)
 //   6. after the final failed attempt return generation_failed + errors
@@ -170,6 +183,8 @@ async function runGenerateValidatedJson<T>(
     cached_tokens: null,
   };
   let sawUsage = false;
+  /** Prior schema-repair fingerprint — skip identical paid schema repairs. */
+  let lastSchemaRepairFingerprint: string | null = null;
 
   const addPrimaryUsage = (u: TextProviderCompleteUsage | null | undefined) => {
     if (!u) return;
@@ -241,20 +256,35 @@ async function runGenerateValidatedJson<T>(
       continue;
     }
 
-    // Step 3: structural validation, with one repair pass if needed.
+    // Step 3: structural validation — at most one schema-repair per primary attempt.
     let result = validate(validator, parsed.value);
     if (!result.ok) {
-      const repaired = await repairJson(
-        JSON.stringify(parsed.value),
-        result.issues,
-        repairProvider,
-        expectedShape,
-      );
-      if (repaired) {
-        const reparsed = safeJsonParse(repaired.text);
-        if (reparsed.ok) {
-          lastRaw = repaired.text;
-          result = validate(validator, reparsed.value);
+      const fingerprint = validationIssuesFingerprint(result.issues);
+      const skipSchemaRepair =
+        lastSchemaRepairFingerprint !== null &&
+        fingerprint === lastSchemaRepairFingerprint;
+
+      if (!skipSchemaRepair) {
+        lastSchemaRepairFingerprint = fingerprint;
+        const repaired = await repairJson(
+          JSON.stringify(parsed.value),
+          result.issues,
+          repairProvider,
+          expectedShape,
+        );
+        if (repaired) {
+          const reparsed = safeJsonParse(repaired.text);
+          if (reparsed.ok) {
+            lastRaw = repaired.text;
+            result = validate(validator, reparsed.value);
+            if (!result.ok) {
+              const afterFp = validationIssuesFingerprint(result.issues);
+              // If repair did not change the fingerprint, do not schema-repair again
+              // on later primary attempts with the same errors (still allow one
+              // Claude regenerate). Mark so identical post-repair fingerprints skip.
+              lastSchemaRepairFingerprint = afterFp;
+            }
+          }
         }
       }
     }

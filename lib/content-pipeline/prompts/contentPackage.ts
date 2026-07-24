@@ -27,6 +27,7 @@ import {
   buildRegenerationInstructionBlock,
   type RegenerationContext,
 } from "@/lib/content-pipeline/regeneration";
+import { buildContentPackageVisualScenesBlock } from "@/lib/content-pipeline/prompts/contentPackageVisualScenes";
 
 export function buildContentPackageSystem(requireVideo: boolean): string {
   return (
@@ -179,13 +180,28 @@ export function buildContentPackagePrompt(
     "- Prefer Creative Directive mode beats / voice when they improve storytelling — soft guidance only.",
     "- Do not invent product claims outside Product Brain / proof.",
     input.requireVideo
-      ? "- Require video.concept, video.script, voiceover_text, subtitles, and 3–5 visual_scenes or image_prompts."
+      ? "- Require video.concept, video.script, voiceover_text, subtitles, and 3–5 visual_scenes (legacy IMAGE preferred)."
       : "- Video block optional for text-only packages.",
     "- platform_outputs must include every required platform listed below.",
     `- Required platforms: ${platforms.join(", ")}`,
     input.videoPlatforms && input.videoPlatforms.length > 0
       ? `- Video platforms (shared video): ${input.videoPlatforms.join(", ")}`
       : "",
+    "",
+    "PLATFORM_OUTPUTS FIELD TYPES:",
+    "- caption: string (never an object)",
+    "- cta: string (never an object)",
+    "- hashtags: string[]",
+    "- format: string",
+    "- caption_variants / title_variants: string[] only when VARIANT COUNTS require them",
+    "- Never put an object where a string is required.",
+    "",
+    "OTHER FIELD TYPES:",
+    '- video.duration_seconds must be a string when present (e.g. "24").',
+    "- asset_usage is optional; when present each entry is { asset_id: string, used_as: string, modify?: string }.",
+    "- asset_usage[].used_as must be a string.",
+    "",
+    buildContentPackageVisualScenesBlock({ requireVideo: input.requireVideo }),
     "",
     "Return a single JSON object matching the content package schema:",
     "{",
@@ -196,11 +212,11 @@ export function buildContentPackagePrompt(
     '  "subtitles": string,',
     '  "cta": { "type": string, "text": string },',
     '  "video": { "concept": string, "script": string, "duration_seconds": string },',
-    '  "platform_outputs": { "<platform>": { "caption": string, "cta": string, "hashtags": string[], "format": string } },',
+    '  "platform_outputs": { "<platform>": { "caption": string, "cta": string, "hashtags": string[], "format": string, "caption_variants"?: string[], "title_variants"?: string[] } },',
     '  "hashtags": string[],',
     '  "image_prompts": string[],',
-    '  "visual_scenes": optional typed scenes,',
-    '  "asset_usage": optional,',
+    '  "visual_scenes": [ { "source": "ai", "image_prompt": "string" }, ... ],',
+    '  "asset_usage": [ { "asset_id": "string", "used_as": "string" } ],',
     '  "scenario": optional string',
     "}",
   ]

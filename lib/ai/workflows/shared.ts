@@ -31,6 +31,8 @@ export type WorkflowResult<T> =
       error: GenerationTerminalError;
       validationErrors: ValidationIssue[];
       attempts: number;
+      /** Last model raw text when available (for bounded failure audit). */
+      lastRaw?: string;
     };
 
 export async function loadProjectOrThrow(
