@@ -19,7 +19,9 @@ import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 export const PRODUCTION_STRATEGY_SYSTEM =
   "You are the Content Strategy Layer for an AI Content Manager. You design a " +
   "coherent batch of content PACKAGE concepts for a production run (each item is " +
-  "one video package concept, not a calendar week). Funnel stages are exactly: " +
+  "one video package concept — NOT a calendar week plan). Your only jobs: distribute " +
+  "generated videos across the batch, maintain variety, maintain funnel balance, " +
+  "maintain tone balance, and maintain content diversity. Funnel stages are exactly: " +
   "Awareness, Problem Aware, Solution Aware, Conversion. Balance the funnel across " +
   "these stages; it must never be Conversion-only. Every content_plan item MUST have " +
   "a funnel_stage. Prefer evergreen_topic_id or trend_id when those lists provide IDs; " +
@@ -194,7 +196,9 @@ export function buildProductionStrategyPrompt(
     "",
     productionFunnelMixBlock(project),
     "",
-    `PRODUCTION RUN: plan exactly ${packageCount} content_plan items.`,
+    `PRODUCTION RUN CONTENT STRATEGY: plan exactly ${packageCount} content_plan items.`,
+    "Responsibilities ONLY: distribute videos, maintain variety, funnel balance, tone balance, content diversity.",
+    "This is NOT a weekly calendar strategy.",
     "Each item is ONE package concept (= one shared video theme). Platform outputs " +
       "for multiple surfaces are generated later from the run config — do not create " +
       "duplicate items per platform.",
@@ -218,6 +222,7 @@ export function buildProductionStrategyPrompt(
       "funnel_stage": "Awareness|Problem Aware|Solution Aware|Conversion",
       "topic": "string",
       "angle": "string",
+      "pain_point": "string — copy one PROJECT PAIN POINT (or closest) this item anchors to",
       "priority": 1,
       "trend_id": "uuid from ELIGIBLE TRENDS when used",
       "evergreen_topic_id": "uuid from EVERGREEN TOPICS when used"
@@ -228,7 +233,8 @@ export function buildProductionStrategyPrompt(
       "funnel_distribution must not be Conversion-only. " +
       `Set platform to "${primaryPlatform}" on every item. ${sourceRule}` +
       (painPointFirst
-        ? " Every item's topic MUST anchor to a real pain point (see PAIN POINT FIRST): " +
+        ? " Every item MUST set pain_point to one real project pain point (verbatim or close paraphrase) " +
+            "and the topic MUST anchor to it (see PAIN POINT FIRST): " +
             "~80% directly tied to one explicit pain point, ~20% supporting details that still " +
             "connect to a pain point."
         : ""),

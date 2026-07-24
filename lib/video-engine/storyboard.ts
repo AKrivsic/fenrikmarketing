@@ -3,7 +3,7 @@ import { productUiRequiresStaticMotion } from "@/lib/assets/productUiGuards";
 import {
   narrativeBeatRolesForCount,
   planBeatDurations,
-} from "@/lib/narrative-beats";
+} from "@/lib/video-engine/narrativeBeatRoles";
 import type {
   MotionIntensity,
   MotionIntent,

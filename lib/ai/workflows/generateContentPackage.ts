@@ -1,6 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Json, PackageStatus } from "@/lib/supabase/types";
-import { getCopywritingProvider } from "@/lib/ai/index";
 import {
   FUNNEL_STAGE_LABELS,
   normalizeFunnelStage,
@@ -17,41 +16,19 @@ import {
   resolveVideoPackagePlatforms,
 } from "@/lib/projects/contentControls";
 import {
-  angleLensForIndex,
   normalizeProductionConfig,
   outputsForPackageIndex,
-  painPointFocusForIndex,
   resolveRunGenerationPlan,
 } from "@/lib/projects/productionRun";
-import { normalizePainPoints } from "@/lib/ai/prompts/context";
-import {
-  buildRecentAssetUsageBlock,
-  loadRecentAssetUsageContext,
-} from "@/lib/assets/loadRecentAssetUsage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { appendUrlToText, xUrlVariantIndices } from "@/lib/ai/websiteLinks";
-import { generateValidatedJson } from "@/lib/ai/runWithRepair";
 import {
   buildGenerationTelemetryDocument,
-  creativeCandidatesSummaries,
-  conceptFidelitySummaries,
   getTelemetryCollector,
-  narrativeBeatsSummaries,
-  presentationGenerationSummaries,
   runWithTelemetrySession,
-  storyIntegritySummaries,
   withTelemetry,
-  withTelemetrySync,
 } from "@/lib/ai/telemetry";
-import {
-  buildGenerateContentPackagePrompt,
-  buildGeneratePackageSystem,
-  type PreviousPackageAngle,
-} from "@/lib/ai/prompts/generateContentPackage";
-import {
-  buildContentPackageSchema,
-  type ContentPackageOutput,
-} from "@/lib/ai/schemas/contentPackage";
+import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import {
   loadProjectOrThrow,
   WorkflowError,
@@ -64,83 +41,13 @@ import {
   buildVideoJobInput,
   loadAvailableAssets,
   loadStrategyItemContext,
-  makePackageGuardrails,
-  normalizeImagePrompts,
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
-import {
-  normalizeVisualScenePlan,
-  syncLegacyFieldsFromVisualScenes,
-} from "@/lib/content-package/visualScenePlan";
 import { derivePromptPresentationTypes } from "@/lib/scene-types/presentation/promptPresentationTypes";
 import { assetSignalsFromRef } from "@/lib/scene-types/presentation/projectSignals";
-import { applyPresentationFrequencyToPackage } from "@/lib/scene-types/presentation/presentationFrequencyGuardrail";
-import { countChecklistEntries } from "@/lib/scene-types/presentation/checklistFrequencyGuardrail";
-import { countPhoneEntries } from "@/lib/scene-types/presentation/phoneFrequencyGuardrail";
-import { countQuoteEntries } from "@/lib/scene-types/presentation/quoteFrequencyGuardrail";
-import { countStatisticEntries } from "@/lib/scene-types/presentation/statisticFrequencyGuardrail";
-import { countCtaEntries } from "@/lib/scene-types/presentation/ctaFrequencyGuardrail";
-import { resolveChecklistGenerationMode } from "@/lib/scene-types/checklistGenerationMode";
-import { resolveChecklistAllowlistStatus } from "@/lib/scene-types/checklistProductionRollout";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
-import {
-  loadSeriesCreativeContext,
-} from "@/lib/series/loadSeriesCreativeContext";
-import { buildSeriesCreativeContextBlock } from "@/lib/series/seriesDiversityPrompt";
-import {
-  resolveVisualProfileForPackage,
-  visualProfileFieldsForPersistence,
-} from "@/lib/visual-profile/packageVisualProfile";
-import { visualProfileImagePromptBlock } from "@/lib/visual-profile/imagePromptProfile";
-import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForPackage";
-import { planVisualNarrativeForPackage } from "@/lib/visual-narrative/planForPackage";
-import { planVisualMediumForPackage } from "@/lib/visual-medium/planForPackage";
-import { planProductRevealForPackage } from "@/lib/product-reveal/planForPackage";
-import { planProductPresentationForPackage } from "@/lib/product-presentation/planForPackage";
-import {
-  productPresentationFieldsForValidationPersistence,
-  productPresentationValidationIssues,
-  validateProductPresentationPackage,
-} from "@/lib/product-presentation/validateProductPresentation";
-import { planAttentionForPackage } from "@/lib/attention/planForPackage";
-import { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
-import { buildTypedDecisionPacks } from "@/lib/architecture/typedDecisionPacks";
-import {
-  buildFidelityRepairDelta,
-  buildStoryIntegrityRepairDelta,
-  buildProductDemonstrationRepairDelta,
-  buildRepairDeltaPrompt,
-  mergeRepairedPackage,
-} from "@/lib/architecture/repairDelta";
-import {
-  attachFidelityToPlan,
-  attachProductDemonstrationIntegrityToPlan,
-  attachStoryIntegrityToPlan,
-  buildCreativeDnaDiagnostics,
-  checkConceptFidelity,
-  creativeCandidateFieldsForPersistence,
-  storyIntegrityValidationIssues,
-  validateCreativeDnaAgainstPackage,
-  validateProductDemonstrationIntegrity,
-  productDemonstrationValidationIssues,
-  validateStoryIntegrity,
-} from "@/lib/creative-candidates";
-import {
-  planCreativeEngineV3ForPackage,
-  creativeEngineV3FieldsForPersistence,
-} from "@/lib/creative-engine-v3";
-import {
-  classifyFidelityFailuresForRepair,
-  tempLogAffirmativeGenericOfficeCollapse,
-} from "@/lib/creative-candidates/fidelityCheck";
-import { enforceCandidateHook } from "@/lib/creative-candidates/enforceCandidateHook";
-import { validateAndRepairCandidate } from "@/lib/creative-candidates/candidateValidation";
 import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
-import { alignOnScreenCtaContract } from "@/lib/content-package/alignOnScreenCtaContract";
-import { normalizeCreativeDNA } from "@/lib/creative-candidates/creativeDNA";
-import type { CreativeCandidatePlan } from "@/lib/creative-candidates/types";
-import type { CreativeDnaDiagnostics } from "@/lib/creative-candidates/creativeDNA";
 import {
   claimPackageGeneration,
   newOwnerToken,
@@ -150,30 +57,7 @@ import {
   persistActiveCollectorFailureTelemetry,
   lookupProductionRunItemId,
   runtimeLog,
-  shouldHardFailFidelityAfterRepair,
-  shouldHardFailStoryIntegrityAfterRepair,
-  shouldInvokeStoryIntegrityRepair,
-  storyIntegrityAfterSkippedRepair,
 } from "@/lib/production-runtime";
-import {
-  buildNarrativeBeatPromptBlock,
-  buildNarrativeTimelineDebug,
-  deriveNarrativeBeats,
-  narrativeBeatFieldsForPersistence,
-  narrativeBeatRolesForCount,
-  planBeatDurations,
-  validateDurationPlan,
-  validateInformationProgression,
-  validateStoryProgression,
-  validateVisualProgression,
-  type NarrativeBeatPlan,
-  type StoryProgressionDiagnostics,
-  type VisualProgressionDiagnostics,
-  type InformationProgressionDiagnostics,
-  type DurationValidationDiagnostics,
-  type NarrativeTimelineDebug,
-} from "@/lib/narrative-beats";
-import { ensureUniqueHook } from "@/lib/ai/workflows/regenerateHook";
 import {
   DEFAULT_GENERATION_MODE,
   resolveGenerationMode,
@@ -182,12 +66,7 @@ import {
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import { collectAssetUsageFromPackage } from "@/lib/content-package/visualScenePlan";
-
-// Generate Content Package — Claude can exceed the default 60s transport budget;
-// align with weekly/production strategy. Single transport attempt per validation
-// try so n8n/Vercel 300s is not spent on stacked HTTP retries.
-const GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS = 180_000;
-const GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS = 1;
+import { runCreativePipeline } from "@/lib/content-pipeline/runCreativePipeline";
 
 export interface GenerateContentPackageInput {
   projectId: string;
@@ -465,28 +344,8 @@ async function runGenerateContentPackageAfterClaim(
     input.strategyItemId,
   );
   const assets = await loadAvailableAssets(supabase, input.projectId);
-  const recentAssetUsageBlock = buildRecentAssetUsageBlock(
-    await loadRecentAssetUsageContext(supabase, input.projectId),
-  );
-  // Phase 2E — recent hooks/topics/CTAs/scenarios fed into the prompt so the
-  // model avoids repeating itself.
   const memory = await buildAntiRepetitionMemory(supabase, input.projectId);
-  // Phase 1: Scene Type Memory prose no longer injected into Presentation.
-  // Soft restraint remains in applySceneTypeHistoryGuardrail (loads history itself).
-  const seriesCreative = await loadSeriesCreativeContext({
-    supabase,
-    projectId: input.projectId,
-    weeklyStrategyId: context.weeklyStrategyId,
-    productionRunId: context.productionRunId,
-  });
-  const seriesCreativeContextBlock = buildSeriesCreativeContextBlock({
-    series: seriesCreative,
-  });
 
-  // Production Run V3: when this item was seeded by a production run, the run's
-  // selected platforms + multipliers drive generation (incl. youtube / x and
-  // text-output fan-out). Otherwise fall back to projects.platforms (existing
-  // weekly-strategy-driven behavior — fully backwards compatible).
   const runInfo = context.productionRunId
     ? await loadRunGenerationPlan(supabase, input.projectId, context.productionRunId)
     : null;
@@ -494,15 +353,10 @@ async function runGenerateContentPackageAfterClaim(
 
   const controls = parseContentControls(project.publishing_rules);
 
-  // Respect projects.platforms: only generate/require/persist the package
-  // surfaces the project selected (falls back to the full required set).
   const targetPlatforms = runPlan
     ? runPlan.targetPlatforms
     : resolvePackagePlatforms(project.platforms);
 
-  // P3 runtime wiring — derive which selected platforms require video. A package
-  // gets ONE shared video only when at least one selected platform is
-  // video-typed; otherwise it is a text-only package and no video job.
   const videoPlatforms = runPlan
     ? runPlan.videoPlatforms
     : resolveVideoPackagePlatforms(
@@ -511,10 +365,6 @@ async function runGenerateContentPackageAfterClaim(
       );
   const requireVideo = videoPlatforms.length > 0;
 
-  // Multiplier Variants MVP-1 — how many outputs each platform must produce for
-  // THIS package (run + package index). When > 1 the prompt asks for that many
-  // distinct captions so fan-out persists real variants. Computed once here and
-  // reused by persistNewPackage (same inputs => identical counts).
   const variantCounts =
     runPlan && context.productionRunId
       ? buildVariantCounts(
@@ -525,10 +375,6 @@ async function runGenerateContentPackageAfterClaim(
         )
       : undefined;
 
-  // Attention First V1 — resolve the creative directive ONCE here (no salt for
-  // fresh generation) so the prompt, the storyboard role arc and the video job
-  // input all share the SAME mode. Pure + deterministic: no AI call.
-  // Visual Profile v3 needs the mode before AUTO scoring (package feel).
   const directives: CreativeDirectives = pickCreativeDirectives(
     buildCreativeSeed(
       FUNNEL_STAGE_LABELS[context.funnelStage],
@@ -536,45 +382,6 @@ async function runGenerateContentPackageAfterClaim(
       context.angle,
     ),
   );
-
-  // Visual Profile v3 — Product Brain baseline + package feel (funnel/topic/angle/mode).
-  const resolvedVisualProfile = resolveVisualProfileForPackage({
-    project,
-    packageSignals: {
-      funnelStage: context.funnelStage,
-      topic: context.topic,
-      angle: context.angle,
-      creativeMode: directives.mode.id,
-    },
-  });
-  const visualProfileImagePromptBlockText = visualProfileImagePromptBlock(
-    resolvedVisualProfile.profile,
-  );
-
-  // Run Package Diversity V1 — when this item belongs to a production run, give
-  // the prompt a PACKAGE DIVERSITY block (this is package N of M, lead with a
-  // distinct angle lens, and don't repeat sibling angles) so multiple packages
-  // in one run take different angles. Prompt/context-only: no new AI call, no
-  // new table. Omitted for legacy generation (prompt unchanged).
-  const packageDiversity =
-    runPlan && context.productionRunId && context.packageIndex !== null
-      ? {
-          packageIndex: context.packageIndex,
-          packageCount: runInfo?.packageCount,
-          angleLens: angleLensForIndex(context.packageIndex),
-          // Pain Point First V1 — deterministically anchor THIS package to a
-          // project pain point (cycled by index) and pick its primary/supporting
-          // mode (80/20). Null when the project has no pain points → the focus
-          // line is omitted and the block is unchanged.
-          ...painPointFocusFields(project, context.packageIndex),
-          previousAngles: await loadRunSiblingAngles(
-            supabase,
-            input.projectId,
-            context.productionRunId,
-            context.strategyItemId,
-          ),
-        }
-      : undefined;
 
   const generationMode = resolveGenerationMode(
     input.generationMode,
@@ -599,1288 +406,47 @@ async function runGenerateContentPackageAfterClaim(
     assets: assets.refs.map((ref) => assetSignalsFromRef(ref)),
   });
 
-  heartbeat.assertOwned("creative_engine");
-
-  // Creative Engine v3 — sole production path (AI invents directions + concepts).
-  // Candidates first so Creative DNA can neutralize conflicting Identity environments.
-  let creativeEnginePersistence: Record<string, unknown> = {};
-  let creativeCandidatePlan: {
-    plan: CreativeCandidatePlan | null;
-    promptBlock: string;
-    dnaPromptBlock: string;
-    dnaResolve: import("@/lib/creative-candidates/creativeDNA").CreativeDnaResolveResult | null;
-  } = {
-    plan: null,
-    promptBlock: "",
-    dnaPromptBlock: "",
-    dnaResolve: null,
-  };
-
-  if (requireVideo) {
-    const v3 = await planCreativeEngineV3ForPackage({
-      project,
-      projectId: input.projectId,
-      topic: context.topic,
-      angle: context.angle,
-      funnelStage: context.funnelStage,
-      platform: context.platform,
-      format: context.format,
-      ctaHint: project.default_cta,
-      productionRunId: context.productionRunId,
-      packageIndex: context.packageIndex,
-      packageCount: runInfo?.packageCount ?? null,
-      painPointFocus: packageDiversity?.painPoint ?? null,
-      siblingAngles: (packageDiversity?.previousAngles ?? []).map((a) =>
-        [a.title, a.hook, a.topic].filter(Boolean).join(" — "),
-      ),
-      assets: assets.refs,
-      memory,
-    });
-    if (!v3.ok) {
-      return {
-        ok: false,
-        error: "generation_failed",
-        validationErrors: v3.validationErrors,
-        attempts: v3.attempts,
-      };
-    }
-    creativeCandidatePlan = {
-      plan: v3.plan,
-      promptBlock: v3.promptBlock,
-      dnaPromptBlock: v3.dnaPromptBlock,
-      dnaResolve: v3.dnaResolve,
-    };
-    creativeEnginePersistence = creativeEngineV3FieldsForPersistence({
-      telemetry: v3.telemetry,
-      plan: null,
-    });
-    withTelemetrySync(
-      {
-        stepName: "Creative Engine",
-        provider: "claude",
-        inputSummary: creativeCandidatesSummaries({ candidates: 0 }).input_summary,
-        outputSummary: () =>
-          creativeCandidatesSummaries({
-            rawIdeas: v3.telemetry.directions_generated.length,
-            filtered: v3.telemetry.directions_selected.length,
-            candidates: v3.telemetry.concepts_generated.length,
-            winnerId: v3.selectedCandidate.candidateId,
-          }).output_summary,
-        measureOutput: () => ({
-          directions: v3.telemetry.directions_selected.length,
-          concepts: v3.telemetry.concepts_generated.length,
-          winner: v3.selectedCandidate.candidateId,
-        }),
-      },
-      () => v3.telemetry,
-    );
-  }
-
-  let creativeCandidates: CreativeCandidatePlan | null = creativeCandidatePlan.plan;
-  const selectedDna = normalizeCreativeDNA(
-    creativeCandidates?.selectedCandidate.creativeDNA,
-  );
-
-  if (creativeCandidates) {
-    withTelemetrySync(
-      {
-        stepName: "Candidate Judge",
-        provider: "deterministic",
-        inputSummary:
-          "Creative Engine\n- Direction selection\n- Concept evaluation",
-        outputSummary: () =>
-          `Winner: ${creativeCandidates!.selectedCandidate.candidateId} (${creativeCandidates!.selectedCandidate.family})`,
-        measureOutput: () => creativeCandidates!.selectionDiagnostics ?? null,
-      },
-      () => creativeCandidates!.selectionDiagnostics,
-    );
-  }
-
-  // Narrative Beats — derived story spine (no new LLM). Between candidate and storyboard.
-  const narrativeBeatPlan: NarrativeBeatPlan | null =
-    creativeCandidates && requireVideo
-      ? withTelemetrySync(
-          {
-            stepName: "Narrative Beats",
-            provider: "deterministic",
-            inputSummary: narrativeBeatsSummaries([]).input_summary,
-            outputSummary: (plan) =>
-              narrativeBeatsSummaries(plan.beats.map((b) => b.role))
-                .output_summary,
-            measureOutput: (plan) => plan.beats.map((b) => b.role),
-          },
-          () =>
-            deriveNarrativeBeats({
-              winner: creativeCandidates!.selectedCandidate,
-              modeBeats: directives.mode.narrativeBeats,
-              topic: context.topic,
-              angle: context.angle,
-              painPoints: project.pain_points ?? [],
-              productIs: project.product_is ?? [],
-            }),
-        )
-      : null;
-  let storyProgressionDiagnostics: StoryProgressionDiagnostics | null = null;
-  let visualProgressionDiagnostics: VisualProgressionDiagnostics | null = null;
-  let postLlmInformationProgression: InformationProgressionDiagnostics | null =
-    null;
-  let durationValidation: DurationValidationDiagnostics | null = null;
-  let timelineDebug: NarrativeTimelineDebug | null = null;
-
-  const creativeIdentityPlan = planCreativeIdentityForPackage({
+  heartbeat.assertOwned("creative_pipeline");
+  const creative = await runCreativePipeline(supabase, {
     project,
-    visualProfile: resolvedVisualProfile.profile,
-    projectId: input.projectId,
-    strategyItemId: context.strategyItemId,
-    packageIndex: context.packageIndex,
-    topic: context.topic,
-    angle: context.angle,
-    series: seriesCreative,
-    requireVideo,
-    creativeDNA: selectedDna,
-    openingSituation:
-      creativeCandidates?.selectedCandidate?.openingSituation ?? null,
-  });
-
-  const visualNarrativePlan = planVisualNarrativeForPackage({
-    project,
-    identity: creativeIdentityPlan.identity,
-    projectId: input.projectId,
-    strategyItemId: context.strategyItemId,
-    packageIndex: context.packageIndex,
-    topic: context.topic,
-    angle: context.angle,
-    series: seriesCreative,
-    funnelStage: context.funnelStage,
-    requireVideo,
-  });
-
-  const visualMediumPlan = planVisualMediumForPackage({
-    project,
-    visualProfile: resolvedVisualProfile.profile,
-    narrative: visualNarrativePlan.plan,
-    identity: creativeIdentityPlan.identity,
-    series: seriesCreative,
-    funnelStage: context.funnelStage,
-    requireVideo,
-    projectId: input.projectId,
-    strategyItemId: context.strategyItemId,
-    packageIndex: context.packageIndex,
-    topic: context.topic,
-    angle: context.angle,
-  });
-
-  const productRevealPlan = planProductRevealForPackage({
-    project,
-    generationMode,
-    assets: assets.refs,
-    narrative: visualNarrativePlan.plan,
-    visualMedium: visualMediumPlan.resolved?.medium ?? "PHOTOGRAPHIC",
-    requireVideo,
-  });
-
-  // Wave 1 PPD: compute + persist only when flag on; does not change gates.
-  const productPresentationPlan = planProductPresentationForPackage({
-    productReveal: productRevealPlan.plan,
-    assets: assets.refs,
-    visualNarrative: visualNarrativePlan.plan,
-    assetCoverage,
-    funnelStage: context.funnelStage,
-  });
-
-  const attentionPlan = planAttentionForPackage({
-    project,
-    projectId: input.projectId,
-    strategyItemId: context.strategyItemId,
-    packageIndex: context.packageIndex,
-    topic: context.topic,
-    angle: context.angle,
-    funnelStage: context.funnelStage,
-    creativeMode: directives.mode.id,
-    series: seriesCreative,
-    requireVideo,
-  });
-
-  // Phase 2B — Typed Decision Packs (authoritative ownership boundary).
-  const decisionPacks = buildTypedDecisionPacks({
-    project,
-    directives,
-    funnelStage: context.funnelStage,
-    generationMode,
-    assetCoverage,
-    selectedCandidate: creativeCandidates?.selectedCandidate
-      ? {
-          hookLine: creativeCandidates.selectedCandidate.hookLine,
-          openingSituation: creativeCandidates.selectedCandidate.openingSituation,
-          emotionalReaction: creativeCandidates.selectedCandidate.emotionalReaction,
-          creativeDNA: creativeCandidates.selectedCandidate.creativeDNA ?? null,
-        }
-      : null,
-    creativeDna: selectedDna,
-    creativeIdentity: creativeIdentityPlan.identity,
-    attentionDeliveryArc: attentionPlan.plan?.delivery_arc ?? null,
-    attentionPromptBlock: attentionPlan.promptBlock || null,
-    creativeDnaPromptBlock: creativeCandidatePlan.dnaPromptBlock || null,
-    creativeIdentityPromptBlock: creativeIdentityPlan.promptBlock || null,
-    targetPlatforms,
-    requireVideo,
-    videoPlatforms,
-  });
-
-  const narrativeBeatPromptBlock = narrativeBeatPlan
-    ? buildNarrativeBeatPromptBlock(narrativeBeatPlan, {
-        modeBeatArc: decisionPacks.storyStructure.beatArc,
-      })
-    : "";
-
-  const buildPackagePrompt = (fidelityRepair?: string) =>
-    buildGenerateContentPackagePrompt({
-      project,
-      funnelStage: context.funnelStage,
-      topic: context.topic,
-      angle: context.angle,
-      platform: context.platform,
-      format: context.format,
-      availableAssets: assets.refs,
-      memory,
-      recentAssetUsageBlock,
-      targetPlatforms,
-      requireVideo,
-      videoPlatforms,
-      variantCounts,
-      directives,
-      packageDiversity,
-      generationMode,
-      promptPresentationTypes,
-      seriesCreativeContextBlock,
-      visualProfileImagePromptBlock: visualProfileImagePromptBlockText,
-      visualNarrativePromptBlock: visualNarrativePlan.promptBlock || undefined,
-      visualMediumPromptBlock: visualMediumPlan.promptBlock || undefined,
-      productRevealPromptBlock: productRevealPlan.promptBlock || undefined,
-      creativeCandidatePromptBlock:
-        creativeCandidatePlan.promptBlock || undefined,
-      narrativeBeatPromptBlock: narrativeBeatPromptBlock || undefined,
-      creativeCandidateFidelityRepair: fidelityRepair,
-      // Phase 3 — packs are authoritative; Presentation renders only.
-      decisionPacks,
-    });
-
-  heartbeat.assertOwned("presentation");
-
-  let generated = await generateValidatedJson({
-    textProvider: getCopywritingProvider(),
-    system: buildGeneratePackageSystem(requireVideo),
-    prompt: buildPackagePrompt(),
-    validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-    guardrails: makePackageGuardrails({
-      project,
-      context,
-      classById: assets.classById,
-      requiredPlatforms: targetPlatforms,
-      requireVideo,
-      assetCoverage,
-      preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
-    }),
-    timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
-    maxTransportAttempts: GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
-    telemetry: {
-      stepName: "Presentation Generation",
-      inputSummary: presentationGenerationSummaries().input_summary,
-      outputSummary: (result) =>
-        result.ok
-          ? presentationGenerationSummaries().output_summary
-          : `failed: ${result.validationErrors
-              .map((e) => e.message)
-              .slice(0, 2)
-              .join("; ")}`,
-    },
-  });
-
-  if (!generated.ok) {
-    return {
-      ok: false,
-      error: "generation_failed",
-      validationErrors: generated.validationErrors,
-      attempts: generated.attempts,
-    };
-  }
-
-  // Phase 2E — lightweight dedup: if the hook is identical to a recent one,
-  // regenerate ONLY the hook (never the whole package).
-  generated.value.hook = await ensureUniqueHook({
-    hook: generated.value.hook,
-    project,
-    topic: context.topic,
-    angle: context.angle,
+    context,
+    assets,
     memory,
+    targetPlatforms,
+    videoPlatforms,
+    requireVideo,
+    variantCounts,
+    packageIndex: context.packageIndex,
+    packageCount: runInfo?.packageCount ?? null,
+    generationMode,
+    assetCoverage,
+    preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
+    directives,
   });
-
-  // Attention & Engagement v1 — keep stored hook and first spoken line aligned.
-  // When a Creative Candidate is selected, never promote a weaker VO opening
-  // over the canonical hook (HOOK-1); enforceCandidateHook runs next.
-  let aligned = alignHookWithFirstSpoken({
-    hook: generated.value.hook,
-    voiceoverText: generated.value.voiceover_text,
-    lockToHook: Boolean(creativeCandidates),
-  });
-  generated.value.hook = aligned.hook;
-  generated.value.voiceover_text = aligned.voiceover_text;
-
-  // Creative Candidate Selection — concept fidelity.
-  // Order: deterministic hook enforce → fidelity check → material repair only.
-  let regenerationReason: string | null = null;
-  let fidelityFirstPassPassed: boolean | null = null;
-  let fidelityFirstPassReasons: string[] = [];
-  let fullPackageGenerations = 1;
-  let hookDeterministicEnforceReason: string | null = null;
-  let candidateRepairReasons: string[] = [];
-  const generationTelemetry: Array<Record<string, unknown>> = [];
-
-  const recordPhase = (
-    phase: string,
-    startMs: number,
-    extra?: Record<string, unknown>,
-  ) => {
-    generationTelemetry.push({
-      phase,
-      latency_ms: Date.now() - startMs,
-      provider: "anthropic",
-      ...extra,
-    });
-  };
-
-  if (creativeCandidates && requireVideo) {
-    const requireOkPackage = (): ContentPackageOutput => {
-      if (!generated.ok) {
-        throw new Error("telemetry: expected successful package generation");
-      }
-      return generated.value;
-    };
-    const requireSelected = () => {
-      if (!creativeCandidates) {
-        throw new Error("telemetry: expected selected creative candidate");
-      }
-      return creativeCandidates.selectedCandidate;
-    };
-
-    const repairedCand = validateAndRepairCandidate(
-      creativeCandidates.selectedCandidate,
-      { productLabel: project.product_is?.[0] },
-    );
-    candidateRepairReasons = repairedCand.reasons;
-    creativeCandidates = {
-      ...creativeCandidates,
-      selectedCandidate: repairedCand.candidate,
-    };
-
-    const enforced = withTelemetrySync(
-      {
-        stepName: "Hook Enforcement",
-        provider: "deterministic",
-        inputSummary:
-          "Hook Enforcement input:\n- Candidate hookLine\n- Generated hook\n- Voiceover",
-        outputSummary: (r) => `reason: ${r.reason}`,
-        measureOutput: (r) => ({ reason: r.reason, hook: r.hook }),
-      },
-      () => {
-        const pkg = requireOkPackage();
-        return enforceCandidateHook({
-          hookLine: requireSelected().hookLine,
-          hook: pkg.hook,
-          voiceoverText: pkg.voiceover_text,
-        });
-      },
-    );
-    hookDeterministicEnforceReason = enforced.reason;
-    generated.value.hook = enforced.hook;
-    generated.value.voiceover_text = enforced.voiceover_text;
-
-    let fidelity = withTelemetrySync(
-      {
-        stepName: "Concept Fidelity",
-        provider: "deterministic",
-        inputSummary: conceptFidelitySummaries({ passed: true }).input_summary,
-        outputSummary: (f) =>
-          conceptFidelitySummaries({
-            passed: f.passed,
-            passLabel: "Passed first pass",
-          }).output_summary,
-        warnings: (f) => (f.passed ? [] : f.failureReasons.slice(0, 8)),
-        measureOutput: (f) => ({
-          passed: f.passed,
-          reasons: f.failureReasons,
-        }),
-      },
-      () => {
-        const pkg = requireOkPackage();
-        return checkConceptFidelity({
-          winner: requireSelected(),
-          hook: pkg.hook,
-          voiceoverText: pkg.voiceover_text,
-          imagePrompts: pkg.image_prompts,
-          visualScenes: pkg.visual_scenes,
-          topic: context.topic,
-          angle: context.angle,
-        });
-      },
-    );
-    fidelityFirstPassPassed = fidelity.passed;
-    fidelityFirstPassReasons = [...fidelity.failureReasons];
-    if (fidelity.diagnostics?.length) {
-      console.info(
-        "[concept-fidelity] first-pass diagnostics",
-        creativeCandidates.selectedCandidate.candidateId,
-        fidelity.diagnostics.map((d) => ({
-          rule: d.rule,
-          passed: d.passed,
-          reason: d.reason,
-          aliases: d.matchedAliases,
-        })),
-      );
-    }
-
-    // TEMP — snapshot for affirmative_generic_office hard-fail diagnosis.
-    let genericOfficeBefore: {
-      voiceoverText: string;
-      visualScenes?: readonly unknown[] | null;
-      imagePrompts?: readonly string[] | null;
-    } | null = null;
-    if (
-      fidelity.failureReasons.includes("storyboard_collapsed_to_generic_office")
-    ) {
-      const pkg = requireOkPackage();
-      genericOfficeBefore = {
-        voiceoverText: pkg.voiceover_text,
-        visualScenes: pkg.visual_scenes,
-        imagePrompts: pkg.image_prompts,
-      };
-    }
-
-    const classification = classifyFidelityFailuresForRepair(fidelity);
-    if (!fidelity.passed && classification.material) {
-      regenerationReason = classification.materialReasons.join(",");
-      const repairStart = Date.now();
-      const priorPackage = requireOkPackage();
-      const fidelityDelta = buildFidelityRepairDelta({
-        winner: creativeCandidates.selectedCandidate,
-        fidelity,
-      });
-      const repaired = await generateValidatedJson({
-        textProvider: getCopywritingProvider(),
-        system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildRepairDeltaPrompt({
-          decisionPacks,
-          repairDelta: fidelityDelta,
-          generatedPackage: priorPackage,
-          validationResults: { fidelity },
-          winner: creativeCandidates.selectedCandidate,
-          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
-          requireVideo,
-        }),
-        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-        guardrails: makePackageGuardrails({
-          project,
-          context,
-          classById: assets.classById,
-          requiredPlatforms: targetPlatforms,
-          requireVideo,
-          assetCoverage,
-          preferredVideoUsageById: requireVideo
-            ? preferredVideoUsageById
-            : undefined,
-        }),
-        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
-        maxTransportAttempts:
-          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
-        telemetry: {
-          stepName: "Concept Fidelity Repair",
-          repair: true,
-          inputSummary:
-            "Concept Fidelity Repair input:\n- Selected Candidate\n- Failed fidelity rules\n- Prior package draft\n- RepairDelta (packs immutable)",
-          outputSummary: (r) =>
-            r.ok ? "Repaired package" : "Repair failed",
-        },
-      });
-      recordPhase("fidelity_repair", repairStart, {
-        ok: repaired.ok,
-        attempts: repaired.ok ? repaired.attempts : undefined,
-      });
-      if (repaired.ok) {
-        fullPackageGenerations += 1;
-        generated = {
-          ...repaired,
-          value: mergeRepairedPackage({
-            prior: priorPackage,
-            repaired: repaired.value,
-            delta: fidelityDelta,
-            decisionPacks,
-            winner: creativeCandidates.selectedCandidate,
-          }),
-        };
-        generated.value.hook = await ensureUniqueHook({
-          hook: generated.value.hook,
-          project,
-          topic: context.topic,
-          angle: context.angle,
-          memory,
-        });
-        aligned = alignHookWithFirstSpoken({
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          lockToHook: true,
-        });
-        generated.value.hook = aligned.hook;
-        generated.value.voiceover_text = aligned.voiceover_text;
-        const reEnforce = enforceCandidateHook({
-          hookLine: creativeCandidates.selectedCandidate.hookLine,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-        });
-        generated.value.hook = reEnforce.hook;
-        generated.value.voiceover_text = reEnforce.voiceover_text;
-        fidelity = checkConceptFidelity({
-          winner: creativeCandidates.selectedCandidate,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          topic: context.topic,
-          angle: context.angle,
-        });
-      }
-      if (genericOfficeBefore) {
-        const afterPkg = generated.ok ? generated.value : null;
-        tempLogAffirmativeGenericOfficeCollapse({
-          winner: creativeCandidates.selectedCandidate,
-          before: genericOfficeBefore,
-          after: afterPkg
-            ? {
-                voiceoverText: afterPkg.voiceover_text,
-                visualScenes: afterPkg.visual_scenes,
-                imagePrompts: afterPkg.image_prompts,
-              }
-            : null,
-        });
-      }
-    } else if (!fidelity.passed && !classification.material) {
-      // Deterministic-only residues — do not burn a full Claude regenerate.
-      regenerationReason = null;
-      console.info(
-        "[concept-fidelity] non-material failures after deterministic fixes",
-        classification.deterministicReasons,
-      );
-      if (genericOfficeBefore) {
-        tempLogAffirmativeGenericOfficeCollapse({
-          winner: creativeCandidates.selectedCandidate,
-          before: genericOfficeBefore,
-          after: null,
-        });
-      }
-    } else if (
-      genericOfficeBefore &&
-      !fidelity.failureReasons.includes(
-        "storyboard_collapsed_to_generic_office",
-      )
-    ) {
-      // First pass flagged collapse but subsequent deterministic path cleared it.
-      tempLogAffirmativeGenericOfficeCollapse({
-        winner: creativeCandidates.selectedCandidate,
-        before: genericOfficeBefore,
-        after: {
-          voiceoverText: requireOkPackage().voiceover_text,
-          visualScenes: requireOkPackage().visual_scenes,
-          imagePrompts: requireOkPackage().image_prompts,
-        },
-      });
-    }
-    creativeCandidates = attachFidelityToPlan(
-      creativeCandidates,
-      fidelity,
-      regenerationReason,
-    );
-
-    // Hard gate: after at most one material fidelity repair, only material
-    // residues hard-fail. Deterministic/heuristic residues soft-continue so
-    // Creative Engine work is not discarded (Invariant 4 / PR-006).
-    if (shouldHardFailFidelityAfterRepair(fidelity)) {
-      console.error(
-        "[concept-fidelity] hard fail after repair",
-        creativeCandidates.selectedCandidate.candidateId,
-        fidelity.failureReasons,
-      );
-      return {
-        ok: false,
-        error: "generation_failed",
-        validationErrors: fidelity.failureReasons.map((reason) => ({
-          path: "concept_fidelity",
-          message: reason,
-        })),
-        attempts: generated.attempts,
-      };
-    }
-    if (!fidelity.passed) {
-      console.warn(
-        "[concept-fidelity] soft-continue after non-material residues",
-        fidelity.failureReasons,
-      );
-    }
-
-    const alignOnScreenCta = () => {
-      if (!generated.ok) return;
-      const ctaAlign = alignOnScreenCtaContract({
-        videoScript: generated.value.video?.script ?? null,
-        visualScenes: generated.value.visual_scenes,
-      });
-      if (ctaAlign.changed && generated.value.video && ctaAlign.script !== null) {
-        generated.value.video = {
-          ...generated.value.video,
-          script: ctaAlign.script,
-        };
-      }
-    };
-    alignOnScreenCta();
-
-    // Story Integrity — selected commercial world must survive every beat.
-    // Hard gate: one repair, then fail generation (do not silently continue).
-    let storyIntegrity = withTelemetrySync(
-      {
-        stepName: "Story Integrity",
-        provider: "deterministic",
-        inputSummary: storyIntegritySummaries({
-          passed: true,
-          warningCount: 0,
-        }).input_summary,
-        outputSummary: (s) =>
-          storyIntegritySummaries({
-            passed: s.passed,
-            warningCount: s.warnings.length,
-          }).output_summary,
-        warnings: (s) => s.warnings.map((w) => w.code),
-        measureOutput: (s) => ({
-          passed: s.passed,
-          summary: s.summary,
-          warnings: s.warnings.length,
-        }),
-      },
-      () => {
-        const pkg = requireOkPackage();
-        return validateStoryIntegrity({
-          winner: requireSelected(),
-          voiceoverText: pkg.voiceover_text,
-          packageCta: pkg.cta?.text ?? "",
-          imagePrompts: pkg.image_prompts,
-          visualScenes: pkg.visual_scenes,
-          hook: pkg.hook,
-          productPresentation: productPresentationPlan.plan,
-        });
-      },
-    );
-    if (!storyIntegrity.passed) {
-      const integrityReason = `story_integrity:${storyIntegrity.summary}`;
-      regenerationReason = regenerationReason
-        ? `${regenerationReason};${integrityReason}`
-        : integrityReason;
-      const priorPackage = requireOkPackage();
-      const openingSceneText =
-        (priorPackage.image_prompts?.[0] ?? "").trim() ||
-        (typeof (priorPackage.visual_scenes?.[0] as { image_prompt?: string } | undefined)
-          ?.image_prompt === "string"
-          ? String(
-              (priorPackage.visual_scenes?.[0] as { image_prompt?: string })
-                .image_prompt,
-            )
-          : "") ||
-        (typeof (priorPackage.visual_scenes?.[0] as { used_as?: string } | undefined)
-          ?.used_as === "string"
-          ? String(
-              (priorPackage.visual_scenes?.[0] as { used_as?: string }).used_as,
-            )
-          : "");
-      const invokeRepair = shouldInvokeStoryIntegrityRepair({
-        integrity: storyIntegrity,
-        winner: creativeCandidates.selectedCandidate,
-        openingSceneText,
-      });
-      if (!invokeRepair) {
-        console.warn(
-          "[story-integrity] skip repair — intentional hands/prop opening",
-          {
-            codes: storyIntegrity.violations.map((v) => v.code),
-            summary: storyIntegrity.summary,
-          },
-        );
-        storyIntegrity = storyIntegrityAfterSkippedRepair(storyIntegrity);
-        regenerationReason = regenerationReason
-          ? `${regenerationReason};story_integrity_skip_repair_hands_prop`
-          : "story_integrity_skip_repair_hands_prop";
-      } else {
-      const storyStart = Date.now();
-      const storyDelta = buildStoryIntegrityRepairDelta({
-        winner: creativeCandidates.selectedCandidate,
-        integrity: storyIntegrity,
-        packageCta: priorPackage.cta?.text ?? "",
-      });
-      const repairedIntegrity = await generateValidatedJson({
-        textProvider: getCopywritingProvider(),
-        system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildRepairDeltaPrompt({
-          decisionPacks,
-          repairDelta: storyDelta,
-          generatedPackage: priorPackage,
-          validationResults: { storyIntegrity, fidelity },
-          winner: creativeCandidates.selectedCandidate,
-          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
-          requireVideo,
-        }),
-        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-        guardrails: makePackageGuardrails({
-          project,
-          context,
-          classById: assets.classById,
-          requiredPlatforms: targetPlatforms,
-          requireVideo,
-          assetCoverage,
-          preferredVideoUsageById: requireVideo
-            ? preferredVideoUsageById
-            : undefined,
-        }),
-        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
-        maxTransportAttempts:
-          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
-        telemetry: {
-          stepName: "Story Integrity Repair",
-          repair: true,
-          inputSummary:
-            "Story Integrity Repair input:\n- Selected Candidate\n- Integrity violations\n- Prior package draft\n- RepairDelta (packs immutable)",
-          outputSummary: (r) =>
-            r.ok ? "Repaired package" : "Repair failed",
-        },
-      });
-      recordPhase("story_repair", storyStart, {
-        ok: repairedIntegrity.ok,
-      });
-      if (repairedIntegrity.ok) {
-        fullPackageGenerations += 1;
-        generated = {
-          ...repairedIntegrity,
-          value: mergeRepairedPackage({
-            prior: priorPackage,
-            repaired: repairedIntegrity.value,
-            delta: storyDelta,
-            decisionPacks,
-            winner: creativeCandidates.selectedCandidate,
-          }),
-        };
-        generated.value.hook = await ensureUniqueHook({
-          hook: generated.value.hook,
-          project,
-          topic: context.topic,
-          angle: context.angle,
-          memory,
-        });
-        aligned = alignHookWithFirstSpoken({
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          lockToHook: true,
-        });
-        generated.value.hook = aligned.hook;
-        generated.value.voiceover_text = aligned.voiceover_text;
-        const reEnforce = enforceCandidateHook({
-          hookLine: creativeCandidates.selectedCandidate.hookLine,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-        });
-        generated.value.hook = reEnforce.hook;
-        generated.value.voiceover_text = reEnforce.voiceover_text;
-        fidelity = checkConceptFidelity({
-          winner: creativeCandidates.selectedCandidate,
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          topic: context.topic,
-          angle: context.angle,
-        });
-        creativeCandidates = attachFidelityToPlan(
-          creativeCandidates,
-          fidelity,
-          regenerationReason,
-        );
-        alignOnScreenCta();
-        storyIntegrity = validateStoryIntegrity({
-          winner: creativeCandidates.selectedCandidate,
-          voiceoverText: generated.value.voiceover_text,
-          packageCta: generated.value.cta?.text ?? "",
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          hook: generated.value.hook,
-          productPresentation: productPresentationPlan.plan,
-        });
-      }
-      }
-    }
-    creativeCandidates = attachStoryIntegrityToPlan(
-      creativeCandidates,
-      storyIntegrity,
-      regenerationReason,
-    );
-    if (storyIntegrity.warnings.length > 0) {
-      console.warn(
-        "[story-integrity] soft warnings (non-blocking)",
-        creativeCandidates.selectedCandidate.candidateId,
-        storyIntegrity.warnings,
-        storyIntegrity.ctaMatch,
-      );
-    }
-    // After one repair, only unrecoverable story codes hard-fail (Invariant 4).
-    if (shouldHardFailStoryIntegrityAfterRepair(storyIntegrity)) {
-      console.error(
-        "[story-integrity] hard fail after repair",
-        creativeCandidates.selectedCandidate.candidateId,
-        storyIntegrity.violations,
-      );
-      return {
-        ok: false,
-        error: "generation_failed",
-        validationErrors: storyIntegrityValidationIssues(storyIntegrity).map(
-          (issue) => ({
-            path: issue.path,
-            message: issue.message,
-          }),
-        ),
-        attempts: generated.attempts,
-      };
-    }
-    if (!storyIntegrity.passed) {
-      console.warn(
-        "[story-integrity] soft-continue after repairable residues",
-        storyIntegrity.violations,
-      );
-    }
-
-    // Sprint 4C.1 — Product Demonstration Integrity. One LLM repair via
-    // RepairDelta, then hard-fail only if still failing (PR-005).
-    let productDemoIntegrity = withTelemetrySync(
-      {
-        stepName: "Product Demonstration Integrity",
-        provider: "deterministic",
-        inputSummary:
-          "Product Demonstration Integrity input:\n- Selected Candidate\n- Visual scenes\n- Voiceover",
-        outputSummary: (p) =>
-          p.passed ? "Passed" : `Failed: ${p.summary}`,
-        measureOutput: (p) => ({
-          passed: p.passed,
-          summary: p.summary,
-        }),
-      },
-      () => {
-        const pkg = requireOkPackage();
-        return validateProductDemonstrationIntegrity({
-          winner: requireSelected(),
-          voiceoverText: pkg.voiceover_text,
-          imagePrompts: pkg.image_prompts,
-          visualScenes: pkg.visual_scenes,
-          productPresentation: productPresentationPlan.plan,
-        });
-      },
-    );
-    if (!productDemoIntegrity.passed) {
-      const demoReason = `product_demonstration_integrity:${productDemoIntegrity.summary}`;
-      regenerationReason = regenerationReason
-        ? `${regenerationReason};${demoReason}`
-        : demoReason;
-      const demoStart = Date.now();
-      const priorPackage = requireOkPackage();
-      const demoDelta = buildProductDemonstrationRepairDelta({
-        winner: creativeCandidates.selectedCandidate,
-        integrity: productDemoIntegrity,
-      });
-      const repairedDemo = await generateValidatedJson({
-        textProvider: getCopywritingProvider(),
-        system: buildGeneratePackageSystem(requireVideo),
-        prompt: buildRepairDeltaPrompt({
-          decisionPacks,
-          repairDelta: demoDelta,
-          generatedPackage: priorPackage,
-          validationResults: {
-            productDemonstration: productDemoIntegrity,
-            fidelity,
-            storyIntegrity,
-          },
-          winner: creativeCandidates.selectedCandidate,
-          funnelStageLabel: FUNNEL_STAGE_LABELS[context.funnelStage],
-          requireVideo,
-        }),
-        validator: buildContentPackageSchema(targetPlatforms, { requireVideo }),
-        guardrails: makePackageGuardrails({
-          project,
-          context,
-          classById: assets.classById,
-          requiredPlatforms: targetPlatforms,
-          requireVideo,
-          assetCoverage,
-          preferredVideoUsageById: requireVideo
-            ? preferredVideoUsageById
-            : undefined,
-        }),
-        timeoutMs: GENERATE_CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
-        maxTransportAttempts:
-          GENERATE_CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
-        telemetry: {
-          stepName: "Product Demonstration Integrity Repair",
-          repair: true,
-          inputSummary:
-            "PDI Repair input:\n- Selected Candidate\n- PDI violations\n- Prior package\n- RepairDelta",
-          outputSummary: (r) =>
-            r.ok ? "Repaired package" : "Repair failed",
-        },
-      });
-      recordPhase("product_demo_repair", demoStart, {
-        ok: repairedDemo.ok,
-      });
-      if (repairedDemo.ok) {
-        fullPackageGenerations += 1;
-        generated = {
-          ...repairedDemo,
-          value: mergeRepairedPackage({
-            prior: priorPackage,
-            repaired: repairedDemo.value,
-            delta: demoDelta,
-            decisionPacks,
-            winner: creativeCandidates.selectedCandidate,
-          }),
-        };
-        productDemoIntegrity = validateProductDemonstrationIntegrity({
-          winner: creativeCandidates.selectedCandidate,
-          voiceoverText: generated.value.voiceover_text,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-          productPresentation: productPresentationPlan.plan,
-        });
-      }
-    }
-    creativeCandidates = attachProductDemonstrationIntegrityToPlan(
-      creativeCandidates,
-      productDemoIntegrity,
-      regenerationReason,
-    );
-    if (!productDemoIntegrity.passed) {
-      console.error(
-        "[product-demonstration-integrity] hard fail after repair",
-        creativeCandidates.selectedCandidate.candidateId,
-        productDemoIntegrity.violations,
-      );
-      return {
-        ok: false,
-        error: "generation_failed",
-        validationErrors: productDemonstrationValidationIssues(
-          productDemoIntegrity,
-        ).map((issue) => ({
-          path: issue.path,
-          message: issue.message,
-        })),
-        attempts: generated.attempts,
-      };
-    }
-
-    // Wave 3 — PPD appearance / value-proof / forbidden-forms authority (flag on).
-    const productPresentationValidation = validateProductPresentationPackage({
-      plan: productPresentationPlan.plan,
-      visualScenes: generated.value.visual_scenes,
-      assets: assets.refs,
-    });
-    if (
-      productPresentationValidation.active &&
-      !productPresentationValidation.passed
-    ) {
-      console.error(
-        "[product-presentation] validation failed",
-        productPresentationValidation.summary,
-        productPresentationValidation.violations,
-      );
-      return {
-        ok: false,
-        error: "generation_failed",
-        validationErrors: productPresentationValidationIssues(
-          productPresentationValidation,
-        ),
-        attempts: generated.attempts,
-      };
-    }
-
-    // Diagnostics only — story / visual / information progression (no regenerate).
-    storyProgressionDiagnostics = validateStoryProgression({
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-    });
-    visualProgressionDiagnostics = validateVisualProgression({
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-    });
-    postLlmInformationProgression = validateInformationProgression({
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-    });
-    if (!storyProgressionDiagnostics.passed) {
-      console.warn(
-        "[story-progression] consecutive scenes near-duplicate purpose",
-        storyProgressionDiagnostics.summary,
-      );
-    }
-    if (!visualProgressionDiagnostics.passed) {
-      console.warn(
-        "[visual-progression] static scene repetition",
-        visualProgressionDiagnostics.summary,
-      );
-    }
-    if (!postLlmInformationProgression.passed) {
-      console.warn(
-        "[information-progression] same information across scenes",
-        postLlmInformationProgression.summary,
-      );
-    }
-    if (
-      narrativeBeatPlan &&
-      !narrativeBeatPlan.metaphorClarity.understandableWithinFirstThird
-    ) {
-      console.warn(
-        "[metaphor-clarity] opening may need earlier product-problem bridge (first third)",
-        narrativeBeatPlan.metaphorClarity.reasons,
-      );
-    }
+  if (!creative.ok) {
+    return creative;
   }
 
-  // Duration validation + timeline debug (deterministic estimate from VO words).
-  if (narrativeBeatPlan && requireVideo) {
-    const vo = generated.value.voiceover_text ?? "";
-    const wordCount = vo.trim().split(/\s+/).filter(Boolean).length;
-    const estimatedSeconds = Math.max(15, Math.min(25, wordCount / 2.6));
-    const roles = narrativeBeatRolesForCount(
-      Math.min(5, Math.max(3, narrativeBeatPlan.beats.length)),
-    );
-    // Rough equal word split for pre-render diagnostics
-    const per = Math.max(1, Math.floor(wordCount / Math.max(roles.length, 1)));
-    const segmentWordCounts = roles.map((_r, i) =>
-      i === roles.length - 1
-        ? Math.max(1, wordCount - per * (roles.length - 1))
-        : per,
-    );
-    const planned = planBeatDurations({
-      totalSeconds: estimatedSeconds,
-      roles,
-      segmentWordCounts,
-    });
-    durationValidation = validateDurationPlan({
-      roles,
-      durationsSeconds: planned.durations,
-      segmentWordCounts,
-      justifiedOverMax: planned.justifiedOverMax,
-    });
-    if (!durationValidation.passed) {
-      console.warn(
-        "[duration-validation] pacing diagnostics",
-        durationValidation.summary,
-      );
-    }
-    timelineDebug = buildNarrativeTimelineDebug({
-      winner: creativeCandidates?.selectedCandidate ?? null,
-      plan: narrativeBeatPlan,
-      voiceoverText: vo,
-      imagePrompts: generated.value.image_prompts,
-      visualScenes: generated.value.visual_scenes,
-      durationPlan: {
-        roles,
-        durationsSeconds: planned.durations,
-        justifiedOverMax: planned.justifiedOverMax,
-        validation: durationValidation,
-      },
-      informationProgression:
-        postLlmInformationProgression ??
-        narrativeBeatPlan.informationProgression,
-    });
-  }
-
-  let creativeDnaDiagnostics: CreativeDnaDiagnostics | null = null;
-  if (creativeCandidates && requireVideo) {
-    const dna = normalizeCreativeDNA(
-      creativeCandidates.selectedCandidate.creativeDNA,
-    );
-    const validation = dna
-      ? validateCreativeDnaAgainstPackage(dna, {
-          hook: generated.value.hook,
-          voiceoverText: generated.value.voiceover_text,
-          concept: generated.value.video?.concept,
-          imagePrompts: generated.value.image_prompts,
-          visualScenes: generated.value.visual_scenes,
-        })
-      : null;
-    creativeDnaDiagnostics = buildCreativeDnaDiagnostics({
-      plan: creativeCandidates,
-      identityEnvironmentSuppressed:
-        creativeIdentityPlan.identityEnvironmentSuppressed,
-      validation,
-      dnaResolve: creativeCandidatePlan.dnaResolve,
-    });
-    if (validation && !validation.passed) {
-      console.warn(
-        "[creative-dna] validation warnings",
-        creativeCandidates.selectedCandidate.candidateId,
-        validation.violations,
-      );
-    }
-  }
-
-  // MVP scene/image cost cap — drop empty prompts and cap to the supported max
-  // BEFORE persistence, so the stored package_brief and the queued video job
-  // both carry the exact render-ready list (≤5 generated stills per video).
-  normalizeVisualScenePlan(generated.value, {
-    workflow: "generate",
-    strategy_item_id: context.strategyItemId,
-  }, {
-    classById: assets.classById,
-  });
-  const requestedChecklistCount = countChecklistEntries(
-    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
-  );
-  const requestedPhoneCount = countPhoneEntries(
-    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
-  );
-  const requestedQuoteCount = countQuoteEntries(
-    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
-  );
-  const requestedStatisticCount = countStatisticEntries(
-    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
-  );
-  const requestedCtaCount = countCtaEntries(
-    (generated.value.visual_scenes ?? []) as import("@/lib/content-package/generatedVisualScene").PackageVisualSceneEntry[],
-  );
-  const frequencyDecisions = applyPresentationFrequencyToPackage(generated.value);
-  if (frequencyDecisions.length > 0) {
-    syncLegacyFieldsFromVisualScenes(generated.value);
-  }
-  // Re-align after frequency downgrades so script CTA claims match final typed scenes.
-  {
-    const ctaAlign = alignOnScreenCtaContract({
-      videoScript: generated.value.video?.script ?? null,
-      visualScenes: generated.value.visual_scenes,
-    });
-    if (ctaAlign.changed && generated.value.video && ctaAlign.script !== null) {
-      generated.value.video = {
-        ...generated.value.video,
-        script: ctaAlign.script,
-      };
-    }
-  }
-  generated.value.presentation_generation = {
-    mode: resolveChecklistGenerationMode(),
-    project_id: input.projectId,
-    ...visualProfileFieldsForPersistence(resolvedVisualProfile),
-    checklist_allowlist_status: resolveChecklistAllowlistStatus(input.projectId),
-    requested_checklist_count: requestedChecklistCount,
-    requested_phone_count: requestedPhoneCount,
-    requested_quote_count: requestedQuoteCount,
-    requested_statistic_count: requestedStatisticCount,
-    requested_cta_count: requestedCtaCount,
-    downgraded_checklist_count: frequencyDecisions.filter(
-      (d) => d.rule === "checklist_video_limit_exceeded",
-    ).length,
-    downgraded_phone_count: frequencyDecisions.filter(
-      (d) => d.rule === "phone_video_limit_exceeded",
-    ).length,
-    downgraded_quote_count: frequencyDecisions.filter(
-      (d) => d.rule === "quote_video_limit_exceeded",
-    ).length,
-    downgraded_statistic_count: frequencyDecisions.filter(
-      (d) => d.rule === "statistic_video_limit_exceeded",
-    ).length,
-    downgraded_cta_count: frequencyDecisions.filter(
-      (d) =>
-        d.rule === "cta_video_limit_exceeded" || d.rule === "cta_not_final_scene",
-    ).length,
-    frequency_decisions: frequencyDecisions,
+  const pkg = creative.data.package;
+  const pg =
+    pkg.presentation_generation &&
+    typeof pkg.presentation_generation === "object" &&
+    !Array.isArray(pkg.presentation_generation)
+      ? (pkg.presentation_generation as Record<string, unknown>)
+      : {};
+  pkg.presentation_generation = {
+    ...pg,
     prompt_presentation_types: promptPresentationTypes,
-    ...creativeIdentityPlan.persistenceFields,
-    ...visualNarrativePlan.persistenceFields,
-    ...visualMediumPlan.persistenceFields,
-    ...productRevealPlan.persistenceFields,
-    ...productPresentationPlan.persistenceFields,
-    ...productPresentationFieldsForValidationPersistence(
-      validateProductPresentationPackage({
-        plan: productPresentationPlan.plan,
-        visualScenes: generated.value.visual_scenes,
-        assets: assets.refs,
-      }),
-    ),
-    ...attentionPlan.persistenceFields,
-    ...(creativeCandidates
-      ? creativeCandidateFieldsForPersistence(
-          creativeCandidates,
-          creativeDnaDiagnostics,
-        )
-      : {}),
-    ...creativeEnginePersistence,
     generation_telemetry: buildGenerationTelemetryDocument({
       legacy: {
         strategy_item_id: context.strategyItemId,
         production_run_id: context.productionRunId ?? null,
-        full_package_generations: fullPackageGenerations,
-        fidelity_first_pass_passed: fidelityFirstPassPassed,
-        fidelity_first_pass_failure_reasons: fidelityFirstPassReasons,
-        fidelity_final_passed:
-          creativeCandidates?.finalScriptFidelity?.passed ?? null,
-        hook_deterministic_enforce_reason: hookDeterministicEnforceReason,
-        candidate_repair_reasons: candidateRepairReasons,
-        phases: generationTelemetry,
+        pipeline: "content_pipeline",
+        phases: [],
       },
       steps: getTelemetryCollector()?.snapshot() ?? [],
     }),
-    ...(narrativeBeatPlan
-      ? narrativeBeatFieldsForPersistence(narrativeBeatPlan, {
-          storyProgression: storyProgressionDiagnostics,
-          visualProgression: visualProgressionDiagnostics,
-          informationProgression: postLlmInformationProgression,
-          durationValidation,
-          timelineDebug,
-        })
-      : {}),
   };
-  normalizeImagePrompts(generated.value, {
-    workflow: "generate",
-    strategy_item_id: context.strategyItemId,
-  });
-
-  withTelemetrySync(
-    {
-      stepName: "Platform Outputs",
-      provider: "deterministic",
-      inputSummary:
-        "Platform Outputs input:\n- Presentation Generation package\n- Target platforms",
-      outputSummary: () => {
-        const po = generated.value.platform_outputs;
-        const keys =
-          po && typeof po === "object" ? Object.keys(po as object) : [];
-        return keys.length > 0
-          ? `Platforms: ${keys.join(", ")}`
-          : "No platform_outputs";
-      },
-      measureOutput: () => generated.value.platform_outputs ?? null,
-    },
-    () => generated.value.platform_outputs,
-  );
-
-  // Refresh steps snapshot after late markers (Platform Outputs) before persist.
-  const pg = generated.value.presentation_generation;
-  if (pg && typeof pg === "object" && !Array.isArray(pg)) {
-    const existing = (pg as Record<string, unknown>).generation_telemetry;
-    (pg as Record<string, unknown>).generation_telemetry =
-      buildGenerationTelemetryDocument({
-        legacy:
-          existing && typeof existing === "object" && !Array.isArray(existing)
-            ? (existing as Record<string, unknown>)
-            : {},
-        steps: getTelemetryCollector()?.snapshot() ?? [],
-      });
-  }
 
   const data = await withTelemetry(
     {
@@ -1901,12 +467,9 @@ async function runGenerateContentPackageAfterClaim(
         supabase,
         input.projectId,
         context,
-        generated.value,
+        pkg,
         targetPlatforms,
         videoPlatforms,
-        // Fan-out is enabled only for production-run items, using the run's
-        // multipliers + this package's index. Non-run generation keeps 1 item per
-        // platform (fanOut = null).
         runPlan && context.productionRunId
           ? {
               multipliers: runPlan.multipliers,
@@ -1914,13 +477,11 @@ async function runGenerateContentPackageAfterClaim(
               productionRunId: context.productionRunId,
             }
           : null,
-        directives,
+        creative.data.directives,
         canonicalWebsiteUrl(project),
       ),
   );
 
-  // Best-effort: fold Persist Package (+ any late steps) into stored telemetry
-  // without changing package content fields. Failures here must not fail the run.
   try {
     const finalSteps = getTelemetryCollector()?.snapshot() ?? [];
     const { data: briefRow } = await supabase
@@ -1970,27 +531,6 @@ async function runGenerateContentPackageAfterClaim(
   return { ok: true, data };
 }
 
-// Pain Point First V1 — resolves the deterministic pain-point focus for a run
-// package index into the PackageDiversitySpec fields. Returns an empty object
-// (no fields) when the project has no pain points, so the diversity block is
-// unchanged for those projects.
-function painPointFocusFields(
-  project: Parameters<typeof normalizePainPoints>[0],
-  packageIndex: number,
-): { painPoint?: string; painPointMode?: "primary" | "supporting" } {
-  const focus = painPointFocusForIndex(
-    normalizePainPoints(project),
-    packageIndex,
-  );
-  if (!focus) return {};
-  return { painPoint: focus.painPoint, painPointMode: focus.mode };
-}
-
-// Multiplier Variants MVP-1 — outputs each platform produces for THIS package
-// (run + package index). Mirrors the persist-time fan-out math so the prompt
-// asks for exactly as many distinct captions as will be persisted. Video
-// platforms are always 1 (single shared video); only text platforms with a
-// multiplier > 1 yield > 1 here.
 function buildVariantCounts(
   targetPlatforms: readonly string[],
   videoPlatforms: readonly string[],
@@ -2051,62 +591,6 @@ async function loadRunGenerationPlan(
     : null;
 }
 
-// Run Package Diversity V1 — loads a compact list of the angles already used by
-// SIBLING packages in the same production run, so the prompt can say "do not
-// repeat these". Reuses EXISTING rows only (strategy items tagged with the run
-// in their brief + their content_packages' title/hook) — no new table, no AI
-// call. Best-effort: any error yields an empty list so generation is never
-// blocked by this enrichment.
-const SIBLING_ANGLE_LIMIT = 12;
-async function loadRunSiblingAngles(
-  supabase: SupabaseClient,
-  projectId: string,
-  productionRunId: string,
-  currentStrategyItemId: string,
-): Promise<PreviousPackageAngle[]> {
-  try {
-    const { data: items, error: itemsErr } = await supabase
-      .from("content_strategy_items")
-      .select("id, brief")
-      .eq("project_id", projectId)
-      .eq("brief->>production_run_id", productionRunId);
-    if (itemsErr || !items) return [];
-
-    const topicByItemId = new Map<string, string>();
-    const siblingItemIds: string[] = [];
-    for (const row of items) {
-      const id = row.id as string;
-      if (!id || id === currentStrategyItemId) continue;
-      siblingItemIds.push(id);
-      const brief = (row.brief ?? {}) as Record<string, unknown>;
-      const topic = typeof brief.topic === "string" ? brief.topic.trim() : "";
-      if (topic) topicByItemId.set(id, topic);
-    }
-    if (siblingItemIds.length === 0) return [];
-
-    const { data: pkgs, error: pkgErr } = await supabase
-      .from("content_packages")
-      .select("title, package_brief, strategy_item_id, created_at")
-      .eq("project_id", projectId)
-      .in("strategy_item_id", siblingItemIds)
-      .order("created_at", { ascending: true })
-      .limit(SIBLING_ANGLE_LIMIT);
-    if (pkgErr || !pkgs) return [];
-
-    const angles: PreviousPackageAngle[] = [];
-    for (const row of pkgs) {
-      const title = typeof row.title === "string" ? row.title.trim() : "";
-      if (!title) continue;
-      const brief = (row.package_brief ?? {}) as Record<string, unknown>;
-      const hook = typeof brief.hook === "string" ? brief.hook.trim() : null;
-      const topic = topicByItemId.get(row.strategy_item_id as string) ?? null;
-      angles.push({ title, hook, topic });
-    }
-    return angles;
-  } catch {
-    return [];
-  }
-}
 
 // Idempotence lookup: the existing package for (project, strategy item), if any.
 // Returns the same shape the n8n bridge needs (packageId + videoJobId for the
@@ -2345,7 +829,7 @@ async function persistNewPackage(
         cta: item.cta,
         generation_metadata: {
           funnel_stage: funnelStage,
-          source: "creative_engine",
+          source: "content_pipeline",
           ...(fanOut
             ? {
                 production_run_id: fanOut.productionRunId,

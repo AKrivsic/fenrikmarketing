@@ -5,7 +5,7 @@ import {
   type CreativeFingerprint,
 } from "@/lib/series/creativeFingerprints";
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
-import { readVisualNarrativeKeyFromPackageBrief } from "@/lib/visual-narrative/promptBlocks";
+import { readVisualNarrativeKeyFromPackageBrief } from "@/lib/series/visualNarrativeKey";
 
 export interface SeriesCreativeContext {
   fingerprints: CreativeFingerprint[];

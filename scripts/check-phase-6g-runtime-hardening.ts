@@ -184,8 +184,8 @@ await checkAsync("claim heartbeat wired in generate", async () => {
     "utf8",
   );
   assert.match(src, /startPackageGenerationHeartbeat/);
-  assert.match(src, /renewPackageGenerationClaim|assertOwned\(\"creative_engine\"\)/);
-  assert.match(src, /assertOwned\(\"presentation\"\)/);
+  assert.match(src, /assertOwned\(\"creative_pipeline\"\)|assertOwned\(\"load_context\"\)/);
+  assert.match(src, /runCreativePipeline/);
   assert.match(src, /generation_claim_lost/);
 });
 

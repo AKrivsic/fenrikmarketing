@@ -1,5 +1,5 @@
 import type { VisualMedium } from "@/lib/visual-medium/visualMedium";
-import type { MeaningCarrier } from "@/lib/visual-narrative/types";
+import type { MeaningCarrier } from "@/lib/visual-medium/meaningCarrier";
 import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
 import type { CreativeIdentity } from "@/lib/creative-identity/types";
 import type { FunnelStage } from "@/lib/ai/types";

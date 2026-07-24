@@ -1,4 +1,4 @@
-import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import type { AssetRef } from "@/lib/assets/assetRef";
 import type { Project } from "@/lib/supabase/types";
 import { normalizePresentationText } from "@/lib/scene-types/presentation/textMatch";
 

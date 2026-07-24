@@ -8,12 +8,6 @@ export type {
 } from "@/lib/attention/types";
 export { ATTENTION_CATALOG, attentionSpec } from "@/lib/attention/catalog";
 export {
-  resolveAttentionMechanism,
-  buildAttentionSeed,
-} from "@/lib/attention/resolveAttention";
-export { runOriginalityPass } from "@/lib/attention/originalityPass";
-export { planAttentionForPackage } from "@/lib/attention/planForPackage";
-export {
   buildAttentionPromptBlock,
   attentionFieldsForPersistence,
   attentionFieldsForVideoJob,
@@ -22,7 +16,6 @@ export {
   readAttentionFromBrief,
   readAttentionPlanFromPackagePresentation,
 } from "@/lib/attention/promptBlocks";
-export { alignHookWithFirstSpoken } from "@/lib/attention/alignHookVoiceover";
 export {
   matchesOfficeCliche,
   matchesGenericSetupOpener,

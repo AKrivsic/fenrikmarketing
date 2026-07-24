@@ -69,7 +69,7 @@ check("marks item failed without content_package_id", () => {
 check("settles run counters after generation failure", () => {
   assert.match(adminSrc, /settleProductionRunAfterItemFailure/);
   assert.match(adminSrc, /failed_total/);
-  assert.match(adminSrc, /generationFailedSlots/);
+  assert.match(adminSrc, /markProductionRunItemGenerationFailed/);
 });
 
 check("n8n generate route prefers worker proxy or shared handler", () => {
@@ -95,7 +95,7 @@ check("n8n generate handler settles item on !result.ok", () => {
     n8nHandlerSrc,
     /settleOrRespondOperational|settleProductionRunItemOrThrow/,
   );
-  assert.match(n8nHandlerSrc, /if\s*\(\s*!result\.ok\s*\)/);
+  assert.match(n8nHandlerSrc, /!result\.ok/);
   const settleSrc = readFileSync(
     join(root, "lib/api/settleProductionRunItem.ts"),
     "utf8",
@@ -173,6 +173,8 @@ check("all terminal error codes are defined", () => {
     "render_product_demo_failed",
     "render_failed",
     "operational_failure",
+    "generation_in_progress",
+    "generation_claim_lost",
   ]);
 });
 
@@ -228,24 +230,12 @@ check("settlement failures are not swallowed", () => {
   assert.match(n8nHandlerSrc, /path:\s*"settlement"/);
 });
 
-check("workflows use PPD validation gate (no ensureStructuredProductDemo)", () => {
+check("workflows use Content Pipeline (no legacy CE / PPD repair gates)", () => {
   assert.doesNotMatch(workflowSrc, /ensureStructuredProductDemo/);
-  assert.match(workflowSrc, /validateProductPresentationPackage/);
+  assert.doesNotMatch(workflowSrc, /validateProductPresentationPackage/);
+  assert.doesNotMatch(workflowSrc, /creative-engine-v3/);
+  assert.match(workflowSrc, /runCreativePipeline/);
   assert.match(terminalSrc, /operational_failure/);
-});
-
-check("architecture states PPD value proof in story + presentation integrity", () => {
-  const si = readFileSync(
-    join(root, "lib/creative-candidates/storyIntegrity.ts"),
-    "utf8",
-  );
-  const pdi = readFileSync(
-    join(root, "lib/creative-candidates/productDemonstrationIntegrity.ts"),
-    "utf8",
-  );
-  assert.match(si, /Product Presentation Decision/);
-  assert.match(pdi, /Product Presentation Decision is the authority/);
-  assert.doesNotMatch(pdi, /UNIVERSAL SEMANTIC CONTRACT/);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

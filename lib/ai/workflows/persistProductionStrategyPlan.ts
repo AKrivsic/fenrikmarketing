@@ -79,6 +79,9 @@ export async function persistProductionStrategyPlan(
         brief: {
           topic: item.topic,
           angle: item.angle ?? null,
+          ...(typeof item.pain_point === "string" && item.pain_point.trim()
+            ? { pain_point: item.pain_point.trim() }
+            : {}),
           source: "production_run",
           production_run_id: productionRunId,
           package_index: index,

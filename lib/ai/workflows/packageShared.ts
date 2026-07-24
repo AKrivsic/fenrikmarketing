@@ -5,7 +5,7 @@ import {
   PERSISTABLE_PACKAGE_PLATFORMS,
   type FunnelStage,
 } from "@/lib/ai/types";
-import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import type { AssetRef } from "@/lib/assets/assetRef";
 import { maybeAppendWebsiteUrl } from "@/lib/ai/websiteLinks";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import {
@@ -66,6 +66,8 @@ export interface StrategyItemContext {
   funnelStage: FunnelStage;
   topic: string;
   angle: string | null;
+  /** Dominant pain point for this package (from strategy brief when set). */
+  painPoint: string | null;
   platform: string;
   format: ContentFormat;
   // Production Run V3 trace (present only for run-seeded items). Lets the
@@ -122,12 +124,17 @@ export async function loadStrategyItemContext(
       ? Math.trunc(packageIndexRaw)
       : null;
 
+  const topic = (brief["topic"] as string) ?? "";
+  const briefPain =
+    typeof brief["pain_point"] === "string" ? brief["pain_point"] : null;
+
   return {
     weeklyStrategyId: data.strategy_id as string,
     strategyItemId: data.id as string,
     funnelStage,
-    topic: (brief["topic"] as string) ?? "",
+    topic,
     angle: (brief["angle"] as string | null) ?? null,
+    painPoint: briefPain?.trim() ? briefPain.trim() : null,
     platform: data.platform as string,
     format: data.format as ContentFormat,
     productionRunId,

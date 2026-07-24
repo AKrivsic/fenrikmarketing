@@ -95,9 +95,11 @@ export function conceptFidelitySummaries(args: {
 export function strategyPlanSummaries(args: {
   packageCount: number;
   itemCount: number;
+  /** Telemetry title; production simplification uses Content Strategy. */
+  title?: string;
 }): { input_summary: string; output_summary: string } {
   return summarizeLines(
-    "Weekly Strategy",
+    args.title ?? "Content Strategy",
     ["Product Brain", "Trends", "Evergreen Topics", "Anti-repetition Memory"],
     [
       `Theme + funnel plan`,

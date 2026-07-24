@@ -39,6 +39,8 @@ export const contentPlanItemSchema = vObject({
   funnel_stage: vFunnelStage(),
   topic: vNonEmptyString(),
   angle: vOptional(vString()),
+  /** Dominant customer pain this package anchors to (Content Pipeline). */
+  pain_point: vOptional(vString()),
   day: vOptional(vString()),
   priority: vOptional(vNumber({ min: 1, max: 5 })),
   trend_id: vOptional(vString()),

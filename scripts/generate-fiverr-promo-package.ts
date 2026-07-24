@@ -7,11 +7,32 @@
  *     scripts/generate-fiverr-promo-package.ts [--project-id <uuid>] [--no-dispatch-video]
  */
 
-import { loadEnvLocal } from "@/lib/experiment/dryRun";
+import { readFileSync, existsSync } from "node:fs";
+import { resolve } from "node:path";
 import {
   runFiverrPromoPackageGeneration,
   FIVERR_PROMO_PACKAGE_TITLE,
 } from "@/lib/internal/fiverrPromoPackage";
+
+function loadEnvLocal(cwd: string = process.cwd()): void {
+  const path = resolve(cwd, ".env.local");
+  if (!existsSync(path)) return;
+  for (const line of readFileSync(path, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq <= 0) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
 
 loadEnvLocal();
 

@@ -29,7 +29,7 @@ import { prepareRenderScenesForLanguageVariant } from "@/lib/scene-types/languag
 import { emptyKnowledge } from "@/lib/knowledge/types";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import type { Project } from "@/lib/supabase/types";
-import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import type { AssetRef } from "@/lib/assets/assetRef";
 
 let passed = 0;
 let failed = 0;

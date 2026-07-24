@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import type { AssetRef } from "@/lib/assets/assetRef";
 import {
   assetRefHasPromptContext,
   formatAvailableAssetPromptLine,

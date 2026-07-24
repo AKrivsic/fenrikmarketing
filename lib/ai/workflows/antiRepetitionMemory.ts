@@ -5,8 +5,13 @@ import {
   directionFromFingerprint,
   fingerprintFromPackageBrief,
   normalizeFingerprintText,
-} from "@/lib/creative-engine-v3/conceptFingerprint";
-import type { CreativeConceptFingerprint } from "@/lib/creative-engine-v3/types";
+} from "@/lib/content-memory/conceptFingerprint";
+import {
+  pipelineFingerprintDedupKey,
+  pipelineFingerprintFromPackageBrief,
+} from "@/lib/content-memory/pipelineFingerprint";
+import type { ContentPipelineFingerprint } from "@/lib/content-memory/types";
+import type { CreativeConceptFingerprint } from "@/lib/content-memory/types";
 
 // Phase 2E — how many recent entries to expose per dimension (Task 2: ~20).
 export const MEMORY_LIMIT = 20;
@@ -22,7 +27,13 @@ export const EMPTY_MEMORY: AntiRepetitionMemory = {
   fingerprints: [],
   atmospheres: [],
   directions: [],
+  pipelineFingerprints: [],
 };
+
+export interface BuildAntiRepetitionMemoryOptions {
+  /** Exclude this package (regenerate must not avoid its own prior content). */
+  excludePackageId?: string | null;
+}
 
 // Normalizes text for textual (non-semantic) matching/dedup: lowercase,
 // collapsed whitespace, no trailing punctuation. Shared by the memory builder
@@ -63,17 +74,17 @@ function pushUnique(target: string[], seen: Set<string>, value: string | null) {
   target.push(value);
 }
 
-// Task 2 — assembles the Anti-Repetition Memory from EXISTING data only:
-//   - hooks/CTAs/scenarios from content_packages.package_brief
-//   - topics from the linked content_strategy_items.brief.topic
-//   - v3 creative fingerprints / atmospheres (rejection memory only)
-// No new AI layer, no new tables. Best-effort: any DB error yields an empty
-// memory so generation is never blocked by the memory build.
+/**
+ * Assembles Anti-Repetition Memory from existing packages.
+ * Best-effort: any DB error yields empty memory so generation is never blocked.
+ */
 export async function buildAntiRepetitionMemory(
   supabase: SupabaseClient,
   projectId: string,
+  options: BuildAntiRepetitionMemoryOptions = {},
 ): Promise<AntiRepetitionMemory> {
   if (!projectId) return { ...EMPTY_MEMORY };
+  const excludeId = options.excludePackageId?.trim() || null;
   try {
     const { data: pkgRows, error } = await supabase
       .from("content_packages")
@@ -83,9 +94,13 @@ export async function buildAntiRepetitionMemory(
       .limit(PACKAGE_SCAN_LIMIT);
     if (error || !pkgRows) return { ...EMPTY_MEMORY };
 
+    const rows = excludeId
+      ? pkgRows.filter((p) => (p.id as string) !== excludeId)
+      : pkgRows;
+
     const strategyItemIds = Array.from(
       new Set(
-        pkgRows
+        rows
           .map((p) => p.strategy_item_id as string | null)
           .filter((id): id is string => !!id),
       ),
@@ -99,6 +114,7 @@ export async function buildAntiRepetitionMemory(
     const fingerprints: CreativeConceptFingerprint[] = [];
     const atmospheres: string[] = [];
     const directions: string[] = [];
+    const pipelineFingerprints: ContentPipelineFingerprint[] = [];
     const seenHooks = new Set<string>();
     const seenTopics = new Set<string>();
     const seenCtas = new Set<string>();
@@ -106,13 +122,25 @@ export async function buildAntiRepetitionMemory(
     const seenFp = new Set<string>();
     const seenAtm = new Set<string>();
     const seenDir = new Set<string>();
+    const seenPipeline = new Set<string>();
 
-    for (const row of pkgRows) {
+    for (const row of rows) {
       const brief = asRecord(row.package_brief);
       if (brief) {
         pushUnique(hooks, seenHooks, readString(brief.hook));
         pushUnique(ctas, seenCtas, readCtaText(brief));
         pushUnique(scenarios, seenScenarios, readString(brief.scenario));
+
+        if (pipelineFingerprints.length < MEMORY_LIMIT) {
+          const pfp = pipelineFingerprintFromPackageBrief(brief);
+          if (pfp) {
+            const key = pipelineFingerprintDedupKey(pfp);
+            if (key && !seenPipeline.has(key)) {
+              seenPipeline.add(key);
+              pipelineFingerprints.push(pfp);
+            }
+          }
+        }
 
         if (fingerprints.length < MEMORY_LIMIT) {
           const fp = fingerprintFromPackageBrief(brief);
@@ -151,7 +179,16 @@ export async function buildAntiRepetitionMemory(
       }
     }
 
-    return { hooks, topics, ctas, scenarios, fingerprints, atmospheres, directions };
+    return {
+      hooks,
+      topics,
+      ctas,
+      scenarios,
+      fingerprints,
+      atmospheres,
+      directions,
+      pipelineFingerprints,
+    };
   } catch {
     return { ...EMPTY_MEMORY };
   }

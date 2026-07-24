@@ -1,23 +1,19 @@
-// Creative Identity v1 — deterministic staging axes + series de-duplication.
+// Creative Identity — deterministic staging axes + series de-duplication.
 //   npm run check:creative-identity
 
 import assert from "node:assert/strict";
 import type { Project } from "@/lib/supabase/types";
-import { buildGenerateContentPackagePrompt } from "@/lib/ai/prompts/generateContentPackage";
-import {
-  CREATIVE_MODES,
-  HOOK_ARCHETYPES,
-  VOICE_PERSONAS,
-  type CreativeDirectives,
-} from "@/lib/ai/prompts/creativeDirectives";
-import { CREATIVE_IDENTITY_PROMPT_HEADER } from "@/lib/creative-identity/promptBlocks";
 import {
   buildCreativeIdentitySeed,
   resolveCreativeIdentity,
+  readCreativeIdentityFromPackageBrief,
 } from "@/lib/creative-identity/resolveCreativeIdentity";
-import { planCreativeIdentityForPackage } from "@/lib/creative-identity/planForPackage";
-import type { SeriesCreativeContext } from "@/lib/series/loadSeriesCreativeContext";
-import { creativeIdentityImagePromptSuffix } from "@/lib/creative-identity/promptBlocks";
+import {
+  creativeIdentityImagePromptSuffix,
+  CREATIVE_IDENTITY_PROMPT_HEADER,
+  buildCreativeIdentityPromptBlock,
+} from "@/lib/creative-identity/promptBlocks";
+import type { VisualProfile } from "@/lib/visual-profile/visualProfile";
 
 let passed = 0;
 let failed = 0;
@@ -48,162 +44,100 @@ const project = {
   forbidden_claims: [],
   tone_of_voice: {},
   platforms: [],
-  publishing_rules: {},
-  default_cta: null,
 } as unknown as Project;
 
-const emptySeries: SeriesCreativeContext = {
-  fingerprints: [],
-  typedCtaInCurrentRun: 0,
-  typedCtaInWeeklyStrategy: 0,
-  recentCtaCompositionIds: [],
-  recentHooks: [],
-  recentCreativeModes: [],
-  recentCreativeIdentityKeys: [],
-  recentVisualNarrativeKeys: [],
-};
+const visualProfile: VisualProfile = "MINIMAL";
 
-const directives: CreativeDirectives = {
-  mode: CREATIVE_MODES[0],
-  hook: HOOK_ARCHETYPES[0],
-  persona: VOICE_PERSONAS[0],
-};
+check("seed is stable for same inputs", () => {
+  const a = buildCreativeIdentitySeed({
+    projectId: "p1",
+    strategyItemId: "s1",
+    packageIndex: 0,
+    topic: "topic",
+    angle: "angle",
+    salt: null,
+  });
+  const b = buildCreativeIdentitySeed({
+    projectId: "p1",
+    strategyItemId: "s1",
+    packageIndex: 0,
+    topic: "topic",
+    angle: "angle",
+    salt: null,
+  });
+  assert.equal(a, b);
+});
 
-console.log("\nresolveCreativeIdentity");
-
-check("same seed yields same identity", () => {
+check("resolveCreativeIdentity returns axes", () => {
   const seed = buildCreativeIdentitySeed({
     projectId: project.id,
     strategyItemId: "s1",
     packageIndex: 0,
-    topic: "docs pain",
-    angle: "three days",
+    topic: "blank page",
+    angle: null,
+    salt: null,
   });
-  const a = resolveCreativeIdentity({
+  const identity = resolveCreativeIdentity({
     project,
-    visualProfile: "MINIMAL",
+    visualProfile,
     seed,
     recentIdentityKeys: [],
   });
-  const b = resolveCreativeIdentity({
-    project,
-    visualProfile: "MINIMAL",
-    seed,
-    recentIdentityKeys: [],
-  });
-  assert.equal(a.key, b.key);
-  assert.equal(a.environment, b.environment);
+  assert.ok(identity.environment);
+  assert.ok(identity.lighting);
+  assert.ok(identity.camera);
+  assert.ok(identity.key);
+  const block = buildCreativeIdentityPromptBlock(identity, []);
+  assert.match(block, new RegExp(CREATIVE_IDENTITY_PROMPT_HEADER));
+  assert.ok(creativeIdentityImagePromptSuffix(identity).length > 0);
 });
 
-check("different package index changes identity", () => {
-  const a = resolveCreativeIdentity({
-    project,
-    visualProfile: "MINIMAL",
-    seed: buildCreativeIdentitySeed({
-      projectId: project.id,
-      strategyItemId: "s1",
-      packageIndex: 0,
-      topic: "docs pain",
-      angle: "a",
-    }),
-    recentIdentityKeys: [],
-  });
-  const b = resolveCreativeIdentity({
-    project,
-    visualProfile: "MINIMAL",
-    seed: buildCreativeIdentitySeed({
-      projectId: project.id,
-      strategyItemId: "s1",
-      packageIndex: 1,
-      topic: "docs pain",
-      angle: "a",
-    }),
-    recentIdentityKeys: [],
-  });
-  assert.notEqual(a.key, b.key);
-});
-
-check("avoids recent identity key when possible", () => {
+check("series memory rotates identity key", () => {
   const seed = buildCreativeIdentitySeed({
     projectId: project.id,
     strategyItemId: "s1",
-    packageIndex: 2,
-    topic: "topic",
-    angle: "angle",
+    packageIndex: 1,
+    topic: "blank page",
+    angle: "x",
+    salt: "salt",
   });
   const first = resolveCreativeIdentity({
     project,
-    visualProfile: "MINIMAL",
-    seed: buildCreativeIdentitySeed({
-      projectId: project.id,
-      strategyItemId: "s1",
-      packageIndex: 0,
-      topic: "topic",
-      angle: "angle",
-    }),
+    visualProfile,
+    seed,
     recentIdentityKeys: [],
   });
   const second = resolveCreativeIdentity({
     project,
-    visualProfile: "MINIMAL",
+    visualProfile,
     seed,
     recentIdentityKeys: [first.key],
   });
-  assert.notEqual(second.key, first.key);
+  assert.notEqual(first.key, second.key);
 });
 
-console.log("\nprompt + worker suffix");
-
-check("video package prompt includes CREATIVE IDENTITY block", () => {
-  const plan = planCreativeIdentityForPackage({
-    project,
-    visualProfile: "MINIMAL",
+check("readCreativeIdentityFromPackageBrief reads stamped identity", () => {
+  const seed = buildCreativeIdentitySeed({
     projectId: project.id,
     strategyItemId: "s1",
     packageIndex: 0,
-    topic: "habit",
-    angle: "consistency",
-    series: emptySeries,
-    requireVideo: true,
+    topic: "t",
+    angle: null,
+    salt: null,
   });
-  assert.ok(plan.identity);
-  const prompt = buildGenerateContentPackagePrompt({
+  const identity = resolveCreativeIdentity({
     project,
-    funnelStage: "awareness",
-    topic: "habit",
-    angle: "consistency",
-    availableAssets: [],
-    requireVideo: true,
-    directives,
-    creativeIdentityPromptBlock: plan.promptBlock,
-  });
-  assert.ok(prompt.includes(CREATIVE_IDENTITY_PROMPT_HEADER));
-  assert.ok(prompt.includes(plan.identity!.environment));
-});
-
-check("text-only package skips identity plan", () => {
-  const plan = planCreativeIdentityForPackage({
-    project,
-    visualProfile: "MINIMAL",
-    projectId: project.id,
-    topic: "habit",
-    series: emptySeries,
-    requireVideo: false,
-  });
-  assert.equal(plan.identity, null);
-  assert.equal(plan.promptBlock, "");
-});
-
-check("image suffix is stable and non-empty", () => {
-  const id = resolveCreativeIdentity({
-    project,
-    visualProfile: "EDITORIAL",
-    seed: "test-seed",
+    visualProfile,
+    seed,
     recentIdentityKeys: [],
   });
-  const suffix = creativeIdentityImagePromptSuffix(id);
-  assert.ok(suffix.includes("Creative identity:"));
-  assert.ok(suffix.includes(id.mood));
+  const brief = {
+    presentation_generation: {
+      creative_identity: identity,
+    },
+  };
+  const read = readCreativeIdentityFromPackageBrief(brief);
+  assert.equal(read?.key, identity.key);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

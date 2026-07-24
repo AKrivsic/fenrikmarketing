@@ -4,7 +4,7 @@ import {
   type PackageVisualSceneEntry,
 } from "@/lib/content-package/generatedVisualScene";
 import { normalizeFunnelStage, type FunnelStage } from "@/lib/ai/types";
-import { motifsFromVisualText } from "@/lib/visual-narrative/motifMemory";
+import { motifsFromVisualText } from "@/lib/series/motifMemory";
 
 export interface CreativeFingerprint {
   package_id?: string | null;

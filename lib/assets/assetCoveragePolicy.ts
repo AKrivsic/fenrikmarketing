@@ -1,5 +1,5 @@
 import type { GenerationMode } from "@/lib/ai/generationMode";
-import type { AssetRef } from "@/lib/ai/prompts/generateContentPackage";
+import type { AssetRef } from "@/lib/assets/assetRef";
 import type { FunnelStage } from "@/lib/ai/types";
 import type { AssetQualityTier } from "@/lib/assets/assetIngestMetadata";
 import type { ProductRole } from "@/lib/assets/productRole";

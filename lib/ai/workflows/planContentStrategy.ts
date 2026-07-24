@@ -122,9 +122,12 @@ async function planContentStrategyUnchecked(args: {
     ctx.evergreenTopics,
   );
 
+  const strategyStepName = "Content Strategy";
+
   const summaries = strategyPlanSummaries({
     packageCount,
     itemCount: packageCount,
+    title: strategyStepName,
   });
 
   const generated = await generateValidatedJson({
@@ -154,7 +157,7 @@ async function planContentStrategyUnchecked(args: {
       }),
     ],
     telemetry: {
-      stepName: "Weekly Strategy",
+      stepName: strategyStepName,
       inputSummary: summaries.input_summary,
       outputSummary: (result) => {
         if (!result.ok) return "failed";
@@ -167,6 +170,7 @@ async function planContentStrategyUnchecked(args: {
           itemCount: Array.isArray(plan.content_plan)
             ? plan.content_plan.length
             : 0,
+          title: strategyStepName,
         }).output_summary;
       },
     },
@@ -188,7 +192,7 @@ async function planContentStrategyUnchecked(args: {
       stepName: "Strategy Items",
       provider: "deterministic",
       inputSummary:
-        "Strategy Items input:\n- Weekly Strategy plan\n- Funnel distribution",
+        "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
       outputSummary: (p) =>
         `${p.itemIds.length} strategy item(s) persisted`,
       measureOutput: (p) => ({

@@ -355,19 +355,18 @@ export function pickCreativeDirectives(seed: string): CreativeDirectives {
   };
 }
 
-// Renders the CREATIVE DIRECTIVE prompt block (creative guidance + safety
-// rules). The safety rules are part of the block so they always travel with the
-// directive and override it on any conflict.
-export function buildCreativeDirectiveBlock(
+export function buildSoftCreativeDirectiveBlock(
   directives: CreativeDirectives,
 ): string {
   const { mode, hook, persona } = directives;
   return [
-    "CREATIVE DIRECTIVE (this piece only — shapes tone & structure, NEVER facts):",
-    `- MODE: ${mode.name} — ${mode.description} STRUCTURE: ${mode.structure} NEVER: ${mode.avoid}`,
-    `- MODE BEATS (the ONLY structure to follow — NOT a hook/problem/scenario/proof/cta template): ${mode.narrativeBeats.join(" -> ")}`,
-    `- HOOK ARCHETYPE: ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
-    `- VOICE PERSONA: ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
+    "CREATIVE DIRECTIVE (soft guidance for this piece — shapes tone & structure, NEVER facts):",
+    "- These are optional creative preferences. Follow them when they help originality;",
+    "  do not force them if they fight Product Brain, the selected pain point, or Opening Impact.",
+    `- MODE (prefer): ${mode.name} — ${mode.description} STRUCTURE: ${mode.structure} NEVER: ${mode.avoid}`,
+    `- MODE BEATS (prefer this story shape): ${mode.narrativeBeats.join(" -> ")}`,
+    `- HOOK ARCHETYPE (prefer): ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
+    `- VOICE PERSONA (prefer): ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
     "CREATIVE SAFETY (these ALWAYS override the directive on any conflict):",
     "- Never lie; never invent numbers, names, results, quotes or testimonials.",
     "- Never produce a forbidden_claim and never describe the product as anything in product_is_not.",
@@ -376,4 +375,27 @@ export function buildCreativeDirectiveBlock(
     "- Contrarian/controversial takes attack ideas or habits only — never a person or a protected group.",
     "- The voice persona changes wording, rhythm and energy ONLY; it must not alter any fact or proof.",
   ].join("\n");
+}
+
+/** Minimal soft guidance for Opening Impact (hook archetype only). */
+export function buildSoftOpeningDirectiveBlock(
+  directives: CreativeDirectives,
+): string {
+  const { hook } = directives;
+  return [
+    "OPENING DIRECTIVE (soft — optional preference for the cold open):",
+    `- Prefer hook archetype ${hook.id}: ${hook.instruction}`,
+    `- FORM (do not copy): ${hook.exampleForm}`,
+    `- Avoid: ${hook.forbidGeneric}`,
+    "- Ignore this preference if it conflicts with product truth or the selected pain point.",
+  ].join("\n");
+}
+
+// Renders the CREATIVE DIRECTIVE prompt block (creative guidance + safety
+// rules). The safety rules are part of the block so they always travel with the
+// directive and override it on any conflict.
+export function buildCreativeDirectiveBlock(
+  directives: CreativeDirectives,
+): string {
+  return buildSoftCreativeDirectiveBlock(directives);
 }

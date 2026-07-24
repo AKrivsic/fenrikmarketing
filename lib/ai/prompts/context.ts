@@ -219,7 +219,23 @@ function memorySection(label: string, values: string[]): string[] {
   return [`${label}:`, ...values.map((v) => `- ${v}`)];
 }
 
-export function antiRepetitionBlock(memory: AntiRepetitionMemory): string {
+export interface AntiRepetitionPromptOptions {
+  /** User asked to keep the prior hook — do not aggressively forbid it. */
+  keepHook?: boolean;
+  /** User asked to keep the prior concept / idea. */
+  keepConcept?: boolean;
+  /** User asked to keep wording / tone close to prior. */
+  keepWording?: boolean;
+}
+
+export function antiRepetitionBlock(
+  memory: AntiRepetitionMemory,
+  opts: AntiRepetitionPromptOptions = {},
+): string {
+  const keepHook = Boolean(opts.keepHook || opts.keepWording);
+  const keepConcept = Boolean(opts.keepConcept);
+  const keepWording = Boolean(opts.keepWording);
+
   const sections = [
     ...memorySection("Hooks", memory.hooks),
     ...memorySection("Topics", memory.topics),
@@ -228,14 +244,97 @@ export function antiRepetitionBlock(memory: AntiRepetitionMemory): string {
   ];
   if (sections.length === 0) return "";
 
+  const rules: string[] = [];
+  if (keepHook) {
+    rules.push(
+      "- The user asked to KEEP the hook / opening wording — do NOT force a different hook just to avoid recent hooks.",
+    );
+  } else {
+    rules.push(
+      "- Do NOT reuse any hook above; write a clearly different opening.",
+    );
+  }
+  if (keepWording) {
+    rules.push(
+      "- The user asked to KEEP wording/tone — vary only where the instruction requires; do not aggressively rephrase CTAs.",
+    );
+  } else {
+    rules.push(
+      "- Do NOT reuse any CTA above verbatim; vary the wording and angle.",
+    );
+  }
+  if (keepConcept) {
+    rules.push(
+      "- The user asked to KEEP the concept — topic/angle continuity is allowed; do not invent a new problem just to avoid recent topics.",
+    );
+  } else {
+    rules.push("- Do NOT repeat the topics/angles above.");
+  }
+  rules.push(
+    "- Do NOT reuse the scenarios above; choose a different situation (unless the instruction says to keep the scenario).",
+  );
+  rules.push("- Only repeat something if there is a strong, specific reason to.");
+
   return [
-    "ANTI-REPETITION MEMORY (recently used — AVOID REPEATING these):",
+    "ANTI-REPETITION MEMORY (recently used — AVOID REPEATING these unless the regeneration instruction says to keep them):",
     ...sections,
     "ANTI-REPETITION RULES:",
-    "- Do NOT reuse any hook above; write a clearly different opening.",
-    "- Do NOT reuse any CTA above verbatim; vary the wording and angle.",
-    "- Do NOT repeat the topics/angles above.",
-    "- Do NOT reuse the scenarios above; choose a different situation.",
-    "- Only repeat something if there is a strong, specific reason to.",
+    ...rules,
   ].join("\n");
+}
+
+/**
+ * Selected pain point for this package — dominant problem through Concept →
+ * Opening → Package. Returns "" when none.
+ */
+export function selectedPainPointBlock(
+  painPoint: string | null | undefined,
+): string {
+  const text = painPoint?.trim();
+  if (!text) return "";
+  return [
+    "SELECTED PAIN POINT (dominant problem for THIS package — stay anchored here):",
+    `- ${text}`,
+    "PAIN POINT RULES:",
+    "- This pain point is the STORY. Details may support it; details must NOT replace it.",
+    "- Hook, concept, script, and CTA must dramatize, expose, or solve THIS problem.",
+    "- Do not drift onto a minor detail as the primary topic.",
+  ].join("\n");
+}
+
+/**
+ * Resolve pain point from strategy brief, or best-overlap with project pains
+ * from the topic (legacy items without brief.pain_point).
+ */
+export function resolveSelectedPainPoint(args: {
+  project: Project;
+  briefPainPoint?: string | null;
+  topic?: string | null;
+}): string | null {
+  const fromBrief = args.briefPainPoint?.trim();
+  if (fromBrief) return fromBrief;
+
+  const pains = normalizePainPoints(args.project);
+  if (pains.length === 0) return null;
+
+  const topic = (args.topic ?? "").toLowerCase();
+  if (!topic) return pains[0] ?? null;
+
+  let best: string | null = null;
+  let bestScore = 0;
+  for (const pain of pains) {
+    const tokens = pain
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((t) => t.length >= 4);
+    let score = 0;
+    for (const t of tokens) {
+      if (topic.includes(t)) score += 1;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = pain;
+    }
+  }
+  return bestScore > 0 ? best : pains[0] ?? null;
 }
