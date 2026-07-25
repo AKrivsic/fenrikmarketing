@@ -194,6 +194,19 @@ check("prompt mentions exactly 21 items", () => {
   assert.ok(!prompt.includes("week_start"));
   assert.ok(!prompt.includes("WEEK:"));
 });
+check("prompt requires independent items, not one master theme", () => {
+  const prompt = buildProductionStrategyPrompt({
+    project: minimalProject,
+    packageCount: 14,
+    eligibleTrends: [],
+    evergreenTopics: [],
+    primaryPlatform: "tiktok",
+  });
+  assert.match(prompt, /INDEPENDENT ITEMS/);
+  assert.match(prompt, /run LABEL only/i);
+  assert.doesNotMatch(prompt, /one shared video theme/);
+  assert.doesNotMatch(prompt, /coherent batch/i);
+});
 
 console.log("\nfeature flag defaults");
 check("planner mode defaults to legacy", () => {

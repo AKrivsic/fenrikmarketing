@@ -17,16 +17,17 @@ import { serviceMixBlock } from "@/lib/projects/serviceMix";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 
 export const PRODUCTION_STRATEGY_SYSTEM =
-  "You are the Content Strategy Layer for an AI Content Manager. You design a " +
-  "coherent batch of content PACKAGE concepts for a production run (each item is " +
-  "one video package concept — NOT a calendar week plan). Your only jobs: distribute " +
-  "generated videos across the batch, maintain variety, maintain funnel balance, " +
-  "maintain tone balance, and maintain content diversity. Funnel stages are exactly: " +
-  "Awareness, Problem Aware, Solution Aware, Conversion. Balance the funnel across " +
-  "these stages; it must never be Conversion-only. Every content_plan item MUST have " +
-  "a funnel_stage. Prefer evergreen_topic_id or trend_id when those lists provide IDs; " +
-  "eligible trends are optional bonus context only. When both lists are empty, derive " +
-  "topics from the Product Brain and omit trend_id and evergreen_topic_id. Never invent UUIDs.";
+  "You are the Content Strategy Layer for an AI Content Manager. You invent a set of " +
+  "INDEPENDENT content PACKAGE opportunities for a production run (each item is one " +
+  "video package concept — NOT a calendar week plan, and NOT variations of one master " +
+  "theme). Your only jobs: distribute generated videos across the batch, invent distinct " +
+  "ideas per item, maintain funnel balance, maintain tone balance, and maximize content " +
+  "diversity. Funnel stages are exactly: Awareness, Problem Aware, Solution Aware, " +
+  "Conversion. Balance the funnel across these stages; it must never be Conversion-only. " +
+  "Every content_plan item MUST have a funnel_stage. Prefer evergreen_topic_id or " +
+  "trend_id when those lists provide IDs; eligible trends are optional bonus context " +
+  "only. When both lists are empty, derive topics from the Product Brain and omit " +
+  "trend_id and evergreen_topic_id. Never invent UUIDs.";
 
 export interface ProductionStrategyPromptInput {
   project: Project;
@@ -197,11 +198,23 @@ export function buildProductionStrategyPrompt(
     productionFunnelMixBlock(project),
     "",
     `PRODUCTION RUN CONTENT STRATEGY: plan exactly ${packageCount} content_plan items.`,
-    "Responsibilities ONLY: distribute videos, maintain variety, funnel balance, tone balance, content diversity.",
+    "Responsibilities ONLY: invent distinct package opportunities, funnel balance, tone balance, content diversity.",
     "This is NOT a weekly calendar strategy.",
-    "Each item is ONE package concept (= one shared video theme). Platform outputs " +
-      "for multiple surfaces are generated later from the run config — do not create " +
+    "Each item is ONE independent package concept (one video). Platform outputs for " +
+      "multiple surfaces are generated later from the run config — do not create " +
       "duplicate items per platform.",
+    "",
+    "INDEPENDENT ITEMS (mandatory — anti-convergence):",
+    '- "theme" is a short run LABEL only (batch name). It must NOT become a shared narrative',
+    "  that every item expands. Do NOT invent one master story and then write variations of it.",
+    `- Produce ${packageCount} independent content opportunities — not ${packageCount} riffs on one scene.`,
+    "- Each item still follows Product Brain, audience, funnel balance, and the run objective,",
+    "  but must NOT inherit one common plot, setting, or point of view from siblings.",
+    "- Across items, deliberately vary: point of view, concrete situation/setting, narrative",
+    "  mechanism (how the idea is told), and opening situation. Reusing the same pain_point",
+    "  is fine when the situation and angle are still different.",
+    "- Bad: one night-visitor / silent-website / Monday-analytics story rewritten N times.",
+    "- Good: N distinct situations where the product creates value for this audience.",
     "",
     "ELIGIBLE TRENDS (optional bonus; relevance_score >= 60; only use these trend_id values when relevant):",
     trendsBlock,
@@ -213,15 +226,15 @@ export function buildProductionStrategyPrompt(
     "",
     "TASK: Produce a production strategy plan as JSON with this exact shape:",
     `{
-  "theme": "string",
+  "theme": "string — run label only, NOT a shared storyline for all items",
   "funnel_distribution": { "Awareness": number, "Problem Aware": number, "Solution Aware": number, "Conversion": number },
   "content_plan": [
     {
       "platform": "${primaryPlatform}",
       "format": "reel|post|short",
       "funnel_stage": "Awareness|Problem Aware|Solution Aware|Conversion",
-      "topic": "string",
-      "angle": "string",
+      "topic": "string — independent idea for this item",
+      "angle": "string — distinct situation / POV / mechanism vs sibling items",
       "pain_point": "string — copy one PROJECT PAIN POINT (or closest) this item anchors to",
       "priority": 1,
       "trend_id": "uuid from ELIGIBLE TRENDS when used",
@@ -236,7 +249,7 @@ export function buildProductionStrategyPrompt(
         ? " Every item MUST set pain_point to one real project pain point (verbatim or close paraphrase) " +
             "and the topic MUST anchor to it (see PAIN POINT FIRST): " +
             "~80% directly tied to one explicit pain point, ~20% supporting details that still " +
-            "connect to a pain point."
+            "connect to a pain point. Same pain_point across items is allowed only when angle/situation differ."
         : ""),
   ].join("\n");
 }

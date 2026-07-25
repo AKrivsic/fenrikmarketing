@@ -47,7 +47,7 @@ export function buildContentPackageVisualScenesBlock(args: {
     "EXAMPLE — valid IMAGE-only visual_scenes:",
     '  "visual_scenes": [',
     '    { "source": "ai", "image_prompt": "Owner at desk answering emails in warm office light" },',
-    '    { "source": "ai", "image_prompt": "Empty website contact form at night on a laptop screen" },',
+    '    { "source": "ai", "image_prompt": "Support agent on a phone call with a sticky-note checklist beside them" },',
     '    { "source": "asset", "asset_id": "<uuid from AVAILABLE ASSETS>", "used_as": "product UI shown as framed insert" }',
     "  ]",
   ].join("\n");

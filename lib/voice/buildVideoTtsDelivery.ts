@@ -56,6 +56,18 @@ function deliveryForCreativeMode(mode: string | null | undefined): string | null
   if (m === "standard") {
     return "Delivery: clean, direct, practical.";
   }
+  if (m === "faq") {
+    return "Delivery: clear, helpful, answer-first.";
+  }
+  if (m === "experiment") {
+    return "Delivery: curious, investigative, measured reveal.";
+  }
+  if (m === "checklist") {
+    return "Delivery: practical, step-by-step, crisp.";
+  }
+  if (m === "opinion") {
+    return "Delivery: confident point of view, reasoned not aggressive.";
+  }
   if (m === "proof" || m.includes("statistic")) {
     return "Delivery: measured, credible.";
   }

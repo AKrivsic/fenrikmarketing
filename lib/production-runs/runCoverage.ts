@@ -98,6 +98,10 @@ const KNOWN_CREATIVE_MODES = new Set([
   "comparison",
   "micro_case",
   "observation",
+  "faq",
+  "experiment",
+  "checklist",
+  "opinion",
 ]);
 
 function asRecord(value: Json | null | undefined): Record<string, unknown> | null {

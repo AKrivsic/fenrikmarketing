@@ -306,7 +306,17 @@ function applyPackageSemanticBumps(
       bump(scores, reasons, "NATURAL", 1, "mode_micro_case");
       break;
     case "standard":
-      bump(scores, reasons, "MINIMAL", 2, "mode_standard");
+    case "faq":
+    case "checklist":
+      bump(scores, reasons, "MINIMAL", 2, `mode_${mode}`);
+      break;
+    case "experiment":
+      bump(scores, reasons, "BOLD", 2, "mode_experiment");
+      bump(scores, reasons, "EDITORIAL", 1, "mode_experiment");
+      break;
+    case "opinion":
+      bump(scores, reasons, "BOLD", 2, "mode_opinion");
+      bump(scores, reasons, "EDITORIAL", 1, "mode_opinion");
       break;
     default:
       break;

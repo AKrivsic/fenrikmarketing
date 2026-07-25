@@ -267,6 +267,8 @@ function packageDesire(signals: VoicePackageSignals | null | undefined): {
       break;
     case "comparison":
     case "standard":
+    case "faq":
+    case "checklist":
       desire.steadiness += 2;
       reasons.push(`mode_${mode}→steadiness(+2)`);
       break;
@@ -274,6 +276,16 @@ function packageDesire(signals: VoicePackageSignals | null | undefined): {
       desire.steadiness += 2;
       desire.warmth += 1;
       reasons.push("mode_micro_case→steady/warmth");
+      break;
+    case "experiment":
+      desire.energy += 1;
+      desire.steadiness += 1;
+      reasons.push("mode_experiment→energy/steady");
+      break;
+    case "opinion":
+      desire.energy += 2;
+      desire.steadiness += 1;
+      reasons.push("mode_opinion→energy/steady");
       break;
     default:
       break;

@@ -41,14 +41,14 @@ export interface WeeklyStrategyPromptInput {
 }
 
 export const WEEKLY_STRATEGY_SYSTEM =
-  "You are the Content Strategy Layer for an AI Content Manager. You design a " +
-  "coherent WEEKLY content strategy (never isolated posts). Funnel stages are " +
-  "exactly: Awareness, Problem Aware, Solution Aware, Conversion. Balance the " +
-  "funnel across these stages; it must never be Conversion-only. Every " +
-  "content_plan item MUST have a funnel_stage. Prefer evergreen_topic_id or " +
-  "trend_id when those lists provide IDs; eligible trends are optional bonus " +
-  "context only. When both lists are empty, derive topics from the Product Brain " +
-  "and omit trend_id and evergreen_topic_id. Never invent UUIDs.";
+  "You are the Content Strategy Layer for an AI Content Manager. You invent a WEEKLY " +
+  "set of INDEPENDENT content opportunities (not isolated nonsense posts, and not " +
+  "fourteen variations of one master theme). Funnel stages are exactly: Awareness, " +
+  "Problem Aware, Solution Aware, Conversion. Balance the funnel across these stages; " +
+  "it must never be Conversion-only. Every content_plan item MUST have a funnel_stage. " +
+  "Prefer evergreen_topic_id or trend_id when those lists provide IDs; eligible trends " +
+  "are optional bonus context only. When both lists are empty, derive topics from the " +
+  "Product Brain and omit trend_id and evergreen_topic_id. Never invent UUIDs.";
 
 function formatSourceLists(
   eligibleTrends: ScoredTrend[],
@@ -262,7 +262,7 @@ export function buildWeeklyStrategyPrompt(
     `{
   "week_start": "${weekStart}",
   "week_end": "${weekEnd}",
-  "theme": "string",
+  "theme": "string — week label only, NOT a shared storyline every item must expand",
   "funnel_distribution": { "Awareness": number, "Problem Aware": number, "Solution Aware": number, "Conversion": number },
   "content_plan": [
     {
@@ -270,8 +270,8 @@ export function buildWeeklyStrategyPrompt(
       "platform": "${platforms.join("|")}",
       "format": "post|story|reel|short|carousel|article|email",
       "funnel_stage": "Awareness|Problem Aware|Solution Aware|Conversion",
-      "topic": "string",
-      "angle": "string",
+      "topic": "string — independent idea for this item",
+      "angle": "string — distinct situation / POV / mechanism vs sibling items",
       "priority": 1,
       "trend_id": "uuid from ELIGIBLE TRENDS when used",
       "evergreen_topic_id": "uuid from EVERGREEN TOPICS when used"
@@ -280,6 +280,9 @@ export function buildWeeklyStrategyPrompt(
 }`,
     "Rules: funnel_distribution must not be Conversion-only. Use ONLY the " +
       `allowed platforms (${platforms.join(", ")}). ${volumeRule} ` +
+      "Each content_plan item is an independent opportunity — do not invent one master " +
+      "narrative and then write variations of it. Across items, vary POV, situation, and " +
+      "narrative mechanism while still following Product Brain, audience, and funnel balance. " +
       sourceRule +
       (painPointFirst
         ? " Every item's topic MUST anchor to a real pain point (see PAIN POINT " +

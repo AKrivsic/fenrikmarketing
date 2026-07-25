@@ -89,7 +89,7 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
   {
     id: "story",
     name: "Story",
-    description: "A tiny narrative built around one real customer moment.",
+    description: "A tiny narrative built around one real customer or operator moment.",
     structure:
       "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
     avoid: "No abstract advice; keep it one situation, not a montage of tips.",
@@ -176,10 +176,47 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     narrativeBeats: ["observation", "meaning", "reveal", "cta"],
     preferred: true,
   },
+  {
+    id: "faq",
+    name: "FAQ",
+    description: "Answers one concrete question the audience is already asking.",
+    structure:
+      "The question (as the audience would ask it) -> honest answer -> why it matters -> CTA.",
+    avoid: "Do not invent a fake FAQ; use a real audience question grounded in Product Brain.",
+    narrativeBeats: ["question", "answer", "why_it_matters", "cta"],
+  },
+  {
+    id: "experiment",
+    name: "Experiment",
+    description: "Frames the piece as a test, trial, or what-if experiment.",
+    structure:
+      "Hypothesis / setup -> what was tried -> what happened -> takeaway -> CTA.",
+    avoid: "Do not fabricate experimental results; keep outcomes honest to proof.",
+    narrativeBeats: ["hypothesis", "trial", "result", "takeaway", "cta"],
+  },
+  {
+    id: "checklist",
+    name: "Checklist",
+    description: "Delivers practical steps as a short checklist the viewer can use.",
+    structure:
+      "Why the checklist matters -> 3–5 concrete steps -> the payoff of doing them -> CTA.",
+    avoid: "No vague tips; every step must be specific and doable.",
+    narrativeBeats: ["why_checklist", "steps", "payoff", "cta"],
+  },
+  {
+    id: "opinion",
+    name: "Opinion",
+    description: "States a clear point of view and defends it.",
+    structure:
+      "Bold take -> reasoning -> evidence or lived example -> CTA.",
+    avoid: "No empty hot takes; the opinion must be supportable from Product Brain / proof.",
+    narrativeBeats: ["take", "reasoning", "evidence", "cta"],
+  },
 ];
 
-// Content Quality Sprint 2 — the subset of modes that follow the preferred
-// Hook -> Twist -> Payoff -> CTA arc. The picker draws from this pool first.
+// Modes that follow a Hook -> Twist -> Payoff -> CTA-ish shape. Kept for
+// diagnostics / callers; the picker uses the FULL catalogue so mode diversity
+// is not collapsed onto one preferred arc.
 export const PREFERRED_CREATIVE_MODES: readonly CreativeMode[] =
   CREATIVE_MODES.filter((m) => m.preferred);
 
@@ -342,14 +379,11 @@ export function buildRegenerateCreativeSeedSalt(
 // different topic/angle/salt seeds return different directives.
 export function pickCreativeDirectives(seed: string): CreativeDirectives {
   const base = seed && seed.trim().length > 0 ? seed : "default";
-  // Content Quality Sprint 2 — bias the mode toward the preferred
-  // Hook -> Twist -> Payoff -> CTA pool. Still fully deterministic (same seed ->
-  // same mode) and still varies across seeds; the full catalogue is the
-  // fallback if no mode is marked preferred.
-  const modePool =
-    PREFERRED_CREATIVE_MODES.length > 0 ? PREFERRED_CREATIVE_MODES : CREATIVE_MODES;
+  // Draw from the FULL mode catalogue so Story / FAQ / Comparison / Myth /
+  // Mistake / Checklist / Opinion / etc. can each own a package. Still fully
+  // deterministic (same seed -> same mode).
   return {
-    mode: pickFrom(modePool, `${base}::mode`),
+    mode: pickFrom(CREATIVE_MODES, `${base}::mode`),
     hook: pickFrom(HOOK_ARCHETYPES, `${base}::hook`),
     persona: pickFrom(VOICE_PERSONAS, `${base}::persona`),
   };
@@ -360,13 +394,15 @@ export function buildSoftCreativeDirectiveBlock(
 ): string {
   const { mode, hook, persona } = directives;
   return [
-    "CREATIVE DIRECTIVE (soft guidance for this piece — shapes tone & structure, NEVER facts):",
-    "- These are optional creative preferences. Follow them when they help originality;",
-    "  do not force them if they fight Product Brain, the selected pain point, or Opening Impact.",
-    `- MODE (prefer): ${mode.name} — ${mode.description} STRUCTURE: ${mode.structure} NEVER: ${mode.avoid}`,
-    `- MODE BEATS (prefer this story shape): ${mode.narrativeBeats.join(" -> ")}`,
-    `- HOOK ARCHETYPE (prefer): ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
-    `- VOICE PERSONA (prefer): ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
+    "CREATIVE DIRECTIVE (default creative shape for this piece — NEVER facts):",
+    `- MODE (required story shape): ${mode.name} — ${mode.description}`,
+    `  STRUCTURE: ${mode.structure}`,
+    `  NEVER: ${mode.avoid}`,
+    `- MODE BEATS (follow this order unless Creative Safety forbids it): ${mode.narrativeBeats.join(" -> ")}`,
+    `- The finished concept must be recognizable as a ${mode.name} piece (e.g. Story tells a story; FAQ answers a question; Comparison compares; Myth debunks; Mistake explains a mistake; Checklist gives steps; Opinion takes a stance).`,
+    `- HOOK ARCHETYPE (default opening form): ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
+    `- VOICE PERSONA (default copy voice): ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
+    "- Depart from MODE / HOOK / VOICE only when they would force a lie or conflict with Product Brain, the selected pain point, or Creative Safety below.",
     "CREATIVE SAFETY (these ALWAYS override the directive on any conflict):",
     "- Never lie; never invent numbers, names, results, quotes or testimonials.",
     "- Never produce a forbidden_claim and never describe the product as anything in product_is_not.",
@@ -377,17 +413,20 @@ export function buildSoftCreativeDirectiveBlock(
   ].join("\n");
 }
 
-/** Minimal soft guidance for Opening Impact (hook archetype only). */
+/** Opening Impact guidance: mode opening beat + hook archetype. */
 export function buildSoftOpeningDirectiveBlock(
   directives: CreativeDirectives,
 ): string {
-  const { hook } = directives;
+  const { mode, hook } = directives;
+  const openingBeat = mode.narrativeBeats[0] ?? "hook";
   return [
-    "OPENING DIRECTIVE (soft — optional preference for the cold open):",
-    `- Prefer hook archetype ${hook.id}: ${hook.instruction}`,
+    "OPENING DIRECTIVE (default cold-open shape — never invent product facts):",
+    `- MODE: ${mode.name} — open on the first mode beat ("${openingBeat}") so the opening already feels like a ${mode.name} piece.`,
+    `- Hook archetype ${hook.id}: ${hook.instruction}`,
     `- FORM (do not copy): ${hook.exampleForm}`,
     `- Avoid: ${hook.forbidGeneric}`,
-    "- Ignore this preference if it conflicts with product truth or the selected pain point.",
+    "- Vary the opening form vs recent hooks in memory (different structure, not just different nouns).",
+    "- Ignore this preference only if it conflicts with product truth or the selected pain point.",
   ].join("\n");
 }
 

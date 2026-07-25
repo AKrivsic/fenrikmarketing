@@ -149,7 +149,7 @@ check("fingerprint schema builds and round-trips via package brief", () => {
   assert.deepEqual(read, fp);
 });
 
-check("Video Concept prompt includes soft directives + fingerprints + pain", () => {
+check("Video Concept prompt includes mode directives + fingerprints + pain + diversity", () => {
   const prompt = buildVideoConceptPrompt({
     project: stubProject,
     funnelStage: "problem_aware",
@@ -159,11 +159,14 @@ check("Video Concept prompt includes soft directives + fingerprints + pain", () 
     directives,
     painPoint: "missed calls",
   });
-  assert.match(prompt, /CREATIVE DIRECTIVE \(soft guidance/);
+  assert.match(prompt, /CREATIVE DIRECTIVE \(default creative shape/);
+  assert.match(prompt, /MODE \(required story shape\)/);
   assert.match(prompt, /RECENT CONTENT PIPELINE FINGERPRINTS/);
   assert.match(prompt, /SELECTED PAIN POINT/);
   assert.match(prompt, /missed calls/);
-  assert.match(prompt, /optional creative preferences/i);
+  assert.match(prompt, /PERSPECTIVE DIVERSITY/);
+  assert.match(prompt, /NARRATIVE DIVERSITY/);
+  assert.match(prompt, /PRODUCT CONTEXT DIVERSITY/);
 });
 
 check("Opening Impact prompt includes proof, scenarios, pain, visual world, quality bars", () => {
@@ -181,10 +184,11 @@ check("Opening Impact prompt includes proof, scenarios, pain, visual world, qual
   assert.match(prompt, /VISUAL WORLD/);
   assert.match(prompt, /SPECIFICITY/);
   assert.match(prompt, /clickbait/i);
-  assert.match(prompt, /OPENING DIRECTIVE \(soft/);
+  assert.match(prompt, /OPENING DIRECTIVE \(default cold-open shape/);
+  assert.match(prompt, /HOOK DIVERSITY/);
 });
 
-check("Content Package prompt includes soft directives + pain", () => {
+check("Content Package prompt includes mode directives + pain", () => {
   const prompt = buildContentPackagePrompt({
     project: stubProject,
     funnelStage: "problem_aware",
@@ -199,8 +203,9 @@ check("Content Package prompt includes soft directives + pain", () => {
     directives,
     painPoint: "missed calls",
   });
-  assert.match(prompt, /CREATIVE DIRECTIVE \(soft guidance/);
+  assert.match(prompt, /CREATIVE DIRECTIVE \(default creative shape/);
   assert.match(prompt, /SELECTED PAIN POINT/);
+  assert.match(prompt, /Follow Creative Directive MODE BEATS as the default narrative order/);
 });
 
 check("parseRegenerationKeepFlags detects keep intents", () => {

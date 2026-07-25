@@ -209,7 +209,9 @@ export function buildContentPackagePrompt(
     "- hook MUST equal Opening Impact first_spoken_sentence (same language).",
     "- voiceover_text MUST begin with that same first spoken sentence.",
     "- Keep the SELECTED PAIN POINT as the dominant problem throughout the script when provided.",
-    "- Prefer Creative Directive mode beats / voice when they improve storytelling — soft guidance only.",
+    "- Follow Creative Directive MODE BEATS as the default narrative order for voiceover / scenes;",
+    "  depart only for product truth or Creative Safety. Soft preferences are not enough — the package",
+    "  should still feel like the selected mode.",
     "- Do not invent product claims outside Product Brain / proof.",
     input.requireVideo
       ? "- Require video.concept, video.script, voiceover_text, subtitles, and 3–5 visual_scenes (legacy IMAGE preferred)."
