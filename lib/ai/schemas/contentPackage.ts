@@ -1,5 +1,6 @@
 import {
   vArray,
+  vEnum,
   vFunnelStage,
   vNonEmptyString,
   vObject,
@@ -23,7 +24,9 @@ import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
 
 const platformOutputSchema = vObject({
   caption: vNonEmptyString(),
-  cta: vNonEmptyString(),
+  // Organic social: platform CTA is optional. null/omit = caption stands alone.
+  // Empty string is rejected (not a fake CTA).
+  cta: vOptional(vNonEmptyString()),
   hashtags: vOptional(vArray(vString())),
   format: vOptional(vString()),
   // Content Quality Sprint (Multiplier Variants MVP-1) — when a production run
@@ -66,10 +69,37 @@ const videoSchema = vObject({
   duration_seconds: vOptional(vString()),
 });
 
-const ctaSchema = vObject({
-  type: vNonEmptyString(),
-  text: vNonEmptyString(),
-});
+function buildCtaObjectSchema(allowedCtaTypes?: readonly string[]) {
+  const typeValidator =
+    allowedCtaTypes && allowedCtaTypes.length > 0
+      ? (vEnum(allowedCtaTypes as readonly string[]) as Validator<string>)
+      : vNonEmptyString();
+  return vObject({
+    type: typeValidator,
+    text: vNonEmptyString(),
+  });
+}
+
+/**
+ * Package CTA: null/omit OR { type, text }.
+ * When ctaRequired, null/omit fails (Conversion). Empty string is never valid.
+ */
+function buildPackageCtaSchema(
+  allowedCtaTypes?: readonly string[],
+  ctaRequired = false,
+): Validator<
+  | { type: string; text: string }
+  | null
+  | undefined
+> {
+  const objectSchema = buildCtaObjectSchema(allowedCtaTypes);
+  if (ctaRequired) {
+    return objectSchema as Validator<{ type: string; text: string }>;
+  }
+  return vOptional(objectSchema);
+}
+
+const ctaSchema = buildPackageCtaSchema();
 
 const assetUsageSchema = vObject({
   asset_id: vNonEmptyString(),
@@ -90,7 +120,9 @@ export const contentPackageSchema = vObject({
   hook: vNonEmptyString(),
   voiceover_text: vNonEmptyString(),
   subtitles: vNonEmptyString(),
-  cta: ctaSchema,
+  cta: ctaSchema as Validator<
+    { type: string; text: string } | null | undefined
+  >,
   video: videoSchema,
   platform_outputs: platformOutputsSchema,
   hashtags: vOptional(vArray(vString())),
@@ -108,6 +140,15 @@ export interface BuildContentPackageSchemaOptions {
   // `video` block becomes optional so a valid package can omit it. Defaults to
   // true (video required) — backwards compatible with all existing callers.
   requireVideo?: boolean;
+  /**
+   * Allowed cta.type enum for this package (funnel-stage + goal scoped).
+   * When provided, invalid types fail schema validation before guardrails.
+   */
+  allowedCtaTypes?: readonly string[];
+  /**
+   * When true (Conversion), cta object is required. When false, cta may be null.
+   */
+  ctaRequired?: boolean;
 }
 
 // Builds a content-package validator whose platform_outputs requires exactly
@@ -121,13 +162,14 @@ export function buildContentPackageSchema(
 ): Validator<ContentPackageOutput> {
   const effective = platforms.length > 0 ? platforms : REQUIRED_PACKAGE_PLATFORMS;
   const requireVideo = options.requireVideo ?? true;
+  const ctaRequired = options.ctaRequired ?? false;
   return vObject({
     title: vNonEmptyString(),
     funnel_stage: vFunnelStage(),
     hook: vNonEmptyString(),
     voiceover_text: vNonEmptyString(),
     subtitles: vNonEmptyString(),
-    cta: ctaSchema,
+    cta: buildPackageCtaSchema(options.allowedCtaTypes, ctaRequired),
     // Text-only packages may omit video entirely; video packages still require
     // a fully-formed video block.
     video: requireVideo ? videoSchema : vOptional(videoSchema),
@@ -140,7 +182,11 @@ export function buildContentPackageSchema(
   }) as unknown as Validator<ContentPackageOutput>;
 }
 
-export type ContentPackageOutput = Infer<typeof contentPackageSchema> & {
+export type ContentPackageOutput = Omit<
+  Infer<typeof contentPackageSchema>,
+  "cta"
+> & {
+  cta?: { type: string; text: string } | null;
   /** Phase 5 — compact rollout / frequency log (optional, not LLM-generated). */
   presentation_generation?: Record<string, unknown>;
 };

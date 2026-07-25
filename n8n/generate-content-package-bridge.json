@@ -1,13 +1,18 @@
 {
   "name": "Generate Content Package — Bridge (package loop)",
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "nodes": [
     {
       "id": "n1",
       "name": "N1 — Webhook Trigger",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [0, 0],
+      "position": [
+        0,
+        0
+      ],
       "webhookId": "generate-content-package",
       "parameters": {
         "httpMethod": "POST",
@@ -30,7 +35,10 @@
       "name": "N1b — Production run?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [120, 0],
+      "position": [
+        120,
+        0
+      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -60,7 +68,10 @@
       "name": "N1c — Weekly week_start?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [120, 160],
+      "position": [
+        120,
+        160
+      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -90,7 +101,10 @@
       "name": "N0 — Invalid payload",
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
-      "position": [120, 320],
+      "position": [
+        120,
+        320
+      ],
       "parameters": {
         "errorType": "errorMessage",
         "errorMessage": "generate_content_package payload must include production_run_id or week_start"
@@ -101,7 +115,10 @@
       "name": "N2p — Read production strategy items",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [360, -120],
+      "position": [
+        360,
+        -120
+      ],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 1000,
@@ -124,7 +141,10 @@
       "name": "N2a — Read weekly strategy",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [360, 160],
+      "position": [
+        360,
+        160
+      ],
       "parameters": {
         "operation": "getAll",
         "tableId": "content_strategies",
@@ -145,7 +165,10 @@
       "name": "N2w — Read weekly strategy items",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [560, 160],
+      "position": [
+        560,
+        160
+      ],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 1000,
@@ -168,15 +191,24 @@
       "name": "N2b — Loop over packages",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [760, 0],
-      "parameters": { "batchSize": 1, "options": {} }
+      "position": [
+        760,
+        0
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
     },
     {
       "id": "n3",
       "name": "N3 — Generate Content Package",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1000, 0],
+      "position": [
+        1000,
+        0
+      ],
       "retryOnFail": false,
       "maxTries": 1,
       "waitBetweenTries": 2000,
@@ -198,14 +230,18 @@
           "id": "REPLACE_CALLBACK_SECRET_CRED",
           "name": "x-n8n-secret (N8N_CALLBACK_SECRET)"
         }
-      }
+      },
+      "notes": "Generates ONE package. retryOnFail MUST stay false (incident d154/b343). Live published workflow id O27ELb1s9Y2qisOr (legacy NAKo5V3Ctlq5aW4i unpublished)."
     },
     {
       "id": "n3b",
       "name": "N3b — Package ok?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1120, 0],
+      "position": [
+        1120,
+        0
+      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -236,7 +272,10 @@
       "name": "N4 — Start Video Job",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1240, -80],
+      "position": [
+        1240,
+        -80
+      ],
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 2000,
@@ -263,7 +302,10 @@
       "name": "N5b — Action run id?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1480, -160],
+      "position": [
+        1480,
+        -160
+      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -293,7 +335,10 @@
       "name": "N5 — Action run success",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1700, -160],
+      "position": [
+        1700,
+        -160
+      ],
       "parameters": {
         "method": "POST",
         "url": "https://fenrikmarketing.vercel.app/api/n8n/action-run-status",
@@ -316,7 +361,10 @@
       "name": "Error Trigger",
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
-      "position": [240, 480],
+      "position": [
+        240,
+        480
+      ],
       "parameters": {}
     },
     {
@@ -324,7 +372,10 @@
       "name": "Error — error-callback",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [480, 480],
+      "position": [
+        480,
+        480
+      ],
       "retryOnFail": true,
       "maxTries": 5,
       "waitBetweenTries": 2000,
@@ -348,55 +399,165 @@
   ],
   "connections": {
     "N1 — Webhook Trigger": {
-      "main": [[{ "node": "N1b — Production run?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N1b — Production run?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "N1b — Production run?": {
       "main": [
-        [{ "node": "N2p — Read production strategy items", "type": "main", "index": 0 }],
-        [{ "node": "N1c — Weekly week_start?", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "N2p — Read production strategy items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "N1c — Weekly week_start?",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "N1c — Weekly week_start?": {
       "main": [
-        [{ "node": "N2a — Read weekly strategy", "type": "main", "index": 0 }],
-        [{ "node": "N0 — Invalid payload", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "N2a — Read weekly strategy",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "N0 — Invalid payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "N2p — Read production strategy items": {
-      "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N2b — Loop over packages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "N2a — Read weekly strategy": {
-      "main": [[{ "node": "N2w — Read weekly strategy items", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N2w — Read weekly strategy items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "N2w — Read weekly strategy items": {
-      "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N2b — Loop over packages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "N2b — Loop over packages": {
       "main": [
-        [{ "node": "N5b — Action run id?", "type": "main", "index": 0 }],
-        [{ "node": "N3 — Generate Content Package", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "N5b — Action run id?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "N3 — Generate Content Package",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "N5b — Action run id?": {
       "main": [
-        [{ "node": "N5 — Action run success", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "N5 — Action run success",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "N3 — Generate Content Package": {
-      "main": [[{ "node": "N3b — Package ok?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N3b — Package ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "N3b — Package ok?": {
       "main": [
-        [{ "node": "N4 — Start Video Job", "type": "main", "index": 0 }],
-        [{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "N4 — Start Video Job",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "N2b — Loop over packages",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "N4 — Start Video Job": {
-      "main": [[{ "node": "N2b — Loop over packages", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "N2b — Loop over packages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Error Trigger": {
-      "main": [[{ "node": "Error — error-callback", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Error — error-callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   }
 }

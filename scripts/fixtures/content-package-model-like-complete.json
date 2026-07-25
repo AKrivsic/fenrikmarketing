@@ -1,0 +1,139 @@
+{
+  "title": "The Promotion That Worked — And Still Failed",
+  "funnel_stage": "Problem Aware",
+  "hook": "Seventy visitors landed on his site yesterday, and not a single one got an answer.",
+  "voiceover_text": "Seventy visitors landed on his site yesterday, and not a single one got an answer. He ran a paid promotion and watched seventy sessions roll in. Every visitor hit a silent page, asked a question, got nothing, and left. Zero calls the next morning. He blamed the ad. The ad worked — the website had no voice. Create your AI assistant so the next promotion can actually answer.",
+  "subtitles": "Seventy visitors landed on his site yesterday, and not a single one got an answer. / He ran a paid promotion and watched seventy sessions roll in. / Every visitor hit a silent page, asked a question, got nothing, and left. / Zero calls the next morning. He blamed the ad. The ad worked — the website had no voice. / Create your AI assistant so the next promotion can actually answer.",
+  "cta": {
+    "type": "follow",
+    "text": "Follow for the next play on quiet leads."
+  },
+  "video": {
+    "concept": "A local plumbing business owner runs his first paid promotion and watches traffic pour in.",
+    "script": "SCENE 1 — COLD OPEN\nVO: 'Seventy visitors landed on his site yesterday, and not a single one got an answer.'",
+    "duration_seconds": "58"
+  },
+  "platform_outputs": {
+    "tiktok": {
+      "caption": "70 website visitors. 0 leads. He blamed the ad. He was wrong. 👀",
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "format": "reel"
+    },
+    "instagram": {
+      "caption": "He ran a promotion. 70 people showed up.\n\nEvery single one had a question.",
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitestrategy",
+        "#leadgeneration"
+      ],
+      "format": "reel"
+    },
+    "youtube": {
+      "caption": "He got 70 website visitors from one promotion — and zero customers.",
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "format": "shorts"
+    },
+    "facebook": {
+      "caption": "He ran a promotion, got 70 people to his website in one afternoon, and woke up to zero new customers.",
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#localbusiness"
+      ],
+      "format": "reel"
+    },
+    "linkedin": {
+      "caption_variants": [
+        "A local service business ran a paid promotion. Seventy people visited the website in one afternoon. Zero converted. The owner concluded the campaign had failed — and cancelled the next one. The campaign hadn't failed. Seventy people showed up. Every single one had a question. Not one got an answer. The website was static, silent, and offered nothing. The gap between traffic and leads isn't always the ad. Sometimes it's the page the ad sends people to. If your website can't respond when a visitor has a question, the campaign budget is only doing half the job.",
+        "Most businesses audit their ads when conversions drop. Almost none audit what happens after the click. A promotion drives real traffic. The visitor lands, scrolls, has a question, gets silence, and opens a competitor's tab. The business owner sees sessions in the analytics. Never sees the exits. This is the gap that doesn't show up in campaign reports — and it's where most leads actually disappear. The fix isn't a better ad. It's a website that can actually respond."
+      ],
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#digitalgrowth"
+      ],
+      "format": "reel",
+      "caption": "A local service business ran a paid promotion. Seventy people visited the website in one afternoon. Zero converted. The owner concluded the campaign had failed — and cancelled the next one. The campaign hadn't failed. Seventy people showed up. Every single one had a question. Not one got an answer. The website was static, silent, and offered nothing. The gap between traffic and leads isn't always the ad. Sometimes it's the page the ad sends people to. If your website can't respond when a visitor has a question, the campaign budget is only doing half the job."
+    },
+    "x": {
+      "caption_variants": [
+        "70 visitors. 0 leads. He blamed the ad. The ad worked fine. The website just couldn't answer a single question. #smallbusiness",
+        "The promotion sent 70 people to the site. The site sent 70 people to a competitor. Not a traffic problem.",
+        "Most lost leads don't show up in your ad report. They show up in your session count with zero conversions attached.",
+        "Visitors don't fill out forms when they have unanswered questions. They open the next tab. Every time.",
+        "Running a promotion without a website that can respond is like paying for a billboard that leads to a locked door. #leadgeneration"
+      ],
+      "title_variants": [
+        "The promotion worked. The website didn't.",
+        "70 sessions. 0 leads. Wrong diagnosis.",
+        "The gap nobody audits after a campaign.",
+        "Why your traffic isn't the problem.",
+        "The locked door at the end of your ad spend."
+      ],
+      "cta": "Follow for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration"
+      ],
+      "format": "reel",
+      "caption": "70 visitors. 0 leads. He blamed the ad. The ad worked fine. The website just couldn't answer a single question. #smallbusiness"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#localbusiness",
+    "#leadgeneration"
+  ],
+  "image_prompts": [
+    "Close-up of a laptop screen showing a minimal static plumbing services page.",
+    "A man in his late 30s at a kitchen table watching analytics climb.",
+    "Split visual: analytics at 70 vs silent static page.",
+    "Morning after: zero calls noted beside laptop.",
+    "Same page with AI chat bubble answering a visitor."
+  ],
+  "visual_scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a laptop screen showing a minimal static plumbing services page; cool monitor glow."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A man in his late 30s at a kitchen table watching analytics climb past 50."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Split visual: analytics at 70 vs silent static plumbing page."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Morning after: notepad reads 0 calls — 0 leads; deflated owner."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Same page with clean white AI chat bubble answering instantly."
+    }
+  ],
+  "asset_usage": [
+    {
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b",
+      "used_as": "Product UI reference for the resolution scene — framed screen insert"
+    },
+    {
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f",
+      "used_as": "Supporting product feature reference for the CTA end card"
+    }
+  ],
+  "scenario": "A local plumbing business owner runs a paid promotion, drives 70 website visitors, and wakes up to zero customers because the site had no voice."
+}

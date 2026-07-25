@@ -60,12 +60,17 @@ export function appendUrlToText(
 // Otherwise returns the CTA unchanged.
 export function maybeAppendWebsiteUrl(args: {
   platform: string;
-  cta: string;
+  cta: string | null | undefined;
   funnelStage: FunnelStage;
   ctaType: string | null | undefined;
   websiteUrl: string | null;
-}): string {
-  const { platform, cta, funnelStage, ctaType, websiteUrl } = args;
+}): string | null {
+  const { platform, funnelStage, ctaType, websiteUrl } = args;
+  const cta =
+    typeof args.cta === "string" && args.cta.trim().length > 0
+      ? args.cta
+      : null;
+  if (!cta) return null;
   if (!websiteUrl) return cta;
 
   const stages = URL_APPEND_STAGES_BY_PLATFORM[platform];

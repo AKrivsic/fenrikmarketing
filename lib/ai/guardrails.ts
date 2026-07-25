@@ -377,15 +377,108 @@ export function checkContentPackageGuardrails(
     );
   }
 
-  // CTA type must match project.goal_type.
-  const allowedCtas = CTA_TYPES_BY_GOAL[ctx.project.goal_type] ?? [];
-  if (pkg.cta?.type && !allowedCtas.includes(pkg.cta.type)) {
-    issues.push(
-      issue(
-        "$.cta.type",
-        `cta type "${pkg.cta.type}" not allowed for goal ${ctx.project.goal_type} (allowed: ${allowedCtas.join(", ")})`,
-      ),
-    );
+  // CTA rules by funnel stage (organic social — not ads):
+  //   awareness / problem_aware: null OR soft (follow|save|comment|share)
+  //   solution_aware: null OR soft OR business (CTA_TYPES_BY_GOAL ∩ business)
+  //   conversion: business CTA required
+  const stage = pkgStage ?? normalizeFunnelStage(ctx.strategyItemFunnelStage);
+  const softOk = new Set(["follow", "save", "comment", "share"]);
+  const businessForGoal = new Set(
+    (CTA_TYPES_BY_GOAL[ctx.project.goal_type] ?? []).filter((t) =>
+      ["lead", "contact", "book", "request_quote", "sign_up"].includes(t),
+    ),
+  );
+  const cta = pkg.cta;
+  const hasCtaObject =
+    cta !== null &&
+    cta !== undefined &&
+    typeof cta === "object" &&
+    typeof (cta as { type?: unknown }).type === "string";
+
+  if (stage === "conversion") {
+    if (!hasCtaObject) {
+      issues.push(
+        issue(
+          "$.cta",
+          "conversion packages require a business CTA { type, text }",
+        ),
+      );
+    } else {
+      const type = (cta as { type: string }).type;
+      if (!businessForGoal.has(type)) {
+        issues.push(
+          issue(
+            "$.cta.type",
+            `cta type "${type}" not allowed for conversion + goal ${ctx.project.goal_type} (allowed: ${[...businessForGoal].join(", ")})`,
+          ),
+        );
+      }
+      const text = (cta as { text?: unknown }).text;
+      if (typeof text !== "string" || text.trim().length === 0) {
+        issues.push(issue("$.cta.text", "cta.text must be a non-empty string"));
+      }
+    }
+  } else if (hasCtaObject) {
+    const type = (cta as { type: string }).type;
+    const text = (cta as { text?: unknown }).text;
+    if (typeof text !== "string" || text.trim().length === 0) {
+      issues.push(issue("$.cta.text", "cta.text must be a non-empty string when cta is present"));
+    }
+    if (stage === "awareness" || stage === "problem_aware") {
+      if (!softOk.has(type)) {
+        issues.push(
+          issue(
+            "$.cta.type",
+            `cta type "${type}" not allowed for ${stage} (soft only: follow | save | comment | share, or null)`,
+          ),
+        );
+      }
+    } else if (stage === "solution_aware") {
+      if (!softOk.has(type) && !businessForGoal.has(type)) {
+        issues.push(
+          issue(
+            "$.cta.type",
+            `cta type "${type}" not allowed for solution_aware (soft or business: ${[...softOk, ...businessForGoal].join(", ")})`,
+          ),
+        );
+      }
+    } else if (type && !softOk.has(type) && !businessForGoal.has(type)) {
+      // Unknown stage already flagged above; still reject inventing ad-only types.
+      issues.push(
+        issue(
+          "$.cta.type",
+          `cta type "${type}" not in soft or goal business set`,
+        ),
+      );
+    }
+  }
+
+  // Reject empty-string / sentinel fake CTAs on platform outputs.
+  const platformOutputsFull = (pkg.platform_outputs ?? {}) as Record<
+    string,
+    { caption?: string; cta?: string | null } | undefined
+  >;
+  for (const [platform, output] of Object.entries(platformOutputsFull)) {
+    if (!output) continue;
+    if (output.cta === "") {
+      issues.push(
+        issue(
+          `$.platform_outputs.${platform}.cta`,
+          "empty string is not a valid CTA — use null/omit or a non-empty string",
+        ),
+      );
+    }
+    if (
+      typeof output.cta === "string" &&
+      ["null", "undefined"].includes(output.cta.trim().toLowerCase())
+    ) {
+      issues.push(
+        issue(
+          `$.platform_outputs.${platform}.cta`,
+          "sentinel string is not a valid CTA — use null/omit",
+        ),
+      );
+    }
   }
 
   // forbidden_claims + product_is_not must not appear anywhere in copy.

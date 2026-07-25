@@ -723,8 +723,19 @@ export interface PersistableItem {
   platform: (typeof PERSISTABLE_PACKAGE_PLATFORMS)[number];
   format: ContentFormat;
   caption: string;
-  cta: string;
+  cta: string | null;
   hashtags: string[];
+}
+
+/** Normalize platform CTA: reject empty/sentinel strings as null. */
+export function normalizePlatformCta(
+  value: unknown,
+): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (["null", "undefined"].includes(trimmed.toLowerCase())) return null;
+  return trimmed;
 }
 
 // Builds the content_item rows for the persistable platforms. When
@@ -753,7 +764,7 @@ export function buildPersistableItems(
       caption: output.caption,
       cta: maybeAppendWebsiteUrl({
         platform,
-        cta: output.cta,
+        cta: normalizePlatformCta(output.cta),
         funnelStage: context.funnelStage,
         ctaType: pkg.cta?.type,
         websiteUrl,

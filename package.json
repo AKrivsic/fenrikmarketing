@@ -85,7 +85,8 @@
     "check:creative-identity": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-creative-identity.ts",
     "check:regenerate-content-pipeline": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-regenerate-content-pipeline.ts",
     "check:content-pipeline-quality": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-content-pipeline-quality.ts",
-    "check:content-pipeline-incident-fix": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-content-pipeline-incident-fix.ts"
+    "check:content-pipeline-incident-fix": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-content-pipeline-incident-fix.ts",
+    "check:content-pipeline-contract": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-content-pipeline-contract.ts"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.7",

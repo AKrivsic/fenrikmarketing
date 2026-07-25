@@ -27,7 +27,16 @@ import {
   buildRegenerationInstructionBlock,
   type RegenerationContext,
 } from "@/lib/content-pipeline/regeneration";
-import { buildContentPackageVisualScenesBlock } from "@/lib/content-pipeline/prompts/contentPackageVisualScenes";
+import {
+  buildContentPackagePlatformOutputsContractBlock,
+  buildContentPackageVisualScenesBlock,
+} from "@/lib/content-pipeline/prompts/contentPackageVisualScenes";
+import {
+  allowedCtaTypesForFunnelStage,
+  buildContentPackageCtaContractBlock,
+  buildContentPackageVoiceoverContractBlock,
+  ctaRequirementForFunnelStage,
+} from "@/lib/content-pipeline/prompts/contentPackageContract";
 
 export function buildContentPackageSystem(requireVideo: boolean): string {
   return (
@@ -86,11 +95,19 @@ function variantCountsBlock(
   if (!counts) return "";
   const lines = Object.entries(counts)
     .filter(([, n]) => n > 1)
-    .map(([p, n]) => `- ${p}: ${n} distinct caption_variants (and title_variants for x)`);
+    .map(([p, n]) => {
+      if (p === "x") {
+        return `- x: ${n} distinct caption_variants AND ${n} title_variants; ALSO set caption = caption_variants[0]`;
+      }
+      return `- ${p}: ${n} distinct caption_variants; ALSO set caption = caption_variants[0]`;
+    });
   if (lines.length === 0) return "";
-  return ["VARIANT COUNTS (produce this many distinct variants):", ...lines].join(
-    "\n",
-  );
+  return [
+    "VARIANT COUNTS (produce this many distinct variants):",
+    ...lines,
+    "CRITICAL: caption_variants never replace caption. Every platform still needs caption (use caption_variants[0]).",
+    "LinkedIn with variants → caption + caption_variants. X with variants → caption + caption_variants + title_variants.",
+  ].join("\n");
 }
 
 function antiRepOptsFromRegen(
@@ -119,6 +136,21 @@ export function buildContentPackagePrompt(
     ? buildSoftCreativeDirectiveBlock(input.directives)
     : "";
   const painBlock = selectedPainPointBlock(input.painPoint);
+  const allowedCtaTypes = allowedCtaTypesForFunnelStage({
+    funnelStage: input.funnelStage,
+    goalType: input.project.goal_type,
+  });
+  const ctaRequired =
+    ctaRequirementForFunnelStage(input.funnelStage) === "required_business";
+  const ctaBlock = buildContentPackageCtaContractBlock({
+    goalType: input.project.goal_type,
+    funnelStage: input.funnelStage,
+    allowedCtaTypes,
+    ctaRequired,
+  });
+  const voiceoverBlock = buildContentPackageVoiceoverContractBlock({
+    ctaRequired,
+  });
 
   return [
     task,
@@ -188,18 +220,18 @@ export function buildContentPackagePrompt(
       ? `- Video platforms (shared video): ${input.videoPlatforms.join(", ")}`
       : "",
     "",
-    "PLATFORM_OUTPUTS FIELD TYPES:",
-    "- caption: string (never an object)",
-    "- cta: string (never an object)",
-    "- hashtags: string[]",
-    "- format: string",
-    "- caption_variants / title_variants: string[] only when VARIANT COUNTS require them",
-    "- Never put an object where a string is required.",
+    voiceoverBlock,
+    "",
+    ctaBlock,
+    "",
+    buildContentPackagePlatformOutputsContractBlock(),
     "",
     "OTHER FIELD TYPES:",
     '- video.duration_seconds must be a string when present (e.g. "24").',
     "- asset_usage is optional; when present each entry is { asset_id: string, used_as: string, modify?: string }.",
     "- asset_usage[].used_as must be a string.",
+    "- youtube caption: Shorts-native — hard maximum 55 words (guardrails reject longer).",
+    "- x caption: hard maximum 280 characters (guardrails reject longer).",
     "",
     buildContentPackageVisualScenesBlock({ requireVideo: input.requireVideo }),
     "",
@@ -208,17 +240,20 @@ export function buildContentPackagePrompt(
     '  "title": string,',
     '  "funnel_stage": string,',
     '  "hook": string,',
-    '  "voiceover_text": string,',
+    '  "voiceover_text": string (40–70 words preferred; max 80),',
     '  "subtitles": string,',
-    '  "cta": { "type": string, "text": string },',
+    ctaRequired
+      ? `  "cta": { "type": one of [${allowedCtaTypes.join(", ")}], "text": string },`
+      : `  "cta": null OR { "type": one of [${allowedCtaTypes.join(", ")}], "text": string },`,
     '  "video": { "concept": string, "script": string, "duration_seconds": string },',
-    '  "platform_outputs": { "<platform>": { "caption": string, "cta": string, "hashtags": string[], "format": string, "caption_variants"?: string[], "title_variants"?: string[] } },',
+    '  "platform_outputs": { "<platform>": { "caption": string, "cta"?: string|null, "hashtags": string[], "format": string, "caption_variants"?: string[], "title_variants"?: string[] } },',
     '  "hashtags": string[],',
     '  "image_prompts": string[],',
     '  "visual_scenes": [ { "source": "ai", "image_prompt": "string" }, ... ],',
     '  "asset_usage": [ { "asset_id": "string", "used_as": "string" } ],',
     '  "scenario": optional string',
     "}",
+    "Remember: if caption_variants is present, caption MUST equal caption_variants[0].",
   ]
     .filter((line) => line !== "")
     .join("\n");

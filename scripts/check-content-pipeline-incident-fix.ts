@@ -183,6 +183,29 @@ await check("expectedShape documents legacy visual_scenes", () => {
   assert.match(shape, /duration_seconds/);
 });
 
+await check("prompt + expectedShape require caption = caption_variants[0]", () => {
+  const prompt = buildContentPackagePrompt({
+    ...minimalPromptInput(),
+    variantCounts: { linkedin: 2, x: 5 },
+  });
+  assert.match(prompt, /caption = caption_variants\[0\]/);
+  assert.match(
+    buildContentPackageExpectedShape({ goalType: "lead_generation" }),
+    /caption_variants\[0\]/,
+  );
+  assert.match(prompt, /Hard maximum 80/);
+  assert.match(prompt, /cta\.type MUST be exactly one of/);
+});
+
+await check("runContentPackage wires CTA enum + guardrail repair", () => {
+  const src = readFileSync(
+    join(root, "lib/content-pipeline/runContentPackage.ts"),
+    "utf8",
+  );
+  assert.match(src, /repairGuardrailFailures:\s*true/);
+  assert.match(src, /allowedCtaTypes/);
+});
+
 // --- Scene validators ------------------------------------------------------
 
 section("Scene validators");

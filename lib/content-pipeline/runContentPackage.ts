@@ -12,6 +12,10 @@ import {
   type ContentPackagePromptInput,
 } from "@/lib/content-pipeline/prompts/contentPackage";
 import { buildContentPackageExpectedShape } from "@/lib/content-pipeline/prompts/contentPackageVisualScenes";
+import {
+  allowedCtaTypesForFunnelStage,
+  ctaRequirementForFunnelStage,
+} from "@/lib/content-pipeline/prompts/contentPackageContract";
 
 const TIMEOUT_MS = 180_000;
 
@@ -23,6 +27,13 @@ export async function runContentPackageGeneration(args: {
   guardrails: ReturnType<typeof makePackageGuardrails>;
 }): Promise<WorkflowResult<ContentPackageOutput>> {
   const { promptInput, guardrails } = args;
+  const allowedCtaTypes = allowedCtaTypesForFunnelStage({
+    funnelStage: promptInput.funnelStage,
+    goalType: promptInput.project.goal_type,
+  });
+  const ctaRequired =
+    ctaRequirementForFunnelStage(promptInput.funnelStage) ===
+    "required_business";
 
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
@@ -30,8 +41,18 @@ export async function runContentPackageGeneration(args: {
     prompt: buildContentPackagePrompt(promptInput),
     validator: buildContentPackageSchema(promptInput.targetPlatforms, {
       requireVideo: promptInput.requireVideo,
+      allowedCtaTypes,
+      ctaRequired,
     }),
-    expectedShape: buildContentPackageExpectedShape(),
+    expectedShape: buildContentPackageExpectedShape({
+      goalType: promptInput.project.goal_type,
+      funnelStage: promptInput.funnelStage,
+      allowedCtaTypes,
+      ctaRequired,
+    }),
+    // Allow one OpenAI repair pass on guardrail failures (voiceover length, etc.)
+    // before a Claude regenerate — still capped by CONTENT_PACKAGE_MAX_ATTEMPTS.
+    repairGuardrailFailures: true,
     guardrails,
     timeoutMs: TIMEOUT_MS,
     maxTransportAttempts: 1,
