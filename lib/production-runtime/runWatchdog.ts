@@ -53,9 +53,6 @@ export function evaluateRunWatchdog(
     };
   }
 
-  const runAgeMs = now - new Date(input.runUpdatedAt).getTime();
-  const runOldEnough = runAgeMs >= stuckMs;
-
   for (const job of input.jobs) {
     if (job.status !== "processing" && job.status !== "queued") continue;
 
@@ -72,17 +69,8 @@ export function evaluateRunWatchdog(
       job.updatedAt != null &&
       now - new Date(job.updatedAt).getTime() >= stuckMs;
 
+    // Only processing jobs can be stale-failed. Queued jobs wait without a lease.
     if (job.status === "processing" && (leaseExpired || legacyStale)) {
-      failStaleJobIds.push(job.id);
-      continue;
-    }
-
-    // Queued forever while run is old → fail so the slot can settle.
-    if (
-      job.status === "queued" &&
-      runOldEnough &&
-      input.packageCount > 0
-    ) {
       failStaleJobIds.push(job.id);
     }
   }

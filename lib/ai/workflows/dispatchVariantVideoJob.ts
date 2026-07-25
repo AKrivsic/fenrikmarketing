@@ -8,9 +8,10 @@ import {
   runtimeLog,
 } from "@/lib/production-runtime";
 
-// Task 5 / Phase 6G — atomic lease claim + dispatch for language-variant video jobs.
-// Uses the same claim_video_job_for_dispatch RPC as /api/n8n/start-video-job
-// (no direct queued→processing update).
+// Task 5 / Phase 6G — dispatch prepare + enqueue for language-variant video jobs.
+// Uses claim_video_job_for_dispatch (keeps queued, no lease) like
+// /api/n8n/start-video-job. Worker takes processing + lease via
+// claim_video_job_for_worker when render starts.
 
 export interface DispatchVariantVideoJobArgs {
   videoJobId: string;
@@ -72,13 +73,13 @@ export async function claimAndDispatchVariantVideoJob(
   }
 
   runtimeLog("info", {
-    event: "video_lease_claimed",
+    event: "video_dispatch_prepared",
     project_id: args.projectId,
     package_id: args.contentPackageId,
     content_item_id: args.contentItemId,
     video_job_id: args.videoJobId,
     owner_token: ownerToken,
-    outcome: "claimed",
+    outcome: "queued",
   });
 
   try {
@@ -92,10 +93,8 @@ export async function claimAndDispatchVariantVideoJob(
     });
     return { dispatched: true };
   } catch (err) {
-    // Release the claim so a later retry can re-claim and re-dispatch. Guarded
-    // by `processing` so a callback that already moved the job to a terminal
-    // status is not overwritten. Clear lease fields so CHECK still holds if
-    // status returns to queued.
+    // Variant 1: dispatch never moves to processing. Keep queued + clear lease
+    // fields so a later retry can prepare and enqueue again.
     await supabase
       .from("video_jobs")
       .update({
@@ -105,11 +104,11 @@ export async function claimAndDispatchVariantVideoJob(
       })
       .eq("id", args.videoJobId)
       .eq("project_id", args.projectId)
-      .eq("status", "processing");
+      .in("status", ["queued", "processing"]);
     const detail = err instanceof Error ? err.message : "unknown error";
     return {
       dispatched: false,
-      warning: `inline worker start failed (${detail}); job ${args.videoJobId} released back to queued`,
+      warning: `inline worker start failed (${detail}); job ${args.videoJobId} remains queued`,
     };
   }
 }

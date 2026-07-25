@@ -172,7 +172,7 @@ check("processing with durable mp4 → promote", () => {
 });
 
 console.log("\nInvariant 5 — run watchdog");
-check("old queued job with packages → fail for settlement", () => {
+check("queued job is never failed by watchdog (Variant 1)", () => {
   const now = Date.now();
   const decision = evaluateRunWatchdog({
     runStatus: "running",
@@ -190,7 +190,35 @@ check("old queued job with packages → fail for settlement", () => {
       },
     ],
   });
-  assert.deepEqual(decision.failStaleJobIds, ["q1"]);
+  assert.deepEqual(decision.failStaleJobIds, []);
+  assert.deepEqual(decision.promoteJobIds, []);
+  assert.equal(decision.shouldForceReconcile, false);
+});
+check("queued + expired processing → only processing fails", () => {
+  const now = Date.now();
+  const decision = evaluateRunWatchdog({
+    runStatus: "running",
+    runUpdatedAt: new Date(now - 60_000).toISOString(),
+    packageCount: 2,
+    nowMs: now,
+    jobs: [
+      {
+        id: "q1",
+        status: "queued",
+        leaseExpiresAt: null,
+        updatedAt: new Date(now - 600_000).toISOString(),
+        output: {},
+      },
+      {
+        id: "p1",
+        status: "processing",
+        leaseExpiresAt: new Date(now - 1_000).toISOString(),
+        updatedAt: new Date(now - 600_000).toISOString(),
+        output: {},
+      },
+    ],
+  });
+  assert.deepEqual(decision.failStaleJobIds, ["p1"]);
   assert.equal(decision.shouldForceReconcile, true);
 });
 
@@ -233,12 +261,18 @@ await checkAsync("start-video lease claim", async () => {
   assert.match(src, /claimVideoJobForDispatch/);
   assert.match(src, /promoteVideoJobIfArtifactsReady/);
   assert.match(src, /artifacts_ready/);
+  assert.match(src, /status:\s*[\"']queued[\"']/);
+  assert.doesNotMatch(
+    src,
+    /return Response\.json\(\s*\{\s*ok:\s*true,\s*video_job_id:.*status:\s*[\"']processing[\"']/,
+  );
 });
 await checkAsync("jobRunner durability + heartbeat", async () => {
   const src = await readFile(
     new URL("../video-worker/jobRunner.ts", import.meta.url),
     "utf8",
   );
+  assert.match(src, /claimVideoJobForWorker/);
   assert.match(src, /persistVideoJobArtifacts/);
   assert.match(src, /shouldSendFailedCallbackAfterUpload/);
   assert.match(src, /renewVideoJobLease/);
@@ -276,6 +310,19 @@ await checkAsync("migration 025 RPCs", async () => {
   assert.match(src, /persist_video_job_artifacts/);
   assert.match(src, /promote_video_job_if_artifacts_ready/);
   assert.match(src, /lease_expires_at/);
+});
+await checkAsync("migration 029 worker lease claim", async () => {
+  const src = await readFile(
+    new URL(
+      "../supabase/migrations/029_video_lease_on_worker_start.sql",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(src, /claim_video_job_for_worker/);
+  assert.match(src, /status = 'queued'/);
+  assert.match(src, /claim_video_job_for_dispatch/);
+  assert.match(src, /lease_owner = null/);
 });
 await checkAsync("migration 026 hardening", async () => {
   const src = await readFile(

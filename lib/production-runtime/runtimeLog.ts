@@ -19,6 +19,7 @@ export type RuntimeLogEvent =
   | "run_recovery_busy"
   | "watchdog_promoted"
   | "watchdog_failed_stale"
+  | "video_dispatch_prepared"
   | "video_lease_claimed"
   | "video_lease_busy"
   | "video_lease_reclaimed"

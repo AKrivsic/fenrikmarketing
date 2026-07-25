@@ -6,7 +6,7 @@ import {
 } from "@/lib/production-runtime/constants";
 
 export type VideoJobClaimResult =
-  | { status: "claimed"; leaseOwner: string; leaseExpiresAt: string | null }
+  | { status: "claimed"; leaseOwner: string | null; leaseExpiresAt: string | null }
   | { status: "busy"; jobStatus: string; leaseExpiresAt: string | null }
   | { status: "terminal"; jobStatus: string; output: Record<string, unknown> }
   | { status: "artifacts_ready"; output: Record<string, unknown> }
@@ -18,36 +18,23 @@ function asRecord(value: unknown): Record<string, unknown> {
     : {};
 }
 
-export function outputHasDurableMp4(output: unknown): boolean {
-  const row = asRecord(output);
-  return typeof row.mp4_url === "string" && row.mp4_url.length > 0;
-}
-
-export async function claimVideoJobForDispatch(
-  supabase: SupabaseClient,
-  args: {
-    jobId: string;
-    projectId: string;
-    ownerToken: string;
-    leaseSeconds?: number;
-    legacyStaleMinutes?: number;
-  },
-): Promise<VideoJobClaimResult> {
-  const { data, error } = await supabase.rpc("claim_video_job_for_dispatch", {
-    p_job_id: args.jobId,
-    p_project_id: args.projectId,
-    p_owner_token: args.ownerToken,
-    p_lease_seconds: args.leaseSeconds ?? VIDEO_JOB_LEASE_SECONDS,
-    p_legacy_stale_minutes:
-      args.legacyStaleMinutes ?? VIDEO_JOB_LEGACY_STALE_MINUTES,
-  });
-  if (error) throw error;
+function parseClaimResult(
+  data: unknown,
+  ownerToken: string,
+  rpcName: string,
+): VideoJobClaimResult {
   const row = asRecord(data);
   const status = typeof row.status === "string" ? row.status : "";
   if (status === "claimed") {
+    const leaseOwner =
+      typeof row.lease_owner === "string" && row.lease_owner.length > 0
+        ? row.lease_owner
+        : row.lease_expires_at
+          ? ownerToken
+          : null;
     return {
       status: "claimed",
-      leaseOwner: args.ownerToken,
+      leaseOwner,
       leaseExpiresAt:
         typeof row.lease_expires_at === "string" ? row.lease_expires_at : null,
     };
@@ -71,7 +58,63 @@ export async function claimVideoJobForDispatch(
     return { status: "artifacts_ready", output: asRecord(row.output) };
   }
   if (status === "missing") return { status: "missing" };
-  throw new Error(`claim_video_job_for_dispatch unexpected status: ${status}`);
+  throw new Error(`${rpcName} unexpected status: ${status}`);
+}
+
+export function outputHasDurableMp4(output: unknown): boolean {
+  const row = asRecord(output);
+  return typeof row.mp4_url === "string" && row.mp4_url.length > 0;
+}
+
+/**
+ * Authorize dispatch/enqueue. Keeps the job `queued` with no lease.
+ * Lease starts only in {@link claimVideoJobForWorker}.
+ */
+export async function claimVideoJobForDispatch(
+  supabase: SupabaseClient,
+  args: {
+    jobId: string;
+    projectId: string;
+    ownerToken: string;
+    leaseSeconds?: number;
+    legacyStaleMinutes?: number;
+  },
+): Promise<VideoJobClaimResult> {
+  const { data, error } = await supabase.rpc("claim_video_job_for_dispatch", {
+    p_job_id: args.jobId,
+    p_project_id: args.projectId,
+    p_owner_token: args.ownerToken,
+    p_lease_seconds: args.leaseSeconds ?? VIDEO_JOB_LEASE_SECONDS,
+    p_legacy_stale_minutes:
+      args.legacyStaleMinutes ?? VIDEO_JOB_LEGACY_STALE_MINUTES,
+  });
+  if (error) throw error;
+  return parseClaimResult(data, args.ownerToken, "claim_video_job_for_dispatch");
+}
+
+/**
+ * Worker start: queued → processing + lease (or reclaim expired processing).
+ */
+export async function claimVideoJobForWorker(
+  supabase: SupabaseClient,
+  args: {
+    jobId: string;
+    projectId: string;
+    ownerToken: string;
+    leaseSeconds?: number;
+    legacyStaleMinutes?: number;
+  },
+): Promise<VideoJobClaimResult> {
+  const { data, error } = await supabase.rpc("claim_video_job_for_worker", {
+    p_job_id: args.jobId,
+    p_project_id: args.projectId,
+    p_owner_token: args.ownerToken,
+    p_lease_seconds: args.leaseSeconds ?? VIDEO_JOB_LEASE_SECONDS,
+    p_legacy_stale_minutes:
+      args.legacyStaleMinutes ?? VIDEO_JOB_LEGACY_STALE_MINUTES,
+  });
+  if (error) throw error;
+  return parseClaimResult(data, args.ownerToken, "claim_video_job_for_worker");
 }
 
 export async function renewVideoJobLease(

@@ -195,6 +195,7 @@ await checkAsync("variant dispatch uses lease RPC", async () => {
     "utf8",
   );
   assert.match(src, /claimVideoJobForDispatch/);
+  assert.match(src, /video_dispatch_prepared/);
   assert.doesNotMatch(src, /\.update\(\{\s*status:\s*[\"']processing[\"']/);
 });
 

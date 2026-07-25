@@ -118,8 +118,8 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    // Stable owner lets the worker renew the lease without passing a new token
-    // through the transport payload.
+    // Variant 1: dispatch keeps the job queued with no lease. The worker takes
+    // processing + lease only when it actually starts rendering.
     const ownerToken = job.id || newOwnerToken();
     const claim = await claimVideoJobForDispatch(supabase, {
       jobId: job.id,
@@ -190,8 +190,8 @@ export async function POST(request: Request): Promise<Response> {
         input: (job.input as Record<string, unknown> | null) ?? {},
       });
     } catch (dispatchErr) {
-      // Dispatch failed after the claim: release the job back to `queued` so a
-      // later retry can re-claim and re-dispatch it (no job stuck processing).
+      // Job stays queued (Variant 1 never sets processing at dispatch). Clear
+      // any lease fields defensively so a retry can prepare + enqueue again.
       await supabase
         .from("video_jobs")
         .update({
@@ -201,12 +201,12 @@ export async function POST(request: Request): Promise<Response> {
         })
         .eq("id", job.id)
         .eq("project_id", projectId)
-        .eq("status", "processing");
+        .in("status", ["queued", "processing"]);
       throw dispatchErr;
     }
 
     return Response.json(
-      { ok: true, video_job_id: job.id, status: "processing" },
+      { ok: true, video_job_id: job.id, status: "queued" },
       { status: 202 },
     );
   } catch (err) {

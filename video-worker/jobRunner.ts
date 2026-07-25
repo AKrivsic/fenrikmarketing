@@ -79,6 +79,7 @@ import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cance
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   buildDurableArtifactOutput,
+  claimVideoJobForWorker,
   getWorkerInstanceId,
   persistVideoJobArtifacts,
   promoteVideoJobIfArtifactsReady,
@@ -380,6 +381,29 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
   let artifactsPersisted = false;
   let completedCallbackSucceeded = false;
   const workerInstanceId = getWorkerInstanceId();
+
+  // Variant 1: lease clock starts here — when render work actually begins —
+  // not when the job was accepted into the in-memory queue.
+  const claim = await claimVideoJobForWorker(leaseSupabase, {
+    jobId: payload.video_job_id,
+    projectId: payload.project_id,
+    ownerToken: leaseOwner,
+  });
+  if (claim.status !== "claimed") {
+    console.info(
+      JSON.stringify({
+        scope: "video-worker",
+        event: "job_claim_skipped",
+        video_job_id: payload.video_job_id,
+        project_id: payload.project_id,
+        worker_instance_id: workerInstanceId,
+        claim_status: claim.status,
+      }),
+    );
+    clearJobAbort(payload.video_job_id);
+    return;
+  }
+
   console.info(
     JSON.stringify({
       scope: "video-worker",
@@ -388,6 +412,7 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       project_id: payload.project_id,
       worker_instance_id: workerInstanceId,
       owner_token: leaseOwner,
+      lease_expires_at: claim.leaseExpiresAt,
     }),
   );
   void leaseSupabase

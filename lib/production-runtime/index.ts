@@ -34,6 +34,7 @@ export {
 
 export {
   claimVideoJobForDispatch,
+  claimVideoJobForWorker,
   renewVideoJobLease,
   persistVideoJobArtifacts,
   promoteVideoJobIfArtifactsReady,
