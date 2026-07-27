@@ -62,17 +62,22 @@ type VideoJobLite = {
 /** Keep only fields review UI needs from video_jobs.input (drop scene/TTS blobs). */
 function slimVideoJobInputForReview(input: Json | null): Json | null {
   if (!input || typeof input !== "object" || Array.isArray(input)) return null;
-  const root = input as Record<string, unknown>;
+  const root = input as Record<string, Json | undefined>;
   const scenes = Array.isArray(root.scenes)
-    ? root.scenes.map((scene) => {
+    ? root.scenes.map((scene): Json => {
         if (!scene || typeof scene !== "object" || Array.isArray(scene)) {
           return null;
         }
-        return { type: (scene as Record<string, unknown>).type ?? null };
+        const type = (scene as Record<string, Json | undefined>).type;
+        return { type: typeof type === "string" ? type : null };
       })
     : null;
+  const analyzer = root.presentation_analyzer;
   return {
-    presentation_analyzer: root.presentation_analyzer ?? null,
+    presentation_analyzer:
+      analyzer && typeof analyzer === "object" && !Array.isArray(analyzer)
+        ? analyzer
+        : null,
     scenes,
   };
 }
@@ -82,13 +87,19 @@ function slimVideoJobOutputForReview(output: Json | null): Json | null {
   if (!output || typeof output !== "object" || Array.isArray(output)) {
     return null;
   }
-  const root = output as Record<string, unknown>;
+  const root = output as Record<string, Json | undefined>;
   return {
-    mp4_url: root.mp4_url ?? null,
-    thumbnail_url: root.thumbnail_url ?? null,
-    subtitle_url: root.subtitle_url ?? null,
-    error_message: root.error_message ?? null,
-    debug: root.debug ?? null,
+    mp4_url: typeof root.mp4_url === "string" ? root.mp4_url : null,
+    thumbnail_url:
+      typeof root.thumbnail_url === "string" ? root.thumbnail_url : null,
+    subtitle_url:
+      typeof root.subtitle_url === "string" ? root.subtitle_url : null,
+    error_message:
+      typeof root.error_message === "string" ? root.error_message : null,
+    debug:
+      root.debug && typeof root.debug === "object" && !Array.isArray(root.debug)
+        ? root.debug
+        : null,
   };
 }
 
