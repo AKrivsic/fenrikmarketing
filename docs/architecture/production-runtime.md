@@ -10,7 +10,8 @@ This document describes the **production runtime reliability model** for unatten
 |---------|-------|-----------|
 | Package generation (paid CE + Presentation) | `claim_package_generation` RPC + **heartbeat renew** | Advisory lock + claim row; renew every ~150s while generation runs |
 | Package identity | `content_packages.strategy_item_id` unique | Insert CAS / unique violation → return existing |
-| Video dispatch | `claim_video_job_for_dispatch` RPC | FOR UPDATE + lease; owner token = `video_jobs.id` (all production dispatch paths) |
+| Video dispatch | `claim_video_job_for_dispatch` RPC | FOR UPDATE; keeps **`queued` with no lease** (Variant 1); owner token = `video_jobs.id` |
+| Video worker claim | `claim_video_job_for_worker` RPC | **Only** path that sets `processing` + lease |
 | Video worker liveness | Worker heartbeat + `worker_instance_id` | `renew_video_job_lease` every ~120s; process identity stored separately |
 | Durable render artifacts | Worker before callback | `persist_video_job_artifacts` while `processing` |
 | Video terminal complete | Callback **or** promote path | `handleVideoCallback` (CAS `processing`) / `promote_video_job_if_artifacts_ready` |
@@ -64,9 +65,11 @@ Partial uniques (active = queued|processing only):
 - variant: `(package_id, render_language)` where `render_kind=variant`
 - scene: `(content_item_id)` where `render_kind=scene`
 
-## Unified video lease dispatch
+## Unified video lease dispatch (Variant 1)
 
-All production paths that start a worker must use `claim_video_job_for_dispatch` (primary start-video, language-variant dispatch). Direct `queued→processing` updates are not used on production paths.
+All production paths that start a worker must use `claim_video_job_for_dispatch` (primary start-video, language-variant dispatch). That RPC **authorizes enqueue only** — job stays `queued` with `lease_owner` / `lease_expires_at` null. The worker calls `claim_video_job_for_worker` when render starts (processing + lease). Direct `queued→processing` updates are not used on production paths.
+
+Deployments must keep this contract live: `npm run check:dispatch-worker-contract` (also `prebuild`). See `docs/architecture/dispatch-worker-contract-fix.md`.
 
 ## Package callback CAS
 
@@ -85,11 +88,14 @@ Table `production_run_item_failure_telemetry` (+ optional `production_run_items.
 - `lib/production-runtime/` — claims, heartbeat, leases, settlement, recovery, logging, telemetry, callback CAS
 - `supabase/migrations/025_production_runtime.sql`
 - `supabase/migrations/026_production_runtime_hardening.sql`
+- `supabase/migrations/029_video_lease_on_worker_start.sql`
+- `supabase/migrations/20260725210444_repair_video_lease_dispatch_contract.sql`
 - `app/api/internal/production-run-recovery/route.ts`
 
 ## Tests
 
 ```bash
+npm run check:dispatch-worker-contract
 npm run check:production-runtime
 npm run check:phase-6g-runtime-hardening
 npm run check:production-run-stop

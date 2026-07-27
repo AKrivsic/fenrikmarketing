@@ -91,7 +91,7 @@ async function loadRunVideoJobs(
 
   const { data: jobRows, error: jobErr } = await supabase
     .from("video_jobs")
-    .select("*")
+    .select("id, content_item_id, output, created_at")
     .eq("project_id", run.project_id)
     .in("content_item_id", itemIds)
     .order("created_at", { ascending: false });
@@ -143,32 +143,45 @@ async function buildRunCard(
   };
 }
 
-// Reconcile counters from real video_jobs before building cards. Retry/regen
-// creates newer jobs but production_runs.failed_total is only refreshed here
-// (or on production-tab poll) — stale totals otherwise keep the run red.
+// Reconcile counters from real video_jobs before building cards — but ONLY for
+// still-active runs. Retry/regen mutations already call
+// reconcileProductionRunForContentItem; the production tab polls reconcile
+// explicitly. Reconciling every terminal run on each review refresh (~1s × N,
+// often while router.refresh polls) causes overlapping RSC fetches and Safari
+// "TypeError: Load failed" → project error boundary.
+const ACTIVE_REVIEW_RECONCILE_STATUSES: ReadonlySet<ProductionRunStatus> =
+  new Set(["queued", "running"]);
+
 async function buildRunCards(
   supabase: SupabaseClient,
   runs: ProductionRun[],
 ): Promise<ReviewRunCard[]> {
-  const cards: ReviewRunCard[] = [];
-  for (const run of runs) {
-    let reconciled = run;
-    try {
-      const view = await reconcileProductionRun(run.id);
-      reconciled = {
-        ...run,
-        status: view.status,
-        generated_total: view.generatedTotal,
-        failed_total: view.failedTotal,
-        updated_at: view.updatedAt,
-      };
-    } catch {
-      // Review is a read surface: a single reconcile failure must not blank
-      // the whole project page (e.g. transient terminal-run open-item races).
-    }
-    cards.push(await buildRunCard(supabase, reconciled));
-  }
-  return cards;
+  const reconciledById = new Map<string, ProductionRun>();
+  await Promise.all(
+    runs
+      .filter((run) => ACTIVE_REVIEW_RECONCILE_STATUSES.has(run.status))
+      .map(async (run) => {
+        try {
+          const view = await reconcileProductionRun(run.id);
+          reconciledById.set(run.id, {
+            ...run,
+            status: view.status,
+            generated_total: view.generatedTotal,
+            failed_total: view.failedTotal,
+            updated_at: view.updatedAt,
+          });
+        } catch {
+          // Review is a read surface: a single reconcile failure must not blank
+          // the whole project page (e.g. transient terminal-run open-item races).
+        }
+      }),
+  );
+
+  return Promise.all(
+    runs.map((run) =>
+      buildRunCard(supabase, reconciledById.get(run.id) ?? run),
+    ),
+  );
 }
 
 // Global, read-only list of recent production runs (cross-project). Kept for the

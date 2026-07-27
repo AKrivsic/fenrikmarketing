@@ -159,14 +159,17 @@ check("Video Concept prompt includes mode directives + fingerprints + pain + div
     directives,
     painPoint: "missed calls",
   });
-  assert.match(prompt, /CREATIVE DIRECTIVE \(default creative shape/);
-  assert.match(prompt, /MODE \(required story shape\)/);
+  assert.match(prompt, /CREATIVE DIRECTIVE \(THINKING MODEL/);
+  assert.match(prompt, /MODE \(primary thinking frame/);
+  assert.match(prompt, /HOW TO THINK:/);
+  assert.match(prompt, /MODE OWNERSHIP/);
   assert.match(prompt, /RECENT CONTENT PIPELINE FINGERPRINTS/);
   assert.match(prompt, /SELECTED PAIN POINT/);
   assert.match(prompt, /missed calls/);
   assert.match(prompt, /PERSPECTIVE DIVERSITY/);
-  assert.match(prompt, /NARRATIVE DIVERSITY/);
   assert.match(prompt, /PRODUCT CONTEXT DIVERSITY/);
+  assert.match(prompt, /primary THINKING MODEL/);
+  assert.doesNotMatch(prompt, /NARRATIVE DIVERSITY:/);
 });
 
 check("Opening Impact prompt includes proof, scenarios, pain, visual world, quality bars", () => {
@@ -184,8 +187,9 @@ check("Opening Impact prompt includes proof, scenarios, pain, visual world, qual
   assert.match(prompt, /VISUAL WORLD/);
   assert.match(prompt, /SPECIFICITY/);
   assert.match(prompt, /clickbait/i);
-  assert.match(prompt, /OPENING DIRECTIVE \(default cold-open shape/);
-  assert.match(prompt, /HOOK DIVERSITY/);
+  assert.match(prompt, /OPENING DIRECTIVE \(THINKING MODEL/);
+  assert.match(prompt, /HOOK DIVERSITY \(inside the MODE/);
+  assert.match(prompt, /HOW TO THINK:/);
 });
 
 check("Content Package prompt includes mode directives + pain", () => {
@@ -203,9 +207,10 @@ check("Content Package prompt includes mode directives + pain", () => {
     directives,
     painPoint: "missed calls",
   });
-  assert.match(prompt, /CREATIVE DIRECTIVE \(default creative shape/);
+  assert.match(prompt, /CREATIVE DIRECTIVE \(THINKING MODEL/);
   assert.match(prompt, /SELECTED PAIN POINT/);
-  assert.match(prompt, /Follow Creative Directive MODE BEATS as the default narrative order/);
+  assert.match(prompt, /CREATIVE MODE is the THINKING MODEL for voiceover/);
+  assert.match(prompt, /Follow MODE BEATS as the natural order of thought/);
 });
 
 check("parseRegenerationKeepFlags detects keep intents", () => {

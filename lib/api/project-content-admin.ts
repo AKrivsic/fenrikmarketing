@@ -59,6 +59,39 @@ type VideoJobLite = {
   created_at: string;
 };
 
+/** Keep only fields review UI needs from video_jobs.input (drop scene/TTS blobs). */
+function slimVideoJobInputForReview(input: Json | null): Json | null {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+  const root = input as Record<string, unknown>;
+  const scenes = Array.isArray(root.scenes)
+    ? root.scenes.map((scene) => {
+        if (!scene || typeof scene !== "object" || Array.isArray(scene)) {
+          return null;
+        }
+        return { type: (scene as Record<string, unknown>).type ?? null };
+      })
+    : null;
+  return {
+    presentation_analyzer: root.presentation_analyzer ?? null,
+    scenes,
+  };
+}
+
+/** Keep artifact URLs + debug/error — drop heavy render internals from output. */
+function slimVideoJobOutputForReview(output: Json | null): Json | null {
+  if (!output || typeof output !== "object" || Array.isArray(output)) {
+    return null;
+  }
+  const root = output as Record<string, unknown>;
+  return {
+    mp4_url: root.mp4_url ?? null,
+    thumbnail_url: root.thumbnail_url ?? null,
+    subtitle_url: root.subtitle_url ?? null,
+    error_message: root.error_message ?? null,
+    debug: root.debug ?? null,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Content tabs (Review / Approved / Scheduled) — read-only.
 // ---------------------------------------------------------------------------
@@ -168,7 +201,10 @@ export async function listProjectContentByStatus(
   const { data: jobRows, error: jobsError } = await supabase
     .from("video_jobs")
     .select(
-      "id, content_item_id, status, input, output, error_message, created_at",
+      // Review payloads only need artifact URLs + debug flags + light input
+      // presentation hints — never the full scene/TTS blobs (those inflate RSC
+      // responses and contribute to Safari "Load failed" on refresh).
+      "id, content_item_id, status, error_message, created_at, output, input",
     )
     .eq("project_id", projectId)
     .in(
@@ -179,7 +215,13 @@ export async function listProjectContentByStatus(
 
   if (jobsError) throw jobsError;
 
-  const jobByItem = newestByContentItem((jobRows ?? []) as VideoJobLite[]);
+  const jobByItem = newestByContentItem(
+    ((jobRows ?? []) as VideoJobLite[]).map((job) => ({
+      ...job,
+      input: slimVideoJobInputForReview(job.input),
+      output: slimVideoJobOutputForReview(job.output),
+    })),
+  );
 
   // Shared eligibility computes per-package variant qualification and exposes the
   // project's primary language (resolves NULL item languages for badges) — so no

@@ -20,7 +20,9 @@ import {
 export const OPENING_IMPACT_SYSTEM =
   "You design the opening 1–2 seconds of a short marketing video. Optimize for " +
   "immediate attention with specificity, curiosity, conflict, and product truth. " +
-  "Return ONLY valid JSON. Never invent product facts.";
+  "The Creative Mode is a THINKING MODEL for the cold open — the opening's logic " +
+  "must already match the mode, not just its tone. Return ONLY valid JSON. " +
+  "Never invent product facts.";
 
 export interface OpeningImpactPromptInput {
   project: Project;
@@ -105,11 +107,14 @@ export function buildOpeningImpactPrompt(
     "- CONFLICT: imply stakes tied to the selected pain point / core_idea.",
     "- PRODUCT TRUTH: opening must be honest to Product Brain / proof; never invent claims.",
     "",
-    "HOOK DIVERSITY:",
-    "- Prefer a distinct opening form for this piece (question, bold statement, unexpected statistic,",
-    "  customer quote, dialogue, confession, unpopular opinion, surprising discovery, or invent another).",
+    "HOOK DIVERSITY (inside the MODE's thinking — not instead of it):",
+    "- Opening Directive MODE is the thinking model for the cold open; the hook archetype is the form.",
+    "- Prefer a distinct opening form WITHIN this mode (question, bold statement, unexpected statistic,",
+    "  customer quote, dialogue, confession, unpopular opinion, surprising discovery, or invent another)",
+    "  — but the logic must still match the mode (Story drops into a scene; Myth names a belief;",
+    "  Comparison starts a contrast; FAQ states a question; Mistake names the wrong move; etc.).",
     "- Do not reuse the same structural opening pattern as recent hooks — changing nouns is not enough.",
-    "- Let Opening Directive MODE + hook archetype choose the form.",
+    "- Do not 'sound like' the mode while thinking like a generic Problem → Solution open.",
     "",
     "AVOID:",
     "- Generic curiosity hooks (\"What if I told you…\", \"Nobody talks about…\", \"The secret is…\").",
@@ -121,7 +126,7 @@ export function buildOpeningImpactPrompt(
     "RULES:",
     "- first_spoken_sentence MUST be in the project language and must NOT match recent hooks in memory (unless instruction says keep the hook).",
     "- first_image is a concrete visual description inside the Visual World (no on-image text/URLs).",
-    "- emotion / pacing / attention_pattern describe how the opening grabs attention.",
+    "- emotion / pacing / attention_pattern describe how the opening grabs attention — still aligned with MODE thinking.",
     "- Do not write the full script — only the opening impact.",
     "- Prefer relevant proof/scenarios when they sharpen specificity; do not force them.",
     input.regeneration

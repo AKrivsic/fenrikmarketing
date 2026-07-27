@@ -82,7 +82,7 @@ const EXPERIMENTS: Experiment[] = [
   {
     id: "G_no_creative_directives",
     label: "Remove Creative Directives",
-    removeFrom: "CREATIVE DIRECTIVE (this piece",
+    removeFrom: "CREATIVE DIRECTIVE (THINKING MODEL",
     removeUntil: ["PACKAGE DIVERSITY", "ATTENTION FIRST", "ATTENTION DELIVERY (attention@"],
   },
   {

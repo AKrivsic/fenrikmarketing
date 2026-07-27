@@ -20,9 +20,11 @@ import {
 
 export const VIDEO_CONCEPT_SYSTEM =
   "You are a senior creative director. Invent or revise ONE video concept for a " +
-  "short-form marketing video. Do not invent multiple candidates. Do not score or " +
-  "rank. The concept must already be strong enough to produce without later " +
-  "evaluation or repair. Return ONLY valid JSON.";
+  "short-form marketing video. Treat the Creative Mode as a THINKING MODEL that " +
+  "shapes argumentation and narrative construction — not as a writing style. " +
+  "Do not invent multiple candidates. Do not score or rank. The concept must " +
+  "already be strong enough to produce without later evaluation or repair. " +
+  "Return ONLY valid JSON.";
 
 export interface VideoConceptPromptInput {
   project: Project;
@@ -106,15 +108,18 @@ export function buildVideoConceptPrompt(input: VideoConceptPromptInput): string 
     "- Produce ONE concept only — no alternatives, no voting, no critique.",
     "- Ground the idea in Product Brain, Knowledge Base (proof/scenarios), Recent Memory, and this strategy item.",
     "- Keep the SELECTED PAIN POINT as the dominant problem when provided.",
-    "- Creative Directive MODE is the default story shape — the concept must naturally reflect that mode;",
-    "  never override product truth or Creative Safety.",
+    "- CREATIVE MODE is the primary THINKING MODEL for this concept — not a style filter.",
+    "  core_idea, narrative_arc, audience_insight, why_it_works, and product_role must enact that mode's logic",
+    "  (argument structure, insight type, how the viewer is led). Persona may change wording later; MODE must",
+    "  already be visible in the idea itself.",
+    "- MODE OWNERSHIP: a viewer should recognize the mode from how the concept unfolds even without metadata.",
+    "  If the same concept could equally pass as a different mode after a wording swap, rethink it.",
+    "  Invent freely INSIDE the selected mode; do not invent another mode's logic and then 'sound like' this one.",
+    "- Do NOT default to Problem → Solution → CTA unless that IS the selected mode's argument path.",
+    "- Never override product truth or Creative Safety.",
     "- PERSPECTIVE DIVERSITY: choose a concrete point of view that fits this angle (owner, employee,",
     "  customer, sales, support, founder, marketing, operations, first-time visitor, returning customer,",
     "  or invent another). Do not default every concept to the same POV.",
-    "- NARRATIVE DIVERSITY: let the MODE (and this angle) choose the structure — observation, customer",
-    "  experience, lesson, mistake, surprising fact, comparison, conversation, objection, misconception,",
-    "  practical advice, thought experiment, or another invented structure. Do not default every concept",
-    "  to Problem → Solution → CTA.",
     "- PRODUCT CONTEXT DIVERSITY: invent a specific situation where the product creates value for this",
     "  audience. Do not reuse the same recurring scene family when recent fingerprints already used it",
     "  (e.g. dark office + laptop + night analytics + silent website visitor), unless this strategy",

@@ -14,8 +14,8 @@
 // NO randomness: the same seed always yields the same directives, and different
 // topics/angles yield different directives.
 //
-// These directives only shape TONE and STRUCTURE. They never change facts, and
-// the embedded CREATIVE SAFETY rules always override the creative instruction
+// These directives shape THINKING + STRUCTURE (mode) and wording energy
+// (persona). They never change facts. Creative Safety always overrides
 // (see buildCreativeDirectiveBlock). No new JSON output field is introduced —
 // this is prompt-only guidance.
 
@@ -24,7 +24,10 @@ export interface CreativeMode {
   name: string;
   // One-line description of the mode.
   description: string;
-  // How it should change the structure of the video / narration.
+  // Mental model: how the model should THINK while inventing the piece
+  // (argumentation, viewer path, insight type) — not a writing-style tip.
+  thinking: string;
+  // How the argument / viewer path should unfold (flexible, not a template).
   structure: string;
   // What this mode must NOT do (creative guardrail).
   avoid: string;
@@ -81,6 +84,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "standard",
     name: "Standard",
     description: "Clean, direct value delivery with a strong hook.",
+    thinking:
+      "Think as a clear explainer: one concrete moment, one insight, then show it working. The insight is the spine — not a story detour, not a debate, not a list.",
     structure:
       "Hook on a concrete moment -> the one insight that matters -> show it in action -> proof -> CTA.",
     avoid: "Do not be bland, list-like or templated; still open on a concrete moment.",
@@ -90,6 +95,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "story",
     name: "Story",
     description: "A tiny narrative built around one real customer or operator moment.",
+    thinking:
+      "Think as a storyteller inside ONE situation. The insight arrives through what happens to someone (setup, stakes, turn, resolution) — not through advice, tips, or a product pitch dressed as a tale.",
     structure:
       "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
     avoid: "No abstract advice; keep it one situation, not a montage of tips.",
@@ -100,6 +107,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "shock",
     name: "Shock",
     description: "Opens on a surprising, relevant fact or consequence.",
+    thinking:
+      "Think from a startling true consequence first. The viewer path is: jolt → why this matters → evidence. The surprise is the argument's entry point, not decoration on a normal tip video.",
     structure:
       "Unexpected true fact -> implication (why it matters) -> proof -> CTA.",
     avoid:
@@ -111,6 +120,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "contrarian",
     name: "Contrarian",
     description: "Challenges a common belief the audience holds.",
+    thinking:
+      "Think by attacking a widely held belief and rebuilding a better take. The video argues against the default assumption — belief → dismantle → better take — not 'problem then product'.",
     structure:
       "Common belief -> why it is wrong (dismantle with reasoning) -> proof of the better take -> CTA.",
     avoid: "Attack the idea or habit, never a person or group.",
@@ -121,6 +132,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "myth_buster",
     name: "Myth Buster",
     description: "Names a widespread myth and corrects it.",
+    thinking:
+      "Think as a myth-corrector: name the false belief, explain why it feels true, then replace it with reality. The spine is myth → correction, not a generic value pitch with myth-flavored wording.",
     structure: "Myth -> why people believe it -> the reality -> CTA.",
     avoid: "Do not invent the myth; correct it with real, supportable facts only.",
     narrativeBeats: ["myth", "why_believed", "reality", "cta"],
@@ -129,6 +142,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "humor",
     name: "Humor",
     description: "Light, self-aware tone that entertains while informing.",
+    thinking:
+      "Think through a comic beat: relatable setup → unexpected turn → punchline that carries the point. The laugh is structural (a turn), not just witty adjectives on a serious script.",
     structure:
       "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
     avoid:
@@ -140,6 +155,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "mistake",
     name: "Mistake",
     description: "Centres on a common error the audience is making.",
+    thinking:
+      "Think from a specific error the viewer is likely making. The path is mistake → why it backfires → correct approach. The 'wrong move' is the protagonist of the argument.",
     structure:
       "Name the mistake -> why it backfires -> the correct approach -> CTA.",
     avoid: "Do not shame the viewer; frame the mistake as easy to fix.",
@@ -150,6 +167,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "comparison",
     name: "Comparison",
     description: "Contrasts two approaches / options side by side.",
+    thinking:
+      "Think in two columns for the whole piece. Keep A vs B alive across beats (trade-offs, not a strawman). The recommendation emerges from contrast — do not collapse into a single-path tip video.",
     structure:
       "Option A vs option B -> trade-offs -> clear recommendation -> CTA.",
     avoid:
@@ -160,6 +179,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "micro_case",
     name: "Micro Case",
     description: "A compact before/after style mini case study.",
+    thinking:
+      "Think as a mini case study: starting state → what changed → outcome. The proof is a concrete example with a result, not abstract advice. Stay honest to real proof — never invent metrics.",
     structure: "Before (starting situation) -> what changed -> after (outcome) -> CTA.",
     avoid:
       "Use only outcomes supported by real proof; never fabricate metrics or results.",
@@ -169,6 +190,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "observation",
     name: "Observation",
     description: "Starts from a sharp, relatable observation and finds the meaning.",
+    thinking:
+      "Think like someone who noticed something odd in ordinary life and must reframe it. Path: specific observation → what it really means → reveal. The reveal must change the meaning, not restate the obvious.",
     structure:
       "Specific observation -> what it really means -> the reveal -> CTA.",
     avoid:
@@ -180,6 +203,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "faq",
     name: "FAQ",
     description: "Answers one concrete question the audience is already asking.",
+    thinking:
+      "Think as a direct answer to ONE real audience question. The question owns the structure; the answer is the payload. Do not expand into a multi-tip lecture or a story that never states the question.",
     structure:
       "The question (as the audience would ask it) -> honest answer -> why it matters -> CTA.",
     avoid: "Do not invent a fake FAQ; use a real audience question grounded in Product Brain.",
@@ -189,6 +214,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "experiment",
     name: "Experiment",
     description: "Frames the piece as a test, trial, or what-if experiment.",
+    thinking:
+      "Think scientifically for a short video: hypothesis → what was tried → what happened → takeaway. Curiosity comes from testing, not from a generic claim. Keep results honest to proof.",
     structure:
       "Hypothesis / setup -> what was tried -> what happened -> takeaway -> CTA.",
     avoid: "Do not fabricate experimental results; keep outcomes honest to proof.",
@@ -198,6 +225,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "checklist",
     name: "Checklist",
     description: "Delivers practical steps as a short checklist the viewer can use.",
+    thinking:
+      "Think in verifiable steps the viewer can run. Why the list matters → concrete checks → payoff of doing them. Each beat advances a doable item — not a narrative arc wearing checklist language.",
     structure:
       "Why the checklist matters -> 3–5 concrete steps -> the payoff of doing them -> CTA.",
     avoid: "No vague tips; every step must be specific and doable.",
@@ -207,6 +236,8 @@ export const CREATIVE_MODES: readonly CreativeMode[] = [
     id: "opinion",
     name: "Opinion",
     description: "States a clear point of view and defends it.",
+    thinking:
+      "Think as someone taking a stance and defending it: bold take → reasoning → evidence. The opinion is the thesis; the video is an argument for it — not a soft tip list with attitude.",
     structure:
       "Bold take -> reasoning -> evidence or lived example -> CTA.",
     avoid: "No empty hot takes; the opinion must be supportable from Product Brain / proof.",
@@ -394,14 +425,17 @@ export function buildSoftCreativeDirectiveBlock(
 ): string {
   const { mode, hook, persona } = directives;
   return [
-    "CREATIVE DIRECTIVE (default creative shape for this piece — NEVER facts):",
-    `- MODE (required story shape): ${mode.name} — ${mode.description}`,
-    `  STRUCTURE: ${mode.structure}`,
-    `  NEVER: ${mode.avoid}`,
-    `- MODE BEATS (follow this order unless Creative Safety forbids it): ${mode.narrativeBeats.join(" -> ")}`,
-    `- The finished concept must be recognizable as a ${mode.name} piece (e.g. Story tells a story; FAQ answers a question; Comparison compares; Myth debunks; Mistake explains a mistake; Checklist gives steps; Opinion takes a stance).`,
-    `- HOOK ARCHETYPE (default opening form): ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
-    `- VOICE PERSONA (default copy voice): ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
+    "CREATIVE DIRECTIVE (THINKING MODEL for this piece — NEVER facts):",
+    `- MODE (primary thinking frame — not a writing style): ${mode.name} — ${mode.description}`,
+    `  HOW TO THINK: ${mode.thinking}`,
+    `  ARGUMENT PATH: ${mode.structure}`,
+    `  MODE BEATS (natural order of thought — flexible, not a rigid template): ${mode.narrativeBeats.join(" -> ")}`,
+    `  NEVER THINK THIS WAY: ${mode.avoid}`,
+    `- MODE OWNERSHIP: A viewer who never sees metadata should still recognize this as a ${mode.name} piece from HOW the idea unfolds — argumentation structure, insight type, and how the viewer is led — not from vocabulary alone.`,
+    `- If swapping adjectives would make this look like a different mode, rethink the concept. Invent freely INSIDE ${mode.name}; do not invent another mode's logic and then "sound like" ${mode.name}.`,
+    `- Persona owns wording/rhythm. MODE owns the logic of the piece (structure of thought, type of insight, construction of the video).`,
+    `- HOOK ARCHETYPE (opening form inside this mode): ${hook.id} — ${hook.instruction} FORM (do not copy verbatim): ${hook.exampleForm} ${hook.forbidGeneric}`,
+    `- VOICE PERSONA (copy voice ONLY — never facts, never mode logic): ${persona.name} — vocabulary: ${persona.vocabulary}; rhythm: ${persona.rhythm}; energy: ${persona.energy}; exaggeration: ${persona.exaggeration}.`,
     "- Depart from MODE / HOOK / VOICE only when they would force a lie or conflict with Product Brain, the selected pain point, or Creative Safety below.",
     "CREATIVE SAFETY (these ALWAYS override the directive on any conflict):",
     "- Never lie; never invent numbers, names, results, quotes or testimonials.",
@@ -409,7 +443,7 @@ export function buildSoftCreativeDirectiveBlock(
     "- No shock without genuine relevance to the topic; no clickbait the content does not pay off.",
     "- Humor must never mock the customer or devalue the product; the actual fix stays serious.",
     "- Contrarian/controversial takes attack ideas or habits only — never a person or a protected group.",
-    "- The voice persona changes wording, rhythm and energy ONLY; it must not alter any fact or proof.",
+    "- The voice persona changes wording, rhythm and energy ONLY; it must not alter any fact, proof, or the MODE's thinking model.",
   ].join("\n");
 }
 
@@ -420,12 +454,14 @@ export function buildSoftOpeningDirectiveBlock(
   const { mode, hook } = directives;
   const openingBeat = mode.narrativeBeats[0] ?? "hook";
   return [
-    "OPENING DIRECTIVE (default cold-open shape — never invent product facts):",
-    `- MODE: ${mode.name} — open on the first mode beat ("${openingBeat}") so the opening already feels like a ${mode.name} piece.`,
+    "OPENING DIRECTIVE (THINKING MODEL for the cold open — never invent product facts):",
+    `- MODE: ${mode.name} — the opening must already think like a ${mode.name} piece (first beat: "${openingBeat}").`,
+    `  HOW TO THINK: ${mode.thinking}`,
+    `- A ${mode.name} open is recognizable by its logic (e.g. Story drops into a scene; Myth names a belief; Comparison starts a contrast; FAQ states a question; Mistake names the wrong move) — not by synonyms.`,
     `- Hook archetype ${hook.id}: ${hook.instruction}`,
     `- FORM (do not copy): ${hook.exampleForm}`,
     `- Avoid: ${hook.forbidGeneric}`,
-    "- Vary the opening form vs recent hooks in memory (different structure, not just different nouns).",
+    "- Vary the opening form vs recent hooks in memory WHILE staying inside this mode's thinking (different structure within the mode, not a different mode).",
     "- Ignore this preference only if it conflicts with product truth or the selected pain point.",
   ].join("\n");
 }

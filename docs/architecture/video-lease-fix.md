@@ -115,3 +115,13 @@ npm run check:phase-6g-runtime-hardening
 ```
 
 Pokrytí: watchdog nefailuje queued; start-video vrací queued; jobRunner volá `claimVideoJobForWorker`; migrace 029 obsahuje worker claim.
+
+---
+
+## Follow-up (2026-07-25) — contract drift repair
+
+Incident `e6469382` showed live `claim_video_job_for_dispatch` had drifted back to 025 while app/worker stayed on Variant 1.
+
+Permanent repair + deploy gate: `docs/architecture/dispatch-worker-contract-fix.md`  
+Migration: `20260725210444_repair_video_lease_dispatch_contract.sql`  
+Check: `npm run check:dispatch-worker-contract` (also `prebuild`).

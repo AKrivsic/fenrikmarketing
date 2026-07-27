@@ -43,6 +43,19 @@ export {
 } from "@/lib/production-runtime/videoJobLease";
 
 export {
+  DISPATCH_CONTRACT_FINGERPRINT,
+  WORKER_CONTRACT_FINGERPRINT,
+  VIDEO_LEASE_CONTRACT_VERSION,
+  classifyDispatchRpcSource,
+  classifyWorkerRpcSource,
+  assertDispatchWorkerSqlContract,
+  extractFunctionSourceFromSql,
+  type DispatchContractKind,
+  type WorkerContractKind,
+  type ContractViolation,
+} from "@/lib/production-runtime/videoLeaseContract";
+
+export {
   shouldSendFailedCallbackAfterUpload,
   buildDurableArtifactOutput,
   type DurableArtifactFields,

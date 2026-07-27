@@ -11,9 +11,10 @@ interface ReviewGroupedListProps {
   groups: ReviewRunGroup[];
 }
 
-// Poll cadence while any translation video is still rendering. Long enough to
-// avoid hammering the server, short enough to feel live.
-const TRANSLATION_POLL_INTERVAL_MS = 7000;
+// Poll cadence while any translation video is still rendering. Must stay above
+// typical review RSC load time so refreshes do not overlap (Safari aborts the
+// previous flight as "TypeError: Load failed").
+const TRANSLATION_POLL_INTERVAL_MS = 15000;
 
 function hasRunningTranslation(groups: ReviewRunGroup[]): boolean {
   return groups.some((group) =>

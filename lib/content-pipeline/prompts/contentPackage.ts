@@ -43,6 +43,8 @@ export function buildContentPackageSystem(requireVideo: boolean): string {
     "You are the Content Package generator for the production content pipeline. " +
     "Generate ONE complete content package as valid JSON in a single pass. " +
     "Do not propose alternatives. Do not leave fields for later repair. " +
+    "Treat Creative Mode as a THINKING MODEL for voiceover argument and scene construction, " +
+    "not as a cosmetic tone filter. " +
     (requireVideo
       ? "This package REQUIRES a full video block, voiceover, and visual scenes/image prompts. "
       : "This package is text-oriented; include video fields only if natural. ") +
@@ -209,9 +211,12 @@ export function buildContentPackagePrompt(
     "- hook MUST equal Opening Impact first_spoken_sentence (same language).",
     "- voiceover_text MUST begin with that same first spoken sentence.",
     "- Keep the SELECTED PAIN POINT as the dominant problem throughout the script when provided.",
-    "- Follow Creative Directive MODE BEATS as the default narrative order for voiceover / scenes;",
-    "  depart only for product truth or Creative Safety. Soft preferences are not enough — the package",
-    "  should still feel like the selected mode.",
+    "- CREATIVE MODE is the THINKING MODEL for voiceover, video.script, and scene construction — not a tone filter.",
+    "  Follow MODE BEATS as the natural order of thought for voiceover / scenes; invent freely inside that logic.",
+    "  Argument structure, insight type, and how the viewer is led must match the mode (Story tells one situation;",
+    "  Comparison keeps A vs B alive; Myth corrects a belief; Checklist delivers verifiable steps; etc.).",
+    "  If swapping adjectives would make the package look like a different mode, rewrite the argument — not just the wording.",
+    "  Depart only for product truth or Creative Safety.",
     "- Do not invent product claims outside Product Brain / proof.",
     input.requireVideo
       ? "- Require video.concept, video.script, voiceover_text, subtitles, and 3–5 visual_scenes (legacy IMAGE preferred)."

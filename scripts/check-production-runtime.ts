@@ -324,6 +324,28 @@ await checkAsync("migration 029 worker lease claim", async () => {
   assert.match(src, /claim_video_job_for_dispatch/);
   assert.match(src, /lease_owner = null/);
 });
+await checkAsync("migration 030 repair + contract assert", async () => {
+  const src = await readFile(
+    new URL(
+      "../supabase/migrations/20260725210444_repair_video_lease_dispatch_contract.sql",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(src, /VIDEO_LEASE_CONTRACT=dispatch_v1_queued_no_lease/);
+  assert.match(src, /VIDEO_LEASE_CONTRACT=worker_v1_processing_with_lease/);
+  assert.match(src, /assert_video_lease_contract/);
+  assert.match(src, /lease_owner = null/);
+  const dispatchBlock = src.match(
+    /create or replace function claim_video_job_for_dispatch[\s\S]*?\$\$;/,
+  )?.[0];
+  assert.ok(dispatchBlock, "dispatch function block missing in 030");
+  assert.equal(
+    /lease_until\s*:=\s*now\s*\(/.test(dispatchBlock),
+    false,
+    "030 dispatch must not start lease_until",
+  );
+});
 await checkAsync("migration 026 hardening", async () => {
   const src = await readFile(
     new URL(

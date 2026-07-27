@@ -96,7 +96,7 @@ export function PackageVideoPanel({
 
   useEffect(() => {
     if (!renderPollActive) return;
-    const interval = setInterval(() => router.refresh(), 5000);
+    const interval = setInterval(() => router.refresh(), 15000);
     return () => clearInterval(interval);
   }, [renderPollActive, router]);
 
