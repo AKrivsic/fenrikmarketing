@@ -16,6 +16,7 @@ import {
   allowedCtaTypesForFunnelStage,
   ctaRequirementForFunnelStage,
 } from "@/lib/content-pipeline/prompts/contentPackageContract";
+import { alignOpeningVoiceover } from "@/lib/content-pipeline/alignOpeningVoiceover";
 
 const TIMEOUT_MS = 180_000;
 
@@ -79,15 +80,15 @@ export async function runContentPackageGeneration(args: {
   }
 
   // Deterministic align: Opening Impact owns hook + first spoken line.
-  const opening = promptInput.openingImpact.first_spoken_sentence.trim();
-  if (opening) {
-    generated.value.hook = opening;
-    const vo = generated.value.voiceover_text?.trim() ?? "";
-    if (!vo.toLowerCase().startsWith(opening.toLowerCase())) {
-      generated.value.voiceover_text = vo
-        ? `${opening} ${vo}`.trim()
-        : opening;
-    }
+  // Prefix compare uses apostrophe/whitespace normalization so U+2019 vs U+0027
+  // near-matches do not double-prepend (AlignRight production incident).
+  const aligned = alignOpeningVoiceover({
+    opening: promptInput.openingImpact.first_spoken_sentence,
+    voiceover: generated.value.voiceover_text,
+  });
+  if (aligned.hook) {
+    generated.value.hook = aligned.hook;
+    generated.value.voiceover_text = aligned.voiceover_text;
   }
 
   return { ok: true, data: generated.value };
