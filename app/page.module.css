@@ -217,6 +217,22 @@
   font-size: 1rem;
 }
 
+.exampleLinkRow {
+  margin: 1.15rem 0 0;
+}
+
+.exampleLink {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--landing-accent);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.exampleLink:hover {
+  color: var(--landing-accent-hover);
+}
+
 .section {
   margin-bottom: 3.5rem;
 }

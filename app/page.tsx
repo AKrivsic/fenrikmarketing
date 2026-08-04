@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
 import { LandingSampleShowcase } from "@/components/content-packages/LandingSampleShowcase/LandingSampleShowcase";
 import { SampleRequestForm } from "@/components/content-packages/SampleRequestForm/SampleRequestForm";
@@ -74,15 +75,18 @@ export default async function HomePage() {
     <div className={styles.shell}>
       <header className={styles.header}>
         <div className={styles.container}>
-          <a href="/" className={styles.logoLink}>
+          <Link href="/" className={styles.logoLink}>
             <FenrikStudioLogo variant="header" />
-          </a>
+          </Link>
           <nav className={styles.headerNav} aria-label="Landing">
             <a href="#how-it-works" className={styles.headerNavLink}>
               How it works
             </a>
             <a href="#whats-included" className={styles.headerNavLink}>
               What&apos;s included
+            </a>
+            <a href="/examples/hvac" className={styles.headerNavLink}>
+              Examples
             </a>
             <a href="#sample" className={styles.headerNavCta}>
               Get free sample
@@ -155,6 +159,11 @@ export default async function HomePage() {
               as paid batches: one video and paste-ready copy per platform.
             </p>
             <LandingSampleShowcase sample={sample} />
+            <p className={styles.exampleLinkRow}>
+              <a href="/examples/hvac" className={styles.exampleLink}>
+                See an HVAC example →
+              </a>
+            </p>
           </section>
 
           <section className={styles.section}>
