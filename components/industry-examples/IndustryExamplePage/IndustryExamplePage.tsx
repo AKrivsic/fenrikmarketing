@@ -106,6 +106,17 @@ export function IndustryExamplePage({ data }: IndustryExamplePageProps) {
           </section>
         </div>
       </main>
+
+      <footer className={styles.footer}>
+        <div className={styles.container}>
+          <p className={styles.footerText}>
+            Contact:{" "}
+            <a href="mailto:support@fenrik.studio" className={styles.footerLink}>
+              support@fenrik.studio
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

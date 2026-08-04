@@ -340,6 +340,28 @@
   line-height: 1.5;
 }
 
+.footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 1.5rem 0 2rem;
+}
+
+.footerText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.footerLink {
+  color: var(--landing-accent);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: var(--landing-accent-hover);
+}
+
 @media (max-width: 640px) {
   .header .container {
     flex-direction: column;
