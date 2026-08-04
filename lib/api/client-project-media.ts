@@ -32,7 +32,12 @@ export async function resolveClientProjectItemMp4UpstreamUrl(
 export async function streamVideoFromUpstream(
   request: Request,
   upstreamUrl: string,
-  options: { attachment: boolean; filename?: string },
+  options: {
+    attachment: boolean;
+    filename?: string;
+    /** Defaults to private no-store (client-delivery). Public examples may override. */
+    cacheControl?: string;
+  },
 ): Promise<Response> {
   const range = request.headers.get("range");
   const upstream = await fetch(upstreamUrl, {
@@ -49,7 +54,10 @@ export async function streamVideoFromUpstream(
     upstream.headers.get("content-type") ?? "video/mp4",
   );
   headers.set("Accept-Ranges", "bytes");
-  headers.set("Cache-Control", "private, no-store");
+  headers.set(
+    "Cache-Control",
+    options.cacheControl ?? "private, no-store",
+  );
 
   if (options.attachment) {
     const name = options.filename ?? "video.mp4";

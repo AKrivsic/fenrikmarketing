@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import { SideNav } from "@/components/SideNav/SideNav";
 import styles from "./AppShell.module.css";
 
-const BARE_PATH_PREFIXES = ["/content-packages", "/client-review", "/admin-login"];
+const BARE_PATH_PREFIXES = [
+  "/content-packages",
+  "/client-review",
+  "/admin-login",
+  "/examples",
+];
 
 interface AppShellClientProps {
   children: ReactNode;

@@ -1,0 +1,4 @@
+/* HVAC route wrapper — shared marketing UI lives in IndustryExamplePage. */
+.page {
+  min-height: 100vh;
+}

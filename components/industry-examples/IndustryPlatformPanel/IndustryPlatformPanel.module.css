@@ -1,0 +1,129 @@
+.root {
+  min-width: 0;
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.deliveryBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--landing-accent, #5b60ff);
+  background: var(--landing-accent-soft, rgba(91, 96, 255, 0.08));
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.tab {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.tab:hover {
+  color: var(--color-text);
+  border-color: rgba(15, 23, 42, 0.16);
+}
+
+.tabActive {
+  color: #ffffff;
+  background: var(--landing-accent, #5b60ff);
+  border-color: var(--landing-accent, #5b60ff);
+}
+
+.tabActive:hover {
+  color: #ffffff;
+  background: var(--landing-accent-hover, #4a4fe8);
+  border-color: var(--landing-accent-hover, #4a4fe8);
+}
+
+.panel {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 10px;
+  padding: 0.85rem 0.95rem;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.fieldLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.body {
+  margin: 0 0 0.85rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.body:last-child {
+  margin-bottom: 0;
+}
+
+.xList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.xCard {
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 8px;
+  background: rgba(248, 249, 252, 0.9);
+}
+
+.xCard .body {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab {
+    transition: none;
+  }
+}
