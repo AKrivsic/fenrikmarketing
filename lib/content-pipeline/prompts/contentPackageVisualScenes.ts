@@ -80,6 +80,7 @@ export interface BuildContentPackageExpectedShapeOptions {
   funnelStage?: string | null;
   allowedCtaTypes?: readonly string[];
   ctaRequired?: boolean;
+  requireSocialImage?: boolean;
 }
 
 /** Compact expectedShape forwarded to JSON repair for Content Package. */
@@ -87,6 +88,7 @@ export function buildContentPackageExpectedShape(
   options: BuildContentPackageExpectedShapeOptions = {},
 ): string {
   const ctaRequired = options.ctaRequired ?? false;
+  const requireSocialImage = options.requireSocialImage ?? false;
   const allowed =
     options.allowedCtaTypes ??
     allowedCtaTypesForFunnelStage({
@@ -107,6 +109,49 @@ export function buildContentPackageExpectedShape(
     ? { type: ctaTypeHint, text: "non-empty string" }
     : null;
 
+  const skeleton: Record<string, unknown> = {
+    title: "string",
+    funnel_stage: "string",
+    hook: "string",
+    voiceover_text: "40–70 words preferred; maximum 80 words",
+    subtitles: "string matching spoken voiceover",
+    cta: ctaSkeleton,
+    video: {
+      concept: "string",
+      script: "string",
+      duration_seconds: "string",
+    },
+    platform_outputs: {
+      "<platform>": {
+        caption:
+          "string (REQUIRED; if caption_variants exist use caption_variants[0])",
+        cta: "optional string or null",
+        hashtags: ["string"],
+        format: "string",
+        caption_variants: ["optional string[] — never omit caption"],
+        title_variants: ["optional string[] — x only when required"],
+      },
+    },
+    hashtags: ["string"],
+    image_prompts: ["string"],
+    visual_scenes: [
+      { source: "ai", image_prompt: "string" },
+      {
+        source: "asset",
+        asset_id: "uuid",
+        used_as: "string",
+      },
+    ],
+    asset_usage: [{ asset_id: "uuid", used_as: "string" }],
+    scenario: "optional string",
+  };
+  if (requireSocialImage) {
+    skeleton.social_image = {
+      image_prompt: "standalone 1:1 feed visual — not a video scene crop",
+      text_overlay: "optional short hook or null",
+    };
+  }
+
   return [
     "Return a single JSON object. Preserve valid creative content; fix structure/types only.",
     "Use ONLY these visual_scenes shapes (prefer legacy IMAGE):",
@@ -126,47 +171,13 @@ export function buildContentPackageExpectedShape(
       (ctaRequired ? ", and CTA" : "") +
       "; remove repetition; keep the same language; sync subtitles to the shortened spoken words; keep video.script scene directions but align spoken VO lines with voiceover_text. Do not blindly truncate mid-sentence.",
     "asset_usage[].used_as must be a string when asset_usage is present.",
+    requireSocialImage
+      ? 'social_image is REQUIRED: { "image_prompt": non-empty string, "text_overlay": string|null }. Do not reuse a visual_scenes prompt.'
+      : "",
     "",
     "Minimal skeleton:",
-    JSON.stringify(
-      {
-        title: "string",
-        funnel_stage: "string",
-        hook: "string",
-        voiceover_text: "40–70 words preferred; maximum 80 words",
-        subtitles: "string matching spoken voiceover",
-        cta: ctaSkeleton,
-        video: {
-          concept: "string",
-          script: "string",
-          duration_seconds: "string",
-        },
-        platform_outputs: {
-          "<platform>": {
-            caption:
-              "string (REQUIRED; if caption_variants exist use caption_variants[0])",
-            cta: "optional string or null",
-            hashtags: ["string"],
-            format: "string",
-            caption_variants: ["optional string[] — never omit caption"],
-            title_variants: ["optional string[] — x only when required"],
-          },
-        },
-        hashtags: ["string"],
-        image_prompts: ["string"],
-        visual_scenes: [
-          { source: "ai", image_prompt: "string" },
-          {
-            source: "asset",
-            asset_id: "uuid",
-            used_as: "string",
-          },
-        ],
-        asset_usage: [{ asset_id: "uuid", used_as: "string" }],
-        scenario: "optional string",
-      },
-      null,
-      2,
-    ),
-  ].join("\n");
+    JSON.stringify(skeleton, null, 2),
+  ]
+    .filter((line) => line !== "")
+    .join("\n");
 }

@@ -77,6 +77,9 @@ export const PLATFORM_STYLE_SPECS: Record<string, PlatformStyleSpec> = {
       "Avoid unnecessary expansion and fluff paragraphs",
       "Do not turn a sharp insight into a long LinkedIn essay",
       "Do not duplicate the voiceover verbatim",
+      "This post may be published with a shared static square social image (not a video) — write a standalone feed post",
+      "Do NOT tell readers to watch a video, reel, or Short unless this platform is explicitly receiving the package video",
+      "Do not describe or narrate the accompanying image; do not paste image-overlay text verbatim unless natural",
     ],
   },
   facebook: {
@@ -88,6 +91,9 @@ export const PLATFORM_STYLE_SPECS: Record<string, PlatformStyleSpec> = {
       "Always produce a Facebook-native post — never omit this platform",
       "Warmer and more conversational than LinkedIn; less punchy than TikTok",
       "Do not paste the voiceover",
+      "This post may be published with a shared static square social image (not a video) — write a standalone feed post",
+      "Do NOT tell readers to watch a video, reel, or Short unless this platform is explicitly receiving the package video",
+      "Do not describe or narrate the accompanying image; do not paste image-overlay text verbatim unless natural",
     ],
   },
 };
@@ -105,6 +111,7 @@ export function buildPlatformNativeWritingRulesBlock(): string {
     "- YouTube Shorts = short direct curiosity metadata — NOT an SEO article.",
     "- LinkedIn = keep current professional style; avoid unnecessary expansion.",
     "- Facebook = always generate a friendly community post.",
+    "- Facebook / LinkedIn posts may accompany a shared static square image — stand alone; never say watch this video/reel unless that platform receives the package video.",
     "- X = concise; maximize hook diversity across variants.",
   ].join("\n");
 }

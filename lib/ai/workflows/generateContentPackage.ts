@@ -48,6 +48,7 @@ import { assetSignalsFromRef } from "@/lib/scene-types/presentation/projectSigna
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
+import { generateAndPersistPackageSocialImage } from "@/lib/content-package/generateSocialImage";
 import {
   claimPackageGeneration,
   newOwnerToken,
@@ -483,6 +484,15 @@ async function runGenerateContentPackageAfterClaim(
         canonicalWebsiteUrl(project),
       ),
   );
+
+  // Shared FB/LI 1:1 social image — soft-fail; never blocks package/video/copy.
+  await generateAndPersistPackageSocialImage({
+    supabase,
+    projectId: input.projectId,
+    packageId: data.packageId,
+    pkg,
+    targetPlatforms,
+  });
 
   try {
     const finalSteps = getTelemetryCollector()?.snapshot() ?? [];

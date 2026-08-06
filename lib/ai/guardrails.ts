@@ -315,6 +315,13 @@ export interface PackageGuardrailContext {
   // Set to false for text-only packages (no selected platform requires video),
   // so a package without a video block is still valid.
   requireVideo?: boolean;
+  /**
+   * Platforms that receive the shared package vertical video. Used to decide
+   * whether Facebook/LinkedIn captions must avoid "watch this video" language.
+   */
+  videoPlatforms?: readonly string[];
+  /** When true, social_image.image_prompt is required (FB and/or LI targeted). */
+  requireSocialImage?: boolean;
 }
 
 export function checkContentPackageGuardrails(
@@ -549,8 +556,39 @@ export function checkContentPackageGuardrails(
   }
 
   // Sprint 4B — platform-native writing quality (final writing layer only).
-  const platformNativeIssues = checkPlatformNativeWriting(pkg);
+  const platformNativeIssues = checkPlatformNativeWriting(pkg, {
+    videoPlatforms: ctx.videoPlatforms,
+  });
   issues.push(...platformNativeIssues);
+
+  // Shared FB/LI social image creative (required when those platforms are targeted).
+  if (ctx.requireSocialImage) {
+    const social = pkg.social_image;
+    const prompt =
+      social && typeof social.image_prompt === "string"
+        ? social.image_prompt.trim()
+        : "";
+    if (!prompt) {
+      issues.push(
+        issue(
+          "$.social_image.image_prompt",
+          "social_image.image_prompt is required when Facebook and/or LinkedIn are targeted",
+        ),
+      );
+    }
+    if (
+      social &&
+      typeof social.text_overlay === "string" &&
+      social.text_overlay.trim().length > 80
+    ) {
+      issues.push(
+        issue(
+          "$.social_image.text_overlay",
+          "social_image.text_overlay must be a short hook (≤80 characters) or null",
+        ),
+      );
+    }
+  }
 
   return issues;
 }
@@ -569,11 +607,26 @@ export const YOUTUBE_SHORTS_SEO_OPENERS: readonly string[] = [
 export const YOUTUBE_SHORTS_CAPTION_HARD_CAP_WORDS = 55;
 export const X_CAPTION_HARD_CAP_CHARS = 280;
 
+/** Phrases that imply the reader should watch a video (banned on static FB/LI). */
+export const STATIC_FEED_VIDEO_WATCH_PHRASES: readonly string[] = [
+  "watch this video",
+  "watch the video",
+  "watch this reel",
+  "watch the reel",
+  "watch this short",
+  "check out this video",
+  "see this video",
+  "in this video",
+  "this video shows",
+  "this reel",
+];
+
 /**
  * Sprint 4B guardrails: native platform writing (not strategy/Product Brain).
  */
 export function checkPlatformNativeWriting(
   pkg: ContentPackageOutput,
+  opts: { videoPlatforms?: readonly string[] } = {},
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const outputs = (pkg.platform_outputs ?? {}) as Record<
@@ -585,6 +638,9 @@ export function checkPlatformNativeWriting(
     | undefined
   >;
   const vo = (pkg.voiceover_text ?? "").trim();
+  const videoPlatformSet = new Set(
+    (opts.videoPlatforms ?? []).map((p) => p.trim().toLowerCase()),
+  );
 
   const youtube = outputs.youtube;
   if (youtube?.caption) {
@@ -658,6 +714,26 @@ export function checkPlatformNativeWriting(
           "X caption_variants must open with different hooks (first 5 words must differ)",
         ),
       );
+    }
+  }
+
+  // Facebook / LinkedIn static surfaces: ban "watch this video/reel" language
+  // unless that platform is explicitly receiving the shared package video.
+  for (const platform of ["facebook", "linkedin"] as const) {
+    if (videoPlatformSet.has(platform)) continue;
+    const caption = outputs[platform]?.caption?.trim();
+    if (!caption) continue;
+    const lower = caption.toLowerCase();
+    for (const phrase of STATIC_FEED_VIDEO_WATCH_PHRASES) {
+      if (lower.includes(phrase)) {
+        issues.push(
+          issue(
+            `$.platform_outputs.${platform}.caption`,
+            `${platform} caption tells readers to watch a video/reel, but this platform is a static feed post with an optional square image — rewrite without video-watch language`,
+          ),
+        );
+        break;
+      }
     }
   }
 

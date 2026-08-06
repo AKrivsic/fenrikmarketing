@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ProjectContentCard } from "@/components/projects/ProjectContentCard/ProjectContentCard";
 import { PackageVideoPanel } from "@/components/review/PackageVideoPanel/PackageVideoPanel";
+import { PackageSocialImagePanel } from "@/components/review/PackageSocialImagePanel/PackageSocialImagePanel";
 import { PackageActions } from "@/components/review/PackageActions/PackageActions";
 import { PackageStatusSummary } from "@/components/review/PackageStatusSummary/PackageStatusSummary";
 import { PackageIdCopy } from "@/components/common/PackageIdCopy/PackageIdCopy";
@@ -120,6 +121,14 @@ export function ReviewPackageSection({
 
           {/* All package videos (EN + translations) in one pill panel. */}
           <PackageVideoPanel projectId={projectId} videos={pkg.videos} />
+
+          {pkg.packageId && pkg.socialImage ? (
+            <PackageSocialImagePanel
+              projectId={projectId}
+              packageId={pkg.packageId}
+              socialImage={pkg.socialImage}
+            />
+          ) : null}
 
           <PackageActions
             projectId={projectId}

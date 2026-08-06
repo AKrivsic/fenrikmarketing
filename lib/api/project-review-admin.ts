@@ -30,6 +30,15 @@ import type {
   Project,
   TranslationJobStatus,
 } from "@/lib/supabase/types";
+import {
+  parsePackageSocialImage,
+  packageSocialImageHasRenderableFile,
+} from "@/lib/content-package/socialImage";
+import {
+  signPackageSocialImageUrl,
+  toReviewSocialImageView,
+  type ReviewSocialImageView,
+} from "@/lib/content-package/socialImageAccess";
 
 // One translation_jobs row reduced to what the progress rollup needs.
 interface PackageTranslationJob {
@@ -198,6 +207,8 @@ export interface ReviewPackageGroup {
   // once in the package video panel so the EN / DE / FR / ES / IT pills always
   // stay attached to the package.
   videos: PackageVideo[];
+  /** Shared FB+LI 1:1 social image (optional — historical packages omit). */
+  socialImage: ReviewSocialImageView | null;
   // A) Primary-language items that are not yet published.
   primaryItems: ProjectContentEntry[];
   // B) Translations grouped by language (video platforms only, non-published).
@@ -234,11 +245,16 @@ function buildPackageVideos(items: ProjectContentEntry[]): PackageVideo[] {
   return buildPackageVideosFromEntries(items);
 }
 
-// Resolves package titles for the packages referenced by the given entries.
-async function loadPackageTitles(
+// Resolves package titles + optional social image meta for review panels.
+interface PackageReviewMeta {
+  title: string;
+  socialImage: ReviewSocialImageView | null;
+}
+
+async function loadPackageReviewMeta(
   projectId: string,
   entries: ProjectContentEntry[],
-): Promise<Map<string, string>> {
+): Promise<Map<string, PackageReviewMeta>> {
   const ids = Array.from(
     new Set(
       entries
@@ -246,21 +262,33 @@ async function loadPackageTitles(
         .filter((id): id is string => typeof id === "string"),
     ),
   );
-  const titles = new Map<string, string>();
-  if (ids.length === 0) return titles;
+  const meta = new Map<string, PackageReviewMeta>();
+  if (ids.length === 0) return meta;
 
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
     .from("content_packages")
-    .select("id, title")
+    .select("id, title, package_brief")
     .eq("project_id", projectId)
     .in("id", ids);
   if (error) throw error;
 
-  for (const row of (data ?? []) as { id: string; title: string }[]) {
-    titles.set(row.id, row.title);
+  for (const row of (data ?? []) as {
+    id: string;
+    title: string;
+    package_brief: unknown;
+  }[]) {
+    const social = parsePackageSocialImage(row.package_brief);
+    let previewUrl: string | null = null;
+    if (packageSocialImageHasRenderableFile(social)) {
+      previewUrl = await signPackageSocialImageUrl(social, 60 * 60, supabase);
+    }
+    meta.set(row.id, {
+      title: row.title,
+      socialImage: toReviewSocialImageView(social, previewUrl),
+    });
   }
-  return titles;
+  return meta;
 }
 
 // Stable, readable item order within a package: by platform, primary before
@@ -483,6 +511,7 @@ function buildPackageGroup(
   rawItems: ProjectContentEntry[],
   targetLanguages: LanguageCode[],
   translationJobs: PackageTranslationJob[],
+  socialImage: ReviewSocialImageView | null = null,
 ): ReviewPackageGroup {
   const items = sortItems(rawItems);
   const videos = buildPackageVideos(items);
@@ -527,6 +556,7 @@ function buildPackageGroup(
     packageId,
     title,
     videos,
+    socialImage,
     primaryItems,
     translations,
     publishedItems,
@@ -775,12 +805,16 @@ export async function listProjectReviewGroups(
 
   logReviewTiming("entries", startedAt, `${entries.length} items`);
 
-  const [packageTitleById, targetLanguages, translationJobsByPackage] =
+  const [packageMetaById, targetLanguages, translationJobsByPackage] =
     await Promise.all([
-      loadPackageTitles(projectId, entries),
+      loadPackageReviewMeta(projectId, entries),
       loadProjectTargetLanguages(projectId),
       loadTranslationJobsByPackage(projectId, packageIds),
     ]);
+  const packageTitleById = new Map<string, string>();
+  for (const [id, row] of packageMetaById) {
+    packageTitleById.set(id, row.title);
+  }
   const runIdsSet = new Set(runIds);
   const entryById = new Map(entries.map((entry) => [entry.id, entry]));
 
@@ -824,6 +858,7 @@ export async function listProjectReviewGroups(
         items,
         targetLanguages,
         (packageId ? translationJobsByPackage.get(packageId) : null) ?? [],
+        packageId ? (packageMetaById.get(packageId)?.socialImage ?? null) : null,
       ),
     );
     if (!packageOrder || packageOrder.length === 0) return groups;

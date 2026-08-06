@@ -122,6 +122,26 @@
   margin-bottom: 0;
 }
 
+.socialImageWrap {
+  margin: 0 0 0.85rem;
+}
+
+.socialImage {
+  display: block;
+  width: min(100%, 280px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 249, 252, 0.9);
+}
+
+.socialImageNote {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tab {
     transition: none;

@@ -107,6 +107,14 @@ const assetUsageSchema = vObject({
   modify: vOptional(vString()),
 });
 
+/** LLM creative contract for the shared FB/LI 1:1 social image. */
+const socialImageCreativeSchema = vObject({
+  image_prompt: vNonEmptyString(),
+  // Optional on-image text. null/omit = no text. Empty string rejected later
+  // by normalizeSocialImageCreative (treated as null).
+  text_overlay: vOptional(vString()),
+});
+
 const visualScenesSchema = vOptional(
   generatedVisualScenesArrayValidator({
     min: 1,
@@ -133,6 +141,10 @@ export const contentPackageSchema = vObject({
   // when none was used. Captured so anti-repetition memory can avoid reusing the
   // same scenario across content. Optional: legacy/scenario-less output omits it.
   scenario: vOptional(vString()),
+  // Shared Facebook + LinkedIn 1:1 social image creative (optional for
+  // historical / non-FB-LI packages; required at runtime when platforms include
+  // facebook or linkedin — see buildContentPackageSchema requireSocialImage).
+  social_image: vOptional(socialImageCreativeSchema),
 });
 
 export interface BuildContentPackageSchemaOptions {
@@ -149,6 +161,11 @@ export interface BuildContentPackageSchemaOptions {
    * When true (Conversion), cta object is required. When false, cta may be null.
    */
   ctaRequired?: boolean;
+  /**
+   * When true (Facebook and/or LinkedIn targeted), social_image creative is
+   * required. Defaults to false for backward-compatible callers.
+   */
+  requireSocialImage?: boolean;
 }
 
 // Builds a content-package validator whose platform_outputs requires exactly
@@ -163,6 +180,7 @@ export function buildContentPackageSchema(
   const effective = platforms.length > 0 ? platforms : REQUIRED_PACKAGE_PLATFORMS;
   const requireVideo = options.requireVideo ?? true;
   const ctaRequired = options.ctaRequired ?? false;
+  const requireSocialImage = options.requireSocialImage ?? false;
   return vObject({
     title: vNonEmptyString(),
     funnel_stage: vFunnelStage(),
@@ -179,6 +197,9 @@ export function buildContentPackageSchema(
     visual_scenes: visualScenesSchema,
     asset_usage: vOptional(vArray(assetUsageSchema)),
     scenario: vOptional(vString()),
+    social_image: requireSocialImage
+      ? socialImageCreativeSchema
+      : vOptional(socialImageCreativeSchema),
   }) as unknown as Validator<ContentPackageOutput>;
 }
 

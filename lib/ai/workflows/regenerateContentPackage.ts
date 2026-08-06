@@ -33,6 +33,7 @@ import { recordAssetUsage } from "@/lib/ai/workflows/generateContentPackage";
 import { canonicalWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
+import { generateAndPersistPackageSocialImage } from "@/lib/content-package/generateSocialImage";
 import {
   assertNoActivePackageRender,
   findActivePackageVideoJobIds,
@@ -329,6 +330,15 @@ async function runRegenerateContentPackageUnchecked(
   }
 
   await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
+
+  // Soft-fail shared FB/LI social image (same as generate path).
+  await generateAndPersistPackageSocialImage({
+    supabase,
+    projectId,
+    packageId,
+    pkg,
+    targetPlatforms,
+  });
 
   return {
     ok: true,

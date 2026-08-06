@@ -11,6 +11,10 @@ import {
   type ClientDeliveryPublishSection,
 } from "@/lib/publishing/clientDeliveryFromContentItems";
 import type { ContentItem, Json } from "@/lib/supabase/types";
+import {
+  packageSocialImageHasRenderableFile,
+  parsePackageSocialImage,
+} from "@/lib/content-package/socialImage";
 
 export type ClientProjectStatus =
   | "draft"
@@ -87,6 +91,8 @@ export type ClientProjectItemClientView = Omit<
   "videoUrl" | "videoStoragePath" | "internalNote"
 > & {
   hasVideo: boolean;
+  /** Shared FB+LI social image from linked internal package (optional). */
+  hasSocialImage: boolean;
   publishTexts: ClientProjectPublishTexts;
   publishSections: ClientDeliveryPublishSection[];
 };
@@ -105,6 +111,7 @@ function legacyPublishSections(
 export function toClientProjectItemClientView(
   item: ClientProjectItemRow,
   internalContentItems?: ContentItem[],
+  hasSocialImage = false,
 ): ClientProjectItemClientView {
   const { videoUrl: _v, videoStoragePath: _p, internalNote: _n, ...rest } = item;
   const publishSections =
@@ -114,6 +121,7 @@ export function toClientProjectItemClientView(
   return {
     ...rest,
     hasVideo: Boolean(_p?.trim() || _v?.trim()),
+    hasSocialImage,
     publishTexts: buildClientProjectPublishTexts(item),
     publishSections,
   };
@@ -460,14 +468,23 @@ export async function loadClientProjectItemsForReview(
   ];
 
   const contentItemsByPackageId = new Map<string, ContentItem[]>();
+  const socialImageByInternalPackageId = new Map<string, boolean>();
   if (internalPackageIds.length > 0) {
     const supabase = createSupabaseAdminClient();
-    const { data, error } = await supabase
-      .from("content_items")
-      .select("*")
-      .in("package_id", internalPackageIds)
-      .is("language", null);
+    const [{ data, error }, { data: pkgRows, error: pkgError }] =
+      await Promise.all([
+        supabase
+          .from("content_items")
+          .select("*")
+          .in("package_id", internalPackageIds)
+          .is("language", null),
+        supabase
+          .from("content_packages")
+          .select("id, package_brief")
+          .in("id", internalPackageIds),
+      ]);
     if (error) throw error;
+    if (pkgError) throw pkgError;
     for (const row of data ?? []) {
       const contentItem = row as ContentItem;
       const packageId = contentItem.package_id;
@@ -475,6 +492,16 @@ export async function loadClientProjectItemsForReview(
       const list = contentItemsByPackageId.get(packageId) ?? [];
       list.push(contentItem);
       contentItemsByPackageId.set(packageId, list);
+    }
+    for (const row of pkgRows ?? []) {
+      const id = (row as { id: string }).id;
+      const social = parsePackageSocialImage(
+        (row as { package_brief: unknown }).package_brief,
+      );
+      socialImageByInternalPackageId.set(
+        id,
+        packageSocialImageHasRenderableFile(social),
+      );
     }
   }
 
@@ -485,7 +512,10 @@ export async function loadClientProjectItemsForReview(
     const internalItems = internalId
       ? contentItemsByPackageId.get(internalId)
       : undefined;
-    return toClientProjectItemClientView(item, internalItems);
+    const hasSocialImage = internalId
+      ? (socialImageByInternalPackageId.get(internalId) ?? false)
+      : false;
+    return toClientProjectItemClientView(item, internalItems, hasSocialImage);
   });
 }
 

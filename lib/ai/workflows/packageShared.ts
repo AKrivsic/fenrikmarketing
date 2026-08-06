@@ -249,6 +249,10 @@ export function makePackageGuardrails(args: {
   // Whether a video block is mandatory (defaults to true). False for text-only
   // packages where no selected platform requires video.
   requireVideo?: boolean;
+  /** Platforms that share the package vertical video. */
+  videoPlatforms?: readonly string[];
+  /** When true, social_image creative is required. */
+  requireSocialImage?: boolean;
   assetCoverage?: AssetCoverageDecision | null;
   /** Preferred video usage per asset id (for fullscreen guardrail). */
   preferredVideoUsageById?: ReadonlyMap<string, VideoUsageRenderMode>;
@@ -259,6 +263,8 @@ export function makePackageGuardrails(args: {
     classById,
     requiredPlatforms,
     requireVideo,
+    videoPlatforms,
+    requireSocialImage,
     assetCoverage,
     preferredVideoUsageById,
   } = args;
@@ -270,6 +276,8 @@ export function makePackageGuardrails(args: {
       strategyItemFunnelStage: context.funnelStage,
       requiredPlatforms,
       requireVideo,
+      videoPlatforms,
+      requireSocialImage,
     });
 
     if (hasExplicitVisualScenePlan(pkg)) {
@@ -393,6 +401,9 @@ export function buildPackageBrief(pkg: ContentPackageOutput): Json {
     visual_scenes: pkg.visual_scenes ?? null,
     scenario: pkg.scenario ?? null,
     presentation_generation: pkg.presentation_generation ?? null,
+    // Creative + (after raster) storage refs for the shared FB/LI 1:1 image.
+    // Optional: historical packages omit this key.
+    social_image: pkg.social_image ?? null,
   } as unknown as Json;
 }
 

@@ -17,6 +17,7 @@ import {
   ctaRequirementForFunnelStage,
 } from "@/lib/content-pipeline/prompts/contentPackageContract";
 import { alignOpeningVoiceover } from "@/lib/content-pipeline/alignOpeningVoiceover";
+import { packageNeedsSocialImage } from "@/lib/content-package/socialImage";
 
 const TIMEOUT_MS = 180_000;
 
@@ -35,21 +36,29 @@ export async function runContentPackageGeneration(args: {
   const ctaRequired =
     ctaRequirementForFunnelStage(promptInput.funnelStage) ===
     "required_business";
+  const requireSocialImage = packageNeedsSocialImage(
+    promptInput.targetPlatforms,
+  );
 
   const generated = await generateValidatedJson({
     textProvider: getCopywritingProvider(),
-    system: buildContentPackageSystem(promptInput.requireVideo),
+    system: buildContentPackageSystem(
+      promptInput.requireVideo,
+      requireSocialImage,
+    ),
     prompt: buildContentPackagePrompt(promptInput),
     validator: buildContentPackageSchema(promptInput.targetPlatforms, {
       requireVideo: promptInput.requireVideo,
       allowedCtaTypes,
       ctaRequired,
+      requireSocialImage,
     }),
     expectedShape: buildContentPackageExpectedShape({
       goalType: promptInput.project.goal_type,
       funnelStage: promptInput.funnelStage,
       allowedCtaTypes,
       ctaRequired,
+      requireSocialImage,
     }),
     // Allow one OpenAI repair pass on guardrail failures (voiceover length, etc.)
     // before a Claude regenerate — still capped by CONTENT_PACKAGE_MAX_ATTEMPTS.

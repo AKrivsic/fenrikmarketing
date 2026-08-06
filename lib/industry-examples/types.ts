@@ -11,7 +11,11 @@ export type IndustryExamplePlatform =
   | "linkedin"
   | "x";
 
-export type IndustryExampleDelivery = "video_caption" | "video_meta" | "text_only";
+export type IndustryExampleDelivery =
+  | "video_caption"
+  | "video_meta"
+  | "text_only"
+  | "text_image";
 
 export interface IndustryExampleYoutubeOutput {
   title: string;
@@ -53,6 +57,11 @@ export interface IndustryExamplePackage {
   videoUrl: string | null;
   /** Optional poster image for the video. */
   videoPosterUrl?: string | null;
+  /**
+   * Optional shared Facebook + LinkedIn 1:1 social image URL.
+   * Omit when the example package predates the social-image feature.
+   */
+  socialImageUrl?: string | null;
   platforms: IndustryExamplePackagePlatforms;
 }
 
@@ -92,13 +101,13 @@ export const INDUSTRY_PLATFORM_META: Record<
   },
   facebook: {
     label: "Facebook",
-    delivery: "text_only",
-    deliveryNote: "Text only",
+    delivery: "text_image",
+    deliveryNote: "Text + image",
   },
   linkedin: {
     label: "LinkedIn",
-    delivery: "text_only",
-    deliveryNote: "Text only",
+    delivery: "text_image",
+    deliveryNote: "Text + image",
   },
   x: {
     label: "X",

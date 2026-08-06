@@ -37,6 +37,8 @@ export async function streamVideoFromUpstream(
     filename?: string;
     /** Defaults to private no-store (client-delivery). Public examples may override. */
     cacheControl?: string;
+    /** Override upstream content-type (e.g. image/png for social images). */
+    contentType?: string;
   },
 ): Promise<Response> {
   const range = request.headers.get("range");
@@ -51,7 +53,9 @@ export async function streamVideoFromUpstream(
   const headers = new Headers();
   headers.set(
     "Content-Type",
-    upstream.headers.get("content-type") ?? "video/mp4",
+    options.contentType ??
+      upstream.headers.get("content-type") ??
+      "video/mp4",
   );
   headers.set("Accept-Ranges", "bytes");
   headers.set(

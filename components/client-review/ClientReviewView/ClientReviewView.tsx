@@ -27,8 +27,8 @@ const PACKAGE_INCLUDES = [
   "TikTok caption",
   "Instagram caption",
   "YouTube title + description",
-  "Facebook post",
-  "LinkedIn post",
+  "Facebook post + shared social image",
+  "LinkedIn post + same shared social image",
   "X posts (when generated)",
 ];
 
@@ -56,6 +56,14 @@ function videoPreviewSrc(projectId: string, itemId: string): string {
 
 function videoDownloadHref(projectId: string, itemId: string): string {
   return `/api/client-projects/${projectId}/video?itemId=${encodeURIComponent(itemId)}&download=1`;
+}
+
+function socialImagePreviewSrc(projectId: string, itemId: string): string {
+  return `/api/client-projects/${projectId}/social-image?itemId=${encodeURIComponent(itemId)}`;
+}
+
+function socialImageDownloadHref(projectId: string, itemId: string): string {
+  return `/api/client-projects/${projectId}/social-image?itemId=${encodeURIComponent(itemId)}&download=1`;
 }
 
 export function ClientReviewView({ project, items, comments }: ClientReviewViewProps) {
@@ -161,6 +169,23 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
               <PublishPlatformOutputs sections={item.publishSections} />
             </div>
 
+            {item.hasSocialImage ? (
+              <div className={styles.socialImageBlock}>
+                <p className={styles.socialImageLabel}>
+                  Social image (Facebook + LinkedIn)
+                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={socialImagePreviewSrc(project.id, item.id)}
+                  alt="Shared Facebook and LinkedIn social image"
+                  className={styles.socialImage}
+                />
+                <p className={styles.socialImageHint}>
+                  Same image for Facebook and LinkedIn posts above.
+                </p>
+              </div>
+            ) : null}
+
             {item.clientNote ? (
               <details className={styles.noteDetails}>
                 <summary className={styles.noteSummary}>Note</summary>
@@ -176,6 +201,20 @@ export function ClientReviewView({ project, items, comments }: ClientReviewViewP
               ) : (
                 <span className={styles.downloadLocked}>Download video (locked)</span>
               )}
+              {item.hasSocialImage ? (
+                paid ? (
+                  <a
+                    href={socialImageDownloadHref(project.id, item.id)}
+                    className={styles.downloadLink}
+                  >
+                    Download social image
+                  </a>
+                ) : (
+                  <span className={styles.downloadLocked}>
+                    Download social image (locked)
+                  </span>
+                )
+              ) : null}
             </div>
 
             <ul className={styles.comments}>

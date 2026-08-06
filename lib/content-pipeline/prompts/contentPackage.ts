@@ -37,8 +37,15 @@ import {
   buildContentPackageVoiceoverContractBlock,
   ctaRequirementForFunnelStage,
 } from "@/lib/content-pipeline/prompts/contentPackageContract";
+import {
+  buildContentPackageSocialImageBlock,
+  packageNeedsSocialImage,
+} from "@/lib/content-package/socialImage";
 
-export function buildContentPackageSystem(requireVideo: boolean): string {
+export function buildContentPackageSystem(
+  requireVideo: boolean,
+  requireSocialImage = false,
+): string {
   return (
     "You are the Content Package generator for the production content pipeline. " +
     "Generate ONE complete content package as valid JSON in a single pass. " +
@@ -48,6 +55,9 @@ export function buildContentPackageSystem(requireVideo: boolean): string {
     (requireVideo
       ? "This package REQUIRES a full video block, voiceover, and visual scenes/image prompts. "
       : "This package is text-oriented; include video fields only if natural. ") +
+    (requireSocialImage
+      ? "This package REQUIRES a social_image creative for the shared Facebook/LinkedIn 1:1 feed asset. "
+      : "") +
     "Honor Opening Impact exactly for the hook and opening spoken line. " +
     "Honor Visual Identity for all image prompts. Return ONLY JSON."
   );
@@ -153,6 +163,7 @@ export function buildContentPackagePrompt(
   const voiceoverBlock = buildContentPackageVoiceoverContractBlock({
     ctaRequired,
   });
+  const requireSocialImage = packageNeedsSocialImage(platforms);
 
   return [
     task,
@@ -221,10 +232,16 @@ export function buildContentPackagePrompt(
     input.requireVideo
       ? "- Require video.concept, video.script, voiceover_text, subtitles, and 3–5 visual_scenes (legacy IMAGE preferred)."
       : "- Video block optional for text-only packages.",
+    requireSocialImage
+      ? "- Require social_image with a non-empty image_prompt for the shared Facebook/LinkedIn 1:1 feed asset (separate from visual_scenes)."
+      : "- Omit social_image when neither Facebook nor LinkedIn is required.",
     "- platform_outputs must include every required platform listed below.",
     `- Required platforms: ${platforms.join(", ")}`,
     input.videoPlatforms && input.videoPlatforms.length > 0
       ? `- Video platforms (shared video): ${input.videoPlatforms.join(", ")}`
+      : "",
+    requireSocialImage
+      ? `- Facebook/LinkedIn receive a shared static square social image — write those captions as standalone feed posts. Do NOT say "watch this video/reel" unless that platform is listed under Video platforms.`
       : "",
     "",
     voiceoverBlock,
@@ -241,6 +258,7 @@ export function buildContentPackagePrompt(
     "- x caption: hard maximum 280 characters (guardrails reject longer).",
     "",
     buildContentPackageVisualScenesBlock({ requireVideo: input.requireVideo }),
+    requireSocialImage ? buildContentPackageSocialImageBlock() : "",
     "",
     "Return a single JSON object matching the content package schema:",
     "{",
@@ -259,6 +277,9 @@ export function buildContentPackagePrompt(
     '  "visual_scenes": [ { "source": "ai", "image_prompt": "string" }, ... ],',
     '  "asset_usage": [ { "asset_id": "string", "used_as": "string" } ],',
     '  "scenario": optional string',
+    requireSocialImage
+      ? '  "social_image": { "image_prompt": "string", "text_overlay": string|null }'
+      : "",
     "}",
     "Remember: if caption_variants is present, caption MUST equal caption_variants[0].",
   ]

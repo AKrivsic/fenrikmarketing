@@ -67,6 +67,12 @@ export function IndustryPlatformPanel({ pkg }: IndustryPlatformPanelProps) {
                     ? pkg.platforms.facebook
                     : pkg.platforms.linkedin
             }
+            socialImageUrl={
+              (active === "facebook" || active === "linkedin") &&
+              pkg.socialImageUrl
+                ? pkg.socialImageUrl
+                : null
+            }
           />
         )}
       </div>
@@ -74,10 +80,29 @@ export function IndustryPlatformPanel({ pkg }: IndustryPlatformPanelProps) {
   );
 }
 
-function TextPanel({ text }: { text: string }) {
+function TextPanel({
+  text,
+  socialImageUrl,
+}: {
+  text: string;
+  socialImageUrl?: string | null;
+}) {
   const body = text.trim() || "—";
   return (
     <div>
+      {socialImageUrl ? (
+        <div className={styles.socialImageWrap}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={socialImageUrl}
+            alt="Shared Facebook and LinkedIn social image"
+            className={styles.socialImage}
+          />
+          <p className={styles.socialImageNote}>
+            Shared square image for Facebook + LinkedIn
+          </p>
+        </div>
+      ) : null}
       <div className={styles.panelHeader}>
         <CopyButton text={body === "—" ? "" : body} label="Copy" />
       </div>

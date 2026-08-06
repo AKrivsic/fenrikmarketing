@@ -30,6 +30,7 @@ import type { AssetClass } from "@/lib/ai/guardrails";
 import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 import type { AssetCoverageDecision } from "@/lib/assets/assetCoveragePolicy";
 import type { GenerationMode } from "@/lib/ai/generationMode";
+import { packageNeedsSocialImage } from "@/lib/content-package/socialImage";
 
 export interface CreativePipelineContext {
   project: Project;
@@ -177,6 +178,8 @@ export async function runCreativePipeline(
       classById: assets.classById,
       requiredPlatforms: targetPlatforms,
       requireVideo,
+      videoPlatforms,
+      requireSocialImage: packageNeedsSocialImage(targetPlatforms),
       assetCoverage,
       preferredVideoUsageById: requireVideo
         ? preferredVideoUsageById
