@@ -1,11 +1,12 @@
 "use server";
 
 import { insertSampleRequest } from "@/lib/api/client-delivery-admin";
+import { readAttributionFromFormData } from "@/lib/analytics/attribution";
 import { sendSampleRequestNotification } from "@/lib/email/sendSampleRequestNotification";
 import { normalizeWebsiteUrl } from "@/lib/knowledge/websiteUrl";
 
 export type SampleFormResult =
-  | { ok: true }
+  | { ok: true; submissionId?: string }
   | { ok: false; error: string; fieldErrors?: Record<string, string> };
 
 const BUSINESS_TYPES = new Set([
@@ -71,6 +72,7 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
   const requestVariant = String(formData.get("requestVariant") ?? "free_sample").trim();
   const clientProjectId = String(formData.get("clientProjectId") ?? "").trim();
   const clientProjectTitle = String(formData.get("clientProjectTitle") ?? "").trim();
+  const attribution = readAttributionFromFormData(formData);
 
   if (!name) fieldErrors.name = "Name is required.";
   if (!email) fieldErrors.email = "Email is required.";
@@ -100,8 +102,9 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
 
   const submittedAt = new Date();
 
+  let submissionId: string;
   try {
-    await insertSampleRequest({
+    const inserted = await insertSampleRequest({
       name,
       email,
       websiteUrl: normalizedWebsiteUrl!,
@@ -113,7 +116,16 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
         clientProjectId: clientProjectId || undefined,
         clientProjectTitle: clientProjectTitle || undefined,
       }),
+      utmSource: attribution.utm_source,
+      utmMedium: attribution.utm_medium,
+      utmCampaign: attribution.utm_campaign,
+      utmContent: attribution.utm_content,
+      utmTerm: attribution.utm_term,
+      fbclid: attribution.fbclid,
+      landingPage: attribution.landing_page,
+      referrer: attribution.referrer,
     });
+    submissionId = inserted.id;
   } catch {
     return { ok: false, error: "Could not save your request. Please try again." };
   }
@@ -131,5 +143,5 @@ export async function submitSampleRequest(formData: FormData): Promise<SampleFor
     clientProjectTitle: clientProjectTitle || undefined,
   });
 
-  return { ok: true };
+  return { ok: true, submissionId };
 }

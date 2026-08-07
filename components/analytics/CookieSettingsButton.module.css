@@ -1,0 +1,16 @@
+.button {
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--landing-accent, var(--color-text-muted));
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.button:hover {
+  color: var(--landing-accent-hover, var(--color-text));
+}

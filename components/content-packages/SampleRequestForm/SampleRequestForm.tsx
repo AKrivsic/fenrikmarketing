@@ -1,7 +1,14 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { submitSampleRequest } from "@/app/content-packages/actions";
+import { useAnalyticsConsent } from "@/components/analytics/AnalyticsConsentProvider";
+import {
+  ATTRIBUTION_FORM_FIELDS,
+  ensureFirstTouchCapturedInSession,
+} from "@/lib/analytics/attribution";
+import { trackGenerateLead } from "@/lib/analytics/gtag";
+import { trackMetaLead } from "@/lib/analytics/metaPixel";
 import styles from "./SampleRequestForm.module.css";
 
 const BUSINESS_TYPE_OPTIONS = [
@@ -37,18 +44,35 @@ export function SampleRequestForm({
   clientProjectTitle,
 }: SampleRequestFormProps = {}) {
   const isFullPackage = variant === "full_package";
+  const { analyticsAllowed } = useAnalyticsConsent();
   const [pending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const leadTrackedRef = useRef(false);
 
   function onSubmit(formData: FormData) {
     setError(null);
     setFieldErrors({});
+    const attribution = ensureFirstTouchCapturedInSession();
+    for (const field of ATTRIBUTION_FORM_FIELDS) {
+      formData.delete(field);
+      const value = attribution[field];
+      if (value) formData.set(field, value);
+    }
     startTransition(async () => {
       const result = await submitSampleRequest(formData);
       if (result.ok) {
         setSuccess(true);
+        if (
+          result.submissionId &&
+          analyticsAllowed &&
+          !leadTrackedRef.current
+        ) {
+          leadTrackedRef.current = true;
+          trackMetaLead();
+          trackGenerateLead();
+        }
         return;
       }
       setError(result.error);
@@ -80,7 +104,7 @@ export function SampleRequestForm({
       ) : null}
       <div className={styles.honeypot} aria-hidden="true">
         <label>
-          Company website URL
+          Leave this field empty
           <input
             type="text"
             name="company_website_url"

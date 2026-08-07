@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AnalyticsConsentBanner } from "@/components/analytics/AnalyticsConsentBanner";
+import { AnalyticsConsentProvider } from "@/components/analytics/AnalyticsConsentProvider";
+import { FirstTouchAttributionCapture } from "@/components/analytics/FirstTouchAttributionCapture";
 import { GoogleAnalyticsProvider } from "@/components/analytics/GoogleAnalyticsProvider";
+import { MetaPixelProvider } from "@/components/analytics/MetaPixelProvider";
 import { AppShell } from "@/components/AppShell/AppShell";
 
 const geistSans = Geist({
@@ -35,8 +39,13 @@ export default function RootLayout({
   return (
     <html lang="cs" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <AppShell>{children}</AppShell>
-        <GoogleAnalyticsProvider />
+        <AnalyticsConsentProvider>
+          <FirstTouchAttributionCapture />
+          <AppShell>{children}</AppShell>
+          <GoogleAnalyticsProvider />
+          <MetaPixelProvider />
+          <AnalyticsConsentBanner />
+        </AnalyticsConsentProvider>
       </body>
     </html>
   );

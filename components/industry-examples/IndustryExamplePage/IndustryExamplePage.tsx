@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
 import { SampleRequestForm } from "@/components/content-packages/SampleRequestForm/SampleRequestForm";
 import { IndustryPackageBrowser } from "@/components/industry-examples/IndustryPackageBrowser/IndustryPackageBrowser";
@@ -114,6 +115,8 @@ export function IndustryExamplePage({ data }: IndustryExamplePageProps) {
             <a href="mailto:support@fenrik.studio" className={styles.footerLink}>
               support@fenrik.studio
             </a>
+            {" · "}
+            <CookieSettingsButton />
           </p>
         </div>
       </footer>

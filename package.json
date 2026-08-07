@@ -46,6 +46,7 @@
     "check:component-capture-live": "npm run check:live --prefix component-capture-worker",
     "check:component-capture-cross-site": "npm run check:cross-site --prefix component-capture-worker",
     "check:website-url": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-website-url.ts",
+    "check:sample-request-attribution": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-sample-request-attribution.ts",
     "check:service-mix": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-service-mix.ts",
     "check:asset-scene-layout": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-asset-scene-layout.ts",
     "check:manual-asset-metadata": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/register-alias.mjs scripts/check-manual-asset-metadata.ts",

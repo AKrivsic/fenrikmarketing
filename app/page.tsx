@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FenrikStudioLogo } from "@/components/brand/FenrikStudioLogo/FenrikStudioLogo";
+import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { LandingSampleShowcase } from "@/components/content-packages/LandingSampleShowcase/LandingSampleShowcase";
 import { SampleRequestForm } from "@/components/content-packages/SampleRequestForm/SampleRequestForm";
 import { getLandingSamplePreview } from "@/lib/api/landing-sample";
@@ -215,6 +216,8 @@ export default async function HomePage() {
             <a href="mailto:support@fenrik.studio" className={styles.footerLink}>
               support@fenrik.studio
             </a>
+            {" · "}
+            <CookieSettingsButton />
           </p>
         </div>
       </footer>

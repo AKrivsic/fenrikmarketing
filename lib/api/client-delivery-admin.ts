@@ -242,6 +242,14 @@ export async function insertSampleRequest(input: {
   company?: string;
   websiteUrl?: string;
   notes?: string;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  utmContent?: string | null;
+  utmTerm?: string | null;
+  fbclid?: string | null;
+  landingPage?: string | null;
+  referrer?: string | null;
 }): Promise<{ id: string }> {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
@@ -252,6 +260,14 @@ export async function insertSampleRequest(input: {
       company: input.company?.trim() || null,
       website_url: input.websiteUrl?.trim() || null,
       notes: input.notes?.trim() || null,
+      utm_source: input.utmSource ?? null,
+      utm_medium: input.utmMedium ?? null,
+      utm_campaign: input.utmCampaign ?? null,
+      utm_content: input.utmContent ?? null,
+      utm_term: input.utmTerm ?? null,
+      fbclid: input.fbclid ?? null,
+      landing_page: input.landingPage ?? null,
+      referrer: input.referrer ?? null,
     })
     .select("id")
     .single();
