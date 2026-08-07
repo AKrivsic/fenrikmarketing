@@ -40,6 +40,15 @@
   white-space: nowrap;
 }
 
+.failedNote {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #991b1b;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.5rem;
+  background: #fee2e2;
+}
+
 .body {
   display: flex;
   flex-direction: column;

@@ -10,6 +10,7 @@ import {
 } from "@/lib/api/project-content-admin";
 import {
   listReviewRunsForProject,
+  getReviewRunForProject,
   type ReviewRunCard,
 } from "@/lib/api/review-runs-admin";
 import { loadRunCoverageReport } from "@/lib/production-runs/loadRunCoverage";
@@ -62,8 +63,15 @@ interface PackageTranslationJob {
 /** Latest production runs shown on the project review tab (newest first). */
 export const REVIEW_RUN_LIMIT = 5;
 
-/** Max distinct packages whose full item/video payload is loaded per request. */
+/**
+ * Max distinct packages whose full item/video payload is loaded on the overview
+ * review tab (shared fairly across REVIEW_RUN_LIMIT runs so older runs are not
+ * starved by a newer busy run). Open a dedicated run page for the full set.
+ */
 export const REVIEW_PACKAGE_LIMIT = 21;
+
+/** Hard cap for a single-run review page (one run, full package set). */
+export const REVIEW_SINGLE_RUN_PACKAGE_LIMIT = 100;
 
 /** When there are no production runs, load this many recent packages instead. */
 export const REVIEW_FALLBACK_PACKAGES = 21;
@@ -225,6 +233,14 @@ export interface ReviewPackageGroup {
   // translated.
   translationReason: string | null;
   summary: PackageStatusSummary;
+  /**
+   * True when production_run_items marked this slot failed before a content
+   * package existed (no primaryItems). Still listed so QA can spot failures
+   * without opening every row.
+   */
+  generationFailed?: boolean;
+  /** Short failure message for generationFailed stubs. */
+  generationError?: string | null;
 }
 
 export interface ReviewRunGroup {
@@ -236,6 +252,13 @@ export interface ReviewRunGroup {
   sectionLabel?: string | null;
   // Run Coverage / Run Insights — computed from existing rows when run is set.
   runInsights?: RunCoverageReport | null;
+  /**
+   * How many packages this run actually has (content packages + failed slots).
+   * Used with packages.length to show "Showing X of Y" when overview truncates.
+   */
+  packageTotal?: number | null;
+  /** True when the overview loaded a subset of this run's packages. */
+  packagesTruncated?: boolean;
 }
 
 import { buildPackageVideosFromEntries } from "@/lib/api/packageCanonicalVideo";
@@ -575,13 +598,19 @@ function logReviewTiming(label: string, startedAt: number, detail?: string) {
   );
 }
 
-// Resolves package ids to load for the review tab: packages tied to the latest
-// N production runs (newest runs first), capped at REVIEW_PACKAGE_LIMIT.
+// Resolves package ids for the overview review tab: packages tied to the latest
+// N production runs, with REVIEW_PACKAGE_LIMIT shared fairly across those runs
+// (newest runs get leftover slots). Prevents a busy newer run from hiding every
+// package of an older completed run.
 async function resolvePackageIdsForReviewRuns(
   projectId: string,
   runIds: string[],
-): Promise<string[]> {
-  if (runIds.length === 0) return [];
+): Promise<{ packageIds: string[]; totalsByRun: Map<string, number> }> {
+  const empty = {
+    packageIds: [] as string[],
+    totalsByRun: new Map<string, number>(),
+  };
+  if (runIds.length === 0) return empty;
 
   const supabase = createSupabaseAdminClient();
   const orFilter = runIds
@@ -590,14 +619,95 @@ async function resolvePackageIdsForReviewRuns(
 
   const { data, error } = await supabase
     .from("content_items")
-    .select("package_id, created_at")
+    .select("package_id, created_at, generation_metadata")
     .eq("project_id", projectId)
     .not("package_id", "is", null)
     .or(orFilter);
 
   if (error) throw error;
 
-  // Newest activity per package wins; preserve run order preference via created_at.
+  type ItemRow = {
+    package_id: string | null;
+    created_at: string;
+    generation_metadata: unknown;
+  };
+
+  // Newest activity per package, attributed to the production_run_id on that
+  // newest item (variants without run id are skipped here; inheritance happens
+  // later when bucketing loaded entries).
+  const latestByPackage = new Map<
+    string,
+    { createdAt: string; runId: string }
+  >();
+  for (const row of (data ?? []) as ItemRow[]) {
+    if (!row.package_id) continue;
+    const meta = row.generation_metadata;
+    const runId =
+      meta &&
+      typeof meta === "object" &&
+      !Array.isArray(meta) &&
+      typeof (meta as { production_run_id?: unknown }).production_run_id ===
+        "string"
+        ? (meta as { production_run_id: string }).production_run_id
+        : null;
+    if (!runId || !runIds.includes(runId)) continue;
+    const prev = latestByPackage.get(row.package_id);
+    if (!prev || row.created_at > prev.createdAt) {
+      latestByPackage.set(row.package_id, {
+        createdAt: row.created_at,
+        runId,
+      });
+    }
+  }
+
+  const byRun = new Map<string, { packageId: string; createdAt: string }[]>();
+  for (const runId of runIds) byRun.set(runId, []);
+  for (const [packageId, meta] of latestByPackage) {
+    const list = byRun.get(meta.runId);
+    if (!list) continue;
+    list.push({ packageId, createdAt: meta.createdAt });
+  }
+  for (const list of byRun.values()) {
+    list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  const totalsByRun = new Map<string, number>();
+  for (const runId of runIds) {
+    totalsByRun.set(runId, byRun.get(runId)?.length ?? 0);
+  }
+
+  const runCount = runIds.length;
+  const base = Math.max(1, Math.floor(REVIEW_PACKAGE_LIMIT / runCount));
+  let remainder = Math.max(0, REVIEW_PACKAGE_LIMIT - base * runCount);
+
+  const packageIds: string[] = [];
+  for (const runId of runIds) {
+    const quota = base + (remainder > 0 ? 1 : 0);
+    if (remainder > 0) remainder -= 1;
+    const list = byRun.get(runId) ?? [];
+    for (const entry of list.slice(0, quota)) {
+      packageIds.push(entry.packageId);
+    }
+  }
+
+  return { packageIds, totalsByRun };
+}
+
+// All package ids for a single production run (dedicated run review page).
+async function resolvePackageIdsForSingleRun(
+  projectId: string,
+  runId: string,
+): Promise<string[]> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("package_id, created_at")
+    .eq("project_id", projectId)
+    .eq("generation_metadata->>production_run_id", runId)
+    .not("package_id", "is", null);
+
+  if (error) throw error;
+
   const latestByPackage = new Map<string, string>();
   for (const row of (data ?? []) as {
     package_id: string | null;
@@ -612,8 +722,113 @@ async function resolvePackageIdsForReviewRuns(
 
   return Array.from(latestByPackage.entries())
     .sort((a, b) => b[1].localeCompare(a[1]))
-    .slice(0, REVIEW_PACKAGE_LIMIT)
+    .slice(0, REVIEW_SINGLE_RUN_PACKAGE_LIMIT)
     .map(([packageId]) => packageId);
+}
+
+function emptyPackageSummary(): PackageStatusSummary {
+  return {
+    primaryApproved: 0,
+    primaryTotal: 0,
+    translations: [],
+    videos: [],
+    publishedCount: 0,
+    translationProgress: {
+      overall: "none",
+      completeCount: 0,
+      targetCount: 0,
+      languages: [],
+    },
+  };
+}
+
+function shortGenerationError(raw: string | null): string | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as { message?: unknown };
+    if (typeof parsed.message === "string" && parsed.message.trim()) {
+      return parsed.message.trim().slice(0, 160);
+    }
+  } catch {
+    // plain string
+  }
+  return raw.trim().slice(0, 160) || null;
+}
+
+// Failed production_run_items that never produced a content_package — still
+// listed on the dedicated run page so failures are visible without expanding.
+async function loadFailedRunItemStubs(
+  projectId: string,
+  runId: string,
+): Promise<ReviewPackageGroup[]> {
+  const supabase = createSupabaseAdminClient();
+  const { data: itemRows, error } = await supabase
+    .from("production_run_items")
+    .select("id, package_index, strategy_item_id, error_message, content_package_id")
+    .eq("project_id", projectId)
+    .eq("production_run_id", runId)
+    .eq("status", "failed")
+    .is("content_package_id", null)
+    .order("package_index", { ascending: true });
+  if (error) throw error;
+
+  const rows = (itemRows ?? []) as {
+    id: string;
+    package_index: number | null;
+    strategy_item_id: string | null;
+    error_message: string | null;
+    content_package_id: string | null;
+  }[];
+  if (rows.length === 0) return [];
+
+  const strategyIds = rows
+    .map((row) => row.strategy_item_id)
+    .filter((id): id is string => typeof id === "string");
+
+  const titleByStrategy = new Map<string, string>();
+  if (strategyIds.length > 0) {
+    const { data: strategyRows, error: strategyErr } = await supabase
+      .from("content_strategy_items")
+      .select("id, brief")
+      .eq("project_id", projectId)
+      .in("id", strategyIds);
+    if (strategyErr) throw strategyErr;
+    for (const row of (strategyRows ?? []) as {
+      id: string;
+      brief: { title?: unknown } | null;
+    }[]) {
+      const title =
+        row.brief && typeof row.brief.title === "string"
+          ? row.brief.title
+          : null;
+      if (title) titleByStrategy.set(row.id, title);
+    }
+  }
+
+  return rows.map((row, index) => {
+    const title =
+      (row.strategy_item_id
+        ? titleByStrategy.get(row.strategy_item_id)
+        : null) ??
+      (row.package_index != null
+        ? `Package #${row.package_index + 1} (failed)`
+        : `Failed package ${index + 1}`);
+    return {
+      packageId: null,
+      title,
+      videos: [],
+      socialImage: null,
+      primaryItems: [],
+      translations: [],
+      publishedItems: [],
+      canGenerateVariants: false,
+      hasTranslations: false,
+      translationReason: null,
+      summary: emptyPackageSummary(),
+      generationFailed: true,
+      generationError: shortGenerationError(row.error_message),
+    };
+  });
 }
 
 // Review run bucketing uses generation_metadata.production_run_id on primaries;
@@ -776,13 +991,18 @@ export async function listProjectReviewGroups(
   logReviewTiming("runs", startedAt, `${runs.length} runs`);
 
   const runIds = runs.map((run) => run.id);
-  const [runScopedPackageIds, weeklyPackages] = await Promise.all([
+  const [runScopedResult, weeklyPackages] = await Promise.all([
     runIds.length > 0
       ? resolvePackageIdsForReviewRuns(projectId, runIds)
-      : resolveFallbackPackageIds(projectId),
+      : Promise.resolve({
+          packageIds: await resolveFallbackPackageIds(projectId),
+          totalsByRun: new Map<string, number>(),
+        }),
     resolveCurrentWeeklyStrategyPackages(projectId, weekStart),
   ]);
 
+  const runScopedPackageIds = runScopedResult.packageIds;
+  const packageTotalsByRun = runScopedResult.totalsByRun;
   const runScopedSet = new Set(runScopedPackageIds);
   const weeklyOnlyIds = weeklyPackages
     .map((pkg) => pkg.id)
@@ -899,10 +1119,16 @@ export async function listProjectReviewGroups(
   // package set still render their header (Export JSON stays reachable).
   for (const run of runs) {
     const packageMap = byRun.get(run.id);
+    const packages = packageMap ? toPackageGroups(packageMap) : [];
+    const packageTotal =
+      packageTotalsByRun.get(run.id) ??
+      Math.max(run.generated, packages.length);
     groups.push({
       run,
-      packages: packageMap ? toPackageGroups(packageMap) : [],
+      packages,
       runInsights: runInsightsById.get(run.id) ?? null,
+      packageTotal,
+      packagesTruncated: packages.length < packageTotal,
     });
   }
 
@@ -915,4 +1141,126 @@ export async function listProjectReviewGroups(
   logReviewTiming("listProjectReviewGroups total", startedAt);
 
   return groups;
+}
+
+/**
+ * Full package payload for a single production run — used by the dedicated
+ * run review page so older runs are not truncated by the overview budget.
+ */
+export async function listProjectReviewGroupForRun(
+  projectId: string,
+  runId: string,
+): Promise<ReviewRunGroup | null> {
+  const startedAt = performance.now();
+  const run = await getReviewRunForProject(projectId, runId);
+  if (!run) return null;
+
+  const supabase = createSupabaseAdminClient();
+  const { data: projectRow, error: projectErr } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", projectId)
+    .maybeSingle();
+  if (projectErr) throw projectErr;
+
+  const [packageIds, failedStubs] = await Promise.all([
+    resolvePackageIdsForSingleRun(projectId, runId),
+    loadFailedRunItemStubs(projectId, runId),
+  ]);
+  logReviewTiming(
+    "single-run packageIds",
+    startedAt,
+    `${packageIds.length} packages + ${failedStubs.length} failed stubs`,
+  );
+
+  const entries =
+    packageIds.length > 0
+      ? await listProjectContentByStatus(projectId, REVIEW_STATUSES, {
+          packageIds,
+        })
+      : [];
+
+  const [packageMetaById, targetLanguages, translationJobsByPackage] =
+    await Promise.all([
+      loadPackageReviewMeta(projectId, entries),
+      loadProjectTargetLanguages(projectId),
+      loadTranslationJobsByPackage(projectId, packageIds),
+    ]);
+  const packageTitleById = new Map<string, string>();
+  for (const [id, row] of packageMetaById) {
+    packageTitleById.set(id, row.title);
+  }
+  const entryById = new Map(entries.map((entry) => [entry.id, entry]));
+
+  const packageMap = new Map<string | null, ProjectContentEntry[]>();
+  for (const entry of entries) {
+    const resolvedRunId = resolveReviewProductionRunId(entry, entryById);
+    if (resolvedRunId !== null && resolvedRunId !== runId) continue;
+    const list = packageMap.get(entry.packageId) ?? [];
+    list.push(entry);
+    packageMap.set(entry.packageId, list);
+  }
+
+  const packages = Array.from(packageMap.entries()).map(([packageId, items]) =>
+    buildPackageGroup(
+      packageId,
+      (packageId ? packageTitleById.get(packageId) : null) ?? NO_PACKAGE_TITLE,
+      items,
+      targetLanguages,
+      (packageId ? translationJobsByPackage.get(packageId) : null) ?? [],
+      packageId ? (packageMetaById.get(packageId)?.socialImage ?? null) : null,
+    ),
+  );
+
+  // Prefer package_index order from production_run_items when available.
+  const { data: orderRows, error: orderErr } = await supabase
+    .from("production_run_items")
+    .select("content_package_id, package_index")
+    .eq("production_run_id", runId)
+    .not("content_package_id", "is", null)
+    .order("package_index", { ascending: true });
+  if (orderErr) throw orderErr;
+
+  const orderIndex = new Map<string, number>();
+  for (const row of (orderRows ?? []) as {
+    content_package_id: string | null;
+    package_index: number | null;
+  }[]) {
+    if (!row.content_package_id) continue;
+    orderIndex.set(
+      row.content_package_id,
+      row.package_index ?? orderIndex.size,
+    );
+  }
+  packages.sort((a, b) => {
+    const ai = a.packageId ? (orderIndex.get(a.packageId) ?? 9999) : 9999;
+    const bi = b.packageId ? (orderIndex.get(b.packageId) ?? 9999) : 9999;
+    return ai - bi;
+  });
+
+  const allPackages = [...packages, ...failedStubs];
+  const packageTotal = allPackages.length;
+
+  let runInsights: RunCoverageReport | null = null;
+  if (projectRow) {
+    try {
+      runInsights = await loadRunCoverageReport(
+        runId,
+        projectRow as Project,
+        supabase,
+      );
+    } catch {
+      runInsights = null;
+    }
+  }
+
+  logReviewTiming("listProjectReviewGroupForRun total", startedAt);
+
+  return {
+    run,
+    packages: allPackages,
+    runInsights,
+    packageTotal,
+    packagesTruncated: false,
+  };
 }

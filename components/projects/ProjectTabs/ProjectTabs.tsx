@@ -38,7 +38,10 @@ export function ProjectTabs({ projectId }: ProjectTabsProps) {
     <nav className={styles.tabs} aria-label="Project sekce">
       {TABS.map((tab) => {
         const href = tab.segment ? `${base}/${tab.segment}` : base;
-        const isActive = pathname === href;
+        const isActive =
+          tab.segment === ""
+            ? pathname === base
+            : pathname === href || pathname.startsWith(`${href}/`);
         return (
           <Link
             key={tab.label}

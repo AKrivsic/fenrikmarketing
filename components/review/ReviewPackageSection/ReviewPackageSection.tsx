@@ -67,6 +67,16 @@ export function ReviewPackageSection({
 
   const progress = pkg.summary.translationProgress;
   const progressBadge = translationBadgeLabel(progress);
+  const primaryVideo =
+    pkg.videos.find((video) => video.isPrimary) ?? pkg.videos[0] ?? null;
+  const headerVideoStatus: JobStatus | null = pkg.generationFailed
+    ? "failed"
+    : (primaryVideo?.status ?? null);
+  const headerVideoLabel = pkg.generationFailed
+    ? "failed"
+    : headerVideoStatus
+      ? VIDEO_STATUS_LABEL[headerVideoStatus]
+      : "no video";
 
   useEffect(() => {
     if (!REVIEW_RENDER_DEBUG) return;
@@ -78,6 +88,7 @@ export function ReviewPackageSection({
       translationLanguages: pkg.translations.length,
       publishedItems: pkg.publishedItems.length,
       videos: pkg.videos.length,
+      generationFailed: pkg.generationFailed === true,
     });
   }, [
     pkg.packageId,
@@ -87,6 +98,7 @@ export function ReviewPackageSection({
     pkg.translations.length,
     pkg.publishedItems.length,
     pkg.videos.length,
+    pkg.generationFailed,
   ]);
 
   return (
@@ -102,6 +114,12 @@ export function ReviewPackageSection({
             {open ? "▼" : "▶"}
           </span>
           <span className={styles.title}>{pkg.title}</span>
+          <span
+            className={`${styles.headerBadge} ${videoStatusClass(headerVideoStatus)}`}
+            title="Primary video status"
+          >
+            {headerVideoLabel}
+          </span>
           {progressBadge ? (
             <span
               className={`${styles.headerBadge} ${
@@ -116,11 +134,21 @@ export function ReviewPackageSection({
 
       {open ? (
         <div className={styles.body}>
+          {pkg.generationFailed ? (
+            <p className={styles.failedNote}>
+              Generování selhalo
+              {pkg.generationError ? `: ${pkg.generationError}` : "."}
+            </p>
+          ) : null}
           {pkg.packageId ? <PackageIdCopy packageId={pkg.packageId} /> : null}
-          <PackageStatusSummary summary={pkg.summary} />
+          {!pkg.generationFailed ? (
+            <PackageStatusSummary summary={pkg.summary} />
+          ) : null}
 
           {/* All package videos (EN + translations) in one pill panel. */}
-          <PackageVideoPanel projectId={projectId} videos={pkg.videos} />
+          {!pkg.generationFailed ? (
+            <PackageVideoPanel projectId={projectId} videos={pkg.videos} />
+          ) : null}
 
           {pkg.packageId && pkg.socialImage ? (
             <PackageSocialImagePanel
@@ -130,34 +158,38 @@ export function ReviewPackageSection({
             />
           ) : null}
 
-          <PackageActions
-            projectId={projectId}
-            packageId={pkg.packageId}
-            canGenerateVariants={pkg.canGenerateVariants}
-            hasTranslations={pkg.hasTranslations}
-            translationReason={pkg.translationReason}
-          />
+          {!pkg.generationFailed ? (
+            <PackageActions
+              projectId={projectId}
+              packageId={pkg.packageId}
+              canGenerateVariants={pkg.canGenerateVariants}
+              hasTranslations={pkg.hasTranslations}
+              translationReason={pkg.translationReason}
+            />
+          ) : null}
 
           {/* A) Primary (EN) ------------------------------------------------ */}
-          <section className={styles.section}>
-            <h4 className={styles.sectionTitle}>Primary (EN)</h4>
-            {pkg.primaryItems.length > 0 ? (
-              <div className={styles.items}>
-                {pkg.primaryItems.map((entry) => (
-                  <ProjectContentCard
-                    key={entry.id}
-                    projectId={projectId}
-                    entry={entry}
-                    showActions
-                    hideVideo
-                    packageActionsInHeader
-                  />
-                ))}
-              </div>
-            ) : (
-              <p className={styles.empty}>Žádný primary obsah k review.</p>
-            )}
-          </section>
+          {!pkg.generationFailed ? (
+            <section className={styles.section}>
+              <h4 className={styles.sectionTitle}>Primary (EN)</h4>
+              {pkg.primaryItems.length > 0 ? (
+                <div className={styles.items}>
+                  {pkg.primaryItems.map((entry) => (
+                    <ProjectContentCard
+                      key={entry.id}
+                      projectId={projectId}
+                      entry={entry}
+                      showActions
+                      hideVideo
+                      packageActionsInHeader
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.empty}>Žádný primary obsah k review.</p>
+              )}
+            </section>
+          ) : null}
 
           {/* B) Translations ------------------------------------------------ */}
           {pkg.translations.length > 0 ? (

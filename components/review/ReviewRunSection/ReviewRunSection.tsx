@@ -28,6 +28,15 @@ function formatRunLabel(createdAt: string | null): string {
   return `Run · ${formatted}`;
 }
 
+function isVisiblePackage(pkg: ReviewRunGroup["packages"][number]): boolean {
+  return (
+    pkg.generationFailed === true ||
+    pkg.primaryItems.length > 0 ||
+    pkg.translations.length > 0 ||
+    pkg.publishedItems.length > 0
+  );
+}
+
 // Review UX V2 — a production run header that expands into its packages. The
 // per-run platform / language / status filters are gone: the package now shows
 // its Primary / Translations / Published sections directly, so the user always
@@ -40,12 +49,14 @@ export function ReviewRunSection({
   const [open, setOpen] = useState(defaultOpen);
 
   const run = group.run;
-  const packagesWithItems = group.packages.filter(
-    (pkg) =>
-      pkg.primaryItems.length > 0 ||
-      pkg.translations.length > 0 ||
-      pkg.publishedItems.length > 0,
-  );
+  const packagesWithItems = group.packages.filter(isVisiblePackage);
+  const packageTotal = group.packageTotal ?? packagesWithItems.length;
+  const truncated =
+    group.packagesTruncated === true ||
+    packagesWithItems.length < packageTotal;
+  const runHref = run
+    ? `/projects/${projectId}/review/runs/${run.id}`
+    : null;
 
   return (
     <section className={styles.runGroup}>
@@ -76,6 +87,17 @@ export function ReviewRunSection({
             <span className={styles.failPill}>{run.failed} failed</span>
           ) : null}
         </button>
+        {runHref ? (
+          <a
+            className={styles.openRun}
+            href={runHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Otevřít tento run v novém okně se všemi packages"
+          >
+            Otevřít celý run ↗
+          </a>
+        ) : null}
       </header>
 
       {open ? (
@@ -91,6 +113,22 @@ export function ReviewRunSection({
             <RunInsightsPanel insights={group.runInsights} />
           ) : null}
 
+          {truncated && runHref ? (
+            <p className={styles.truncationNote}>
+              Na přehledu je {packagesWithItems.length} z {packageTotal}{" "}
+              packages (limit kvůli načítání).{" "}
+              <a
+                href={runHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.truncationLink}
+              >
+                Otevřít celý run se všemi packages
+              </a>
+              .
+            </p>
+          ) : null}
+
           {packagesWithItems.length > 0 ? (
             <div className={styles.packages}>
               {packagesWithItems.map((pkg, index) => (
@@ -104,7 +142,22 @@ export function ReviewRunSection({
             </div>
           ) : (
             <p className={styles.runEmpty}>
-              Žádný obsah k review v tomto runu.
+              {truncated && runHref ? (
+                <>
+                  Packages na přehledu nejsou načtené.{" "}
+                  <a
+                    href={runHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.truncationLink}
+                  >
+                    Otevřít celý run
+                  </a>
+                  .
+                </>
+              ) : (
+                "Žádný obsah k review v tomto runu."
+              )}
             </p>
           )}
         </div>

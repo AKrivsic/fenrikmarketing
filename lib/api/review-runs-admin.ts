@@ -223,6 +223,24 @@ export async function listReviewRunsForProject(
   return buildRunCards(supabase, (runRows ?? []) as ProductionRun[]);
 }
 
+/** Single production run card for the dedicated run review page. */
+export async function getReviewRunForProject(
+  projectId: string,
+  runId: string,
+): Promise<ReviewRunCard | null> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("production_runs")
+    .select("*")
+    .eq("project_id", projectId)
+    .eq("id", runId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+  const [card] = await buildRunCards(supabase, [data as ProductionRun]);
+  return card ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Part F — full run export. One JSON file with everything QA needs.
 // ---------------------------------------------------------------------------

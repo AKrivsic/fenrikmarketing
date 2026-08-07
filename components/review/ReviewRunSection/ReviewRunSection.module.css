@@ -11,13 +11,15 @@
 .header {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .toggle {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   padding: 0.25rem 0;
   border: none;
   background: none;
@@ -74,6 +76,38 @@
   font-weight: 600;
   color: #b42318;
   background-color: rgba(180, 35, 24, 0.12);
+}
+
+.openRun {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted, #f8fafc);
+}
+
+.openRun:hover {
+  text-decoration: underline;
+}
+
+.truncationNote {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding: 0.55rem 0.75rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted, #f8fafc);
+}
+
+.truncationLink {
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .body {
