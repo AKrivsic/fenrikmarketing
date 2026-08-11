@@ -39,7 +39,9 @@ export type RuntimeLogEvent =
   | "creative_rebuild_scene"
   | "creative_rebuild_prompt"
   | "creative_rebuild_completed"
-  | "creative_rebuild_failed";
+  | "creative_rebuild_failed"
+  | "manual_review_cancel_requested"
+  | "manual_review_cancel_completed";
 
 export interface RuntimeLogFields {
   event: RuntimeLogEvent;

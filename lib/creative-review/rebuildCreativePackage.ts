@@ -306,7 +306,7 @@ function rebuildPhoneScene(
 
   const prompt = composeRebuiltImagePrompt({
     sceneIndex,
-    intentDescription: reviewScene.intent.description,
+    intentDescription: reviewScene.intent.localized_edit,
     directorNotes: reviewScene.director_notes,
     presentationType: "PHONE",
     anchors,
@@ -332,31 +332,99 @@ function rebuildPhoneScene(
   };
 }
 
+/**
+ * Typed overlay rebuild policy (CHECKLIST / QUOTE / STATISTIC / CTA):
+ *
+ * These scenes are rendered from structured payloads (titles, quote text,
+ * statistic values, CTA copy). They have no AI image_prompt for Intent to
+ * rewrite. Changing payload fields from free-form Creative Intent would risk
+ * destroying validated overlay semantics.
+ *
+ * Therefore:
+ * - Payload is preserved (cloned) on Continue.
+ * - PHONE with image_prompt still rebuilds from Intent (see rebuildPhoneScene).
+ * - Editorial Intent + Director Notes are stamped onto presentation_generation
+ *   so edits are not silently discarded — they remain auditable, but do not
+ *   mutate typed payload pixels.
+ */
+export interface TypedSceneEditorialStamp {
+  scene_index: number;
+  scene_id: string;
+  presentation_type: string | null;
+  localized_intent: string;
+  director_notes: string;
+  reason:
+    | "typed_overlay_payload_preserved"
+    | "phone_asset_payload_preserved"
+    | "asset_binding_preserved";
+}
+
 function rebuildTypedScene(
   entry: PackageVisualSceneEntry,
   reviewScene: CreativeReviewScene,
   sceneIndex: number,
   anchors: CreativeRebuildAnchors,
   isOpeningStill: boolean,
-): { scene: PackageVisualSceneEntry; promptRebuilt: boolean; issues: ValidationIssue[] } {
+): {
+  scene: PackageVisualSceneEntry;
+  promptRebuilt: boolean;
+  issues: ValidationIssue[];
+  editorialStamp?: TypedSceneEditorialStamp;
+} {
   if (isPhoneVisualSceneEntry(entry)) {
-    return rebuildPhoneScene(
+    const rebuilt = rebuildPhoneScene(
       entry,
       reviewScene,
       sceneIndex,
       anchors,
       isOpeningStill,
     );
+    if (!rebuilt.promptRebuilt && entry.payload.asset_id?.trim()) {
+      return {
+        ...rebuilt,
+        editorialStamp: {
+          scene_index: sceneIndex,
+          scene_id: reviewScene.id,
+          presentation_type: "PHONE",
+          localized_intent: reviewScene.intent.localized_edit.trim(),
+          director_notes: reviewScene.director_notes.trim(),
+          reason: "phone_asset_payload_preserved",
+        },
+      };
+    }
+    return rebuilt;
   }
-  // CHECKLIST / QUOTE / STATISTIC / CTA — preserve payload semantics entirely.
-  void reviewScene;
   if (
     isChecklistVisualSceneEntry(entry) ||
     isQuoteVisualSceneEntry(entry) ||
     isStatisticVisualSceneEntry(entry) ||
     isCtaVisualSceneEntry(entry)
   ) {
-    return { scene: structuredClone(entry), promptRebuilt: false, issues: [] };
+    const type =
+      isChecklistVisualSceneEntry(entry)
+        ? "CHECKLIST"
+        : isQuoteVisualSceneEntry(entry)
+          ? "QUOTE"
+          : isStatisticVisualSceneEntry(entry)
+            ? "STATISTIC"
+            : "CTA";
+    runtimeLog("info", {
+      event: "creative_rebuild_scene",
+      detail: `scene=${sceneIndex} typed_overlay_preserved type=${type}`,
+    });
+    return {
+      scene: structuredClone(entry),
+      promptRebuilt: false,
+      issues: [],
+      editorialStamp: {
+        scene_index: sceneIndex,
+        scene_id: reviewScene.id,
+        presentation_type: type,
+        localized_intent: reviewScene.intent.localized_edit.trim(),
+        director_notes: reviewScene.director_notes.trim(),
+        reason: "typed_overlay_payload_preserved",
+      },
+    };
   }
   return {
     scene: structuredClone(entry),
@@ -452,6 +520,7 @@ export function rebuildCreativePackageForVideo(args: {
   let scenesRebuilt = 0;
   let promptsRebuilt = 0;
   let openingStillAssigned = false;
+  const typedEditorialStamps: TypedSceneEditorialStamp[] = [];
 
   const visualScenes = Array.isArray(pkg.visual_scenes)
     ? ([...pkg.visual_scenes] as PackageVisualSceneEntry[])
@@ -469,9 +538,9 @@ export function rebuildCreativePackageForVideo(args: {
         });
         continue;
       }
-      if (!reviewScene.intent.description.trim()) {
+      if (!reviewScene.intent.localized_edit.trim()) {
         issues.push({
-          path: `$.creative_review.scenes[${i}].intent.description`,
+          path: `$.creative_review.scenes[${i}].intent.localized_edit`,
           message: "Creative Intent is required for rebuild",
         });
         continue;
@@ -498,6 +567,9 @@ export function rebuildCreativePackageForVideo(args: {
         issues.push(...rebuilt.issues);
         nextScenes.push(rebuilt.scene);
         scenesRebuilt += 1;
+        if (rebuilt.editorialStamp) {
+          typedEditorialStamps.push(rebuilt.editorialStamp);
+        }
         if (rebuilt.promptRebuilt) {
           promptsRebuilt += 1;
           if (isOpeningStill) openingStillAssigned = true;
@@ -511,9 +583,18 @@ export function rebuildCreativePackageForVideo(args: {
       }
 
       if (entry.source === "asset") {
-        // Never convert assets into AI scenes.
+        // Never convert assets into AI scenes. Director notes → modify.
+        // Creative Intent remains editorial (assets have no image_prompt to rebuild).
         nextScenes.push(rebuildAssetScene(entry, reviewScene));
         scenesRebuilt += 1;
+        typedEditorialStamps.push({
+          scene_index: i,
+          scene_id: reviewScene.id,
+          presentation_type: reviewScene.intent.presentation_type,
+          localized_intent: reviewScene.intent.localized_edit.trim(),
+          director_notes: reviewScene.director_notes.trim(),
+          reason: "asset_binding_preserved",
+        });
         continue;
       }
 
@@ -521,7 +602,7 @@ export function rebuildCreativePackageForVideo(args: {
         const isOpeningStill = !openingStillAssigned;
         const prompt = composeRebuiltImagePrompt({
           sceneIndex: i,
-          intentDescription: reviewScene.intent.description,
+          intentDescription: reviewScene.intent.localized_edit,
           directorNotes: reviewScene.director_notes,
           presentationType: reviewScene.intent.presentation_type,
           anchors,
@@ -581,7 +662,7 @@ export function rebuildCreativePackageForVideo(args: {
       const isOpeningStill = i === 0;
       const prompt = composeRebuiltImagePrompt({
         sceneIndex: scene.index,
-        intentDescription: scene.intent.description,
+        intentDescription: scene.intent.localized_edit,
         directorNotes: scene.director_notes,
         presentationType: scene.intent.presentation_type,
         anchors,
@@ -668,6 +749,9 @@ export function rebuildCreativePackageForVideo(args: {
       prompts_rebuilt: promptsRebuilt,
       voiceover_aligned: true,
       opening_prepended: aligned.prepended,
+      typed_overlay_editorial: typedEditorialStamps,
+      typed_overlay_policy:
+        "CHECKLIST/QUOTE/STATISTIC/CTA payloads are preserved; Creative Intent is stamped for audit because those overlays have no image_prompt to rebuild without destroying validated semantics.",
     },
   };
 

@@ -3,12 +3,15 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import {
   approveCreativeReviewPackageAction,
-  confirmCreativeReviewTranslationAction,
   saveCreativeReviewPackageAction,
-  translateCreativeReviewPackageAction,
   unapproveCreativeReviewPackageAction,
 } from "@/app/projects/[id]/creative-review/actions";
 import type { CreativeReviewPackageView } from "@/lib/api/creative-review-admin";
+import {
+  computeCreativeReviewDurationEstimate,
+  formatDurationSeconds,
+} from "@/lib/creative-review/duration";
+import { creativeReviewNeedsEnglishPreviewUpdate } from "@/lib/creative-review/lifecycle";
 import type { CreativeReview, CreativeReviewScene } from "@/lib/creative-review/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import styles from "./CreativeReviewPackagePanel.module.css";
@@ -19,18 +22,25 @@ interface CreativeReviewPackagePanelProps {
   pkg: CreativeReviewPackageView;
   onDirtyChange: (packageId: string, dirty: boolean) => void;
   onSaved: (pkg: CreativeReviewPackageView) => void;
+  /** When true, all edits and workflow actions are disabled. */
+  readOnly?: boolean;
+  /** Optional explanation shown when readOnly. */
+  readOnlyMessage?: string;
 }
 
 interface SceneDraft {
   id: string;
-  intentDescription: string;
+  intentLocalizedEdit: string;
   directorNotes: string;
 }
 
 function formatTimestamp(value: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleString();
+  return date.toLocaleString("en-GB", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 }
 
 function historyActionLabel(event: string): string {
@@ -40,7 +50,7 @@ function historyActionLabel(event: string): string {
     case "save":
       return "Save";
     case "translate":
-      return "Translate";
+      return "Automatic translation";
     case "confirm_translation":
       return "Confirm translation";
     case "approve":
@@ -51,6 +61,8 @@ function historyActionLabel(event: string): string {
       return "Continue Generation";
     case "creative_rebuild_completed":
       return "Creative rebuild";
+    case "manual_review_cancelled":
+      return "Manual Review cancelled";
     default:
       return event;
   }
@@ -73,7 +85,7 @@ function visualSourceLabel(source: string): string {
 function buildSceneDrafts(review: CreativeReview): SceneDraft[] {
   return review.scenes.map((scene) => ({
     id: scene.id,
-    intentDescription: scene.intent.description,
+    intentLocalizedEdit: scene.intent.localized_edit,
     directorNotes: scene.director_notes,
   }));
 }
@@ -89,10 +101,19 @@ function draftsEqual(
     const draft = scenes[i]!;
     const scene = review.scenes[i]!;
     if (draft.id !== scene.id) return false;
-    if (draft.intentDescription !== scene.intent.description) return false;
+    if (draft.intentLocalizedEdit !== scene.intent.localized_edit) return false;
     if (draft.directorNotes !== scene.director_notes) return false;
   }
   return true;
+}
+
+function isTypedOverlay(scene: CreativeReviewScene): boolean {
+  return (
+    scene.intent.visual_source === "typed_overlay" ||
+    ["CHECKLIST", "QUOTE", "STATISTIC", "CTA"].includes(
+      scene.intent.presentation_type ?? "",
+    )
+  );
 }
 
 export function CreativeReviewPackagePanel({
@@ -101,9 +122,12 @@ export function CreativeReviewPackagePanel({
   pkg,
   onDirtyChange,
   onSaved,
+  readOnly = false,
+  readOnlyMessage = "This package is read-only for the current run status.",
 }: CreativeReviewPackagePanelProps) {
   const review = pkg.creativeReview;
-  const editable = pkg.loadState === "ok" && review !== null;
+  const hasReview = pkg.loadState === "ok" && review !== null;
+  const editable = hasReview && !readOnly;
 
   const [open, setOpen] = useState(false);
   const [voiceoverEdit, setVoiceoverEdit] = useState(
@@ -132,9 +156,9 @@ export function CreativeReviewPackagePanel({
   }, [pkg]);
 
   const dirty = useMemo(() => {
-    if (!review) return false;
+    if (!review || readOnly) return false;
     return !draftsEqual(voiceoverEdit, sceneDrafts, review);
-  }, [review, voiceoverEdit, sceneDrafts]);
+  }, [review, voiceoverEdit, sceneDrafts, readOnly]);
 
   useEffect(() => {
     onDirtyChange(pkg.packageId, dirty);
@@ -146,23 +170,34 @@ export function CreativeReviewPackagePanel({
       : `Package #${pkg.packageIndex + 1}`;
 
   const voiceoverStatusLabel =
-    pkg.voiceoverStatus === "edited" ? "Upraveno" : "Bez úprav";
+    pkg.voiceoverStatus === "edited" ? "Edited" : "Unchanged";
 
   const validationLabel =
     pkg.loadState === "ok" && serverIssues.length === 0
       ? "OK"
       : pkg.loadState === "missing"
-        ? "Chybí draft"
-        : "Neplatné";
+        ? "Missing draft"
+        : "Invalid";
 
   const packageStatus = review?.status ?? "draft";
   const englishConfirmed = review?.voiceover.english_confirmed ?? false;
   const englishPreview = review?.voiceover.english_preview ?? null;
+  const englishOutdated = review
+    ? creativeReviewNeedsEnglishPreviewUpdate(review)
+    : true;
   const canRunWorkflow = editable && !dirty && !isPending;
+
+  const duration = useMemo(() => {
+    if (!review) return null;
+    return computeCreativeReviewDurationEstimate({
+      originalAi: review.voiceover.original_ai,
+      localizedEdit: voiceoverEdit,
+    });
+  }, [review, voiceoverEdit]);
 
   function updateScene(
     sceneId: string,
-    patch: Partial<Pick<SceneDraft, "intentDescription" | "directorNotes">>,
+    patch: Partial<Pick<SceneDraft, "intentLocalizedEdit" | "directorNotes">>,
   ) {
     setSceneDrafts((prev) =>
       prev.map((scene) =>
@@ -207,40 +242,10 @@ export function CreativeReviewPackagePanel({
           voiceoverLocalizedEdit: voiceoverEdit,
           scenes: sceneDrafts.map((scene) => ({
             id: scene.id,
-            intentDescription: scene.intentDescription,
+            intentLocalizedEdit: scene.intentLocalizedEdit,
             directorNotes: scene.directorNotes,
           })),
         },
-      );
-      handleMutationResult(result);
-    });
-  }
-
-  function handleTranslate() {
-    if (!review || !canRunWorkflow) return;
-    setError(null);
-    setServerIssues([]);
-    startTransition(async () => {
-      const result = await translateCreativeReviewPackageAction(
-        projectId,
-        runId,
-        pkg.packageId,
-        review.version,
-      );
-      handleMutationResult(result);
-    });
-  }
-
-  function handleConfirmTranslation() {
-    if (!review || !canRunWorkflow) return;
-    setError(null);
-    setServerIssues([]);
-    startTransition(async () => {
-      const result = await confirmCreativeReviewTranslationAction(
-        projectId,
-        runId,
-        pkg.packageId,
-        review.version,
       );
       handleMutationResult(result);
     });
@@ -300,16 +305,16 @@ export function CreativeReviewPackagePanel({
         </span>
         <span
           className={styles.pill}
-          data-tone={englishConfirmed ? "ok" : "waiting"}
+          data-tone={englishOutdated ? "waiting" : englishConfirmed ? "ok" : "waiting"}
         >
-          EN: {englishConfirmed ? "Confirmed" : "Pending"}
+          EN: {englishOutdated ? "Outdated" : englishConfirmed ? "Current" : "Pending"}
         </span>
         <span className={styles.pill} data-tone={pkg.voiceoverStatus}>
           VO: {voiceoverStatusLabel}
         </span>
-        <span className={styles.pill}>Scény: {pkg.sceneCount}</span>
+        <span className={styles.pill}>Scenes: {pkg.sceneCount}</span>
         <span className={styles.pill}>
-          v{review?.version ?? "—"} · {formatTimestamp(pkg.updatedAt)}
+          Version {review?.version ?? "—"} · {formatTimestamp(pkg.updatedAt)}
         </span>
         <span
           className={styles.pill}
@@ -322,12 +327,12 @@ export function CreativeReviewPackagePanel({
       </summary>
 
       <div className={styles.body}>
-        {!editable ? (
+        {!hasReview ? (
           <div className={styles.blocked} role="alert">
             <p className={styles.error}>
               {pkg.loadState === "missing"
-                ? "Tento balíček nemá creative_review draft — nelze editovat."
-                : "Uložený creative_review je neplatný — nelze editovat."}
+                ? "This package has no creative_review draft — editing is disabled."
+                : "Stored creative_review is invalid — editing is disabled."}
             </p>
             {serverIssues.length > 0 ? (
               <ul className={styles.issueList}>
@@ -341,16 +346,23 @@ export function CreativeReviewPackagePanel({
           </div>
         ) : (
           <>
+            {readOnly ? (
+              <p className={styles.muted} role="status">
+                {readOnlyMessage}
+              </p>
+            ) : null}
             <section className={styles.section} aria-labelledby={`${pkg.packageId}-status`}>
               <h3 id={`${pkg.packageId}-status`} className={styles.sectionTitle}>
-                Package Status
+                Status
               </h3>
               <p className={styles.muted}>
                 {statusLabel(packageStatus)}
-                {review!.approved ? " · schváleno" : ""}
-                {englishConfirmed
-                  ? " · anglický překlad potvrzen"
-                  : " · čeká na potvrzení překladu"}
+                {review!.approved ? " · approved" : ""}
+                {englishOutdated
+                  ? " · English preview outdated — save to refresh"
+                  : englishConfirmed
+                    ? " · English preview current"
+                    : " · waiting for English preview"}
               </p>
             </section>
 
@@ -358,18 +370,32 @@ export function CreativeReviewPackagePanel({
               <h3 id={`${pkg.packageId}-vo`} className={styles.sectionTitle}>
                 Voiceover
               </h3>
+              {duration ? (
+                <p className={styles.muted} role="note">
+                  Original: {formatDurationSeconds(duration.originalSeconds)}
+                  {" · "}
+                  Estimated: {formatDurationSeconds(duration.estimatedSeconds)}
+                  {" · "}
+                  Difference:{" "}
+                  {duration.differenceSeconds >= 0 ? "+" : ""}
+                  {formatDurationSeconds(duration.differenceSeconds)}
+                  {Math.abs(duration.differenceSeconds) >= 2
+                    ? " (warning: large change)"
+                    : ""}
+                </p>
+              ) : null}
               <label className={styles.field}>
-                <span className={styles.label}>Original AI</span>
+                <span className={styles.label}>Original</span>
                 <textarea
                   className={styles.textarea}
                   value={review!.voiceover.original_ai}
                   readOnly
-                  rows={4}
+                  rows={3}
                   aria-readonly="true"
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.label}>Localized edit</span>
+                <span className={styles.label}>Localized</span>
                 <textarea
                   className={styles.textarea}
                   value={voiceoverEdit}
@@ -377,19 +403,24 @@ export function CreativeReviewPackagePanel({
                     setVoiceoverEdit(e.target.value);
                     setSavedFlash(false);
                   }}
-                  rows={5}
-                  disabled={isPending || review!.approved}
+                  rows={4}
+                  disabled={isPending || review!.approved || readOnly}
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.label}>English Preview</span>
+                <span className={styles.label}>
+                  English Preview
+                  {review!.voiceover.english_preview_outdated
+                    ? " (outdated)"
+                    : ""}
+                </span>
                 <textarea
                   className={styles.textarea}
                   value={englishPreview ?? ""}
                   readOnly
-                  rows={4}
+                  rows={3}
                   aria-readonly="true"
-                  placeholder="Zatím bez překladu — stiskněte Confirm Translation."
+                  placeholder="English preview is created automatically during generation and refreshed on Save."
                 />
               </label>
               <label className={styles.field}>
@@ -398,33 +429,10 @@ export function CreativeReviewPackagePanel({
                   className={styles.textarea}
                   value={review!.voiceover.final_approved}
                   readOnly
-                  rows={4}
+                  rows={3}
                   aria-readonly="true"
                 />
               </label>
-              <div className={styles.actions}>
-                <button
-                  type="button"
-                  className={styles.secondary}
-                  onClick={handleTranslate}
-                  disabled={!canRunWorkflow || review!.approved}
-                >
-                  {isPending ? "Překládám…" : "Confirm Translation"}
-                </button>
-                <button
-                  type="button"
-                  className={styles.secondary}
-                  onClick={handleConfirmTranslation}
-                  disabled={
-                    !canRunWorkflow ||
-                    review!.approved ||
-                    !englishPreview ||
-                    englishConfirmed
-                  }
-                >
-                  Confirm Translation Result
-                </button>
-              </div>
             </section>
 
             <section
@@ -432,10 +440,10 @@ export function CreativeReviewPackagePanel({
               aria-labelledby={`${pkg.packageId}-scenes`}
             >
               <h3 id={`${pkg.packageId}-scenes`} className={styles.sectionTitle}>
-                Scenes
+                Creative Intent
               </h3>
               {review!.scenes.length === 0 ? (
-                <p className={styles.muted}>Tento balíček nemá žádné scény.</p>
+                <p className={styles.muted}>This package has no scenes.</p>
               ) : (
                 <ul className={styles.sceneList}>
                   {review!.scenes.map((scene: CreativeReviewScene, index) => {
@@ -459,19 +467,53 @@ export function CreativeReviewPackagePanel({
                                 : ""}
                             </span>
                           ) : null}
+                          {scene.intent.english_preview_outdated ? (
+                            <span className={styles.metaChip}>EN outdated</span>
+                          ) : null}
                         </header>
+                        {isTypedOverlay(scene) ? (
+                          <p className={styles.muted}>
+                            Typed overlay — Creative Intent is editorial. Structured
+                            payload is preserved on Continue Generation.
+                          </p>
+                        ) : null}
                         <label className={styles.field}>
-                          <span className={styles.label}>Creative Intent</span>
+                          <span className={styles.label}>Original</span>
                           <textarea
                             className={styles.textarea}
-                            value={draft.intentDescription}
+                            value={scene.intent.original}
+                            readOnly
+                            rows={2}
+                            aria-readonly="true"
+                          />
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>Localized</span>
+                          <textarea
+                            className={styles.textarea}
+                            value={draft.intentLocalizedEdit}
                             onChange={(e) =>
                               updateScene(scene.id, {
-                                intentDescription: e.target.value,
+                                intentLocalizedEdit: e.target.value,
                               })
                             }
-                            rows={3}
-                            disabled={isPending || review!.approved}
+                            rows={2}
+                            disabled={isPending || review!.approved || readOnly}
+                          />
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>
+                            English Preview
+                            {scene.intent.english_preview_outdated
+                              ? " (outdated)"
+                              : ""}
+                          </span>
+                          <textarea
+                            className={styles.textarea}
+                            value={scene.intent.english_preview ?? ""}
+                            readOnly
+                            rows={2}
+                            aria-readonly="true"
                           />
                         </label>
                         <label className={styles.field}>
@@ -485,7 +527,7 @@ export function CreativeReviewPackagePanel({
                               })
                             }
                             rows={2}
-                            disabled={isPending || review!.approved}
+                            disabled={isPending || review!.approved || readOnly}
                           />
                         </label>
                       </li>
@@ -535,7 +577,13 @@ export function CreativeReviewPackagePanel({
 
             {dirty ? (
               <p className={styles.muted} role="status">
-                Neuložené změny — nejdřív uložte, než spustíte překlad nebo schválení.
+                Unsaved changes — Save refreshes English Preview automatically.
+              </p>
+            ) : null}
+
+            {englishOutdated && !dirty ? (
+              <p className={styles.muted} role="status">
+                English preview is outdated — save Localized text to refresh translation.
               </p>
             ) : null}
 
@@ -557,7 +605,7 @@ export function CreativeReviewPackagePanel({
 
             {savedFlash && !dirty ? (
               <p className={styles.success} role="status">
-                Uloženo.
+                Saved.
               </p>
             ) : null}
 
@@ -566,9 +614,9 @@ export function CreativeReviewPackagePanel({
                 type="button"
                 className={styles.save}
                 onClick={handleSave}
-                disabled={isPending || !dirty || review!.approved}
+                disabled={isPending || !dirty || review!.approved || readOnly}
               >
-                {isPending ? "Ukládám…" : "Uložit"}
+                {isPending ? "Saving…" : "Save"}
               </button>
               <button
                 type="button"
@@ -576,14 +624,14 @@ export function CreativeReviewPackagePanel({
                 onClick={handleReset}
                 disabled={isPending || !dirty}
               >
-                Zahodit změny
+                Discard
               </button>
               {!review!.approved ? (
                 <button
                   type="button"
                   className={styles.approve}
                   onClick={handleApprove}
-                  disabled={!canRunWorkflow}
+                  disabled={!canRunWorkflow || englishOutdated}
                 >
                   Approve Package
                 </button>

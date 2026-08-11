@@ -1,3 +1,3 @@
 export default function CreativeReviewLoading() {
-  return <p>Načítám Creative Review…</p>;
+  return <p>Loading Creative Review…</p>;
 }

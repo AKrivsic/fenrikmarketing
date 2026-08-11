@@ -14,7 +14,6 @@ import {
 import { seedCreativeReviewFromPackage } from "../lib/creative-review/seed";
 import {
   commitCreativeReviewApprove,
-  commitCreativeReviewConfirmTranslation,
   commitCreativeReviewSave,
   commitCreativeReviewTranslate,
 } from "../lib/creative-review/mutations";
@@ -90,8 +89,8 @@ function approveWithEdits(args: {
       voiceoverLocalizedEdit: args.localized,
       scenes: review.scenes.map((scene, index) => ({
         id: scene.id,
-        intentDescription:
-          args.sceneIntents?.[index] ?? scene.intent.description,
+        intentLocalizedEdit:
+          args.sceneIntents?.[index] ?? scene.intent.localized_edit,
         directorNotes: args.directorNotes?.[index] ?? scene.director_notes,
       })),
     },
@@ -100,26 +99,32 @@ function approveWithEdits(args: {
   });
   assert.equal(saved.ok, true);
   if (!saved.ok) throw new Error("save");
+  const voiceover = {
+    ...saved.review.voiceover,
+    english_preview: "Approved English voiceover.",
+    english_preview_outdated: false,
+  };
+  const scenes = saved.review.scenes.map((scene, index) => ({
+    ...scene,
+    intent: {
+      ...scene.intent,
+      english_preview: `Scene ${index + 1} EN`,
+      english_preview_outdated: false,
+    },
+  }));
   const translated = commitCreativeReviewTranslate({
     current: saved.review,
     expectedVersion: saved.review.version,
-    englishPreview: "Approved English voiceover.",
+    voiceover,
+    scenes,
     actor: ACTOR,
     timestamp: "2026-08-12T09:02:00.000Z",
   });
   assert.equal(translated.ok, true);
   if (!translated.ok) throw new Error("translate");
-  const confirmed = commitCreativeReviewConfirmTranslation({
+  const approved = commitCreativeReviewApprove({
     current: translated.review,
     expectedVersion: translated.review.version,
-    actor: ACTOR,
-    timestamp: "2026-08-12T09:03:00.000Z",
-  });
-  assert.equal(confirmed.ok, true);
-  if (!confirmed.ok) throw new Error("confirm");
-  const approved = commitCreativeReviewApprove({
-    current: confirmed.review,
-    expectedVersion: confirmed.review.version,
     actor: ACTOR,
     timestamp: "2026-08-12T09:04:00.000Z",
   });

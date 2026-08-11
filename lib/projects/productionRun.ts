@@ -13,6 +13,11 @@ import {
   parseGenerationMode,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
+import {
+  DEFAULT_EDITOR_LANGUAGE,
+  parseEditorLanguage,
+  type EditorLanguageCode,
+} from "@/lib/admin/editorLanguage";
 
 // ---------------------------------------------------------------------------
 // Content Production V3 — Package Based Model (pure planning model, no IO).
@@ -172,6 +177,11 @@ export interface ProductionConfig {
   /** Creative Engine mode for packages in this run. Defaults to production. */
   generationMode?: GenerationMode;
   /**
+   * Manual Review only — admin Editor Language stamped at run start.
+   * Used when seeding Creative Review translations. Not project language.
+   */
+  editorLanguage?: EditorLanguageCode;
+  /**
    * Packages in this run where asset workflow is enabled for later manual use.
    * Does not force asset_usage during generation (0 = unchanged).
    */
@@ -289,12 +299,19 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
     packageCount,
   );
 
+  const editorLanguageRaw = record.editor_language ?? record.editorLanguage;
+  const editorLanguage =
+    editorLanguageRaw === undefined
+      ? undefined
+      : parseEditorLanguage(editorLanguageRaw, DEFAULT_EDITOR_LANGUAGE);
+
   return {
     packageCount,
     platforms,
     multipliers,
     ...(platformContentTypes ? { platformContentTypes } : {}),
     ...(generationMode !== DEFAULT_GENERATION_MODE ? { generationMode } : {}),
+    ...(editorLanguage ? { editorLanguage } : {}),
     ...(packagesWithAssetSupport > 0 ? { packagesWithAssetSupport } : {}),
   };
 }

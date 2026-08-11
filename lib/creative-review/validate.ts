@@ -2,7 +2,7 @@
  * Creative Review validation.
  *
  * Invalid structures fail early — never silently repair malformed data.
- * Legacy Phase 2 packages are normalized by read helpers before validation.
+ * Legacy packages are normalized by read helpers before validation.
  */
 
 import {
@@ -55,7 +55,10 @@ const sceneCreativeIntentValidator: Validator<SceneCreativeIntent> = (
     ];
   }
   return vObject({
-    description: vNonEmptyString(),
+    original: vNonEmptyString(),
+    localized_edit: vNonEmptyString(),
+    english_preview: nullableString,
+    english_preview_outdated: vBoolean(),
     presentation_type: nullableString,
     visual_source: vEnum(SCENE_INTENT_VISUAL_SOURCES),
     asset_id: nullableString,
@@ -75,10 +78,11 @@ const creativeReviewVoiceoverValidator: Validator<CreativeReviewVoiceover> =
     original_ai: vNonEmptyString(),
     localized_edit: vNonEmptyString(),
     english_preview: nullableString,
+    english_preview_outdated: vBoolean(),
     english_confirmed: vBoolean(),
     translation_confirmed_at: nullableString,
     translation_confirmed_by: nullableString,
-    final_approved: vNonEmptyString(),
+    final_approved: vString(),
   }) as Validator<CreativeReviewVoiceover>;
 
 const creativeReviewActorValidator = vObject({

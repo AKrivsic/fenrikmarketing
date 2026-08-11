@@ -20,6 +20,7 @@ export const CREATIVE_REVIEW_HISTORY_EVENTS = [
   "unapprove",
   "continue_generation_started",
   "creative_rebuild_completed",
+  "manual_review_cancelled",
 ] as const;
 export type CreativeReviewHistoryEvent =
   (typeof CREATIVE_REVIEW_HISTORY_EVENTS)[number];
@@ -35,19 +36,32 @@ export interface CreativeReviewActor {
 }
 
 /**
- * Voiceover draft lanes for Manual Review, including the English translation
- * verification workflow (Phase 4).
+ * Voiceover draft lanes for Manual Review.
+ *
+ * English preview is produced automatically at package generation (Editor
+ * Language → English), then refreshed automatically on Save after Localized edits.
  */
 export interface CreativeReviewVoiceover {
   original_ai: string;
   localized_edit: string;
-  /** English translation of localized_edit — null until Translate is requested. */
+  /** English translation of localized_edit — null when invalidated / missing. */
   english_preview: string | null;
-  /** True only after the editor explicitly confirms the English preview. */
+  /**
+   * True when localized_edit changed after the last English translation.
+   * Stale previews must not remain approved.
+   */
+  english_preview_outdated: boolean;
+  /**
+   * True when English preview is present and current (auto at seed, or after
+   * automatic Save re-translation). Cleared when localized_edit changes.
+   */
   english_confirmed: boolean;
   translation_confirmed_at: string | null;
   translation_confirmed_by: string | null;
-  /** Becomes localized_edit when translation is confirmed. */
+  /**
+   * Becomes localized_edit when English preview is current.
+   * Cleared (empty) when Localized changes — never keep a stale final_approved.
+   */
   final_approved: string;
 }
 
@@ -56,6 +70,8 @@ export interface CreativeReviewVoiceover {
  *
  * Distinct from Image Prompt (a render instruction). This object must never
  * carry an image_prompt field; render prompts live on visual_scenes / video jobs.
+ *
+ * Editors always edit localized_edit — never English.
  */
 export const SCENE_INTENT_VISUAL_SOURCES = [
   "generated",
@@ -66,8 +82,14 @@ export type SceneIntentVisualSource =
   (typeof SCENE_INTENT_VISUAL_SOURCES)[number];
 
 export interface SceneCreativeIntent {
-  /** Human-readable creative intent for this scene. */
-  description: string;
+  /** Immutable AI creative description (human language — not a prompt). */
+  original: string;
+  /** Editor-editable localized creative intent. */
+  localized_edit: string;
+  /** English translation of localized_edit for verification. */
+  english_preview: string | null;
+  /** True when localized_edit changed after the last English translation. */
+  english_preview_outdated: boolean;
   /**
    * Presentation type when known (IMAGE, CHECKLIST, PHONE, QUOTE, STATISTIC,
    * CTA). null when the source scene does not declare a type.

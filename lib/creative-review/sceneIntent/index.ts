@@ -1,11 +1,17 @@
 /**
- * Scene Creative Intent seeding boundary.
+ * Scene Creative Intent seeding / generation boundary.
  *
- * Public entry: seedSceneIntentsForCreativeReview
- * Implementation today: seedFromPackageScenes (replaceable adapter)
+ * Public entry: generateSceneCreativeIntents (AI) + seed helpers.
  */
 export {
   seedSceneIntentsForCreativeReview,
   seedSceneIntentsFromPackage,
+  collectSceneIntentConversionSources,
+  collectSceneIntentConversionSourcesFromPackage,
   type SceneIntentSeedInput,
+  type SceneIntentConversionSource,
 } from "@/lib/creative-review/sceneIntent/seedFromPackageScenes";
+
+export {
+  generateSceneCreativeIntents,
+} from "@/lib/creative-review/sceneIntent/generateSceneIntents";

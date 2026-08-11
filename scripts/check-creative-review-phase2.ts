@@ -90,8 +90,9 @@ check("seeds fully initialized draft with voiceover lanes", () => {
     "This is the AI voiceover for the package.",
   );
   assert.equal(review.voiceover.localized_edit, review.voiceover.original_ai);
-  assert.equal(review.voiceover.final_approved, review.voiceover.original_ai);
+  assert.equal(review.voiceover.final_approved, "");
   assert.equal(review.voiceover.english_preview, null);
+  assert.equal(review.voiceover.english_preview_outdated, true);
   assert.equal(review.voiceover.english_confirmed, false);
   assert.equal(review.voiceover.translation_confirmed_at, null);
   assert.equal(review.voiceover.translation_confirmed_by, null);
@@ -107,10 +108,12 @@ check("seeds scenes with Scene Intent + empty director_notes", () => {
   assert.equal(review.scenes[0]!.director_notes, "");
   assert.equal(review.scenes[0]!.intent.visual_source, "generated");
   assert.equal(review.scenes[0]!.intent.presentation_type, "IMAGE");
-  assert.match(
-    review.scenes[0]!.intent.description,
-    /founder at a laptop/i,
+  assert.equal(review.scenes[0]!.intent.original, "Creative intent pending.");
+  assert.equal(
+    review.scenes[0]!.intent.localized_edit,
+    "Creative intent pending.",
   );
+  assert.equal(review.scenes[0]!.intent.english_preview_outdated, true);
   assert.equal(review.scenes[1]!.intent.visual_source, "asset");
   assert.equal(
     review.scenes[1]!.intent.asset_id,
@@ -119,7 +122,10 @@ check("seeds scenes with Scene Intent + empty director_notes", () => {
   assert.equal(review.scenes[1]!.intent.used_as, "product_ui");
   assert.equal(review.scenes[2]!.intent.presentation_type, "QUOTE");
   assert.equal(review.scenes[2]!.intent.visual_source, "typed_overlay");
-  assert.match(review.scenes[2]!.intent.description, /We shipped faster/);
+  assert.equal(
+    review.scenes[2]!.intent.localized_edit,
+    "Creative intent pending.",
+  );
 });
 
 check("Scene Intent never stores image_prompt", () => {
@@ -167,8 +173,8 @@ check("falls back to image_prompts when visual_scenes absent", () => {
     imagePrompts: ["First still", "Second still"],
   });
   assert.equal(scenes.length, 2);
-  assert.equal(scenes[0]!.intent.description, "First still");
-  assert.equal(scenes[1]!.intent.description, "Second still");
+  assert.equal(scenes[0]!.intent.localized_edit, "Creative intent pending.");
+  assert.equal(scenes[1]!.intent.localized_edit, "Creative intent pending.");
   assert.equal(scenes[0]!.director_notes, "");
 });
 
@@ -360,7 +366,7 @@ check("generateContentPackage seeds creative_review for manual_review only", () 
     join(root, "lib/ai/workflows/generateContentPackage.ts"),
     "utf8",
   );
-  assert.match(src, /seedCreativeReviewFromPackage/);
+  assert.match(src, /buildManualReviewCreativeReview/);
   assert.match(src, /defersVideoUntilCreativeReview\(generationMode\)/);
   assert.match(src, /creativeReview\s*\?\s*\{\s*creativeReview\s*\}/);
 });

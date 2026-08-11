@@ -22,7 +22,6 @@ import type {
 } from "@/lib/creative-review/types";
 import {
   commitCreativeReviewApprove,
-  commitCreativeReviewConfirmTranslation,
   commitCreativeReviewSave,
   commitCreativeReviewTranslate,
   commitCreativeReviewUnapprove,
@@ -32,8 +31,16 @@ import {
   computeCreativeReviewRunProgress,
   type CreativeReviewRunProgress,
 } from "@/lib/creative-review/progress";
-import { translateVoiceoverToEnglish } from "@/lib/creative-review/translateVoiceover";
+import {
+  creativeReviewNeedsEnglishPreviewUpdate,
+} from "@/lib/creative-review/lifecycle";
+import { translateCreativeReviewEnglishPreviews } from "@/lib/creative-review/translateVoiceover";
 import type { TextProvider } from "@/lib/ai/types";
+import {
+  DEFAULT_EDITOR_LANGUAGE,
+  parseEditorLanguage,
+  type EditorLanguageCode,
+} from "@/lib/admin/editorLanguage";
 
 export type CreativeReviewVoiceoverStatus = "unchanged" | "edited";
 
@@ -58,6 +65,8 @@ export interface CreativeReviewRunView {
   id: string;
   status: ProductionRunStatus;
   generationMode: GenerationMode;
+  /** Admin Editor Language stamped on the Manual Review run. */
+  editorLanguage: EditorLanguageCode;
   packageCount: number;
   generatedTotal: number;
   failedTotal: number;
@@ -91,7 +100,8 @@ export type CreativeReviewWriteCode =
   | "validation_failed"
   | "missing_review"
   | "version_conflict"
-  | "translation_failed";
+  | "translation_failed"
+  | "immutable_status";
 
 export type SaveCreativeReviewResult =
   | { ok: true; package: CreativeReviewPackageView }
@@ -114,6 +124,30 @@ function generationModeFromRequestedConfig(raw: unknown): GenerationMode {
   return parseGenerationMode(
     config?.generation_mode ?? config?.generationMode,
   );
+}
+
+function editorLanguageFromRequestedConfig(raw: unknown): EditorLanguageCode {
+  const stored = asRecord(raw);
+  const config = asRecord(stored?.config);
+  return parseEditorLanguage(
+    config?.editor_language ?? config?.editorLanguage,
+    DEFAULT_EDITOR_LANGUAGE,
+  );
+}
+
+/** Mutations are only allowed while waiting for creative review. */
+function isCreativeReviewMutableStatus(status: ProductionRunStatus): boolean {
+  return status === "waiting_for_creative_review";
+}
+
+function immutableStatusResult(
+  status: ProductionRunStatus,
+): Extract<SaveCreativeReviewResult, { ok: false }> {
+  return {
+    ok: false,
+    error: `Creative Review is read-only when the run status is "${status}".`,
+    code: "immutable_status",
+  };
 }
 
 function voiceoverStatusFromReview(
@@ -232,7 +266,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Chybí identifikátor projektu, běhu nebo balíčku.",
+        error: "Missing project, run, or package id.",
         code: "invalid_input",
       },
     };
@@ -242,7 +276,7 @@ async function loadMutablePackageContext(args: {
 
   const { data: run, error: runErr } = await supabase
     .from("production_runs")
-    .select("id, project_id, requested_config")
+    .select("id, project_id, status, requested_config")
     .eq("id", runId)
     .eq("project_id", projectId)
     .maybeSingle();
@@ -252,7 +286,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Production run nenalezen.",
+        error: "Production run not found.",
         code: "not_found",
       },
     };
@@ -265,9 +299,17 @@ async function loadMutablePackageContext(args: {
       result: {
         ok: false,
         error:
-          "Creative Review je dostupné pouze pro běhy ve režimu Manual Review.",
+          "Creative Review is available only for Manual Review runs.",
         code: "forbidden_mode",
       },
+    };
+  }
+
+  const runStatus = run.status as ProductionRunStatus;
+  if (!isCreativeReviewMutableStatus(runStatus)) {
+    return {
+      ok: false,
+      result: immutableStatusResult(runStatus),
     };
   }
 
@@ -284,7 +326,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Balíček nepatří k tomuto Manual Review běhu.",
+        error: "Package does not belong to this Manual Review run.",
         code: "not_found",
       },
     };
@@ -302,7 +344,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Balíček nenalezen.",
+        error: "Package not found.",
         code: "not_found",
       },
     };
@@ -314,7 +356,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Balíček nemá creative_review draft.",
+        error: "Package has no creative_review draft.",
         code: "missing_review",
         issues: [
           {
@@ -330,7 +372,7 @@ async function loadMutablePackageContext(args: {
       ok: false,
       result: {
         ok: false,
-        error: "Uložený creative_review je neplatný.",
+        error: "Stored creative_review is invalid.",
         code: "validation_failed",
         issues: read.issues,
       },
@@ -391,7 +433,7 @@ export async function loadCreativeReviewPage(args: {
   if (!projectId || !runId) {
     return {
       ok: false,
-      error: "Chybí identifikátor projektu nebo běhu.",
+      error: "Missing project or run id.",
       code: "invalid_input",
     };
   }
@@ -410,7 +452,7 @@ export async function loadCreativeReviewPage(args: {
   if (!run) {
     return {
       ok: false,
-      error: "Production run nenalezen.",
+      error: "Production run not found.",
       code: "not_found",
     };
   }
@@ -420,7 +462,7 @@ export async function loadCreativeReviewPage(args: {
     return {
       ok: false,
       error:
-        "Creative Review je dostupné pouze pro běhy ve režimu Manual Review.",
+        "Creative Review is available only for Manual Review runs.",
       code: "forbidden_mode",
     };
   }
@@ -483,6 +525,7 @@ export async function loadCreativeReviewPage(args: {
         id: run.id as string,
         status: run.status as ProductionRunStatus,
         generationMode,
+        editorLanguage: editorLanguageFromRequestedConfig(run.requested_config),
         packageCount: (run.package_count as number) ?? views.length,
         generatedTotal: (run.generated_total as number) ?? 0,
         failedTotal: (run.failed_total as number) ?? 0,
@@ -503,93 +546,63 @@ export async function saveCreativeReviewPackage(args: {
   edits: CreativeReviewPackageEdits;
   actor: CreativeReviewActor;
   now?: () => Date;
-}): Promise<SaveCreativeReviewResult> {
-  const loaded = await loadMutablePackageContext(args);
-  if (!loaded.ok) return loaded.result;
-
-  const mutation = commitCreativeReviewSave({
-    current: loaded.review,
-    expectedVersion: args.expectedVersion,
-    edits: args.edits,
-    actor: args.actor,
-    timestamp: (args.now ?? (() => new Date()))().toISOString(),
-  });
-  if (!mutation.ok) {
-    return mutationToWriteResult(mutation)!;
-  }
-
-  const view = await persistCreativeReview({
-    projectId: args.projectId,
-    packageId: args.packageId,
-    packageIndex: loaded.packageIndex,
-    brief: loaded.brief,
-    review: mutation.review,
-  });
-  return { ok: true, package: view };
-}
-
-export async function translateCreativeReviewPackage(args: {
-  projectId: string;
-  runId: string;
-  packageId: string;
-  expectedVersion: number;
-  actor: CreativeReviewActor;
-  now?: () => Date;
   textProvider?: TextProvider;
 }): Promise<SaveCreativeReviewResult> {
   const loaded = await loadMutablePackageContext(args);
   if (!loaded.ok) return loaded.result;
 
-  if (loaded.review.version !== args.expectedVersion) {
-    return {
-      ok: false,
-      error:
-        "Balíček byl mezitím upraven jiným editorem. Obnovte stránku a zkuste znovu.",
-      code: "version_conflict",
-      issues: [
-        {
-          path: "$.version",
-          message: `expected version ${loaded.review.version}, got a stale client revision`,
-        },
-      ],
-      currentVersion: loaded.review.version,
-    };
+  const now = args.now ?? (() => new Date());
+  const mutation = commitCreativeReviewSave({
+    current: loaded.review,
+    expectedVersion: args.expectedVersion,
+    edits: args.edits,
+    actor: args.actor,
+    timestamp: now().toISOString(),
+  });
+  if (!mutation.ok) {
+    return mutationToWriteResult(mutation)!;
   }
 
-  let english: string;
-  try {
-    const translated = await translateVoiceoverToEnglish(
-      { localizedEdit: loaded.review.voiceover.localized_edit },
-      { textProvider: args.textProvider },
-    );
-    if (!translated.ok) {
+  let review = mutation.review;
+
+  // Automatic translation after Localized changes — no manual translate step.
+  if (creativeReviewNeedsEnglishPreviewUpdate(review)) {
+    try {
+      const translated = await translateCreativeReviewEnglishPreviews(review, {
+        textProvider: args.textProvider,
+        forceAll: true,
+      });
+      if (!translated.ok) {
+        return {
+          ok: false,
+          error: "Automatic English preview update failed after save.",
+          code: "translation_failed",
+          issues: translated.validationErrors,
+        };
+      }
+      const translatedMutation = commitCreativeReviewTranslate({
+        current: review,
+        expectedVersion: review.version,
+        voiceover: translated.data.voiceover,
+        scenes: translated.data.scenes,
+        actor: args.actor,
+        timestamp: now().toISOString(),
+      });
+      if (!translatedMutation.ok) {
+        return mutationToWriteResult(translatedMutation)!;
+      }
+      review = translatedMutation.review;
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Automatic English preview update failed after save.";
       return {
         ok: false,
-        error: "Překlad do angličtiny selhal.",
+        error: message,
         code: "translation_failed",
-        issues: translated.validationErrors,
       };
     }
-    english = translated.data.english;
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Překlad do angličtiny selhal.";
-    return {
-      ok: false,
-      error: message,
-      code: "translation_failed",
-    };
-  }
-
-  const mutation = commitCreativeReviewTranslate({
-    current: loaded.review,
-    expectedVersion: args.expectedVersion,
-    englishPreview: english,
-    actor: args.actor,
-    timestamp: (args.now ?? (() => new Date()))().toISOString(),
-  });
-  if (!mutation.ok) {
-    return mutationToWriteResult(mutation)!;
   }
 
   const view = await persistCreativeReview({
@@ -597,38 +610,7 @@ export async function translateCreativeReviewPackage(args: {
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
     brief: loaded.brief,
-    review: mutation.review,
-  });
-  return { ok: true, package: view };
-}
-
-export async function confirmCreativeReviewTranslation(args: {
-  projectId: string;
-  runId: string;
-  packageId: string;
-  expectedVersion: number;
-  actor: CreativeReviewActor;
-  now?: () => Date;
-}): Promise<SaveCreativeReviewResult> {
-  const loaded = await loadMutablePackageContext(args);
-  if (!loaded.ok) return loaded.result;
-
-  const mutation = commitCreativeReviewConfirmTranslation({
-    current: loaded.review,
-    expectedVersion: args.expectedVersion,
-    actor: args.actor,
-    timestamp: (args.now ?? (() => new Date()))().toISOString(),
-  });
-  if (!mutation.ok) {
-    return mutationToWriteResult(mutation)!;
-  }
-
-  const view = await persistCreativeReview({
-    projectId: args.projectId,
-    packageId: args.packageId,
-    packageIndex: loaded.packageIndex,
-    brief: loaded.brief,
-    review: mutation.review,
+    review,
   });
   return { ok: true, package: view };
 }

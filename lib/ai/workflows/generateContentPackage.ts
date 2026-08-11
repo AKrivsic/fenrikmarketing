@@ -66,7 +66,8 @@ import {
   shouldDeferVideoUntilCreativeReview,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
-import { seedCreativeReviewFromPackage } from "@/lib/creative-review/seed";
+import { buildManualReviewCreativeReview } from "@/lib/creative-review/seed";
+import type { EditorLanguageCode } from "@/lib/admin/editorLanguage";
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import { collectAssetUsageFromPackage } from "@/lib/content-package/visualScenePlan";
@@ -486,6 +487,8 @@ async function runGenerateContentPackageAfterClaim(
         creative.data.directives,
         canonicalWebsiteUrl(project),
         generationMode,
+        runInfo?.editorLanguage ?? null,
+        project.language,
       ),
   );
 
@@ -581,6 +584,7 @@ async function loadRunGenerationPlan(
   packageCount: number;
   generationMode: GenerationMode;
   packagesWithAssetSupport: number;
+  editorLanguage: EditorLanguageCode | null;
 } | null> {
   const { data, error } = await supabase
     .from("production_runs")
@@ -603,6 +607,7 @@ async function loadRunGenerationPlan(
         packageCount: config.packageCount,
         generationMode: config.generationMode ?? DEFAULT_GENERATION_MODE,
         packagesWithAssetSupport: config.packagesWithAssetSupport ?? 0,
+        editorLanguage: config.editorLanguage ?? null,
       }
     : null;
 }
@@ -729,6 +734,10 @@ async function persistNewPackage(
   websiteUrl: string | null = null,
   // Manual Review: persist package + items, but skip video_jobs / worker dispatch.
   generationMode: GenerationMode = DEFAULT_GENERATION_MODE,
+  // Manual Review Editor Language stamped on the production run.
+  editorLanguage: EditorLanguageCode | null = null,
+  // Project primary language — source for Original → Localized translation.
+  sourceLanguage: string | null = null,
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -736,10 +745,14 @@ async function persistNewPackage(
 
   const narrativeBeatRoles = readNarrativeBeatRolesFromPackage(pkg);
 
-  // Manual Review: seed a fully initialized creative_review draft into the
-  // package brief at persist time. Production / sample omit the key.
+  // Manual Review: seed Creative Review with AI Scene Intent + automatic
+  // Editor Language localization + English Preview, then persist.
+  // Production / sample omit.
   const creativeReview = defersVideoUntilCreativeReview(generationMode)
-    ? seedCreativeReviewFromPackage(pkg)
+    ? await buildManualReviewCreativeReview(pkg, {
+        editorLanguage: editorLanguage ?? undefined,
+        sourceLanguage,
+      })
     : undefined;
   const packageBrief = buildPackageBrief(
     pkg,

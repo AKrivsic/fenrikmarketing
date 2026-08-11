@@ -2,6 +2,9 @@
  * Aggregate Creative Review run progress for display + Continue readiness.
  */
 
+import {
+  creativeReviewNeedsEnglishPreviewUpdate,
+} from "@/lib/creative-review/lifecycle";
 import type { CreativeReview } from "@/lib/creative-review/types";
 import type { ProductionRunStatus } from "@/lib/supabase/types";
 
@@ -9,7 +12,7 @@ export interface CreativeReviewRunProgress {
   total: number;
   approved: number;
   ready: number;
-  /** Draft packages that still need translation confirmation. */
+  /** Draft packages that still need automatic English preview refresh. */
   waitingForTranslation: number;
   /** All draft packages (not ready / not approved). */
   pending: number;
@@ -36,7 +39,7 @@ export function computeCreativeReviewRunProgress(
       continue;
     }
     pending += 1;
-    if (!review.voiceover.english_confirmed) {
+    if (creativeReviewNeedsEnglishPreviewUpdate(review)) {
       waitingForTranslation += 1;
     }
   }

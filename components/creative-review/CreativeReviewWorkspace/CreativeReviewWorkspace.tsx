@@ -3,11 +3,17 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import type { CreativeReviewPageData } from "@/lib/api/creative-review-admin";
+import { editorLanguageLabel } from "@/lib/admin/editorLanguage";
 import {
   canContinueCreativeReviewGeneration,
   computeCreativeReviewRunProgress,
 } from "@/lib/creative-review/progress";
-import { continueCreativeReviewGenerationAction } from "@/app/projects/[id]/creative-review/actions";
+import { canCancelManualReview } from "@/lib/ai/workflows/cancelManualReview";
+import {
+  cancelManualReviewAction,
+  continueCreativeReviewGenerationAction,
+  loadCreativeReviewAction,
+} from "@/app/projects/[id]/creative-review/actions";
 import { CreativeReviewPackagePanel } from "@/components/creative-review/CreativeReviewPackagePanel/CreativeReviewPackagePanel";
 import styles from "./CreativeReviewWorkspace.module.css";
 
@@ -18,12 +24,12 @@ interface CreativeReviewWorkspaceProps {
 }
 
 const RUN_STATUS_LABEL: Record<string, string> = {
-  queued: "Ve frontě",
-  running: "Probíhá",
-  completed: "Hotovo",
-  failed: "Selhalo",
-  cancelled: "Zastaveno",
-  waiting_for_creative_review: "Čeká na creative review",
+  queued: "Queued",
+  running: "Running",
+  completed: "Completed",
+  failed: "Failed",
+  cancelled: "Cancelled",
+  waiting_for_creative_review: "Waiting for Creative Review",
 };
 
 export function CreativeReviewWorkspace({
@@ -38,10 +44,14 @@ export function CreativeReviewWorkspace({
   const [continueError, setContinueError] = useState<string | null>(null);
   const [continueIssues, setContinueIssues] = useState<string[]>([]);
   const [continueFlash, setContinueFlash] = useState<string | null>(null);
+  const [cancelError, setCancelError] = useState<string | null>(null);
   const [isContinuing, startContinueTransition] = useTransition();
+  const [isCancelling, startCancelTransition] = useTransition();
 
   const dirtyCount = dirtyPackageIds.size;
   const hasUnsaved = dirtyCount > 0;
+  const isCancelled = data.run.status === "cancelled";
+  const readOnly = data.run.status !== "waiting_for_creative_review";
 
   useEffect(() => {
     if (!hasUnsaved) return;
@@ -84,7 +94,7 @@ export function CreativeReviewWorkspace({
   const confirmLeave = useCallback(() => {
     if (!hasUnsaved) return true;
     return window.confirm(
-      "Máte neuložené změny. Opravdu opustit Creative Review?",
+      "You have unsaved changes. Leave Creative Review anyway?",
     );
   }, [hasUnsaved]);
 
@@ -97,11 +107,22 @@ export function CreativeReviewWorkspace({
 
   const canContinue = useMemo(
     () =>
+      !readOnly &&
       canContinueCreativeReviewGeneration({
         runStatus: data.run.status,
         progress,
-      }) && !hasUnsaved,
-    [data.run.status, progress, hasUnsaved],
+      }) &&
+      !hasUnsaved,
+    [data.run.status, progress, hasUnsaved, readOnly],
+  );
+
+  const canCancel = useMemo(
+    () =>
+      canCancelManualReview({
+        runStatus: data.run.status,
+        generationMode: data.run.generationMode,
+      }) && !isCancelling,
+    [data.run.status, data.run.generationMode, isCancelling],
   );
 
   function handleContinue() {
@@ -128,9 +149,37 @@ export function CreativeReviewWorkspace({
       }));
       setContinueFlash(
         result.code === "already_continued"
-          ? "Continue Generation už běžel — video jobs ověřeny / znovu odeslány."
-          : "Continue Generation spuštěno — video jobs vytvořeny.",
+          ? "Continue Generation already ran — video jobs verified / re-dispatched."
+          : "Continue Generation started — video jobs created.",
       );
+    });
+  }
+
+  function handleCancelManualReview() {
+    const confirmed = window.confirm(
+      "Cancel Manual Review? This stops the run permanently. Packages and Creative Review history are kept. Continue Generation will be disabled.",
+    );
+    if (!confirmed) return;
+
+    setCancelError(null);
+    setContinueError(null);
+    setContinueFlash(null);
+    startCancelTransition(async () => {
+      const result = await cancelManualReviewAction(projectId, runId);
+      if (!result.ok) {
+        setCancelError(result.error);
+        return;
+      }
+      const refreshed = await loadCreativeReviewAction(projectId, runId);
+      if (refreshed.ok) {
+        setData(refreshed.data);
+        setDirtyPackageIds(new Set());
+        return;
+      }
+      setData((prev) => ({
+        ...prev,
+        run: { ...prev.run, status: "cancelled" },
+      }));
     });
   }
 
@@ -144,30 +193,43 @@ export function CreativeReviewWorkspace({
             if (!confirmLeave()) event.preventDefault();
           }}
         >
-          ← Zpět na Content Production
+          ← Back to Content Production
         </Link>
         {hasUnsaved ? (
           <span className={styles.unsaved} role="status">
-            Neuložené změny ({dirtyCount})
+            Unsaved changes ({dirtyCount})
           </span>
         ) : null}
       </div>
 
       <header className={styles.header}>
         <h2 className={styles.title}>Creative Review</h2>
+        {isCancelled ? (
+          <p className={styles.cancelledBanner} role="status">
+            Manual Review cancelled
+          </p>
+        ) : readOnly ? (
+          <p className={styles.cancelledBanner} role="status">
+            Creative Review is read-only ({RUN_STATUS_LABEL[data.run.status] ?? data.run.status})
+          </p>
+        ) : null}
         <dl className={styles.meta}>
           <div>
-            <dt>Projekt</dt>
+            <dt>Project</dt>
             <dd>{data.project.name}</dd>
           </div>
           <div>
-            <dt>Běh</dt>
+            <dt>Run</dt>
             <dd>
               <code className={styles.mono}>{data.run.id.slice(0, 8)}…</code>
               <span className={styles.badge} data-status={data.run.status}>
                 {RUN_STATUS_LABEL[data.run.status] ?? data.run.status}
               </span>
             </dd>
+          </div>
+          <div>
+            <dt>Editor Language</dt>
+            <dd>{editorLanguageLabel(data.run.editorLanguage)}</dd>
           </div>
           <div>
             <dt>Packages</dt>
@@ -187,7 +249,7 @@ export function CreativeReviewWorkspace({
             <dd>{progress.ready}</dd>
           </div>
           <div>
-            <dt>Waiting for translation</dt>
+            <dt>Waiting</dt>
             <dd>{progress.waitingForTranslation}</dd>
           </div>
           <div>
@@ -201,24 +263,39 @@ export function CreativeReviewWorkspace({
             type="button"
             className={styles.continueBtn}
             onClick={handleContinue}
-            disabled={!canContinue || isContinuing}
+            disabled={!canContinue || isContinuing || readOnly}
           >
-            {isContinuing ? "Spouštím…" : "Continue Generation"}
+            {isContinuing ? "Starting…" : "Continue Generation"}
           </button>
+          {canCancel ? (
+            <button
+              type="button"
+              className={styles.cancelBtn}
+              onClick={handleCancelManualReview}
+              disabled={isCancelling}
+            >
+              {isCancelling ? "Cancelling…" : "Cancel Manual Review"}
+            </button>
+          ) : null}
+          {isCancelled ? (
+            <p className={styles.progressHint}>
+              Continue Generation is disabled because Manual Review was cancelled.
+            </p>
+          ) : null}
           {data.run.status === "waiting_for_creative_review" &&
           progress.approved < progress.total ? (
             <p className={styles.progressHint}>
-              Schvalte všechny balíčky, abyste mohli pokračovat.
+              Approve all packages before continuing.
             </p>
           ) : null}
           {hasUnsaved ? (
             <p className={styles.progressHint}>
-              Nejdřív uložte změny balíčků.
+              Save package changes first.
             </p>
           ) : null}
           {data.run.status === "running" ? (
             <p className={styles.progressHint}>
-              Běh pokračuje — video jobs jsou ve frontě / processing.
+              Run is continuing — video jobs are queued / processing.
             </p>
           ) : null}
         </div>
@@ -235,6 +312,11 @@ export function CreativeReviewWorkspace({
             ) : null}
           </div>
         ) : null}
+        {cancelError ? (
+          <div className={styles.continueError} role="alert">
+            <p>{cancelError}</p>
+          </div>
+        ) : null}
         {continueFlash ? (
           <p className={styles.continueSuccess} role="status">
             {continueFlash}
@@ -244,7 +326,7 @@ export function CreativeReviewWorkspace({
 
       {data.packages.length === 0 ? (
         <p className={styles.empty} role="status">
-          Tento běh zatím nemá žádné balíčky s Creative Review drafteem.
+          This run has no packages with a Creative Review draft yet.
         </p>
       ) : (
         <ul className={styles.packageList}>
@@ -256,6 +338,12 @@ export function CreativeReviewWorkspace({
                 pkg={pkg}
                 onDirtyChange={onDirtyChange}
                 onSaved={onPackageSaved}
+                readOnly={readOnly}
+                readOnlyMessage={
+                  isCancelled
+                    ? "Manual Review cancelled — this package is read-only."
+                    : "This package is read-only for the current run status."
+                }
               />
             </li>
           ))}

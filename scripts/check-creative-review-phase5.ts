@@ -23,7 +23,6 @@ import {
 import { seedCreativeReviewFromPackage } from "../lib/creative-review/seed";
 import {
   commitCreativeReviewApprove,
-  commitCreativeReviewConfirmTranslation,
   commitCreativeReviewSave,
   commitCreativeReviewTranslate,
 } from "../lib/creative-review/mutations";
@@ -65,7 +64,7 @@ function approveReview(review: CreativeReview): CreativeReview {
       voiceoverLocalizedEdit: "Schválený voiceover.",
       scenes: review.scenes.map((scene) => ({
         id: scene.id,
-        intentDescription: scene.intent.description,
+        intentLocalizedEdit: scene.intent.localized_edit,
         directorNotes: scene.director_notes,
       })),
     },
@@ -74,26 +73,32 @@ function approveReview(review: CreativeReview): CreativeReview {
   });
   assert.equal(saved.ok, true);
   if (!saved.ok) throw new Error("save failed");
+  const voiceover = {
+    ...saved.review.voiceover,
+    english_preview: "Approved voiceover.",
+    english_preview_outdated: false,
+  };
+  const scenes = saved.review.scenes.map((scene, index) => ({
+    ...scene,
+    intent: {
+      ...scene.intent,
+      english_preview: `Scene ${index + 1} EN`,
+      english_preview_outdated: false,
+    },
+  }));
   const translated = commitCreativeReviewTranslate({
     current: saved.review,
     expectedVersion: saved.review.version,
-    englishPreview: "Approved voiceover.",
+    voiceover,
+    scenes,
     actor: ACTOR,
     timestamp: "2026-08-11T12:02:00.000Z",
   });
   assert.equal(translated.ok, true);
   if (!translated.ok) throw new Error("translate failed");
-  const confirmed = commitCreativeReviewConfirmTranslation({
+  const approved = commitCreativeReviewApprove({
     current: translated.review,
     expectedVersion: translated.review.version,
-    actor: ACTOR,
-    timestamp: "2026-08-11T12:03:00.000Z",
-  });
-  assert.equal(confirmed.ok, true);
-  if (!confirmed.ok) throw new Error("confirm failed");
-  const approved = commitCreativeReviewApprove({
-    current: confirmed.review,
-    expectedVersion: confirmed.review.version,
     actor: ACTOR,
     timestamp: "2026-08-11T12:04:00.000Z",
   });

@@ -36,6 +36,7 @@ import {
   readProductionPlannerMax,
   readProductionStrategyPlannerMode,
 } from "@/lib/production/strategyPlannerConfig";
+import { getEditorLanguagePreference } from "@/lib/admin/adminPreferences";
 import {
   getFiverrPromoVideoJobStatus,
   runFiverrPromoPackageGeneration,
@@ -181,6 +182,12 @@ export async function startProductionRun(
       ...config,
       platformContentTypes: { ...controls.platformContentTypes },
     };
+  }
+  // Manual Review: stamp admin Editor Language on the run so package seed can
+  // auto-translate before waiting_for_creative_review (not project language).
+  if (config.generationMode === "manual_review") {
+    const editorLanguage = await getEditorLanguagePreference();
+    config = { ...config, editorLanguage };
   }
   const plan = computeProductionPlan(config);
   if (!planHasOutputs(plan)) {

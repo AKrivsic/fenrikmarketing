@@ -33,16 +33,16 @@ export default async function CreativeReviewPage({
       <div className={styles.page}>
         <div className={styles.toolbar}>
           <Link href={`/projects/${id}/production`} className={styles.back}>
-            ← Zpět na Content Production
+            ← Back to Content Production
           </Link>
         </div>
         <div className={styles.errorBox} role="alert">
-          <h2 className={styles.errorTitle}>Creative Review nedostupné</h2>
+          <h2 className={styles.errorTitle}>Creative Review unavailable</h2>
           <p className={styles.errorText}>{result.error}</p>
           {result.code === "forbidden_mode" ? (
             <p className={styles.errorHint}>
-              Tato stránka je jen pro Manual Review běhy. Production a Sample
-              běhy otevřete v běžném Review.
+              This page is only for Manual Review runs. Open Production and
+              Sample runs in the standard Review page.
             </p>
           ) : null}
         </div>

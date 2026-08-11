@@ -26,8 +26,10 @@ export {
 } from "@/lib/creative-review/validate";
 
 export {
+  buildManualReviewCreativeReview,
   seedCreativeReviewFromPackage,
   type SeedCreativeReviewOptions,
+  type BuildManualReviewCreativeReviewDeps,
 } from "@/lib/creative-review/seed";
 
 export {
@@ -39,8 +41,15 @@ export {
 export {
   seedSceneIntentsForCreativeReview,
   seedSceneIntentsFromPackage,
+  collectSceneIntentConversionSources,
+  collectSceneIntentConversionSourcesFromPackage,
   type SceneIntentSeedInput,
+  type SceneIntentConversionSource,
 } from "@/lib/creative-review/sceneIntent/seedFromPackageScenes";
+
+export {
+  generateSceneCreativeIntents,
+} from "@/lib/creative-review/sceneIntent/generateSceneIntents";
 
 export {
   applyCreativeReviewEdits,
@@ -54,14 +63,18 @@ export {
   cloneScenes,
   cloneVoiceover,
   computeCreativeReviewStatus,
+  creativeReviewNeedsEnglishPreviewUpdate,
   invalidateTranslationAfterEdit,
+  invalidateVoiceoverTranslationAfterEdit,
+  invalidateSceneIntentTranslationAfterEdit,
+  isEnglishPreviewCurrent,
   scenesHaveCompleteIntent,
+  scenesHaveCurrentEnglishPreview,
   validateCreativeReviewApproval,
 } from "@/lib/creative-review/lifecycle";
 
 export {
   commitCreativeReviewApprove,
-  commitCreativeReviewConfirmTranslation,
   commitCreativeReviewSave,
   commitCreativeReviewTranslate,
   commitCreativeReviewUnapprove,
@@ -78,9 +91,21 @@ export { normalizeLegacyCreativeReview } from "@/lib/creative-review/legacy";
 
 export {
   translateVoiceoverToEnglish,
+  translateSceneIntentToEnglish,
+  translateCreativeReviewEnglishPreviews,
+  translateCreativeReviewForEditor,
+  type TranslateCreativeReviewTextDeps,
+  type TranslateCreativeReviewForEditorDeps,
   type TranslateVoiceoverToEnglishDeps,
   type TranslateVoiceoverToEnglishResult,
 } from "@/lib/creative-review/translateVoiceover";
+
+export {
+  computeCreativeReviewDurationEstimate,
+  estimateVoiceoverDurationSeconds,
+  formatDurationSeconds,
+  WORDS_PER_SECOND,
+} from "@/lib/creative-review/duration";
 
 export {
   rebuildCreativePackageForVideo,

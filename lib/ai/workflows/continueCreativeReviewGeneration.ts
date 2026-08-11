@@ -581,7 +581,7 @@ export async function continueCreativeReviewGeneration(args: {
   const warnings: string[] = [];
 
   if (!projectId || !runId) {
-    return fail("invalid_input", "Chybí identifikátor projektu nebo běhu.");
+    return fail("invalid_input", "Missing project or run id.");
   }
 
   runtimeLog("info", {
@@ -601,7 +601,7 @@ export async function continueCreativeReviewGeneration(args: {
     .maybeSingle();
   if (runErr) throw runErr;
   if (!run) {
-    return fail("not_found", "Production run nenalezen.");
+    return fail("not_found", "Production run not found.");
   }
 
   const runRow = run as RunRow;
@@ -612,18 +612,18 @@ export async function continueCreativeReviewGeneration(args: {
   if (generationMode !== "manual_review") {
     return fail(
       "forbidden_mode",
-      "Continue Generation je dostupné pouze pro Manual Review běhy.",
+      "Continue Generation is available only for Manual Review runs.",
     );
   }
 
   if (runRow.status === "cancelled") {
-    return fail("cancelled", "Production run byl zrušen.");
+    return fail("cancelled", "Production run was cancelled.");
   }
 
   if (runRow.status === "completed" || runRow.status === "failed") {
     return fail(
       "invalid_status",
-      `Production run je ve stavu ${runRow.status} — Continue Generation není dostupný.`,
+      `Production run is ${runRow.status} — Continue Generation is not available.`,
     );
   }
 
@@ -655,7 +655,7 @@ export async function continueCreativeReviewGeneration(args: {
     });
     return fail(
       "validation_failed",
-      "Ne všechny balíčky jsou připravené pro Continue Generation.",
+      "Not all packages are ready for Continue Generation.",
       { issues: validation.issues },
     );
   }
@@ -695,12 +695,12 @@ export async function continueCreativeReviewGeneration(args: {
       if (latest?.status === "running") {
         return fail(
           "already_running",
-          "Continue Generation už probíhá pro tento běh.",
+          "Continue Generation is already running for this run.",
         );
       }
       return fail(
         "already_running",
-        "Continue Generation už byl spuštěn jiným požadavkem.",
+        "Continue Generation was already started by another request.",
       );
     }
     claimedFresh = true;
@@ -713,12 +713,12 @@ export async function continueCreativeReviewGeneration(args: {
   } else if (runRow.status === "running") {
     return fail(
       "already_running",
-      "Production run už běží (bez Continue Generation).",
+      "Production run is already running (without Continue Generation).",
     );
   } else {
     return fail(
       "invalid_status",
-      `Continue Generation vyžaduje stav waiting_for_creative_review (aktuálně: ${runRow.status}).`,
+      `Continue Generation requires status waiting_for_creative_review (currently: ${runRow.status}).`,
     );
   }
 

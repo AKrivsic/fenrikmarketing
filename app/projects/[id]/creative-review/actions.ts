@@ -4,10 +4,8 @@ import { revalidatePath } from "next/cache";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   approveCreativeReviewPackage,
-  confirmCreativeReviewTranslation,
   loadCreativeReviewPage,
   saveCreativeReviewPackage,
-  translateCreativeReviewPackage,
   unapproveCreativeReviewPackage,
   type CreativeReviewPageData,
   type CreativeReviewPackageView,
@@ -20,6 +18,10 @@ import {
   continueCreativeReviewGeneration,
   type ContinueGenerationResult,
 } from "@/lib/ai/workflows/continueCreativeReviewGeneration";
+import {
+  cancelManualReview,
+  type CancelManualReviewResult,
+} from "@/lib/ai/workflows/cancelManualReview";
 import { headers } from "next/headers";
 
 export type LoadCreativeReviewActionResult =
@@ -62,7 +64,7 @@ async function requireProjectEditor(
       ok: false,
       result: {
         ok: false,
-        error: "Chybí identifikátor projektu.",
+        error: "Missing project id.",
         code: "invalid_input",
       },
     };
@@ -73,7 +75,7 @@ async function requireProjectEditor(
       ok: false,
       result: {
         ok: false,
-        error: "Projekt nenalezen nebo nemáte oprávnění.",
+        error: "Project not found or you do not have access.",
         code: "not_found",
       },
     };
@@ -92,14 +94,18 @@ export async function loadCreativeReviewAction(
   runId: string,
 ): Promise<LoadCreativeReviewActionResult> {
   if (!projectId || !runId) {
-    return { ok: false, error: "Chybí identifikátor projektu nebo běhu.", code: "invalid_input" };
+    return {
+      ok: false,
+      error: "Missing project or run id.",
+      code: "invalid_input",
+    };
   }
 
   const project = await getProjectForAdmin(projectId);
   if (!project) {
     return {
       ok: false,
-      error: "Projekt nenalezen nebo nemáte oprávnění.",
+      error: "Project not found or you do not have access.",
       code: "not_found",
     };
   }
@@ -116,12 +122,15 @@ export async function loadCreativeReviewAction(
     return { ok: true, data: result.data };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Creative Review se nepodařilo načíst.";
+      err instanceof Error ? err.message : "Failed to load Creative Review.";
     return { ok: false, error: message };
   }
 }
 
-/** Save allowed Creative Review edits for one package (creative_review only). */
+/**
+ * Save allowed Creative Review edits for one package.
+ * Automatically refreshes English Preview when Localized changes.
+ */
 export async function saveCreativeReviewPackageAction(
   projectId: string,
   runId: string,
@@ -132,14 +141,14 @@ export async function saveCreativeReviewPackageAction(
   if (!projectId || !runId || !packageId) {
     return {
       ok: false,
-      error: "Chybí identifikátor projektu, běhu nebo balíčku.",
+      error: "Missing project, run, or package id.",
       code: "invalid_input",
     };
   }
   if (!Number.isInteger(expectedVersion) || expectedVersion < 1) {
     return {
       ok: false,
-      error: "Neplatná verze balíčku.",
+      error: "Invalid package version.",
       code: "invalid_input",
     };
   }
@@ -170,113 +179,7 @@ export async function saveCreativeReviewPackageAction(
     return { ok: true, package: result.package };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Uložení Creative Review selhalo.";
-    return { ok: false, error: message };
-  }
-}
-
-/** Explicit Translate: localized_edit → english_preview (persisted). */
-export async function translateCreativeReviewPackageAction(
-  projectId: string,
-  runId: string,
-  packageId: string,
-  expectedVersion: number,
-): Promise<MutateCreativeReviewActionResult> {
-  if (!projectId || !runId || !packageId) {
-    return {
-      ok: false,
-      error: "Chybí identifikátor projektu, běhu nebo balíčku.",
-      code: "invalid_input",
-    };
-  }
-  if (!Number.isInteger(expectedVersion) || expectedVersion < 1) {
-    return {
-      ok: false,
-      error: "Neplatná verze balíčku.",
-      code: "invalid_input",
-    };
-  }
-
-  const access = await requireProjectEditor(projectId);
-  if (!access.ok) return access.result;
-
-  try {
-    const actor = await resolveCreativeReviewEditorActor();
-    const result = await translateCreativeReviewPackage({
-      projectId,
-      runId,
-      packageId,
-      expectedVersion,
-      actor,
-    });
-    if (!result.ok) {
-      return {
-        ok: false,
-        error: result.error,
-        code: result.code,
-        issues: result.issues,
-        currentVersion: result.currentVersion,
-      };
-    }
-    revalidateCreativeReview(projectId, runId);
-    return { ok: true, package: result.package };
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Překlad Creative Review selhal.";
-    return { ok: false, error: message };
-  }
-}
-
-/** Confirm Translation Result: english_confirmed + final_approved. */
-export async function confirmCreativeReviewTranslationAction(
-  projectId: string,
-  runId: string,
-  packageId: string,
-  expectedVersion: number,
-): Promise<MutateCreativeReviewActionResult> {
-  if (!projectId || !runId || !packageId) {
-    return {
-      ok: false,
-      error: "Chybí identifikátor projektu, běhu nebo balíčku.",
-      code: "invalid_input",
-    };
-  }
-  if (!Number.isInteger(expectedVersion) || expectedVersion < 1) {
-    return {
-      ok: false,
-      error: "Neplatná verze balíčku.",
-      code: "invalid_input",
-    };
-  }
-
-  const access = await requireProjectEditor(projectId);
-  if (!access.ok) return access.result;
-
-  try {
-    const actor = await resolveCreativeReviewEditorActor();
-    const result = await confirmCreativeReviewTranslation({
-      projectId,
-      runId,
-      packageId,
-      expectedVersion,
-      actor,
-    });
-    if (!result.ok) {
-      return {
-        ok: false,
-        error: result.error,
-        code: result.code,
-        issues: result.issues,
-        currentVersion: result.currentVersion,
-      };
-    }
-    revalidateCreativeReview(projectId, runId);
-    return { ok: true, package: result.package };
-  } catch (err) {
-    const message =
-      err instanceof Error
-        ? err.message
-        : "Potvrzení překladu Creative Review selhalo.";
+      err instanceof Error ? err.message : "Failed to save Creative Review.";
     return { ok: false, error: message };
   }
 }
@@ -291,14 +194,14 @@ export async function approveCreativeReviewPackageAction(
   if (!projectId || !runId || !packageId) {
     return {
       ok: false,
-      error: "Chybí identifikátor projektu, běhu nebo balíčku.",
+      error: "Missing project, run, or package id.",
       code: "invalid_input",
     };
   }
   if (!Number.isInteger(expectedVersion) || expectedVersion < 1) {
     return {
       ok: false,
-      error: "Neplatná verze balíčku.",
+      error: "Invalid package version.",
       code: "invalid_input",
     };
   }
@@ -328,7 +231,9 @@ export async function approveCreativeReviewPackageAction(
     return { ok: true, package: result.package };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Schválení Creative Review selhalo.";
+      err instanceof Error
+        ? err.message
+        : "Failed to approve Creative Review package.";
     return { ok: false, error: message };
   }
 }
@@ -343,14 +248,14 @@ export async function unapproveCreativeReviewPackageAction(
   if (!projectId || !runId || !packageId) {
     return {
       ok: false,
-      error: "Chybí identifikátor projektu, běhu nebo balíčku.",
+      error: "Missing project, run, or package id.",
       code: "invalid_input",
     };
   }
   if (!Number.isInteger(expectedVersion) || expectedVersion < 1) {
     return {
       ok: false,
-      error: "Neplatná verze balíčku.",
+      error: "Invalid package version.",
       code: "invalid_input",
     };
   }
@@ -382,7 +287,7 @@ export async function unapproveCreativeReviewPackageAction(
     const message =
       err instanceof Error
         ? err.message
-        : "Zrušení schválení Creative Review selhalo.";
+        : "Failed to unapprove Creative Review package.";
     return { ok: false, error: message };
   }
 }
@@ -409,7 +314,7 @@ export async function continueCreativeReviewGenerationAction(
     return {
       ok: false,
       code: "invalid_input",
-      error: "Chybí identifikátor projektu nebo běhu.",
+      error: "Missing project or run id.",
     };
   }
 
@@ -421,7 +326,7 @@ export async function continueCreativeReviewGenerationAction(
       error:
         access.result.ok === false
           ? access.result.error
-          : "Projekt nenalezen nebo nemáte oprávnění.",
+          : "Project not found or you do not have access.",
     };
   }
 
@@ -442,9 +347,55 @@ export async function continueCreativeReviewGenerationAction(
     return result;
   } catch (err) {
     const message =
-      err instanceof Error
-        ? err.message
-        : "Continue Generation selhalo.";
+      err instanceof Error ? err.message : "Continue Generation failed.";
     return { ok: false, code: "job_creation_failed", error: message };
+  }
+}
+
+export type CancelManualReviewActionResult = CancelManualReviewResult;
+
+/**
+ * Cancel Manual Review — emergency stop while waiting for creative review.
+ * Preserves packages and creative_review history; does not create video jobs.
+ */
+export async function cancelManualReviewAction(
+  projectId: string,
+  runId: string,
+): Promise<CancelManualReviewActionResult> {
+  if (!projectId || !runId) {
+    return {
+      ok: false,
+      code: "invalid_input",
+      error: "Missing project or run id.",
+    };
+  }
+
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) {
+    return {
+      ok: false,
+      code: "not_found",
+      error:
+        access.result.ok === false
+          ? access.result.error
+          : "Project not found or you do not have access.",
+    };
+  }
+
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await cancelManualReview({
+      projectId,
+      runId,
+      actor,
+    });
+    if (result.ok) {
+      revalidateCreativeReview(projectId, runId);
+    }
+    return result;
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Cancel Manual Review failed.";
+    return { ok: false, code: "invalid_status", error: message };
   }
 }

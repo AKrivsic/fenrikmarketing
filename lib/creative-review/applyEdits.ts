@@ -1,15 +1,15 @@
 /**
- * Apply Phase 3/4 Creative Review edits onto an existing draft.
+ * Apply Creative Review edits onto an existing draft.
  *
  * Allowed mutations only:
  * - voiceover.localized_edit
- * - scenes[].intent.description
+ * - scenes[].intent.localized_edit
  * - scenes[].director_notes
  *
- * When localized_edit changes, translation confirmation is invalidated
- * (english_confirmed cleared). Approval is cleared when any editable content
- * changes. Version / history are NOT bumped here — the save mutation commits
- * history + version atomically.
+ * When localized text changes, English preview + confirmation + final_approved
+ * are cleared. Approval is cleared when any editable content changes. Version /
+ * history are NOT bumped here — the save mutation commits history + version
+ * atomically, then auto-refreshes English Preview.
  */
 
 import type { ValidationIssue, ValidationResult } from "@/lib/ai/validateAiOutput";
@@ -17,14 +17,15 @@ import {
   cloneScenes,
   cloneVoiceover,
   computeCreativeReviewStatus,
-  invalidateTranslationAfterEdit,
+  invalidateSceneIntentTranslationAfterEdit,
+  invalidateVoiceoverTranslationAfterEdit,
 } from "@/lib/creative-review/lifecycle";
 import type { CreativeReview } from "@/lib/creative-review/types";
 import { parseCreativeReview } from "@/lib/creative-review/validate";
 
 export interface CreativeReviewSceneEdit {
   id: string;
-  intentDescription: string;
+  intentLocalizedEdit: string;
   directorNotes: string;
 }
 
@@ -82,13 +83,21 @@ export function applyCreativeReviewEdits(
 
   const nextScenes = current.scenes.map((scene) => {
     const edit = editById.get(scene.id)!;
+    const localizedChanged =
+      edit.intentLocalizedEdit !== scene.intent.localized_edit;
+    const nextIntent = localizedChanged
+      ? invalidateSceneIntentTranslationAfterEdit({
+          ...scene.intent,
+          localized_edit: edit.intentLocalizedEdit,
+        })
+      : {
+          ...scene.intent,
+          localized_edit: edit.intentLocalizedEdit,
+        };
     return {
       ...scene,
       director_notes: edit.directorNotes,
-      intent: {
-        ...scene.intent,
-        description: edit.intentDescription,
-      },
+      intent: nextIntent,
     };
   });
 
@@ -97,7 +106,7 @@ export function applyCreativeReviewEdits(
   const scenesChanged = nextScenes.some((scene, index) => {
     const prev = current.scenes[index]!;
     return (
-      scene.intent.description !== prev.intent.description ||
+      scene.intent.localized_edit !== prev.intent.localized_edit ||
       scene.director_notes !== prev.director_notes
     );
   });
@@ -106,7 +115,7 @@ export function applyCreativeReviewEdits(
   let nextVoiceover = cloneVoiceover(current.voiceover);
   nextVoiceover.localized_edit = edits.voiceoverLocalizedEdit;
   if (localizedChanged) {
-    nextVoiceover = invalidateTranslationAfterEdit(nextVoiceover);
+    nextVoiceover = invalidateVoiceoverTranslationAfterEdit(nextVoiceover);
     nextVoiceover.localized_edit = edits.voiceoverLocalizedEdit;
   }
 

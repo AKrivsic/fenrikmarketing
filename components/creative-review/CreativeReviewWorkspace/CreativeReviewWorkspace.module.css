@@ -91,6 +91,38 @@
   border-color: #b54708;
 }
 
+.badge[data-status="cancelled"] {
+  color: #b42318;
+  border-color: #b42318;
+}
+
+.cancelledBanner {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #b42318;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, #b42318 8%, transparent);
+  color: #b42318;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.cancelBtn {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid #b42318;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: #b42318;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .progress {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));

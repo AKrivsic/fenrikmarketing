@@ -1,18 +1,13 @@
 /**
- * Provisional Scene Creative Intent seeder.
+ * Scene shell helpers for Creative Review.
  *
  * -----------------------------------------------------------------------------
  * REPLACEABLE ADAPTER
  * -----------------------------------------------------------------------------
- * The Creative Engine does not yet emit Scene Creative Intent natively.
- * This module derives intent from the package visual plan / typed payloads
- * (and, as a last resort, from AI still prompts) WITHOUT persisting image
- * prompts onto the Creative Review object.
- *
- * When native Scene Intent generation lands, replace the body of
- * `seedSceneIntentsForCreativeReview` (or swap this file). Callers must only
- * depend on that function and the SceneCreativeIntent / CreativeReviewScene
- * types — never on image_prompt fields.
+ * Structural scene shells + technical source collection for AI Scene Intent
+ * conversion. When native Scene Intent generation lands in the Creative Engine,
+ * replace generateSceneCreativeIntents / this adapter boundary. Callers must
+ * never persist image_prompt onto Scene Creative Intent.
  * -----------------------------------------------------------------------------
  */
 
@@ -33,8 +28,21 @@ import type {
 
 export interface SceneIntentSeedInput {
   visualScenes: readonly PackageVisualSceneEntry[] | null | undefined;
-  /** Legacy still prompts — used only when visual_scenes is absent. */
   imagePrompts: readonly string[] | null | undefined;
+}
+
+export interface SceneIntentConversionSource {
+  id: string;
+  index: number;
+  presentation_type: string | null;
+  visual_source: SceneIntentVisualSource;
+  asset_id: string | null;
+  used_as: string | null;
+  /**
+   * Technical / payload text fed to the AI converter only.
+   * Never persisted on creative_review.intent.
+   */
+  technical_source: string;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -48,201 +56,26 @@ function nonEmpty(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-/**
- * Convert a raw AI still prompt into a creative-intent description.
- * Strips common camera/style boilerplate; never returns an empty string.
- */
-function intentDescriptionFromStillPrompt(prompt: string): string {
-  let text = prompt.trim();
-  // Drop leading "Prompt:" / "Image prompt:" labels if present.
-  text = text.replace(/^(image\s*)?prompt\s*:\s*/i, "");
-  // Collapse whitespace.
-  text = text.replace(/\s+/g, " ").trim();
-  if (!text) {
-    return "Visual scene — creative intent not specified.";
-  }
-  return text;
-}
-
 function makeIntent(args: {
-  description: string;
+  original: string;
+  localized_edit: string;
+  english_preview?: string | null;
+  english_preview_outdated?: boolean;
   presentation_type: string | null;
   visual_source: SceneIntentVisualSource;
   asset_id?: string | null;
   used_as?: string | null;
 }): SceneCreativeIntent {
   return {
-    description: args.description,
+    original: args.original,
+    localized_edit: args.localized_edit,
+    english_preview: args.english_preview ?? null,
+    english_preview_outdated: args.english_preview_outdated ?? true,
     presentation_type: args.presentation_type,
     visual_source: args.visual_source,
     asset_id: args.asset_id ?? null,
     used_as: args.used_as ?? null,
   };
-}
-
-function intentFromAiStill(prompt: string): SceneCreativeIntent {
-  return makeIntent({
-    description: intentDescriptionFromStillPrompt(prompt),
-    presentation_type: "IMAGE",
-    visual_source: "generated",
-  });
-}
-
-function intentFromAsset(args: {
-  assetId: string;
-  usedAs: string;
-}): SceneCreativeIntent {
-  const role = args.usedAs.trim() || "product asset";
-  return makeIntent({
-    description: `Show product asset (${role}).`,
-    presentation_type: "IMAGE",
-    visual_source: "asset",
-    asset_id: args.assetId,
-    used_as: role,
-  });
-}
-
-function intentFromChecklist(entry: PackageVisualSceneEntry): SceneCreativeIntent {
-  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
-  const title = nonEmpty(payload.title);
-  const items = Array.isArray(payload.items)
-    ? payload.items.filter((i): i is string => typeof i === "string" && i.trim().length > 0)
-    : [];
-  const itemPreview = items.slice(0, 3).map((i) => i.trim()).join("; ");
-  const description = title
-    ? itemPreview
-      ? `Checklist “${title}”: ${itemPreview}`
-      : `Checklist “${title}”`
-    : itemPreview
-      ? `Checklist: ${itemPreview}`
-      : "On-screen checklist.";
-  return makeIntent({
-    description,
-    presentation_type: "CHECKLIST",
-    visual_source: "typed_overlay",
-  });
-}
-
-function intentFromPhone(entry: PackageVisualSceneEntry): SceneCreativeIntent {
-  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
-  const assetId = nonEmpty(payload.asset_id);
-  const caption = nonEmpty(payload.caption);
-  const prompt = nonEmpty(payload.image_prompt);
-  if (assetId) {
-    return makeIntent({
-      description: caption
-        ? `Phone mockup featuring product asset — ${caption}`
-        : "Phone mockup featuring product asset.",
-      presentation_type: "PHONE",
-      visual_source: "asset",
-      asset_id: assetId,
-      used_as: "phone_screen",
-    });
-  }
-  return makeIntent({
-    description: caption
-      ? `Phone mockup — ${caption}`
-      : prompt
-        ? intentDescriptionFromStillPrompt(prompt)
-        : "Phone mockup scene.",
-    presentation_type: "PHONE",
-    visual_source: "generated",
-  });
-}
-
-function intentFromQuote(entry: PackageVisualSceneEntry): SceneCreativeIntent {
-  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
-  const quote = nonEmpty(payload.quote) ?? "Quote";
-  const attribution = nonEmpty(payload.attribution);
-  const description = attribution
-    ? `Quote: “${quote}” — ${attribution}`
-    : `Quote: “${quote}”`;
-  return makeIntent({
-    description,
-    presentation_type: "QUOTE",
-    visual_source: "typed_overlay",
-  });
-}
-
-function intentFromStatistic(
-  entry: PackageVisualSceneEntry,
-): SceneCreativeIntent {
-  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
-  const value = nonEmpty(payload.value) ?? "";
-  const label = nonEmpty(payload.label) ?? "";
-  const unit = nonEmpty(payload.unit);
-  const valuePart = unit ? `${value}${unit}` : value;
-  const description =
-    valuePart && label
-      ? `Statistic: ${valuePart} — ${label}`
-      : valuePart
-        ? `Statistic: ${valuePart}`
-        : label
-          ? `Statistic: ${label}`
-          : "On-screen statistic.";
-  return makeIntent({
-    description,
-    presentation_type: "STATISTIC",
-    visual_source: "typed_overlay",
-  });
-}
-
-function intentFromCta(entry: PackageVisualSceneEntry): SceneCreativeIntent {
-  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
-  const headline = nonEmpty(payload.headline) ?? "Call to action";
-  const subline = nonEmpty(payload.subline);
-  const button = nonEmpty(payload.button_label);
-  const parts = [headline];
-  if (subline) parts.push(subline);
-  if (button) parts.push(`Button: ${button}`);
-  const assetId = nonEmpty(payload.asset_id);
-  return makeIntent({
-    description: parts.join(" — "),
-    presentation_type: "CTA",
-    visual_source: assetId ? "asset" : "typed_overlay",
-    asset_id: assetId,
-    used_as: assetId ? "cta_visual" : null,
-  });
-}
-
-function intentFromVisualSceneEntry(
-  entry: PackageVisualSceneEntry,
-): SceneCreativeIntent {
-  if (isChecklistVisualSceneEntry(entry)) return intentFromChecklist(entry);
-  if (isPhoneVisualSceneEntry(entry)) return intentFromPhone(entry);
-  if (isQuoteVisualSceneEntry(entry)) return intentFromQuote(entry);
-  if (isStatisticVisualSceneEntry(entry)) return intentFromStatistic(entry);
-  if (isCtaVisualSceneEntry(entry)) return intentFromCta(entry);
-
-  const record = asRecord(entry);
-  if (!record) {
-    return makeIntent({
-      description: "Visual scene — creative intent not specified.",
-      presentation_type: null,
-      visual_source: "generated",
-    });
-  }
-
-  if (record.source === "asset") {
-    const assetId = nonEmpty(record.asset_id) ?? "unknown";
-    const usedAs = nonEmpty(record.used_as) ?? "product asset";
-    return intentFromAsset({ assetId, usedAs });
-  }
-
-  if (record.source === "ai") {
-    const prompt = nonEmpty(record.image_prompt) ?? "";
-    return intentFromAiStill(prompt);
-  }
-
-  // Legacy / unknown shapes — best-effort without inventing prompts.
-  const type = nonEmpty(record.type);
-  return makeIntent({
-    description: type
-      ? `${type} scene — creative intent not specified.`
-      : "Visual scene — creative intent not specified.",
-    presentation_type: type,
-    visual_source: "generated",
-  });
 }
 
 function sceneIdFor(entry: PackageVisualSceneEntry | null, index: number): string {
@@ -254,24 +87,177 @@ function sceneIdFor(entry: PackageVisualSceneEntry | null, index: number): strin
   return `scene-${index + 1}`;
 }
 
-/**
- * Build fully initialized Creative Review scenes with Scene Creative Intent.
- * Returns [] when the package has no visual plan (e.g. text-only) — still valid.
- */
-export function seedSceneIntentsForCreativeReview(
+function technicalFromChecklist(entry: PackageVisualSceneEntry): string {
+  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
+  return JSON.stringify({
+    type: "CHECKLIST",
+    title: payload.title ?? null,
+    items: payload.items ?? [],
+  });
+}
+
+function technicalFromPhone(entry: PackageVisualSceneEntry): string {
+  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
+  return JSON.stringify({
+    type: "PHONE",
+    caption: payload.caption ?? null,
+    has_asset: Boolean(nonEmpty(payload.asset_id)),
+    image_prompt: nonEmpty(payload.image_prompt),
+  });
+}
+
+function technicalFromQuote(entry: PackageVisualSceneEntry): string {
+  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
+  return JSON.stringify({
+    type: "QUOTE",
+    quote: payload.quote ?? null,
+    attribution: payload.attribution ?? null,
+  });
+}
+
+function technicalFromStatistic(entry: PackageVisualSceneEntry): string {
+  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
+  return JSON.stringify({
+    type: "STATISTIC",
+    value: payload.value ?? null,
+    unit: payload.unit ?? null,
+    label: payload.label ?? null,
+  });
+}
+
+function technicalFromCta(entry: PackageVisualSceneEntry): string {
+  const payload = asRecord((entry as { payload?: unknown }).payload) ?? {};
+  return JSON.stringify({
+    type: "CTA",
+    headline: payload.headline ?? null,
+    subline: payload.subline ?? null,
+    button_label: payload.button_label ?? null,
+    has_asset: Boolean(nonEmpty(payload.asset_id)),
+  });
+}
+
+function conversionSourceFromEntry(
+  entry: PackageVisualSceneEntry,
+  index: number,
+): SceneIntentConversionSource {
+  const id = sceneIdFor(entry, index);
+
+  if (isChecklistVisualSceneEntry(entry)) {
+    return {
+      id,
+      index,
+      presentation_type: "CHECKLIST",
+      visual_source: "typed_overlay",
+      asset_id: null,
+      used_as: null,
+      technical_source: technicalFromChecklist(entry),
+    };
+  }
+  if (isPhoneVisualSceneEntry(entry)) {
+    const payload = asRecord(entry.payload) ?? {};
+    const assetId = nonEmpty(payload.asset_id);
+    return {
+      id,
+      index,
+      presentation_type: "PHONE",
+      visual_source: assetId ? "asset" : "generated",
+      asset_id: assetId,
+      used_as: assetId ? "phone_screen" : null,
+      technical_source: technicalFromPhone(entry),
+    };
+  }
+  if (isQuoteVisualSceneEntry(entry)) {
+    return {
+      id,
+      index,
+      presentation_type: "QUOTE",
+      visual_source: "typed_overlay",
+      asset_id: null,
+      used_as: null,
+      technical_source: technicalFromQuote(entry),
+    };
+  }
+  if (isStatisticVisualSceneEntry(entry)) {
+    return {
+      id,
+      index,
+      presentation_type: "STATISTIC",
+      visual_source: "typed_overlay",
+      asset_id: null,
+      used_as: null,
+      technical_source: technicalFromStatistic(entry),
+    };
+  }
+  if (isCtaVisualSceneEntry(entry)) {
+    const payload = asRecord(entry.payload) ?? {};
+    const assetId = nonEmpty(payload.asset_id);
+    return {
+      id,
+      index,
+      presentation_type: "CTA",
+      visual_source: assetId ? "asset" : "typed_overlay",
+      asset_id: assetId,
+      used_as: assetId ? "cta_visual" : null,
+      technical_source: technicalFromCta(entry),
+    };
+  }
+
+  const record = asRecord(entry);
+  if (record?.source === "asset") {
+    const assetId = nonEmpty(record.asset_id) ?? "unknown";
+    const usedAs = nonEmpty(record.used_as) ?? "product asset";
+    return {
+      id,
+      index,
+      presentation_type: "IMAGE",
+      visual_source: "asset",
+      asset_id: assetId,
+      used_as: usedAs,
+      technical_source: JSON.stringify({
+        type: "ASSET",
+        asset_id: assetId,
+        used_as: usedAs,
+      }),
+    };
+  }
+
+  if (record?.source === "ai") {
+    const prompt = nonEmpty(record.image_prompt) ?? "";
+    return {
+      id,
+      index,
+      presentation_type: "IMAGE",
+      visual_source: "generated",
+      asset_id: null,
+      used_as: null,
+      technical_source: prompt || JSON.stringify({ type: "IMAGE", prompt: null }),
+    };
+  }
+
+  const type = nonEmpty(record?.type);
+  return {
+    id,
+    index,
+    presentation_type: type,
+    visual_source: "generated",
+    asset_id: null,
+    used_as: null,
+    technical_source: JSON.stringify({ type: type ?? "UNKNOWN", entry: record }),
+  };
+}
+
+/** Collect conversion sources for AI Scene Intent generation. */
+export function collectSceneIntentConversionSources(
   input: SceneIntentSeedInput,
-): CreativeReviewScene[] {
+): SceneIntentConversionSource[] {
   const visualScenes = Array.isArray(input.visualScenes)
     ? input.visualScenes
     : [];
 
   if (visualScenes.length > 0) {
-    return visualScenes.map((entry, index) => ({
-      id: sceneIdFor(entry, index),
-      index,
-      intent: intentFromVisualSceneEntry(entry),
-      director_notes: "",
-    }));
+    return visualScenes.map((entry, index) =>
+      conversionSourceFromEntry(entry, index),
+    );
   }
 
   const prompts = Array.isArray(input.imagePrompts)
@@ -283,16 +269,52 @@ export function seedSceneIntentsForCreativeReview(
   return prompts.map((prompt, index) => ({
     id: `scene-${index + 1}`,
     index,
-    intent: intentFromAiStill(prompt),
+    presentation_type: "IMAGE",
+    visual_source: "generated" as const,
+    asset_id: null,
+    used_as: null,
+    technical_source: prompt,
+  }));
+}
+
+/**
+ * Build provisional Creative Review scenes before AI conversion / translation.
+ * Uses placeholder human text — replaced by generateSceneCreativeIntents.
+ */
+export function seedSceneIntentsForCreativeReview(
+  input: SceneIntentSeedInput,
+): CreativeReviewScene[] {
+  const sources = collectSceneIntentConversionSources(input);
+  return sources.map((source) => ({
+    id: source.id,
+    index: source.index,
+    intent: makeIntent({
+      original: "Creative intent pending.",
+      localized_edit: "Creative intent pending.",
+      english_preview: null,
+      english_preview_outdated: true,
+      presentation_type: source.presentation_type,
+      visual_source: source.visual_source,
+      asset_id: source.asset_id,
+      used_as: source.used_as,
+    }),
     director_notes: "",
   }));
 }
 
-/** Convenience: seed from a ContentPackageOutput. */
 export function seedSceneIntentsFromPackage(
   pkg: Pick<ContentPackageOutput, "visual_scenes" | "image_prompts">,
 ): CreativeReviewScene[] {
   return seedSceneIntentsForCreativeReview({
+    visualScenes: pkg.visual_scenes,
+    imagePrompts: pkg.image_prompts,
+  });
+}
+
+export function collectSceneIntentConversionSourcesFromPackage(
+  pkg: Pick<ContentPackageOutput, "visual_scenes" | "image_prompts">,
+): SceneIntentConversionSource[] {
+  return collectSceneIntentConversionSources({
     visualScenes: pkg.visual_scenes,
     imagePrompts: pkg.image_prompts,
   });

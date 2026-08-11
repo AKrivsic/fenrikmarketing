@@ -9,7 +9,6 @@ import { join } from "node:path";
 import type { TextProvider } from "../lib/ai/types";
 import {
   commitCreativeReviewApprove,
-  commitCreativeReviewConfirmTranslation,
   commitCreativeReviewSave,
   commitCreativeReviewTranslate,
   commitCreativeReviewUnapprove,
@@ -64,6 +63,33 @@ function seeded(): CreativeReview {
   return seedCreativeReviewFromPackage(minimalPackage(), { now: FIXED_NOW });
 }
 
+
+function applyEnglish(
+  current: CreativeReview,
+  englishVoiceover: string,
+  timestamp: string,
+) {
+  return commitCreativeReviewTranslate({
+    current,
+    expectedVersion: current.version,
+    voiceover: {
+      ...current.voiceover,
+      english_preview: englishVoiceover,
+      english_preview_outdated: false,
+    },
+    scenes: current.scenes.map((scene, index) => ({
+      ...scene,
+      intent: {
+        ...scene.intent,
+        english_preview: `Scene ${index + 1} EN`,
+        english_preview_outdated: false,
+      },
+    })),
+    actor: ACTOR,
+    timestamp,
+  });
+}
+
 function saveEdit(
   current: CreativeReview,
   localized: string,
@@ -76,7 +102,7 @@ function saveEdit(
       voiceoverLocalizedEdit: localized,
       scenes: current.scenes.map((scene) => ({
         id: scene.id,
-        intentDescription: scene.intent.description,
+        intentLocalizedEdit: scene.intent.localized_edit,
         directorNotes: scene.director_notes,
       })),
     },
@@ -101,7 +127,10 @@ function phase2LegacyBlob(): unknown {
         index: 0,
         director_notes: "",
         intent: {
-          description: "Legacy intent",
+          original: "Legacy intent",
+          localized_edit: "Legacy intent",
+          english_preview: null,
+          english_preview_outdated: true,
           presentation_type: "IMAGE",
           visual_source: "generated",
           asset_id: null,
@@ -126,7 +155,10 @@ function phase2LegacyBlob(): unknown {
             index: 0,
             director_notes: "",
             intent: {
-              description: "Legacy intent",
+              original: "Legacy intent",
+          localized_edit: "Legacy intent",
+          english_preview: null,
+          english_preview_outdated: true,
               presentation_type: "IMAGE",
               visual_source: "generated",
               asset_id: null,
@@ -157,64 +189,34 @@ async function main() {
     assert.equal(result.review.status, "draft");
   });
 
-  await check("translate persists english_preview without confirming", () => {
+  await check("automatic translation persists english_preview and marks current", () => {
     const current = seeded();
     const saved = saveEdit(current, "Lokální text.");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Local text.",
-      actor: ACTOR,
-      timestamp: "2026-08-11T14:00:00.000Z",
-    });
+    const translated = applyEnglish(saved.review, "Local text.", "2026-08-11T14:00:00.000Z");
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
     assert.equal(translated.review.voiceover.english_preview, "Local text.");
-    assert.equal(translated.review.voiceover.english_confirmed, false);
+    assert.equal(translated.review.voiceover.english_confirmed, true);
+    assert.equal(translated.review.voiceover.english_preview_outdated, false);
+    assert.equal(translated.review.voiceover.final_approved, "Lokální text.");
     assert.equal(translated.review.history.at(-1)!.event, "translate");
     assert.equal(translated.review.version, 3);
+    assert.equal(translated.review.status, "ready");
   });
 
-  await check("confirm translation sets final_approved + english_confirmed", () => {
+  await check("translation fails without english_preview payload", () => {
     const current = seeded();
-    const saved = saveEdit(current, "Lokální text.");
-    assert.equal(saved.ok, true);
-    if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Local text.",
-      actor: ACTOR,
-      timestamp: "2026-08-11T14:00:00.000Z",
-    });
-    assert.equal(translated.ok, true);
-    if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
-      current: translated.review,
-      expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: "2026-08-11T15:00:00.000Z",
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
-    assert.equal(confirmed.review.voiceover.english_confirmed, true);
-    assert.equal(confirmed.review.voiceover.final_approved, "Lokální text.");
-    assert.equal(
-      confirmed.review.voiceover.translation_confirmed_by,
-      ACTOR.id,
-    );
-    assert.equal(confirmed.review.status, "ready");
-    assert.equal(confirmed.review.approved, false);
-    assert.equal(confirmed.review.history.at(-1)!.event, "confirm_translation");
-  });
-
-  await check("confirm translation fails without english_preview", () => {
-    const current = seeded();
-    const result = commitCreativeReviewConfirmTranslation({
+    const result = commitCreativeReviewTranslate({
       current,
       expectedVersion: 1,
+      voiceover: {
+        ...current.voiceover,
+        english_preview: null,
+        english_preview_outdated: false,
+      },
+      scenes: current.scenes,
       actor: ACTOR,
       timestamp: LATER,
     });
@@ -228,29 +230,16 @@ async function main() {
     const saved = saveEdit(current, "Text A");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Text A EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "Text A EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
-      current: translated.review,
-      expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: LATER,
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
-    const reedited = saveEdit(confirmed.review, "Text B");
+    const reedited = saveEdit(translated.review, "Text B");
     assert.equal(reedited.ok, true);
     if (!reedited.ok) return;
     assert.equal(reedited.review.voiceover.english_confirmed, false);
     assert.equal(reedited.review.voiceover.translation_confirmed_at, null);
-    assert.equal(reedited.review.voiceover.english_preview, "Text A EN");
+    assert.equal(reedited.review.voiceover.english_preview, null);
+    assert.equal(reedited.review.voiceover.final_approved, "");
     assert.equal(reedited.review.status, "draft");
   });
 
@@ -264,26 +253,12 @@ async function main() {
     const saved = saveEdit(current, "Text");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Text EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "Text EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
+    const approved = commitCreativeReviewApprove({
       current: translated.review,
       expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: LATER,
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
-    const approved = commitCreativeReviewApprove({
-      current: confirmed.review,
-      expectedVersion: confirmed.review.version,
       actor: ACTOR,
       timestamp: LATER,
     });
@@ -299,26 +274,12 @@ async function main() {
     const saved = saveEdit(current, "Text");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Text EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "Text EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
+    const approved = commitCreativeReviewApprove({
       current: translated.review,
       expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: LATER,
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
-    const approved = commitCreativeReviewApprove({
-      current: confirmed.review,
-      expectedVersion: confirmed.review.version,
       actor: ACTOR,
       timestamp: LATER,
     });
@@ -342,31 +303,17 @@ async function main() {
     const saved = saveEdit(current, "Text");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "Text EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "Text EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
-      current: translated.review,
-      expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: LATER,
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
     // Simulate a corrupted/incomplete intent snapshot for the approval gate.
     const incomplete: CreativeReview = {
-      ...confirmed.review,
-      scenes: confirmed.review.scenes.map((scene, index) =>
+      ...translated.review,
+      scenes: translated.review.scenes.map((scene, index) =>
         index === 0
           ? {
               ...scene,
-              intent: { ...scene.intent, description: "" },
+              intent: { ...scene.intent, localized_edit: "" },
             }
           : scene,
       ),
@@ -405,13 +352,7 @@ async function main() {
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
     const seedEntry = saved.review.history[0]!;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
     assert.deepEqual(translated.review.history[0], seedEntry);
@@ -443,26 +384,12 @@ async function main() {
     const saved = saveEdit(draft, "Ready path");
     assert.equal(saved.ok, true);
     if (!saved.ok) return;
-    const translated = commitCreativeReviewTranslate({
-      current: saved.review,
-      expectedVersion: saved.review.version,
-      englishPreview: "EN",
-      actor: ACTOR,
-      timestamp: LATER,
-    });
+    const translated = applyEnglish(saved.review, "EN", LATER);
     assert.equal(translated.ok, true);
     if (!translated.ok) return;
-    const confirmed = commitCreativeReviewConfirmTranslation({
+    const approved = commitCreativeReviewApprove({
       current: translated.review,
       expectedVersion: translated.review.version,
-      actor: ACTOR,
-      timestamp: LATER,
-    });
-    assert.equal(confirmed.ok, true);
-    if (!confirmed.ok) return;
-    const approved = commitCreativeReviewApprove({
-      current: confirmed.review,
-      expectedVersion: confirmed.review.version,
       actor: ACTOR,
       timestamp: LATER,
     });
@@ -471,7 +398,7 @@ async function main() {
 
     const progress = computeCreativeReviewRunProgress([
       draft,
-      confirmed.review,
+      translated.review,
       approved.review,
       null,
     ]);
@@ -487,7 +414,7 @@ async function main() {
       name: "fake",
       async complete() {
         return {
-          text: JSON.stringify({ english: "Translated English voiceover." }),
+          text: JSON.stringify({ text: "Translated English voiceover." }),
           model: "fake-model",
           provider: "fake",
           usage: {
@@ -509,7 +436,7 @@ async function main() {
 
   console.log("\nE — UI / wiring guards");
 
-  await check("UI exposes translation + approval affordances", () => {
+  await check("UI exposes save + approval affordances without manual translate", () => {
     const workspace = readFileSync(
       join(
         root,
@@ -529,15 +456,16 @@ async function main() {
       "utf8",
     );
     const combined = `${workspace}\n${panel}\n${actions}`;
-    assert.match(panel, /Confirm Translation/);
-    assert.match(panel, /Confirm Translation Result/);
+    assert.doesNotMatch(panel, /Update English Preview/);
+    assert.doesNotMatch(panel, /Confirm Translation Result/);
+    assert.doesNotMatch(actions, /translateCreativeReviewPackageAction/);
     assert.match(panel, /English Preview/);
     assert.match(panel, /Approve Package/);
     assert.match(panel, /Unapprove Package/);
-    assert.match(panel, /Package Status/);
-    assert.match(workspace, /Waiting for translation/);
+    assert.match(panel, /Localized/);
+    assert.match(workspace, /Editor Language/);
     assert.match(workspace, /Approved/);
-    assert.match(actions, /translateCreativeReviewPackage/);
+    assert.match(actions, /saveCreativeReviewPackageAction/);
     assert.match(actions, /approveCreativeReviewPackage/);
     assert.match(actions, /expectedVersion/);
     assert.match(actions, /getProjectForAdmin/);
@@ -552,7 +480,8 @@ async function main() {
     assert.doesNotMatch(admin, /video_jobs/);
     assert.doesNotMatch(admin, /Continue Generation/i);
     assert.match(admin, /version_conflict/);
-    assert.match(admin, /translateCreativeReviewPackage/);
+    assert.match(admin, /immutable_status/);
+    assert.match(admin, /translateCreativeReviewEnglishPreviews/);
   });
 
   await check("permission gates require project ownership on every mutation", () => {
@@ -562,16 +491,16 @@ async function main() {
     );
     assert.match(actions, /requireProjectEditor/);
     assert.match(actions, /getProjectForAdmin/);
-    assert.match(actions, /nemáte oprávnění/);
+    assert.match(actions, /do not have access/);
     for (const name of [
       "saveCreativeReviewPackageAction",
-      "translateCreativeReviewPackageAction",
-      "confirmCreativeReviewTranslationAction",
       "approveCreativeReviewPackageAction",
       "unapproveCreativeReviewPackageAction",
     ]) {
       assert.match(actions, new RegExp(name));
     }
+    assert.doesNotMatch(actions, /confirmCreativeReviewTranslationAction/);
+    assert.doesNotMatch(actions, /translateCreativeReviewPackageAction/);
   });
 
   console.log("\nAll Phase 4 Creative Review checks passed.");

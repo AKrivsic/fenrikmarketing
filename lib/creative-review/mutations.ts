@@ -1,8 +1,11 @@
 /**
- * Pure Creative Review mutations (save / translate / confirm / approve).
+ * Pure Creative Review mutations (save / apply english preview / approve).
  *
  * Every successful mutation bumps version and appends an immutable history
  * entry. Optimistic concurrency is enforced via expectedVersion.
+ *
+ * Manual Confirm Translation is removed — English Preview is refreshed
+ * automatically on Save after Localized edits.
  */
 
 import type { ValidationIssue, ValidationResult } from "@/lib/ai/validateAiOutput";
@@ -12,6 +15,7 @@ import {
 } from "@/lib/creative-review/applyEdits";
 import {
   appendCreativeReviewHistory,
+  cloneScenes,
   cloneVoiceover,
   computeCreativeReviewStatus,
   validateCreativeReviewApproval,
@@ -19,6 +23,8 @@ import {
 import type {
   CreativeReview,
   CreativeReviewActor,
+  CreativeReviewScene,
+  CreativeReviewVoiceover,
 } from "@/lib/creative-review/types";
 import { parseCreativeReview } from "@/lib/creative-review/validate";
 
@@ -52,7 +58,7 @@ function conflict(currentVersion: number): CreativeReviewMutationConflict {
     ok: false,
     code: "version_conflict",
     error:
-      "Balíček byl mezitím upraven jiným editorem. Obnovte stránku a zkuste znovu.",
+      "This package was modified by another editor. Refresh the page and try again.",
     issues: [
       {
         path: "$.version",
@@ -101,7 +107,7 @@ export function commitCreativeReviewSave(args: {
 
   const applied = applyCreativeReviewEdits(args.current, args.edits);
   if (!applied.ok) {
-    return validationFailure("Validace Creative Review selhala.", applied.issues);
+    return validationFailure("Creative Review validation failed.", applied.issues);
   }
 
   const withHistory = appendCreativeReviewHistory({
@@ -112,15 +118,21 @@ export function commitCreativeReviewSave(args: {
   });
   const parsed = finalize(withHistory);
   if (!parsed.ok) {
-    return validationFailure("Historie Creative Review je neplatná.", parsed.issues);
+    return validationFailure("Creative Review history is invalid.", parsed.issues);
   }
   return { ok: true, review: parsed.value };
 }
 
+/**
+ * Persist refreshed English previews for voiceover + scenes.
+ * Marks translation current (english_confirmed) and sets final_approved.
+ * Called automatically after Save when Localized changed.
+ */
 export function commitCreativeReviewTranslate(args: {
   current: CreativeReview;
   expectedVersion: number;
-  englishPreview: string;
+  voiceover: CreativeReviewVoiceover;
+  scenes: CreativeReviewScene[];
   actor: CreativeReviewActor;
   timestamp: string;
 }): CreativeReviewMutationResult {
@@ -130,39 +142,69 @@ export function commitCreativeReviewTranslate(args: {
   );
   if (versionMismatch) return versionMismatch;
 
-  const preview = args.englishPreview.trim();
+  const preview = args.voiceover.english_preview?.trim() ?? "";
   if (!preview) {
-    return validationFailure("Anglický překlad je prázdný.", [
+    return validationFailure("English voiceover preview is empty.", [
       {
         path: "$.voiceover.english_preview",
         message: "english_preview must be a non-empty string",
       },
     ]);
   }
-  if (!args.current.voiceover.localized_edit.trim()) {
-    return validationFailure("Localized voiceover je prázdný.", [
+  if (!args.voiceover.localized_edit.trim()) {
+    return validationFailure("Localized voiceover is empty.", [
       {
         path: "$.voiceover.localized_edit",
         message: "localized_edit is required before translation",
       },
     ]);
   }
+  for (const scene of args.scenes) {
+    if (!scene.intent.localized_edit.trim()) {
+      return validationFailure("A scene is missing localized Creative Intent.", [
+        {
+          path: `$.scenes[id=${scene.id}].intent.localized_edit`,
+          message: "localized_edit is required before translation",
+        },
+      ]);
+    }
+    if (!scene.intent.english_preview?.trim()) {
+      return validationFailure("A scene is missing English Creative Intent preview.", [
+        {
+          path: `$.scenes[id=${scene.id}].intent.english_preview`,
+          message: "english_preview must be a non-empty string",
+        },
+      ]);
+    }
+  }
 
-  const voiceover = cloneVoiceover(args.current.voiceover);
+  const voiceover = cloneVoiceover(args.voiceover);
   voiceover.english_preview = preview;
-  // Explicit Translate never silently confirms.
-  voiceover.english_confirmed = false;
-  voiceover.translation_confirmed_at = null;
-  voiceover.translation_confirmed_by = null;
+  voiceover.english_preview_outdated = false;
+  voiceover.english_confirmed = true;
+  voiceover.final_approved = voiceover.localized_edit;
+  voiceover.translation_confirmed_at = args.timestamp;
+  voiceover.translation_confirmed_by = args.actor.id;
+
+  const scenes = cloneScenes(
+    args.scenes.map((scene) => ({
+      ...scene,
+      intent: {
+        ...scene.intent,
+        english_preview_outdated: false,
+      },
+    })),
+  );
 
   const next: CreativeReview = {
     ...args.current,
     approved: false,
     voiceover,
+    scenes,
     status: computeCreativeReviewStatus({
       approved: false,
       voiceover,
-      scenes: args.current.scenes,
+      scenes,
     }),
   };
 
@@ -174,74 +216,7 @@ export function commitCreativeReviewTranslate(args: {
   });
   const parsed = finalize(withHistory);
   if (!parsed.ok) {
-    return validationFailure("Překlad Creative Review je neplatný.", parsed.issues);
-  }
-  return { ok: true, review: parsed.value };
-}
-
-export function commitCreativeReviewConfirmTranslation(args: {
-  current: CreativeReview;
-  expectedVersion: number;
-  actor: CreativeReviewActor;
-  timestamp: string;
-}): CreativeReviewMutationResult {
-  const versionMismatch = assertExpectedVersion(
-    args.current,
-    args.expectedVersion,
-  );
-  if (versionMismatch) return versionMismatch;
-
-  const preview = args.current.voiceover.english_preview?.trim() ?? "";
-  if (!preview) {
-    return validationFailure(
-      "Nejdřív spusťte překlad (Confirm Translation).",
-      [
-        {
-          path: "$.voiceover.english_preview",
-          message: "english_preview is required before confirming translation",
-        },
-      ],
-    );
-  }
-  if (!args.current.voiceover.localized_edit.trim()) {
-    return validationFailure("Localized voiceover je prázdný.", [
-      {
-        path: "$.voiceover.localized_edit",
-        message: "localized_edit is required before confirming translation",
-      },
-    ]);
-  }
-
-  const voiceover = cloneVoiceover(args.current.voiceover);
-  voiceover.english_confirmed = true;
-  voiceover.final_approved = voiceover.localized_edit;
-  voiceover.translation_confirmed_at = args.timestamp;
-  voiceover.translation_confirmed_by = args.actor.id;
-
-  const next: CreativeReview = {
-    ...args.current,
-    // Confirming translation does not auto-approve the package.
-    approved: false,
-    voiceover,
-    status: computeCreativeReviewStatus({
-      approved: false,
-      voiceover,
-      scenes: args.current.scenes,
-    }),
-  };
-
-  const withHistory = appendCreativeReviewHistory({
-    review: next,
-    event: "confirm_translation",
-    actor: args.actor,
-    timestamp: args.timestamp,
-  });
-  const parsed = finalize(withHistory);
-  if (!parsed.ok) {
-    return validationFailure(
-      "Potvrzení překladu Creative Review je neplatné.",
-      parsed.issues,
-    );
+    return validationFailure("Creative Review translation is invalid.", parsed.issues);
   }
   return { ok: true, review: parsed.value };
 }
@@ -261,7 +236,7 @@ export function commitCreativeReviewApprove(args: {
   const gate = validateCreativeReviewApproval(args.current);
   if (!gate.ok) {
     return validationFailure(
-      "Balíček nesplňuje podmínky pro schválení.",
+      "Package does not meet approval requirements.",
       gate.issues,
     );
   }
@@ -280,7 +255,7 @@ export function commitCreativeReviewApprove(args: {
   });
   const parsed = finalize(withHistory);
   if (!parsed.ok) {
-    return validationFailure("Schválení Creative Review je neplatné.", parsed.issues);
+    return validationFailure("Creative Review approval is invalid.", parsed.issues);
   }
   return { ok: true, review: parsed.value };
 }
@@ -298,7 +273,7 @@ export function commitCreativeReviewUnapprove(args: {
   if (versionMismatch) return versionMismatch;
 
   if (!args.current.approved) {
-    return validationFailure("Balíček není schválený.", [
+    return validationFailure("Package is not approved.", [
       {
         path: "$.approved",
         message: "package is not approved",
@@ -325,7 +300,7 @@ export function commitCreativeReviewUnapprove(args: {
   const parsed = finalize(withHistory);
   if (!parsed.ok) {
     return validationFailure(
-      "Zrušení schválení Creative Review je neplatné.",
+      "Creative Review unapproval is invalid.",
       parsed.issues,
     );
   }

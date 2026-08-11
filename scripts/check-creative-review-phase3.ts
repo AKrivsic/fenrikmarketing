@@ -55,7 +55,7 @@ check("applies localized_edit + scene intent + director notes", () => {
     voiceoverLocalizedEdit: "Edited voiceover.",
     scenes: current.scenes.map((scene, index) => ({
       id: scene.id,
-      intentDescription: `Intent ${index + 1}`,
+      intentLocalizedEdit: `Intent ${index + 1}`,
       directorNotes: index === 0 ? "Note A" : "",
     })),
   });
@@ -63,11 +63,11 @@ check("applies localized_edit + scene intent + director notes", () => {
   if (!result.ok) return;
   assert.equal(result.value.voiceover.localized_edit, "Edited voiceover.");
   assert.equal(result.value.voiceover.original_ai, current.voiceover.original_ai);
-  assert.equal(
-    result.value.voiceover.final_approved,
-    current.voiceover.final_approved,
-  );
-  assert.equal(result.value.scenes[0]!.intent.description, "Intent 1");
+  assert.equal(result.value.voiceover.final_approved, "");
+  assert.equal(result.value.voiceover.english_preview, null);
+  assert.equal(result.value.voiceover.english_confirmed, false);
+  assert.equal(result.value.voiceover.english_preview_outdated, true);
+  assert.equal(result.value.scenes[0]!.intent.localized_edit, "Intent 1");
   assert.equal(result.value.scenes[0]!.director_notes, "Note A");
   assert.equal(
     result.value.scenes[0]!.intent.presentation_type,
@@ -84,7 +84,7 @@ check("rejects empty localized_edit via shared validation", () => {
     voiceoverLocalizedEdit: "   ",
     scenes: current.scenes.map((scene) => ({
       id: scene.id,
-      intentDescription: scene.intent.description,
+      intentLocalizedEdit: scene.intent.localized_edit,
       directorNotes: scene.director_notes,
     })),
   });
@@ -97,7 +97,7 @@ check("rejects empty creative intent description", () => {
     voiceoverLocalizedEdit: current.voiceover.localized_edit,
     scenes: current.scenes.map((scene, index) => ({
       id: scene.id,
-      intentDescription: index === 0 ? "" : scene.intent.description,
+      intentLocalizedEdit: index === 0 ? "" : scene.intent.localized_edit,
       directorNotes: scene.director_notes,
     })),
   });
@@ -111,7 +111,7 @@ check("rejects unknown / missing scene ids", () => {
     scenes: [
       {
         id: current.scenes[0]!.id,
-        intentDescription: current.scenes[0]!.intent.description,
+        intentLocalizedEdit: current.scenes[0]!.intent.localized_edit,
         directorNotes: "",
       },
     ],
@@ -123,12 +123,12 @@ check("rejects unknown / missing scene ids", () => {
     scenes: [
       ...current.scenes.map((scene) => ({
         id: scene.id,
-        intentDescription: scene.intent.description,
+        intentLocalizedEdit: scene.intent.localized_edit,
         directorNotes: scene.director_notes,
       })),
       {
         id: "scene-ghost",
-        intentDescription: "Nope",
+        intentLocalizedEdit: "Nope",
         directorNotes: "",
       },
     ],
@@ -144,7 +144,7 @@ check("does not allow image_prompt injection on intent", () => {
     voiceoverLocalizedEdit: current.voiceover.localized_edit,
     scenes: current.scenes.map((scene) => ({
       id: scene.id,
-      intentDescription: scene.intent.description,
+      intentLocalizedEdit: scene.intent.localized_edit,
       directorNotes: scene.director_notes,
     })),
   });
@@ -224,7 +224,7 @@ check("package panel saves only allowed edit fields", () => {
     "utf8",
   );
   assert.match(src, /voiceoverLocalizedEdit/);
-  assert.match(src, /intentDescription/);
+  assert.match(src, /intentLocalizedEdit/);
   assert.match(src, /directorNotes/);
   assert.match(src, /saveCreativeReviewPackageAction/);
   assert.match(src, /History/);

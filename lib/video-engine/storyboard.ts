@@ -120,7 +120,8 @@ export const TAIL_BUFFER_SECONDS = 1.5;
 
 // Spoken words per second used to estimate narration length (so the timeline
 // roughly matches the voiceover without probing the audio file).
-const WORDS_PER_SECOND = 2.6;
+// Shared with Creative Review duration warnings.
+export const WORDS_PER_SECOND = 2.6;
 
 // Legacy rotation (fallback when semantic motion is disabled).
 const MOTION_CYCLE: MotionType[] = [

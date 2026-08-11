@@ -38,7 +38,7 @@ const RUN_STATUS_LABEL: Record<ProductionRunStatus, string> = {
   completed: "Hotovo",
   failed: "Selhalo",
   cancelled: "Zastaveno",
-  waiting_for_creative_review: "Čeká na creative review",
+  waiting_for_creative_review: "Waiting for Creative Review",
 };
 
 const POLL_INTERVAL_MS = 3000;

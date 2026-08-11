@@ -295,3 +295,13 @@ export interface TranslationJob {
   created_at: string;
   updated_at: string;
 }
+
+/** Singleton admin preferences (migration 032). */
+export type EditorLanguageDb = "en" | "cs" | "uk";
+
+export interface AdminPreferences {
+  id: string;
+  editor_language: EditorLanguageDb;
+  updated_at: string;
+  updated_by: string | null;
+}
