@@ -422,7 +422,7 @@ export function buildAssetCoveragePromptBlock(
       );
       break;
     case "optional":
-      if (generationMode === "production") {
+      if (generationMode !== "sample") {
         lines.push(
           "- THIS PACKAGE: assets optional (single-package run or no slot assigned).",
         );

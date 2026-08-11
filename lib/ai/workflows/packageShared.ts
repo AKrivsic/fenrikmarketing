@@ -17,6 +17,7 @@ import {
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import { coerceFormat, WorkflowError } from "@/lib/ai/workflows/shared";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
+import type { CreativeReview } from "@/lib/creative-review/types";
 import { readAssetAnalysis } from "@/lib/assets/analysis";
 import { readProductRole } from "@/lib/assets/productRole";
 import { readProductPresentationAssetMetadata } from "@/lib/assets/productPresentationMetadata";
@@ -387,8 +388,14 @@ export function normalizeImagePrompts(
 // longer live here. The brief retains the creative payload that has no
 // dedicated column: hook, voiceover_text, subtitles, cta, video, the full
 // platform_outputs (incl. google_business) and asset_usage.
-export function buildPackageBrief(pkg: ContentPackageOutput): Json {
-  return {
+//
+// Manual Review optionally attaches a fully initialized creative_review object.
+// Production / sample omit that key entirely (backward compatible).
+export function buildPackageBrief(
+  pkg: ContentPackageOutput,
+  options?: { creativeReview?: CreativeReview },
+): Json {
+  const brief: Record<string, unknown> = {
     hook: pkg.hook,
     voiceover_text: pkg.voiceover_text,
     subtitles: pkg.subtitles,
@@ -404,7 +411,11 @@ export function buildPackageBrief(pkg: ContentPackageOutput): Json {
     // Creative + (after raster) storage refs for the shared FB/LI 1:1 image.
     // Optional: historical packages omit this key.
     social_image: pkg.social_image ?? null,
-  } as unknown as Json;
+  };
+  if (options?.creativeReview) {
+    brief.creative_review = options.creativeReview;
+  }
+  return brief as unknown as Json;
 }
 
 // Video Quality V2 — assembles the video_jobs.input. Beyond the narration it

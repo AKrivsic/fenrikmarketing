@@ -22,6 +22,10 @@ import {
   promoteVideoJobIfArtifactsReady,
 } from "@/lib/production-runtime";
 import { reconcileProductionRunForContentItem } from "@/lib/api/production-run-admin";
+import {
+  parseGenerationMode,
+  shouldDeferVideoUntilCreativeReview,
+} from "@/lib/ai/generationMode";
 
 // n8n-invoked endpoint that hands an existing video_jobs row to the Video
 // Worker. Vercel only prepares the payload, marks the job and calls the worker;
@@ -78,7 +82,7 @@ export async function POST(request: Request): Promise<Response> {
           { status: 409 },
         );
       }
-      // Genuine text-only package: benign no-op.
+      // Genuine text-only package OR Manual Review (video deferred): benign no-op.
       return Response.json(
         {
           ok: true,
@@ -263,7 +267,20 @@ async function packageRequiresVideoJob(
     if (runErr) throw runErr;
     const cfg = run?.requested_config;
     if (cfg && typeof cfg === "object" && !Array.isArray(cfg)) {
-      const plan = (cfg as Record<string, unknown>).plan;
+      const stored = cfg as Record<string, unknown>;
+      const rawConfig =
+        stored.config && typeof stored.config === "object"
+          ? (stored.config as Record<string, unknown>)
+          : null;
+      const generationMode = parseGenerationMode(
+        rawConfig?.generation_mode ?? rawConfig?.generationMode,
+      );
+      // Manual Review before Continue: packages exist without video jobs by design.
+      // After Continue Generation the continue flag clears deferral.
+      if (shouldDeferVideoUntilCreativeReview(generationMode, stored)) {
+        return false;
+      }
+      const plan = stored.plan;
       if (plan && typeof plan === "object" && !Array.isArray(plan)) {
         const active = (plan as Record<string, unknown>).activeVideoPlatforms;
         if (Array.isArray(active) && active.length > 0) return true;

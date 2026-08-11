@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTransition } from "react";
+import Link from "next/link";
 import {
   getProductionRunStatus,
   startProductionRun,
@@ -37,6 +38,7 @@ const RUN_STATUS_LABEL: Record<ProductionRunStatus, string> = {
   completed: "Hotovo",
   failed: "Selhalo",
   cancelled: "Zastaveno",
+  waiting_for_creative_review: "Čeká na creative review",
 };
 
 const POLL_INTERVAL_MS = 3000;
@@ -183,6 +185,23 @@ export function ContentProductionPanel({
       const result = await startProductionRun(projectId, {
         ...config,
         generationMode: "sample",
+      });
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      runIdRef.current = result.runId;
+      const next = await getProductionRunStatus(result.runId);
+      setRun(next);
+    });
+  }, [projectId, config]);
+
+  const handleGenerateManualReview = useCallback(() => {
+    setError(null);
+    startTransition(async () => {
+      const result = await startProductionRun(projectId, {
+        ...config,
+        generationMode: "manual_review",
       });
       if (!result.ok) {
         setError(result.error);
@@ -378,6 +397,18 @@ export function ContentProductionPanel({
               ? "Generování probíhá…"
               : "GENERATE SAMPLE"}
         </button>
+        <button
+          type="button"
+          className={styles.manualReviewButton}
+          onClick={handleGenerateManualReview}
+          disabled={generateDisabled}
+        >
+          {isPending
+            ? "Spouštím…"
+            : active
+              ? "Generování probíhá…"
+              : "Generate with Manual Review"}
+        </button>
         {!canGenerate ? (
           <span className={styles.hint}>
             Nastavte počet packages &gt; 0 a vyberte alespoň jednu platformu.
@@ -388,7 +419,13 @@ export function ContentProductionPanel({
 
       {/* --- Status / progress --------------------------------------------- */}
       {run ? (
-        <RunStatus run={run} active={active} onStop={handleStopRun} stopping={isPending} />
+        <RunStatus
+          projectId={projectId}
+          run={run}
+          active={active}
+          onStop={handleStopRun}
+          stopping={isPending}
+        />
       ) : null}
 
       <FiverrPromoGeneratePanel
@@ -402,11 +439,13 @@ export function ContentProductionPanel({
 }
 
 function RunStatus({
+  projectId,
   run,
   active,
   onStop,
   stopping,
 }: {
+  projectId: string;
   run: ProductionRunView;
   active: boolean;
   onStop: () => void;
@@ -425,6 +464,14 @@ function RunStatus({
             : ""}
           {run.failedTotal > 0 ? ` · ${run.failedTotal} selhalo` : ""}
         </span>
+        {run.status === "waiting_for_creative_review" ? (
+          <Link
+            href={`/projects/${projectId}/creative-review/${run.id}`}
+            className={styles.creativeReviewLink}
+          >
+            Open Creative Review
+          </Link>
+        ) : null}
         {active ? (
           <button
             type="button"

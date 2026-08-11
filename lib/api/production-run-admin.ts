@@ -1,6 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import type { JobStatus, ProductionRunStatus } from "@/lib/supabase/types";
+import type { JobStatus, ProductionRunItemStatus, ProductionRunStatus } from "@/lib/supabase/types";
+import {
+  DEFAULT_GENERATION_MODE,
+  parseGenerationMode,
+  shouldDeferVideoUntilCreativeReview,
+  type GenerationMode,
+} from "@/lib/ai/generationMode";
 import {
   PRODUCTION_RUN_CANCELLED_MESSAGE,
   cancelOpenVideoJobsForProductionRun,
@@ -124,7 +130,7 @@ interface ProductionRunItemRow {
   project_id: string;
   platform: string;
   content_type: string;
-  status: ProductionRunStatus;
+  status: ProductionRunItemStatus;
   package_index: number;
   strategy_item_id: string | null;
   content_package_id: string | null;
@@ -406,8 +412,18 @@ async function settleProductionRunAfterItemFailure(
   });
   const generated = openSlots.generated;
   const failed = openSlots.failed;
+  const generationMode = generationModeFromStoredConfig(
+    readStoredConfig(run.requested_config),
+  );
   const nextStatus: ProductionRunStatus =
-    openSlots.open <= 0 ? "completed" : "running";
+    openSlots.open <= 0
+      ? shouldDeferVideoUntilCreativeReview(
+          generationMode,
+          run.requested_config,
+        ) && generated > 0
+        ? "waiting_for_creative_review"
+        : "completed"
+      : "running";
 
   const firstFailMsg =
     items.find((i) => i.status === "failed" && i.error_message)?.error_message ??
@@ -911,8 +927,14 @@ async function reconcileFromRealContent(
   // Package status from its (shared) video job: failed > running > completed.
   // Video requirement comes from the run plan — never infer text-only from
   // jobs.length === 0 (that false-completed video packages in production).
+  // Manual Review before Continue intentionally has no video jobs yet — treat
+  // like text-only so the run can reach waiting_for_creative_review. After
+  // Continue Generation the continue flag clears deferral and video is required.
   const stored = readStoredConfig(run.requested_config);
-  const requireVideo = planRequiresVideo(stored?.plan ?? null);
+  const generationMode = generationModeFromStoredConfig(stored);
+  const requireVideo =
+    !shouldDeferVideoUntilCreativeReview(generationMode, run.requested_config) &&
+    planRequiresVideo(stored?.plan ?? null);
   const packageStatus = new Map<string, PackageItemStatus>();
   let videosCompleted = 0;
   for (const packageId of packageOrder) {
@@ -992,8 +1014,11 @@ export function shouldClearSupersededProductionRunError(args: {
   failed: number;
   currentErrorMessage: string | null | undefined;
 }): boolean {
+  const settledOk =
+    args.nextStatus === "completed" ||
+    args.nextStatus === "waiting_for_creative_review";
   return (
-    args.nextStatus === "completed" &&
+    settledOk &&
     args.generated > 0 &&
     args.failed === 0 &&
     typeof args.currentErrorMessage === "string" &&
@@ -1064,18 +1089,31 @@ async function syncRunItemsAndCounters(
   }
 
   // Terminal parents stay terminal — post-run regen must not revive the run.
+  // Manual Review settles to waiting_for_creative_review (not completed) once
+  // every package slot is closed and at least one package was generated — until
+  // Continue Generation stamps continued_after_creative_review.
+  const stored = readStoredConfig(run.requested_config);
+  const generationMode = generationModeFromStoredConfig(stored);
+  const deferForCreativeReview = shouldDeferVideoUntilCreativeReview(
+    generationMode,
+    run.requested_config,
+  );
   const resolvedNext: ProductionRunStatus =
     run.status === "cancelled"
       ? "cancelled"
       : run.status === "completed" || run.status === "failed"
         ? run.status
-        : openSlots.open <= 0
-          ? "completed"
-          : run.status === "queued" &&
-              progress.packages.length === 0 &&
-              openSlots.failed === 0
-            ? "queued"
-            : "running";
+        : run.status === "waiting_for_creative_review" && deferForCreativeReview
+          ? "waiting_for_creative_review"
+          : openSlots.open <= 0
+            ? deferForCreativeReview && generated > 0
+              ? "waiting_for_creative_review"
+              : "completed"
+            : run.status === "queued" &&
+                progress.packages.length === 0 &&
+                openSlots.failed === 0
+              ? "queued"
+              : "running";
 
   const clearStaleError = shouldClearSupersededProductionRunError({
     nextStatus: resolvedNext,
@@ -1241,6 +1279,18 @@ function readStoredConfig(value: unknown): StoredConfig | null {
   const plan = record.plan;
   if (!plan || typeof plan !== "object") return null;
   return value as StoredConfig;
+}
+
+function generationModeFromStoredConfig(
+  stored: StoredConfig | null,
+): GenerationMode {
+  if (!stored?.config || typeof stored.config !== "object") {
+    return DEFAULT_GENERATION_MODE;
+  }
+  const config = stored.config as ProductionConfig & {
+    generation_mode?: unknown;
+  };
+  return parseGenerationMode(config.generation_mode ?? config.generationMode);
 }
 
 // ---------------------------------------------------------------------------

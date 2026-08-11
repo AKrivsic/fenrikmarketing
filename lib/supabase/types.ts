@@ -222,12 +222,17 @@ export interface VideoJob {
 }
 
 // Production runs (migration 015). The "Generate Content" one-button flow.
-export type ProductionRunStatus =
+// Item rows keep the original slot statuses; only the parent run may wait for
+// creative review (migration 031 / Manual Review Phase 1).
+export type ProductionRunItemStatus =
   | "queued"
   | "running"
   | "completed"
   | "failed"
   | "cancelled";
+export type ProductionRunStatus =
+  | ProductionRunItemStatus
+  | "waiting_for_creative_review";
 export type ProductionContentType = "video" | "text";
 
 export interface ProductionRun {
@@ -252,7 +257,7 @@ export interface ProductionRunItem {
   // Free text (content controls allow "x", not in the platform_type enum).
   platform: string;
   content_type: ProductionContentType;
-  status: ProductionRunStatus;
+  status: ProductionRunItemStatus;
   /** Stable slot identity within the run (0-based). */
   package_index: number;
   /** Strategy item that drives this slot; set at seed. Settlement key. */

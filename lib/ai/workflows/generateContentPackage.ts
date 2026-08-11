@@ -61,9 +61,12 @@ import {
 } from "@/lib/production-runtime";
 import {
   DEFAULT_GENERATION_MODE,
+  defersVideoUntilCreativeReview,
   resolveGenerationMode,
+  shouldDeferVideoUntilCreativeReview,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
+import { seedCreativeReviewFromPackage } from "@/lib/creative-review/seed";
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import { collectAssetUsageFromPackage } from "@/lib/content-package/visualScenePlan";
@@ -482,6 +485,7 @@ async function runGenerateContentPackageAfterClaim(
           : null,
         creative.data.directives,
         canonicalWebsiteUrl(project),
+        generationMode,
       ),
   );
 
@@ -723,12 +727,24 @@ async function persistNewPackage(
   // in so the deterministic CTA post-process can run without re-loading the
   // project. null = no URL / no append (legacy behavior).
   websiteUrl: string | null = null,
+  // Manual Review: persist package + items, but skip video_jobs / worker dispatch.
+  generationMode: GenerationMode = DEFAULT_GENERATION_MODE,
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
   const funnelStage = normalizeFunnelStage(pkg.funnel_stage) ?? context.funnelStage;
 
   const narrativeBeatRoles = readNarrativeBeatRolesFromPackage(pkg);
+
+  // Manual Review: seed a fully initialized creative_review draft into the
+  // package brief at persist time. Production / sample omit the key.
+  const creativeReview = defersVideoUntilCreativeReview(generationMode)
+    ? seedCreativeReviewFromPackage(pkg)
+    : undefined;
+  const packageBrief = buildPackageBrief(
+    pkg,
+    creativeReview ? { creativeReview } : undefined,
+  );
 
   // Content package is created as draft. weekly_strategy_id and funnel_stage
   // are persisted as first-class columns (migration 008).
@@ -741,7 +757,7 @@ async function persistNewPackage(
       funnel_stage: funnelStage,
       title: pkg.title,
       status: "draft",
-      package_brief: buildPackageBrief(pkg),
+      package_brief: packageBrief,
     })
     .select("id")
     .single();
@@ -867,7 +883,10 @@ async function persistNewPackage(
   // video. It is a single shared package video linked to the primary VIDEO
   // platform's content item (MVP: one video per package, not per platform).
   // Text-only packages skip video entirely and remain valid.
-  const requireVideo = videoPlatformSet.size > 0;
+  // Manual Review defers video job creation until after creative review.
+  const requireVideo =
+    videoPlatformSet.size > 0 &&
+    !defersVideoUntilCreativeReview(generationMode);
   let videoJobId = "";
   if (requireVideo) {
     try {
@@ -913,9 +932,15 @@ async function persistNewPackage(
         .single();
       if (videoErr) throw videoErr;
       videoJobId = videoRow.id as string;
+      // Rebuild after buildVideoJobInput may have stamped TTS fields onto pkg.
       const { error: briefErr } = await supabase
         .from("content_packages")
-        .update({ package_brief: buildPackageBrief(pkg) })
+        .update({
+          package_brief: buildPackageBrief(
+            pkg,
+            creativeReview ? { creativeReview } : undefined,
+          ),
+        })
         .eq("id", packageId);
       if (briefErr) throw briefErr;
     } catch (err) {
@@ -1064,6 +1089,7 @@ async function healMissingVideoJobIfRequired(
   }
 
   // Determine video requirement from production run plan when tagged.
+  // Manual Review intentionally has no video_jobs yet — do not heal.
   let requireVideo = true;
   const { data: itemsMeta } = await supabase
     .from("content_items")
@@ -1088,7 +1114,19 @@ async function healMissingVideoJobIfRequired(
       .maybeSingle();
     const cfg = run?.requested_config;
     if (cfg && typeof cfg === "object" && !Array.isArray(cfg)) {
-      const plan = (cfg as Record<string, unknown>).plan;
+      const stored = cfg as Record<string, unknown>;
+      const rawConfig =
+        stored.config && typeof stored.config === "object"
+          ? (stored.config as Record<string, unknown>)
+          : null;
+      const generationMode = resolveGenerationMode(
+        undefined,
+        rawConfig?.generation_mode ?? rawConfig?.generationMode,
+      );
+      if (shouldDeferVideoUntilCreativeReview(generationMode, stored)) {
+        return { ok: true, data: existing };
+      }
+      const plan = stored.plan;
       requireVideo = planRequiresVideo(
         plan && typeof plan === "object"
           ? (plan as {

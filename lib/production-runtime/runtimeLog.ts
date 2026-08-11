@@ -26,7 +26,20 @@ export type RuntimeLogEvent =
   | "callback_accepted"
   | "callback_ignored"
   | "callback_rejected"
-  | "production_run_status_transition";
+  | "production_run_status_transition"
+  | "continue_generation_requested"
+  | "continue_generation_validation_completed"
+  | "continue_generation_job_creation_started"
+  | "continue_generation_job_creation_completed"
+  | "continue_generation_dispatch_started"
+  | "continue_generation_dispatch_completed"
+  | "continue_generation_failed"
+  | "continue_generation_completed"
+  | "creative_rebuild_started"
+  | "creative_rebuild_scene"
+  | "creative_rebuild_prompt"
+  | "creative_rebuild_completed"
+  | "creative_rebuild_failed";
 
 export interface RuntimeLogFields {
   event: RuntimeLogEvent;

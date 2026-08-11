@@ -1,0 +1,245 @@
+.panel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.65rem;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summaryTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-right: 0.35rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.pill[data-tone="edited"],
+.pill[data-tone="draft"],
+.pill[data-tone="waiting"] {
+  color: #b54708;
+  border-color: #b54708;
+}
+
+.pill[data-tone="ok"],
+.pill[data-tone="ready"],
+.pill[data-tone="approved"] {
+  color: #12805c;
+  border-color: #12805c;
+}
+
+.pill[data-tone="error"] {
+  color: #b42318;
+  border-color: #b42318;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 0 0.85rem 0.95rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.textarea[readonly] {
+  background-color: color-mix(in srgb, var(--color-border) 18%, var(--color-bg));
+  color: var(--color-text-muted);
+}
+
+.sceneList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sceneCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.sceneHead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.metaChip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+.historyTableWrap {
+  overflow-x: auto;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.historyTable th,
+.historyTable td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.historyTable th {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.muted {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.blocked {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.issueList {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  color: #b42318;
+}
+
+.issueList code {
+  font-size: 0.78rem;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #b42318;
+}
+
+.success {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #12805c;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.save,
+.reset,
+.secondary,
+.approve,
+.unapprove {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.save,
+.approve {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}
+
+.reset,
+.secondary,
+.unapprove {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.save:disabled,
+.reset:disabled,
+.secondary:disabled,
+.approve:disabled,
+.unapprove:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
