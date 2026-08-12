@@ -87,6 +87,8 @@ export {
   type CreativeReviewRunProgress,
 } from "@/lib/creative-review/progress";
 
+export { canCancelManualReview } from "@/lib/creative-review/cancelGate";
+
 export { normalizeLegacyCreativeReview } from "@/lib/creative-review/legacy";
 
 export {

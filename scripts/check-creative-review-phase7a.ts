@@ -606,6 +606,11 @@ async function main() {
     assert.match(workspace, /Manual Review cancelled/);
     assert.match(workspace, /readOnly=\{readOnly\}/);
     assert.match(workspace, /canCancelManualReview/);
+    assert.match(workspace, /@\/lib\/creative-review\/cancelGate/);
+    assert.doesNotMatch(
+      workspace,
+      /@\/lib\/ai\/workflows\/cancelManualReview/,
+    );
     assert.match(actions, /cancelManualReviewAction/);
     assert.match(actions, /cancelManualReview\(/);
   });

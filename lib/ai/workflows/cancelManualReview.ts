@@ -22,6 +22,8 @@ import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
 import { assertCreativeReview } from "@/lib/creative-review/validate";
 import type { CreativeReviewActor } from "@/lib/creative-review/types";
 
+export { canCancelManualReview } from "@/lib/creative-review/cancelGate";
+
 /** Persisted on production_runs.error_message for Manual Review cancels. */
 export const MANUAL_REVIEW_CANCELLED_MESSAGE = "Manual Review cancelled.";
 
@@ -71,17 +73,6 @@ function fail(
   error: string,
 ): CancelManualReviewResult {
   return { ok: false, code, error };
-}
-
-/** UI hint — Cancel Manual Review is only available while waiting. */
-export function canCancelManualReview(args: {
-  runStatus: ProductionRunStatus;
-  generationMode: GenerationMode;
-}): boolean {
-  return (
-    args.generationMode === "manual_review" &&
-    args.runStatus === "waiting_for_creative_review"
-  );
 }
 
 async function appendCancelHistoryToPackages(args: {

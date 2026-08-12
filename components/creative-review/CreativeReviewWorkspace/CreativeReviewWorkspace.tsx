@@ -8,7 +8,7 @@ import {
   canContinueCreativeReviewGeneration,
   computeCreativeReviewRunProgress,
 } from "@/lib/creative-review/progress";
-import { canCancelManualReview } from "@/lib/ai/workflows/cancelManualReview";
+import { canCancelManualReview } from "@/lib/creative-review/cancelGate";
 import {
   cancelManualReviewAction,
   continueCreativeReviewGenerationAction,
@@ -65,6 +65,8 @@ export function CreativeReviewWorkspace({
 
   const onDirtyChange = useCallback((packageId: string, dirty: boolean) => {
     setDirtyPackageIds((prev) => {
+      const has = prev.has(packageId);
+      if (dirty === has) return prev;
       const next = new Set(prev);
       if (dirty) next.add(packageId);
       else next.delete(packageId);
