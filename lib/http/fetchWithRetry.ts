@@ -16,6 +16,8 @@
 export const HTTP_TIMEOUT_MS = {
   // AI providers (OpenAI / Claude) — generation can be slow.
   ai: 60_000,
+  // OpenAI Images generations — stills can exceed the default AI budget.
+  images: 300_000,
   // n8n / video worker — transport-only triggers and callbacks.
   worker: 30_000,
 } as const;

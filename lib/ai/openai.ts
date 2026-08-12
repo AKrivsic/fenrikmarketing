@@ -237,7 +237,7 @@ export class OpenAIImageProvider implements ImageProvider {
         }),
       },
       {
-        timeoutMs: HTTP_TIMEOUT_MS.ai,
+        timeoutMs: HTTP_TIMEOUT_MS.images,
         maxAttempts: HTTP_MAX_ATTEMPTS.ai,
         label: "openai:image",
       },
