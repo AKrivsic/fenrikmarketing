@@ -25,17 +25,3 @@ export function buildVisualIdentity(args: {
     opening_first_image: openingImpact.first_image.trim(),
   };
 }
-
-export function visualIdentityPromptBlock(identity: VisualIdentity): string {
-  return [
-    "VISUAL IDENTITY:",
-    `- art_direction: ${identity.art_direction}`,
-    `- lighting: ${identity.lighting}`,
-    `- palette: ${identity.palette}`,
-    `- environment: ${identity.environment}`,
-    `- camera_style: ${identity.camera_style}`,
-    `- character_style: ${identity.character_style}`,
-    `- opening_emotion: ${identity.opening_emotion}`,
-    `- opening_first_image: ${identity.opening_first_image}`,
-  ].join("\n");
-}

@@ -18,7 +18,7 @@ import { parseCreativeReview } from "../lib/creative-review/validate";
 import { readCreativeReviewFromBrief } from "../lib/creative-review/read";
 import { seedCreativeReviewFromPackage } from "../lib/creative-review/seed";
 import { computeCreativeReviewRunProgress } from "../lib/creative-review/progress";
-import { translateVoiceoverToEnglish } from "../lib/creative-review/translateVoiceover";
+import { translateCreativeReviewEnglishPreviews } from "../lib/creative-review/translateVoiceover";
 import { validateCreativeReviewApproval } from "../lib/creative-review/lifecycle";
 import type { ContentPackageOutput } from "../lib/ai/schemas/contentPackage";
 import type { CreativeReview } from "../lib/creative-review/types";
@@ -409,7 +409,7 @@ async function main() {
     assert.equal(progress.waitingForTranslation, 1);
   });
 
-  await check("translateVoiceoverToEnglish uses provider + persists shape", async () => {
+  await check("translateCreativeReviewEnglishPreviews uses provider + persists shape", async () => {
     const provider: TextProvider = {
       name: "fake",
       async complete() {
@@ -425,13 +425,19 @@ async function main() {
         };
       },
     };
-    const result = await translateVoiceoverToEnglish(
-      { localizedEdit: "Lokální text pro překlad." },
-      { textProvider: provider },
-    );
+    const review = seedCreativeReviewFromPackage(minimalPackage(), {
+      now: FIXED_NOW,
+    });
+    const result = await translateCreativeReviewEnglishPreviews(review, {
+      textProvider: provider,
+      forceAll: true,
+    });
     assert.equal(result.ok, true);
     if (!result.ok) return;
-    assert.equal(result.data.english, "Translated English voiceover.");
+    assert.equal(
+      result.data.voiceover.english_preview,
+      "Translated English voiceover.",
+    );
   });
 
   console.log("\nE — UI / wiring guards");

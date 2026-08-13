@@ -37,7 +37,6 @@ import type {
   CreativeReview,
   CreativeReviewActor,
 } from "@/lib/creative-review/types";
-import type { TextProvider } from "@/lib/ai/types";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
 
 const VIDEO_PLATFORMS = new Set([
@@ -96,8 +95,6 @@ export interface ContinueCreativeReviewGenerationDeps {
   startVideoJob?: (payload: VideoWorkerJobPayload) => Promise<void>;
   /** Injectable clock for tests. */
   now?: () => Date;
-  /** Unused — reserved so callers can share DI with translation workflows. */
-  textProvider?: TextProvider;
 }
 
 interface RunRow {
@@ -397,6 +394,17 @@ async function rebuildAndPersistPackage(args: {
     .eq("project_id", args.projectId);
   if (error) throw error;
 
+  const spoken = rebuilt.value.package.voiceover_text?.trim() ?? "";
+  if (spoken) {
+    const { error: itemErr } = await args.supabase
+      .from("content_items")
+      .update({ body: spoken })
+      .eq("package_id", args.pkg.packageId)
+      .eq("project_id", args.projectId)
+      .is("language", null);
+    if (itemErr) throw itemErr;
+  }
+
   args.pkg.packageBrief = nextBrief;
   return rebuilt.value.creativeReview;
 }
@@ -453,7 +461,6 @@ async function ensureVideoJobForPackage(args: {
     {
       package_id: args.pkg.packageId,
       production_run_id: args.runId,
-      continued_after_creative_review: true,
     },
   );
 

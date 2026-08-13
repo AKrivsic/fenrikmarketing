@@ -573,11 +573,20 @@ async function main() {
 
     const brief = db.tables.content_packages[0]!.package_brief as {
       creative_review: CreativeReview;
+      voiceover_text?: string;
+      subtitles?: string;
+      hook?: string;
+      video?: { script?: string };
     };
+    const spoken = brief.creative_review.voiceover.final_approved;
     assert.equal(
       brief.creative_review.history.at(-1)!.event,
       "continue_generation_started",
     );
+    assert.equal(brief.voiceover_text, spoken);
+    assert.equal(brief.subtitles, spoken);
+    assert.equal(brief.video?.script, spoken);
+    assert.equal(db.tables.content_items[0]!.body, spoken);
   });
 
   await check("Continue validation failure does not change run", async () => {
@@ -752,7 +761,7 @@ async function main() {
     );
     assert.match(src, /buildVideoJobInput/);
     assert.match(src, /claimAndDispatchVariantVideoJob/);
-    assert.match(src, /continued_after_creative_review/);
+    assert.match(src, /markContinuedAfterCreativeReview/);
     assert.match(src, /continue_generation_started/);
     assert.match(src, /rebuildCreativePackageForVideo/);
     assert.doesNotMatch(src, /video-worker\/jobRunner/);

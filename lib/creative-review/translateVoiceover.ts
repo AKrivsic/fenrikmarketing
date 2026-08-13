@@ -139,42 +139,6 @@ async function localizeOrCopy(args: {
   });
 }
 
-/** @deprecated Prefer translateCreativeReviewForEditor */
-export async function translateVoiceoverToEnglish(
-  input: { localizedEdit: string },
-  deps: TranslateCreativeReviewTextDeps = {},
-): Promise<WorkflowResult<{ english: string }>> {
-  const textProvider = deps.textProvider ?? getCopywritingProvider();
-  const result = await translateTextToLanguage({
-    source: input.localizedEdit,
-    targetLanguage: "en",
-    system: voiceoverSystem("English"),
-    stepName: "Creative Review Voiceover Translation",
-    inputSummary: "Translate localized_edit → english_preview",
-    textProvider,
-  });
-  if (!result.ok) return result;
-  return { ok: true, data: { english: result.data.text } };
-}
-
-/** @deprecated Prefer translateCreativeReviewForEditor */
-export async function translateSceneIntentToEnglish(
-  input: { localizedEdit: string },
-  deps: TranslateCreativeReviewTextDeps = {},
-): Promise<WorkflowResult<{ english: string }>> {
-  const textProvider = deps.textProvider ?? getCopywritingProvider();
-  const result = await translateTextToLanguage({
-    source: input.localizedEdit,
-    targetLanguage: "en",
-    system: sceneIntentSystem("English"),
-    stepName: "Creative Review Scene Intent Translation",
-    inputSummary: "Translate scene localized_edit → english_preview",
-    textProvider,
-  });
-  if (!result.ok) return result;
-  return { ok: true, data: { english: result.data.text } };
-}
-
 export interface ApplyEnglishPreviewsResult {
   voiceover: CreativeReviewVoiceover;
   scenes: CreativeReviewScene[];
@@ -352,8 +316,3 @@ export async function translateCreativeReviewForEditor(
     data: { voiceover: nextVoiceover, scenes: nextScenes },
   };
 }
-
-/** @deprecated Use TranslateCreativeReviewTextDeps */
-export type TranslateVoiceoverToEnglishDeps = TranslateCreativeReviewTextDeps;
-/** @deprecated */
-export type TranslateVoiceoverToEnglishResult = { english: string };

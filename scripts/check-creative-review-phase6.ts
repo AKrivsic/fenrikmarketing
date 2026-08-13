@@ -79,6 +79,7 @@ function approveWithEdits(args: {
   review: CreativeReview;
   localized: string;
   sceneIntents?: string[];
+  sceneEnglish?: string[];
   directorNotes?: string[];
 }): CreativeReview {
   const { review } = args;
@@ -108,7 +109,8 @@ function approveWithEdits(args: {
     ...scene,
     intent: {
       ...scene.intent,
-      english_preview: `Scene ${index + 1} EN`,
+      english_preview:
+        args.sceneEnglish?.[index] ?? scene.intent.localized_edit,
       english_preview_outdated: false,
     },
   }));
@@ -181,15 +183,22 @@ async function main() {
         openingImpact: OPENING_IMPACT,
         videoConcept: VIDEO_CONCEPT,
       },
-      isOpeningStill: true,
     });
-    assert.match(prompt, /Founder at a laptop in morning light/);
-    assert.match(prompt, /clean modern documentary/);
-    assert.match(prompt, /soft natural window light/);
     assert.match(prompt, /Show the founder deciding/);
     assert.match(prompt, /Wider frame/);
-    assert.match(prompt, /VIDEO CONCEPT/);
+    assert.match(prompt, /CREATIVE INTENT/);
+    assert.match(prompt, /DIRECTOR NOTES/);
+    assert.match(prompt, /clean modern documentary/);
+    assert.match(prompt, /soft natural window light/);
     assert.match(prompt, /VISUAL CONSISTENCY/);
+    assert.doesNotMatch(prompt, /VIDEO CONCEPT/);
+    assert.doesNotMatch(prompt, /OPENING IMPACT/);
+    assert.doesNotMatch(prompt, /Most teams waste their mornings/);
+    assert.doesNotMatch(prompt, /Teams reclaim their first hour/);
+    assert.doesNotMatch(prompt, /problem → insight → product → proof/);
+    assert.doesNotMatch(prompt, /mornings are fragmented/);
+    assert.doesNotMatch(prompt, /opening_emotion/);
+    assert.doesNotMatch(prompt, /opening_first_image/);
   });
 
   await check("non-opening scenes still preserve Visual Identity", () => {
@@ -203,16 +212,16 @@ async function main() {
         openingImpact: OPENING_IMPACT,
         videoConcept: VIDEO_CONCEPT,
       },
-      isOpeningStill: false,
     });
-    assert.doesNotMatch(prompt, /OPENING IMPACT \(authoritative/);
+    assert.doesNotMatch(prompt, /OPENING IMPACT/);
+    assert.doesNotMatch(prompt, /VIDEO CONCEPT/);
     assert.match(prompt, /clean modern documentary/);
     assert.match(prompt, /Product UI close-up/);
   });
 
   console.log("\nB — Full package rebuild");
 
-  await check("Scene Intent + Director Notes rebuild AI image_prompt", () => {
+  await check("Scene Intent english_preview rebuilds AI image_prompt", () => {
     const seeded = seedCreativeReviewFromPackage(
       {
         voiceover_text: "Original VO.",
@@ -228,10 +237,13 @@ async function main() {
       review: seeded,
       localized: "Schválený voiceover o ranní produktivitě.",
       sceneIntents: [
+        "Zakladatel čelí chaotické ranní schránce.",
+        "Dashboard produktu vrací klidný fokus.",
+      ],
+      sceneEnglish: [
         "Founder faces a chaotic morning inbox.",
         "Product dashboard restores calm focus.",
       ],
-      directorNotes: ["Lead with Opening Impact energy.", "Tight crop on UI."],
     });
 
     const pkg = basePackage({
@@ -259,11 +271,14 @@ async function main() {
     assert.equal(scenes.length, 2);
     assert.equal(scenes[0]!.source, "ai");
     assert.match(scenes[0]!.image_prompt!, /Founder faces a chaotic morning inbox/);
-    assert.match(scenes[0]!.image_prompt!, /Lead with Opening Impact energy/);
-    assert.match(scenes[0]!.image_prompt!, /Founder at a laptop in morning light/);
+    assert.doesNotMatch(scenes[0]!.image_prompt!, /Zakladatel čelí chaotické/);
     assert.match(scenes[0]!.image_prompt!, /clean modern documentary/);
+    assert.doesNotMatch(scenes[0]!.image_prompt!, /DIRECTOR NOTES/);
+    assert.doesNotMatch(scenes[0]!.image_prompt!, /Founder at a laptop in morning light/);
+    assert.doesNotMatch(scenes[0]!.image_prompt!, /VIDEO CONCEPT/);
+    assert.doesNotMatch(scenes[0]!.image_prompt!, /Most teams waste their mornings/);
     assert.match(scenes[1]!.image_prompt!, /Product dashboard restores calm focus/);
-    assert.match(scenes[1]!.image_prompt!, /Tight crop on UI/);
+    assert.doesNotMatch(scenes[1]!.image_prompt!, /Dashboard produktu/);
     assert.equal(result.value.promptsRebuilt, 2);
 
     // Legacy sync
@@ -274,7 +289,36 @@ async function main() {
     );
   });
 
-  await check("Voiceover uses final_approved + alignOpeningVoiceover", () => {
+  await check("Non-empty Director Notes fail closed on AI image rebuild", () => {
+    const seeded = seedCreativeReviewFromPackage(
+      {
+        voiceover_text: "Original VO.",
+        visual_scenes: [{ source: "ai", image_prompt: "Still" }],
+        image_prompts: ["Still"],
+      },
+      { now: () => new Date("2026-08-12T08:00:00.000Z") },
+    );
+    const approved = approveWithEdits({
+      review: seeded,
+      localized: "Localized VO.",
+      directorNotes: ["Wider frame, keep teal accent."],
+    });
+    const result = rebuildCreativePackageForVideo({
+      package: basePackage(),
+      creativeReview: approved,
+      actor: ACTOR,
+      timestamp: TS,
+    });
+    assert.equal(result.ok, false);
+    if (result.ok) return;
+    assert.ok(
+      result.issues.some((issue) =>
+        issue.message.includes("no verified English equivalent"),
+      ),
+    );
+  });
+
+  await check("Voiceover uses final_approved exactly — no Opening Impact prepend", () => {
     const seeded = seedCreativeReviewFromPackage(
       {
         voiceover_text: "Original VO.",
@@ -296,25 +340,42 @@ async function main() {
     assert.equal(result.ok, true);
     if (!result.ok) return;
     assert.equal(
-      result.value.package.voiceover_text.includes(
-        OPENING_IMPACT.first_spoken_sentence,
-      ) ||
-        result.value.package.voiceover_text ===
-          approved.voiceover.final_approved ||
-        result.value.package.voiceover_text.startsWith(
-          OPENING_IMPACT.first_spoken_sentence,
-        ),
-      true,
+      result.value.package.voiceover_text,
+      approved.voiceover.final_approved,
     );
-    assert.equal(result.value.package.hook, OPENING_IMPACT.first_spoken_sentence);
     assert.equal(
       result.value.package.subtitles,
-      result.value.package.voiceover_text,
+      approved.voiceover.final_approved,
     );
-    assert.match(
-      result.value.package.voiceover_text,
-      /Týmy ztrácejí rána|Most teams waste their mornings/,
+    assert.equal(
+      result.value.package.video.script,
+      approved.voiceover.final_approved,
     );
+    assert.equal(
+      result.value.package.voiceover_text.includes(
+        OPENING_IMPACT.first_spoken_sentence,
+      ),
+      false,
+    );
+    assert.equal(
+      result.value.package.hook,
+      approved.voiceover.final_approved.split("\n")[0]!.trim(),
+    );
+    assert.notEqual(
+      result.value.package.hook,
+      OPENING_IMPACT.first_spoken_sentence,
+    );
+    assert.match(result.value.package.voiceover_text, /Týmy ztrácejí rána/);
+    const pg = result.value.package.presentation_generation as {
+      creative_rebuild?: {
+        opening_prepended?: boolean;
+        voiceover_aligned?: boolean;
+        completed_at?: string;
+      };
+    };
+    assert.equal(pg.creative_rebuild?.opening_prepended, undefined);
+    assert.equal(pg.creative_rebuild?.voiceover_aligned, undefined);
+    assert.equal(pg.creative_rebuild?.completed_at, TS);
   });
 
   await check("Asset scenes remain assets; director notes → modify only", () => {
@@ -553,9 +614,10 @@ async function main() {
       join(root, "lib/creative-review/rebuildCreativePackage.ts"),
       "utf8",
     );
-    assert.match(src, /alignOpeningVoiceover/);
-    assert.match(src, /visualIdentityPromptBlock/);
+    assert.doesNotMatch(src, /alignOpeningVoiceover/);
+    assert.match(src, /visualIdentityAppearanceBlock/);
     assert.match(src, /syncLegacyFieldsFromVisualScenes/);
+    assert.doesNotMatch(src, /opening_prepended|voiceover_aligned|isOpeningStill/);
     assert.doesNotMatch(src, /startVideoWorkerJob|storyboard|elevenlabs|openai\.images/i);
   });
 

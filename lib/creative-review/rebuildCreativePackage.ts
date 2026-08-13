@@ -1,26 +1,36 @@
 /**
- * Creative Review Rebuild Engine (Phase 6).
+ * Creative Review Rebuild Engine (Phase 6 + Phase 8 source-of-truth).
  *
  * Bridges Manual Review (Scene Creative Intent + Director Notes + final_approved
  * voiceover) into video-only package fields that the EXISTING buildVideoJobInput
  * / worker path already understands.
  *
  * Isolated from UI and Continue orchestration logic. Deterministic — no LLM,
- * no second pipeline, no worker changes. Visual Identity / Opening Impact /
- * Video Concept are frozen anchors, never replaced.
+ * no second pipeline, no worker changes.
+ *
+ * After Continue Generation, creative_review is the only narrative source.
+ * Image prompts use verified english_preview (Creative Intent).
+ * TTS uses voiceover.final_approved (localized).
+ * Spoken package fields (voiceover_text, subtitles, hook, video.script) are
+ * synchronized from final_approved at rebuild.
+ * Opening Impact / Video Concept / original AI artifacts are historical.
+ * They must never overwrite editor decisions (spoken text, hook, story).
+ * Visual Identity may constrain appearance only.
+ *
+ * Compatibility kept: resolveAnchors still requires persisted Opening Impact
+ * and Video Concept objects (old packages). confirm_translation history events
+ * remain valid. image_prompts is a derived projection of visual_scenes.
  */
 
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import type { ValidationIssue, ValidationResult } from "@/lib/ai/validateAiOutput";
 import { normalizeImagePrompts } from "@/lib/ai/workflows/packageShared";
-import { alignOpeningVoiceover } from "@/lib/content-pipeline/alignOpeningVoiceover";
 import { extractPriorPipelineArtifacts } from "@/lib/content-pipeline/regeneration";
 import type {
   OpeningImpact,
   VideoConcept,
   VisualIdentity,
 } from "@/lib/content-pipeline/types";
-import { visualIdentityPromptBlock } from "@/lib/content-pipeline/visualIdentity";
 import {
   isCtaVisualSceneEntry,
   isChecklistVisualSceneEntry,
@@ -40,6 +50,7 @@ import {
   appendCreativeReviewHistory,
   cloneScenes,
   cloneVoiceover,
+  isEnglishPreviewCurrent,
 } from "@/lib/creative-review/lifecycle";
 import type {
   CreativeReview,
@@ -62,8 +73,6 @@ export interface CreativeRebuildResult {
   creativeReview: CreativeReview;
   scenesRebuilt: number;
   promptsRebuilt: number;
-  voiceoverAligned: boolean;
-  openingPrepended: boolean;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -84,30 +93,96 @@ function resolveReviewScene(
   return review.scenes[index] ?? null;
 }
 
-function videoConceptAnchorBlock(concept: VideoConcept): string {
+/**
+ * Visual Identity for rebuild: appearance constraints only.
+ * Never include opening_emotion / opening_first_image (those echo original
+ * Opening Impact narrative / first_image and would restore the original story).
+ */
+function visualIdentityAppearanceBlock(identity: VisualIdentity): string {
   return [
-    "VIDEO CONCEPT (frozen anchor — do not invent a new concept):",
-    `- title: ${concept.title}`,
-    `- core_idea: ${concept.core_idea}`,
-    `- emotional_tone: ${concept.emotional_tone}`,
-    `- narrative_arc: ${concept.narrative_arc}`,
-  ]
-    .filter((line) => !line.endsWith(": "))
-    .join("\n");
+    "VISUAL IDENTITY (appearance constraints only — do not restore original story):",
+    `- character_style: ${identity.character_style}`,
+    `- camera_style: ${identity.camera_style}`,
+    `- lighting: ${identity.lighting}`,
+    `- environment: ${identity.environment}`,
+    `- palette: ${identity.palette}`,
+    `- art_direction: ${identity.art_direction}`,
+  ].join("\n");
 }
 
 function continuityGuardBlock(): string {
   return [
     "VISUAL CONSISTENCY (mandatory):",
-    "- Preserve the same environment, people, business, lighting, colors, camera style, and atmosphere.",
-    "- Preserve narrative continuity with neighboring scenes.",
-    "- Never replace or weaken Visual Identity.",
+    "- Preserve the same character, appearance, clothing, and visual style across scenes.",
+    "- Preserve camera, framing, lens, lighting, environment, and realism continuity.",
+    "- Do not restore the original story, hook, or spoken text.",
     "- Photoreal marketing still; no readable on-image text unless the scene type requires UI chrome.",
   ].join("\n");
 }
 
+function hookFromFinalApproved(finalApproved: string): string {
+  const line = finalApproved.split(/\r?\n/)[0]?.trim() ?? "";
+  return line;
+}
+
 /**
- * Compose a new internal AI image prompt from Creative Review + frozen anchors.
+ * Image-prompt inputs from Creative Review.
+ *
+ * Creative Intent: verified english_preview (same approved content as
+ * localized_edit). Never re-translate. Never use localized_edit.
+ *
+ * Director Notes: no English field exists on CreativeReviewScene. Empty notes
+ * are omitted. Non-empty notes fail closed — do not inject Czech, do not
+ * invent a translation.
+ */
+function resolveImagePromptReviewText(
+  scene: CreativeReviewScene,
+  path: string,
+): ValidationResult<{ intentDescription: string; directorNotes: string }> {
+  const issues: ValidationIssue[] = [];
+  if (!scene.intent.localized_edit.trim()) {
+    issues.push({
+      path: `${path}.intent.localized_edit`,
+      message: "Creative Intent is required for rebuild",
+    });
+  }
+  if (
+    !isEnglishPreviewCurrent({
+      english_preview: scene.intent.english_preview,
+      english_preview_outdated: scene.intent.english_preview_outdated,
+    })
+  ) {
+    issues.push({
+      path: `${path}.intent.english_preview`,
+      message:
+        "verified english_preview is required for image rebuild — do not use localized_edit",
+    });
+  }
+  if (scene.director_notes.trim()) {
+    issues.push({
+      path: `${path}.director_notes`,
+      message:
+        "director_notes has no verified English equivalent; cannot inject localized Director Notes into image generation",
+    });
+  }
+  if (issues.length > 0) return { ok: false, issues };
+  return {
+    ok: true,
+    value: {
+      intentDescription: scene.intent.english_preview!.trim(),
+      directorNotes: "",
+    },
+  };
+}
+
+/**
+ * Compose a new internal AI image prompt from Creative Review.
+ *
+ * Narrative source of truth for images: verified English Creative Intent
+ * (intent.english_preview). Director Notes are omitted unless empty.
+ * Visual Identity constrains appearance only.
+ * Opening Impact / Video Concept are historical — never injected as spoken
+ * text, hook, core_idea, narrative_arc, audience insight, or messaging.
  * Deterministic. Never exposed to the editor UI.
  */
 export function composeRebuiltImagePrompt(args: {
@@ -116,8 +191,6 @@ export function composeRebuiltImagePrompt(args: {
   directorNotes: string;
   presentationType: string | null;
   anchors: CreativeRebuildAnchors;
-  /** True for the package's first AI/generated IMAGE still (Opening Impact). */
-  isOpeningStill: boolean;
   maxLength?: number;
 }): string {
   const intent = args.intentDescription.trim();
@@ -125,18 +198,7 @@ export function composeRebuiltImagePrompt(args: {
   const typeLabel = args.presentationType?.trim() || "IMAGE";
   const lines: string[] = [];
 
-  if (args.isOpeningStill) {
-    lines.push(
-      "OPENING IMPACT (authoritative cold open — lead with this first_image):",
-      args.anchors.openingImpact.first_image.trim(),
-      `opening_emotion: ${args.anchors.openingImpact.emotion.trim()}`,
-      `pacing: ${args.anchors.openingImpact.pacing.trim()}`,
-    );
-  }
-
-  lines.push(visualIdentityPromptBlock(args.anchors.visualIdentity));
-  lines.push(videoConceptAnchorBlock(args.anchors.videoConcept));
-  lines.push(continuityGuardBlock());
+  // Creative Intent is the primary scene description.
   lines.push(
     `SCENE ${args.sceneIndex + 1} (${typeLabel}) — CREATIVE INTENT:`,
     intent,
@@ -147,11 +209,13 @@ export function composeRebuiltImagePrompt(args: {
       notes,
     );
   }
+  lines.push(visualIdentityAppearanceBlock(args.anchors.visualIdentity));
+  lines.push(continuityGuardBlock());
 
   let prompt = lines.filter(Boolean).join("\n").replace(/\n{3,}/g, "\n\n").trim();
   const max = args.maxLength;
   if (typeof max === "number" && max > 0 && prompt.length > max) {
-    // Prefer keeping Opening Impact + Identity heads when truncating.
+    // Prefer keeping Creative Intent (+ Director Notes) when truncating.
     prompt = `${prompt.slice(0, Math.max(0, max - 1)).trimEnd()}…`;
   }
   return prompt;
@@ -229,27 +293,17 @@ function validateRebuiltAiPrompt(
   prompt: string,
   path: string,
   anchors: CreativeRebuildAnchors,
-  isOpeningStill: boolean,
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   if (!prompt.trim()) {
     issues.push({ path, message: "rebuilt image_prompt is empty" });
     return issues;
   }
-  // Visual Identity must remain present (never weakened away).
+  // Visual Identity appearance must remain present (never weakened away).
   if (!prompt.includes(anchors.visualIdentity.art_direction.trim())) {
     issues.push({
       path,
       message: "rebuilt image_prompt missing Visual Identity art_direction",
-    });
-  }
-  if (
-    isOpeningStill &&
-    !prompt.includes(anchors.openingImpact.first_image.trim())
-  ) {
-    issues.push({
-      path,
-      message: "opening scene rebuilt image_prompt missing Opening Impact first_image",
     });
   }
   return issues;
@@ -280,7 +334,6 @@ function rebuildPhoneScene(
   reviewScene: CreativeReviewScene,
   sceneIndex: number,
   anchors: CreativeRebuildAnchors,
-  isOpeningStill: boolean,
 ): { scene: VisualScenePhoneStored; promptRebuilt: boolean; issues: ValidationIssue[] } {
   const payload = { ...entry.payload };
   // Asset-bound phone screens stay assets — never convert to AI.
@@ -304,20 +357,30 @@ function rebuildPhoneScene(
     };
   }
 
+  const resolved = resolveImagePromptReviewText(
+    reviewScene,
+    `$.creative_review.scenes[${sceneIndex}]`,
+  );
+  if (!resolved.ok) {
+    return {
+      scene: { ...entry, payload },
+      promptRebuilt: false,
+      issues: resolved.issues,
+    };
+  }
+
   const prompt = composeRebuiltImagePrompt({
     sceneIndex,
-    intentDescription: reviewScene.intent.localized_edit,
-    directorNotes: reviewScene.director_notes,
+    intentDescription: resolved.value.intentDescription,
+    directorNotes: resolved.value.directorNotes,
     presentationType: "PHONE",
     anchors,
-    isOpeningStill,
     maxLength: PHONE_PROMPT_MAX,
   });
   const issues = validateRebuiltAiPrompt(
     prompt,
     `$.visual_scenes[${sceneIndex}].payload.image_prompt`,
     anchors,
-    isOpeningStill,
   );
   return {
     scene: {
@@ -364,7 +427,6 @@ function rebuildTypedScene(
   reviewScene: CreativeReviewScene,
   sceneIndex: number,
   anchors: CreativeRebuildAnchors,
-  isOpeningStill: boolean,
 ): {
   scene: PackageVisualSceneEntry;
   promptRebuilt: boolean;
@@ -377,7 +439,6 @@ function rebuildTypedScene(
       reviewScene,
       sceneIndex,
       anchors,
-      isOpeningStill,
     );
     if (!rebuilt.promptRebuilt && entry.payload.asset_id?.trim()) {
       return {
@@ -519,7 +580,6 @@ export function rebuildCreativePackageForVideo(args: {
   const issues: ValidationIssue[] = [];
   let scenesRebuilt = 0;
   let promptsRebuilt = 0;
-  let openingStillAssigned = false;
   const typedEditorialStamps: TypedSceneEditorialStamp[] = [];
 
   const visualScenes = Array.isArray(pkg.visual_scenes)
@@ -553,16 +613,11 @@ export function rebuildCreativePackageForVideo(args: {
       });
 
       if (isTypedNonImageVisualSceneEntry(entry)) {
-        const isOpeningStill =
-          !openingStillAssigned &&
-          isPhoneVisualSceneEntry(entry) &&
-          Boolean(entry.payload.image_prompt?.trim());
         const rebuilt = rebuildTypedScene(
           entry,
           reviewScene,
           i,
           anchors,
-          isOpeningStill,
         );
         issues.push(...rebuilt.issues);
         nextScenes.push(rebuilt.scene);
@@ -572,7 +627,6 @@ export function rebuildCreativePackageForVideo(args: {
         }
         if (rebuilt.promptRebuilt) {
           promptsRebuilt += 1;
-          if (isOpeningStill) openingStillAssigned = true;
           runtimeLog("info", {
             event: "creative_rebuild_prompt",
             package_id: args.packageId ?? null,
@@ -599,28 +653,32 @@ export function rebuildCreativePackageForVideo(args: {
       }
 
       if (entry.source === "ai") {
-        const isOpeningStill = !openingStillAssigned;
+        const resolved = resolveImagePromptReviewText(
+          reviewScene,
+          `$.creative_review.scenes[${i}]`,
+        );
+        if (!resolved.ok) {
+          issues.push(...resolved.issues);
+          continue;
+        }
         const prompt = composeRebuiltImagePrompt({
           sceneIndex: i,
-          intentDescription: reviewScene.intent.localized_edit,
-          directorNotes: reviewScene.director_notes,
+          intentDescription: resolved.value.intentDescription,
+          directorNotes: resolved.value.directorNotes,
           presentationType: reviewScene.intent.presentation_type,
           anchors,
-          isOpeningStill,
         });
         issues.push(
           ...validateRebuiltAiPrompt(
             prompt,
             `$.visual_scenes[${i}].image_prompt`,
             anchors,
-            isOpeningStill,
           ),
         );
         const aiScene: VisualSceneAi = { source: "ai", image_prompt: prompt };
         nextScenes.push(aiScene);
         scenesRebuilt += 1;
         promptsRebuilt += 1;
-        if (isOpeningStill) openingStillAssigned = true;
         runtimeLog("info", {
           event: "creative_rebuild_prompt",
           package_id: args.packageId ?? null,
@@ -659,21 +717,26 @@ export function rebuildCreativePackageForVideo(args: {
     const prompts: string[] = [];
     for (let i = 0; i < generated.length; i += 1) {
       const scene = generated[i]!;
-      const isOpeningStill = i === 0;
+      const resolved = resolveImagePromptReviewText(
+        scene,
+        `$.creative_review.scenes[${scene.index}]`,
+      );
+      if (!resolved.ok) {
+        issues.push(...resolved.issues);
+        continue;
+      }
       const prompt = composeRebuiltImagePrompt({
         sceneIndex: scene.index,
-        intentDescription: scene.intent.localized_edit,
-        directorNotes: scene.director_notes,
+        intentDescription: resolved.value.intentDescription,
+        directorNotes: resolved.value.directorNotes,
         presentationType: scene.intent.presentation_type,
         anchors,
-        isOpeningStill,
       });
       issues.push(
         ...validateRebuiltAiPrompt(
           prompt,
           `$.image_prompts[${i}]`,
           anchors,
-          isOpeningStill,
         ),
       );
       prompts.push(prompt);
@@ -695,16 +758,20 @@ export function rebuildCreativePackageForVideo(args: {
     });
   }
 
-  // Voiceover: final_approved → align with Opening Impact first spoken sentence.
-  const aligned = alignOpeningVoiceover({
-    opening: anchors.openingImpact.first_spoken_sentence,
-    voiceover: finalApproved,
-  });
-  pkg.voiceover_text = aligned.voiceover_text;
-  if (aligned.hook) {
-    pkg.hook = aligned.hook;
+  // Spoken source of truth after rebuild: creative_review.voiceover.final_approved.
+  // Synchronize every package spoken field so Generate-era English does not remain.
+  pkg.voiceover_text = finalApproved;
+  pkg.subtitles = finalApproved;
+  const reviewHook = hookFromFinalApproved(finalApproved);
+  if (reviewHook) {
+    pkg.hook = reviewHook;
   }
-  pkg.subtitles = aligned.voiceover_text;
+  if (pkg.video && typeof pkg.video === "object") {
+    pkg.video = {
+      ...pkg.video,
+      script: finalApproved,
+    };
+  }
 
   // History — creative_rebuild_completed with voiceover + scene snapshots.
   let nextReview = review;
@@ -747,8 +814,6 @@ export function rebuildCreativePackageForVideo(args: {
       actor_id: actor.id,
       scenes_rebuilt: scenesRebuilt,
       prompts_rebuilt: promptsRebuilt,
-      voiceover_aligned: true,
-      opening_prepended: aligned.prepended,
       typed_overlay_editorial: typedEditorialStamps,
       typed_overlay_policy:
         "CHECKLIST/QUOTE/STATISTIC/CTA payloads are preserved; Creative Intent is stamped for audit because those overlays have no image_prompt to rebuild without destroying validated semantics.",
@@ -770,8 +835,6 @@ export function rebuildCreativePackageForVideo(args: {
       creativeReview: nextReview,
       scenesRebuilt,
       promptsRebuilt,
-      voiceoverAligned: true,
-      openingPrepended: aligned.prepended,
     },
   };
 }

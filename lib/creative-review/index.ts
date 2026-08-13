@@ -59,12 +59,10 @@ export {
 
 export {
   appendCreativeReviewHistory,
-  cloneHistoryEntry,
   cloneScenes,
   cloneVoiceover,
   computeCreativeReviewStatus,
   creativeReviewNeedsEnglishPreviewUpdate,
-  invalidateTranslationAfterEdit,
   invalidateVoiceoverTranslationAfterEdit,
   invalidateSceneIntentTranslationAfterEdit,
   isEnglishPreviewCurrent,
@@ -92,19 +90,14 @@ export { canCancelManualReview } from "@/lib/creative-review/cancelGate";
 export { normalizeLegacyCreativeReview } from "@/lib/creative-review/legacy";
 
 export {
-  translateVoiceoverToEnglish,
-  translateSceneIntentToEnglish,
   translateCreativeReviewEnglishPreviews,
   translateCreativeReviewForEditor,
   type TranslateCreativeReviewTextDeps,
   type TranslateCreativeReviewForEditorDeps,
-  type TranslateVoiceoverToEnglishDeps,
-  type TranslateVoiceoverToEnglishResult,
 } from "@/lib/creative-review/translateVoiceover";
 
 export {
   computeCreativeReviewDurationEstimate,
-  estimateVoiceoverDurationSeconds,
   formatDurationSeconds,
   WORDS_PER_SECOND,
 } from "@/lib/creative-review/duration";

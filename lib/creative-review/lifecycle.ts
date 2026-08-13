@@ -232,13 +232,6 @@ export function invalidateVoiceoverTranslationAfterEdit(
   };
 }
 
-/** @deprecated Prefer invalidateVoiceoverTranslationAfterEdit */
-export function invalidateTranslationAfterEdit(
-  voiceover: CreativeReviewVoiceover,
-): CreativeReviewVoiceover {
-  return invalidateVoiceoverTranslationAfterEdit(voiceover);
-}
-
 export function invalidateSceneIntentTranslationAfterEdit(
   intent: SceneCreativeIntent,
 ): SceneCreativeIntent {

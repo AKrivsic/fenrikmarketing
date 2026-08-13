@@ -46,9 +46,6 @@ export type MutateCreativeReviewActionResult =
       currentVersion?: number;
     };
 
-/** @deprecated Prefer MutateCreativeReviewActionResult */
-export type SaveCreativeReviewActionResult = MutateCreativeReviewActionResult;
-
 function creativeReviewPath(projectId: string, runId: string): string {
   return `/projects/${projectId}/creative-review/${runId}`;
 }

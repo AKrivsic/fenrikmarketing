@@ -39,10 +39,8 @@ export function computeCreativeReviewDurationEstimate(args: {
 }): CreativeReviewDurationEstimate {
   const wordsOriginal = countWords(args.originalAi);
   const wordsEstimated = countWords(args.localizedEdit);
-  const originalSeconds =
-    wordsOriginal > 0 ? wordsOriginal / WORDS_PER_SECOND : 0;
-  const estimatedSeconds =
-    wordsEstimated > 0 ? wordsEstimated / WORDS_PER_SECOND : 0;
+  const originalSeconds = estimateVoiceoverDurationSeconds(args.originalAi);
+  const estimatedSeconds = estimateVoiceoverDurationSeconds(args.localizedEdit);
   return {
     originalSeconds,
     estimatedSeconds,
