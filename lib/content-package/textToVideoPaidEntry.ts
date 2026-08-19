@@ -52,7 +52,7 @@ export function assertTextToVideoPaidEntryReady(
 
 /** Step 3: ElevenLabs voice phase, then Runway preflight stub. */
 export async function runTextToVideoPaidEntryPoint(
-  input: VideoPaidPreflightInput & { projectId: string; packageId: string },
+  input: import("@/lib/text-to-video/voiceSynthesisService").TextToVideoVoicePhaseInput,
   deps?: import("@/lib/text-to-video/voiceSynthesisService").VoiceSynthesisDeps,
 ): Promise<{ checkpoint: VoiceSynthesisCheckpoint; brief: Record<string, unknown> }> {
   assertTextToVideoElevenLabsPreflight(input);

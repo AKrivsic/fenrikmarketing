@@ -84,6 +84,7 @@ export async function runTextToVideoWorkerPipeline(
       ...preflight,
       projectId: args.projectId,
       packageId: args.packageId,
+      jobInput: args.jobInput,
     },
     {
       supabase: deps.supabase,

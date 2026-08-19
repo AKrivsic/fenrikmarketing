@@ -106,7 +106,12 @@ export async function runTextToVideoJobPhase(args: {
       : vo.length;
 
   const voiceResult = await runTextToVideoElevenLabsVoicePhase(
-    { ...preflight, projectId: args.projectId, packageId: args.packageId },
+    {
+      ...preflight,
+      projectId: args.projectId,
+      packageId: args.packageId,
+      jobInput: args.jobInput,
+    },
     {
       supabase: args.supabase,
       fetchImpl: args.executorDeps?.fetchImpl,

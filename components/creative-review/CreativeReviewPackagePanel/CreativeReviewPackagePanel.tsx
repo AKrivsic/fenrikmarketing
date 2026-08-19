@@ -482,6 +482,11 @@ export function CreativeReviewPackagePanel({
                 {t2v.budgetEstimateLabel ? (
                   <p className={styles.muted}>{t2v.budgetEstimateLabel}</p>
                 ) : null}
+                {t2v.voiceCategoryLabel ? (
+                  <p className={styles.muted}>
+                    Kategorie hlasu (ElevenLabs): {t2v.voiceCategoryLabel}
+                  </p>
+                ) : null}
                 <label className={styles.field}>
                   <span className={styles.label}>Hlasová režie</span>
                   <select

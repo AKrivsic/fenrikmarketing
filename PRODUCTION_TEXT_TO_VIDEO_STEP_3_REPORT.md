@@ -132,3 +132,57 @@ npx tsx scripts/check-production-text-to-video-step-2c.ts
 ## Next (Step 4+)
 
 Runway video generation after `assertTextToVideoRunwayPreflight` with remaining budget.
+
+---
+
+## T2V voice selection parity fix (2026-08-20)
+
+### Shrnutí
+
+Eleven fáze T2V nyní bere hlas **výhradně** z immutable snapshotu jobu/balíčku, ne z projektového resolveru. Mapování zůstává **female / male / default** (max 2 unikátní Eleven identity + volitelný default sdílený s jedním bucketem).
+
+### Checklist (odpovědi)
+
+1. **Autoritativní hlas:** `video_jobs.input.tts_voice` (priorita), pak `package_brief` snapshot (`tts_voice`, `presentation_generation.tts_voice` / `selected_voice`). Implementace: `lib/text-to-video/textToVideoAuthoritativeVoice.ts`, volání z `voiceSynthesisService.buildSynthesisContext`.
+2. **Jednorázový výběr:** Ano — při `buildVideoJobInput` / `attachTtsToVideoJobInput`; worker předává `jobInput` do Eleven fáze; retry dědí stejný `tts_voice` z job inputu.
+3. **Mapování:** OpenAI gender bucket → `ELEVENLABS_VOICE_ID_FEMALE` / `_MALE` / `_DEFAULT` (`lib/elevenlabs/voiceResolve.ts`, strict fail-closed).
+4. **Počet Voice ID:** **2 unikátní identity** (female + male) stačí produktově; env může mít i **default** (třetí klíč), který může **sdílet stejné ID** s female nebo male.
+5. **Nezachováváme:** Rozdíly mezi OpenAI hlasy v rámci stejné kategorie; emoce/styl řeší `video_voice_direction`, v3 tagy, beats, schválená custom instruction.
+6. **Manual Review:** Kategorie hlasu (ženský / mužský / default) + stávající hlasová režie — bez výběru Voice ID (`CreativeReviewPackagePanel`, `creative-review-admin`).
+7. **Změněné soubory:** viz audit appendix + `scripts/check-production-text-to-video-voice-parity.ts`.
+8. **Testy:** parity 10/10; Step 3 ✓; Step 5C ✓; Step 5D ✓ — bez provider POST.
+9. **Migrace 044–046:** Projekt `syijxdgekowpcboxpeyl`; historie migrací obsahuje 044–046; tabulka **`text_to_video_voice_syntheses` chybí**; **`text_to_video_audio_assets` existuje**; 045 = alter `scene_video_generation_attempts`.
+10. **DB změna v tomto kroku:** **Ne.**
+11. **Provider requesty:** **Žádné** reálné ani placené.
+12. **Bezpečné pokračovat env + první placený běh?** **Ne** dokud (a) chybí tabulka `text_to_video_voice_syntheses` na cílovém Supabase a (b) nejsou nastaveny `ELEVENLABS_VOICE_ID_*` pro použité buckety. Po opravě 044 a env: ano, s potvrzeným `text_to_video_confirm_paid_run` a budgetem.
+
+### Run parity tests
+
+```bash
+npx tsx scripts/check-production-text-to-video-voice-parity.ts
+npx tsx scripts/check-production-text-to-video-step-3.ts
+```
+
+---
+
+## Oprava databázového driftu migrací 047 (2026-08-20)
+
+### Shrnutí
+
+Opraven drift: migrace **044** byla v historii projektu `syijxdgekowpcboxpeyl`, ale tabulka **`text_to_video_voice_syntheses` chyběla**. Nová idempotentní migrace **`047_repair_text_to_video_voice_syntheses.sql`** obnovila plný kontrakt (shodný s 044 a `voiceSynthesisRepository`). Historie 044 **nebyla měněna**; `migration repair` **nepoužit**.
+
+### Checklist (13 bodů)
+
+1. **Supabase projekt:** `syijxdgekowpcboxpeyl` (`https://syijxdgekowpcboxpeyl.supabase.co`).
+2. **Příčina driftu:** **NEOVĚŘENO** (044 v `schema_migrations` bez tabulky).
+3. **Proč 047:** explicitní repair bez přepisování 044 / bez falešné historie.
+4. **Změněné soubory:** `supabase/migrations/047_repair_text_to_video_voice_syntheses.sql`; `PRODUCTION_VOICE_SELECTION_AUDIT.md`; tento report.
+5. **Aplikována pouze 047:** **ano** (MCP `apply_migration`, ne `db push`).
+6. **Migration history:** `20260819220917` → `047_repair_text_to_video_voice_syntheses`.
+7. **Metadata:** tabulka + sloupce + status CHECK (9 stavů) + unique fingerprint + FK + claim/completed CHECK + indexy (`package_idx`, `project_idx`, `status_updated_idx`) + RLS + 4 policies + `service_role` granty + `updated_at` trigger — ověřeno SQL.
+8. **Počet řádků:** **0**.
+9. **Testy:** parity 10/10; Step 3 ✓; Step 3B ✓; Step 5C ✓; Step 5D ✓; `npx tsc --noEmit` ✓.
+10. **Provider requesty:** **žádné**.
+11. **Jiná produkční data:** **nezměněna** (pouze DDL CREATE + policies/trigger).
+12. **DB blocker pro první placený T2V:** **odstraněn** (tabulka existuje). Zbývá nastavit worker env a flagy.
+13. **`.env.worker` (bez úprav v tomto kroku):** worker načítá `.env.worker` (`docker-compose.content-package-worker.yml`) — pro placený T2V typicky `ELEVENLABS_TTS_ENABLED=true`, `ELEVENLABS_API_KEY`, mapování `ELEVENLABS_VOICE_ID_FEMALE|MALE|DEFAULT`, `TEXT_TO_VIDEO_RUNWAY_ENABLED=true`, `RUNWAYML_API_SECRET`, volitelně SFX; music flagy dle produktu; dokud operátor nezapne, zůstávají false dle `.env.example`.

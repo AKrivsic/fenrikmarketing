@@ -276,6 +276,7 @@ async function main() {
     ELEVENLABS_TTS_ENABLED: "true",
     ELEVENLABS_API_KEY: "test-key-offline",
     ELEVENLABS_VOICE_ID_DEFAULT: "test-voice-id",
+    ELEVENLABS_VOICE_ID_FEMALE: "test-voice-female",
     TEXT_TO_VIDEO_RUNWAY_ENABLED: "true",
     ELEVENLABS_SOUND_EFFECTS_ENABLED: "true",
     ELEVENLABS_MUSIC_ENABLED: "false",
@@ -515,6 +516,7 @@ async function main() {
     const jobInput = {
       package_video_mode: "text_to_video",
       voiceover_text: voiceText,
+      tts_voice: "alloy",
       text_to_video_confirm_paid_run: true,
       text_to_video_max_budget_usd: 80,
       scenes: [],
@@ -594,6 +596,7 @@ async function main() {
     const jobInput = {
       package_video_mode: "text_to_video",
       voiceover_text: vo(),
+      tts_voice: "alloy",
       text_to_video_confirm_paid_run: true,
       text_to_video_max_budget_usd: 80,
       scenes: [],

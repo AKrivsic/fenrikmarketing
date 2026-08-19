@@ -43,26 +43,26 @@ export function resolveElevenLabsVoiceId(args: {
 }): ResolvedElevenLabsVoice | null {
   const map = args.voiceMap ?? readElevenLabsVoiceMap();
   const hint = genderHintFromOpenAiVoice(args.openAiSelectedVoice);
-  if (hint === "female" && map.female) {
+  if (hint === "female") {
+    if (!map.female) return null;
     return {
       voiceId: map.female,
       genderHint: hint,
       diagnostic: `female voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
     };
   }
-  if (hint === "male" && map.male) {
+  if (hint === "male") {
+    if (!map.male) return null;
     return {
       voiceId: map.male,
       genderHint: hint,
       diagnostic: `male voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
     };
   }
-  if (map.default) {
-    return {
-      voiceId: map.default,
-      genderHint: hint,
-      diagnostic: `default voice (OpenAI ${args.openAiSelectedVoice}, hint=${hint})`,
-    };
-  }
-  return null;
+  if (!map.default) return null;
+  return {
+    voiceId: map.default,
+    genderHint: hint,
+    diagnostic: `default voice (OpenAI ${args.openAiSelectedVoice})`,
+  };
 }

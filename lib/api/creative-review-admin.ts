@@ -49,6 +49,7 @@ import {
 } from "@/lib/content-package/textToVideoSoundPlan";
 import { invalidateAssemblyOnSoundPlanChange } from "@/lib/content-package/invalidateTextToVideoAssembly";
 import { validateSceneSoundForApproval } from "@/lib/text-to-video/textToVideoSfxAnchoring";
+import { readT2vVoiceCategoryLabelForManualReview } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 import {
   estimateElevenLabsMusicCostUsd,
   estimateElevenLabsSfxCostUsd,
@@ -108,6 +109,8 @@ export interface CreativeReviewPackageView {
 export interface CreativeReviewVideoCreativeSummary {
   hook: string | null;
   voiceDirection: VoiceDirectionContract | null;
+  /** Informative Eleven bucket (ženský / mužský / default) from stamped OpenAI voice. */
+  voiceCategoryLabel: string | null;
   planStatus: string | null;
   repetitionStatus: string | null;
   repetitionReasons: string[];
@@ -288,6 +291,7 @@ function buildVideoCreativeSummary(
   return {
     hook,
     voiceDirection: readVoiceDirectionFromBrief(brief),
+    voiceCategoryLabel: readT2vVoiceCategoryLabelForManualReview(brief),
     planStatus: plan?.status ?? null,
     repetitionStatus: plan?.repetition.status ?? null,
     repetitionReasons: (plan?.repetition.blocked_reasons ?? []).map(

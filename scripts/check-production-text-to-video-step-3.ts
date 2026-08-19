@@ -130,6 +130,25 @@ function preflightInput(brief: Record<string, unknown>) {
   };
 }
 
+function voicePhaseInput(
+  brief: Record<string, unknown>,
+  opts?: {
+    packageId?: string;
+    jobVoice?: string;
+    omitJobInput?: boolean;
+  },
+) {
+  const jobVoice = opts?.jobVoice ?? "nova";
+  return {
+    ...preflightInput(brief),
+    projectId: "proj-1",
+    packageId: opts?.packageId ?? "pkg-1",
+    jobInput: opts?.omitJobInput
+      ? undefined
+      : ({ tts_voice: jobVoice } as Record<string, unknown>),
+  };
+}
+
 function alignmentForVo(text: string, totalSeconds = 22) {
   const chars = text.split("");
   const step = totalSeconds / Math.max(chars.length, 1);
@@ -326,7 +345,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          { ...preflightInput(brief), projectId: "proj-1", packageId: "pkg-1" },
+          voicePhaseInput(brief),
           { supabase },
         ),
       (e: unknown) =>
@@ -343,7 +362,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          { ...preflightInput(brief), projectId: "proj-1", packageId: "pkg-1" },
+          voicePhaseInput(brief),
           { supabase },
         ),
       (e: unknown) =>
@@ -362,7 +381,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          { ...preflightInput(brief), projectId: "proj-1", packageId: "pkg-1" },
+          voicePhaseInput(brief),
           { supabase },
         ),
       (e: unknown) =>
@@ -488,10 +507,20 @@ async function main(): Promise<void> {
     });
     assert.equal(m?.voiceId, "m-id");
     const d = resolveElevenLabsVoiceId({
-      openAiSelectedVoice: "onyx",
+      openAiSelectedVoice: "alloy",
       voiceMap: { female: null, male: null, default: "d-id" },
     });
     assert.equal(d?.voiceId, "d-id");
+    const shared = resolveElevenLabsVoiceId({
+      openAiSelectedVoice: "nova",
+      voiceMap: { female: "same-id", male: "same-id", default: "same-id" },
+    });
+    assert.equal(shared?.voiceId, "same-id");
+    const missingMale = resolveElevenLabsVoiceId({
+      openAiSelectedVoice: "onyx",
+      voiceMap: { female: "f-id", male: null, default: "d-id" },
+    });
+    assert.equal(missingMale, null);
   });
 
   await check("14–15 — synthesis fingerprint stable / changes", () => {
@@ -514,6 +543,7 @@ async function main(): Promise<void> {
   process.env.ELEVENLABS_TTS_ENABLED = "true";
   process.env.ELEVENLABS_API_KEY = "test-key";
   process.env.ELEVENLABS_VOICE_ID_DEFAULT = "voice-default";
+  process.env.ELEVENLABS_VOICE_ID_FEMALE = "voice-female";
 
   await check("16–17 — one POST then reuse completed synthesis", async () => {
     const supabase = makeFakeSupabase();
@@ -525,11 +555,7 @@ async function main(): Promise<void> {
         normalized_alignment: alignmentForVo(VO),
       };
     };
-    const input = {
-      ...preflightInput(brief),
-      projectId: "proj-1",
-      packageId: "pkg-concurrent",
-    };
+    const input = voicePhaseInput(brief, { packageId: "pkg-concurrent" });
     const deps = {
       supabase,
       elevenLabsCall,
@@ -548,11 +574,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          {
-            ...preflightInput(brief),
-            projectId: "proj-1",
-            packageId: "pkg-fail-pre",
-          },
+          voicePhaseInput(brief, { packageId: "pkg-fail-pre" }),
           {
             supabase,
             elevenLabsCall: async () => {
@@ -571,11 +593,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          {
-            ...preflightInput(brief),
-            projectId: "proj-1",
-            packageId: "pkg-unknown",
-          },
+          voicePhaseInput(brief, { packageId: "pkg-unknown" }),
           {
             supabase,
             elevenLabsCall: async () => {
@@ -591,11 +609,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          {
-            ...preflightInput(brief),
-            projectId: "proj-1",
-            packageId: "pkg-5xx",
-          },
+          voicePhaseInput(brief, { packageId: "pkg-5xx" }),
           {
             supabase: supabase2,
             elevenLabsCall: async () => {
@@ -610,11 +624,7 @@ async function main(): Promise<void> {
     await assert.rejects(
       () =>
         runTextToVideoElevenLabsVoicePhase(
-          {
-            ...preflightInput(brief),
-            projectId: "proj-1",
-            packageId: "pkg-unknown",
-          },
+          voicePhaseInput(brief, { packageId: "pkg-unknown" }),
           { supabase },
         ),
       (e) =>
@@ -705,11 +715,7 @@ async function main(): Promise<void> {
     );
     const supabase = makeFakeSupabase();
     const voiceResult = await runTextToVideoElevenLabsVoicePhase(
-      {
-        ...preflightInput(est),
-        projectId: "proj-1",
-        packageId: "pkg-runway-preflight",
-      },
+      voicePhaseInput(est, { packageId: "pkg-runway-preflight" }),
       {
         supabase,
         probeDuration: async () => 22,
@@ -733,11 +739,7 @@ async function main(): Promise<void> {
     const supabase = makeFakeSupabase();
     try {
       const r = await runTextToVideoPaidEntryPoint(
-        {
-          ...preflightInput(brief),
-          projectId: "proj-1",
-          packageId: "pkg-runway-stub",
-        },
+        voicePhaseInput(brief, { packageId: "pkg-runway-stub" }),
         {
           supabase,
           probeDuration: async () => 22,

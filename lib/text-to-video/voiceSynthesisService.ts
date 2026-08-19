@@ -14,8 +14,11 @@ import {
   syncVideoCreativeIntegrityFromSources,
 } from "@/lib/content-package/videoCreativeIntegrity";
 import { voiceoverRevisionId } from "@/lib/content-package/videoCreativeRevision";
-import { resolveTtsOptions } from "@/lib/voice/resolveTtsOptions";
 import { resolveElevenLabsVoiceId } from "@/lib/elevenlabs/voiceResolve";
+import {
+  resolveAuthoritativeOpenAiVoiceForT2V,
+  T2V_TTS_VOICE_SNAPSHOT_MISSING,
+} from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 import {
   buildElevenV3SynthesisText,
   synthesisInputFingerprint,
@@ -104,11 +107,15 @@ function nowFn(deps: VoiceSynthesisDeps): () => Date {
   return deps.now ?? (() => new Date());
 }
 
+export type TextToVideoVoicePhaseInput = VideoPaidPreflightInput & {
+  projectId: string;
+  packageId: string;
+  /** Authoritative OpenAI voice stamp from video_jobs.input (preferred). */
+  jobInput?: Record<string, unknown> | null;
+};
+
 export async function runTextToVideoElevenLabsVoicePhase(
-  input: VideoPaidPreflightInput & {
-    projectId: string;
-    packageId: string;
-  },
+  input: TextToVideoVoicePhaseInput,
   deps: VoiceSynthesisDeps,
 ): Promise<{ checkpoint: VoiceSynthesisCheckpoint; brief: Record<string, unknown> }> {
   const mode = parsePackageVideoProductionMode(input.brief.package_video_mode);
@@ -261,18 +268,9 @@ export async function runTextToVideoElevenLabsVoicePhase(
 }
 
 async function buildSynthesisContext(
-  input: VideoPaidPreflightInput & { projectId: string; packageId: string },
+  input: TextToVideoVoicePhaseInput,
   deps: VoiceSynthesisDeps,
 ) {
-  const { data: projectRow, error: projectErr } = await deps.supabase
-    .from("projects")
-    .select("id, language, tone_of_voice, knowledge, target_audience")
-    .eq("id", input.projectId)
-    .maybeSingle();
-  if (projectErr) throw projectErr;
-  if (!projectRow) {
-    throw new TextToVideoVoiceSynthesisError("project_not_found");
-  }
   const plan = readTextToVideoCreativePlan(input.brief);
   if (!plan || plan.status !== "approved" || plan.repetition.status !== "passed") {
     throw new TextToVideoVoiceSynthesisError("creative_plan_not_ready");
@@ -296,15 +294,18 @@ async function buildSynthesisContext(
   if (!direction) {
     throw new TextToVideoVoiceSynthesisError("voice_direction_missing");
   }
-  const ttsOpts = resolveTtsOptions({
-    projectId: input.projectId,
-    language: (projectRow.language as "cs") ?? "cs",
-    toneOfVoice: projectRow.tone_of_voice ?? {},
-    knowledge: projectRow.knowledge ?? {},
-    targetAudience: projectRow.target_audience ?? null,
-  });
+  const openAiVoice = (() => {
+    try {
+      return resolveAuthoritativeOpenAiVoiceForT2V({
+        jobInput: input.jobInput,
+        brief: input.brief,
+      });
+    } catch {
+      throw new TextToVideoVoiceSynthesisError(T2V_TTS_VOICE_SNAPSHOT_MISSING);
+    }
+  })();
   const resolvedVoice = resolveElevenLabsVoiceId({
-    openAiSelectedVoice: ttsOpts.voice,
+    openAiSelectedVoice: openAiVoice,
   });
   if (!resolvedVoice) {
     throw new TextToVideoVoiceSynthesisError("elevenlabs_voice_unconfigured");
