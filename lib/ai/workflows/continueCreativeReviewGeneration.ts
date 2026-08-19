@@ -30,8 +30,34 @@ import {
   appendCreativeReviewHistory,
   validateCreativeReviewApproval,
 } from "@/lib/creative-review/lifecycle";
-import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
 import { rebuildCreativePackageForVideo } from "@/lib/creative-review/rebuildCreativePackage";
+import {
+  PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+  packageVideoModeFromRunConfig,
+  parsePackageVideoProductionMode,
+  parsePackageVideoProductionModeFromJobInput,
+  readPackageVideoModeFromBrief,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
+import type { TextToVideoCreativePlan } from "@/lib/content-package/textToVideoCreativePlan";
+import { serializeVideoCreativeIntegrity, syncVideoCreativeIntegrityFromSources } from "@/lib/content-package/videoCreativeIntegrity";
+import {
+  attachTextToVideoCreativePlanToBrief,
+} from "@/lib/content-package/attachTextToVideoCreativePlan";
+import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import {
+  canContinueCreativeReviewRun,
+  clearCreativeReviewReasonOnContinue,
+} from "@/lib/content-package/creativeReviewDeferral";
+import {
+  approveTextToVideoCreativePlan,
+  deriveHookFromVoiceover,
+  readTextToVideoCreativePlan,
+  serializeTextToVideoCreativePlan,
+  voiceDirectionFromBriefOrDefault,
+} from "@/lib/content-package/textToVideoCreativePlan";
+import { evaluateVideoPaidPreflight } from "@/lib/content-package/videoPaidPreflight";
+import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
 import { assertCreativeReview } from "@/lib/creative-review/validate";
 import type {
   CreativeReview,
@@ -119,6 +145,12 @@ interface PackageRow {
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
+}
+
+function packageVideoModeFromRequestedConfig(raw: unknown): PackageVideoProductionMode {
+  const stored = asRecord(raw);
+  const config = asRecord(stored?.config);
+  return packageVideoModeFromRunConfig(config ?? undefined);
 }
 
 function generationModeFromRequestedConfig(raw: unknown): GenerationMode {
@@ -216,6 +248,29 @@ export function validatePackagesReadyForContinue(
         issues.push({
           path: `${prefix}.creative_review${issue.path === "$" ? "" : issue.path.slice(1)}`,
           message: issue.message,
+        });
+      }
+    }
+    const briefRecord =
+      pkg.brief && typeof pkg.brief === "object" && !Array.isArray(pkg.brief)
+        ? (pkg.brief as Record<string, unknown>)
+        : null;
+    const videoMode = briefRecord
+      ? parsePackageVideoProductionMode(briefRecord.package_video_mode)
+      : "still";
+    if (videoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+      const plan = briefRecord
+        ? readTextToVideoCreativePlan(briefRecord)
+        : null;
+      if (
+        !plan ||
+        plan.status !== "approved" ||
+        plan.repetition.status !== "passed"
+      ) {
+        issues.push({
+          path: `${prefix}.video_text_to_video_creative_plan`,
+          message:
+            "text-to-video plan must be approved with repetition passed before Continue",
         });
       }
     }
@@ -354,6 +409,8 @@ async function rebuildAndPersistPackage(args: {
   supabase: SupabaseClient;
   projectId: string;
   runId: string;
+  runPackageVideoMode: PackageVideoProductionMode;
+  generationMode: GenerationMode;
   pkg: PackageRow;
   review: CreativeReview;
   actor: CreativeReviewActor;
@@ -380,12 +437,77 @@ async function rebuildAndPersistPackage(args: {
     throw new Error(`creative rebuild failed: ${detail}`);
   }
 
-  const nextBrief = {
+  let nextBrief: Record<string, unknown> = clearCreativeReviewReasonOnContinue({
     ...(asRecord(rebuilt.value.package) ?? {}),
-    // Ensure creative_review carries rebuild history; keep non-video fields
-    // from the rebuilt package object (voiceover/visual_scenes/image_prompts).
     creative_review: rebuilt.value.creativeReview,
-  };
+    package_video_mode: readPackageVideoModeFromBrief(
+      asRecord(args.pkg.packageBrief) ?? {},
+    ),
+  });
+
+  if (args.runPackageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+    const memory = await buildAntiRepetitionMemory(args.supabase, args.projectId, {
+      excludePackageId: args.pkg.packageId,
+    });
+    nextBrief = await attachTextToVideoCreativePlanToBrief({
+      supabase: args.supabase,
+      projectId: args.projectId,
+      packageId: args.pkg.packageId,
+      brief: nextBrief,
+      generationMode: args.generationMode,
+      memory,
+    });
+    const planRaw = nextBrief.video_text_to_video_creative_plan;
+    if (
+      planRaw &&
+      typeof planRaw === "object" &&
+      !Array.isArray(planRaw) &&
+      (planRaw as { repetition?: { status?: string } }).repetition?.status ===
+        "passed" &&
+      (planRaw as { status?: string }).status !== "repetition_blocked"
+    ) {
+      const approved = approveTextToVideoCreativePlan(
+        planRaw as TextToVideoCreativePlan,
+        args.timestamp,
+      );
+      nextBrief = {
+        ...nextBrief,
+        video_text_to_video_creative_plan:
+          serializeTextToVideoCreativePlan(approved),
+      };
+      const vo = rebuilt.value.package.voiceover_text ?? "";
+      const hook =
+        rebuilt.value.package.hook?.trim() || deriveHookFromVoiceover(vo);
+      nextBrief = {
+        ...nextBrief,
+        video_creative_integrity: serializeVideoCreativeIntegrity(
+          syncVideoCreativeIntegrityFromSources({
+            voiceoverText: vo,
+            hookText: hook,
+            voiceDirection: voiceDirectionFromBriefOrDefault(nextBrief),
+            plan: approved,
+            packageVideoMode: PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+          }),
+        ),
+      };
+    }
+  } else {
+    const vo = rebuilt.value.package.voiceover_text ?? "";
+    const hook =
+      rebuilt.value.package.hook?.trim() || deriveHookFromVoiceover(vo);
+    nextBrief = {
+      ...nextBrief,
+      video_creative_integrity: serializeVideoCreativeIntegrity(
+        syncVideoCreativeIntegrityFromSources({
+          voiceoverText: vo,
+          hookText: hook,
+          voiceDirection: voiceDirectionFromBriefOrDefault(nextBrief),
+          plan: null,
+          packageVideoMode: "still",
+        }),
+      ),
+    };
+  }
 
   const { error } = await args.supabase
     .from("content_packages")
@@ -413,6 +535,8 @@ async function ensureVideoJobForPackage(args: {
   supabase: SupabaseClient;
   projectId: string;
   runId: string;
+  runPackageVideoMode: PackageVideoProductionMode;
+  generationMode: GenerationMode;
   pkg: PackageRow;
 }): Promise<{
   jobId: string;
@@ -426,6 +550,15 @@ async function ensureVideoJobForPackage(args: {
     args.pkg.contentItemIds,
   );
   if (existing) {
+    const parsed = parsePackageVideoProductionModeFromJobInput(
+      (asRecord(existing.input) ?? {}) as Record<string, unknown>,
+    );
+    if (
+      parsed.ok &&
+      parsed.mode !== args.runPackageVideoMode
+    ) {
+      throw new Error("run_video_mode_mismatch");
+    }
     return {
       jobId: existing.id,
       created: false,
@@ -436,6 +569,25 @@ async function ensureVideoJobForPackage(args: {
   if (!args.pkg.videoItemId) {
     throw new Error(
       `package ${args.pkg.packageId} has no content item to attach a video job`,
+    );
+  }
+
+  const preflightBrief = asRecord(args.pkg.packageBrief) ?? {};
+  const reviewRead = readCreativeReviewFromBrief(preflightBrief);
+  const creativeReview =
+    reviewRead.ok && reviewRead.value ? reviewRead.value : null;
+
+  const preflight = evaluateVideoPaidPreflight({
+    packageVideoMode: args.runPackageVideoMode,
+    runPackageVideoMode: args.runPackageVideoMode,
+    generationMode: args.generationMode,
+    creativeReview,
+    brief: preflightBrief,
+    enforceFuturePaidGates: false,
+  });
+  if (!preflight.ok) {
+    throw new Error(
+      `video_paid_preflight_blocked:${preflight.blockers.join(",")}`,
     );
   }
 
@@ -461,6 +613,7 @@ async function ensureVideoJobForPackage(args: {
     {
       package_id: args.pkg.packageId,
       production_run_id: args.runId,
+      package_video_mode: args.runPackageVideoMode,
     },
   );
 
@@ -615,13 +768,9 @@ export async function continueCreativeReviewGeneration(args: {
   const generationMode = generationModeFromRequestedConfig(
     runRow.requested_config,
   );
-
-  if (generationMode !== "manual_review") {
-    return fail(
-      "forbidden_mode",
-      "Continue Generation is available only for Manual Review runs.",
-    );
-  }
+  const runPackageVideoMode = packageVideoModeFromRequestedConfig(
+    runRow.requested_config,
+  );
 
   if (runRow.status === "cancelled") {
     return fail("cancelled", "Production run was cancelled.");
@@ -635,6 +784,20 @@ export async function continueCreativeReviewGeneration(args: {
   }
 
   const packages = await loadRunPackages(supabase, projectId, runId);
+
+  if (
+    !canContinueCreativeReviewRun({
+      generationMode,
+      runStatus: runRow.status as ProductionRunStatus,
+      packageBriefs: packages.map((p) => p.packageBrief),
+    })
+  ) {
+    return fail(
+      "forbidden_mode",
+      "Continue Generation is available for Manual Review or text-to-video repetition review runs.",
+    );
+  }
+
   const validation = validatePackagesReadyForContinue(
     packages.map((pkg) => ({
       packageId: pkg.packageId,
@@ -766,6 +929,8 @@ export async function continueCreativeReviewGeneration(args: {
         supabase,
         projectId,
         runId,
+        runPackageVideoMode,
+        generationMode,
         pkg,
         review,
         actor,
@@ -787,6 +952,8 @@ export async function continueCreativeReviewGeneration(args: {
           supabase,
           projectId,
           runId,
+          runPackageVideoMode,
+          generationMode,
           pkg,
         });
         if (ensured.created) newlyCreatedJobIds.push(ensured.jobId);

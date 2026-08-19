@@ -6,12 +6,16 @@ import {
   approveCreativeReviewPackage,
   loadCreativeReviewPage,
   saveCreativeReviewPackage,
+  saveCreativeReviewTextToVideoScene,
+  saveCreativeReviewTextToVideoSoundPlan,
+  saveCreativeReviewVoiceDirection,
   unapproveCreativeReviewPackage,
   type CreativeReviewPageData,
   type CreativeReviewPackageView,
   type CreativeReviewWriteCode,
 } from "@/lib/api/creative-review-admin";
 import type { CreativeReviewPackageEdits } from "@/lib/creative-review/applyEdits";
+import type { VoiceDirectionStyle } from "@/lib/content-package/voiceDirectionContract";
 import { resolveCreativeReviewEditorActor } from "@/lib/creative-review/actor";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import {
@@ -394,5 +398,106 @@ export async function cancelManualReviewAction(
     const message =
       err instanceof Error ? err.message : "Cancel Manual Review failed.";
     return { ok: false, code: "invalid_status", error: message };
+  }
+}
+
+export async function saveCreativeReviewVoiceDirectionAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  voiceDirection: {
+    style: VoiceDirectionStyle;
+    custom_instruction?: string;
+  },
+): Promise<MutateCreativeReviewActionResult> {
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await saveCreativeReviewVoiceDirection({
+      projectId,
+      runId,
+      packageId,
+      voiceDirection,
+      actor,
+    });
+    if (result.ok) revalidateCreativeReview(projectId, runId);
+    return result;
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Save voice direction failed.",
+      code: "validation_failed",
+    };
+  }
+}
+
+export async function saveCreativeReviewTextToVideoSceneAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  sceneId: string,
+  humanVisualEdit: string,
+): Promise<MutateCreativeReviewActionResult> {
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await saveCreativeReviewTextToVideoScene({
+      projectId,
+      runId,
+      packageId,
+      sceneId,
+      humanVisualEdit,
+      actor,
+    });
+    if (result.ok) revalidateCreativeReview(projectId, runId);
+    return result;
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Save scene edit failed.",
+      code: "validation_failed",
+    };
+  }
+}
+
+export async function saveCreativeReviewTextToVideoSoundPlanAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  sceneId: string,
+  sound: {
+    mode: "auto" | "none" | "custom";
+    custom_effect_description?: string;
+    anchor?: string;
+    voice_phrase?: string;
+  },
+  music?: {
+    mode: "auto" | "none" | "existing_asset" | "eleven_generated";
+    mood?: string;
+  },
+): Promise<MutateCreativeReviewActionResult> {
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await saveCreativeReviewTextToVideoSoundPlan({
+      projectId,
+      runId,
+      packageId,
+      sceneId,
+      sound,
+      music,
+      actor,
+    });
+    if (result.ok) revalidateCreativeReview(projectId, runId);
+    return result;
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Save sound plan failed.",
+      code: "validation_failed",
+    };
   }
 }

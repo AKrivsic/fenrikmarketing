@@ -73,6 +73,8 @@ export interface OrchestrateVideoClipReelInput {
   maxClipBytes?: number;
   /** Parent directory for the temp work dir; defaults to os.tmpdir(). */
   tempRoot?: string;
+  /** Output canvas; defaults to {@link SHORT_PROFILE}. */
+  renderProfile?: { width: number; height: number; fps: number };
   signal?: AbortSignal;
 }
 
@@ -372,9 +374,9 @@ export async function orchestrateVideoClipReel(
       audioDurationSeconds: targetDurationSeconds,
       tailPadSeconds: 0,
       profile: {
-        width: SHORT_PROFILE.width,
-        height: SHORT_PROFILE.height,
-        fps: SHORT_PROFILE.fps,
+        width: input.renderProfile?.width ?? SHORT_PROFILE.width,
+        height: input.renderProfile?.height ?? SHORT_PROFILE.height,
+        fps: input.renderProfile?.fps ?? SHORT_PROFILE.fps,
         transitionSeconds,
       },
       signal: input.signal,

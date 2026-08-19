@@ -12,6 +12,7 @@ import type {
 import { sha256HexFile } from "@/lib/video-reel-assembly/voiceoverProvenance";
 import type { DurableAudioBedRef } from "@/video-worker/services/reel/orchestrateVideoClipReel";
 import { orchestrateVideoClipReel } from "@/video-worker/services/reel/orchestrateVideoClipReel";
+import { TEXT_TO_VIDEO_DELIVERY_PROFILE } from "@/lib/text-to-video/runwayProductionConfig";
 
 function bedToOrchestratorRef(bed: ManifestAudioBed): DurableAudioBedRef | null {
   if (!bed) return null;
@@ -95,6 +96,11 @@ export async function assembleVideoReel(
   const musicRef = bedToOrchestratorRef(manifest.assembly.music ?? null);
   const ambientRef = bedToOrchestratorRef(manifest.assembly.ambient ?? null);
   const srtPath = burnInRequested ? input.subtitlesLocalPath : undefined;
+  const isTextToVideo =
+    manifest.metadata &&
+    typeof manifest.metadata === "object" &&
+    (manifest.metadata as { package_video_mode?: string }).package_video_mode ===
+      "text_to_video";
 
   const scenes = manifest.scenes.map((scene) => ({
     id: scene.id,
@@ -116,6 +122,16 @@ export async function assembleVideoReel(
     downloader: input.downloader,
     voiceoverDurationSeconds: input.voiceoverDurationSeconds,
     tempRoot: input.tempRoot,
+    transitionSeconds: isTextToVideo
+      ? TEXT_TO_VIDEO_DELIVERY_PROFILE.transitionSeconds
+      : undefined,
+    renderProfile: isTextToVideo
+      ? {
+          width: TEXT_TO_VIDEO_DELIVERY_PROFILE.width,
+          height: TEXT_TO_VIDEO_DELIVERY_PROFILE.height,
+          fps: TEXT_TO_VIDEO_DELIVERY_PROFILE.fps,
+        }
+      : undefined,
     signal: input.signal,
   });
 

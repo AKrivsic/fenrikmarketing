@@ -209,4 +209,9 @@ export interface VideoGenerationProvider {
     options?: WaitForImageToVideoOptions,
   ): Promise<ImageToVideoTaskSnapshot>;
   generateImageToVideo(req: ImageToVideoRequest): Promise<ImageToVideoTaskSnapshot>;
+  createTextToVideo(req: TextToVideoRequest): Promise<TextToVideoTaskSnapshot>;
+  getTextToVideoTask(
+    providerTaskId: string,
+    options?: GetTextToVideoTaskOptions,
+  ): Promise<TextToVideoTaskSnapshot>;
 }

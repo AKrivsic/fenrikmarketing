@@ -45,7 +45,7 @@ import {
 } from "@/lib/ai/workflows/packageShared";
 import { derivePromptPresentationTypes } from "@/lib/scene-types/presentation/promptPresentationTypes";
 import { assetSignalsFromRef } from "@/lib/scene-types/presentation/projectSignals";
-import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import { buildAntiRepetitionMemory, EMPTY_MEMORY } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { attentionFieldsForVideoJob } from "@/lib/attention/promptBlocks";
 import { planRequiresVideo } from "@/lib/api/packageReconcileStatus";
 import { generateAndPersistPackageSocialImage } from "@/lib/content-package/generateSocialImage";
@@ -63,9 +63,37 @@ import {
   DEFAULT_GENERATION_MODE,
   defersVideoUntilCreativeReview,
   resolveGenerationMode,
+  resolveGenerationModeForProductionRun,
   shouldDeferVideoUntilCreativeReview,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
+import {
+  DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  parsePackageVideoProductionMode,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
+import {
+  attachTextToVideoCreativePlanToBrief,
+  syncStillPackageIntegrity,
+} from "@/lib/content-package/attachTextToVideoCreativePlan";
+import {
+  readTextToVideoCreativePlan,
+} from "@/lib/content-package/textToVideoCreativePlan";
+import {
+  CREATIVE_REVIEW_REASON_KEY,
+  CREATIVE_REVIEW_REASON_MANUAL_MODE,
+  CREATIVE_REVIEW_REASON_TEXT_TO_VIDEO_REPETITION,
+  packageBriefDefersVideoJob,
+  markProductionRunAwaitingT2VCreativeReview,
+} from "@/lib/content-package/creativeReviewDeferral";
+import { mergeTextToVideoRunPaidPreflight } from "@/lib/content-package/mergeTextToVideoRunPaidPreflight";
+import {
+  briefHasPersistableContentPayload,
+  countExpectedPrimaryContentItems,
+  rehydrateContentPackageFromBrief,
+} from "@/lib/content-package/packageGenerationCompleteness";
+import type { AntiRepetitionMemory } from "@/lib/ai/types";
+import { PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO } from "@/lib/content-package/packageVideoProductionMode";
 import { buildManualReviewCreativeReview } from "@/lib/creative-review/seed";
 import type { EditorLanguageCode } from "@/lib/admin/editorLanguage";
 import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
@@ -93,6 +121,11 @@ export interface ContentPackageData {
   // output is only present on a fresh generation.
   reused?: boolean;
   package?: ContentPackageOutput;
+  /** Video deferred until Creative Review (manual or T2V repetition). */
+  deferredVideoUntilCreativeReview?: boolean;
+  creativeReviewReason?: string;
+  /** False when content_items count is below the run/platform contract. */
+  contentPersistComplete?: boolean;
 }
 
 export async function runGenerateContentPackage(
@@ -145,7 +178,24 @@ async function runGenerateContentPackageUnchecked(
     input.strategyItemId,
   );
   if (existingPackage) {
+    if (!existingPackage.contentPersistComplete) {
+      const healedItems = await healMissingContentItemsIfPossible(
+        supabase,
+        input.projectId,
+        existingPackage,
+      );
+      if (healedItems.ok === false) {
+        return healedItems;
+      }
+      if (healedItems.data) {
+        existingPackage.contentItemIds = healedItems.data.contentItemIds;
+        existingPackage.contentPersistComplete = true;
+      }
+    }
     if (existingPackage.videoJobId) {
+      return { ok: true, data: existingPackage };
+    }
+    if (existingPackage.deferredVideoUntilCreativeReview) {
       return { ok: true, data: existingPackage };
     }
     const healed = await healMissingVideoJobIfRequired(
@@ -180,6 +230,20 @@ async function runGenerateContentPackageUnchecked(
       input.strategyItemId,
     );
     if (raced) {
+      if (!raced.contentPersistComplete) {
+        const healedItems = await healMissingContentItemsIfPossible(
+          supabase,
+          input.projectId,
+          raced,
+        );
+        if (healedItems.ok === false) {
+          return healedItems;
+        }
+        if (healedItems.data) {
+          raced.contentItemIds = healedItems.data.contentItemIds;
+          raced.contentPersistComplete = true;
+        }
+      }
       return { ok: true, data: { ...raced, reused: true } };
     }
   }
@@ -390,10 +454,12 @@ async function runGenerateContentPackageAfterClaim(
     ),
   );
 
-  const generationMode = resolveGenerationMode(
-    input.generationMode,
-    runInfo?.generationMode,
-  );
+  const generationMode = runInfo
+    ? resolveGenerationModeForProductionRun(
+        runInfo.generationMode,
+        input.generationMode,
+      )
+    : resolveGenerationMode(input.generationMode, undefined);
 
   const preferredVideoUsageById = new Map(
     assets.refs.map((ref) => [ref.id, resolvePreferredVideoUsageFromRef(ref)]),
@@ -489,6 +555,14 @@ async function runGenerateContentPackageAfterClaim(
         generationMode,
         runInfo?.editorLanguage ?? null,
         project.language,
+        runInfo?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+        memory,
+        runInfo
+          ? {
+              textToVideoConfirmPaidRun: runInfo.textToVideoConfirmPaidRun,
+              textToVideoMaxBudgetUsd: runInfo.textToVideoMaxBudgetUsd,
+            }
+          : undefined,
       ),
   );
 
@@ -500,6 +574,32 @@ async function runGenerateContentPackageAfterClaim(
     pkg,
     targetPlatforms,
   });
+
+  if (
+    data.deferredVideoUntilCreativeReview &&
+    data.creativeReviewReason ===
+      CREATIVE_REVIEW_REASON_TEXT_TO_VIDEO_REPETITION &&
+    context.productionRunId
+  ) {
+    const { data: runRow, error: runLoadErr } = await supabase
+      .from("production_runs")
+      .select("requested_config")
+      .eq("id", context.productionRunId)
+      .eq("project_id", input.projectId)
+      .maybeSingle();
+    if (runLoadErr) throw runLoadErr;
+    if (runRow) {
+      const nextConfig = markProductionRunAwaitingT2VCreativeReview(
+        runRow.requested_config,
+      );
+      const { error: runUpdateErr } = await supabase
+        .from("production_runs")
+        .update({ requested_config: nextConfig as unknown as Json })
+        .eq("id", context.productionRunId)
+        .eq("project_id", input.projectId);
+      if (runUpdateErr) throw runUpdateErr;
+    }
+  }
 
   try {
     const finalSteps = getTelemetryCollector()?.snapshot() ?? [];
@@ -585,6 +685,9 @@ async function loadRunGenerationPlan(
   generationMode: GenerationMode;
   packagesWithAssetSupport: number;
   editorLanguage: EditorLanguageCode | null;
+  packageVideoMode: PackageVideoProductionMode;
+  textToVideoConfirmPaidRun?: boolean;
+  textToVideoMaxBudgetUsd?: number;
 } | null> {
   const { data, error } = await supabase
     .from("production_runs")
@@ -608,6 +711,10 @@ async function loadRunGenerationPlan(
         generationMode: config.generationMode ?? DEFAULT_GENERATION_MODE,
         packagesWithAssetSupport: config.packagesWithAssetSupport ?? 0,
         editorLanguage: config.editorLanguage ?? null,
+        packageVideoMode:
+          config.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+        textToVideoConfirmPaidRun: config.textToVideoConfirmPaidRun,
+        textToVideoMaxBudgetUsd: config.textToVideoMaxBudgetUsd,
       }
     : null;
 }
@@ -625,7 +732,9 @@ async function loadExistingPackageData(
 ): Promise<ContentPackageData | null> {
   const { data: pkg, error } = await supabase
     .from("content_packages")
-    .select("id, status, weekly_strategy_id, strategy_item_id, funnel_stage")
+    .select(
+      "id, status, weekly_strategy_id, strategy_item_id, funnel_stage, package_brief",
+    )
     .eq("project_id", projectId)
     .eq("strategy_item_id", strategyItemId)
     .order("created_at", { ascending: true })
@@ -635,15 +744,76 @@ async function loadExistingPackageData(
   if (!pkg) return null;
 
   const packageId = pkg.id as string;
+  const briefRecord =
+    pkg.package_brief &&
+    typeof pkg.package_brief === "object" &&
+    !Array.isArray(pkg.package_brief)
+      ? (pkg.package_brief as Record<string, unknown>)
+      : null;
 
   const { data: items, error: itemErr } = await supabase
     .from("content_items")
-    .select("id")
+    .select("id, platform, generation_metadata")
     .eq("project_id", projectId)
     .eq("package_id", packageId)
     .is("language", null);
   if (itemErr) throw itemErr;
-  const contentItemIds = (items ?? []).map((r) => r.id as string);
+  const itemRows = (items ?? []) as Array<{
+    id: string;
+    platform: string;
+    generation_metadata: Record<string, unknown> | null;
+  }>;
+  const contentItemIds = itemRows.map((r) => r.id);
+
+  const completeness = await assessContentItemsCompleteness(
+    supabase,
+    projectId,
+    {
+      packageId,
+      funnelStage: (pkg.funnel_stage as string | null) ?? "",
+      brief: briefRecord,
+      itemCount: contentItemIds.length,
+      sampleMetadata: itemRows[0]?.generation_metadata ?? null,
+    },
+  );
+
+  const deferredVideo = briefRecord
+    ? packageBriefDefersVideoJob(briefRecord)
+    : false;
+
+  if (!completeness.complete && contentItemIds.length === 0) {
+    if (!briefRecord || !briefHasPersistableContentPayload(briefRecord)) {
+      return null;
+    }
+  }
+
+  if (
+    !completeness.complete &&
+    contentItemIds.length > 0 &&
+    !completeness.complete
+  ) {
+    // Partial items with wrong count — do not treat as idempotent success.
+    return {
+      packageId,
+      status: (pkg.status as PackageStatus | null) ?? "draft",
+      weeklyStrategyId: (pkg.weekly_strategy_id as string | null) ?? "",
+      strategyItemId: (pkg.strategy_item_id as string | null) ?? strategyItemId,
+      funnelStage: (pkg.funnel_stage as string | null) ?? "",
+      contentItemIds,
+      videoJobId: await loadLatestVideoJobId(
+        supabase,
+        projectId,
+        contentItemIds,
+      ),
+      reused: true,
+      contentPersistComplete: false,
+      deferredVideoUntilCreativeReview: deferredVideo,
+      creativeReviewReason:
+        briefRecord && typeof briefRecord.creative_review_reason === "string"
+          ? briefRecord.creative_review_reason
+          : undefined,
+    };
+  }
 
   return {
     packageId,
@@ -654,6 +824,12 @@ async function loadExistingPackageData(
     contentItemIds,
     videoJobId: await loadLatestVideoJobId(supabase, projectId, contentItemIds),
     reused: true,
+    contentPersistComplete: completeness.complete,
+    deferredVideoUntilCreativeReview: deferredVideo,
+    creativeReviewReason:
+      briefRecord && typeof briefRecord.creative_review_reason === "string"
+        ? briefRecord.creative_review_reason
+        : undefined,
   };
 }
 
@@ -738,6 +914,12 @@ async function persistNewPackage(
   editorLanguage: EditorLanguageCode | null = null,
   // Project primary language — source for Original → Localized translation.
   sourceLanguage: string | null = null,
+  packageVideoMode: PackageVideoProductionMode = DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  antiRepetitionMemory: AntiRepetitionMemory = EMPTY_MEMORY,
+  textToVideoRunPaid?: {
+    textToVideoConfirmPaidRun?: boolean;
+    textToVideoMaxBudgetUsd?: number;
+  },
 ): Promise<ContentPackageData> {
   // Normalize the AI label/value to the canonical DB funnel stage. Guardrails
   // already guarantee it normalizes and matches the strategy item.
@@ -754,10 +936,15 @@ async function persistNewPackage(
         sourceLanguage,
       })
     : undefined;
-  const packageBrief = buildPackageBrief(
-    pkg,
-    creativeReview ? { creativeReview } : undefined,
-  );
+  const packageBriefRecord = buildPackageBrief(pkg, {
+    ...(creativeReview ? { creativeReview } : {}),
+    packageVideoMode,
+  }) as unknown as Record<string, unknown>;
+  if (creativeReview) {
+    packageBriefRecord[CREATIVE_REVIEW_REASON_KEY] =
+      CREATIVE_REVIEW_REASON_MANUAL_MODE;
+  }
+  const packageBrief = packageBriefRecord as unknown as Json;
 
   // Content package is created as draft. weekly_strategy_id and funnel_stage
   // are persisted as first-class columns (migration 008).
@@ -794,6 +981,57 @@ async function persistNewPackage(
     throw pkgErr;
   }
   const packageId = packageRow.id as string;
+
+  let briefForStorage = packageBrief as unknown as Record<string, unknown>;
+  if (packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+    briefForStorage = await attachTextToVideoCreativePlanToBrief({
+      supabase,
+      projectId,
+      packageId,
+      brief: briefForStorage,
+      generationMode,
+      memory: antiRepetitionMemory,
+    });
+    briefForStorage = mergeTextToVideoRunPaidPreflight(briefForStorage, {
+      packageVideoMode,
+      textToVideoConfirmPaidRun: textToVideoRunPaid?.textToVideoConfirmPaidRun,
+      textToVideoMaxBudgetUsd: textToVideoRunPaid?.textToVideoMaxBudgetUsd,
+    });
+  } else {
+    briefForStorage = syncStillPackageIntegrity(briefForStorage, packageVideoMode);
+  }
+  const { error: briefSeedErr } = await supabase
+    .from("content_packages")
+    .update({ package_brief: briefForStorage as unknown as Json })
+    .eq("id", packageId);
+  if (briefSeedErr) throw briefSeedErr;
+
+  const t2vPlanAfterAttach = readTextToVideoCreativePlan(briefForStorage);
+  const repetitionBlocked =
+    packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO &&
+    t2vPlanAfterAttach?.status === "repetition_blocked";
+  let creativeReviewReason: string | undefined;
+  if (
+    repetitionBlocked &&
+    !defersVideoUntilCreativeReview(generationMode)
+  ) {
+    const reviewForRepetition = await buildManualReviewCreativeReview(pkg, {
+      editorLanguage: editorLanguage ?? undefined,
+      sourceLanguage,
+    });
+    briefForStorage = {
+      ...briefForStorage,
+      creative_review: reviewForRepetition,
+      [CREATIVE_REVIEW_REASON_KEY]:
+        CREATIVE_REVIEW_REASON_TEXT_TO_VIDEO_REPETITION,
+    };
+    creativeReviewReason = CREATIVE_REVIEW_REASON_TEXT_TO_VIDEO_REPETITION;
+    const { error: repetitionBriefErr } = await supabase
+      .from("content_packages")
+      .update({ package_brief: briefForStorage as unknown as Json })
+      .eq("id", packageId);
+    if (repetitionBriefErr) throw repetitionBriefErr;
+  }
 
   // Persistable platform outputs -> content_items. Each platform yields ONE
   // base item; with a production-run fan-out, TEXT platforms are expanded into
@@ -897,9 +1135,12 @@ async function persistNewPackage(
   // platform's content item (MVP: one video per package, not per platform).
   // Text-only packages skip video entirely and remain valid.
   // Manual Review defers video job creation until after creative review.
+  // T2V repetition_blocked uses the same deferral path (Step 2C).
+  const deferVideoJob = packageBriefDefersVideoJob(briefForStorage);
   const requireVideo =
     videoPlatformSet.size > 0 &&
-    !defersVideoUntilCreativeReview(generationMode);
+    !defersVideoUntilCreativeReview(generationMode) &&
+    !deferVideoJob;
   let videoJobId = "";
   if (requireVideo) {
     try {
@@ -927,6 +1168,7 @@ async function persistNewPackage(
           ...(context.productionRunId
             ? { production_run_id: context.productionRunId }
             : {}),
+          package_video_mode: packageVideoMode,
           ...attentionFieldsForVideoJob(pkg),
         },
       );
@@ -949,10 +1191,10 @@ async function persistNewPackage(
       const { error: briefErr } = await supabase
         .from("content_packages")
         .update({
-          package_brief: buildPackageBrief(
-            pkg,
-            creativeReview ? { creativeReview } : undefined,
-          ),
+          package_brief: buildPackageBrief(pkg, {
+            ...(creativeReview ? { creativeReview } : {}),
+            packageVideoMode,
+          }),
         })
         .eq("id", packageId);
       if (briefErr) throw briefErr;
@@ -983,6 +1225,10 @@ async function persistNewPackage(
     contentItemIds,
     videoJobId,
     package: pkg,
+    contentPersistComplete: true,
+    deferredVideoUntilCreativeReview:
+      defersVideoUntilCreativeReview(generationMode) || deferVideoJob,
+    ...(creativeReviewReason ? { creativeReviewReason } : {}),
   };
 }
 
@@ -1101,6 +1347,11 @@ async function healMissingVideoJobIfRequired(
     };
   }
 
+  const briefRoot = pkgRow.package_brief as Record<string, unknown>;
+  if (packageBriefDefersVideoJob(briefRoot)) {
+    return { ok: true, data: existing };
+  }
+
   // Determine video requirement from production run plan when tagged.
   // Manual Review intentionally has no video_jobs yet — do not heal.
   let requireVideo = true;
@@ -1118,6 +1369,8 @@ async function healMissingVideoJobIfRequired(
   const runId = metaRows
     .map((r) => r.generation_metadata?.production_run_id)
     .find((id): id is string => typeof id === "string" && id.length > 0);
+  let healPackageVideoMode: PackageVideoProductionMode =
+    DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE;
   if (runId) {
     const { data: run } = await supabase
       .from("production_runs")
@@ -1139,6 +1392,10 @@ async function healMissingVideoJobIfRequired(
       if (shouldDeferVideoUntilCreativeReview(generationMode, stored)) {
         return { ok: true, data: existing };
       }
+      const packageVideoMode = parsePackageVideoProductionMode(
+        rawConfig?.package_video_mode ?? rawConfig?.packageVideoMode,
+      );
+      healPackageVideoMode = packageVideoMode;
       const plan = stored.plan;
       requireVideo = planRequiresVideo(
         plan && typeof plan === "object"
@@ -1187,6 +1444,7 @@ async function healMissingVideoJobIfRequired(
       package_id: existing.packageId,
       healed_missing_video_job: true,
       ...(runId ? { production_run_id: runId } : {}),
+      package_video_mode: healPackageVideoMode,
       ...(existing.weeklyStrategyId
         ? { weekly_strategy_id: existing.weeklyStrategyId }
         : {}),
@@ -1244,6 +1502,250 @@ async function healMissingVideoJobIfRequired(
       attempts: 0,
     };
   }
+}
+
+interface ContentItemsCompletenessResult {
+  complete: boolean;
+  expected: number;
+}
+
+async function assessContentItemsCompleteness(
+  supabase: SupabaseClient,
+  projectId: string,
+  args: {
+    packageId: string;
+    funnelStage: string;
+    brief: Record<string, unknown> | null;
+    itemCount: number;
+    sampleMetadata: Record<string, unknown> | null;
+  },
+): Promise<ContentItemsCompletenessResult> {
+  const pkg = args.brief ? rehydrateContentPackageFromBrief(args.brief) : null;
+  if (!pkg) {
+    return { complete: args.itemCount > 0, expected: args.itemCount };
+  }
+  const runId =
+    typeof args.sampleMetadata?.production_run_id === "string"
+      ? args.sampleMetadata.production_run_id
+      : null;
+  let targetPlatforms: string[] | undefined;
+  let videoPlatforms: string[] = [];
+  let fanOut: PackageFanOut | null = null;
+  if (runId) {
+    const runCtx = await loadRunGenerationPlan(supabase, projectId, runId);
+    if (runCtx) {
+      targetPlatforms = [...runCtx.plan.targetPlatforms];
+      videoPlatforms = [...runCtx.plan.videoPlatforms];
+      const packageIndex =
+        typeof args.sampleMetadata?.package_index === "number"
+          ? args.sampleMetadata.package_index
+          : 0;
+      fanOut = {
+        multipliers: runCtx.plan.multipliers,
+        packageIndex,
+        productionRunId: runId,
+      };
+    }
+  }
+  const expected = countExpectedPrimaryContentItems({
+    pkg,
+    context: {
+      funnelStage: normalizeFunnelStage(args.funnelStage) ?? "awareness",
+      format: "post",
+    },
+    targetPlatforms,
+    videoPlatforms: videoPlatforms as PackagePlatform[],
+    fanOut,
+  });
+  if (expected === 0) {
+    return { complete: args.itemCount === 0, expected: 0 };
+  }
+  return {
+    complete: args.itemCount === expected,
+    expected,
+  };
+}
+
+async function healMissingContentItemsIfPossible(
+  supabase: SupabaseClient,
+  projectId: string,
+  existing: ContentPackageData,
+): Promise<
+  | WorkflowResult<{ contentItemIds: string[] }>
+  | { ok: true; data?: undefined }
+> {
+  if (existing.contentPersistComplete !== false && existing.contentItemIds.length > 0) {
+    return { ok: true };
+  }
+  const { data: pkgRow, error: pkgErr } = await supabase
+    .from("content_packages")
+    .select("package_brief, funnel_stage, strategy_item_id")
+    .eq("id", existing.packageId)
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (pkgErr) throw pkgErr;
+  const briefRecord =
+    pkgRow?.package_brief &&
+    typeof pkgRow.package_brief === "object" &&
+    !Array.isArray(pkgRow.package_brief)
+      ? (pkgRow.package_brief as Record<string, unknown>)
+      : null;
+  if (!briefRecord || !briefHasPersistableContentPayload(briefRecord)) {
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: [
+        {
+          path: "incomplete_package",
+          message:
+            "package exists without content_items and brief cannot rehydrate outputs",
+        },
+      ],
+      attempts: 0,
+    };
+  }
+  if (existing.contentItemIds.length > 0) {
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: [
+        {
+          path: "incomplete_package",
+          message:
+            "partial content_items present; manual repair required (legacy Step 2B orphan)",
+        },
+      ],
+      attempts: 0,
+    };
+  }
+  const pkg = rehydrateContentPackageFromBrief(briefRecord)!;
+  const strategyItemId =
+    (pkgRow?.strategy_item_id as string) ?? existing.strategyItemId;
+  const context = await loadStrategyItemContext(
+    supabase,
+    projectId,
+    strategyItemId,
+  );
+  const { data: runItemRow } = await supabase
+    .from("production_run_items")
+    .select("production_run_id, package_index")
+    .eq("project_id", projectId)
+    .eq("content_package_id", existing.packageId)
+    .maybeSingle();
+  let targetPlatforms: readonly string[] | undefined;
+  let videoPlatforms: readonly PackagePlatform[] | undefined;
+  let fanOut: PackageFanOut | null = null;
+  const productionRunId =
+    typeof runItemRow?.production_run_id === "string"
+      ? runItemRow.production_run_id
+      : null;
+  if (productionRunId) {
+    const runCtx = await loadRunGenerationPlan(
+      supabase,
+      projectId,
+      productionRunId,
+    );
+    if (runCtx) {
+      targetPlatforms = runCtx.plan.targetPlatforms;
+      videoPlatforms = runCtx.plan.videoPlatforms;
+      fanOut = {
+        multipliers: runCtx.plan.multipliers,
+        packageIndex:
+          typeof runItemRow?.package_index === "number"
+            ? runItemRow.package_index
+            : 0,
+        productionRunId,
+      };
+    }
+  }
+  const project = await loadProjectOrThrow(supabase, projectId);
+  const funnelStage =
+    normalizeFunnelStage(pkg.funnel_stage) ?? context.funnelStage;
+  const websiteUrl = canonicalWebsiteUrl(project);
+  const videoPlatformSet = new Set<string>(videoPlatforms ?? []);
+  const itemRows = buildPersistableItems(
+    pkg,
+    context,
+    targetPlatforms,
+    websiteUrl,
+  ).flatMap((item) => {
+    const kind = videoPlatformSet.has(item.platform) ? "video" : "text";
+    const count = fanOut
+      ? outputsForPackageIndex(
+          kind,
+          fanOut.multipliers[item.platform] ?? 1,
+          fanOut.packageIndex,
+        )
+      : 1;
+    const variants = pkg.platform_outputs?.[item.platform]?.caption_variants;
+    const captionFor = (variantIndex: number): string => {
+      const candidate = Array.isArray(variants)
+        ? variants[variantIndex]
+        : undefined;
+      return typeof candidate === "string" && candidate.trim().length > 0
+        ? candidate.trim()
+        : item.caption;
+    };
+    const titleVariants = pkg.platform_outputs?.[item.platform]?.title_variants;
+    const titleFor = (variantIndex: number): string => {
+      const candidate = Array.isArray(titleVariants)
+        ? titleVariants[variantIndex]
+        : undefined;
+      return typeof candidate === "string" && candidate.trim().length > 0
+        ? candidate.trim()
+        : pkg.title;
+    };
+    const xUrlIndices =
+      item.platform === "x" && websiteUrl
+        ? xUrlVariantIndices(count, funnelStage)
+        : null;
+    const captionWithUrl = (variantIndex: number): string => {
+      const base = captionFor(variantIndex);
+      return xUrlIndices?.has(variantIndex) && websiteUrl
+        ? appendUrlToText(base, websiteUrl)
+        : base;
+    };
+    return Array.from({ length: count }, (_unused, variantIndex) => ({
+      project_id: projectId,
+      package_id: existing.packageId,
+      platform: item.platform,
+      format: item.format,
+      status: "draft" as const,
+      title: titleFor(variantIndex),
+      body: pkg.voiceover_text,
+      caption: captionWithUrl(variantIndex),
+      hashtags: item.hashtags,
+      cta: item.cta,
+      generation_metadata: {
+        funnel_stage: funnelStage,
+        source: "content_pipeline_heal",
+        ...(fanOut
+          ? {
+              production_run_id: fanOut.productionRunId,
+              package_index: fanOut.packageIndex,
+              platform_variant_index: variantIndex,
+            }
+          : {}),
+      } as unknown as Json,
+    }));
+  });
+  const { data: insertedItems, error: itemErr } = await supabase
+    .from("content_items")
+    .insert(itemRows)
+    .select("id");
+  if (itemErr) throw itemErr;
+  const contentItemIds = (insertedItems ?? []).map((r) => r.id as string);
+  try {
+    await recordAssetUsage(
+      supabase,
+      projectId,
+      contentItemIds[0] ?? null,
+      pkg,
+    );
+  } catch (err) {
+    console.error("[heal-missing-content-items] asset_usage failed", err);
+  }
+  return { ok: true, data: { contentItemIds } };
 }
 
 export async function recordAssetUsage(

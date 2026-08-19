@@ -6,6 +6,10 @@ export const DEFAULT_GENERATION_MODE: GenerationMode = "production";
 export const CONTINUED_AFTER_CREATIVE_REVIEW_KEY =
   "continued_after_creative_review" as const;
 
+/** Set on production run when automatic T2V hits repetition_blocked (Step 2C). */
+export const AWAITING_TEXT_TO_VIDEO_CREATIVE_REVIEW_KEY =
+  "awaiting_text_to_video_creative_review" as const;
+
 const KNOWN_GENERATION_MODES = new Set<GenerationMode>([
   "production",
   "sample",
@@ -42,6 +46,20 @@ export function resolveGenerationMode(
     return parseGenerationMode(fromRun);
   }
   return DEFAULT_GENERATION_MODE;
+}
+
+/**
+ * When a package is generated inside a production run, the run's stored mode
+ * is authoritative (n8n may omit generation_mode in the webhook body).
+ */
+export function resolveGenerationModeForProductionRun(
+  runMode: unknown | undefined,
+  requestMode: unknown | undefined,
+): GenerationMode {
+  if (runMode !== undefined && runMode !== null) {
+    return parseGenerationMode(runMode);
+  }
+  return resolveGenerationMode(requestMode, undefined);
 }
 
 /**
@@ -96,10 +114,12 @@ export function markContinuedAfterCreativeReview(
 ): Record<string, unknown> {
   const root = asRecord(requestedConfig) ?? {};
   const prevConfig = asRecord(root.config) ?? {};
+  const nextConfig = { ...prevConfig };
+  delete nextConfig[AWAITING_TEXT_TO_VIDEO_CREATIVE_REVIEW_KEY];
   return {
     ...root,
     config: {
-      ...prevConfig,
+      ...nextConfig,
       [CONTINUED_AFTER_CREATIVE_REVIEW_KEY]: true,
       continued_after_creative_review_at: args.at,
       ...(args.by ? { continued_after_creative_review_by: args.by } : {}),
@@ -119,6 +139,7 @@ export function clearContinuedAfterCreativeReview(
   delete nextConfig[CONTINUED_AFTER_CREATIVE_REVIEW_KEY];
   delete nextConfig.continued_after_creative_review_at;
   delete nextConfig.continued_after_creative_review_by;
+  delete nextConfig[AWAITING_TEXT_TO_VIDEO_CREATIVE_REVIEW_KEY];
   return {
     ...root,
     config: nextConfig,

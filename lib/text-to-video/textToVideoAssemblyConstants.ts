@@ -1,0 +1,6 @@
+export const TEXT_TO_VIDEO_ASSEMBLY_CONTRACT_VERSION = 2 as const;
+
+export const TEXT_TO_VIDEO_ASSEMBLY_DELIVERY_WIDTH =
+  1080 as const;
+export const TEXT_TO_VIDEO_ASSEMBLY_DELIVERY_HEIGHT =
+  1920 as const;

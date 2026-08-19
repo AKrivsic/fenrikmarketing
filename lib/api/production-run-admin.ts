@@ -4,7 +4,6 @@ import type { JobStatus, ProductionRunItemStatus, ProductionRunStatus } from "@/
 import {
   DEFAULT_GENERATION_MODE,
   parseGenerationMode,
-  shouldDeferVideoUntilCreativeReview,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
 import {
@@ -27,6 +26,10 @@ import {
   planRequiresVideo,
   resolvePackageReconcileStatus,
 } from "@/lib/api/packageReconcileStatus";
+import {
+  loadProductionRunPackageBriefs,
+  productionRunDefersVideoUntilCreativeReview,
+} from "@/lib/content-package/creativeReviewDeferral";
 import {
   applyPackageOutcomesByStrategyItemId,
   clampPatchesForTerminalParent,
@@ -417,10 +420,10 @@ async function settleProductionRunAfterItemFailure(
   );
   const nextStatus: ProductionRunStatus =
     openSlots.open <= 0
-      ? shouldDeferVideoUntilCreativeReview(
+      ? productionRunDefersVideoUntilCreativeReview({
           generationMode,
-          run.requested_config,
-        ) && generated > 0
+          requestedConfig: run.requested_config,
+        }) && generated > 0
         ? "waiting_for_creative_review"
         : "completed"
       : "running";
@@ -932,9 +935,12 @@ async function reconcileFromRealContent(
   // Continue Generation the continue flag clears deferral and video is required.
   const stored = readStoredConfig(run.requested_config);
   const generationMode = generationModeFromStoredConfig(stored);
+  const deferVideoForReview = productionRunDefersVideoUntilCreativeReview({
+    generationMode,
+    requestedConfig: run.requested_config,
+  });
   const requireVideo =
-    !shouldDeferVideoUntilCreativeReview(generationMode, run.requested_config) &&
-    planRequiresVideo(stored?.plan ?? null);
+    !deferVideoForReview && planRequiresVideo(stored?.plan ?? null);
   const packageStatus = new Map<string, PackageItemStatus>();
   let videosCompleted = 0;
   for (const packageId of packageOrder) {
@@ -1094,10 +1100,16 @@ async function syncRunItemsAndCounters(
   // Continue Generation stamps continued_after_creative_review.
   const stored = readStoredConfig(run.requested_config);
   const generationMode = generationModeFromStoredConfig(stored);
-  const deferForCreativeReview = shouldDeferVideoUntilCreativeReview(
-    generationMode,
-    run.requested_config,
+  const packageBriefs = await loadProductionRunPackageBriefs(
+    supabase,
+    run.project_id,
+    run.id,
   );
+  const deferForCreativeReview = productionRunDefersVideoUntilCreativeReview({
+    generationMode,
+    requestedConfig: run.requested_config,
+    packageBriefs,
+  });
   const resolvedNext: ProductionRunStatus =
     run.status === "cancelled"
       ? "cancelled"

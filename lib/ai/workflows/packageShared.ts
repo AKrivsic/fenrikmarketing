@@ -60,6 +60,19 @@ import {
 import { readCreativeIdentityFromPackageBrief } from "@/lib/creative-identity/resolveCreativeIdentity";
 import { creativeIdentityFieldsForPersistence } from "@/lib/creative-identity/promptBlocks";
 import { visualMediumFieldsForJobInput } from "@/lib/visual-medium/packageVisualMedium";
+import {
+  DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  type PackageVideoProductionMode,
+  parsePackageVideoProductionMode,
+  readPackageVideoModeFromBrief,
+} from "@/lib/content-package/packageVideoProductionMode";
+import {
+  ensureBriefVideoProductionDefaults,
+  serializeVideoCreativeIntegrity,
+} from "@/lib/content-package/videoCreativeIntegrity";
+import type { VideoCreativeIntegrity } from "@/lib/content-package/videoCreativeIntegrity";
+import type { VoiceDirectionContract } from "@/lib/content-package/voiceDirectionContract";
+import { defaultVideoPaidPreflightState } from "@/lib/content-package/videoPaidPreflight";
 
 export interface StrategyItemContext {
   weeklyStrategyId: string;
@@ -393,7 +406,12 @@ export function normalizeImagePrompts(
 // Production / sample omit that key entirely (backward compatible).
 export function buildPackageBrief(
   pkg: ContentPackageOutput,
-  options?: { creativeReview?: CreativeReview },
+  options?: {
+    creativeReview?: CreativeReview;
+    packageVideoMode?: PackageVideoProductionMode;
+    videoCreativeIntegrity?: VideoCreativeIntegrity;
+    videoVoiceDirection?: VoiceDirectionContract;
+  },
 ): Json {
   const brief: Record<string, unknown> = {
     hook: pkg.hook,
@@ -415,7 +433,44 @@ export function buildPackageBrief(
   if (options?.creativeReview) {
     brief.creative_review = options.creativeReview;
   }
-  return brief as unknown as Json;
+  const runMode =
+    options?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE;
+  let withProduction = ensureBriefVideoProductionDefaults(brief, runMode);
+  if (options?.videoCreativeIntegrity) {
+    withProduction = {
+      ...withProduction,
+      video_creative_integrity: serializeVideoCreativeIntegrity(
+        options.videoCreativeIntegrity,
+      ),
+    };
+  }
+  if (options?.videoVoiceDirection) {
+    withProduction = {
+      ...withProduction,
+      video_voice_direction: options.videoVoiceDirection,
+    };
+  }
+  if (!withProduction.video_paid_preflight) {
+    withProduction = {
+      ...withProduction,
+      video_paid_preflight: defaultVideoPaidPreflightState(),
+    };
+  }
+  return withProduction as unknown as Json;
+}
+
+function resolvePackageVideoModeForJobInput(
+  pkg: ContentPackageOutput,
+  extra: Record<string, unknown>,
+): PackageVideoProductionMode {
+  if (
+    Object.prototype.hasOwnProperty.call(extra, "package_video_mode") &&
+    extra.package_video_mode !== undefined &&
+    extra.package_video_mode !== null
+  ) {
+    return parsePackageVideoProductionMode(extra.package_video_mode);
+  }
+  return readPackageVideoModeFromBrief(pkg as unknown as Record<string, unknown>);
 }
 
 // Video Quality V2 — assembles the video_jobs.input. Beyond the narration it
@@ -445,6 +500,8 @@ export async function buildVideoJobInput(
     };
   }
 
+  const packageVideoMode = resolvePackageVideoModeForJobInput(pkg, extra);
+
   const base = {
     concept: pkg.video.concept,
     script: pkg.video.script,
@@ -454,6 +511,7 @@ export async function buildVideoJobInput(
     scenario: pkg.scenario ?? null,
     cta: pkg.cta?.text ?? null,
     image_prompts: pkg.image_prompts ?? [],
+    package_video_mode: packageVideoMode,
     ...ttsFields,
     ...extra,
   };

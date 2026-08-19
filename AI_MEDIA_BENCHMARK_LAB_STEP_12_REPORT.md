@@ -1141,3 +1141,79 @@ Tento krok **neprováděl** placená volání, **nezapínal** flagy a **neměnil
 Aplikační vrstva nyní uzavírá mezeru, kterou šlo obejít přímým POSTem na `case` API. `createBenchmarkCase` povinně vyžaduje validní `source_image_sha256` (64 hex), validní `source_image_uuid` (UUID), bucket přesně `video-renders` a storage path přesně odpovídající `buildBenchmarkCaseImagePath(projectId, caseId, sourceImageUuid, filename)`. `null`, prázdné a neplatné hodnoty jsou odmítnuty stabilními chybami `source_image_sha256_required`, `source_image_sha256_invalid`, `source_image_uuid_required`, `source_image_uuid_invalid`, `source_image_bucket_invalid` a `source_image_path_invalid`.
 
 Stejná integritní kontrola se používá i při použití existujícího shared benchmark case. I2V `createVideoBenchmarkRun` i T2V `previewTextToVideoBenchmark` / `createTextToVideoBenchmarkRun` odmítnou starý nebo ručně poškozený case s chybou `benchmark_case_image_integrity_invalid` ještě před jakýmkoli provider POSTem. Tím je zajištěno, že case bez SHA/UUID nebo s neplatnou immutable identitou nemůže vzniknout ani spustit placené volání.
+
+## Incident – Seedance 2.0 Fast první placený test
+
+### Přesný run a čas
+- `run_id`: `48c2bc11-00e5-4a83-aa52-8b5cc955d060`
+- `project`: `fenrik Studio` (`project_id`: `163c1822-ad30-4cee-8826-dfacd9c188b9`)
+- `case_id`: `portrait-scene-a`
+- `test_type`: `video` (Kolo A, image-to-video)
+- `model`: `seedance2_fast`
+- `status`: `failed`
+- `created_at`: `2026-08-19 12:25:29.402387+00`
+- `completed_at`: `2026-08-19 12:25:43.486+00`
+- `estimated_credits/cost`: `116` cr / `$1.16` (viz `estimated_credits`, `estimated_cost_usd`)
+
+### Fáze selhání
+- **Fáze: provider task vznikl, ale provider ho označil `FAILED` kvůli blocku v input preprocessing moderaci.**
+- Konkrétně odpovídá typu: **(4) provider task vznikl, ale provider ho označil FAILED**, s kořenovým důvodem v **(10) provider moderation/ safety pipeline**.
+
+### Provider task ID
+- `provider_task_id`: **ano** (`2ae0c72d-ce21-4040-972f-5eab4026f4d7`)
+
+### Přesná (bezpečně očištěná) chyba
+- `error_message`: `Your request was blocked by this model provider's content moderation system.`
+- `failure_code`: `INPUT_PREPROCESSING.SAFETY.THIRD_PARTY`
+
+### Zda provider POST proběhl
+- **Ano, pravděpodobně provider create POST proběhl a vytvořil task**, protože `provider_task_id` byl u runu uložen.
+- V lifecycle (`submitPaidCreate`) se `provider_task_id` zapisuje do DB až po úspěšném `createImageToVideo()` provider callu, takže blokace nastala **po vytvoření tasku** (resp. v rámci provider pipeline).
+
+### Spotřeba kreditů – lze potvrdit?
+- **Nelze potvrdit skutečně realizovanou spotřebu** (DB ukládá pouze `estimated_credits/estimated_cost_usd`).
+- Pro účely fairness porovnání lze uvést pouze očekávaný budget: `116 cr / $1.16`.
+
+### Kořenová příčina
+- **Runway `seedance2_fast` content moderation** (input preprocessing) zablokoval požadavek z důvodu `THIRD_PARTY` safety.
+- Kontext requestu (uložený v `ai_media_benchmark_runs.settings` pro tento run):
+  - `coreIdea`: `Two colleagues review a content plan on a laptop...`
+  - `motionIntent` / `motionPrompt`: `Subtle handheld camera push-in...`
+  - `durationSeconds = 4`
+  - `ratio = 720:1280`
+  - `generateAudio = true`
+  - `generationMode = image_to_video`
+  - `promptImage` pro `seedance2_fast` se skládá jako pole se start frame (`position: "first"`) (adapter `lib/ai/runwayImageToVideoBody.ts`).
+
+### Je chyba v našem kódu, provideru nebo nejasná?
+- **Zjevně provider-side (moderation/safety pipeline).**
+- Adapter kontrakt pro `seedance2_fast` byl konzistentní s naším verified katalogem a s request builderem:
+  - `model: seedance2_fast`
+  - `promptImage: [{ uri, position: "first" }]`
+  - `promptText: motionPrompt`
+  - `duration: 4`
+  - `ratio: 720:1280`
+  - `audio: true`
+- Navíc **stejný case_id** (`portrait-scene-a`) selhal pouze na `seedance2_fast`, zatímco:
+  - `gen4_turbo` succeeded
+  - `gen4.5` succeeded
+  - `veo3.1_fast` succeeded
+  Což snižuje pravděpodobnost chyby v našem request kontraktu.
+
+### Provedená oprava
+- **Žádná oprava nebyla provedena.** Příčina je moderace providerem (`INPUT_PREPROCESSING.SAFETY.THIRD_PARTY`).
+
+### Testy
+- `check:runway-image-to-video`: 23 passed, 0 failed (offline; bez reálných `fetch`)
+- `check:ai-media-benchmark`: 102 passed, 0 failed (offline; bez reálných `fetch`)
+- `check:ai-media-benchmark-text-video`: 59 passed, 0 failed (offline; bez reálných `fetch`)
+- `tsc --noEmit`: passed
+- `eslint`: nebylo cílené na změněné soubory; `npm run lint` selhal kvůli existujícím chybám v repu (incident editoval jen tento markdown).
+
+### Bezpečný další krok
+- **Nespouštět další `seedance2_fast` na stejném locked image inputu**, protože error je deterministicky “blocked by moderation” pro tento source.
+- Další bezpečný pokus je vytvořit **nový `case_id`** se stejným `coreIdea/motionIntent` a stejnými technickými parametry, ale s jiným zdrojovým testovacím obrázkem (aby se odstranil `THIRD_PARTY` trigger v provider moderaci).
+
+### Potvrzení, že vyšetřování neposlalo nový placený POST
+- Ano: vyšetřování proběhlo jen přes **read-only dotazy** do Supabase (a read-only čtení lokálního kódu).
+- Při vyšetřování nebyl proveden žádný `create` POST do Runway API.

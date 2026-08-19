@@ -14,6 +14,11 @@ import {
   type GenerationMode,
 } from "@/lib/ai/generationMode";
 import {
+  DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  parsePackageVideoProductionMode,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
+import {
   DEFAULT_EDITOR_LANGUAGE,
   parseEditorLanguage,
   type EditorLanguageCode,
@@ -177,6 +182,11 @@ export interface ProductionConfig {
   /** Creative Engine mode for packages in this run. Defaults to production. */
   generationMode?: GenerationMode;
   /**
+   * Shared video production mode for every package in this run.
+   * Defaults to still (Ken Burns). Immutable after run start.
+   */
+  packageVideoMode?: PackageVideoProductionMode;
+  /**
    * Manual Review only — admin Editor Language stamped at run start.
    * Used when seeding Creative Review translations. Not project language.
    */
@@ -188,6 +198,10 @@ export interface ProductionConfig {
   packagesWithAssetSupport?: number;
   /** @deprecated Use packagesWithAssetSupport */
   packagesWithAssets?: number;
+  /** Text-to-video: operator confirms paid ElevenLabs/Runway generation for this run. */
+  textToVideoConfirmPaidRun?: boolean;
+  /** Text-to-video: max USD budget per package (estimate; includes voice + future video). */
+  textToVideoMaxBudgetUsd?: number;
 }
 
 export interface ProductionPlatformOutput {
@@ -289,6 +303,10 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
     record.generation_mode ?? record.generationMode,
   );
 
+  const packageVideoMode = parsePackageVideoProductionMode(
+    record.package_video_mode ?? record.packageVideoMode,
+  );
+
   const packagesWithAssetSupportRaw = clampInt(
     record.packagesWithAssetSupport ?? record.packagesWithAssets,
     0,
@@ -305,14 +323,36 @@ export function normalizeProductionConfig(raw: unknown): ProductionConfig {
       ? undefined
       : parseEditorLanguage(editorLanguageRaw, DEFAULT_EDITOR_LANGUAGE);
 
+  const textToVideoConfirmPaidRun =
+    record.textToVideoConfirmPaidRun === true ||
+    record.text_to_video_confirm_paid_run === true;
+  const budgetRaw =
+    record.textToVideoMaxBudgetUsd ?? record.text_to_video_max_budget_usd;
+  const textToVideoMaxBudgetUsd =
+    typeof budgetRaw === "number" && Number.isFinite(budgetRaw) && budgetRaw > 0
+      ? budgetRaw
+      : typeof budgetRaw === "string" &&
+          budgetRaw.trim() !== "" &&
+          Number.isFinite(Number(budgetRaw)) &&
+          Number(budgetRaw) > 0
+        ? Number(budgetRaw)
+        : undefined;
+
   return {
     packageCount,
     platforms,
     multipliers,
     ...(platformContentTypes ? { platformContentTypes } : {}),
     ...(generationMode !== DEFAULT_GENERATION_MODE ? { generationMode } : {}),
+    ...(packageVideoMode !== DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE
+      ? { packageVideoMode }
+      : {}),
     ...(editorLanguage ? { editorLanguage } : {}),
     ...(packagesWithAssetSupport > 0 ? { packagesWithAssetSupport } : {}),
+    ...(textToVideoConfirmPaidRun ? { textToVideoConfirmPaidRun: true } : {}),
+    ...(textToVideoMaxBudgetUsd !== undefined
+      ? { textToVideoMaxBudgetUsd }
+      : {}),
   };
 }
 

@@ -46,6 +46,8 @@ export interface SceneVideoAttemptServiceDeps {
   requireProvider?: boolean;
   /** Stable owner id for submission claim (tests / long-lived worker). */
   submissionClaimOwner?: string;
+  /** Test hook — peer wait between concurrency executors. */
+  sleep?: (ms: number) => Promise<void>;
 }
 
 function supabaseOf(deps?: SceneVideoAttemptServiceDeps): SupabaseClient {
@@ -261,6 +263,88 @@ async function claimSubmission(
     .maybeSingle();
   if (error) throw error;
   return data ? (data as SceneVideoAttemptRow) : null;
+}
+
+async function loadAttemptByClientRequestId(
+  supabase: SupabaseClient,
+  clientRequestId: string,
+): Promise<SceneVideoAttemptRow | null> {
+  const { data, error } = await supabase
+    .from("scene_video_generation_attempts")
+    .select("*")
+    .eq("client_request_id", clientRequestId)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? (data as SceneVideoAttemptRow) : null;
+}
+
+async function waitForPeerSubmissionOutcome(
+  supabase: SupabaseClient,
+  attemptId: string,
+  clientRequestId: string,
+  deps?: SceneVideoAttemptServiceDeps,
+  maxWaitMs = Number(process.env.T2V_TEST_PEER_WAIT_MS) > 0
+    ? Number(process.env.T2V_TEST_PEER_WAIT_MS)
+    : 120_000,
+): Promise<SceneVideoAttemptView> {
+  const sleep =
+    deps?.sleep ??
+    ((ms: number) => new Promise((r) => setTimeout(r, ms)));
+  const deadline = Date.now() + maxWaitMs;
+  while (Date.now() < deadline) {
+    const canonical = await getSceneVideoAttemptByClientRequestId(
+      clientRequestId,
+      { supabase, ...deps },
+    );
+    if (canonical?.providerTaskId || canonical?.status === "succeeded") {
+      return canonical;
+    }
+    if (
+      canonical &&
+      (SCENE_VIDEO_ATTEMPT_TERMINAL_STATUSES as readonly string[]).includes(
+        canonical.status,
+      )
+    ) {
+      return canonical;
+    }
+    const dbRow =
+      (await loadAttemptByClientRequestId(supabase, clientRequestId)) ??
+      (await loadAttempt(supabase, attemptId));
+    if (!dbRow) {
+      await sleep(10);
+      continue;
+    }
+    if (dbRow.provider_task_id) {
+      return mapAttemptRow(dbRow, true);
+    }
+    if (
+      (SCENE_VIDEO_ATTEMPT_TERMINAL_STATUSES as readonly string[]).includes(
+        dbRow.status,
+      )
+    ) {
+      return mapAttemptRow(dbRow, true);
+    }
+    if (
+      dbRow.status === "submitting" &&
+      !dbRow.provider_task_id &&
+      isSubmissionClaimStale(dbRow, deps)
+    ) {
+      return mapAttemptRow(dbRow, true);
+    }
+    await sleep(10);
+  }
+  const finalCanonical = await getSceneVideoAttemptByClientRequestId(
+    clientRequestId,
+    { supabase, ...deps },
+  );
+  if (finalCanonical) return finalCanonical;
+  const finalRow =
+    (await loadAttemptByClientRequestId(supabase, clientRequestId)) ??
+    (await loadAttempt(supabase, attemptId));
+  if (!finalRow) {
+    throw new Error("scene_video_attempt_peer_wait_exhausted");
+  }
+  return mapAttemptRow(finalRow, true);
 }
 
 async function markOwnedSubmissionTerminal(
@@ -978,7 +1062,10 @@ export async function syncSceneVideoAttempt(
     return mapAttemptRow(row, false);
   }
   if (row.status === "submitting" && !row.provider_task_id) {
-    return mapAttemptRow(row, false);
+    row = await loadAttempt(supabase, row.id);
+    if (row.status === "submitting" && !row.provider_task_id) {
+      return mapAttemptRow(row, false);
+    }
   }
 
   if (row.status === "created" || !row.provider_task_id) {
@@ -990,13 +1077,16 @@ export async function syncSceneVideoAttempt(
     return mapAttemptRow(row, false);
   }
 
-  const snapshot = await providerOf(deps).getImageToVideoTask(
-    row.provider_task_id,
-    {
-      model: row.model,
-      maxTransportAttempts: 1,
-    },
-  );
+  const snapshot =
+    (row.generation_mode ?? "image_to_video") === "text_to_video"
+      ? await providerOf(deps).getTextToVideoTask(row.provider_task_id, {
+          model: row.model,
+          maxTransportAttempts: 1,
+        })
+      : await providerOf(deps).getImageToVideoTask(row.provider_task_id, {
+          model: row.model,
+          maxTransportAttempts: 1,
+        });
 
   const mapped = mapProviderStatus(snapshot.status);
   if (!mapped) throw new Error("unexpected_provider_status");
@@ -1045,6 +1135,250 @@ export async function syncSceneVideoAttempt(
 
   row = await finalizeSucceededOutput(row, snapshot.videoUrl, deps);
   return mapAttemptRow(row, false);
+}
+
+export interface CreateTextToVideoSceneVideoAttemptInput {
+  projectId: string;
+  videoJobId: string;
+  sceneId: string;
+  promptText: string;
+  clientRequestId: string;
+  durationSeconds: number;
+  ratio: string;
+  seed?: number;
+  estimatedCredits?: number;
+  estimatedCostUsd?: number;
+  requestFingerprint: string;
+  requiredTrimmedDurationSeconds: number;
+  promptContractVersion: number;
+  parentAttemptId?: string;
+}
+
+async function submitTextToVideoProviderCreate(
+  row: SceneVideoAttemptRow,
+  deps?: SceneVideoAttemptServiceDeps,
+): Promise<SceneVideoAttemptView> {
+  const supabase = supabaseOf(deps);
+  const provider = providerOf(deps);
+  const owner = submissionOwner(deps);
+
+  const claimed = await claimSubmission(supabase, row, owner, deps);
+  if (!claimed) {
+    const current = await loadAttempt(supabase, row.id);
+    if (
+      current.status === "submitting" &&
+      !current.provider_task_id &&
+      isSubmissionClaimStale(current, deps)
+    ) {
+      await markStaleSubmissionUnknown(supabase, current, deps);
+      throw new Error("submission_unknown");
+    }
+    if (current.status === "submission_unknown") {
+      throw new Error("submission_unknown");
+    }
+    const canonicalView = await getSceneVideoAttemptByClientRequestId(
+      current.client_request_id,
+      deps,
+    );
+    if (canonicalView?.status === "succeeded") {
+      return canonicalView;
+    }
+    const peerList = await listSceneVideoAttemptsForScene(
+      { videoJobId: row.video_job_id, sceneId: row.scene_id },
+      deps,
+    );
+    for (const peer of peerList) {
+      if (
+        peer.generationMode === "text_to_video" &&
+        peer.requestFingerprint === row.request_fingerprint &&
+        peer.status === "succeeded"
+      ) {
+        return peer;
+      }
+    }
+    if (
+      current.status === "submitting" &&
+      !current.provider_task_id &&
+      !isSubmissionClaimStale(current, deps)
+    ) {
+      return waitForPeerSubmissionOutcome(
+        supabase,
+        current.id,
+        current.client_request_id,
+        deps,
+      );
+    }
+    return mapAttemptRow(current, true);
+  }
+
+  const working = claimed;
+  try {
+    const created = await provider.createTextToVideo({
+      promptText: working.motion_prompt,
+      model: working.model,
+      duration: working.duration_seconds,
+      ratio: working.ratio,
+      ...(working.seed != null ? { seed: working.seed } : {}),
+      dangerousCreateMaxTransportAttempts: 1,
+    });
+
+    const submittedAt = nowIso(deps);
+    const { data: updated, error: updateError } = await supabase
+      .from("scene_video_generation_attempts")
+      .update({
+        provider_task_id: created.providerTaskId,
+        status: "submitted",
+        submitted_at: submittedAt,
+        submission_claimed_at: null,
+        submission_claim_owner: null,
+      })
+      .eq("id", working.id)
+      .eq("submission_claim_owner", owner)
+      .is("provider_task_id", null)
+      .eq("status", "submitting")
+      .select("*")
+      .maybeSingle();
+    if (updateError) throw updateError;
+    if (!updated) {
+      return mapAttemptRow(await loadAttempt(supabase, working.id), true);
+    }
+    return mapAttemptRow(updated as SceneVideoAttemptRow, false);
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message.slice(0, 1000) : "provider_create_failed";
+    const failureCode =
+      err instanceof VideoGenerationError
+        ? err.failureCode ?? err.code
+        : "provider_create_failed";
+    const classified = classifyCreateFailure(err);
+    if (classified === "submission_unknown") {
+      const marked = await markOwnedSubmissionTerminal(
+        supabase,
+        working.id,
+        owner,
+        "submission_unknown",
+        message,
+        failureCode,
+        deps,
+      );
+      if (marked === "claim_lost") {
+        return mapAttemptRow(await loadAttempt(supabase, working.id), true);
+      }
+      throw new Error("submission_unknown");
+    }
+    const marked = await markOwnedSubmissionTerminal(
+      supabase,
+      working.id,
+      owner,
+      "failed",
+      message,
+      failureCode,
+      deps,
+    );
+    if (marked === "claim_lost") {
+      return mapAttemptRow(await loadAttempt(supabase, working.id), true);
+    }
+    throw err;
+  }
+}
+
+function needsTextToVideoSubmit(row: SceneVideoAttemptRow): boolean {
+  if (row.provider_task_id) return false;
+  return row.status === "created" || row.status === "submitting";
+}
+
+export async function createTextToVideoSceneVideoAttempt(
+  input: CreateTextToVideoSceneVideoAttemptInput,
+  deps?: SceneVideoAttemptServiceDeps,
+): Promise<SceneVideoAttemptView> {
+  const projectId = validateUuid(input.projectId, "project_id");
+  const videoJobId = validateUuid(input.videoJobId, "video_job_id");
+  const clientRequestId = validateUuid(
+    input.clientRequestId,
+    "client_request_id",
+  );
+  const sceneId = input.sceneId.trim();
+  if (!sceneId) throw new Error("scene_id_required");
+  const promptText = validateMotionPrompt(input.promptText);
+  if (
+    !Number.isFinite(input.durationSeconds) ||
+    input.durationSeconds < 2 ||
+    input.durationSeconds > 10
+  ) {
+    throw new Error("duration_invalid");
+  }
+  if (input.ratio.trim() !== "720:1280") {
+    throw new Error("ratio_invalid");
+  }
+  const supabase = supabaseOf(deps);
+  const { data: existing, error: existingError } = await supabase
+    .from("scene_video_generation_attempts")
+    .select("*")
+    .eq("client_request_id", clientRequestId)
+    .maybeSingle();
+  if (existingError) throw existingError;
+  if (existing) {
+    const row = existing as SceneVideoAttemptRow;
+    if (!needsTextToVideoSubmit(row)) {
+      return mapAttemptRow(row, true);
+    }
+    return submitTextToVideoProviderCreate(row, deps);
+  }
+
+  const seed = validateSceneVideoSeed(input.seed === undefined ? null : input.seed);
+  const insertPayload = {
+    project_id: projectId,
+    video_job_id: videoJobId,
+    scene_id: sceneId,
+    client_request_id: clientRequestId,
+    parent_attempt_id: input.parentAttemptId ?? null,
+    source_image_bucket: null,
+    source_image_path: null,
+    motion_prompt: promptText,
+    provider: "runway",
+    model: "gen4.5",
+    duration_seconds: Math.round(input.durationSeconds),
+    ratio: input.ratio.trim(),
+    seed,
+    status: "created" as const,
+    estimated_credits: input.estimatedCredits ?? null,
+    estimated_cost_usd: input.estimatedCostUsd ?? null,
+    generation_mode: "text_to_video" as const,
+    request_fingerprint: input.requestFingerprint,
+    required_trimmed_duration_seconds: input.requiredTrimmedDurationSeconds,
+    prompt_contract_version: input.promptContractVersion,
+    provider_metadata: {
+      request_fingerprint: input.requestFingerprint,
+    },
+  };
+
+  const { data: inserted, error: insertError } = await supabase
+    .from("scene_video_generation_attempts")
+    .insert(insertPayload)
+    .select("*")
+    .single();
+  if (insertError) {
+    if (insertError.code === "23505") {
+      const { data: raced } = await supabase
+        .from("scene_video_generation_attempts")
+        .select("*")
+        .eq("client_request_id", clientRequestId)
+        .maybeSingle();
+      if (raced) {
+        const racedRow = raced as SceneVideoAttemptRow;
+        if (!needsTextToVideoSubmit(racedRow)) {
+          return mapAttemptRow(racedRow, true);
+        }
+        return submitTextToVideoProviderCreate(racedRow, deps);
+      }
+    }
+    throw insertError;
+  }
+  const row = inserted as SceneVideoAttemptRow;
+  if (row.provider_task_id) {
+    return mapAttemptRow(row, true);
+  }
+  return submitTextToVideoProviderCreate(row, deps);
 }
 
 export interface RetrySceneVideoAttemptInput {

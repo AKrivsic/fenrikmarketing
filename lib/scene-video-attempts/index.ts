@@ -26,12 +26,14 @@ export {
 } from "@/lib/scene-video-attempts/createFailure";
 export {
   createSceneVideoAttempt,
+  createTextToVideoSceneVideoAttempt,
   createRetrySceneVideoAttempt,
   getSceneVideoAttempt,
   getSceneVideoAttemptByClientRequestId,
   listSceneVideoAttemptsForScene,
   syncSceneVideoAttempt,
   type CreateSceneVideoAttemptInput,
+  type CreateTextToVideoSceneVideoAttemptInput,
   type RetrySceneVideoAttemptInput,
   type SceneVideoAttemptServiceDeps,
 } from "@/lib/scene-video-attempts/service";

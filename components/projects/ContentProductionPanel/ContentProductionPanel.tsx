@@ -21,6 +21,11 @@ import {
   type ProductionConfig,
   type ProductionPlatformId,
 } from "@/lib/projects/productionRun";
+import {
+  DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
 import type { ProductionRunView } from "@/lib/api/production-run-admin";
 import type { ProductionRunStatus } from "@/lib/supabase/types";
 import { FiverrPromoGeneratePanel } from "@/components/projects/FiverrPromoGeneratePanel/FiverrPromoGeneratePanel";
@@ -80,6 +85,16 @@ export function ContentProductionPanel({
     return map;
   });
 
+  const [packageVideoMode, setPackageVideoMode] =
+    useState<PackageVideoProductionMode>(
+      initialConfig.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+    );
+  const [textToVideoConfirmPaidRun, setTextToVideoConfirmPaidRun] =
+    useState(initialConfig.textToVideoConfirmPaidRun === true);
+  const [textToVideoMaxBudgetUsd, setTextToVideoMaxBudgetUsd] = useState(
+    initialConfig.textToVideoMaxBudgetUsd ?? 25,
+  );
+
   const [run, setRun] = useState<ProductionRunView | null>(initialRun);
   const [error, setError] = useState<string | null>(null);
   const [promoBusy, setPromoBusy] = useState(false);
@@ -97,6 +112,13 @@ export function ContentProductionPanel({
       platforms,
       multipliers,
       platformContentTypes: initialConfig.platformContentTypes,
+      packageVideoMode,
+      ...(packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO
+        ? {
+            textToVideoConfirmPaidRun,
+            textToVideoMaxBudgetUsd,
+          }
+        : {}),
     };
   }, [
     packageCount,
@@ -104,6 +126,9 @@ export function ContentProductionPanel({
     activePlatforms,
     multipliers,
     initialConfig.platformContentTypes,
+    packageVideoMode,
+    textToVideoConfirmPaidRun,
+    textToVideoMaxBudgetUsd,
   ]);
 
   const plan = useMemo(
@@ -233,6 +258,7 @@ export function ContentProductionPanel({
   }, [projectId, run?.id]);
 
   const canGenerate = plan.packageCount > 0 && plan.platformOutputs.length > 0;
+  const showVideoModeChoice = plan.videoCount > 0;
   const generateDisabled = isPending || active || !canGenerate || promoBusy;
 
   return (
@@ -275,6 +301,67 @@ export function ContentProductionPanel({
           asset_usage.
         </span>
       </div>
+
+      {showVideoModeChoice ? (
+        <fieldset className={styles.group} disabled={active}>
+          <legend className={styles.groupTitle}>Typ videa pro tento běh</legend>
+          <label className={styles.platformLabel}>
+            <input
+              type="radio"
+              name="packageVideoMode"
+              checked={packageVideoMode === "still"}
+              onChange={() => setPackageVideoMode("still")}
+            />
+            <span>Současné video (stills + Ken Burns)</span>
+          </label>
+          <label className={styles.platformLabel}>
+            <input
+              type="radio"
+              name="packageVideoMode"
+              checked={packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO}
+              onChange={() => setPackageVideoMode(PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO)}
+            />
+            <span>Generované AI video (text-to-video)</span>
+          </label>
+          <p className={styles.primaryHint}>
+            Generované AI video bude v další fázi placená varianta (hlas + video
+            klipy). Výchozí zůstává současné still video.
+          </p>
+          {packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO ? (
+            <div className={styles.primary}>
+              <label className={styles.platformLabel}>
+                <input
+                  type="checkbox"
+                  checked={textToVideoConfirmPaidRun}
+                  onChange={(e) =>
+                    setTextToVideoConfirmPaidRun(e.target.checked)
+                  }
+                  disabled={active}
+                />
+                <span>Potvrdit placený běh (ElevenLabs + Runway) pro tento run</span>
+              </label>
+              <label className={styles.primaryLabel} htmlFor="t2vMaxBudget">
+                Max. rozpočet USD / package (odhad)
+              </label>
+              <input
+                id="t2vMaxBudget"
+                type="number"
+                min={1}
+                step={1}
+                className={styles.primaryInput}
+                value={textToVideoMaxBudgetUsd}
+                onChange={(e) => {
+                  const n = Number.parseFloat(e.target.value);
+                  setTextToVideoMaxBudgetUsd(
+                    Number.isFinite(n) && n > 0 ? n : 1,
+                  );
+                }}
+                disabled={active}
+              />
+            </div>
+          ) : null}
+        </fieldset>
+      ) : null}
 
       {/* --- Platforms + multipliers --------------------------------------- */}
       <fieldset className={styles.group}>

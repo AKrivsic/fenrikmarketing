@@ -78,3 +78,13 @@ export function buildAiMediaBenchmarkPath(
 ): string {
   return `${projectId}/ai-media-benchmark/${runId}/${sanitizeFilename(filename)}`;
 }
+
+// video-renders: {project_id}/text-to-video-voice/{package_id}/{fingerprint}/{filename}
+export function buildTextToVideoVoiceSynthesisPath(
+  projectId: string,
+  packageId: string,
+  synthesisFingerprint: string,
+  filename: string,
+): string {
+  return `${projectId}/text-to-video-voice/${packageId}/${synthesisFingerprint}/${sanitizeFilename(filename)}`;
+}

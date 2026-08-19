@@ -36,6 +36,10 @@ export interface SceneVideoAttemptRow {
   download_claim_owner: string | null;
   submission_claimed_at: string | null;
   submission_claim_owner: string | null;
+  generation_mode?: "image_to_video" | "text_to_video";
+  request_fingerprint?: string | null;
+  required_trimmed_duration_seconds?: number | null;
+  prompt_contract_version?: number | null;
 }
 
 export interface SceneVideoAttemptView {
@@ -71,6 +75,9 @@ export interface SceneVideoAttemptView {
   outputHasAudio: boolean | null;
   providerMetadata: Record<string, unknown> | null;
   reusedExistingRequest: boolean;
+  generationMode: "image_to_video" | "text_to_video";
+  requestFingerprint: string | null;
+  requiredTrimmedDurationSeconds: number | null;
 }
 
 export function mapAttemptRow(
@@ -115,5 +122,20 @@ export function mapAttemptRow(
     outputHasAudio: row.output_has_audio,
     providerMetadata: row.provider_metadata,
     reusedExistingRequest,
+    generationMode:
+      row.generation_mode ??
+      (row.provider_metadata?.generation_mode === "text_to_video"
+        ? "text_to_video"
+        : "image_to_video"),
+    requestFingerprint:
+      row.request_fingerprint ??
+      (typeof row.provider_metadata?.request_fingerprint === "string"
+        ? row.provider_metadata.request_fingerprint
+        : null),
+    requiredTrimmedDurationSeconds:
+      row.required_trimmed_duration_seconds === null ||
+      row.required_trimmed_duration_seconds === undefined
+        ? null
+        : Number(row.required_trimmed_duration_seconds),
   };
 }

@@ -78,6 +78,10 @@ import {
 import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cancel";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
+  parsePackageVideoProductionModeFromJobInput,
+  PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+} from "@/lib/content-package/packageVideoProductionMode";
+import {
   parseVideoJobRenderOptions,
   VIDEO_RENDER_MODE_STILL,
 } from "@/lib/video-engine/schemas/videoJobRenderMode";
@@ -86,6 +90,7 @@ import {
   isAiVideoLeaseLostError,
   runAiVideoClipJobPhase,
 } from "@/video-worker/aiVideoClipJobPhase";
+import { runTextToVideoJobPhase } from "@/video-worker/textToVideoJobPhase";
 import { finalizeAiVideoClipJob } from "@/video-worker/finalizeAiVideoClipJob";
 import { resolveAlreadyCompletedAiVideoJob } from "@/lib/video-worker/aiVideoJobOutput";
 import { readAiVideoMeta } from "@/lib/video-worker/aiVideoJobOutput";
@@ -467,9 +472,94 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
   try {
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
 
-    const renderOptions = parseVideoJobRenderOptions(
-      payload.input as Record<string, unknown>,
+    const jobInputRecord = payload.input as Record<string, unknown>;
+    const productionMode = parsePackageVideoProductionModeFromJobInput(
+      jobInputRecord,
     );
+    if (!productionMode.ok) {
+      throw new Error(
+        `video_job_package_video_mode_invalid:${productionMode.reason}`,
+      );
+    }
+    if (productionMode.mode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+      let leaseActive = true;
+      const { data: pkgRow, error: pkgErr } = await leaseSupabase
+        .from("content_packages")
+        .select("package_brief")
+        .eq("id", payload.content_package_id)
+        .eq("project_id", payload.project_id)
+        .maybeSingle();
+      if (pkgErr) throw pkgErr;
+      const brief =
+        pkgRow?.package_brief &&
+        typeof pkgRow.package_brief === "object" &&
+        !Array.isArray(pkgRow.package_brief)
+          ? (pkgRow.package_brief as Record<string, unknown>)
+          : {};
+      const t2vSpec = buildRenderSpec(payload.input);
+      const subtitlesBurnInRequested = Boolean(t2vSpec.subtitles?.trim());
+      const phaseResult = await runTextToVideoJobPhase({
+        projectId: payload.project_id,
+        packageId: payload.content_package_id,
+        videoJobId: payload.video_job_id,
+        brief,
+        jobInput: jobInputRecord,
+        subtitlesBurnIn: subtitlesBurnInRequested,
+        leaseOwner,
+        supabase: leaseSupabase,
+        shouldContinue: () => leaseActive,
+        executorDeps: {
+          supabase: leaseSupabase,
+          shouldContinue: () => leaseActive,
+          onPollTick: () => {
+            void renewVideoJobLease(leaseSupabase, {
+              jobId: payload.video_job_id,
+              projectId: payload.project_id,
+              ownerToken: leaseOwner,
+            }).catch(() => {
+              leaseActive = false;
+            });
+          },
+        },
+      });
+
+      const aiJobInputFingerprint = computeAiVideoJobInputFingerprintFromSpec({
+        videoJobId: payload.video_job_id,
+        spec: t2vSpec,
+        subtitlesBurnInRequested,
+      });
+
+      const finalized = await finalizeAiVideoClipJob({
+        projectId: payload.project_id,
+        videoJobId: payload.video_job_id,
+        leaseOwner,
+        leaseSupabase,
+        subtitlesBurnInRequested,
+        jobInputFingerprint: aiJobInputFingerprint,
+        phase: phaseResult,
+        sendCallback: async (callback) => {
+          await sendVideoCallback(payload.callback_url, callback, transport);
+        },
+      });
+
+      if (finalized.status === "completed") {
+        artifactsPersisted = finalized.artifactsPersisted;
+        completedCallbackSucceeded = finalized.callbackSent;
+      }
+      if (finalized.status === "already_completed") {
+        completedCallbackSucceeded = finalized.callbackSent;
+      }
+      console.log(
+        "[video-worker] text_to_video job finished",
+        JSON.stringify({
+          video_job_id: payload.video_job_id,
+          finalize_status: finalized.status,
+        }),
+      );
+      return;
+    }
+
+    const renderOptions = parseVideoJobRenderOptions(jobInputRecord);
     if (!renderOptions.ok) {
       throw new Error(
         `video_job_render_options_invalid:${renderOptions.reason}`,
