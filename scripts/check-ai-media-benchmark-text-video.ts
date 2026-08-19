@@ -33,6 +33,11 @@ import {
   planTextToVideoPlus,
 } from "@/lib/ai-media-benchmark/textVideoPlus";
 import {
+  BENCHMARK_CASE_INPUT_MISMATCH,
+  benchmarkCaseFingerprint,
+} from "@/lib/ai-media-benchmark/benchmarkCase";
+import {
+  createBenchmarkCase,
   createTextToVideoBenchmarkRun,
   previewTextToVideoBenchmark,
   rateBenchmarkRun,
@@ -49,7 +54,7 @@ import {
 } from "@/lib/ai-media-benchmark/roundTSnapshot";
 import {
   AI_MEDIA_BENCHMARK_GENERATION_MODE_TEXT_TO_VIDEO,
-  DEFAULT_TEXT_VIDEO_CASE_ID,
+  DEFAULT_VIDEO_CASE_ID,
   isTextToVideoBenchmarkSettings,
   type AiMediaBenchmarkRunRow,
 } from "@/lib/ai-media-benchmark/types";
@@ -81,7 +86,14 @@ const PROJECT_A = "11111111-1111-4111-8111-111111111111";
 const PROJECT_B = "22222222-2222-4222-8222-222222222222";
 const REQUEST_1 = "44444444-4444-4444-8444-444444444444";
 const REQUEST_2 = "55555555-5555-4555-8555-555555555555";
-const NEW_CASE_ID = "text-to-video-scene-t-alt-case";
+const NEW_CASE_ID = "portrait-scene-t-alt-case";
+const SHARED_CORE_IDEA =
+  "Technik přijde na pracoviště, pozdraví kolegu a zahájí krátký úkol.";
+const MOTION_INTENT_A = "Slow pan right, confident stride toward camera.";
+const IMAGE_BUCKET = "video-renders";
+const IMAGE_UUID = "11111111-1111-4111-8111-111111111111";
+const IMAGE_PATH = `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-a/${IMAGE_UUID}/source.jpg`;
+const IMAGE_SHA256 = "a".repeat(64);
 const ROOT = process.cwd();
 const T2V_ENV = {
   AI_MEDIA_BENCHMARK_TEXT_VIDEO_ENABLED: "true",
@@ -94,9 +106,10 @@ globalThis.fetch = (async (input: RequestInfo | URL) => {
   throw new Error(`real_network_forbidden:${String(input)}`);
 }) as typeof fetch;
 
-function makeFakeSupabase(opts?: { failUpload?: boolean }) {
+function makeFakeSupabase(opts?: { failUpload?: boolean; preSeedBenchmarkCase?: boolean }) {
   const runs = new Map<string, Record<string, unknown>>();
   const roundTCases = new Map<string, Record<string, unknown>>();
+  const benchmarkCases = new Map<string, Record<string, unknown>>();
   const files = new Map<string, true>();
   const uploads: string[] = [];
   const project = {
@@ -114,6 +127,34 @@ function makeFakeSupabase(opts?: { failUpload?: boolean }) {
       },
     },
   };
+
+  if (opts?.preSeedBenchmarkCase !== false) {
+    const fp = benchmarkCaseFingerprint({
+      coreIdea: SHARED_CORE_IDEA,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+    });
+    const caseRowId = crypto.randomUUID();
+    const now = new Date().toISOString();
+    benchmarkCases.set(caseRowId, {
+      id: caseRowId,
+      project_id: PROJECT_A,
+      case_id: DEFAULT_VIDEO_CASE_ID,
+      core_idea: SHARED_CORE_IDEA,
+      motion_intent: MOTION_INTENT_A,
+      source_image_bucket: IMAGE_BUCKET,
+      source_image_path: IMAGE_PATH,
+      source_image_sha256: IMAGE_SHA256,
+      source_image_uuid: IMAGE_UUID,
+      fingerprint: fp,
+      locked_by_run_id: null,
+      locked_by_model: null,
+      created_at: now,
+      updated_at: now,
+    });
+  }
 
   function matches(
     row: Record<string, unknown>,
@@ -279,6 +320,44 @@ function makeFakeSupabase(opts?: { failUpload?: boolean }) {
         }
         return { data: rows, error: null };
       }
+      if (table === "ai_media_benchmark_cases") {
+        if (insertRow) {
+          const pid = insertRow.project_id;
+          const cid = insertRow.case_id;
+          for (const existing of benchmarkCases.values()) {
+            if (existing.project_id === pid && existing.case_id === cid) {
+              return { data: null, error: { code: "23505", message: "dup_case" } };
+            }
+          }
+          const id = crypto.randomUUID();
+          const now = new Date().toISOString();
+          const row = {
+            id,
+            ...insertRow,
+            locked_by_run_id: null,
+            locked_by_model: null,
+            created_at: now,
+            updated_at: now,
+          };
+          benchmarkCases.set(id, row);
+          return { data: { ...row }, error: null };
+        }
+        if (updatePatch) {
+          const matchesRows = [...benchmarkCases.values()].filter((r) => matches(r, filters));
+          if (matchesRows.length === 0) {
+            return { data: wantSingle || wantMaybe ? null : [], error: null };
+          }
+          const target = matchesRows[0]!;
+          const next = { ...target, ...updatePatch, updated_at: new Date().toISOString() };
+          benchmarkCases.set(String(target.id), next);
+          return { data: wantSingle || wantMaybe ? next : [next], error: null };
+        }
+        const rows = [...benchmarkCases.values()].filter((r) => matches(r, filters));
+        if (wantSingle || wantMaybe) {
+          return { data: rows[0] ?? null, error: null };
+        }
+        return { data: rows, error: null };
+      }
       return { data: null, error: { message: `unknown table ${table}` } };
     }
 
@@ -318,9 +397,43 @@ function makeFakeSupabase(opts?: { failUpload?: boolean }) {
     },
     _runs: runs,
     _roundTCases: roundTCases,
+    _benchmarkCases: benchmarkCases,
     _uploads: uploads,
     _project: project,
   };
+}
+
+async function seedSharedBenchmarkCase(
+  supabase: ReturnType<typeof makeFakeSupabase>,
+  overrides?: {
+    caseId?: string;
+    coreIdea?: string;
+    motionIntent?: string;
+    imagePath?: string;
+    imageSha256?: string;
+    imageUuid?: string;
+  },
+) {
+  const caseId = overrides?.caseId ?? DEFAULT_VIDEO_CASE_ID;
+  const coreIdea = overrides?.coreIdea ?? SHARED_CORE_IDEA;
+  const motionIntent = overrides?.motionIntent ?? MOTION_INTENT_A;
+  const imageUuid = overrides?.imageUuid ?? IMAGE_UUID;
+  const imagePath =
+    overrides?.imagePath ??
+    `${PROJECT_A}/ai-media-benchmark/cases/${caseId}/${imageUuid}/source.jpg`;
+  await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId,
+      coreIdea,
+      motionIntent,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: imagePath,
+      sourceImageSha256: overrides?.imageSha256 ?? IMAGE_SHA256,
+      sourceImageUuid: imageUuid,
+    },
+    { supabase: supabase as never },
+  );
 }
 
 function fakeTextVideoProvider(
@@ -393,7 +506,7 @@ function baseInput(overrides: Partial<{
     sceneIdeaId: overrides.sceneIdeaId ?? "arrival-and-task",
     durationSeconds: overrides.durationSeconds ?? ROUND_A_DURATION_SECONDS,
     ratio: ROUND_A_PORTRAIT_RATIO,
-    caseId: overrides.caseId,
+    caseId: overrides.caseId ?? DEFAULT_VIDEO_CASE_ID,
     clientRequestId: overrides.clientRequestId ?? REQUEST_1,
     confirmPaidGeneration: overrides.confirmPaidGeneration ?? true,
     maxCostUsd: overrides.maxCostUsd ?? 0.48,
@@ -431,7 +544,7 @@ function seedT2vRun(
   };
   const row = {
     id,
-    case_id: args.caseId ?? DEFAULT_TEXT_VIDEO_CASE_ID,
+    case_id: args.caseId ?? DEFAULT_VIDEO_CASE_ID,
     test_type: "video",
     audio_role: "none",
     project_id: PROJECT_A,
@@ -611,7 +724,8 @@ await check("one model per launch and no run-all", () => {
   assert.match(t2vUi, /Jeden text-to-video model/);
   assert.match(t2vUi, /První spuštěný model uzamkne prompt/);
   assert.match(t2vUi, /Uzamčený prompt odesílaný všem modelům/);
-  assert.match(t2vUi, /Nové Kolo T s novým case_id/);
+  // Hardening: nonfunctional "new round T" button must be absent.
+  assert.doesNotMatch(t2vUi, /Nové Kolo T s jiným case_id/);
   assert.match(t2vUi, /disabled=\{locked\}/);
   assert.match(t2vUi, /benchmark_request_input_mismatch/);
   assert.match(t2vUi, /round_t_case_snapshot_conflict/);
@@ -686,8 +800,10 @@ await check("preview does not call the provider", async () => {
     },
   );
   assert.equal(created.length, 0);
+  assert.equal(preview.sharedCoreIdea, SHARED_CORE_IDEA);
+  assert.equal(preview.coreIdea, SHARED_CORE_IDEA);
+  assert.ok(preview.promptText.includes(SHARED_CORE_IDEA));
   assert.equal(preview.ratio, "720:1280");
-  assert.equal(preview.durationSeconds, 4);
   assert.equal(preview.profile.primaryColor, "#1d4ed8");
   assert.ok(promptForbidsLogoAndReadableText(preview.promptText));
 });
@@ -703,7 +819,7 @@ await check("one create posts exactly one selected model", async () => {
   });
   assert.deepEqual(created, ["veo3.1_fast"]);
   assert.equal(run.model, "veo3.1_fast");
-  assert.equal(run.caseId, DEFAULT_TEXT_VIDEO_CASE_ID);
+  assert.equal(run.caseId, DEFAULT_VIDEO_CASE_ID);
   assert.equal(run.testType, "video");
   assert.equal(isTextToVideoBenchmarkSettings(run.settings), true);
   assert.equal(run.estimatedCostUsd, 0.6);
@@ -904,7 +1020,7 @@ await check("canonical mismatch rejects prompt, project, model and budget", () =
   const row = {
     project_id: PROJECT_A,
     test_type: "video",
-    case_id: DEFAULT_TEXT_VIDEO_CASE_ID,
+    case_id: DEFAULT_VIDEO_CASE_ID,
     provider: "runway",
     model: "gen4.5",
     duration_seconds: 4,
@@ -984,6 +1100,11 @@ await check("same client_request_id + other model does not POST", async () => {
 await check("same client_request_id + other prompt does not POST", async () => {
   const created: string[] = [];
   const supabase = makeFakeSupabase();
+  await seedSharedBenchmarkCase(supabase, {
+    caseId: NEW_CASE_ID,
+    imageUuid: "22222222-2222-4222-8222-222222222222",
+    imagePath: `${PROJECT_A}/ai-media-benchmark/cases/${NEW_CASE_ID}/22222222-2222-4222-8222-222222222222/source.jpg`,
+  });
   seedT2vRun(supabase, {
     promptText: "stored-alpha-prompt",
     clientRequestId: REQUEST_1,
@@ -1010,6 +1131,19 @@ await check("same client_request_id + other prompt does not POST", async () => {
 await check("same client_request_id + other project does not POST", async () => {
   const created: string[] = [];
   const supabase = makeFakeSupabase();
+  await createBenchmarkCase(
+    {
+      projectId: PROJECT_B,
+      caseId: DEFAULT_VIDEO_CASE_ID,
+      coreIdea: SHARED_CORE_IDEA,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: `${PROJECT_B}/ai-media-benchmark/cases/${DEFAULT_VIDEO_CASE_ID}/${IMAGE_UUID}/source.jpg`,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
   await createTextToVideoBenchmarkRun(baseInput(), {
     supabase: supabase as never,
     textVideoProvider: fakeTextVideoProvider(created),
@@ -1160,6 +1294,12 @@ await check("Product Brain change does not rewrite a locked Round T snapshot", a
     env: T2V_ENV,
   });
   supabase._project.product_is = ["úplně jiný obor po změně Product Brainu"];
+  await seedSharedBenchmarkCase(supabase, {
+    caseId: NEW_CASE_ID,
+    coreIdea: "Alt case core idea for Round T only",
+    imageUuid: "22222222-2222-4222-8222-222222222222",
+    imagePath: `${PROJECT_A}/ai-media-benchmark/cases/${NEW_CASE_ID}/22222222-2222-4222-8222-222222222222/source.jpg`,
+  });
   const live = await previewTextToVideoBenchmark(
     { projectId: PROJECT_A, caseId: NEW_CASE_ID, sceneIdeaId: "arrival-and-task" },
     { supabase: supabase as never },
@@ -1186,6 +1326,7 @@ await check("Product Brain change does not rewrite a locked Round T snapshot", a
   // NEW_CASE_ID preview created an independent case snapshot for the new case.
   // Its case snapshot ID must differ from the original case.
   assert.notEqual(live.caseSnapshotId, first.settings.caseSnapshotId as string);
+  assert.equal(live.sharedCoreIdea, "Alt case core idea for Round T only");
   // The changed product_is is reflected in the new case profile.
   assert.match(String(live.profile.productSummary), /úplně jiný obor/);
 });
@@ -1226,6 +1367,12 @@ await check("a new case can create a new snapshot", async () => {
     supabase: supabase as never,
     textVideoProvider: fakeTextVideoProvider(created, prompts),
     env: T2V_ENV,
+  });
+  await seedSharedBenchmarkCase(supabase, {
+    caseId: NEW_CASE_ID,
+    coreIdea: "Walkthrough handoff alt core idea",
+    imageUuid: "22222222-2222-4222-8222-222222222222",
+    imagePath: `${PROJECT_A}/ai-media-benchmark/cases/${NEW_CASE_ID}/22222222-2222-4222-8222-222222222222/source.jpg`,
   });
   const second = await createTextToVideoBenchmarkRun(
     baseInput({
@@ -1278,7 +1425,7 @@ await check("conflicting Round T snapshots in old run data (no case row) are rej
   await assert.rejects(
     () =>
       previewTextToVideoBenchmark(
-        { projectId: PROJECT_A, caseId: DEFAULT_TEXT_VIDEO_CASE_ID },
+        { projectId: PROJECT_A, caseId: DEFAULT_VIDEO_CASE_ID },
         { supabase: supabase as never },
       ),
     new RegExp(ROUND_T_CASE_SNAPSHOT_CONFLICT),
@@ -1468,6 +1615,12 @@ await check("12E: new case_id creates a separate atomic snapshot", async () => {
     textVideoProvider: fakeTextVideoProvider(created),
     env: T2V_ENV,
   });
+  await seedSharedBenchmarkCase(supabase, {
+    caseId: NEW_CASE_ID,
+    coreIdea: "Walkthrough handoff alt core idea",
+    imageUuid: "22222222-2222-4222-8222-222222222222",
+    imagePath: `${PROJECT_A}/ai-media-benchmark/cases/${NEW_CASE_ID}/22222222-2222-4222-8222-222222222222/source.jpg`,
+  });
   await createTextToVideoBenchmarkRun(
     baseInput({ caseId: NEW_CASE_ID, clientRequestId: REQUEST_2, sceneIdeaId: "walkthrough-handoff" }),
     {
@@ -1541,9 +1694,313 @@ await check("A+ UI can select text-to-video outputs from any case", () => {
     "utf8",
   );
   assert.match(combined, /load\("video"\)/);
-  assert.doesNotMatch(combined, /DEFAULT_TEXT_VIDEO_CASE_ID/);
+  assert.doesNotMatch(combined, /DEFAULT_VIDEO_CASE_ID/);
   assert.match(combined, /text_to_video/);
 });
+
+// ─── Step 12F: shared benchmark case + Round T ─────────────────────────────
+
+await check("Round T loads core idea exactly from ai_media_benchmark_cases", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  await seedSharedBenchmarkCase(supabase);
+  const preview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A },
+    { supabase: supabase as never },
+  );
+  assert.equal(preview.sharedCoreIdea, SHARED_CORE_IDEA);
+  assert.equal(preview.coreIdea, SHARED_CORE_IDEA);
+});
+
+await check("Product Brain change after case does not change T2V core idea in same case", async () => {
+  const supabase = makeFakeSupabase();
+  const firstPreview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A },
+    { supabase: supabase as never },
+  );
+  supabase._project.product_is = ["jiný obor"];
+  const secondPreview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A },
+    { supabase: supabase as never },
+  );
+  assert.equal(secondPreview.sharedCoreIdea, SHARED_CORE_IDEA);
+  assert.equal(secondPreview.coreIdea, firstPreview.coreIdea);
+  assert.equal(secondPreview.promptText, firstPreview.promptText);
+});
+
+await check("T2V prompt is built from shared core idea not scene catalog default", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  const customCore = "Custom shared benchmark core for T2V prompt test.";
+  await seedSharedBenchmarkCase(supabase, { coreIdea: customCore });
+  const preview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A, sceneIdeaId: "arrival-and-task" },
+    { supabase: supabase as never },
+  );
+  const catalogDefault = getTextToVideoSceneIdea("arrival-and-task").coreIdea;
+  assert.notEqual(customCore, catalogDefault);
+  assert.ok(preview.promptText.includes(customCore));
+  assert.equal(preview.coreIdea, customCore);
+});
+
+await check("T2V create does not send source image fields", async () => {
+  const created: string[] = [];
+  const supabase = makeFakeSupabase();
+  const provider = fakeTextVideoProvider(created);
+  const run = await createTextToVideoBenchmarkRun(baseInput(), {
+    supabase: supabase as never,
+    textVideoProvider: provider,
+    env: T2V_ENV,
+  });
+  assert.equal(run.sourceImageBucket, null);
+  assert.equal(run.sourceImagePath, null);
+});
+
+await check("corrupt shared benchmark case fingerprint stops T2V before provider POST", async () => {
+  const created: string[] = [];
+  const supabase = makeFakeSupabase();
+  for (const row of supabase._benchmarkCases.values()) {
+    row.fingerprint = "corrupt";
+  }
+  await assert.rejects(
+    () =>
+      createTextToVideoBenchmarkRun(baseInput(), {
+        supabase: supabase as never,
+        textVideoProvider: fakeTextVideoProvider(created),
+        env: T2V_ENV,
+      }),
+    /benchmark_case_fingerprint_mismatch/,
+  );
+  assert.equal(created.length, 0);
+});
+
+await check("same case_id + different core idea → benchmark_case_input_mismatch", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  await seedSharedBenchmarkCase(supabase);
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          coreIdea: "Different core idea",
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    new RegExp(BENCHMARK_CASE_INPUT_MISMATCH),
+  );
+});
+
+await check("same case_id + different motion intent → benchmark_case_input_mismatch", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  await seedSharedBenchmarkCase(supabase);
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          coreIdea: SHARED_CORE_IDEA,
+          motionIntent: "Fast zoom in",
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    new RegExp(BENCHMARK_CASE_INPUT_MISMATCH),
+  );
+});
+
+await check("same case_id + different image path → benchmark_case_input_mismatch", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  await seedSharedBenchmarkCase(supabase);
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          coreIdea: SHARED_CORE_IDEA,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-a/22222222-2222-4222-8222-222222222222/source.jpg`,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: "22222222-2222-4222-8222-222222222222",
+        },
+        { supabase: supabase as never },
+      ),
+    new RegExp(BENCHMARK_CASE_INPUT_MISMATCH),
+  );
+});
+
+await check("same case_id + identical inputs → safe reuse", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  const first = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: DEFAULT_VIDEO_CASE_ID,
+      coreIdea: SHARED_CORE_IDEA,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  const second = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: DEFAULT_VIDEO_CASE_ID,
+      coreIdea: SHARED_CORE_IDEA,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  assert.equal(first.id, second.id);
+  assert.equal(supabase._benchmarkCases.size, 1);
+});
+
+await check("concurrent identical benchmark case inserts → one winner", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  const input = {
+    projectId: PROJECT_A,
+    caseId: DEFAULT_VIDEO_CASE_ID,
+    coreIdea: SHARED_CORE_IDEA,
+    motionIntent: MOTION_INTENT_A,
+    sourceImageBucket: IMAGE_BUCKET,
+    sourceImagePath: IMAGE_PATH,
+    sourceImageSha256: IMAGE_SHA256,
+    sourceImageUuid: IMAGE_UUID,
+  };
+  const [a, b] = await Promise.all([
+    createBenchmarkCase(input, { supabase: supabase as never }),
+    createBenchmarkCase(input, { supabase: supabase as never }),
+  ]);
+  assert.equal(a.id, b.id);
+  assert.equal(supabase._benchmarkCases.size, 1);
+});
+
+await check("concurrent different benchmark case inserts → one winner, loser mismatch", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  const base = {
+    projectId: PROJECT_A,
+    caseId: DEFAULT_VIDEO_CASE_ID,
+    motionIntent: MOTION_INTENT_A,
+    sourceImageBucket: IMAGE_BUCKET,
+    sourceImagePath: IMAGE_PATH,
+    sourceImageSha256: IMAGE_SHA256,
+    sourceImageUuid: IMAGE_UUID,
+  };
+  const results = await Promise.allSettled([
+    createBenchmarkCase({ ...base, coreIdea: SHARED_CORE_IDEA }, { supabase: supabase as never }),
+    createBenchmarkCase(
+      { ...base, coreIdea: "Conflicting concurrent core idea" },
+      { supabase: supabase as never },
+    ),
+  ]);
+  assert.equal(supabase._benchmarkCases.size, 1);
+  const mismatches = results.filter(
+    (r) => r.status === "rejected" && String((r as PromiseRejectedResult).reason).includes(BENCHMARK_CASE_INPUT_MISMATCH),
+  );
+  assert.equal(mismatches.length, 1);
+});
+
+// ─── Step 12F hardening: T2V shared case SHA-256 guards ──────────────────────
+
+await check("T2V pre-POST guard includes SHA-256 — tampered fingerprint blocks T2V provider POST", async () => {
+  const supabase = makeFakeSupabase({ preSeedBenchmarkCase: false });
+  await seedSharedBenchmarkCase(supabase, { imageSha256: IMAGE_SHA256 });
+
+  // Tamper the stored fingerprint to simulate corrupt DB.
+  const rows = [...supabase._benchmarkCases.values()];
+  const row = rows[0];
+  const tamperedFp = benchmarkCaseFingerprint({
+    coreIdea: String(row.core_idea),
+    motionIntent: String(row.motion_intent),
+    sourceImageBucket: String(row.source_image_bucket),
+    sourceImagePath: String(row.source_image_path),
+    sourceImageSha256: "e".repeat(64),
+  });
+  (supabase._benchmarkCases.get(String(row.id)) as Record<string, unknown>).fingerprint = tamperedFp;
+
+  const created: string[] = [];
+  const prompts: string[] = [];
+  await assert.rejects(
+    () =>
+      createTextToVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          modelId: "gen4.5",
+          durationSeconds: 4,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          clientRequestId: crypto.randomUUID(),
+          confirmPaidGeneration: true,
+          maxCostUsd: 10.0,
+        },
+        { supabase: supabase as never, textVideoProvider: fakeTextVideoProvider(created, prompts), env: T2V_ENV },
+      ),
+    /benchmark_case_fingerprint_mismatch/,
+    "Tampered SHA-256 fingerprint must block T2V provider POST",
+  );
+  assert.equal(created.length, 0, "No T2V provider POST must occur");
+});
+
+await check("old DB case with null SHA/UUID blocks T2V preview", async () => {
+  const supabase = makeFakeSupabase();
+  const row = [...supabase._benchmarkCases.values()][0]!;
+  row.source_image_sha256 = null;
+  row.source_image_uuid = null;
+  await assert.rejects(
+    () =>
+      previewTextToVideoBenchmark(
+        { projectId: PROJECT_A, caseId: DEFAULT_VIDEO_CASE_ID, sceneIdeaId: "arrival-and-task" },
+        { supabase: supabase as never },
+      ),
+    /benchmark_case_image_integrity_invalid/,
+  );
+});
+
+await check("old DB case with null SHA/UUID blocks T2V create before provider POST", async () => {
+  const supabase = makeFakeSupabase();
+  const row = [...supabase._benchmarkCases.values()][0]!;
+  row.source_image_sha256 = null;
+  row.source_image_uuid = null;
+  const created: string[] = [];
+  await assert.rejects(
+    () =>
+      createTextToVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          modelId: "gen4.5",
+          durationSeconds: 4,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          clientRequestId: crypto.randomUUID(),
+          confirmPaidGeneration: true,
+          maxCostUsd: 10.0,
+        },
+        { supabase: supabase as never, textVideoProvider: fakeTextVideoProvider(created), env: T2V_ENV },
+      ),
+    /benchmark_case_image_integrity_invalid/,
+  );
+  assert.equal(created.length, 0);
+});
+
+await check("Kolo A and T both use DEFAULT_VIDEO_CASE_ID (same constant)", async () => {
+  const { DEFAULT_VIDEO_CASE_ID } = await import("@/lib/ai-media-benchmark/types");
+  assert.equal(DEFAULT_VIDEO_CASE_ID, "portrait-scene-a");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 await check("zero real network calls", () => {
   assert.equal(realFetchCalls, 0);

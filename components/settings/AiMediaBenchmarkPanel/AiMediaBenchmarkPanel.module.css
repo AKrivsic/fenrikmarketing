@@ -259,3 +259,21 @@
   line-height: 1.45;
   color: var(--muted, #5b6573);
 }
+
+.caseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  max-width: 44rem;
+}
+
+.caseTitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1e293b;
+}

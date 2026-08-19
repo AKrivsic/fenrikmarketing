@@ -893,3 +893,251 @@ Zbývající podmínky (databázové blokery odstraněny):
 Každý `project_id + case_id` má jeden autoritativní snapshot v DB, každý placený POST je chráněn fingerprint guardem a client-request idempotencí.
 
 Tento krok **neprováděl** placená volání, **nezapínal** flagy a **neměnil** produkční workflow.
+
+---
+
+## Jednotný benchmark case před prvním placeným během (Step 12F)
+
+### Původní problém
+
+Kolo A zobrazovalo v dropdownu „Testovací scéna" všechny produkční scény projektu pouze pod názvy `scene-1`, `scene-2` atd. Uživatel neví, co vybírá. Produkční scény se navíc liší mezi projekty a nelze garantovat, že dvě volání se stejným `scene-1` mají stejný vstupní obrázek.
+
+### Skutečná příčina
+
+`createVideoBenchmarkRun` přijímalo `(videoJobId, sceneId, motionPrompt)` a resolvovalo vstupní obrázek přes `listRunwayTestScenesForProject` — tedy přímo z produkčních `video_jobs` dat. Nebyl žádný mechanismus pro uzamčení sdíleného kreativního zadání napříč modely.
+
+Proč nelze použít existující `ai_media_benchmark_round_t_cases` (migrace 041)?  
+Tabulka 041 je určena výhradně pro T2V (Round T) snapshoty — má sloupce `prompt_text`, `scene_idea_id`, `brand_visual_profile`. I2V potřebuje zcela jiná pole: `source_image_bucket`, `source_image_path`, `motion_intent`, `core_idea`. Sloučení by narušilo jasné oddělení odpovědností a znemožnilo čisté typové ověření.
+
+### Výsledný datový tok
+
+```
+Uživatel → UI (vytvoření case)
+  → POST /api/admin/ai-media-benchmark/case/upload  (nahraje obrázek do video-renders bucket)
+  → POST /api/admin/ai-media-benchmark/case          (acquireBenchmarkCase → atomic INSERT)
+       ↓
+  ai_media_benchmark_cases (project_id, case_id, core_idea, motion_intent, source_image_bucket, source_image_path, fingerprint)
+  [unique constraint (project_id, case_id) zabrání race condition]
+
+Spuštění modelu (Kolo T) → POST /api/admin/ai-media-benchmark/text-video
+  → resolveBenchmarkCase (stejné case_id jako Kolo A)
+  → resolveRoundTCaseSnapshot(sharedBenchmarkCoreIdea z case)
+  → composeTextToVideoPrompt(core_idea z case + BrandVisualProfile)
+  → ai_media_benchmark_round_t_cases (atomic T2V prompt snapshot)
+  → prepare(): ověření benchmarkCaseFingerprint + snapshotFingerprint
+  → post(): provider.createTextToVideo(promptText) — bez source image
+```
+
+### Rozdíl mezi kreativním zadáním, I2V promptem a T2V promptem
+
+| Vrstva | Co obsahuje | Odkud pochází |
+|---|---|---|
+| Shared benchmark case (`ai_media_benchmark_cases`) | `core_idea`, `motion_intent`, `source_image_*` | Vytvořen v Kole A, autoritativní pro Kolo A i Kolo T (stejné `(project_id, case_id)`) |
+| I2V provider prompt | `motion_intent` | Přímo z case snapshotu; stejný obrázek pro všechny I2V modely |
+| T2V provider prompt | Text z `composeTextToVideoPrompt` | **Stejná `core_idea` z benchmark case** + `BrandVisualProfile`; scénická šablona (`sceneIdeaId`) upravuje jen technickou formulaci děje, ne myšlenku. **Nepoužívá** I2V obrázek ani `motion_intent` jako provider prompt |
+
+Kolo T navíc ukládá atomic snapshot v `ai_media_benchmark_round_t_cases` (041) včetně finálního `prompt_text` a `fingerprint`. V run `settings` jsou `benchmarkCaseId` a `benchmarkCaseFingerprint` pro vazbu na společný case.
+
+**Provider klíče:** Benchmark Lab volá Runway, Veo i Seedance modely dostupné přes Runway API. Stačí **`RUNWAYML_API_SECRET`** — samostatné Veo/Seedance API klíče nejsou potřeba.
+
+### Oprava Step 12F po kontrole implementace
+
+**Nalezené chyby v první verzi 12F:**
+
+1. **Kolo T nečetlo `core_idea` z `ai_media_benchmark_cases`** — `previewTextToVideoBenchmark` / `createTextToVideoBenchmarkRun` stále stavěly myšlenku ze scene idea / projektu. Test „T2V uses same core idea“ byl falešně pozitivní (kontroloval jen ≠ motion intent).
+
+2. **`acquireBenchmarkCase` při 23505** vracel vítěze bez kontroly fingerprintu — odlišné vstupy se tiše ignorovaly.
+
+**Opravy:**
+
+- T2V nejdřív `resolveBenchmarkCase`, pak `resolveRoundTCaseSnapshot` s `sharedBenchmarkCoreIdea`.
+- Default `case_id` pro Kolo T = stejný jako Kolo A (`portrait-scene-a`).
+- Před POST: `benchmarkCaseFingerprint` + Round T `snapshotFingerprint`.
+- `acquireBenchmarkCase`: při 23505 mismatch → `benchmark_case_input_mismatch`.
+- UI Kola T načítá benchmark case z API; bez case zobrazí instrukci (nesdílí case falešně).
+
+**Migrace 043:** nevznikla — vazba přes stejné `(project_id, case_id)` v tabulkách 042 a 041 + sloupce v run `settings` stačí.
+
+### Databázové změny
+
+**Migrace 042** (`supabase/migrations/042_ai_media_benchmark_cases.sql`):
+
+```sql
+create table if not exists public.ai_media_benchmark_cases (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null references public.projects(id) on delete cascade,
+  case_id    text not null,
+  core_idea    text not null,
+  motion_intent text not null,
+  source_image_bucket text not null,
+  source_image_path   text not null,
+  fingerprint text not null,
+  locked_by_run_id uuid null references public.ai_media_benchmark_runs(id) on delete set null,
+  locked_by_model  text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint ai_media_benchmark_cases_project_case_key
+    unique (project_id, case_id)
+);
+```
+
+RLS zapnuto, policies pro `authenticated` přes `owns_project(project_id)`, `service_role` má plný přístup.
+
+**Stav remote migrace:**
+
+| Kontrola | Výsledek |
+|---|---|
+| Tabulka `public.ai_media_benchmark_cases` | ✅ existuje |
+| Unique constraint `(project_id, case_id)` | ✅ `ai_media_benchmark_cases_project_case_key` |
+| Sloupce `core_idea`, `motion_intent`, `source_image_bucket`, `source_image_path`, `fingerprint` | ✅ |
+| FK → `projects(id) ON DELETE CASCADE` | ✅ |
+| FK → `ai_media_benchmark_runs(id) ON DELETE SET NULL` | ✅ |
+| RLS zapnuto | ✅ `relrowsecurity = true` |
+| Policies SELECT/INSERT/UPDATE | ✅ |
+| `service_role` grants | ✅ |
+| `anon` / `authenticated` přímé granty | ✅ žádné (REVOKE aplikován) |
+| Trigger `set_ai_media_benchmark_cases_updated_at` | ✅ BEFORE UPDATE |
+
+### Testy
+
+| Suite | Výsledek |
+|---|---|
+| `check:ai-media-benchmark` | 84 passed |
+| `check:ai-media-benchmark-text-video` | 55 passed |
+| `check:runway-image-to-video` | 23 passed |
+| `check:runway-text-to-video` | 6 passed |
+| `tsc --noEmit` | OK |
+
+Klíčové nové/offline scénáře (T2V + case):
+
+1. Kolo T načte `core_idea` přesně z `ai_media_benchmark_cases`.
+2. Změna Product Brain po vytvoření case nezmění T2V core idea / prompt snapshot stejného case.
+3. T2V prompt obsahuje sdílenou core idea (ne katalogovou default).
+4. T2V prompt ≠ I2V motion intent; T2V request nemá source image.
+5. Fingerprint společného case + Round T snapshot před POST; corrupt fingerprint zastaví T2V.
+6. `benchmark_case_input_mismatch` pro stejné `case_id` + jiná core idea / motion / image path.
+7. Identické vstupy → safe reuse; souběžné inserty → jeden vítěz; souběžně různé → mismatch.
+8. Kolo A: bez produkčních scén, I2V sdílený obrázek, canonical mismatch, submission_unknown.
+
+### Blockery
+
+**Žádné.**
+
+- Migrace 042 aplikována na remote ✅
+- Feature flagy `AI_MEDIA_BENCHMARK_VIDEO_ENABLED` a `AI_MEDIA_BENCHMARK_TEXT_VIDEO_ENABLED` se nastaví před prvním placeným testem
+- **`RUNWAYML_API_SECRET`** v prostředí (Veo/Seedance benchmark modely jdou přes Runway API)
+- Produkční workflow nezměněno
+
+### Potvrzení
+
+Tento krok **neprováděl** placená volání, **nezapínal** flagy a **neměnil** produkční workflow.
+
+Benchmark Lab je bezpečný pro první placený test.
+
+---
+
+## Step 12F final hardening – immutable source image
+
+**Datum:** 2026-08-19  
+**Placená volání:** žádná
+
+### Příčina
+
+Při kontrole kódu před prvním placeným testem byly nalezeny tři kritické problémy:
+
+1. **`newCase()` bylo nefunkční:** Funkce vymazala pouze UI stav, ale `createCase()` vždy používala `DEFAULT_VIDEO_CASE_ID`. Tlačítko „Nové Kolo A s novým case" tedy nikdy nevytvořilo nový case — to by vedlo k záznamu se stejným `case_id` a potenciálnímu `benchmark_case_input_mismatch` erroru.
+
+2. **Fyzický obrázek bylo možné přepsat:** Cesta v Storage byla odvozena pouze z `projectId` + `caseId` (pevná hodnota). Nový upload pro stejné `case_id` tak mohl přepsat fyzický soubor. DB fingerprint přitom obsahoval pouze bucket/path — nikoli obsah. Case pak vypadal nezměněně, ale I2V modely by dostaly jiný obrázek bez jakéhokoli varování.
+
+3. **Tlačítko „Nové Kolo T s jiným case_id" bylo nefunkční:** Nastavilo lokální `caseId` state, ale `useEffect` načítal natvrdo `DEFAULT_VIDEO_CASE_ID` a `caseId` nebyl dependency. Tlačítko tedy fungiovalo jako placebo.
+
+### Přesné řešení
+
+#### A – Cleanup UI (Round A + Round T)
+
+- Odstraněna funkce `newCase()` z `AiMediaBenchmarkPanel.tsx`.
+- Odstraněno tlačítko „Nové Kolo A s novým case".
+- Odstraněna funkce `newRoundTCaseId()` z `TextVideoRoundSection.tsx`.
+- Odstraněno tlačítko „Nové Kolo T s jiným case_id".
+- Mutable `caseId` state nahrazen konstantou `DEFAULT_VIDEO_CASE_ID`.
+- Lockový text upraven na: „Tento projekt používá jeden uzamčený benchmark case. Slouží ke srovnání všech modelů se stejnými vstupy."
+
+#### B – Fyzická neměnnost obrázku
+
+- **Storage cesta** rozšířena o náhodné UUID: `{projectId}/ai-media-benchmark/cases/{caseId}/{imageUuid}/source.{ext}`. Každý upload má unikátní cestu — přepsání je fyzicky nemožné.
+- **`upsert: false`** — Supabase Storage odmítne zápis pokud cesta existuje (nemělo by nastat díky UUID, ale jako druhá vrstva jistoty).
+- **Upload route odmítne požadavek před zápisem do Storage** pokud `(projectId, caseId)` již existuje v `ai_media_benchmark_cases`. Implementováno voláním `loadBenchmarkCase` před `storage.upload`, vrácení HTTP 409 při konfliktu.
+- **SHA-256 obrázku** počítán serverem (`crypto.subtle.digest`) a uložen v DB (`source_image_sha256`, migrace 043). Zahrnut do fingerprintu.
+- **Fingerprint** nyní zahrnuje `sourceImageSha256` — jakákoli změna obsahu obrázku změní fingerprint, i kdyby bucket/path zůstaly stejné.
+- **Upload route vrací `{ bucket, path, sha256, imageUuid }`** — UI předává vše do case API.
+- **Pre-POST fingerprint guard** pro I2V i T2V nyní počítá `caseFp` s `sourceImageSha256` z načtené case row. Pokud by obsah obrázku nebyl konzistentní s DB, fingerprint nesouhlasí a provider POST je zablokován.
+
+#### C – Migrace 043
+
+Nová migrace `043_benchmark_case_image_sha256.sql` přidává:
+- `source_image_sha256 text null` — hex SHA-256 nahraného souboru
+- `source_image_uuid text null` — UUID v storage cestě
+
+Aplikovaná na remote Supabase a ověřena přes `information_schema.columns`.
+
+### Změněné soubory
+
+| Soubor | Změna |
+|---|---|
+| `supabase/migrations/043_benchmark_case_image_sha256.sql` | NOVÝ – přidává SHA-256 a UUID sloupce |
+| `lib/api/storage.ts` | `buildBenchmarkCaseImagePath` nyní vyžaduje `imageUuid` parametr |
+| `lib/ai-media-benchmark/benchmarkCase.ts` | `BenchmarkCase`, `BenchmarkCaseRow`, `benchmarkCaseFingerprint` rozšířeny o SHA-256 a UUID; `acquireBenchmarkCase` přijímá a ukládá tyto hodnoty |
+| `app/api/admin/ai-media-benchmark/case/upload/route.ts` | SHA-256 výpočet, UUID cesta, `upsert: false`, pre-upload rejection pro existující case |
+| `app/api/admin/ai-media-benchmark/case/route.ts` | Přijímá a předává `sourceImageSha256`, `sourceImageUuid` |
+| `lib/ai-media-benchmark/service.ts` | `CreateBenchmarkCaseInput` + `BenchmarkCasePublicView` rozšířeny o SHA-256; `benchCaseFp` výpočet v I2V a T2V guards zahrnuje SHA-256 |
+| `components/settings/AiMediaBenchmarkPanel/AiMediaBenchmarkPanel.tsx` | Odstraněna `newCase()`, odstraněno tlačítko, přidáno `sha256`/`imageUuid` do case API requestu |
+| `components/settings/AiMediaBenchmarkPanel/TextVideoRoundSection.tsx` | Odstraněna `newRoundTCaseId()`, odstraněno tlačítko, `caseId` state nahrazen konstantou |
+| `scripts/check-ai-media-benchmark.ts` | 7 nových testů pro hardening, aktualizován pre-seed + `seedBenchmarkCase` |
+| `scripts/check-ai-media-benchmark-text-video.ts` | 2 nové testy, aktualizován pre-seed + `seedSharedBenchmarkCase` |
+
+### Testy
+
+- `check:ai-media-benchmark`: **92 passed, 0 failed**
+- `check:ai-media-benchmark-text-video`: **57 passed, 0 failed**
+- `check:runway-image-to-video`: **23 passed, 0 failed**
+- `check:runway-text-to-video`: **6 passed, 0 failed**
+- `tsc --noEmit`: **clean**
+- `eslint` všechny změněné soubory: **0 errors, 0 warnings**
+
+Nové testy (check:ai-media-benchmark):
+1. Case snapshot obsahuje `source_image_sha256`
+2. Fingerprint se změní při změně SHA-256 (bucket/path stejné)
+3. Fingerprint se liší pro null vs non-null SHA-256
+4. Druhý insert s jiným SHA-256 → `benchmark_case_input_mismatch`
+5. Druhý insert s identickým SHA-256 → bezpečné vrácení existující case
+6. I2V pre-POST guard s SHA-256 — tampered fingerprint blokuje provider POST
+7. Kolo A i Kolo T používají `DEFAULT_VIDEO_CASE_ID`
+8. Migrace 043 existuje se sloupci `source_image_sha256` a `source_image_uuid`
+
+Nové testy (check:ai-media-benchmark-text-video):
+1. T2V pre-POST guard se SHA-256 — tampered fingerprint blokuje T2V provider POST
+2. Kolo A i T používají stejné pevné case ID
+
+### Remote stav
+
+Migrace 043 aplikována. Ověřeno přes `information_schema.columns`:
+- `source_image_sha256 text nullable` ✓
+- `source_image_uuid text nullable` ✓
+
+### Potvrzení
+
+Tento krok **neprováděl** placená volání, **nezapínal** flagy a **neměnil** produkční workflow.
+
+**Lze fyzický obrázek existujícího case přepsat?** Ne.
+- Upload route odmítne HTTP 409 před zápisem do Storage pokud case existuje.
+- Každý upload používá unikátní UUID v cestě — přepsání stávající cesty je tedy fyzicky nemožné i bez DB kontroly.
+- `upsert: false` zajišťuje odmítnutí na Storage vrstvě jako třetí záchrana.
+- SHA-256 obsahu je v DB a ve fingerprintu — i kdyby se obsah souboru na Storage lišil, pre-POST guard to odhalí.
+
+**Blocker:** žádný. Benchmark Lab je bezpečný pro první placený test.
+
+## Step 12F API integrity closure
+
+Aplikační vrstva nyní uzavírá mezeru, kterou šlo obejít přímým POSTem na `case` API. `createBenchmarkCase` povinně vyžaduje validní `source_image_sha256` (64 hex), validní `source_image_uuid` (UUID), bucket přesně `video-renders` a storage path přesně odpovídající `buildBenchmarkCaseImagePath(projectId, caseId, sourceImageUuid, filename)`. `null`, prázdné a neplatné hodnoty jsou odmítnuty stabilními chybami `source_image_sha256_required`, `source_image_sha256_invalid`, `source_image_uuid_required`, `source_image_uuid_invalid`, `source_image_bucket_invalid` a `source_image_path_invalid`.
+
+Stejná integritní kontrola se používá i při použití existujícího shared benchmark case. I2V `createVideoBenchmarkRun` i T2V `previewTextToVideoBenchmark` / `createTextToVideoBenchmarkRun` odmítnou starý nebo ručně poškozený case s chybou `benchmark_case_image_integrity_invalid` ještě před jakýmkoli provider POSTem. Tím je zajištěno, že case bez SHA/UUID nebo s neplatnou immutable identitou nemůže vzniknout ani spustit placené volání.

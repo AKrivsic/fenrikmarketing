@@ -32,7 +32,6 @@ import {
   AI_MEDIA_BENCHMARK_GENERATION_MODE_IMAGE_TO_VIDEO,
   AI_MEDIA_BENCHMARK_GENERATION_MODE_TEXT_TO_VIDEO,
   DEFAULT_SOUND_CASE_ID,
-  DEFAULT_TEXT_VIDEO_CASE_ID,
   DEFAULT_VIDEO_CASE_ID,
   DEFAULT_VOICE_CASE_ID,
   OPENAI_BENCHMARK_TTS_INSTRUCTIONS,
@@ -53,8 +52,8 @@ import {
   requireVoiceCandidate,
   type BenchmarkVoiceProvider,
 } from "@/lib/ai-media-benchmark/voice";
-import { listRunwayTestScenesForProject } from "@/lib/runway-test/service";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { STORAGE_BUCKETS, buildBenchmarkCaseImagePath } from "@/lib/api/storage";
 import {
   adoptExistingBenchmarkOutput,
   downloadBenchmarkOutput,
@@ -72,6 +71,13 @@ import {
   snapshotFingerprint,
   type RoundTCaseSnapshot,
 } from "@/lib/ai-media-benchmark/roundTSnapshot";
+import {
+  acquireBenchmarkCase,
+  benchmarkCaseFingerprint,
+  loadBenchmarkCase,
+  resolveBenchmarkCase,
+  setCaseLockedByRun,
+} from "@/lib/ai-media-benchmark/benchmarkCase";
 
 const PLAYBACK_TTL_SECONDS = 60 * 60;
 const SOURCE_TTL_SECONDS = 15 * 60;
@@ -323,13 +329,11 @@ export async function listBenchmarkRuns(args: {
 
 export interface CreateVideoBenchmarkInput {
   projectId: string;
-  videoJobId: string;
-  sceneId: string;
-  motionPrompt: string;
+  /** The benchmark case_id created via createBenchmarkCase. */
+  caseId: string;
   modelId: string;
   durationSeconds: number;
   ratio?: string;
-  caseId?: string;
   clientRequestId: string;
   confirmPaidGeneration: boolean;
   maxCostUsd: number;
@@ -375,29 +379,30 @@ export async function createVideoBenchmarkRun(
   if (quote.usd > input.maxCostUsd) throw new Error("budget_exceeded");
 
   const projectId = validateUuid(input.projectId, "project_id");
-  const videoJobId = validateUuid(input.videoJobId, "video_job_id");
   const clientRequestId = validateUuid(input.clientRequestId, "client_request_id");
-  const sceneId = typeof input.sceneId === "string" ? input.sceneId.trim() : "";
-  if (!sceneId) throw new Error("scene_id_required");
-  const motionPrompt = typeof input.motionPrompt === "string" ? input.motionPrompt.trim() : "";
-  if (!motionPrompt) throw new Error("motion_prompt_required");
-  if (motionPrompt.length > model.promptTextMaxUtf16) {
-    throw new Error("motion_prompt_too_long");
-  }
+  const caseId = input.caseId?.trim();
+  if (!caseId) throw new Error("case_id_required");
 
   const supabase = supabaseOf(deps);
-  const scenes = await listRunwayTestScenesForProject(projectId, {
-    supabase,
+
+  // Load the authoritative benchmark case — all I2V models must use the same image and brief.
+  const benchCase = await resolveBenchmarkCase(supabase, projectId, caseId);
+  assertBenchmarkCaseImageIntegrity(benchCase);
+  const caseFp = benchmarkCaseFingerprint({
+    coreIdea: benchCase.coreIdea,
+    motionIntent: benchCase.motionIntent,
+    sourceImageBucket: benchCase.sourceImageBucket,
+    sourceImagePath: benchCase.sourceImagePath,
+    sourceImageSha256: benchCase.sourceImageSha256,
   });
-  const scene = scenes.find(
-    (item) => item.videoJobId === videoJobId && item.sceneId === sceneId,
-  );
-  if (!scene) throw new Error("scene_not_found");
+
+  if (benchCase.fingerprint !== caseFp) {
+    throw new Error("benchmark_case_fingerprint_mismatch");
+  }
 
   const audioRole: AiMediaAudioRole = model.returnsAudio
     ? "scene_model_audio"
     : "none";
-  const caseId = input.caseId?.trim() || DEFAULT_VIDEO_CASE_ID;
   const expected: CanonicalPaidBenchmarkInput = {
     projectId,
     testType: "video",
@@ -408,16 +413,16 @@ export async function createVideoBenchmarkRun(
     durationSeconds: quote.durationSeconds,
     ratio: ROUND_A_PORTRAIT_RATIO,
     generateAudio: quote.generateAudio,
-    promptText: motionPrompt,
+    promptText: benchCase.motionIntent,
     sceneIdeaId: null,
     brandVisualProfile: null,
     estimatedCostUsd: quote.usd,
     estimatedCredits: quote.credits,
     maxCostUsd: input.maxCostUsd,
-    sourceVideoJobId: videoJobId,
-    sourceSceneId: scene.sceneId,
-    sourceImageBucket: scene.imageBucket,
-    sourceImagePath: scene.imagePath,
+    sourceVideoJobId: null,
+    sourceSceneId: null,
+    sourceImageBucket: benchCase.sourceImageBucket,
+    sourceImagePath: benchCase.sourceImagePath,
     voiceCandidateId: null,
     voiceText: null,
     soundCandidateId: null,
@@ -432,10 +437,10 @@ export async function createVideoBenchmarkRun(
       audio_role: audioRole,
       project_id: projectId,
       client_request_id: clientRequestId,
-      source_video_job_id: videoJobId,
-      source_scene_id: scene.sceneId,
-      source_image_bucket: scene.imageBucket,
-      source_image_path: scene.imagePath,
+      source_video_job_id: null,
+      source_scene_id: null,
+      source_image_bucket: benchCase.sourceImageBucket,
+      source_image_path: benchCase.sourceImagePath,
       provider: model.provider,
       model: model.modelId,
       voice_id: null,
@@ -444,7 +449,12 @@ export async function createVideoBenchmarkRun(
         durationSeconds: quote.durationSeconds,
         ratio: ROUND_A_PORTRAIT_RATIO,
         generateAudio: quote.generateAudio,
-        motionPrompt,
+        coreIdea: benchCase.coreIdea,
+        motionIntent: benchCase.motionIntent,
+        // motionPrompt is the canonical key read by requestIntegrity.ts for I2V promptText comparison.
+        motionPrompt: benchCase.motionIntent,
+        benchmarkCaseId: benchCase.id,
+        benchmarkCaseFingerprint: caseFp,
         maxCostUsd: input.maxCostUsd,
         estimatedCostUsd: quote.usd,
         estimatedCredits: quote.credits,
@@ -462,16 +472,27 @@ export async function createVideoBenchmarkRun(
     expected,
   );
 
+  // After first run insert, update case attribution (best-effort).
+  if (!reused) {
+    await setCaseLockedByRun(supabase, benchCase.id, row.id, model.modelId);
+  }
+
   let signedSourceUrl = "";
   const submitted = await submitPaidCreate({
     supabase,
     row,
     deps,
     prepare: async () => {
+      // Re-read authoritative case and verify fingerprint before provider POST.
+      const authoritative = await resolveBenchmarkCase(supabase, projectId, caseId);
+      assertBenchmarkCaseImageIntegrity(authoritative);
+      if (authoritative.fingerprint !== caseFp) {
+        throw new Error("benchmark_case_fingerprint_mismatch");
+      }
       const sourceSignedUrl = await signPath(
         supabase,
-        scene.imageBucket,
-        scene.imagePath,
+        benchCase.sourceImageBucket,
+        benchCase.sourceImagePath,
         SOURCE_TTL_SECONDS,
       );
       if (!sourceSignedUrl) {
@@ -482,7 +503,7 @@ export async function createVideoBenchmarkRun(
     post: async () => {
       const created = await videoProviderOf(deps).createImageToVideo({
         imageUrl: signedSourceUrl,
-        motionPrompt,
+        motionPrompt: benchCase.motionIntent,
         model: model.modelId,
         duration: quote.durationSeconds,
         ratio: ROUND_A_PORTRAIT_RATIO,
@@ -493,6 +514,190 @@ export async function createVideoBenchmarkRun(
     },
   });
   return toPublicView(supabase, submitted, reused);
+}
+
+export interface CreateBenchmarkCaseInput {
+  projectId: string;
+  caseId?: string;
+  coreIdea: string;
+  motionIntent: string;
+  sourceImageBucket: string;
+  sourceImagePath: string;
+  sourceImageSha256?: string | null;
+  sourceImageUuid?: string | null;
+}
+
+export interface BenchmarkCasePublicView {
+  id: string;
+  projectId: string;
+  caseId: string;
+  coreIdea: string;
+  motionIntent: string;
+  sourceImageBucket: string;
+  sourceImagePath: string;
+  sourceImageSha256: string | null;
+  fingerprint: string;
+  lockedByRunId: string | null;
+  lockedByModel: string | null;
+  imagePreviewUrl: string | null;
+}
+
+const SHA256_HEX_RE = /^[0-9a-f]{64}$/i;
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function validateBenchmarkCaseImageFields(args: {
+  projectId: string;
+  caseId: string;
+  sourceImageBucket: string;
+  sourceImagePath: string;
+  sourceImageSha256: string | null | undefined;
+  sourceImageUuid: string | null | undefined;
+}): {
+  sourceImageSha256: string;
+  sourceImageUuid: string;
+} {
+  const sourceImageSha256 =
+    typeof args.sourceImageSha256 === "string" ? args.sourceImageSha256.trim() : "";
+  if (!sourceImageSha256) throw new Error("source_image_sha256_required");
+  if (!SHA256_HEX_RE.test(sourceImageSha256)) {
+    throw new Error("source_image_sha256_invalid");
+  }
+
+  const sourceImageUuid =
+    typeof args.sourceImageUuid === "string" ? args.sourceImageUuid.trim() : "";
+  if (!sourceImageUuid) throw new Error("source_image_uuid_required");
+  if (!UUID_RE.test(sourceImageUuid)) {
+    throw new Error("source_image_uuid_invalid");
+  }
+
+  if (args.sourceImageBucket !== STORAGE_BUCKETS.videoRenders) {
+    throw new Error("source_image_bucket_invalid");
+  }
+
+  const sourceFilename = args.sourceImagePath.split("/").pop()?.trim() ?? "";
+  if (!sourceFilename) {
+    throw new Error("source_image_path_invalid");
+  }
+  const expectedPath = buildBenchmarkCaseImagePath(
+    args.projectId,
+    args.caseId,
+    sourceImageUuid,
+    sourceFilename,
+  );
+  if (args.sourceImagePath !== expectedPath) {
+    throw new Error("source_image_path_invalid");
+  }
+
+  return {
+    sourceImageSha256: sourceImageSha256.toLowerCase(),
+    sourceImageUuid: sourceImageUuid.toLowerCase(),
+  };
+}
+
+function assertBenchmarkCaseImageIntegrity(benchCase: {
+  projectId: string;
+  caseId: string;
+  sourceImageBucket: string;
+  sourceImagePath: string;
+  sourceImageSha256: string | null;
+  sourceImageUuid?: string | null;
+}): void {
+  try {
+    validateBenchmarkCaseImageFields({
+      projectId: benchCase.projectId,
+      caseId: benchCase.caseId,
+      sourceImageBucket: benchCase.sourceImageBucket,
+      sourceImagePath: benchCase.sourceImagePath,
+      sourceImageSha256: benchCase.sourceImageSha256,
+      sourceImageUuid: benchCase.sourceImageUuid ?? null,
+    });
+  } catch {
+    throw new Error("benchmark_case_image_integrity_invalid");
+  }
+}
+
+function benchCaseToPublicView(
+  benchCase: { id: string; projectId: string; caseId: string; coreIdea: string; motionIntent: string; sourceImageBucket: string; sourceImagePath: string; sourceImageSha256: string | null; fingerprint: string; lockedByRunId: string | null; lockedByModel: string | null },
+  imagePreviewUrl: string | null,
+): BenchmarkCasePublicView {
+  return {
+    id: benchCase.id,
+    projectId: benchCase.projectId,
+    caseId: benchCase.caseId,
+    coreIdea: benchCase.coreIdea,
+    motionIntent: benchCase.motionIntent,
+    sourceImageBucket: benchCase.sourceImageBucket,
+    sourceImagePath: benchCase.sourceImagePath,
+    sourceImageSha256: benchCase.sourceImageSha256,
+    fingerprint: benchCase.fingerprint,
+    lockedByRunId: benchCase.lockedByRunId,
+    lockedByModel: benchCase.lockedByModel,
+    imagePreviewUrl,
+  };
+}
+
+export async function createBenchmarkCase(
+  input: CreateBenchmarkCaseInput,
+  deps?: AiMediaBenchmarkServiceDeps,
+): Promise<BenchmarkCasePublicView> {
+  const projectId = validateUuid(input.projectId, "project_id");
+  const caseId = input.caseId?.trim() || DEFAULT_VIDEO_CASE_ID;
+  const coreIdea = input.coreIdea?.trim();
+  const motionIntent = input.motionIntent?.trim();
+  const sourceImageBucket = input.sourceImageBucket?.trim();
+  const sourceImagePath = input.sourceImagePath?.trim();
+
+  if (!coreIdea) throw new Error("core_idea_required");
+  if (!motionIntent) throw new Error("motion_intent_required");
+  if (!sourceImageBucket) throw new Error("source_image_bucket_required");
+  if (!sourceImagePath) throw new Error("source_image_path_required");
+  const { sourceImageSha256, sourceImageUuid } = validateBenchmarkCaseImageFields({
+    projectId,
+    caseId,
+    sourceImageBucket,
+    sourceImagePath,
+    sourceImageSha256: input.sourceImageSha256,
+    sourceImageUuid: input.sourceImageUuid,
+  });
+
+  const supabase = supabaseOf(deps);
+  const benchCase = await acquireBenchmarkCase(supabase, projectId, caseId, {
+    coreIdea,
+    motionIntent,
+    sourceImageBucket,
+    sourceImagePath,
+    sourceImageSha256,
+    sourceImageUuid,
+  });
+
+  const imagePreviewUrl = await signPath(
+    supabase,
+    benchCase.sourceImageBucket,
+    benchCase.sourceImagePath,
+    PLAYBACK_TTL_SECONDS,
+  );
+
+  return benchCaseToPublicView(benchCase, imagePreviewUrl);
+}
+
+export async function getBenchmarkCase(
+  projectId: string,
+  caseId: string,
+  deps?: AiMediaBenchmarkServiceDeps,
+): Promise<BenchmarkCasePublicView | null> {
+  const supabase = supabaseOf(deps);
+  const benchCase = await loadBenchmarkCase(supabase, validateUuid(projectId, "project_id"), caseId);
+  if (!benchCase) return null;
+
+  const imagePreviewUrl = await signPath(
+    supabase,
+    benchCase.sourceImageBucket,
+    benchCase.sourceImagePath,
+    PLAYBACK_TTL_SECONDS,
+  );
+
+  return benchCaseToPublicView(benchCase, imagePreviewUrl);
 }
 
 export interface PreviewTextToVideoBenchmarkInput {
@@ -516,11 +721,15 @@ export interface TextToVideoBenchmarkPreview {
   lockedByModel: string | null;
   lockedByRunId: string | null;
   fromProjectData: boolean;
+  benchmarkCaseId: string;
+  benchmarkCaseFingerprint: string;
+  sharedCoreIdea: string;
 }
 
 function previewFromSnapshot(
   snapshot: RoundTCaseSnapshot,
   caseId: string,
+  benchmarkCase: { id: string; fingerprint: string; coreIdea: string },
 ): TextToVideoBenchmarkPreview {
   return {
     profile: snapshot.brandVisualProfile,
@@ -537,6 +746,9 @@ function previewFromSnapshot(
     lockedByModel: snapshot.lockedByModel,
     lockedByRunId: snapshot.lockedByRunId,
     fromProjectData: snapshot.fromProjectData,
+    benchmarkCaseId: benchmarkCase.id,
+    benchmarkCaseFingerprint: benchmarkCase.fingerprint,
+    sharedCoreIdea: benchmarkCase.coreIdea,
   };
 }
 
@@ -545,16 +757,19 @@ export async function previewTextToVideoBenchmark(
   deps?: AiMediaBenchmarkServiceDeps,
 ): Promise<TextToVideoBenchmarkPreview> {
   const projectId = validateUuid(input.projectId, "project_id");
-  const caseId = input.caseId?.trim() || DEFAULT_TEXT_VIDEO_CASE_ID;
+  const caseId = input.caseId?.trim() || DEFAULT_VIDEO_CASE_ID;
   const supabase = supabaseOf(deps);
+  const benchmarkCase = await resolveBenchmarkCase(supabase, projectId, caseId);
+  assertBenchmarkCaseImageIntegrity(benchmarkCase);
   const snapshot = await resolveRoundTCaseSnapshot({
     supabase,
     projectId,
     caseId,
     requestedSceneIdeaId: input.sceneIdeaId,
     rejectMismatchedSceneIdea: false,
+    sharedBenchmarkCoreIdea: benchmarkCase.coreIdea,
   });
-  return previewFromSnapshot(snapshot, caseId);
+  return previewFromSnapshot(snapshot, caseId, benchmarkCase);
 }
 
 export interface CreateTextToVideoBenchmarkInput {
@@ -612,14 +827,27 @@ export async function createTextToVideoBenchmarkRun(
 
   const projectId = validateUuid(input.projectId, "project_id");
   const clientRequestId = validateUuid(input.clientRequestId, "client_request_id");
-  const caseId = input.caseId?.trim() || DEFAULT_TEXT_VIDEO_CASE_ID;
+  const caseId = input.caseId?.trim() || DEFAULT_VIDEO_CASE_ID;
   const supabase = supabaseOf(deps);
+  const benchmarkCase = await resolveBenchmarkCase(supabase, projectId, caseId);
+  assertBenchmarkCaseImageIntegrity(benchmarkCase);
+  const benchCaseFp = benchmarkCaseFingerprint({
+    coreIdea: benchmarkCase.coreIdea,
+    motionIntent: benchmarkCase.motionIntent,
+    sourceImageBucket: benchmarkCase.sourceImageBucket,
+    sourceImagePath: benchmarkCase.sourceImagePath,
+    sourceImageSha256: benchmarkCase.sourceImageSha256,
+  });
+  if (benchmarkCase.fingerprint !== benchCaseFp) {
+    throw new Error("benchmark_case_fingerprint_mismatch");
+  }
   const snapshot = await resolveRoundTCaseSnapshot({
     supabase,
     projectId,
     caseId,
     requestedSceneIdeaId: input.sceneIdeaId,
     rejectMismatchedSceneIdea: true,
+    sharedBenchmarkCoreIdea: benchmarkCase.coreIdea,
   });
 
   const audioRole: AiMediaAudioRole = model.returnsAudio
@@ -686,6 +914,8 @@ export async function createTextToVideoBenchmarkRun(
         brandVisualProfile: snapshot.brandVisualProfile,
         caseSnapshotId: snapshot.caseSnapshotId,
         snapshotFingerprint: snapshotFp,
+        benchmarkCaseId: benchmarkCase.id,
+        benchmarkCaseFingerprint: benchCaseFp,
         snapshotLockedByModel: snapshot.lockedByModel ?? model.modelId,
         snapshotLockedByRunId: snapshot.lockedByRunId,
         regenerationCount: 0,
@@ -718,11 +948,20 @@ export async function createTextToVideoBenchmarkRun(
     row,
     deps,
     prepare: async () => {
-      // Re-read the authoritative case snapshot from DB and verify fingerprint.
+      const authoritativeBench = await resolveBenchmarkCase(supabase, projectId, caseId);
+      assertBenchmarkCaseImageIntegrity(authoritativeBench);
+      const storedBenchFp =
+        typeof row.settings.benchmarkCaseFingerprint === "string"
+          ? row.settings.benchmarkCaseFingerprint
+          : benchCaseFp;
+      if (authoritativeBench.fingerprint !== storedBenchFp) {
+        throw new Error("benchmark_case_fingerprint_mismatch");
+      }
       const authoritative = await resolveRoundTCaseSnapshot({
         supabase,
         projectId,
         caseId,
+        sharedBenchmarkCoreIdea: authoritativeBench.coreIdea,
         rejectMismatchedSceneIdea: false,
       });
       const storedFp =
@@ -1234,4 +1473,3 @@ export async function rateBenchmarkRun(
   return toPublicView(supabase, data as AiMediaBenchmarkRunRow, false);
 }
 
-export { listRunwayTestScenesForProject as listBenchmarkScenesForProject };

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { BrandVisualProfile } from "@/lib/ai-media-benchmark/brandVisualProfile";
 import type { TextToVideoPlusPlan } from "@/lib/ai-media-benchmark/textVideoPlus";
 import {
-  DEFAULT_TEXT_VIDEO_CASE_ID,
+  DEFAULT_VIDEO_CASE_ID,
   isTextToVideoBenchmarkSettings,
   type AiMediaBenchmarkRunPublicView,
 } from "@/lib/ai-media-benchmark/types";
@@ -42,6 +42,8 @@ interface PreviewPayload {
     coreIdea: string;
     promptText: string;
     caseId: string;
+    sharedCoreIdea: string;
+    benchmarkCaseId: string;
     locked: boolean;
     lockedByModel: string | null;
     lockedByRunId: string | null;
@@ -51,17 +53,30 @@ interface PreviewPayload {
   error?: string;
 }
 
-function newClientRequestId(): string {
-  return crypto.randomUUID();
+interface BenchmarkCasePayload {
+  benchmarkCase?: {
+    id: string;
+    caseId: string;
+    coreIdea: string;
+    motionIntent: string;
+    imagePreviewUrl: string | null;
+  } | null;
+  error?: string;
 }
 
-function newRoundTCaseId(): string {
-  return `${DEFAULT_TEXT_VIDEO_CASE_ID}-${crypto.randomUUID()}`;
+function newClientRequestId(): string {
+  return crypto.randomUUID();
 }
 
 function mapTextVideoError(code: string | undefined, fallback: string): string {
   if (code === "benchmark_request_input_mismatch") {
     return "Stejné client_request_id už existuje s jinými vstupy (benchmark_request_input_mismatch). Provider POST neproběhl.";
+  }
+  if (code === "benchmark_case_not_found") {
+    return "Nejdřív vytvořte společný benchmark case v Kole A (obrázek, core idea, motion intent).";
+  }
+  if (code === "benchmark_case_input_mismatch") {
+    return "Stejný case_id už existuje s jinými vstupy (benchmark_case_input_mismatch).";
   }
   if (code === "round_t_case_snapshot_conflict") {
     return "Existují konfliktní snapshoty tohoto Kola T (round_t_case_snapshot_conflict). Nic se nehádá a nic se neodesílá.";
@@ -88,7 +103,9 @@ export function TextVideoRoundSection({
 }) {
   const models = (catalog.catalog.textVideo ?? []).filter((m) => m.status === "testable");
   const [modelId, setModelId] = useState(models[0]?.modelId ?? "");
-  const [caseId, setCaseId] = useState(DEFAULT_TEXT_VIDEO_CASE_ID);
+  const caseId = DEFAULT_VIDEO_CASE_ID;
+  const [sharedBenchmarkCase, setSharedBenchmarkCase] = useState<BenchmarkCasePayload["benchmarkCase"]>(null);
+  const [sharedCoreIdea, setSharedCoreIdea] = useState("");
   const [sceneIdeaId, setSceneIdeaId] = useState("arrival-and-task");
   const [ideas, setIdeas] = useState<Array<{ id: string; label: string; coreIdea: string }>>([]);
   const [promptText, setPromptText] = useState("");
@@ -123,10 +140,32 @@ export function TextVideoRoundSection({
     if (!projectId) return;
     let cancelled = false;
     void (async () => {
+      const caseRes = await fetch(
+        `/api/admin/ai-media-benchmark/case?projectId=${encodeURIComponent(projectId)}&caseId=${encodeURIComponent(DEFAULT_VIDEO_CASE_ID)}`,
+      );
+      const caseData = (await caseRes.json()) as BenchmarkCasePayload;
+      if (cancelled) return;
+      if (!caseRes.ok || !caseData.benchmarkCase) {
+        setSharedBenchmarkCase(null);
+        setSharedCoreIdea("");
+        setProfile(null);
+        setPromptText("");
+        setRuns([]);
+        setError(
+          caseData.error
+            ? mapTextVideoError(caseData.error, "Benchmark case se nepodařilo načíst")
+            : "Nejdřív vytvořte společný benchmark case v Kole A.",
+        );
+        return;
+      }
+      setSharedBenchmarkCase(caseData.benchmarkCase);
+      setSharedCoreIdea(caseData.benchmarkCase.coreIdea);
+      setError(null);
+
       const params = new URLSearchParams({
         projectId,
         sceneIdeaId,
-        caseId,
+        caseId: caseData.benchmarkCase.caseId,
       });
       const [previewRes, plusRes] = await Promise.all([
         fetch(`/api/admin/ai-media-benchmark/text-video/preview?${params.toString()}`),
@@ -145,16 +184,19 @@ export function TextVideoRoundSection({
       setIdeas(previewData.sceneIdeas ?? []);
       setLocked(previewData.preview?.locked === true);
       setLockedByModel(previewData.preview?.lockedByModel ?? null);
+      if (previewData.preview?.sharedCoreIdea) {
+        setSharedCoreIdea(previewData.preview.sharedCoreIdea);
+      }
       if (previewData.preview?.sceneIdeaId) {
         setSceneIdeaId(previewData.preview.sceneIdeaId);
       }
       setPlusPlan(plusData.plan ?? null);
-      await refreshRuns(projectId, caseId);
+      await refreshRuns(projectId, caseData.benchmarkCase.caseId);
     })();
     return () => {
       cancelled = true;
     };
-  }, [projectId, sceneIdeaId, caseId, previewNonce, refreshRuns]);
+  }, [projectId, sceneIdeaId, previewNonce, refreshRuns]);
 
   const stopPolling = useCallback(() => {
     if (pollTimer.current) {
@@ -303,11 +345,17 @@ export function TextVideoRoundSection({
   return (
     <>
       <p className={styles.roundNote}>
-        Kolo T: stejná scénická myšlenka, stejný automatický prompt, stejný
-        vizuální profil, portrait 720:1280, 4 s. Každý model se spouští
-        samostatně. Prompt se nesestavuje ručně a prohlížeč ho neposílá —
-        server načte nebo vytvoří snapshot.
+        Kolo T používá stejný benchmark case jako Kolo A ({DEFAULT_VIDEO_CASE_ID}): stejná
+        core idea a vizuální profil, portrait 720:1280, 4 s. Provider prompt pro text-to-video
+        se sestaví samostatně na serveru — bez vstupního obrázku a bez I2V motion intentu.
       </p>
+      {!sharedBenchmarkCase ? (
+        <p className={styles.flagOff}>
+          Společný benchmark case pro tento projekt neexistuje. Vytvořte ho nejdřív v Kole A
+          (core idea, motion intent, testovací obrázek). Kolo T bez něj neběží.
+        </p>
+      ) : (
+        <>
       {locked ? (
         <p className={styles.lockNote}>
           První spuštěný model uzamkl prompt a vizuální profil tohoto Kola T
@@ -321,12 +369,23 @@ export function TextVideoRoundSection({
           První spuštěný model uzamkne prompt a vizuální profil tohoto Kola T.
           Další modely stejného <code>case_id</code> dostanou tentýž snapshot,
           i kdyby se mezitím změnila data projektu. Pro jinou scénickou
-          myšlenku začněte nové Kolo T s novým <code>case_id</code>.
+          myšlenku začněte nový benchmark case v Kole A s novým <code>case_id</code>.
         </p>
       )}
+      {sharedBenchmarkCase?.imagePreviewUrl && (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          className={styles.previewImg}
+          src={sharedBenchmarkCase.imagePreviewUrl}
+          alt="Společný testovací obrázek (Kolo A)"
+        />
+      )}
+      <p className={styles.meta}>
+        Společná core idea (Kolo A + T): {sharedCoreIdea || "—"}
+      </p>
       <p className={styles.meta}>
         case_id: {caseId}
-        {lockedByModel ? ` · snapshot vytvořil ${lockedByModel}` : ""}
+        {lockedByModel ? ` · T2V snapshot vytvořil ${lockedByModel}` : ""}
       </p>
       {!flagOn && (
         <p className={styles.flagOff}>
@@ -421,38 +480,28 @@ export function TextVideoRoundSection({
         </span>
         <textarea className={styles.textarea} value={promptText} readOnly />
       </label>
-      {selectedIdea && (
-        <p className={styles.meta}>Jádro scény: {selectedIdea.coreIdea}</p>
+      {selectedIdea && sharedCoreIdea && (
+        <p className={styles.meta}>
+          T2V prompt vychází ze společné core idea (ne z I2V motion intentu). Kamera / děj v
+          promptu: scénická šablona „{selectedIdea.label}“.
+        </p>
       )}
       {error && <p className={styles.error}>{error}</p>}
       <div className={styles.actions}>
         <button
           className={styles.primary}
           type="button"
-          disabled={!flagOn || !selected || !projectId || submitting}
+          disabled={!flagOn || !selected || !projectId || !sharedBenchmarkCase || submitting}
           onClick={() => setConfirmOpen(true)}
         >
           Spustit jeden text-to-video test
         </button>
-        <button
-          className={styles.secondary}
-          type="button"
-          disabled={submitting}
-          onClick={() => {
-            setCaseId(newRoundTCaseId());
-            setSceneIdeaId("arrival-and-task");
-            setLocked(false);
-            setLockedByModel(null);
-            setActive(null);
-            setRuns([]);
-            setConfirmOpen(false);
-            setError(null);
-            clientRequestIdRef.current = newClientRequestId();
-          }}
-        >
-          Nové Kolo T s novým case_id
-        </button>
+        <p className={styles.lockNote}>
+          Tento projekt používá jeden uzamčený benchmark case. Slouží ke srovnání všech modelů se stejnými vstupy.
+        </p>
       </div>
+        </>
+      )}
       {confirmOpen && selected && (
         <div className={styles.confirmBox}>
           <p className={styles.confirmText}>

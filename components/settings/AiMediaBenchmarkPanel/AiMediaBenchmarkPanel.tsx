@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { AiMediaBenchmarkRunPublicView } from "@/lib/ai-media-benchmark/types";
 import {
   DEFAULT_SOUND_PROMPT,
   DEFAULT_VIDEO_CASE_ID,
   DEFAULT_VOICE_SCRIPT,
 } from "@/lib/ai-media-benchmark/types";
-import type { RunwayTestSceneOption } from "@/lib/runway-test/types";
+import type { BenchmarkCasePublicView } from "@/lib/ai-media-benchmark/service";
 import { CombinedRoundSection } from "./CombinedRoundSection";
 import { TextVideoRoundSection } from "./TextVideoRoundSection";
 import styles from "./AiMediaBenchmarkPanel.module.css";
@@ -104,9 +104,11 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
   const [tab, setTab] = useState<Tab>("video");
   const [catalog, setCatalog] = useState<CatalogPayload | null>(null);
   const [projectId, setProjectId] = useState("");
-  const [scenes, setScenes] = useState<RunwayTestSceneOption[]>([]);
-  const [sceneKey, setSceneKey] = useState("");
-  const [motionPrompt, setMotionPrompt] = useState("");
+  // Benchmark case (Round A I2V) – replaces production-scene dropdown.
+  const [benchCase, setBenchCase] = useState<BenchmarkCasePublicView | null>(null);
+  const [caseCreating, setCaseCreating] = useState(false);
+  const [coreIdea, setCoreIdea] = useState("");
+  const [motionIntent, setMotionIntent] = useState("");
   const [modelId, setModelId] = useState("");
   const [durationSeconds, setDurationSeconds] = useState(4);
   const [voiceCandidateId, setVoiceCandidateId] = useState("");
@@ -122,11 +124,6 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
   const submitLock = useRef(false);
   const clientRequestIdRef = useRef(newClientRequestId());
   const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const selectedScene = useMemo(
-    () => scenes.find((s) => `${s.videoJobId}::${s.sceneId}` === sceneKey) ?? null,
-    [scenes, sceneKey],
-  );
 
   const videoModels = catalog?.catalog.video.filter((m) => m.status === "testable") ?? [];
   const voiceCandidates =
@@ -162,21 +159,13 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
     })();
   }, []);
 
-  const loadScenes = useCallback(async (pid: string) => {
-    setScenes([]);
-    setSceneKey("");
+  const loadBenchmarkCase = useCallback(async (pid: string, cid: string) => {
     const res = await fetch(
-      `/api/admin/ai-media-benchmark/scenes?projectId=${encodeURIComponent(pid)}`,
+      `/api/admin/ai-media-benchmark/case?projectId=${encodeURIComponent(pid)}&caseId=${encodeURIComponent(cid)}`,
     );
-    const data = (await res.json()) as {
-      scenes?: RunwayTestSceneOption[];
-      error?: string;
-    };
-    if (!res.ok) {
-      setError(data.error ?? "Scény se nepodařilo načíst");
-      return;
-    }
-    setScenes(data.scenes ?? []);
+    const data = (await res.json()) as { benchmarkCase?: BenchmarkCasePublicView; error?: string };
+    if (!res.ok) return;
+    setBenchCase(data.benchmarkCase ?? null);
   }, []);
 
   const refreshRuns = useCallback(async (pid: string, type: Tab) => {
@@ -198,11 +187,11 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
   function onProjectChange(nextId: string): void {
     setProjectId(nextId);
     setConfirmOpen(false);
+    setBenchCase(null);
     if (nextId) {
-      void loadScenes(nextId);
+      void loadBenchmarkCase(nextId, DEFAULT_VIDEO_CASE_ID);
       void refreshRuns(nextId, tab);
     } else {
-      setScenes([]);
       setRuns([]);
     }
   }
@@ -292,6 +281,53 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
     [projectId, refreshRuns, stopPolling, tab],
   );
 
+  async function createCase(file: File): Promise<void> {
+    if (!projectId) return;
+    if (!coreIdea.trim()) { setError("Zadejte hlavní myšlenku / děj"); return; }
+    if (!motionIntent.trim()) { setError("Zadejte motion intent"); return; }
+    setCaseCreating(true);
+    setError(null);
+    try {
+      // 1. Upload image.
+      const formData = new FormData();
+      formData.append("projectId", projectId);
+      formData.append("caseId", DEFAULT_VIDEO_CASE_ID);
+      formData.append("file", file);
+      const uploadRes = await fetch("/api/admin/ai-media-benchmark/case/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const uploadData = (await uploadRes.json()) as { bucket?: string; path?: string; sha256?: string; imageUuid?: string; error?: string };
+      if (!uploadRes.ok || !uploadData.bucket || !uploadData.path) {
+        throw new Error(uploadData.error ?? "Nahrání obrázku selhalo");
+      }
+      // 2. Create case.
+      const caseRes = await fetch("/api/admin/ai-media-benchmark/case", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          projectId,
+          caseId: DEFAULT_VIDEO_CASE_ID,
+          coreIdea: coreIdea.trim(),
+          motionIntent: motionIntent.trim(),
+          sourceImageBucket: uploadData.bucket,
+          sourceImagePath: uploadData.path,
+          sourceImageSha256: uploadData.sha256 ?? null,
+          sourceImageUuid: uploadData.imageUuid ?? null,
+        }),
+      });
+      const caseData = (await caseRes.json()) as { benchmarkCase?: BenchmarkCasePublicView; error?: string };
+      if (!caseRes.ok || !caseData.benchmarkCase) {
+        throw new Error(caseData.error ?? "Vytvoření case selhalo");
+      }
+      setBenchCase(caseData.benchmarkCase);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Chyba vytvoření case");
+    } finally {
+      setCaseCreating(false);
+    }
+  }
+
   async function submitOne(): Promise<void> {
     if (submitLock.current || submitting) return;
     submitLock.current = true;
@@ -301,18 +337,15 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
       let path = "";
       let payload: Record<string, unknown> = {};
       if (tab === "video") {
-        if (!selectedScene || !selectedModel) throw new Error("Vyberte scénu a model");
+        if (!benchCase || !selectedModel) throw new Error("Vytvořte benchmark case a vyberte model");
         path = "/api/admin/ai-media-benchmark/video";
         const usd = selectedModel.defaultQuote?.usd ?? 0;
         payload = {
           projectId,
-          videoJobId: selectedScene.videoJobId,
-          sceneId: selectedScene.sceneId,
-          motionPrompt,
+          caseId: benchCase.caseId,
           modelId: selectedModel.modelId,
           durationSeconds,
           ratio: selectedModel.defaultPortraitRatio,
-          caseId: DEFAULT_VIDEO_CASE_ID,
           clientRequestId: clientRequestIdRef.current,
           confirmPaidGeneration: true,
           maxCostUsd: Number(usd.toFixed(4)),
@@ -491,37 +524,62 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
         )}
         {tab === "video" && (
           <>
-            <label className={styles.field}>
-              <span className={styles.label}>Testovací scéna</span>
-              <select
-                className={styles.select}
-                value={sceneKey}
-                onChange={(e) => setSceneKey(e.target.value)}
-                disabled={!projectId}
-              >
-                <option value="">Vyberte scénu</option>
-                {scenes.map((s) => (
-                  <option key={`${s.videoJobId}::${s.sceneId}`} value={`${s.videoJobId}::${s.sceneId}`}>
-                    {s.sceneId}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {selectedScene?.previewUrl && (
-              <div className={styles.preview}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className={styles.previewImg} src={selectedScene.previewUrl} alt="Zdrojový obrázek" />
-                <p className={styles.meta}>{selectedScene.imagePath}</p>
+            {benchCase ? (
+              <div className={styles.caseCard}>
+                <p className={styles.caseTitle}>Benchmark case · uzamčeno</p>
+                {benchCase.imagePreviewUrl && (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img className={styles.previewImg} src={benchCase.imagePreviewUrl} alt="Testovací obrázek" />
+                )}
+                <dl className={styles.readonly}>
+                  <div><dt>Hlavní myšlenka</dt><dd>{benchCase.coreIdea}</dd></div>
+                  <div><dt>Motion intent</dt><dd>{benchCase.motionIntent}</dd></div>
+                  <div><dt>Délka</dt><dd>4 s</dd></div>
+                  <div><dt>Formát</dt><dd>720:1280</dd></div>
+                  {benchCase.lockedByModel && (
+                    <div><dt>Uzamčeno modelem</dt><dd>{benchCase.lockedByModel}</dd></div>
+                  )}
+                </dl>
+                <p className={styles.lockNote}>
+                  Tento projekt používá jeden uzamčený benchmark case. Slouží ke srovnání všech modelů se stejnými vstupy.
+                </p>
+              </div>
+            ) : (
+              <div className={styles.caseCard}>
+                <p className={styles.caseTitle}>Vytvořit benchmark case</p>
+                <label className={styles.fieldWide}>
+                  <span className={styles.label}>Hlavní myšlenka / děj</span>
+                  <textarea
+                    className={styles.textarea}
+                    value={coreIdea}
+                    placeholder="Např.: Technik přijde na pracoviště, pozdraví kolegu a zahájí krátký úkol."
+                    onChange={(e) => setCoreIdea(e.target.value)}
+                  />
+                </label>
+                <label className={styles.fieldWide}>
+                  <span className={styles.label}>Motion intent (I2V prompt)</span>
+                  <textarea
+                    className={styles.textarea}
+                    value={motionIntent}
+                    placeholder="Např.: Slow pan right, technician walking toward camera with confident stride."
+                    onChange={(e) => setMotionIntent(e.target.value)}
+                  />
+                </label>
+                <label className={styles.field}>
+                  <span className={styles.label}>Testovací obrázek (JPEG / PNG / WebP, max 20 MB)</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    disabled={!projectId || caseCreating}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) void createCase(file);
+                    }}
+                  />
+                </label>
+                {caseCreating && <p className={styles.meta}>Nahrávání obrázku a vytváření case…</p>}
               </div>
             )}
-            <label className={styles.fieldWide}>
-              <span className={styles.label}>Motion prompt</span>
-              <textarea
-                className={styles.textarea}
-                value={motionPrompt}
-                onChange={(e) => setMotionPrompt(e.target.value)}
-              />
-            </label>
             <label className={styles.field}>
               <span className={styles.label}>Jeden video model</span>
               <select
@@ -645,7 +703,7 @@ export function AiMediaBenchmarkPanel({ projects }: Props) {
           <button
             className={styles.primary}
             type="button"
-            disabled={!flagOn || !projectId || submitting}
+            disabled={!flagOn || !projectId || submitting || (tab === "video" && !benchCase)}
             onClick={() => setConfirmOpen(true)}
           >
             Připravit jeden placený request

@@ -24,13 +24,10 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const run = await createVideoBenchmarkRun({
       projectId: String(record.projectId ?? ""),
-      videoJobId: String(record.videoJobId ?? ""),
-      sceneId: String(record.sceneId ?? ""),
-      motionPrompt: String(record.motionPrompt ?? ""),
+      caseId: String(record.caseId ?? ""),
       modelId: String(record.modelId ?? ""),
       durationSeconds: Number(record.durationSeconds),
       ratio: typeof record.ratio === "string" ? record.ratio : undefined,
-      caseId: typeof record.caseId === "string" ? record.caseId : undefined,
       clientRequestId: String(record.clientRequestId ?? ""),
       confirmPaidGeneration: record.confirmPaidGeneration === true,
       maxCostUsd: Number(record.maxCostUsd),
@@ -50,15 +47,14 @@ export async function POST(request: Request): Promise<Response> {
 function jsonError(err: unknown): Response {
   const message = err instanceof Error ? err.message : "create_failed";
   const status =
-    message === "scene_not_found" || message === "project_not_found"
+    message === "benchmark_case_not_found" || message === "project_not_found"
       ? 404
-      : message === "video_benchmark_disabled" ||
-          message === "missing_api_key"
+      : message === "video_benchmark_disabled" || message === "missing_api_key"
         ? 403
-        : message === "submission_unknown"
+        : message === "submission_unknown" ||
+            message === "benchmark_request_input_mismatch" ||
+            message === "benchmark_case_fingerprint_mismatch"
           ? 409
-          : message === "benchmark_request_input_mismatch"
-            ? 409
           : 400;
   return NextResponse.json({ error: message }, { status });
 }

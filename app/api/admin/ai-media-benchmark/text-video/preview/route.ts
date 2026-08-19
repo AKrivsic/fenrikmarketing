@@ -29,9 +29,10 @@ export async function GET(request: Request): Promise<Response> {
   } catch (err) {
     const message = err instanceof Error ? err.message : "preview_failed";
     const status =
-      message === "project_not_found"
+      message === "project_not_found" || message === "benchmark_case_not_found"
         ? 404
-        : message === "round_t_case_snapshot_conflict"
+        : message === "round_t_case_snapshot_conflict" ||
+            message === "benchmark_shared_core_idea_mismatch"
           ? 409
           : 400;
     return NextResponse.json({ error: message }, { status });

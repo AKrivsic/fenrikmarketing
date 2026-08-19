@@ -59,6 +59,17 @@ export function buildSceneVideoAttemptPath(
   return `${projectId}/scene-video-attempts/${attemptId}/${sanitizeFilename(filename)}`;
 }
 
+// video-renders: {project_id}/ai-media-benchmark/cases/{case_id}/{imageUuid}/{filename}
+// imageUuid is a random UUID that makes the path unique and immutable per upload.
+export function buildBenchmarkCaseImagePath(
+  projectId: string,
+  caseId: string,
+  imageUuid: string,
+  filename: string,
+): string {
+  return `${projectId}/ai-media-benchmark/cases/${caseId}/${imageUuid}/${sanitizeFilename(filename)}`;
+}
+
 // video-renders: {project_id}/ai-media-benchmark/{run_id}/{filename}
 export function buildAiMediaBenchmarkPath(
   projectId: string,

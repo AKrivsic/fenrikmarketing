@@ -17,6 +17,7 @@ import {
 
 export const ROUND_T_CASE_SNAPSHOT_CONFLICT = "round_t_case_snapshot_conflict";
 export const ROUND_T_SCENE_IDEA_LOCKED = "round_t_scene_idea_locked";
+export const BENCHMARK_SHARED_CORE_IDEA_MISMATCH = "benchmark_shared_core_idea_mismatch";
 
 export interface RoundTCaseSnapshot {
   /** Row ID in ai_media_benchmark_round_t_cases. Null only from preview when DB not yet written. */
@@ -238,10 +239,17 @@ export async function resolveRoundTCaseSnapshot(args: {
   requestedSceneIdeaId?: string | null;
   /** When true, a different sceneIdeaId compared to the locked snapshot throws round_t_scene_idea_locked. */
   rejectMismatchedSceneIdea?: boolean;
+  /** Authoritative core idea from ai_media_benchmark_cases (shared with Round A). */
+  sharedBenchmarkCoreIdea?: string;
 }): Promise<RoundTCaseSnapshot> {
+  const sharedCore = args.sharedBenchmarkCoreIdea?.trim() || null;
+
   // 1. Check if an authoritative case snapshot already exists.
   const existing = await loadCaseRow(args.supabase, args.projectId, args.caseId);
   if (existing) {
+    if (sharedCore && existing.core_idea.trim() !== sharedCore) {
+      throw new Error(BENCHMARK_SHARED_CORE_IDEA_MISMATCH);
+    }
     return _snapshotFromLockedRow(existing, args.requestedSceneIdeaId, args.rejectMismatchedSceneIdea);
   }
 
@@ -259,16 +267,21 @@ export async function resolveRoundTCaseSnapshot(args: {
   };
 
   if (oldCandidate) {
+    if (sharedCore && oldCandidate.coreIdea.trim() !== sharedCore) {
+      throw new Error(ROUND_T_CASE_SNAPSHOT_CONFLICT);
+    }
     candidate = oldCandidate;
   } else {
     const idea = getTextToVideoSceneIdea(args.requestedSceneIdeaId);
+    const coreIdea = sharedCore ?? idea.coreIdea;
+    const ideaForPrompt = { ...idea, coreIdea };
     const profile = await loadBrandVisualProfile(args.supabase, args.projectId);
-    const promptText = composeTextToVideoPrompt({ idea, profile });
+    const promptText = composeTextToVideoPrompt({ idea: ideaForPrompt, profile });
     assertSharedRoundTPrompt(promptText);
     candidate = {
       promptText,
       sceneIdeaId: idea.id,
-      coreIdea: idea.coreIdea,
+      coreIdea,
       brandVisualProfile: profile,
       durationSeconds: ROUND_A_DURATION_SECONDS,
       ratio: ROUND_A_PORTRAIT_RATIO,

@@ -37,13 +37,19 @@ import {
   parseBenchmarkRating,
 } from "@/lib/ai-media-benchmark/rating";
 import {
+  createBenchmarkCase,
   createVideoBenchmarkRun,
   createVoiceBenchmarkRun,
   createSoundBenchmarkRun,
   listBenchmarkRuns,
+  previewTextToVideoBenchmark,
   rateBenchmarkRun,
   syncBenchmarkRun,
 } from "@/lib/ai-media-benchmark/service";
+import {
+  BENCHMARK_CASE_INPUT_MISMATCH,
+  benchmarkCaseFingerprint,
+} from "@/lib/ai-media-benchmark/benchmarkCase";
 import {
   DEFAULT_TEXT_VIDEO_CASE_ID,
   DEFAULT_VOICE_SCRIPT,
@@ -138,9 +144,47 @@ const SCENE_OUTPUT = {
   },
 };
 
-function makeFakeSupabase(opts?: { failSignedUrl?: boolean; failUpload?: boolean }) {
+const IMAGE_BUCKET = "video-renders";
+const IMAGE_UUID = "11111111-1111-4111-8111-111111111111";
+const IMAGE_PATH = `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-a/${IMAGE_UUID}/source.jpg`;
+const IMAGE_SHA256 = "a".repeat(64); // deterministic fake SHA-256 hex (256 bit = 64 hex chars)
+const CORE_IDEA_A = "Technik přijde na pracoviště, pozdraví kolegu a zahájí krátký úkol.";
+const MOTION_INTENT_A = "Slow pan right, confident stride toward camera.";
+
+function makeFakeSupabase(opts?: { failSignedUrl?: boolean; failUpload?: boolean; preSeedCase?: boolean }) {
   const runs = new Map<string, Record<string, unknown>>();
   const combinedRuns = new Map<string, Record<string, unknown>>();
+  const benchmarkCases = new Map<string, Record<string, unknown>>();
+  const roundTCases = new Map<string, Record<string, unknown>>();
+
+  // Pre-seed the default benchmark case so I2V tests don't require explicit setup.
+  if (opts?.preSeedCase !== false) {
+    const fp = benchmarkCaseFingerprint({
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+    });
+    const caseId = crypto.randomUUID();
+    const now = new Date().toISOString();
+    benchmarkCases.set(caseId, {
+      id: caseId,
+      project_id: PROJECT_A,
+      case_id: "portrait-scene-a",
+      core_idea: CORE_IDEA_A,
+      motion_intent: MOTION_INTENT_A,
+      source_image_bucket: IMAGE_BUCKET,
+      source_image_path: IMAGE_PATH,
+      source_image_sha256: IMAGE_SHA256,
+      source_image_uuid: IMAGE_UUID,
+      fingerprint: fp,
+      locked_by_run_id: null,
+      locked_by_model: null,
+      created_at: now,
+      updated_at: now,
+    });
+  }
   const videoJobs = [
     {
       id: JOB_A,
@@ -220,6 +264,67 @@ function makeFakeSupabase(opts?: { failSignedUrl?: boolean; failUpload?: boolean
     };
 
     async function execute() {
+      if (table === "ai_media_benchmark_cases") {
+        if (insertRow) {
+          const pid = insertRow.project_id;
+          const cid = insertRow.case_id;
+          for (const existing of benchmarkCases.values()) {
+            if (existing.project_id === pid && existing.case_id === cid) {
+              return { data: null, error: { code: "23505", message: "dup_case" } };
+            }
+          }
+          const id = crypto.randomUUID();
+          const now = new Date().toISOString();
+          const row = { id, ...insertRow, locked_by_run_id: null, locked_by_model: null, created_at: now, updated_at: now };
+          benchmarkCases.set(id, row);
+          return { data: { ...row }, error: null };
+        }
+        if (updatePatch) {
+          const matchesRows = [...benchmarkCases.values()].filter((r) => matches(r, filters));
+          if (matchesRows.length === 0) return { data: wantSingle || wantMaybe ? null : [], error: null };
+          const target = matchesRows[0]!;
+          const next = { ...target, ...updatePatch, updated_at: new Date().toISOString() };
+          benchmarkCases.set(String(target.id), next);
+          return { data: wantSingle || wantMaybe ? next : [next], error: null };
+        }
+        const rows = [...benchmarkCases.values()].filter((r) => matches(r, filters));
+        if (wantSingle || wantMaybe) return { data: rows[0] ?? null, error: null };
+        return { data: rows, error: null };
+      }
+      if (table === "ai_media_benchmark_round_t_cases") {
+        if (insertRow) {
+          const pid = insertRow.project_id;
+          const cid = insertRow.case_id;
+          for (const existing of roundTCases.values()) {
+            if (existing.project_id === pid && existing.case_id === cid) {
+              return { data: null, error: { code: "23505", message: "dup_case" } };
+            }
+          }
+          const id = crypto.randomUUID();
+          const now = new Date().toISOString();
+          const row = {
+            id,
+            ...insertRow,
+            locked_by_run_id: null,
+            locked_by_model: null,
+            created_at: now,
+            updated_at: now,
+          };
+          roundTCases.set(id, row);
+          return { data: { ...row }, error: null };
+        }
+        if (updatePatch) {
+          const matchesRows = [...roundTCases.values()].filter((r) => matches(r, filters));
+          if (matchesRows.length === 0) return { data: wantSingle || wantMaybe ? null : [], error: null };
+          const target = matchesRows[0]!;
+          const next = { ...target, ...updatePatch, updated_at: new Date().toISOString() };
+          roundTCases.set(String(target.id), next);
+          return { data: wantSingle || wantMaybe ? next : [next], error: null };
+        }
+        const rows = [...roundTCases.values()].filter((r) => matches(r, filters));
+        if (wantSingle || wantMaybe) return { data: rows[0] ?? null, error: null };
+        return { data: rows, error: null };
+      }
       if (table === "projects") {
         const id = filters.find((f) => f.col === "id")?.val;
         return {
@@ -370,12 +475,45 @@ function makeFakeSupabase(opts?: { failSignedUrl?: boolean; failUpload?: boolean
     },
     _runs: runs,
     _combined: combinedRuns,
+    _benchmarkCases: benchmarkCases,
+    _roundTCases: roundTCases,
     _files: files,
     _uploads: uploads,
     missNextCombinedSelect() {
       missCombinedSelect += 1;
     },
   };
+}
+
+/** Seed an authoritative benchmark case into fake Supabase for use in I2V tests. */
+async function seedBenchmarkCase(
+  supabase: ReturnType<typeof makeFakeSupabase>,
+  overrides?: {
+    coreIdea?: string;
+    motionIntent?: string;
+    imagePath?: string;
+    imageSha256?: string;
+    imageUuid?: string;
+    caseId?: string;
+  },
+) {
+  const caseId = overrides?.caseId ?? "portrait-scene-a";
+  const imageUuid = overrides?.imageUuid ?? IMAGE_UUID;
+  await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId,
+      coreIdea: overrides?.coreIdea ?? CORE_IDEA_A,
+      motionIntent: overrides?.motionIntent ?? MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath:
+        overrides?.imagePath ??
+        `${PROJECT_A}/ai-media-benchmark/cases/${caseId}/${imageUuid}/source.jpg`,
+      sourceImageSha256: overrides?.imageSha256 ?? IMAGE_SHA256,
+      sourceImageUuid: imageUuid,
+    },
+    { supabase: supabase as never },
+  );
 }
 
 function fakeVideoProvider(
@@ -556,9 +694,7 @@ await check("unsupported model cannot be quoted or run", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gemini_omni_flash",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -642,9 +778,7 @@ await check("without flag / confirmation / key there is no provider call", async
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -660,9 +794,7 @@ await check("without flag / confirmation / key there is no provider call", async
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -681,9 +813,7 @@ await check("without flag / confirmation / key there is no provider call", async
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -706,9 +836,7 @@ await check("one create call runs exactly one selected model", async () => {
   const run = await createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4.5",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: REQUEST_1,
@@ -740,9 +868,7 @@ await check("video results of the same case can be listed together", async () =>
   await createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4_turbo",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: REQUEST_1,
@@ -754,9 +880,7 @@ await check("video results of the same case can be listed together", async () =>
   await createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4.5",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: REQUEST_2,
@@ -868,9 +992,7 @@ await check("rating 1-5 accepted, invalid rejected, note limited", async () => {
   const created = await createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4_turbo",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: REQUEST_1,
@@ -934,9 +1056,7 @@ await check("round A create rejects duration other than 4s", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: 5,
           clientRequestId: REQUEST_1,
@@ -1158,10 +1278,10 @@ function seedSubmittingRun(
     audio_role: "none",
     project_id: PROJECT_A,
     client_request_id: args.clientRequestId ?? REQUEST_1,
-    source_video_job_id: JOB_A,
-    source_scene_id: "scene-1",
-    source_image_bucket: "video-renders",
-    source_image_path: `${PROJECT_A}/video/${JOB_A}/scene-1.png`,
+    source_video_job_id: null,
+    source_scene_id: null,
+    source_image_bucket: IMAGE_BUCKET,
+    source_image_path: IMAGE_PATH,
     provider: "runway",
     model: "gen4_turbo",
     voice_id: null,
@@ -1170,7 +1290,16 @@ function seedSubmittingRun(
       durationSeconds: 4,
       ratio: "720:1280",
       generateAudio: false,
-      motionPrompt: "slow push in",
+      motionPrompt: MOTION_INTENT_A,
+      motionIntent: MOTION_INTENT_A,
+      coreIdea: CORE_IDEA_A,
+      benchmarkCaseId: "some-case-uuid",
+      benchmarkCaseFingerprint: benchmarkCaseFingerprint({
+        coreIdea: CORE_IDEA_A,
+        motionIntent: MOTION_INTENT_A,
+        sourceImageBucket: IMAGE_BUCKET,
+        sourceImagePath: IMAGE_PATH,
+      }),
       maxCostUsd: 0.2,
       estimatedCostUsd: 0.2,
       estimatedCredits: 20,
@@ -1203,9 +1332,7 @@ await check("concurrent same client_request_id posts once", async () => {
   const supabase = makeFakeSupabase();
   const input = {
     projectId: PROJECT_A,
-    videoJobId: JOB_A,
-    sceneId: "scene-1",
-    motionPrompt: "slow push in",
+    caseId: "portrait-scene-a",
     modelId: "gen4_turbo" as const,
     durationSeconds: ROUND_A_DURATION_SECONDS,
     clientRequestId: REQUEST_1,
@@ -1237,9 +1364,7 @@ await check("I2V same client_request_id with other inputs does not POST", async 
   const supabase = makeFakeSupabase();
   const base = {
     projectId: PROJECT_A,
-    videoJobId: JOB_A,
-    sceneId: "scene-1",
-    motionPrompt: "slow push in",
+    caseId: "portrait-scene-a",
     modelId: "gen4_turbo" as const,
     durationSeconds: ROUND_A_DURATION_SECONDS,
     clientRequestId: REQUEST_1,
@@ -1251,18 +1376,7 @@ await check("I2V same client_request_id with other inputs does not POST", async 
     videoProvider: fakeVideoProvider(created),
     env: VIDEO_ENV,
   });
-  await assert.rejects(
-    () =>
-      createVideoBenchmarkRun(
-        { ...base, motionPrompt: "fast pan across the room" },
-        {
-          supabase: supabase as never,
-          videoProvider: fakeVideoProvider(created),
-          env: VIDEO_ENV,
-        },
-      ),
-    new RegExp(BENCHMARK_REQUEST_INPUT_MISMATCH),
-  );
+  // motionPrompt is now locked in the benchmark case — changing the model or budget triggers mismatch.
   await assert.rejects(
     () =>
       createVideoBenchmarkRun(
@@ -1298,8 +1412,9 @@ await check("I2V same client_request_id with other inputs does not POST", async 
       env: VIDEO_ENV,
       submissionClaimOwner: "owner-a",
     }),
+    // Second concurrent request with a different model triggers mismatch.
     createVideoBenchmarkRun(
-      { ...base, motionPrompt: "other motion" },
+      { ...base, modelId: "gen4.5", maxCostUsd: 0.48 },
       {
         supabase: raceDb as never,
         videoProvider: fakeVideoProvider(raced),
@@ -1329,9 +1444,7 @@ await check("active claim blocks a second POST", async () => {
   const run = await createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4_turbo",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: REQUEST_1,
@@ -1362,9 +1475,7 @@ await check("stale claim becomes submission_unknown without POST", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -1399,9 +1510,7 @@ await check("timeout during provider create → submission_unknown", async () =>
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -1432,9 +1541,7 @@ await check("provider 5xx → submission_unknown", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -1457,9 +1564,7 @@ await check("error before POST is failed and does not POST", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -1494,9 +1599,7 @@ await check("submission_unknown does not auto-retry paid POST", async () => {
       createVideoBenchmarkRun(
         {
           projectId: PROJECT_A,
-          videoJobId: JOB_A,
-          sceneId: "scene-1",
-          motionPrompt: "slow push in",
+          caseId: "portrait-scene-a",
           modelId: "gen4_turbo",
           durationSeconds: ROUND_A_DURATION_SECONDS,
           clientRequestId: REQUEST_1,
@@ -1773,9 +1876,7 @@ async function startVideoRun(args: {
   return createVideoBenchmarkRun(
     {
       projectId: PROJECT_A,
-      videoJobId: JOB_A,
-      sceneId: "scene-1",
-      motionPrompt: "slow push in",
+      caseId: "portrait-scene-a",
       modelId: "gen4_turbo",
       durationSeconds: ROUND_A_DURATION_SECONDS,
       clientRequestId: args.clientRequestId ?? REQUEST_1,
@@ -2730,6 +2831,671 @@ await check("paid routes share input mismatch mapping", () => {
     assert.match(src, /benchmark_request_input_mismatch/);
   }
 });
+
+// ─── Jednotný benchmark case (Step 12F) ──────────────────────────────────────
+
+await check("Kolo A does not load production scenes (no listRunwayTestScenesForProject)", async () => {
+  // createVideoBenchmarkRun must NOT call listRunwayTestScenesForProject.
+  // It resolves image from the authoritative benchmark case only.
+  const supabase = makeFakeSupabase();
+  // Remove video_jobs from the fake — if production scenes were loaded, it would fail.
+  const origFrom = supabase.from.bind(supabase);
+  let videoJobsQueried = false;
+  (supabase as Record<string, unknown>).from = (table: string) => {
+    if (table === "video_jobs") videoJobsQueried = true;
+    return origFrom(table);
+  };
+  const created: string[] = [];
+  await createVideoBenchmarkRun(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      modelId: "gen4_turbo",
+      durationSeconds: ROUND_A_DURATION_SECONDS,
+      clientRequestId: crypto.randomUUID(),
+      confirmPaidGeneration: true,
+      maxCostUsd: 0.2,
+    },
+    { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+  );
+  assert.equal(videoJobsQueried, false, "video_jobs table must NOT be queried");
+  assert.equal(created.length, 1);
+});
+
+await check("one I2V case uses same image and creative brief for all models", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  // Create the case once.
+  const benchCase = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  assert.equal(benchCase.coreIdea, CORE_IDEA_A);
+  assert.equal(benchCase.motionIntent, MOTION_INTENT_A);
+  assert.equal(benchCase.sourceImagePath, IMAGE_PATH);
+
+  const modelIds = ["gen4_turbo", "gen4.5"];
+  const imagesSeen: string[] = [];
+  const provider = fakeVideoProvider();
+  const orig = provider.createImageToVideo.bind(provider);
+  provider.createImageToVideo = async (req) => {
+    imagesSeen.push(req.imageUrl);
+    return orig(req);
+  };
+
+  for (const modelId of modelIds) {
+    await createVideoBenchmarkRun(
+      {
+        projectId: PROJECT_A,
+        caseId: "portrait-scene-a",
+        modelId,
+        durationSeconds: ROUND_A_DURATION_SECONDS,
+        clientRequestId: crypto.randomUUID(),
+        confirmPaidGeneration: true,
+        maxCostUsd: 1,
+      },
+      { supabase: supabase as never, videoProvider: provider, env: VIDEO_ENV },
+    );
+  }
+  // Both models must receive the same signed URL (same image path).
+  assert.equal(imagesSeen.length, 2);
+  assert.equal(imagesSeen[0], imagesSeen[1], "Both models must get identical signed image URL");
+});
+
+await check("different model cannot change image, core idea or motion intent of existing case", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  // A second createBenchmarkCase call with same caseId but different inputs must fail.
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: "Completely different idea",
+          motionIntent: "Fast zoom in",
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-a/22222222-2222-4222-8222-222222222222/source.jpg`,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: "22222222-2222-4222-8222-222222222222",
+        },
+        { supabase: supabase as never },
+      ),
+    new RegExp(BENCHMARK_CASE_INPUT_MISMATCH),
+  );
+  assert.equal(supabase._benchmarkCases.size, 1);
+});
+
+await check("different input requires new case_id", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  // Different caseId creates an independent case.
+  const caseB = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-b",
+      coreIdea: "An entirely new idea",
+      motionIntent: "Slow zoom",
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-b/22222222-2222-4222-8222-222222222222/source.jpg`,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: "22222222-2222-4222-8222-222222222222",
+    },
+    { supabase: supabase as never },
+  );
+  assert.equal(supabase._benchmarkCases.size, 2, "Two independent cases must exist");
+  assert.equal(caseB.coreIdea, "An entirely new idea");
+  assert.notEqual(caseB.caseId, "portrait-scene-a");
+});
+
+await check("T2V uses same core idea but separate T2V prompt builder", async () => {
+  const supabase = makeFakeSupabase();
+  const preview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A },
+    { supabase: supabase as never, env: {} },
+  );
+  assert.equal(preview.sharedCoreIdea, CORE_IDEA_A);
+  assert.equal(preview.coreIdea, CORE_IDEA_A);
+  assert.ok(preview.promptText.includes(CORE_IDEA_A));
+  assert.notEqual(preview.promptText.trim(), MOTION_INTENT_A);
+});
+
+await check("I2V motionIntent is not used as T2V provider prompt", async () => {
+  const supabase = makeFakeSupabase();
+  const preview = await previewTextToVideoBenchmark(
+    { projectId: PROJECT_A },
+    { supabase: supabase as never, env: {} },
+  );
+  assert.notEqual(preview.promptText, MOTION_INTENT_A);
+  assert.ok(!preview.promptText.includes(IMAGE_PATH));
+});
+
+await check("atomic case snapshot: concurrent first requests produce exactly one winner", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  const results = await Promise.allSettled([
+    createBenchmarkCase(
+      {
+        projectId: PROJECT_A,
+        caseId: "portrait-scene-concurrent",
+        coreIdea: CORE_IDEA_A,
+        motionIntent: MOTION_INTENT_A,
+        sourceImageBucket: IMAGE_BUCKET,
+        sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-concurrent/44444444-4444-4444-8444-444444444444/source.jpg`,
+        sourceImageSha256: IMAGE_SHA256,
+        sourceImageUuid: "44444444-4444-4444-8444-444444444444",
+      },
+      { supabase: supabase as never },
+    ),
+    createBenchmarkCase(
+      {
+        projectId: PROJECT_A,
+        caseId: "portrait-scene-concurrent",
+        coreIdea: CORE_IDEA_A,
+        motionIntent: MOTION_INTENT_A,
+        sourceImageBucket: IMAGE_BUCKET,
+        sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-concurrent/44444444-4444-4444-8444-444444444444/source.jpg`,
+        sourceImageSha256: IMAGE_SHA256,
+        sourceImageUuid: "44444444-4444-4444-8444-444444444444",
+      },
+      { supabase: supabase as never },
+    ),
+  ]);
+  const fulfilled = results.filter((r) => r.status === "fulfilled");
+  assert.equal(fulfilled.length, 2, "Both concurrent requests must fulfill (loser loads winner)");
+  assert.equal(supabase._benchmarkCases.size, 1, "Exactly one case row must exist");
+  const ids = new Set(
+    fulfilled.map((r) => (r as PromiseFulfilledResult<{ id: string }>).value.id),
+  );
+  assert.equal(ids.size, 1, "Both concurrent results must reference the same case id");
+});
+
+await check("canonical input mismatch stops provider POST for I2V", async () => {
+  const supabase = makeFakeSupabase();
+  const created: string[] = [];
+  // First request establishes the canonical input.
+  await createVideoBenchmarkRun(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      modelId: "gen4_turbo",
+      durationSeconds: ROUND_A_DURATION_SECONDS,
+      clientRequestId: REQUEST_1,
+      confirmPaidGeneration: true,
+      maxCostUsd: 0.2,
+    },
+    { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+  );
+  // Second request with same client_request_id but different model → mismatch.
+  await assert.rejects(
+    () =>
+      createVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          modelId: "gen4.5",
+          durationSeconds: ROUND_A_DURATION_SECONDS,
+          clientRequestId: REQUEST_1,
+          confirmPaidGeneration: true,
+          maxCostUsd: 0.48,
+        },
+        { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+      ),
+    new RegExp(BENCHMARK_REQUEST_INPUT_MISMATCH),
+  );
+  assert.equal(created.length, 1, "Only the first model must POST");
+});
+
+await check("submission_unknown does not auto-retry the I2V paid POST", async () => {
+  // Seeded submitting run with submission_unknown status simulates a past unknown submission.
+  const supabase = makeFakeSupabase();
+  const row = seedSubmittingRun(supabase, {
+    owner: "old-owner",
+    claimedAt: new Date().toISOString(),
+    status: "submission_unknown",
+  });
+  assert.equal(row.status, "submission_unknown");
+  // Attempting to reuse the same client_request_id must NOT trigger a new provider POST.
+  const created: string[] = [];
+  await assert.rejects(
+    () =>
+      createVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          modelId: "gen4_turbo",
+          durationSeconds: ROUND_A_DURATION_SECONDS,
+          clientRequestId: REQUEST_1,
+          confirmPaidGeneration: true,
+          maxCostUsd: 0.2,
+        },
+        { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+      ),
+    /submission_unknown/,
+  );
+  assert.equal(created.length, 0, "No new provider POST on submission_unknown reuse");
+});
+
+await check("Kolo A+ still accepts completed video outputs for combined scene", async () => {
+  // planCombinedScene accepts a completed I2V video run + voice run — verifies Round A+ still works.
+  const plan = planCombinedScene({
+    videoRunId: VIDEO_RUN_ID,
+    videoModel: "gen4_turbo",
+    videoOutputContainsAudio: false,
+    voiceRunId: VOICE_RUN_ID,
+    voiceSettings: { text: "Test voiceover" },
+    soundRunId: null,
+    mix: {
+      useVoiceover: true,
+      useSceneAudio: false,
+      useAmbientSound: false,
+      voiceGain: 1.0,
+      sceneAudioGain: 0.0,
+      ambientGain: 0.0,
+    },
+  });
+  assert.ok(plan.layers.length > 0, "Plan must have at least one layer");
+  assert.equal(plan.targetDurationSeconds, 4);
+});
+
+await check("migration 042 exists with unique constraint on project+case", () => {
+  const migrationsDir = join(ROOT, "supabase", "migrations");
+  const files = readdirSync(migrationsDir);
+  assert.ok(
+    files.some((n) => /^042_ai_media_benchmark_cases/.test(String(n))),
+    "Migration 042 for ai_media_benchmark_cases must exist",
+  );
+  const sql = readFileSync(
+    join(migrationsDir, files.find((n) => /^042_/.test(String(n)))!),
+    "utf8",
+  );
+  assert.match(sql, /ai_media_benchmark_cases_project_case_key/, "unique constraint must be defined");
+  assert.match(sql, /unique \(project_id, case_id\)/, "unique columns must be project_id and case_id");
+  assert.match(sql, /source_image_bucket/, "source_image_bucket column must exist");
+  assert.match(sql, /source_image_path/, "source_image_path column must exist");
+  assert.match(sql, /motion_intent/, "motion_intent column must exist");
+  assert.match(sql, /core_idea/, "core_idea column must exist");
+});
+
+// ─── Step 12F hardening: immutable source image ───────────────────────────────
+
+await check("case snapshot contains source_image_sha256", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await seedBenchmarkCase(supabase, { imageSha256: IMAGE_SHA256 });
+  const rows = [...supabase._benchmarkCases.values()];
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].source_image_sha256, IMAGE_SHA256, "source_image_sha256 must be persisted");
+});
+
+await check("fingerprint changes when SHA-256 changes (bucket/path same)", () => {
+  const base = {
+    coreIdea: CORE_IDEA_A,
+    motionIntent: MOTION_INTENT_A,
+    sourceImageBucket: IMAGE_BUCKET,
+    sourceImagePath: IMAGE_PATH,
+    sourceImageSha256: IMAGE_SHA256,
+  };
+  const fp1 = benchmarkCaseFingerprint(base);
+  const fp2 = benchmarkCaseFingerprint({ ...base, sourceImageSha256: "b".repeat(64) });
+  assert.notEqual(fp1, fp2, "Fingerprint must differ when SHA-256 changes");
+});
+
+await check("fingerprint differs for null vs non-null SHA-256", () => {
+  const base = {
+    coreIdea: CORE_IDEA_A,
+    motionIntent: MOTION_INTENT_A,
+    sourceImageBucket: IMAGE_BUCKET,
+    sourceImagePath: IMAGE_PATH,
+  };
+  const fp1 = benchmarkCaseFingerprint({ ...base, sourceImageSha256: null });
+  const fp2 = benchmarkCaseFingerprint({ ...base, sourceImageSha256: IMAGE_SHA256 });
+  assert.notEqual(fp1, fp2, "Fingerprint must differ when SHA-256 is added");
+});
+
+await check("second case insert with different SHA-256 is rejected (benchmark_case_input_mismatch)", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await seedBenchmarkCase(supabase, { imageSha256: IMAGE_SHA256 });
+  await assert.rejects(
+    () => seedBenchmarkCase(supabase, { imageSha256: "c".repeat(64) }),
+    /benchmark_case_input_mismatch/,
+    "Different SHA-256 with same case_id must be rejected",
+  );
+});
+
+await check("second case insert with identical SHA-256 returns existing case (no duplicate)", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  const result1 = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  const result2 = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  assert.equal(result1.id, result2.id, "Both calls must return the same case row id");
+  assert.equal(supabase._benchmarkCases.size, 1, "Exactly one case must exist");
+});
+
+await check("create case without SHA is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_sha256_required/,
+  );
+});
+
+await check("invalid SHA is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: "abc",
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_sha256_invalid/,
+  );
+});
+
+await check("create case without UUID is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: IMAGE_SHA256,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_uuid_required/,
+  );
+});
+
+await check("invalid UUID is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: "not-a-uuid",
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_uuid_invalid/,
+  );
+});
+
+await check("different bucket is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: "project-assets",
+          sourceImagePath: IMAGE_PATH,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_bucket_invalid/,
+  );
+});
+
+await check("path with different projectId is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: `${PROJECT_B}/ai-media-benchmark/cases/portrait-scene-a/${IMAGE_UUID}/source.jpg`,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_path_invalid/,
+  );
+});
+
+await check("path with different caseId is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/other-case/${IMAGE_UUID}/source.jpg`,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_path_invalid/,
+  );
+});
+
+await check("path with different UUID is rejected", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  await assert.rejects(
+    () =>
+      createBenchmarkCase(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          coreIdea: CORE_IDEA_A,
+          motionIntent: MOTION_INTENT_A,
+          sourceImageBucket: IMAGE_BUCKET,
+          sourceImagePath: `${PROJECT_A}/ai-media-benchmark/cases/portrait-scene-a/33333333-3333-4333-8333-333333333333/source.jpg`,
+          sourceImageSha256: IMAGE_SHA256,
+          sourceImageUuid: IMAGE_UUID,
+        },
+        { supabase: supabase as never },
+      ),
+    /source_image_path_invalid/,
+  );
+});
+
+await check("valid upload payload passes createBenchmarkCase", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  const created = await createBenchmarkCase(
+    {
+      projectId: PROJECT_A,
+      caseId: "portrait-scene-a",
+      coreIdea: CORE_IDEA_A,
+      motionIntent: MOTION_INTENT_A,
+      sourceImageBucket: IMAGE_BUCKET,
+      sourceImagePath: IMAGE_PATH,
+      sourceImageSha256: IMAGE_SHA256,
+      sourceImageUuid: IMAGE_UUID,
+    },
+    { supabase: supabase as never },
+  );
+  assert.equal(created.caseId, "portrait-scene-a");
+  assert.equal(created.sourceImageSha256, IMAGE_SHA256);
+});
+
+await check("I2V pre-POST fingerprint guard includes SHA-256 — corrupt SHA-256 stops provider POST", async () => {
+  const supabase = makeFakeSupabase({ preSeedCase: false });
+  // Seed a case with IMAGE_SHA256.
+  await seedBenchmarkCase(supabase, { imageSha256: IMAGE_SHA256 });
+
+  // Tamper the stored fingerprint directly to simulate a corrupt DB row.
+  const rows = [...supabase._benchmarkCases.values()];
+  const row = rows[0];
+  const tamperedFp = benchmarkCaseFingerprint({
+    coreIdea: String(row.core_idea),
+    motionIntent: String(row.motion_intent),
+    sourceImageBucket: String(row.source_image_bucket),
+    sourceImagePath: String(row.source_image_path),
+    sourceImageSha256: "d".repeat(64), // different SHA-256
+  });
+  (supabase._benchmarkCases.get(String(row.id)) as Record<string, unknown>).fingerprint = tamperedFp;
+
+  const created: string[] = [];
+  await assert.rejects(
+    () =>
+      createVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          modelId: "gen4_turbo",
+          durationSeconds: ROUND_A_DURATION_SECONDS,
+          clientRequestId: crypto.randomUUID(),
+          confirmPaidGeneration: true,
+          maxCostUsd: 0.2,
+        },
+        { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+      ),
+    /benchmark_case_fingerprint_mismatch/,
+    "Tampered fingerprint must block provider POST",
+  );
+  assert.equal(created.length, 0, "No provider POST must occur");
+});
+
+await check("old DB case with null SHA/UUID cannot start I2V POST", async () => {
+  const supabase = makeFakeSupabase();
+  const row = [...supabase._benchmarkCases.values()][0]!;
+  row.source_image_sha256 = null;
+  row.source_image_uuid = null;
+  const created: string[] = [];
+  await assert.rejects(
+    () =>
+      createVideoBenchmarkRun(
+        {
+          projectId: PROJECT_A,
+          caseId: "portrait-scene-a",
+          modelId: "gen4_turbo",
+          durationSeconds: ROUND_A_DURATION_SECONDS,
+          clientRequestId: crypto.randomUUID(),
+          confirmPaidGeneration: true,
+          maxCostUsd: 0.2,
+        },
+        { supabase: supabase as never, videoProvider: fakeVideoProvider(created), env: VIDEO_ENV },
+      ),
+    /benchmark_case_image_integrity_invalid/,
+  );
+  assert.equal(created.length, 0);
+});
+
+await check("Kolo A and Kolo T both use DEFAULT_VIDEO_CASE_ID", async () => {
+  const { DEFAULT_VIDEO_CASE_ID } = await import("@/lib/ai-media-benchmark/types");
+  // Round A hardcodes DEFAULT_VIDEO_CASE_ID in createCase UI flow.
+  // Round T also hardcodes it — verify constant is the same reference.
+  assert.equal(DEFAULT_VIDEO_CASE_ID, "portrait-scene-a");
+});
+
+await check("migration 043 exists with source_image_sha256 column", () => {
+  const migrationsDir = join(ROOT, "supabase", "migrations");
+  const files = readdirSync(migrationsDir);
+  assert.ok(
+    files.some((n) => /^043_/.test(String(n))),
+    "Migration 043 must exist",
+  );
+  const sql = readFileSync(
+    join(migrationsDir, files.find((n) => /^043_/.test(String(n)))!),
+    "utf8",
+  );
+  assert.match(sql, /source_image_sha256/, "source_image_sha256 column must be added");
+  assert.match(sql, /source_image_uuid/, "source_image_uuid column must be added");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 await check("zero real network calls", () => {
   assert.equal(realFetchCalls, 0);
