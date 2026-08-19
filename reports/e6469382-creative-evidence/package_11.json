@@ -1,0 +1,1741 @@
+{
+  "package_index": 11,
+  "run_item_id": "05bcd6df-95d4-4158-a8a1-5a92d3b86e60",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "174d2530-13aa-4964-99c3-09a83c20af6b",
+  "package_title": "The Week You Would Have Spent Building This",
+  "package_status": "draft",
+  "strategy_item_id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A concrete, no-hype look at what a completed fenrik Studio package contains — video, captions, platform-specific posts — framed as 'here is what you would have spent your week building, delivered instead.'",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "source": "production_run",
+      "pain_point": "Struggling to produce consistent, platform-ready social media content",
+      "package_index": 11,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Solution Aware",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "angle": "A concrete, no-hype look at what a completed fenrik Studio package contains — video, captions, platform-specific posts — framed as 'here is what you would have spent your week building, delivered instead.'",
+      "seed": "Solution Aware|From website to ready-to-post video: what the output actually looks like|A concrete, no-hype look at what a completed fenrik Studio package contains — video, captions, platform-specific posts — framed as 'here is what you would have spent your week building, delivered instead.'|"
+    },
+    "directives": {
+      "mode": {
+        "id": "story",
+        "name": "Story",
+        "description": "A tiny narrative built around one real customer or operator moment.",
+        "structure": "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
+        "avoid": "No abstract advice; keep it one situation, not a montage of tips.",
+        "narrativeBeats": [
+          "setup",
+          "conflict",
+          "twist",
+          "resolution",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "mistake",
+        "instruction": "Open by naming a specific mistake the viewer is probably making.",
+        "exampleForm": "\"You are wiping the counter — and spreading the mess.\"",
+        "forbidGeneric": "Do not open with \"Here are some tips to avoid mistakes.\""
+      },
+      "persona": {
+        "id": "expert",
+        "name": "Expert",
+        "vocabulary": "precise, domain-aware, no fluff",
+        "rhythm": "measured, confident sentences",
+        "energy": "calm authority",
+        "exaggeration": "none — let the substance carry it"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Week You Would Have Spent Building This",
+    "core_idea": "A small ecommerce brand manager sits down Monday morning to plan the week's social content. The video walks through every deliverable that would have consumed her week — writing captions, reformatting copy for four platforms, scripting a short video, sourcing visuals — then reveals that the entire output already exists inside a completed fenrik Studio package, generated from her website URL alone. The story is not about saving time in the abstract; it is about holding the finished thing in your hands and understanding, concretely, what you did not have to do.",
+    "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — it is shown through its output: a completed package containing a short-form video, platform-specific captions and posts for TikTok, Instagram, LinkedIn, and Facebook, and ready-to-use hashtags. The free first package proof point is relevant here and used once at the CTA: the viewer can verify the output themselves before committing.",
+    "why_it_works": "The concept is anchored to the selected pain point — struggling to produce consistent, platform-ready content — but approaches it from the solution-aware angle by making the output tangible rather than theoretical. The mistake hook works because the viewer recognizes the error immediately: treating content production as a weekly manual task when the full output already exists. The story structure creates contrast between two versions of the same Monday morning — one where the work is about to begin, one where it is already done. That contrast is the persuasion. No forbidden claims are made; no outcomes are promised. The product is shown through what it delivers, not what it guarantees.",
+    "narrative_arc": "SETUP: A brand manager opens a blank content calendar on Monday morning, coffee in hand, genuinely ready to build the week's social content from scratch. She types 'Week 12 Content' at the top of the doc and pauses. CONFLICT: The camera slowly pans across what a full week of platform-ready content actually requires — a short-form video script, a TikTok caption with hooks and hashtags, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post, all adapted individually. Each item appears on screen as a discrete task with a visible time cost attached. The stack grows. The week is already gone before Tuesday arrives. TWIST: The frame cuts. The same stack of deliverables — video, captions, platform-specific posts, hashtags — appears again, but this time it is already complete, labeled, and ready to copy. Not drafted. Not 'almost there.' Done. The only input shown: a website URL typed into a single field. RESOLUTION: The brand manager is back at her desk. The calendar is full. She did not write a brief, film anything, or reformat a single line of copy. She submitted a URL. The week she was about to spend building content was already over before it started. CTA: Submit your website URL — your first content package is free, no calendar-blocking required.",
+    "emotional_tone": "Calm and grounding — not dramatic or hyperbolic. The video respects the viewer's intelligence by showing the work concretely rather than promising outcomes. The emotional shift is from quiet dread (the blank doc, the growing task list) to quiet relief (the finished package, the full calendar). No celebration, no fanfare — just the clean feeling of something being genuinely handled.",
+    "audience_insight": "Solution-aware buyers know they need content help but are skeptical of vague 'done-for-you' promises because they have been burned before by services that still required significant input from them. What they actually want is proof of output — not a features list, but a concrete look at what lands in their hands. Showing the finished deliverables as a stack of real, named assets (video, platform captions, hashtags) is more persuasive than any claim about speed or ease.",
+    "visual_direction": {
+      "palette": "Warm neutrals (cream, sand, soft terracotta) for the desk environment; transitioning to a cooler, minimal palette (off-white, slate, a single brand accent) for the digital output reveal. The contrast in palette reinforces the emotional shift from effort to resolution.",
+      "lighting": "First half: soft, natural morning light from a window to the left — warm and slightly diffuse, reinforcing the 'start of the week' feeling. Second half: clean, neutral backlit screen glow — cooler tone, precise, communicating that the output is finished and professional.",
+      "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a sticky note or two. Lived-in but organized. No home-office clichés. Second half: the same desk, but the laptop screen now shows a completed content package — a video file, four labeled caption documents, a hashtag list. The physical environment is unchanged; only the screen content shifts.",
+      "camera_style": "Close and observational — tight shots on the screen, the hands, the cursor hovering over a blank document. No wide establishing shots. The camera treats the desk like a workspace being examined, not a set being performed in. The transition to the completed package is a clean cut, not a dissolve or wipe — abrupt and intentional.",
+      "art_direction": "Split visual language: the first half uses a warm, slightly cluttered real-world desk to ground the story in a recognizable Monday-morning moment; the second half transitions to a clean digital interface view showing completed package assets — labeled files, formatted captions, a video thumbnail — to make the output concrete and tangible. On-screen text labels appear as each deliverable is named, styled as simple, legible cards rather than animated infographics.",
+      "character_style": "One character: a woman in her early thirties, practical and composed — not styled for a photoshoot. She is present in the setup and resolution but the conflict section focuses on the screen and the task list, not her face. Her presence anchors the story without turning it into a testimonial."
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, allowing the viewer to absorb the weight of the task ahead.",
+    "emotion": "A sense of quiet dread as the viewer recognizes the all-too-familiar struggle of starting from scratch.",
+    "first_image": "A close-up of a cluttered desk on a Monday morning, featuring a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup, and a sticky note with reminders, all bathed in soft, warm morning light.",
+    "attention_pattern": "The initial focus on the blank document creates a relatable tension, prompting curiosity about how the situation will resolve.",
+    "first_spoken_sentence": "You’re staring at a blank document, and the week is already slipping away."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals (cream, sand, soft terracotta) for the desk environment; transitioning to a cooler, minimal palette (off-white, slate, a single brand accent) for the digital output reveal. The contrast in palette reinforces the emotional shift from effort to resolution.",
+    "lighting": "First half: soft, natural morning light from a window to the left — warm and slightly diffuse, reinforcing the 'start of the week' feeling. Second half: clean, neutral backlit screen glow — cooler tone, precise, communicating that the output is finished and professional.",
+    "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a sticky note or two. Lived-in but organized. No home-office clichés. Second half: the same desk, but the laptop screen now shows a completed content package — a video file, four labeled caption documents, a hashtag list. The physical environment is unchanged; only the screen content shifts.",
+    "camera_style": "Close and observational — tight shots on the screen, the hands, the cursor hovering over a blank document. No wide establishing shots. The camera treats the desk like a workspace being examined, not a set being performed in. The transition to the completed package is a clean cut, not a dissolve or wipe — abrupt and intentional.",
+    "art_direction": "Split visual language: the first half uses a warm, slightly cluttered real-world desk to ground the story in a recognizable Monday-morning moment; the second half transitions to a clean digital interface view showing completed package assets — labeled files, formatted captions, a video thumbnail — to make the output concrete and tangible. On-screen text labels appear as each deliverable is named, styled as simple, legible cards rather than animated infographics.",
+    "character_style": "One character: a woman in her early thirties, practical and composed — not styled for a photoshoot. She is present in the setup and resolution but the conflict section focuses on the screen and the task list, not her face. Her presence anchors the story without turning it into a testimonial.",
+    "opening_emotion": "A sense of quiet dread as the viewer recognizes the all-too-familiar struggle of starting from scratch.",
+    "opening_first_image": "A close-up of a cluttered desk on a Monday morning, featuring a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup, and a sticky note with reminders, all bathed in soft, warm morning light."
+  },
+  "package": {
+    "title": "The Week You Would Have Spent Building This",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "You’re staring at a blank document, and the week is already slipping away.",
+    "scenario": "A small ecommerce brand manager opens a blank Google Doc on Monday morning, types 'Week 12 Content' at the top, and pauses. She knows what comes next: a video script, a TikTok caption, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post — each one a separate task with its own format logic and time cost. She has done this before. It takes most of the week. This time, she submits her website URL to fenrik Studio instead. By the time she finishes her coffee, the package exists — video, captions, hashtags, all labeled and ready to copy. The week she was about to spend building content is already over.",
+    "video": {
+      "script": "SCENE 1 — SETUP\n[VISUAL: Close-up of laptop screen showing blank Google Doc titled 'Week 12 Content'. Coffee cup steaming to the right. Sticky notes visible. Warm morning light from the left.]\n[VO]: You're staring at a blank document, and the week is already slipping away.\n\nSCENE 2 — CONFLICT\n[VISUAL: On-screen text cards appear one by one over the desk environment — 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card lands with a subtle time cost label beside it. The stack fills the frame.]\n[VO]: A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work.\n\nSCENE 3 — TWIST\n[VISUAL: Clean cut. Same desk. Laptop screen now shows a completed content package — a video thumbnail file, four labeled caption documents, a hashtag list, all clearly named and organized. Cooler screen glow replaces the warm morning light. The physical desk is unchanged.]\n[VO]: But inside a completed fenrik Studio package — generated from your website URL — it's already done.\n\nSCENE 4 — RESOLUTION\n[VISUAL: The brand manager's hands rest beside the keyboard. The content calendar on screen is full. No drafts. No half-finished docs. Just published-ready assets.]\n[VO]: The calendar is full. You didn't write a word.\n\nSCENE 5 — CTA\n[VISUAL: fenrik Studio logo appears on a clean off-white background with the line: 'Submit your website URL — your first content package is free.']\n[NO VO — text on screen only]",
+      "concept": "A small ecommerce brand manager sits down Monday morning, opens a blank Google Doc titled 'Week 12 Content', and pauses. The video walks through every deliverable that would consume her week — video script, TikTok caption, LinkedIn post, Instagram caption, platform hashtags — each appearing on screen as a discrete labeled task. The stack grows visibly. Then a clean cut: the same stack appears again, already complete, labeled, and ready to copy. The only input shown is a website URL typed into a single field. The brand manager is back at her desk. The calendar is full. She did nothing except submit a URL.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediamarketing",
+      "#doneforyou",
+      "#smallbusiness",
+      "#contentcreation"
+    ],
+    "subtitles_planned": "You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+  "voice_prompts": {
+    "voiceover_text": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot.",
+    "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins.",
+    "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point.",
+    "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled.",
+    "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Submit your website URL — your first content package is free, no calendar-blocking required.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Link in bio — first package is free.",
+        "format": "reel",
+        "caption": "You planned to build a week of content. It's already built. 👀 Link in bio to get yours free.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#contentstrategy",
+          "#tiktokforbusiness"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "You mapped out the whole week of content — then never posted. Here's what that week looks like when it's already done before Monday ends.",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#socialmedia"
+        ]
+      },
+      "facebook": {
+        "cta": "Get your first content package free at https://fenrik.studio",
+        "format": "reel",
+        "caption": "Ever sat down on a Monday to plan the week's social content and realized it would take the entire week just to build it? 😅 A video script, captions for four platforms, hashtags — all from scratch. fenrik Studio takes your website URL and delivers the whole package, ready to post. No filming, no reformatting, no blank-doc staring. Your first content package is completely free — give it a try at https://fenrik.studio",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediamarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": "First package is free: https://fenrik.studio",
+        "format": "reel",
+        "caption": "Most content plans don't fail at the strategy stage. They fail at the production stage — when a week of platform-ready assets turns out to require a week of actual work to build.\n\nA short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four formats, adapted individually. That is the real task list behind 'post consistently.'\n\nfenrik Studio converts a website URL into a completed content package — video, platform-specific captions, hashtags — ready to publish without reformatting or briefing.\n\nFirst package is free: https://fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#marketingoperations"
+        ]
+      },
+      "instagram": {
+        "cta": "First package is free — link in bio.",
+        "format": "reel",
+        "caption": "Monday morning. Blank doc. Full week ahead.\n\nA video script. Four captions. Four platforms. All from scratch.\n\nThat's not a content plan — that's a second job.\n\nfenrik Studio turns your website URL into a complete, ready-to-post package. Video, captions, hashtags — done.\n\nFirst package is free. Link in bio.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamanager",
+          "#smallbusinessowner",
+          "#doneforyou",
+          "#socialmediatips",
+          "#contentcreator",
+          "#ecommerce",
+          "#marketingstrategy"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "2cdd7d5a-7f0c-4032-8345-03a3e33f63d4",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Week You Would Have Spent Building This",
+        "body": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+        "caption": "You mapped out the whole week of content — then never posted. Here's what that week looks like when it's already done before Monday ends.",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#socialmedia"
+        ],
+        "cta": "Subscribe for more. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "75ddcd5c-aed8-4d00-a66b-ed630df8d959",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Week You Would Have Spent Building This",
+        "body": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+        "caption": "You planned to build a week of content. It's already built. 👀 Link in bio to get yours free.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#contentstrategy",
+          "#tiktokforbusiness"
+        ],
+        "cta": "Link in bio — first package is free.",
+        "language": null
+      },
+      {
+        "id": "0819401b-7847-42e6-a16e-772eced20148",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Week You Would Have Spent Building This",
+        "body": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+        "caption": "Monday morning. Blank doc. Full week ahead.\n\nA video script. Four captions. Four platforms. All from scratch.\n\nThat's not a content plan — that's a second job.\n\nfenrik Studio turns your website URL into a complete, ready-to-post package. Video, captions, hashtags — done.\n\nFirst package is free. Link in bio.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamanager",
+          "#smallbusinessowner",
+          "#doneforyou",
+          "#socialmediatips",
+          "#contentcreator",
+          "#ecommerce",
+          "#marketingstrategy"
+        ],
+        "cta": "First package is free — link in bio.",
+        "language": null
+      },
+      {
+        "id": "40f96269-260e-4acb-bf6f-7b87ca7f57e9",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Week You Would Have Spent Building This",
+        "body": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+        "caption": "Ever sat down on a Monday to plan the week's social content and realized it would take the entire week just to build it? 😅 A video script, captions for four platforms, hashtags — all from scratch. fenrik Studio takes your website URL and delivers the whole package, ready to post. No filming, no reformatting, no blank-doc staring. Your first content package is completely free — give it a try at https://fenrik.studio",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediamarketing"
+        ],
+        "cta": "Get your first content package free at https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "8f3c78db-0808-4c6f-a2af-02598887c03a",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Week You Would Have Spent Building This",
+        "body": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+        "caption": "Most content plans don't fail at the strategy stage. They fail at the production stage — when a week of platform-ready assets turns out to require a week of actual work to build.\n\nA short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four formats, adapted individually. That is the real task list behind 'post consistently.'\n\nfenrik Studio converts a website URL into a completed content package — video, platform-specific captions, hashtags — ready to publish without reformatting or briefing.\n\nFirst package is free: https://fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#marketingoperations"
+        ],
+        "cta": "First package is free: https://fenrik.studio",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "174d2530-13aa-4964-99c3-09a83c20af6b",
+    "title": "The Week You Would Have Spent Building This",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+    "package_brief": {
+      "cta": {
+        "text": "Submit your website URL — your first content package is free, no calendar-blocking required.",
+        "type": "sign_up"
+      },
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "video": {
+        "script": "SCENE 1 — SETUP\n[VISUAL: Close-up of laptop screen showing blank Google Doc titled 'Week 12 Content'. Coffee cup steaming to the right. Sticky notes visible. Warm morning light from the left.]\n[VO]: You're staring at a blank document, and the week is already slipping away.\n\nSCENE 2 — CONFLICT\n[VISUAL: On-screen text cards appear one by one over the desk environment — 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card lands with a subtle time cost label beside it. The stack fills the frame.]\n[VO]: A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work.\n\nSCENE 3 — TWIST\n[VISUAL: Clean cut. Same desk. Laptop screen now shows a completed content package — a video thumbnail file, four labeled caption documents, a hashtag list, all clearly named and organized. Cooler screen glow replaces the warm morning light. The physical desk is unchanged.]\n[VO]: But inside a completed fenrik Studio package — generated from your website URL — it's already done.\n\nSCENE 4 — RESOLUTION\n[VISUAL: The brand manager's hands rest beside the keyboard. The content calendar on screen is full. No drafts. No half-finished docs. Just published-ready assets.]\n[VO]: The calendar is full. You didn't write a word.\n\nSCENE 5 — CTA\n[VISUAL: fenrik Studio logo appears on a clean off-white background with the line: 'Submit your website URL — your first content package is free.']\n[NO VO — text on screen only]",
+        "concept": "A small ecommerce brand manager sits down Monday morning, opens a blank Google Doc titled 'Week 12 Content', and pauses. The video walks through every deliverable that would consume her week — video script, TikTok caption, LinkedIn post, Instagram caption, platform hashtags — each appearing on screen as a discrete labeled task. The stack grows visibly. Then a clean cut: the same stack appears again, already complete, labeled, and ready to copy. The only input shown is a website URL typed into a single field. The brand manager is back at her desk. The calendar is full. She did nothing except submit a URL.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediamarketing",
+        "#doneforyou",
+        "#smallbusiness",
+        "#contentcreation"
+      ],
+      "scenario": "A small ecommerce brand manager opens a blank Google Doc on Monday morning, types 'Week 12 Content' at the top, and pauses. She knows what comes next: a video script, a TikTok caption, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post — each one a separate task with its own format logic and time cost. She has done this before. It takes most of the week. This time, she submits her website URL to fenrik Studio instead. By the time she finishes her coffee, the package exists — video, captions, hashtags, all labeled and ready to copy. The week she was about to spend building content is already over.",
+      "subtitles": "You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot.",
+        "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins.",
+        "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point.",
+        "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled.",
+        "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Link in bio — first package is free.",
+          "format": "reel",
+          "caption": "You planned to build a week of content. It's already built. 👀 Link in bio to get yours free.",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmediamarketing",
+            "#smallbusiness",
+            "#contentstrategy",
+            "#tiktokforbusiness"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "short",
+          "caption": "You mapped out the whole week of content — then never posted. Here's what that week looks like when it's already done before Monday ends.",
+          "hashtags": [
+            "#Shorts",
+            "#contentmarketing",
+            "#socialmedia"
+          ]
+        },
+        "facebook": {
+          "cta": "Get your first content package free at https://fenrik.studio",
+          "format": "reel",
+          "caption": "Ever sat down on a Monday to plan the week's social content and realized it would take the entire week just to build it? 😅 A video script, captions for four platforms, hashtags — all from scratch. fenrik Studio takes your website URL and delivers the whole package, ready to post. No filming, no reformatting, no blank-doc staring. Your first content package is completely free — give it a try at https://fenrik.studio",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmediamarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": "First package is free: https://fenrik.studio",
+          "format": "reel",
+          "caption": "Most content plans don't fail at the strategy stage. They fail at the production stage — when a week of platform-ready assets turns out to require a week of actual work to build.\n\nA short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four formats, adapted individually. That is the real task list behind 'post consistently.'\n\nfenrik Studio converts a website URL into a completed content package — video, platform-specific captions, hashtags — ready to publish without reformatting or briefing.\n\nFirst package is free: https://fenrik.studio",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmedia",
+            "#marketingoperations"
+          ]
+        },
+        "instagram": {
+          "cta": "First package is free — link in bio.",
+          "format": "reel",
+          "caption": "Monday morning. Blank doc. Full week ahead.\n\nA video script. Four captions. Four platforms. All from scratch.\n\nThat's not a content plan — that's a second job.\n\nfenrik Studio turns your website URL into a complete, ready-to-post package. Video, captions, hashtags — done.\n\nFirst package is free. Link in bio.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediamanager",
+            "#smallbusinessowner",
+            "#doneforyou",
+            "#socialmediatips",
+            "#contentcreator",
+            "#ecommerce",
+            "#marketingstrategy"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "174d2530-13aa-4964-99c3-09a83c20af6b",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 48,
+          "secondary": 38
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "story",
+        "video_concept": {
+          "title": "The Week You Would Have Spent Building This",
+          "core_idea": "A small ecommerce brand manager sits down Monday morning to plan the week's social content. The video walks through every deliverable that would have consumed her week — writing captions, reformatting copy for four platforms, scripting a short video, sourcing visuals — then reveals that the entire output already exists inside a completed fenrik Studio package, generated from her website URL alone. The story is not about saving time in the abstract; it is about holding the finished thing in your hands and understanding, concretely, what you did not have to do.",
+          "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — it is shown through its output: a completed package containing a short-form video, platform-specific captions and posts for TikTok, Instagram, LinkedIn, and Facebook, and ready-to-use hashtags. The free first package proof point is relevant here and used once at the CTA: the viewer can verify the output themselves before committing.",
+          "why_it_works": "The concept is anchored to the selected pain point — struggling to produce consistent, platform-ready content — but approaches it from the solution-aware angle by making the output tangible rather than theoretical. The mistake hook works because the viewer recognizes the error immediately: treating content production as a weekly manual task when the full output already exists. The story structure creates contrast between two versions of the same Monday morning — one where the work is about to begin, one where it is already done. That contrast is the persuasion. No forbidden claims are made; no outcomes are promised. The product is shown through what it delivers, not what it guarantees.",
+          "narrative_arc": "SETUP: A brand manager opens a blank content calendar on Monday morning, coffee in hand, genuinely ready to build the week's social content from scratch. She types 'Week 12 Content' at the top of the doc and pauses. CONFLICT: The camera slowly pans across what a full week of platform-ready content actually requires — a short-form video script, a TikTok caption with hooks and hashtags, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post, all adapted individually. Each item appears on screen as a discrete task with a visible time cost attached. The stack grows. The week is already gone before Tuesday arrives. TWIST: The frame cuts. The same stack of deliverables — video, captions, platform-specific posts, hashtags — appears again, but this time it is already complete, labeled, and ready to copy. Not drafted. Not 'almost there.' Done. The only input shown: a website URL typed into a single field. RESOLUTION: The brand manager is back at her desk. The calendar is full. She did not write a brief, film anything, or reformat a single line of copy. She submitted a URL. The week she was about to spend building content was already over before it started. CTA: Submit your website URL — your first content package is free, no calendar-blocking required.",
+          "emotional_tone": "Calm and grounding — not dramatic or hyperbolic. The video respects the viewer's intelligence by showing the work concretely rather than promising outcomes. The emotional shift is from quiet dread (the blank doc, the growing task list) to quiet relief (the finished package, the full calendar). No celebration, no fanfare — just the clean feeling of something being genuinely handled.",
+          "audience_insight": "Solution-aware buyers know they need content help but are skeptical of vague 'done-for-you' promises because they have been burned before by services that still required significant input from them. What they actually want is proof of output — not a features list, but a concrete look at what lands in their hands. Showing the finished deliverables as a stack of real, named assets (video, platform captions, hashtags) is more persuasive than any claim about speed or ease.",
+          "visual_direction": {
+            "palette": "Warm neutrals (cream, sand, soft terracotta) for the desk environment; transitioning to a cooler, minimal palette (off-white, slate, a single brand accent) for the digital output reveal. The contrast in palette reinforces the emotional shift from effort to resolution.",
+            "lighting": "First half: soft, natural morning light from a window to the left — warm and slightly diffuse, reinforcing the 'start of the week' feeling. Second half: clean, neutral backlit screen glow — cooler tone, precise, communicating that the output is finished and professional.",
+            "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a sticky note or two. Lived-in but organized. No home-office clichés. Second half: the same desk, but the laptop screen now shows a completed content package — a video file, four labeled caption documents, a hashtag list. The physical environment is unchanged; only the screen content shifts.",
+            "camera_style": "Close and observational — tight shots on the screen, the hands, the cursor hovering over a blank document. No wide establishing shots. The camera treats the desk like a workspace being examined, not a set being performed in. The transition to the completed package is a clean cut, not a dissolve or wipe — abrupt and intentional.",
+            "art_direction": "Split visual language: the first half uses a warm, slightly cluttered real-world desk to ground the story in a recognizable Monday-morning moment; the second half transitions to a clean digital interface view showing completed package assets — labeled files, formatted captions, a video thumbnail — to make the output concrete and tangible. On-screen text labels appear as each deliverable is named, styled as simple, legible cards rather than animated infographics.",
+            "character_style": "One character: a woman in her early thirties, practical and composed — not styled for a photoshoot. She is present in the setup and resolution but the conflict section focuses on the screen and the task list, not her face. Her presence anchors the story without turning it into a testimonial."
+          }
+        },
+        "voice_reasons": [
+          "funnel_solution→steady/energy(+1)",
+          "mode_story→warmth(+3)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+48)",
+          "fit_secondary(+38)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and deliberate, allowing the viewer to absorb the weight of the task ahead.",
+          "emotion": "A sense of quiet dread as the viewer recognizes the all-too-familiar struggle of starting from scratch.",
+          "first_image": "A close-up of a cluttered desk on a Monday morning, featuring a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup, and a sticky note with reminders, all bathed in soft, warm morning light.",
+          "attention_pattern": "The initial focus on the blank document creates a relatable tension, prompting curiosity about how the situation will resolve.",
+          "first_spoken_sentence": "You’re staring at a blank document, and the week is already slipping away."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: clear, confident, practical. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm neutrals (cream, sand, soft terracotta) for the desk environment; transitioning to a cooler, minimal palette (off-white, slate, a single brand accent) for the digital output reveal. The contrast in palette reinforces the emotional shift from effort to resolution.",
+          "lighting": "First half: soft, natural morning light from a window to the left — warm and slightly diffuse, reinforcing the 'start of the week' feeling. Second half: clean, neutral backlit screen glow — cooler tone, precise, communicating that the output is finished and professional.",
+          "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a sticky note or two. Lived-in but organized. No home-office clichés. Second half: the same desk, but the laptop screen now shows a completed content package — a video file, four labeled caption documents, a hashtag list. The physical environment is unchanged; only the screen content shifts.",
+          "camera_style": "Close and observational — tight shots on the screen, the hands, the cursor hovering over a blank document. No wide establishing shots. The camera treats the desk like a workspace being examined, not a set being performed in. The transition to the completed package is a clean cut, not a dissolve or wipe — abrupt and intentional.",
+          "art_direction": "Split visual language: the first half uses a warm, slightly cluttered real-world desk to ground the story in a recognizable Monday-morning moment; the second half transitions to a clean digital interface view showing completed package assets — labeled files, formatted captions, a video thumbnail — to make the output concrete and tangible. On-screen text labels appear as each deliverable is named, styled as simple, legible cards rather than animated infographics.",
+          "character_style": "One character: a woman in her early thirties, practical and composed — not styled for a photoshoot. She is present in the setup and resolution but the conflict section focuses on the screen and the task list, not her face. Her presence anchors the story without turning it into a testimonial.",
+          "opening_emotion": "A sense of quiet dread as the viewer recognizes the all-too-familiar struggle of starting from scratch.",
+          "opening_first_image": "A close-up of a cluttered desk on a Monday morning, featuring a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup, and a sticky note with reminders, all bathed in soft, warm morning light."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6402,
+                "completion_tokens": 1404
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:33:29.838Z",
+              "duration_ms": 39357,
+              "finished_at": "2026-07-25T10:34:09.195Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6402,
+              "estimated_cost": 0.040266,
+              "output_summary": "Concept: The Week You Would Have Spent Building This",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 27842,
+              "completion_tokens": 1404,
+              "output_size_bytes": 6399,
+              "prompt_characters": 27588,
+              "provider_request_id": null,
+              "completion_characters": 6354
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5509,
+                "completion_tokens": 157
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:34:09.195Z",
+              "duration_ms": 2117,
+              "finished_at": "2026-07-25T10:34:11.312Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5509,
+              "estimated_cost": 0.000844,
+              "output_summary": "Opening: You’re staring at a blank document, and the week is already slipping away.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 26929,
+              "completion_tokens": 157,
+              "output_size_bytes": 723,
+              "prompt_characters": 26774,
+              "provider_request_id": null,
+              "completion_characters": 721
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:34:11.312Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:34:11.312Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Split visual language: the first half uses a warm, slightly ",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2565,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2546
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10776,
+                "completion_tokens": 2989
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:34:11.313Z",
+              "duration_ms": 54990,
+              "finished_at": "2026-07-25T10:35:06.303Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10776,
+              "estimated_cost": 0.077163,
+              "output_summary": "Package: The Week You Would Have Spent Building This",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 44862,
+              "completion_tokens": 2989,
+              "output_size_bytes": 11483,
+              "prompt_characters": 44566,
+              "provider_request_id": null,
+              "completion_characters": 11384
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:06.304Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:35:06.304Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2473,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2449
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:06.304Z",
+              "duration_ms": 2217,
+              "finished_at": "2026-07-25T10:35:08.521Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=174d2530-13aa-4964-99c3-09a83c20af6b; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A small ecommerce brand manager sits down Monday morning to plan the week's social content. The video walks through every deliverable that would have consumed her week — writing captions, reformattin…",
+          "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small produ…",
+          "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — …",
+          "visual_world": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a s…",
+          "attention_pattern": "The initial focus on the blank document creates a relatable tension, prompting curiosity about how the situation will r…",
+          "narrative_mechanism": "story: SETUP: A brand manager opens a blank content calendar on Monday morning, coffee…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:35:06.596071+00:00",
+    "updated_at": "2026-07-25T10:35:08.70374+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 48,
+      "secondary": 38
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_story→warmth(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+48)",
+      "fit_secondary(+38)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident"
+  },
+  "creative_mode": "story",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+    "strategy_pain_point": "Struggling to produce consistent, platform-ready social media content"
+  },
+  "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — it is shown through its output: a completed package containing a short-form video, platform-specific captions and posts for TikTok, Instagram, LinkedIn, and Facebook, and ready-to-use hashtags. The free first package proof point is relevant here and used once at the CTA: the viewer can verify the output themselves before committing.",
+  "narrative_arc": "SETUP: A brand manager opens a blank content calendar on Monday morning, coffee in hand, genuinely ready to build the week's social content from scratch. She types 'Week 12 Content' at the top of the doc and pauses. CONFLICT: The camera slowly pans across what a full week of platform-ready content actually requires — a short-form video script, a TikTok caption with hooks and hashtags, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post, all adapted individually. Each item appears on screen as a discrete task with a visible time cost attached. The stack grows. The week is already gone before Tuesday arrives. TWIST: The frame cuts. The same stack of deliverables — video, captions, platform-specific posts, hashtags — appears again, but this time it is already complete, labeled, and ready to copy. Not drafted. Not 'almost there.' Done. The only input shown: a website URL typed into a single field. RESOLUTION: The brand manager is back at her desk. The calendar is full. She did not write a brief, film anything, or reformat a single line of copy. She submitted a URL. The week she was about to spend building content was already over before it started. CTA: Submit your website URL — your first content package is free, no calendar-blocking required.",
+  "emotional_tone": "Calm and grounding — not dramatic or hyperbolic. The video respects the viewer's intelligence by showing the work concretely rather than promising outcomes. The emotional shift is from quiet dread (the blank doc, the growing task list) to quiet relief (the finished package, the full calendar). No celebration, no fanfare — just the clean feeling of something being genuinely handled.",
+  "audience_insight": "Solution-aware buyers know they need content help but are skeptical of vague 'done-for-you' promises because they have been burned before by services that still required significant input from them. What they actually want is proof of output — not a features list, but a concrete look at what lands in their hands. Showing the finished deliverables as a stack of real, named assets (video, platform captions, hashtags) is more persuasive than any claim about speed or ease.",
+  "visual_direction": {
+    "palette": "Warm neutrals (cream, sand, soft terracotta) for the desk environment; transitioning to a cooler, minimal palette (off-white, slate, a single brand accent) for the digital output reveal. The contrast in palette reinforces the emotional shift from effort to resolution.",
+    "lighting": "First half: soft, natural morning light from a window to the left — warm and slightly diffuse, reinforcing the 'start of the week' feeling. Second half: clean, neutral backlit screen glow — cooler tone, precise, communicating that the output is finished and professional.",
+    "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a sticky note or two. Lived-in but organized. No home-office clichés. Second half: the same desk, but the laptop screen now shows a completed content package — a video file, four labeled caption documents, a hashtag list. The physical environment is unchanged; only the screen content shifts.",
+    "camera_style": "Close and observational — tight shots on the screen, the hands, the cursor hovering over a blank document. No wide establishing shots. The camera treats the desk like a workspace being examined, not a set being performed in. The transition to the completed package is a clean cut, not a dissolve or wipe — abrupt and intentional.",
+    "art_direction": "Split visual language: the first half uses a warm, slightly cluttered real-world desk to ground the story in a recognizable Monday-morning moment; the second half transitions to a clean digital interface view showing completed package assets — labeled files, formatted captions, a video thumbnail — to make the output concrete and tangible. On-screen text labels appear as each deliverable is named, styled as simple, legible cards rather than animated infographics.",
+    "character_style": "One character: a woman in her early thirties, practical and composed — not styled for a photoshoot. She is present in the setup and resolution but the conflict section focuses on the screen and the task list, not her face. Her presence anchors the story without turning it into a testimonial."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word."
+  },
+  "render_metadata": {
+    "id": "c52501e3-6c0f-4df3-9d79-c438053f0660",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:35:08.34936+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a compact desk on a Monday morning — a laptop open to a blank Google Doc titled 'Week 12 Content', a steaming coffee cup to the right, two sticky notes with handwritten reminders, and a small product sample partially visible in the background. Soft, warm morning light enters from the left, casting gentle shadows. Warm neutrals: cream, sand. Lived-in but organized. Tight observational framing — no wide establishing shot."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "The same desk viewed from above — on the laptop screen, a series of simple labeled task cards have appeared stacked: 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card has a small time estimate beside it. The stack fills the screen visibly. Warm morning light continues. The sense of accumulation communicates that the week is already consumed before it begins."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Same desk, same angle — clean cut. The laptop screen now shows a completed content package: a video thumbnail file, four clearly labeled caption documents, and a hashtag list, all organized and named. The screen emits a cooler, neutral backlit glow. Off-white and slate tones on screen. The physical desk is unchanged. The contrast between the earlier task stack and this finished, labeled package is the visual point."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Tight shot of a woman's hands — early thirties, practical, not styled for a photoshoot — resting calmly beside a keyboard. The laptop screen behind shows a full content calendar with no empty slots, all assets labeled and ready to publish. Cooler screen glow. Her posture is settled and quiet. No celebration — just the clean feeling of something genuinely handled."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired with the text line: 'Submit your website URL — your first content package is free.'. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You’re staring at a blank document, and the week is already slipping away.",
+    "cta": "Submit your website URL — your first content package is free, no calendar-blocking required.",
+    "voiceover_text": "You’re staring at a blank document, and the week is already slipping away. You're staring at a blank document, and the week is already slipping away. A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work. But inside a completed fenrik Studio package — generated from your website URL — it's already done. The calendar is full. You didn't write a word.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A small ecommerce brand manager sits down Monday morning to plan the week's social content. The video walks through every deliverable that would have consumed her week — writing captions, reformattin…",
+      "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small produ…",
+      "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — …",
+      "visual_world": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a s…",
+      "attention_pattern": "The initial focus on the blank document creates a relatable tension, prompting curiosity about how the situation will r…",
+      "narrative_mechanism": "story: SETUP: A brand manager opens a blank content calendar on Monday morning, coffee…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediamarketing",
+    "#doneforyou",
+    "#smallbusiness",
+    "#contentcreation"
+  ],
+  "hook": "You’re staring at a blank document, and the week is already slipping away.",
+  "scenario": "A small ecommerce brand manager opens a blank Google Doc on Monday morning, types 'Week 12 Content' at the top, and pauses. She knows what comes next: a video script, a TikTok caption, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post — each one a separate task with its own format logic and time cost. She has done this before. It takes most of the week. This time, she submits her website URL to fenrik Studio instead. By the time she finishes her coffee, the package exists — video, captions, hashtags, all labeled and ready to copy. The week she was about to spend building content is already over.",
+  "video": {
+    "script": "SCENE 1 — SETUP\n[VISUAL: Close-up of laptop screen showing blank Google Doc titled 'Week 12 Content'. Coffee cup steaming to the right. Sticky notes visible. Warm morning light from the left.]\n[VO]: You're staring at a blank document, and the week is already slipping away.\n\nSCENE 2 — CONFLICT\n[VISUAL: On-screen text cards appear one by one over the desk environment — 'Short-form video script', 'TikTok caption + hashtags', 'LinkedIn post', 'Instagram caption', 'Facebook post'. Each card lands with a subtle time cost label beside it. The stack fills the frame.]\n[VO]: A short-form video script. A TikTok caption. A LinkedIn post. An Instagram caption. Four platforms, four formats, all from scratch. That stack is a full week of work.\n\nSCENE 3 — TWIST\n[VISUAL: Clean cut. Same desk. Laptop screen now shows a completed content package — a video thumbnail file, four labeled caption documents, a hashtag list, all clearly named and organized. Cooler screen glow replaces the warm morning light. The physical desk is unchanged.]\n[VO]: But inside a completed fenrik Studio package — generated from your website URL — it's already done.\n\nSCENE 4 — RESOLUTION\n[VISUAL: The brand manager's hands rest beside the keyboard. The content calendar on screen is full. No drafts. No half-finished docs. Just published-ready assets.]\n[VO]: The calendar is full. You didn't write a word.\n\nSCENE 5 — CTA\n[VISUAL: fenrik Studio logo appears on a clean off-white background with the line: 'Submit your website URL — your first content package is free.']\n[NO VO — text on screen only]",
+    "concept": "A small ecommerce brand manager sits down Monday morning, opens a blank Google Doc titled 'Week 12 Content', and pauses. The video walks through every deliverable that would consume her week — video script, TikTok caption, LinkedIn post, Instagram caption, platform hashtags — each appearing on screen as a discrete labeled task. The stack grows visibly. Then a clean cut: the same stack appears again, already complete, labeled, and ready to copy. The only input shown is a website URL typed into a single field. The brand manager is back at her desk. The calendar is full. She did nothing except submit a URL.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6402,
+          "completion_tokens": 1404
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:33:29.838Z",
+        "duration_ms": 39357,
+        "finished_at": "2026-07-25T10:34:09.195Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6402,
+        "estimated_cost": 0.040266,
+        "output_summary": "Concept: The Week You Would Have Spent Building This",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 27842,
+        "completion_tokens": 1404,
+        "output_size_bytes": 6399,
+        "prompt_characters": 27588,
+        "provider_request_id": null,
+        "completion_characters": 6354
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5509,
+          "completion_tokens": 157
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:34:09.195Z",
+        "duration_ms": 2117,
+        "finished_at": "2026-07-25T10:34:11.312Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5509,
+        "estimated_cost": 0.000844,
+        "output_summary": "Opening: You’re staring at a blank document, and the week is already slipping away.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 26929,
+        "completion_tokens": 157,
+        "output_size_bytes": 723,
+        "prompt_characters": 26774,
+        "provider_request_id": null,
+        "completion_characters": 721
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:34:11.312Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:34:11.312Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Split visual language: the first half uses a warm, slightly ",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2565,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2546
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10776,
+          "completion_tokens": 2989
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:34:11.313Z",
+        "duration_ms": 54990,
+        "finished_at": "2026-07-25T10:35:06.303Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10776,
+        "estimated_cost": 0.077163,
+        "output_summary": "Package: The Week You Would Have Spent Building This",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 44862,
+        "completion_tokens": 2989,
+        "output_size_bytes": 11483,
+        "prompt_characters": 44566,
+        "provider_request_id": null,
+        "completion_characters": 11384
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:06.304Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:35:06.304Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2473,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2449
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:06.304Z",
+        "duration_ms": 2217,
+        "finished_at": "2026-07-25T10:35:08.521Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=174d2530-13aa-4964-99c3-09a83c20af6b; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

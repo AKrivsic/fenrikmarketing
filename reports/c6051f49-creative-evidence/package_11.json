@@ -1,0 +1,1013 @@
+{
+  "package_index": 11,
+  "run_item_id": "6d1d15f5-8be2-4d81-af51-29012f773fa2",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+  "package_title": "The Firm That Answered at 11 PM",
+  "package_status": "draft",
+  "strategy_item_id": "29e24fc3-e054-48c5-ba8a-bb6c6f8879a7",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "29e24fc3-e054-48c5-ba8a-bb6c6f8879a7",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "A small accounting firm or local agency with an AI assistant on their website responds to visitor questions instantly — even at 11 PM. Larger competitors with manual processes respond the next business day. The lead goes to whoever answered first.",
+        "topic": "Why small service businesses are quietly outcompeting larger ones on response time",
+        "source": "production_run",
+        "pain_point": "Need for 24/7 customer support without extra staff",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Firm That Answered at 11 PM",
+    "core_idea": "A small local accounting firm with no extra staff quietly wins a lead from a larger, better-known competitor — not because of credentials or pricing, but because their website answered a visitor's question at 11 PM while the bigger firm's site sat silent until morning. The punchline: the small firm didn't hire anyone. They just added an AI assistant to their website.",
+    "product_role": "Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor's tax question without any staff involvement. The product is not presented as a complex system — it is the thing that made a one-person shop faster than a larger team. Simple, invisible, always on.",
+    "why_it_works": "The concept is anchored in the selected pain point — 24/7 support without extra staff — and delivers it through a competitive reframe that is genuinely surprising for the target audience. The split-screen structure is native to TikTok and immediately legible. The humor is in the role reversal, not in mocking anyone. The product's core strength (instant, automatic, always-on) lands as the punchline rather than a feature list. The scenario is fresh — a small accounting firm outcompeting a larger one — and has not appeared in recent memory. The funnel stage (Solution Aware) is served by showing the mechanism of the win, not just the problem.",
+    "narrative_arc": "SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-branded accounting firm website on the left (large firm), and a modest but clean small firm website on the right. A visitor lands on both, late at night, with a tax deadline question. The large firm's site: a contact form, a 'we'll get back to you within one business day' message, silence. The small firm's site: a chat bubble appears instantly, answers the question, captures the visitor's name and email. UNEXPECTED TURN: Cut to the next morning. The large firm's inbox: empty. The small firm's inbox: a new lead, timestamped 11:04 PM. The business owner — a single person at a small desk — looks genuinely surprised. PUNCHLINE: On-screen text lands the joke: 'She didn't hire a night shift. She just let her website talk.' CTA closes the video with warmth and a direct prompt to act.",
+    "emotional_tone": "Warm, lightly comic, satisfying — the underdog wins not through hustle but through a smarter setup. The humor is in the absurd simplicity of the advantage. No stress, no drama — just a quiet, delightful reversal.",
+    "audience_insight": "Small service business owners — accountants, consultants, local agencies — often assume they are at a structural disadvantage against larger competitors. They believe response time is a staffing problem, which means it feels unsolvable without budget they don't have. This concept reframes the gap: response time is now a website problem, and that is a problem they can actually fix today.",
+    "visual_direction": {
+      "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+      "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+      "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+      "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+      "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+      "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator."
+    }
+  },
+  "opening": {
+    "pacing": "Quick cuts between the two websites, creating a sense of urgency and contrast.",
+    "emotion": "Intrigued and slightly anxious as the stakes of unanswered questions are revealed.",
+    "first_image": "A split-screen shows a polished, well-branded accounting firm's website on the left with a contact form, and a modest small firm's website on the right with a chat bubble appearing instantly.",
+    "attention_pattern": "The viewer is drawn in by the immediate visual contrast and the implication that one firm is about to gain a significant advantage.",
+    "first_spoken_sentence": "It's 11 PM, and one website is ready to answer while the other is silent."
+  },
+  "visual_identity": {
+    "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+    "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+    "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+    "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+    "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+    "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator.",
+    "opening_emotion": "Intrigued and slightly anxious as the stakes of unanswered questions are revealed.",
+    "opening_first_image": "A split-screen shows a polished, well-branded accounting firm's website on the left with a contact form, and a modest small firm's website on the right with a chat bubble appearing instantly."
+  },
+  "package": {
+    "title": "The Firm That Answered at 11 PM",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "It's 11 PM, and one website is ready to answer while the other is silent.",
+    "scenario": "A potential client is at home on a Sunday night with an urgent tax deadline question. They find two accounting firm websites. The larger firm's site offers a polished contact form and a promise to reply within one business day. The smaller firm's site has an AI assistant that answers the question instantly and captures the visitor's name and email. Monday morning, the large firm's inbox is empty. The small firm wakes up to a lead timestamped 11:04 PM — captured without a single staff member being online.",
+    "video": {
+      "script": "SCENE 1 — SPLIT-SCREEN, NIGHT\nVertical frame. Left side: a polished, well-branded accounting firm website. A contact form. Text reads 'We'll get back to you within one business day.' Right side: a modest but clean small firm website. A teal chat bubble appears.\nVO: 'It's 11 PM, and one website is ready to answer while the other is silent.'\n\nSCENE 2 — CLOSE-UP, LAPTOP SCREEN\nThe visitor types a tax deadline question. Left side: nothing happens. Right side: the chat bubble responds instantly. A name and email field populates.\nVO: 'A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead.'\n\nSCENE 3 — MORNING REVEAL\nBright natural light. The small firm owner — a woman, mid-thirties, casual, compact desk — opens her laptop. She sees a notification: one new lead, 11:04 PM. Her expression: quiet, genuine surprise. Slow push-in on her face.\nVO: 'Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM.'\n\nSCENE 4 — TEXT OVERLAY, PUNCHLINE\nBold minimal text on a clean background: 'She didn't hire a night shift. She just let her website talk.'\nVO: 'She didn't hire a night shift. She just let her website talk.'\n\nSCENE 5 — CTA CARD\nClean screen. Fenrik.chat branding. Text: 'Create your AI assistant — let your website answer while you sleep.'\n",
+      "concept": "Split-screen contrast between a large, polished accounting firm website and a small firm's modest site. A late-night visitor asks a tax deadline question. The big firm offers only a contact form. The small firm's AI chat bubble answers instantly and captures the lead. Next morning reveal: the small firm has a new lead timestamped 11:04 PM. The punchline lands on screen: she didn't hire a night shift — she just let her website talk. Closes with a warm, direct CTA.",
+      "duration_seconds": "28"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#aiassistant",
+      "#leadgeneration",
+      "#businesstips",
+      "#aitools",
+      "#websitetips"
+    ],
+    "subtitles_planned": "It's 11 PM, and one website is ready to answer while the other is silent. / A visitor has a tax deadline question. / The big firm's site: a contact form, a promise to reply by tomorrow. / The small firm's site: a chat bubble appears, answers the question, captures the lead. / Next morning, the big firm's inbox is empty. / The small firm's? One new lead. Timestamped 11:04 PM. / She didn't hire a night shift. / She just let her website talk."
+  },
+  "voiceover": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "Vertical split-screen on a laptop monitor in a dark room lit by a single desk lamp. Left half: a polished, well-branded accounting firm website with a contact form and text reading 'We'll get back to you within one business day.' Right half: a modest, clean small firm website with a bright teal chat bubble appearing in the bottom corner. Deep navy background, soft amber monitor glow. Mobile-native vertical framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a laptop screen in low ambient light. On the right side of the split-screen, a teal chat bubble displays a short typed answer to a tax deadline question. Below the chat, a small form with a name and email field is partially filled in. The left side shows only a blank contact form with no response. Warm amber desk lamp glow from the side."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Bright natural morning light fills a small, lived-in home office. A woman in her mid-thirties, casually dressed, sits at a compact desk with a single monitor, a coffee mug, and a notepad. She is looking at her laptop screen with a quiet, genuine expression of surprise. A notification is visible on screen — a new lead timestamped 11:04 PM. Clean white tones, warm daylight."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Bold minimal text on a clean off-white background: 'She didn't hire a night shift. She just let her website talk.' Typography is large, modern sans-serif. A single teal accent line underscores the word 'website.' No other elements. Stark and punchline-ready."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. CTA card background showing 24/7 AI support features as the closing product reference frame. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "image_prompts": [
+    "Vertical split-screen on a laptop monitor in a dark room lit by a single desk lamp. Left half: a polished, well-branded accounting firm website with a contact form and text reading 'We'll get back to you within one business day.' Right half: a modest, clean small firm website with a bright teal chat bubble appearing in the bottom corner. Deep navy background, soft amber monitor glow. Mobile-native vertical framing.",
+    "Close-up of a laptop screen in low ambient light. On the right side of the split-screen, a teal chat bubble displays a short typed answer to a tax deadline question. Below the chat, a small form with a name and email field is partially filled in. The left side shows only a blank contact form with no response. Warm amber desk lamp glow from the side.",
+    "Bright natural morning light fills a small, lived-in home office. A woman in her mid-thirties, casually dressed, sits at a compact desk with a single monitor, a coffee mug, and a notepad. She is looking at her laptop screen with a quiet, genuine expression of surprise. A notification is visible on screen — a new lead timestamped 11:04 PM. Clean white tones, warm daylight.",
+    "Bold minimal text on a clean off-white background: 'She didn't hire a night shift. She just let her website talk.' Typography is large, modern sans-serif. A single teal accent line underscores the word 'website.' No other elements. Stark and punchline-ready.",
+    "Portrait 9:16 vertical composition. CTA card background showing 24/7 AI support features as the closing product reference frame. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Create your AI assistant — let your website answer while you sleep.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "format": "reel",
+        "caption": "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "title_variants": [
+          "The Firm That Answered at 11 PM",
+          "Small Firm, Big Advantage: Response Time After Hours",
+          "Why Your Website Goes Silent When Leads Are Still Searching",
+          "The Lead That Went to Whoever Answered First",
+          "Your Website Has a Night Shift Problem"
+        ],
+        "caption_variants": [
+          "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+          "The big firm had a better brand. The small firm had a website that answered at 11 PM. One of them got the lead. https://fenrik.chat",
+          "Late-night visitor. Tax deadline question. One site responded. One didn't. Guess which firm got the lead. https://fenrik.chat",
+          "Your competitor isn't winning because they're bigger. They're winning because their website talks when yours is asleep. https://fenrik.chat",
+          "No night shift. No extra staff. Just a website that answered at 11 PM and captured the lead. That's the whole story. https://fenrik.chat"
+        ]
+      },
+      "tiktok": {
+        "cta": "Link in bio",
+        "format": "reel",
+        "caption": "Small firm vs big firm at 11 PM. The result will surprise you. 👀 Link in bio to try it free.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#businesstips",
+          "#leadgeneration"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe",
+        "format": "short",
+        "caption": "A small firm just outcompeted a bigger one — not on credentials, but on who answered at 11 PM. Subscribe for more.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "reel",
+        "caption": "Here's something most small business owners don't realize: your website can answer visitor questions at 11 PM — even when you're asleep. 💡 A small accounting firm recently captured a lead that a larger competitor missed, simply because their site responded instantly to a late-night question. No extra staff. No complex setup. Just an AI assistant reading their existing website content. If your website goes quiet after hours, it might be worth a look. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "format": "reel",
+        "caption": "Response time is no longer a staffing problem. It's a website problem — and that's actually good news for smaller firms.\n\nA small accounting firm with no after-hours staff captured a late-night lead that a larger, better-resourced competitor missed entirely. The visitor had a tax deadline question at 11 PM. One site offered a contact form and a next-business-day promise. The other answered immediately, captured the name and email, and closed the gap before morning.\n\nThe small firm didn't hire anyone. They added an AI assistant that reads their existing website and answers questions automatically — around the clock.\n\nIf your website goes silent after 5 PM, that silence has a cost. Worth fixing.",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai",
+          "#leadgeneration"
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio",
+        "format": "reel",
+        "caption": "The big firm had a better logo. The small firm had a better website.\n\nOne visitor. One tax question. 11 PM.\n\nOne site answered. One didn't.\n\nThe lead went to whoever responded first — and it wasn't the bigger name.\n\nLink in bio to let your website do the same.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#leadgeneration",
+          "#businessgrowth",
+          "#accounting",
+          "#servicebusiness"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "54be1aac-1349-4c61-a5d9-476a73e9e00e",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "Small firm vs big firm at 11 PM. The result will surprise you. 👀 Link in bio to try it free.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#businesstips",
+          "#leadgeneration"
+        ],
+        "cta": "Link in bio",
+        "language": null
+      },
+      {
+        "id": "0689c168-f7e5-4613-8e54-1ff8d805df8c",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "A small firm just outcompeted a bigger one — not on credentials, but on who answered at 11 PM. Subscribe for more.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ],
+        "cta": "Subscribe. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "2409060d-da39-4766-b1c7-66a3a9f60329",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "Here's something most small business owners don't realize: your website can answer visitor questions at 11 PM — even when you're asleep. 💡 A small accounting firm recently captured a lead that a larger competitor missed, simply because their site responded instantly to a late-night question. No extra staff. No complex setup. Just an AI assistant reading their existing website content. If your website goes quiet after hours, it might be worth a look. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "a937e143-8153-4329-9b4e-e29a3a9cbade",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Why Your Website Goes Silent When Leads Are Still Searching",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "Late-night visitor. Tax deadline question. One site responded. One didn't. Guess which firm got the lead. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "language": null
+      },
+      {
+        "id": "11960968-aabc-4171-ab02-b351f1a224b8",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "Response time is no longer a staffing problem. It's a website problem — and that's actually good news for smaller firms.\n\nA small accounting firm with no after-hours staff captured a late-night lead that a larger, better-resourced competitor missed entirely. The visitor had a tax deadline question at 11 PM. One site offered a contact form and a next-business-day promise. The other answered immediately, captured the name and email, and closed the gap before morning.\n\nThe small firm didn't hire anyone. They added an AI assistant that reads their existing website and answers questions automatically — around the clock.\n\nIf your website goes silent after 5 PM, that silence has a cost. Worth fixing.",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai",
+          "#leadgeneration"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "ce6dfc30-6196-40ab-9080-e7ef21dcdcb9",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "language": null
+      },
+      {
+        "id": "f11d6e3b-ebff-4ce4-bdaf-a524e57f9437",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Small Firm, Big Advantage: Response Time After Hours",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "The big firm had a better brand. The small firm had a website that answered at 11 PM. One of them got the lead. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "language": null
+      },
+      {
+        "id": "d0409aa7-2263-426f-8292-a85074d7f107",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Website Has a Night Shift Problem",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "No night shift. No extra staff. Just a website that answered at 11 PM and captured the lead. That's the whole story. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "language": null
+      },
+      {
+        "id": "adab18fc-4b3d-4fa8-ae0e-3cf72bf45e66",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Lead That Went to Whoever Answered First",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "Your competitor isn't winning because they're bigger. They're winning because their website talks when yours is asleep. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website answer while you sleep.",
+        "language": null
+      },
+      {
+        "id": "f7fbcfa2-f636-4db3-aa53-7eb18cc5ff7c",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Firm That Answered at 11 PM",
+        "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+        "caption": "The big firm had a better logo. The small firm had a better website.\n\nOne visitor. One tax question. 11 PM.\n\nOne site answered. One didn't.\n\nThe lead went to whoever responded first — and it wasn't the bigger name.\n\nLink in bio to let your website do the same.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#leadgeneration",
+          "#businessgrowth",
+          "#accounting",
+          "#servicebusiness"
+        ],
+        "cta": "Link in bio",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 45,
+      "secondary": 45
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+45)",
+      "fit_secondary(+42)",
+      "soft_tie_recent_primary(3)→secondary(+3)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "Need for 24/7 customer support without extra staff",
+    "strategy_pain_point": "Need for 24/7 customer support without extra staff"
+  },
+  "product_role": "Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor's tax question without any staff involvement. The product is not presented as a complex system — it is the thing that made a one-person shop faster than a larger team. Simple, invisible, always on.",
+  "narrative_arc": "SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-branded accounting firm website on the left (large firm), and a modest but clean small firm website on the right. A visitor lands on both, late at night, with a tax deadline question. The large firm's site: a contact form, a 'we'll get back to you within one business day' message, silence. The small firm's site: a chat bubble appears instantly, answers the question, captures the visitor's name and email. UNEXPECTED TURN: Cut to the next morning. The large firm's inbox: empty. The small firm's inbox: a new lead, timestamped 11:04 PM. The business owner — a single person at a small desk — looks genuinely surprised. PUNCHLINE: On-screen text lands the joke: 'She didn't hire a night shift. She just let her website talk.' CTA closes the video with warmth and a direct prompt to act.",
+  "emotional_tone": "Warm, lightly comic, satisfying — the underdog wins not through hustle but through a smarter setup. The humor is in the absurd simplicity of the advantage. No stress, no drama — just a quiet, delightful reversal.",
+  "audience_insight": "Small service business owners — accountants, consultants, local agencies — often assume they are at a structural disadvantage against larger competitors. They believe response time is a staffing problem, which means it feels unsolvable without budget they don't have. This concept reframes the gap: response time is now a website problem, and that is a problem they can actually fix today.",
+  "visual_direction": {
+    "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+    "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+    "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+    "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+    "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+    "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "It's 11 PM, and one website is ready to answer while the other is silent. / A visitor has a tax deadline question. / The big firm's site: a contact form, a promise to reply by tomorrow. / The small firm's site: a chat bubble appears, answers the question, captures the lead. / Next morning, the big firm's inbox is empty. / The small firm's? One new lead. Timestamped 11:04 PM. / She didn't hire a night shift. / She just let her website talk."
+  },
+  "render_metadata": {
+    "id": "15eb7a04-e1cf-4c16-8846-ace134b27901",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:39:36.623102+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "54be1aac-1349-4c61-a5d9-476a73e9e00e",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Small firm vs big firm at 11 PM. The result will surprise you. 👀 Link in bio to try it free.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#businesstips",
+        "#leadgeneration"
+      ],
+      "cta": "Link in bio",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "0689c168-f7e5-4613-8e54-1ff8d805df8c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "A small firm just outcompeted a bigger one — not on credentials, but on who answered at 11 PM. Subscribe for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Subscribe. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "2409060d-da39-4766-b1c7-66a3a9f60329",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Here's something most small business owners don't realize: your website can answer visitor questions at 11 PM — even when you're asleep. 💡 A small accounting firm recently captured a lead that a larger competitor missed, simply because their site responded instantly to a late-night question. No extra staff. No complex setup. Just an AI assistant reading their existing website content. If your website goes quiet after hours, it might be worth a look. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "a937e143-8153-4329-9b4e-e29a3a9cbade",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why Your Website Goes Silent When Leads Are Still Searching",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Late-night visitor. Tax deadline question. One site responded. One didn't. Guess which firm got the lead. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "11960968-aabc-4171-ab02-b351f1a224b8",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Response time is no longer a staffing problem. It's a website problem — and that's actually good news for smaller firms.\n\nA small accounting firm with no after-hours staff captured a late-night lead that a larger, better-resourced competitor missed entirely. The visitor had a tax deadline question at 11 PM. One site offered a contact form and a next-business-day promise. The other answered immediately, captured the name and email, and closed the gap before morning.\n\nThe small firm didn't hire anyone. They added an AI assistant that reads their existing website and answers questions automatically — around the clock.\n\nIf your website goes silent after 5 PM, that silence has a cost. Worth fixing.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#leadgeneration"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "ce6dfc30-6196-40ab-9080-e7ef21dcdcb9",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "f11d6e3b-ebff-4ce4-bdaf-a524e57f9437",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Small Firm, Big Advantage: Response Time After Hours",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "The big firm had a better brand. The small firm had a website that answered at 11 PM. One of them got the lead. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "d0409aa7-2263-426f-8292-a85074d7f107",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Has a Night Shift Problem",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "No night shift. No extra staff. Just a website that answered at 11 PM and captured the lead. That's the whole story. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "adab18fc-4b3d-4fa8-ae0e-3cf72bf45e66",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Lead That Went to Whoever Answered First",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Your competitor isn't winning because they're bigger. They're winning because their website talks when yours is asleep. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    },
+    {
+      "id": "f7fbcfa2-f636-4db3-aa53-7eb18cc5ff7c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "916a128a-2423-4f9b-be02-b86ded8cf86a",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "The big firm had a better logo. The small firm had a better website.\n\nOne visitor. One tax question. 11 PM.\n\nOne site answered. One didn't.\n\nThe lead went to whoever responded first — and it wasn't the bigger name.\n\nLink in bio to let your website do the same.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#leadgeneration",
+        "#businessgrowth",
+        "#accounting",
+        "#servicebusiness"
+      ],
+      "cta": "Link in bio",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 11,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:39:34.851563+00:00",
+      "updated_at": "2026-07-25T07:39:34.851563+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 6,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A small local accounting firm with no extra staff quietly wins a lead from a larger, better-known competitor — not because of credentials or pricing, but because their website answered a visitor's qu…",
+      "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI c…",
+      "product_role": "Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor…",
+      "visual_world": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home offic…",
+      "attention_pattern": "The viewer is drawn in by the immediate visual contrast and the implication that one firm is about to gain a significan…",
+      "narrative_mechanism": "humor: SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-bran…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#aiassistant",
+    "#leadgeneration",
+    "#businesstips",
+    "#aitools",
+    "#websitetips"
+  ],
+  "hook": "It's 11 PM, and one website is ready to answer while the other is silent.",
+  "scenario": "A potential client is at home on a Sunday night with an urgent tax deadline question. They find two accounting firm websites. The larger firm's site offers a polished contact form and a promise to reply within one business day. The smaller firm's site has an AI assistant that answers the question instantly and captures the visitor's name and email. Monday morning, the large firm's inbox is empty. The small firm wakes up to a lead timestamped 11:04 PM — captured without a single staff member being online.",
+  "video": {
+    "script": "SCENE 1 — SPLIT-SCREEN, NIGHT\nVertical frame. Left side: a polished, well-branded accounting firm website. A contact form. Text reads 'We'll get back to you within one business day.' Right side: a modest but clean small firm website. A teal chat bubble appears.\nVO: 'It's 11 PM, and one website is ready to answer while the other is silent.'\n\nSCENE 2 — CLOSE-UP, LAPTOP SCREEN\nThe visitor types a tax deadline question. Left side: nothing happens. Right side: the chat bubble responds instantly. A name and email field populates.\nVO: 'A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead.'\n\nSCENE 3 — MORNING REVEAL\nBright natural light. The small firm owner — a woman, mid-thirties, casual, compact desk — opens her laptop. She sees a notification: one new lead, 11:04 PM. Her expression: quiet, genuine surprise. Slow push-in on her face.\nVO: 'Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM.'\n\nSCENE 4 — TEXT OVERLAY, PUNCHLINE\nBold minimal text on a clean background: 'She didn't hire a night shift. She just let her website talk.'\nVO: 'She didn't hire a night shift. She just let her website talk.'\n\nSCENE 5 — CTA CARD\nClean screen. Fenrik.chat branding. Text: 'Create your AI assistant — let your website answer while you sleep.'\n",
+    "concept": "Split-screen contrast between a large, polished accounting firm website and a small firm's modest site. A late-night visitor asks a tax deadline question. The big firm offers only a contact form. The small firm's AI chat bubble answers instantly and captures the lead. Next morning reveal: the small firm has a new lead timestamped 11:04 PM. The punchline lands on screen: she didn't hire a night shift — she just let her website talk. Closes with a warm, direct CTA.",
+    "duration_seconds": "28"
+  },
+  "asset_usage": []
+}

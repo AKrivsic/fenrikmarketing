@@ -1,0 +1,1019 @@
+{
+  "package_index": 7,
+  "run_item_id": "81219f57-4ffe-4cad-81dd-e66571b49c0c",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+  "package_title": "The Chat Widget That Clocked Out at Midnight",
+  "package_status": "draft",
+  "strategy_item_id": "9552fb42-8d5b-4eca-983c-9c8f762709d4",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "9552fb42-8d5b-4eca-983c-9c8f762709d4",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "Live chat only works when someone is live. A founder installs a chat tool, feels the problem is solved, then checks analytics weeks later to find that most visitor drop-off happens between midnight and 7 AM when no agent is online.",
+        "topic": "The SaaS founder who added a live chat widget — and still lost visitors overnight",
+        "source": "production_run",
+        "pain_point": "Need for 24/7 customer support without extra staff",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Chat Widget That Clocked Out at Midnight",
+    "core_idea": "A SaaS founder installs a live chat widget, feels the problem is solved, and moves on. Weeks later, a single analytics filter — sessions by hour — reveals that the vast majority of visitor drop-off happens between midnight and 7 AM, the exact window when no agent is ever online. The live chat widget didn't fix the 24/7 problem. It fixed the 9-to-5 problem. Those are not the same thing.",
+    "product_role": "Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in every hour a human cannot cover. It reads the website's existing content automatically, requires no training, and answers the question the live chat widget would have handled if anyone had been awake to handle it.",
+    "why_it_works": "The hook is grounded in a real, common decision — installing live chat — and reframes it not as a mistake but as an incomplete solution. That distinction matters: the viewer doesn't feel criticized, they feel informed. The analytics reveal is a concrete, visual moment of recognition that any data-aware founder will immediately understand. The pain point — needing 24/7 support without extra staff — is carried entirely by the overnight gap the data exposes, not by abstract claims. The product enters as the structural answer to a structural problem the viewer has just watched themselves discover.",
+    "narrative_arc": "UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing at a chat widget badge on their website — 'We added live chat. Visitors can ask questions now.' Cut to a clean analytics dashboard. A single filter is applied: sessions by hour. The overnight band lights up with traffic. The chat widget shows zero conversations in that window — every single night. IMPLICATION: The founder's expression shifts — not panic, just the quiet recognition of a wrong assumption. Voice-over lands the point precisely: live chat is a staffing solution. It requires a person. Most SaaS visitors don't arrive during business hours — they arrive when the founder is asleep. The tool was real. The coverage was not. PROOF: The gap isn't about the widget. It's about what happens when no one is behind it. An AI assistant built from the website's existing content answers the moment a visitor asks — at 2 AM, on a Sunday, during a product launch when the team is heads-down. No agent required. No training required. The website already holds the answers; Fenrik.chat delivers them. CTA: Direct, calm, no urgency theater — the founder closes the analytics tab and opens Fenrik.chat.",
+    "emotional_tone": "Calm authority with a quiet edge of recognition — not alarming, not mocking. The founder is competent; they made a reasonable assumption that turned out to be wrong. The video respects that intelligence while making the gap impossible to ignore.",
+    "audience_insight": "SaaS founders and growth-stage software teams are problem-solvers by instinct. When they identify a gap — visitors leaving without converting — they reach for the most visible tool: a live chat widget. Installing it feels like a decision made. What they rarely interrogate is the coverage model underneath it. This video meets them at the moment after the decision, when the data quietly contradicts the confidence.",
+    "visual_direction": {
+      "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+      "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+      "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+      "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+      "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+      "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person."
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, allowing the viewer to absorb the data before the implication hits.",
+    "emotion": "Calm recognition with a hint of concern.",
+    "first_image": "A clean analytics dashboard on a dark monitor, displaying a bar chart with a sharp spike in overnight sessions and a flat zero line for chat conversations, set against a minimal home office backdrop with cool, ambient lighting.",
+    "attention_pattern": "The stark contrast between the traffic spike and the zero conversations creates immediate curiosity about the missed opportunities.",
+    "first_spoken_sentence": "You added a live chat widget, but what happens when no one's there to answer?"
+  },
+  "visual_identity": {
+    "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+    "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+    "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+    "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+    "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+    "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person.",
+    "opening_emotion": "Calm recognition with a hint of concern.",
+    "opening_first_image": "A clean analytics dashboard on a dark monitor, displaying a bar chart with a sharp spike in overnight sessions and a flat zero line for chat conversations, set against a minimal home office backdrop with cool, ambient lighting."
+  },
+  "package": {
+    "title": "The Chat Widget That Clocked Out at Midnight",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "You added a live chat widget, but what happens when no one's there to answer?",
+    "scenario": "A SaaS founder identifies that visitors are leaving without converting and installs a live chat widget — a reasonable, visible solution. They move on, confident the gap is closed. Weeks later, reviewing analytics, they apply a single filter: sessions by hour. The overnight band, midnight to 7 AM, shows consistent traffic. The chat widget shows zero conversations in that same window — every night. The widget was real. The coverage was not. The founder had solved the 9-to-5 problem and left the 24/7 problem completely untouched.",
+    "video": {
+      "script": "SCENE 1 — COLD OPEN (static shot, dark monitor, analytics dashboard visible): Founder at desk, calm, gesturing toward the chat widget badge on their website. They look satisfied. The chat bubble pulses green.\n\nVO: 'You added a live chat widget, but what happens when no one's there to answer?'\n\nSCENE 2 — ANALYTICS REVEAL (slow push-in on monitor): A clean bar chart fills the screen. A single filter is applied: sessions by hour. The overnight band — midnight to 7 AM — lights up in muted amber. A second line, flat at zero, represents chat conversations in the same window. The contrast is immediate and stark.\n\nVO: 'Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night.'\n\nSCENE 3 — FOUNDER REACTION (single close cut, face neutral, processing): No panic. Just the quiet recognition of a wrong assumption. The founder looks at the screen, not the camera.\n\nVO: 'Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule.'\n\nSCENE 4 — RESOLUTION FRAME (static, product UI suggestion, minimal): The analytics tab closes. A new interface is implied — an AI assistant reading the website's existing content, ready at 2 AM, no agent required.\n\nVO: 'The gap isn't the tool. It's who's behind it.'\n\nSCENE 5 — SOFT CLOSE (static, founder at desk, screen glow): No dramatic resolution. The founder is still. The implication is clear. Text on screen: fenrik.chat",
+      "concept": "A SaaS founder installs a live chat widget, feels the gap is closed, and moves on. Weeks later, one analytics filter — sessions by hour — reveals that visitor drop-off concentrates almost entirely between midnight and 7 AM, the exact window when no agent is ever online. The widget didn't fix the 24/7 problem. It fixed the 9-to-5 problem. Those are not the same thing. Fenrik.chat enters as the structural answer: an AI assistant built from the website's existing content, present in every hour a human cannot cover.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#saas",
+      "#startups",
+      "#websitetraffic",
+      "#leadgeneration",
+      "#chatbot",
+      "#saasfounder",
+      "#growthhacking"
+    ],
+    "subtitles_planned": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it."
+  },
+  "voiceover": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A clean analytics dashboard on a dark monitor displaying a bar chart with a sharp amber-highlighted spike in overnight sessions from midnight to 7 AM and a flat zero line for chat conversations in the same window, set against a minimal home office backdrop with cool blue-white ambient lighting, grey desk surface, off-white walls, no windows visible."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Extreme close-up of a monitor screen showing a two-line data chart: one series of amber bars representing overnight website sessions, one completely flat grey line at zero representing chat widget activity in the same time window. The contrast is stark. Abstract data visualization, no invented text labels."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A gender-neutral founder in their early 30s wearing a plain t-shirt, seated at a minimal grey desk, looking at a monitor with a calm, neutral expression — processing, not panicking. Cool blue-white ambient light. Phone face-down beside a laptop. No windows visible."
+    },
+    {
+      "source": "asset",
+      "used_as": "product feature reference shown as a framed screen insert illustrating 24/7 AI support availability — contrasted against the zero-conversation overnight window revealed in the analytics scene",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A minimal home office desk at a late, indeterminate hour — single dark monitor glowing softly, laptop closed to the side, phone face-down, no windows, cool clinical ambient light. The room is still and empty. The scene suggests it could be midnight or 2 AM. No person present. The emptiness carries the narrative weight."
+    }
+  ],
+  "image_prompts": [
+    "A clean analytics dashboard on a dark monitor displaying a bar chart with a sharp amber-highlighted spike in overnight sessions from midnight to 7 AM and a flat zero line for chat conversations in the same window, set against a minimal home office backdrop with cool blue-white ambient lighting, grey desk surface, off-white walls, no windows visible.",
+    "Extreme close-up of a monitor screen showing a two-line data chart: one series of amber bars representing overnight website sessions, one completely flat grey line at zero representing chat widget activity in the same time window. The contrast is stark. Abstract data visualization, no invented text labels.",
+    "A gender-neutral founder in their early 30s wearing a plain t-shirt, seated at a minimal grey desk, looking at a monitor with a calm, neutral expression — processing, not panicking. Cool blue-white ambient light. Phone face-down beside a laptop. No windows visible.",
+    "A minimal home office desk at a late, indeterminate hour — single dark monitor glowing softly, laptop closed to the side, phone face-down, no windows, cool clinical ambient light. The room is still and empty. The scene suggests it could be midnight or 2 AM. No person present. The emptiness carries the narrative weight."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if you've ever felt the problem was solved — and the data said otherwise.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "title_variants": [
+          "The Chat Widget That Clocked Out at Midnight",
+          "Live Chat Has a Shift. Your Visitors Don't.",
+          "The Analytics Filter That Changes Everything",
+          "You Fixed the 9-to-5 Problem. Not the 24/7 One.",
+          "What the Hourly Sessions Chart Actually Shows"
+        ],
+        "caption_variants": [
+          "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+          "Live chat is a staffing solution. Most SaaS founders don't realize that until they look at who's actually visiting their site at 1 AM.",
+          "The overnight analytics filter is the most humbling thing a SaaS founder can run. Sessions up. Chat conversations: flat zero.",
+          "Installed live chat. Moved on. Weeks later: traffic between midnight and 7 AM is the highest-volume window on the chart. Widget shows zero conversations. The gap was never the tool.",
+          "Your live chat widget has business hours. Your visitors don't. #saasfounder #websiteconversion"
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Your live chat widget clocked out at midnight. Your visitors didn't. 👀",
+        "hashtags": [
+          "#saas",
+          "#startups",
+          "#websitetraffic",
+          "#growthhacks"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "You added live chat — but your visitors kept dropping off overnight. Here's what the hourly data actually shows.",
+        "hashtags": [
+          "#saas",
+          "#websiteconversion"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Ever installed a live chat widget and felt like the problem was finally handled? A lot of founders do. Then one analytics filter changes everything — sessions by hour, midnight to 7 AM, full of traffic. Chat conversations in that same window: zero. Live chat is a great tool. It just needs someone awake to run it. Worth knowing before you assume the gap is closed. 💡",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Installing a live chat widget feels like a decision made. The problem is identified, the tool is deployed, the box is checked.\n\nThen someone filters the analytics by hour.\n\nMidnight to 7 AM: consistent traffic. Chat conversations in that window: zero — every night, without exception.\n\nLive chat is a staffing solution. It requires a person to be present. Most SaaS visitors don't arrive during business hours — they arrive when the team is offline.\n\nThe tool was the right instinct. The coverage model underneath it was the wrong assumption.",
+        "hashtags": [
+          "#saas",
+          "#growthhacking",
+          "#websiteoptimization"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if the data has ever quietly contradicted your confidence.",
+        "format": "reel",
+        "caption": "You installed the chat widget and felt the problem was solved.\n\nThen you filtered your analytics by hour.\n\nMidnight to 7 AM: sessions everywhere. Chat conversations: zero. Every night.\n\nLive chat needs someone live. Most visitors don't check your calendar first.",
+        "hashtags": [
+          "#saasfounder",
+          "#websitetips",
+          "#leadgeneration",
+          "#smallbusiness",
+          "#growthmindset",
+          "#startuplife",
+          "#digitalmarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "03e04ce9-1995-4782-98b6-7fb65deed1c6",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c564d9e2-ba5d-48af-9469-7f8b4c548272",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Live Chat Has a Shift. Your Visitors Don't.",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Live chat is a staffing solution. Most SaaS founders don't realize that until they look at who's actually visiting their site at 1 AM.",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "7404f17a-f188-418a-b054-0fda1717aa46",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Analytics Filter That Changes Everything",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "The overnight analytics filter is the most humbling thing a SaaS founder can run. Sessions up. Chat conversations: flat zero. https://fenrik.chat",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "51d90d7d-08fd-4efd-a81f-fbb1bcb35447",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "You Fixed the 9-to-5 Problem. Not the 24/7 One.",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Installed live chat. Moved on. Weeks later: traffic between midnight and 7 AM is the highest-volume window on the chart. Widget shows zero conversations. The gap was never the tool.",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "f19ebc0b-34f7-4484-8c17-f6dddffb1060",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "What the Hourly Sessions Chart Actually Shows",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Your live chat widget has business hours. Your visitors don't. #saasfounder #websiteconversion",
+        "hashtags": [
+          "#saas",
+          "#startups"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "a76f7d0e-25e2-4cec-acb0-d213e3acbfe1",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Ever installed a live chat widget and felt like the problem was finally handled? A lot of founders do. Then one analytics filter changes everything — sessions by hour, midnight to 7 AM, full of traffic. Chat conversations in that same window: zero. Live chat is a great tool. It just needs someone awake to run it. Worth knowing before you assume the gap is closed. 💡",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "90509db5-8d27-44d9-abcb-28f65de34a5c",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "You installed the chat widget and felt the problem was solved.\n\nThen you filtered your analytics by hour.\n\nMidnight to 7 AM: sessions everywhere. Chat conversations: zero. Every night.\n\nLive chat needs someone live. Most visitors don't check your calendar first.",
+        "hashtags": [
+          "#saasfounder",
+          "#websitetips",
+          "#leadgeneration",
+          "#smallbusiness",
+          "#growthmindset",
+          "#startuplife",
+          "#digitalmarketing"
+        ],
+        "cta": "Save this if the data has ever quietly contradicted your confidence.",
+        "language": null
+      },
+      {
+        "id": "15dfdce1-edd4-4318-9abf-7f5083bcd0f7",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "You added live chat — but your visitors kept dropping off overnight. Here's what the hourly data actually shows.",
+        "hashtags": [
+          "#saas",
+          "#websiteconversion"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "92987841-2878-46b9-89b7-3ab553898aa0",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Your live chat widget clocked out at midnight. Your visitors didn't. 👀",
+        "hashtags": [
+          "#saas",
+          "#startups",
+          "#websitetraffic",
+          "#growthhacks"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "6a2025f5-495a-4874-84f9-81544c1e19f3",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chat Widget That Clocked Out at Midnight",
+        "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+        "caption": "Installing a live chat widget feels like a decision made. The problem is identified, the tool is deployed, the box is checked.\n\nThen someone filters the analytics by hour.\n\nMidnight to 7 AM: consistent traffic. Chat conversations in that window: zero — every night, without exception.\n\nLive chat is a staffing solution. It requires a person to be present. Most SaaS visitors don't arrive during business hours — they arrive when the team is offline.\n\nThe tool was the right instinct. The coverage model underneath it was the wrong assumption.",
+        "hashtags": [
+          "#saas",
+          "#growthhacking",
+          "#websiteoptimization"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 41,
+      "secondary": 46
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_shock→energy(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+41)",
+      "fit_secondary(+46)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+  },
+  "creative_mode": "shock",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Need for 24/7 customer support without extra staff",
+    "strategy_pain_point": "Need for 24/7 customer support without extra staff"
+  },
+  "product_role": "Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in every hour a human cannot cover. It reads the website's existing content automatically, requires no training, and answers the question the live chat widget would have handled if anyone had been awake to handle it.",
+  "narrative_arc": "UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing at a chat widget badge on their website — 'We added live chat. Visitors can ask questions now.' Cut to a clean analytics dashboard. A single filter is applied: sessions by hour. The overnight band lights up with traffic. The chat widget shows zero conversations in that window — every single night. IMPLICATION: The founder's expression shifts — not panic, just the quiet recognition of a wrong assumption. Voice-over lands the point precisely: live chat is a staffing solution. It requires a person. Most SaaS visitors don't arrive during business hours — they arrive when the founder is asleep. The tool was real. The coverage was not. PROOF: The gap isn't about the widget. It's about what happens when no one is behind it. An AI assistant built from the website's existing content answers the moment a visitor asks — at 2 AM, on a Sunday, during a product launch when the team is heads-down. No agent required. No training required. The website already holds the answers; Fenrik.chat delivers them. CTA: Direct, calm, no urgency theater — the founder closes the analytics tab and opens Fenrik.chat.",
+  "emotional_tone": "Calm authority with a quiet edge of recognition — not alarming, not mocking. The founder is competent; they made a reasonable assumption that turned out to be wrong. The video respects that intelligence while making the gap impossible to ignore.",
+  "audience_insight": "SaaS founders and growth-stage software teams are problem-solvers by instinct. When they identify a gap — visitors leaving without converting — they reach for the most visible tool: a live chat widget. Installing it feels like a decision made. What they rarely interrogate is the coverage model underneath it. This video meets them at the moment after the decision, when the data quietly contradicts the confidence.",
+  "visual_direction": {
+    "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+    "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+    "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+    "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+    "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+    "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it."
+  },
+  "render_metadata": {
+    "id": "eb016b52-5322-49ac-949d-c14bb7b6be3f",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:32:52.021665+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "03e04ce9-1995-4782-98b6-7fb65deed1c6",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "c564d9e2-ba5d-48af-9469-7f8b4c548272",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Live Chat Has a Shift. Your Visitors Don't.",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Live chat is a staffing solution. Most SaaS founders don't realize that until they look at who's actually visiting their site at 1 AM.",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "7404f17a-f188-418a-b054-0fda1717aa46",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Analytics Filter That Changes Everything",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "The overnight analytics filter is the most humbling thing a SaaS founder can run. Sessions up. Chat conversations: flat zero. https://fenrik.chat",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "51d90d7d-08fd-4efd-a81f-fbb1bcb35447",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "You Fixed the 9-to-5 Problem. Not the 24/7 One.",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Installed live chat. Moved on. Weeks later: traffic between midnight and 7 AM is the highest-volume window on the chart. Widget shows zero conversations. The gap was never the tool.",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "f19ebc0b-34f7-4484-8c17-f6dddffb1060",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What the Hourly Sessions Chart Actually Shows",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Your live chat widget has business hours. Your visitors don't. #saasfounder #websiteconversion",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "a76f7d0e-25e2-4cec-acb0-d213e3acbfe1",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Ever installed a live chat widget and felt like the problem was finally handled? A lot of founders do. Then one analytics filter changes everything — sessions by hour, midnight to 7 AM, full of traffic. Chat conversations in that same window: zero. Live chat is a great tool. It just needs someone awake to run it. Worth knowing before you assume the gap is closed. 💡",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "90509db5-8d27-44d9-abcb-28f65de34a5c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You installed the chat widget and felt the problem was solved.\n\nThen you filtered your analytics by hour.\n\nMidnight to 7 AM: sessions everywhere. Chat conversations: zero. Every night.\n\nLive chat needs someone live. Most visitors don't check your calendar first.",
+      "hashtags": [
+        "#saasfounder",
+        "#websitetips",
+        "#leadgeneration",
+        "#smallbusiness",
+        "#growthmindset",
+        "#startuplife",
+        "#digitalmarketing"
+      ],
+      "cta": "Save this if the data has ever quietly contradicted your confidence.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "15dfdce1-edd4-4318-9abf-7f5083bcd0f7",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You added live chat — but your visitors kept dropping off overnight. Here's what the hourly data actually shows.",
+      "hashtags": [
+        "#saas",
+        "#websiteconversion"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "92987841-2878-46b9-89b7-3ab553898aa0",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Your live chat widget clocked out at midnight. Your visitors didn't. 👀",
+      "hashtags": [
+        "#saas",
+        "#startups",
+        "#websitetraffic",
+        "#growthhacks"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    },
+    {
+      "id": "6a2025f5-495a-4874-84f9-81544c1e19f3",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fc64c2ed-20bb-49a7-8b3f-e6d9971be009",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Installing a live chat widget feels like a decision made. The problem is identified, the tool is deployed, the box is checked.\n\nThen someone filters the analytics by hour.\n\nMidnight to 7 AM: consistent traffic. Chat conversations in that window: zero — every night, without exception.\n\nLive chat is a staffing solution. It requires a person to be present. Most SaaS visitors don't arrive during business hours — they arrive when the team is offline.\n\nThe tool was the right instinct. The coverage model underneath it was the wrong assumption.",
+      "hashtags": [
+        "#saas",
+        "#growthhacking",
+        "#websiteoptimization"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 7,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:32:50.438843+00:00",
+      "updated_at": "2026-07-25T07:32:50.438843+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A SaaS founder installs a live chat widget, feels the problem is solved, and moves on. Weeks later, a single analytics filter — sessions by hour — reveals that the vast majority of visitor drop-off h…",
+      "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly…",
+      "product_role": "Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in e…",
+      "visual_world": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No wind…",
+      "attention_pattern": "The stark contrast between the traffic spike and the zero conversations creates immediate curiosity about the missed op…",
+      "narrative_mechanism": "shock: UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing …"
+    }
+  },
+  "hashtags": [
+    "#saas",
+    "#startups",
+    "#websitetraffic",
+    "#leadgeneration",
+    "#chatbot",
+    "#saasfounder",
+    "#growthhacking"
+  ],
+  "hook": "You added a live chat widget, but what happens when no one's there to answer?",
+  "scenario": "A SaaS founder identifies that visitors are leaving without converting and installs a live chat widget — a reasonable, visible solution. They move on, confident the gap is closed. Weeks later, reviewing analytics, they apply a single filter: sessions by hour. The overnight band, midnight to 7 AM, shows consistent traffic. The chat widget shows zero conversations in that same window — every night. The widget was real. The coverage was not. The founder had solved the 9-to-5 problem and left the 24/7 problem completely untouched.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN (static shot, dark monitor, analytics dashboard visible): Founder at desk, calm, gesturing toward the chat widget badge on their website. They look satisfied. The chat bubble pulses green.\n\nVO: 'You added a live chat widget, but what happens when no one's there to answer?'\n\nSCENE 2 — ANALYTICS REVEAL (slow push-in on monitor): A clean bar chart fills the screen. A single filter is applied: sessions by hour. The overnight band — midnight to 7 AM — lights up in muted amber. A second line, flat at zero, represents chat conversations in the same window. The contrast is immediate and stark.\n\nVO: 'Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night.'\n\nSCENE 3 — FOUNDER REACTION (single close cut, face neutral, processing): No panic. Just the quiet recognition of a wrong assumption. The founder looks at the screen, not the camera.\n\nVO: 'Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule.'\n\nSCENE 4 — RESOLUTION FRAME (static, product UI suggestion, minimal): The analytics tab closes. A new interface is implied — an AI assistant reading the website's existing content, ready at 2 AM, no agent required.\n\nVO: 'The gap isn't the tool. It's who's behind it.'\n\nSCENE 5 — SOFT CLOSE (static, founder at desk, screen glow): No dramatic resolution. The founder is still. The implication is clear. Text on screen: fenrik.chat",
+    "concept": "A SaaS founder installs a live chat widget, feels the gap is closed, and moves on. Weeks later, one analytics filter — sessions by hour — reveals that visitor drop-off concentrates almost entirely between midnight and 7 AM, the exact window when no agent is ever online. The widget didn't fix the 24/7 problem. It fixed the 9-to-5 problem. Those are not the same thing. Fenrik.chat enters as the structural answer: an AI assistant built from the website's existing content, present in every hour a human cannot cover.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "product feature reference shown as a framed screen insert illustrating 24/7 AI support availability — contrasted against the zero-conversation overnight window revealed in the analytics scene",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

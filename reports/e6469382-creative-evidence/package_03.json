@@ -1,0 +1,1731 @@
+{
+  "package_index": 3,
+  "run_item_id": "21dc2373-e2ad-4893-bc5f-4051a90afd7b",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "bdd15103-0305-42dd-bc6f-3dce050a9071",
+  "package_title": "The Notes App Graveyard",
+  "package_status": "draft",
+  "strategy_item_id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "An ecommerce brand owner walks through their notes app: 23 saved content ideas, zero turned into posts. The video explores why the backlog keeps growing and why clearing it never makes the priority list.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "source": "production_run",
+      "pain_point": "Running out of content ideas",
+      "package_index": 3,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "angle": "An ecommerce brand owner walks through their notes app: 23 saved content ideas, zero turned into posts. The video explores why the backlog keeps growing and why clearing it never makes the priority list.",
+      "seed": "Problem Aware|The content backlog that grows faster than you can clear it|An ecommerce brand owner walks through their notes app: 23 saved content ideas, zero turned into posts. The video explores why the backlog keeps growing and why clearing it never makes the priority list.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "mistake",
+        "name": "Mistake",
+        "description": "Centres on a common error the audience is making.",
+        "structure": "Name the mistake -> why it backfires -> the correct approach -> CTA.",
+        "avoid": "Do not shame the viewer; frame the mistake as easy to fix.",
+        "narrativeBeats": [
+          "mistake",
+          "why_backfires",
+          "correct_approach",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "myth",
+        "instruction": "Open by stating a popular myth you are about to break.",
+        "exampleForm": "\"More cleaning product means cleaner. It does not.\"",
+        "forbidGeneric": "Do not open with \"Let's talk about a common myth.\""
+      },
+      "persona": {
+        "id": "annoyed_operator",
+        "name": "Annoyed Operator",
+        "vocabulary": "blunt, no-nonsense, a little fed up",
+        "rhythm": "clipped, direct hits",
+        "energy": "high, impatient (with the problem, not the viewer)",
+        "exaggeration": "moderate, for emphasis — never insulting the customer"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Notes App Graveyard",
+    "core_idea": "A Mistake piece that exposes a specific, widespread error: treating a growing notes app backlog of content ideas as a content strategy. The video names the mistake clearly — saving ideas is not the same as producing content — explains why the backlog keeps expanding instead of shrinking, and shows that the real fix is removing production from the equation entirely, not adding more ideas to the pile.",
+    "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses the backlog entirely. The website URL is the only input. The output is ready-to-post videos and platform assets. The notes app becomes irrelevant because production is no longer the owner's job.",
+    "why_it_works": "The Mistake mode works here because the behavior being named — saving ideas as a substitute for producing content — is specific, recognizable, and slightly embarrassing in a relatable way. The notes app is a concrete visual anchor that the audience has literally seen on their own phone. The myth hook (ideas are the bottleneck) is genuinely believed by this audience, so breaking it creates immediate credibility. The Annoyed Operator voice matches the frustration the audience already feels about their own backlog. The product enters as a logical correction, not a sales pitch.",
+    "narrative_arc": "MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product shots, caption drafts, trending audio reminders, a half-written TikTok hook from six weeks ago. The voiceover hits immediately: 'Having 23 content ideas is not the same as having content.' The myth lands first: most ecommerce owners believe the bottleneck is ideas. It is not. WHY IT BACKFIRES: The video walks through the real loop. Every week, something urgent wins — a shipment delay, a customer refund, a supplier call. The ideas stay saved. New ones get added because saving feels like progress. The backlog grows. The feed stays empty. The mistake is not laziness — it is believing that the idea stage and the production stage are the same stage. They are not, and confusing them is why nothing gets posted. CORRECT APPROACH: The fix is not a better note-taking system, a content calendar, or a dedicated filming afternoon. The fix is removing the production stage from your responsibility entirely. Hand over a website URL. Receive platform-ready videos, captions, and posts — nothing to film, nothing to edit, nothing to adapt per platform. The ideas in the notes app were never the problem. The gap between idea and published post was. CTA: Drop your website URL — your first content package is free, no notes app required.",
+    "emotional_tone": "Blunt and a little fed up — with the situation, never the viewer. The energy is high and impatient with the habit, not the person. There is a moment of dark recognition ('you have been treating saving as doing') followed by immediate relief that the fix is genuinely simple. No shame. No lecture. Just a clean correction.",
+    "audience_insight": "Ecommerce brand owners and small business operators are not short on ideas — they are short on execution bandwidth. The notes app backlog is a specific, real artifact of this: it grows because saving an idea takes ten seconds and feels productive, while turning it into a posted video takes hours they never have. The mistake is structural, not personal, and framing it that way makes the audience feel seen rather than criticized.",
+    "visual_direction": {
+      "palette": "Warm neutrals — cream, tan, dusty terracotta — with the cool blue-white glow of the phone screen as contrast. The notes app UI provides a clean white anchor against the warmer surroundings.",
+      "lighting": "Warm, slightly overexposed ambient light — the kind you get from a window in a small home studio or back room of a retail space. No dramatic shadows. Feels like a real Tuesday afternoon, not a shoot day.",
+      "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a content studio. Looks like someone who runs a real business from a real room.",
+      "camera_style": "Handheld and close. Tight shots on the phone screen so the notes list is fully readable. Quick cuts between the screen and the desk environment. No tripod formality — feels like the viewer is looking over the owner's shoulder.",
+      "art_direction": "Phone-native aesthetic. The dominant visual is a real-looking Notes app screen filled with a long, slightly chaotic list of content ideas — half-finished captions, emoji placeholders, vague reminders like 'film the new packaging' and 'TikTok trend — check audio'. Text on screen is legible and specific. Occasional cuts to a cluttered but warm ecommerce workspace — a small desk with product samples, packaging tape, a laptop with too many tabs. Everything feels mid-task, not staged.",
+      "character_style": "No on-camera presenter required. The phone screen and voiceover carry the concept. If a hand appears, it belongs to an ecommerce owner — casual clothing, no ring light, no content-creator aesthetic."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and urgent, with a sense of impatience as the voiceover immediately addresses the mistake.",
+    "emotion": "Frustrated recognition — viewers feel seen in their struggle with content backlog.",
+    "first_image": "A close-up of a phone screen displaying a cluttered Notes app with 23 saved content ideas, including half-finished captions and reminders like 'film the new packaging' and 'TikTok trend — check audio'. The background shows a small, warm ecommerce workspace with product samples and a laptop.",
+    "attention_pattern": "The opening statement challenges a common belief, creating curiosity about the real issue behind the growing backlog.",
+    "first_spoken_sentence": "Saving ideas isn't the same as creating content."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals — cream, tan, dusty terracotta — with the cool blue-white glow of the phone screen as contrast. The notes app UI provides a clean white anchor against the warmer surroundings.",
+    "lighting": "Warm, slightly overexposed ambient light — the kind you get from a window in a small home studio or back room of a retail space. No dramatic shadows. Feels like a real Tuesday afternoon, not a shoot day.",
+    "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a content studio. Looks like someone who runs a real business from a real room.",
+    "camera_style": "Handheld and close. Tight shots on the phone screen so the notes list is fully readable. Quick cuts between the screen and the desk environment. No tripod formality — feels like the viewer is looking over the owner's shoulder.",
+    "art_direction": "Phone-native aesthetic. The dominant visual is a real-looking Notes app screen filled with a long, slightly chaotic list of content ideas — half-finished captions, emoji placeholders, vague reminders like 'film the new packaging' and 'TikTok trend — check audio'. Text on screen is legible and specific. Occasional cuts to a cluttered but warm ecommerce workspace — a small desk with product samples, packaging tape, a laptop with too many tabs. Everything feels mid-task, not staged.",
+    "character_style": "No on-camera presenter required. The phone screen and voiceover carry the concept. If a hand appears, it belongs to an ecommerce owner — casual clothing, no ring light, no content-creator aesthetic.",
+    "opening_emotion": "Frustrated recognition — viewers feel seen in their struggle with content backlog.",
+    "opening_first_image": "A close-up of a phone screen displaying a cluttered Notes app with 23 saved content ideas, including half-finished captions and reminders like 'film the new packaging' and 'TikTok trend — check audio'. The background shows a small, warm ecommerce workspace with product samples and a laptop."
+  },
+  "package": {
+    "title": "The Notes App Graveyard",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "Saving ideas isn't the same as creating content.",
+    "scenario": "An ecommerce brand owner opens their notes app on a Tuesday afternoon between handling a supplier call and processing a return. The list has 23 items — a caption draft from last month, a reminder to film the new packaging, a TikTok audio they saved six weeks ago. They scroll to the bottom, add one more idea, lock the phone, and go back to the refund. Nothing gets posted. The list is now 24 items long.",
+    "video": {
+      "script": "[SCENE 1 — TIGHT PHONE SCREEN]\nVO: 'Saving ideas isn't the same as creating content.'\nScreen: Notes app, 23 items. Half-finished captions. 'film the new packaging.' 'TikTok trend — check audio.' Scrolls slowly.\n\n[SCENE 2 — DESK ENVIRONMENT]\nVO: 'You've got 23 items in that notes app. Zero of them are posted.'\nCut to compact ecommerce workspace — product samples, packaging tape, laptop with too many tabs open.\n\n[SCENE 3 — PHONE SCREEN AGAIN, NEW IDEA BEING TYPED]\nVO: 'Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added.'\nHand types a new note. List grows longer.\n\n[SCENE 4 — EMPTY SOCIAL FEED ON PHONE]\nVO: 'The backlog grows. The feed stays empty. Saving felt like progress. It wasn't.'\nPhone shows a social profile with sparse, dated posts.\n\n[SCENE 5 — FENRIK STUDIO LOGO / BRAND ASSET]\nVO: 'The gap isn't ideas. It's production.'\nClean brand frame. Quiet. No hard sell.",
+      "concept": "A Mistake-mode short that names a specific, widespread error ecommerce owners make: treating a growing notes app backlog as a content strategy. The video opens on a cluttered Notes app screen — 23 saved ideas, zero posts. The voiceover hits immediately with the myth-breaking line. It then walks through why the backlog expands instead of shrinks: every week, something urgent takes priority, saving a new idea takes ten seconds and feels productive, but production never happens. The correction is blunt — the problem was never ideas, it was the gap between idea and published post. fenrik Studio is positioned as the structural fix: hand over a URL, receive ready-to-post content. No filming, no editing, no adapting per platform.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#ecommerce",
+      "#socialmediatips",
+      "#smallbusiness",
+      "#contentideas",
+      "#reels",
+      "#tiktokmarketing"
+    ],
+    "subtitles_planned": "Saving ideas isn't the same as creating content. / You've got 23 items in that notes app. / Zero of them are posted. / Every week, something urgent wins — / a shipment delay, a supplier call, a refund. / The ideas stay saved. New ones get added. / The backlog grows. The feed stays empty. / Saving felt like progress. It wasn't. / The gap isn't ideas. It's production."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+  "voice_prompts": {
+    "voiceover_text": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: empathetic, corrective, never shaming. Delivery: confiden",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow.",
+    "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents.",
+    "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder.",
+    "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen.",
+    "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Comment 'notes' if your backlog keeps growing and your feed stays empty.",
+      "type": "comment"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Comment 'notes' if this is your feed right now.",
+        "format": "reel",
+        "caption": "23 saved ideas. Zero posts. The notes app isn't a content strategy 💀",
+        "hashtags": [
+          "#contentcreator",
+          "#ecommerce",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#contenttips"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "23 saved ideas and zero posts — sound familiar? The backlog isn't the problem.",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#ecommerce"
+        ]
+      },
+      "facebook": {
+        "cta": "Comment 'notes' below — let's talk about it.",
+        "format": "reel",
+        "caption": "Honest question — how many content ideas are sitting in your notes app right now? 📱 Most ecommerce owners we talk to have dozens saved and almost nothing posted. Saving an idea takes ten seconds. Actually turning it into a post takes hours nobody has. If your feed is emptier than your notes app, you're not alone — and it's not a creativity problem. Drop a 'notes' in the comments if this sounds familiar.",
+        "hashtags": [
+          "#ecommerce",
+          "#smallbusiness"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Most ecommerce owners don't have a content ideas problem. They have a production problem.\n\nThe notes app fills up fast — saving an idea takes seconds and feels like progress. But every week, something urgent takes the slot where content was supposed to happen. The backlog grows. The feed stays quiet.\n\nThe mistake isn't running out of ideas. It's believing that having ideas is the same as having content.\n\nThe gap is always between the idea and the published post — not between zero ideas and one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#ecommerce",
+          "#socialmedia"
+        ]
+      },
+      "instagram": {
+        "cta": "Comment 'notes' if your list keeps growing 👇",
+        "format": "reel",
+        "caption": "The notes app is not a content strategy.\n\nYou save an idea in ten seconds. It feels productive. Then a shipment delay wins. Then a supplier call. Then a refund.\n\nThe ideas stay saved. The feed stays empty.\n\nThe backlog was never the problem. Production was.",
+        "hashtags": [
+          "#ecommercebusiness",
+          "#socialmediatips",
+          "#contentmarketing",
+          "#smallbusinessowner",
+          "#reelsmarketing",
+          "#contentideas",
+          "#businessgrowth"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "dd3d0339-19b8-4f8c-b1c8-18a6483367d6",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Notes App Graveyard",
+        "body": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+        "caption": "Honest question — how many content ideas are sitting in your notes app right now? 📱 Most ecommerce owners we talk to have dozens saved and almost nothing posted. Saving an idea takes ten seconds. Actually turning it into a post takes hours nobody has. If your feed is emptier than your notes app, you're not alone — and it's not a creativity problem. Drop a 'notes' in the comments if this sounds familiar.",
+        "hashtags": [
+          "#ecommerce",
+          "#smallbusiness"
+        ],
+        "cta": "Comment 'notes' below — let's talk about it.",
+        "language": null
+      },
+      {
+        "id": "ca868f5b-f285-40a2-8d15-ccddb8228169",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Notes App Graveyard",
+        "body": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+        "caption": "23 saved ideas. Zero posts. The notes app isn't a content strategy 💀",
+        "hashtags": [
+          "#contentcreator",
+          "#ecommerce",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#contenttips"
+        ],
+        "cta": "Comment 'notes' if this is your feed right now.",
+        "language": null
+      },
+      {
+        "id": "d1a441dd-3f08-422d-af99-c68598e2bae4",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Notes App Graveyard",
+        "body": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+        "caption": "The notes app is not a content strategy.\n\nYou save an idea in ten seconds. It feels productive. Then a shipment delay wins. Then a supplier call. Then a refund.\n\nThe ideas stay saved. The feed stays empty.\n\nThe backlog was never the problem. Production was.",
+        "hashtags": [
+          "#ecommercebusiness",
+          "#socialmediatips",
+          "#contentmarketing",
+          "#smallbusinessowner",
+          "#reelsmarketing",
+          "#contentideas",
+          "#businessgrowth"
+        ],
+        "cta": "Comment 'notes' if your list keeps growing 👇",
+        "language": null
+      },
+      {
+        "id": "673e9262-503d-4d24-b389-8d0274a85d81",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Notes App Graveyard",
+        "body": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+        "caption": "23 saved ideas and zero posts — sound familiar? The backlog isn't the problem.",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#ecommerce"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "aefcb3a4-4caf-4660-a002-4ad3625e6c4c",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Notes App Graveyard",
+        "body": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+        "caption": "Most ecommerce owners don't have a content ideas problem. They have a production problem.\n\nThe notes app fills up fast — saving an idea takes seconds and feels like progress. But every week, something urgent takes the slot where content was supposed to happen. The backlog grows. The feed stays quiet.\n\nThe mistake isn't running out of ideas. It's believing that having ideas is the same as having content.\n\nThe gap is always between the idea and the published post — not between zero ideas and one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#ecommerce",
+          "#socialmedia"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "bdd15103-0305-42dd-bc6f-3dce050a9071",
+    "title": "The Notes App Graveyard",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+    "package_brief": {
+      "cta": {
+        "text": "Comment 'notes' if your backlog keeps growing and your feed stays empty.",
+        "type": "comment"
+      },
+      "hook": "Saving ideas isn't the same as creating content.",
+      "video": {
+        "script": "[SCENE 1 — TIGHT PHONE SCREEN]\nVO: 'Saving ideas isn't the same as creating content.'\nScreen: Notes app, 23 items. Half-finished captions. 'film the new packaging.' 'TikTok trend — check audio.' Scrolls slowly.\n\n[SCENE 2 — DESK ENVIRONMENT]\nVO: 'You've got 23 items in that notes app. Zero of them are posted.'\nCut to compact ecommerce workspace — product samples, packaging tape, laptop with too many tabs open.\n\n[SCENE 3 — PHONE SCREEN AGAIN, NEW IDEA BEING TYPED]\nVO: 'Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added.'\nHand types a new note. List grows longer.\n\n[SCENE 4 — EMPTY SOCIAL FEED ON PHONE]\nVO: 'The backlog grows. The feed stays empty. Saving felt like progress. It wasn't.'\nPhone shows a social profile with sparse, dated posts.\n\n[SCENE 5 — FENRIK STUDIO LOGO / BRAND ASSET]\nVO: 'The gap isn't ideas. It's production.'\nClean brand frame. Quiet. No hard sell.",
+        "concept": "A Mistake-mode short that names a specific, widespread error ecommerce owners make: treating a growing notes app backlog as a content strategy. The video opens on a cluttered Notes app screen — 23 saved ideas, zero posts. The voiceover hits immediately with the myth-breaking line. It then walks through why the backlog expands instead of shrinks: every week, something urgent takes priority, saving a new idea takes ten seconds and feels productive, but production never happens. The correction is blunt — the problem was never ideas, it was the gap between idea and published post. fenrik Studio is positioned as the structural fix: hand over a URL, receive ready-to-post content. No filming, no editing, no adapting per platform.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#ecommerce",
+        "#socialmediatips",
+        "#smallbusiness",
+        "#contentideas",
+        "#reels",
+        "#tiktokmarketing"
+      ],
+      "scenario": "An ecommerce brand owner opens their notes app on a Tuesday afternoon between handling a supplier call and processing a return. The list has 23 items — a caption draft from last month, a reminder to film the new packaging, a TikTok audio they saved six weeks ago. They scroll to the bottom, add one more idea, lock the phone, and go back to the refund. Nothing gets posted. The list is now 24 items long.",
+      "subtitles": "Saving ideas isn't the same as creating content. / You've got 23 items in that notes app. / Zero of them are posted. / Every week, something urgent wins — / a shipment delay, a supplier call, a refund. / The ideas stay saved. New ones get added. / The backlog grows. The feed stays empty. / Saving felt like progress. It wasn't. / The gap isn't ideas. It's production.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow.",
+        "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents.",
+        "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder.",
+        "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen.",
+        "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Comment 'notes' if this is your feed right now.",
+          "format": "reel",
+          "caption": "23 saved ideas. Zero posts. The notes app isn't a content strategy 💀",
+          "hashtags": [
+            "#contentcreator",
+            "#ecommerce",
+            "#socialmediamarketing",
+            "#smallbusiness",
+            "#contenttips"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "short",
+          "caption": "23 saved ideas and zero posts — sound familiar? The backlog isn't the problem.",
+          "hashtags": [
+            "#Shorts",
+            "#contentmarketing",
+            "#ecommerce"
+          ]
+        },
+        "facebook": {
+          "cta": "Comment 'notes' below — let's talk about it.",
+          "format": "reel",
+          "caption": "Honest question — how many content ideas are sitting in your notes app right now? 📱 Most ecommerce owners we talk to have dozens saved and almost nothing posted. Saving an idea takes ten seconds. Actually turning it into a post takes hours nobody has. If your feed is emptier than your notes app, you're not alone — and it's not a creativity problem. Drop a 'notes' in the comments if this sounds familiar.",
+          "hashtags": [
+            "#ecommerce",
+            "#smallbusiness"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Most ecommerce owners don't have a content ideas problem. They have a production problem.\n\nThe notes app fills up fast — saving an idea takes seconds and feels like progress. But every week, something urgent takes the slot where content was supposed to happen. The backlog grows. The feed stays quiet.\n\nThe mistake isn't running out of ideas. It's believing that having ideas is the same as having content.\n\nThe gap is always between the idea and the published post — not between zero ideas and one.",
+          "hashtags": [
+            "#contentmarketing",
+            "#ecommerce",
+            "#socialmedia"
+          ]
+        },
+        "instagram": {
+          "cta": "Comment 'notes' if your list keeps growing 👇",
+          "format": "reel",
+          "caption": "The notes app is not a content strategy.\n\nYou save an idea in ten seconds. It feels productive. Then a shipment delay wins. Then a supplier call. Then a refund.\n\nThe ideas stay saved. The feed stays empty.\n\nThe backlog was never the problem. Production was.",
+          "hashtags": [
+            "#ecommercebusiness",
+            "#socialmediatips",
+            "#contentmarketing",
+            "#smallbusinessowner",
+            "#reelsmarketing",
+            "#contentideas",
+            "#businessgrowth"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "bdd15103-0305-42dd-bc6f-3dce050a9071",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 50,
+          "secondary": 36
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "mistake",
+        "video_concept": {
+          "title": "The Notes App Graveyard",
+          "core_idea": "A Mistake piece that exposes a specific, widespread error: treating a growing notes app backlog of content ideas as a content strategy. The video names the mistake clearly — saving ideas is not the same as producing content — explains why the backlog keeps expanding instead of shrinking, and shows that the real fix is removing production from the equation entirely, not adding more ideas to the pile.",
+          "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses the backlog entirely. The website URL is the only input. The output is ready-to-post videos and platform assets. The notes app becomes irrelevant because production is no longer the owner's job.",
+          "why_it_works": "The Mistake mode works here because the behavior being named — saving ideas as a substitute for producing content — is specific, recognizable, and slightly embarrassing in a relatable way. The notes app is a concrete visual anchor that the audience has literally seen on their own phone. The myth hook (ideas are the bottleneck) is genuinely believed by this audience, so breaking it creates immediate credibility. The Annoyed Operator voice matches the frustration the audience already feels about their own backlog. The product enters as a logical correction, not a sales pitch.",
+          "narrative_arc": "MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product shots, caption drafts, trending audio reminders, a half-written TikTok hook from six weeks ago. The voiceover hits immediately: 'Having 23 content ideas is not the same as having content.' The myth lands first: most ecommerce owners believe the bottleneck is ideas. It is not. WHY IT BACKFIRES: The video walks through the real loop. Every week, something urgent wins — a shipment delay, a customer refund, a supplier call. The ideas stay saved. New ones get added because saving feels like progress. The backlog grows. The feed stays empty. The mistake is not laziness — it is believing that the idea stage and the production stage are the same stage. They are not, and confusing them is why nothing gets posted. CORRECT APPROACH: The fix is not a better note-taking system, a content calendar, or a dedicated filming afternoon. The fix is removing the production stage from your responsibility entirely. Hand over a website URL. Receive platform-ready videos, captions, and posts — nothing to film, nothing to edit, nothing to adapt per platform. The ideas in the notes app were never the problem. The gap between idea and published post was. CTA: Drop your website URL — your first content package is free, no notes app required.",
+          "emotional_tone": "Blunt and a little fed up — with the situation, never the viewer. The energy is high and impatient with the habit, not the person. There is a moment of dark recognition ('you have been treating saving as doing') followed by immediate relief that the fix is genuinely simple. No shame. No lecture. Just a clean correction.",
+          "audience_insight": "Ecommerce brand owners and small business operators are not short on ideas — they are short on execution bandwidth. The notes app backlog is a specific, real artifact of this: it grows because saving an idea takes ten seconds and feels productive, while turning it into a posted video takes hours they never have. The mistake is structural, not personal, and framing it that way makes the audience feel seen rather than criticized.",
+          "visual_direction": {
+            "palette": "Warm neutrals — cream, tan, dusty terracotta — with the cool blue-white glow of the phone screen as contrast. The notes app UI provides a clean white anchor against the warmer surroundings.",
+            "lighting": "Warm, slightly overexposed ambient light — the kind you get from a window in a small home studio or back room of a retail space. No dramatic shadows. Feels like a real Tuesday afternoon, not a shoot day.",
+            "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a content studio. Looks like someone who runs a real business from a real room.",
+            "camera_style": "Handheld and close. Tight shots on the phone screen so the notes list is fully readable. Quick cuts between the screen and the desk environment. No tripod formality — feels like the viewer is looking over the owner's shoulder.",
+            "art_direction": "Phone-native aesthetic. The dominant visual is a real-looking Notes app screen filled with a long, slightly chaotic list of content ideas — half-finished captions, emoji placeholders, vague reminders like 'film the new packaging' and 'TikTok trend — check audio'. Text on screen is legible and specific. Occasional cuts to a cluttered but warm ecommerce workspace — a small desk with product samples, packaging tape, a laptop with too many tabs. Everything feels mid-task, not staged.",
+            "character_style": "No on-camera presenter required. The phone screen and voiceover carry the concept. If a hand appears, it belongs to an ecommerce owner — casual clothing, no ring light, no content-creator aesthetic."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_mistake→warmth/steady",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+50)",
+          "fit_secondary(+36)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and urgent, with a sense of impatience as the voiceover immediately addresses the mistake.",
+          "emotion": "Frustrated recognition — viewers feel seen in their struggle with content backlog.",
+          "first_image": "A close-up of a phone screen displaying a cluttered Notes app with 23 saved content ideas, including half-finished captions and reminders like 'film the new packaging' and 'TikTok trend — check audio'. The background shows a small, warm ecommerce workspace with product samples and a laptop.",
+          "attention_pattern": "The opening statement challenges a common belief, creating curiosity about the real issue behind the growing backlog.",
+          "first_spoken_sentence": "Saving ideas isn't the same as creating content."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm neutrals — cream, tan, dusty terracotta — with the cool blue-white glow of the phone screen as contrast. The notes app UI provides a clean white anchor against the warmer surroundings.",
+          "lighting": "Warm, slightly overexposed ambient light — the kind you get from a window in a small home studio or back room of a retail space. No dramatic shadows. Feels like a real Tuesday afternoon, not a shoot day.",
+          "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a content studio. Looks like someone who runs a real business from a real room.",
+          "camera_style": "Handheld and close. Tight shots on the phone screen so the notes list is fully readable. Quick cuts between the screen and the desk environment. No tripod formality — feels like the viewer is looking over the owner's shoulder.",
+          "art_direction": "Phone-native aesthetic. The dominant visual is a real-looking Notes app screen filled with a long, slightly chaotic list of content ideas — half-finished captions, emoji placeholders, vague reminders like 'film the new packaging' and 'TikTok trend — check audio'. Text on screen is legible and specific. Occasional cuts to a cluttered but warm ecommerce workspace — a small desk with product samples, packaging tape, a laptop with too many tabs. Everything feels mid-task, not staged.",
+          "character_style": "No on-camera presenter required. The phone screen and voiceover carry the concept. If a hand appears, it belongs to an ecommerce owner — casual clothing, no ring light, no content-creator aesthetic.",
+          "opening_emotion": "Frustrated recognition — viewers feel seen in their struggle with content backlog.",
+          "opening_first_image": "A close-up of a phone screen displaying a cluttered Notes app with 23 saved content ideas, including half-finished captions and reminders like 'film the new packaging' and 'TikTok trend — check audio'. The background shows a small, warm ecommerce workspace with product samples and a laptop."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: empathetic, corrective, never shaming. Delivery: confiden",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Running out of content ideas",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4827,
+                "completion_tokens": 1208
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:08.851Z",
+              "duration_ms": 30235,
+              "finished_at": "2026-07-25T10:22:39.086Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 4827,
+              "estimated_cost": 0.032601,
+              "output_summary": "Concept: The Notes App Graveyard",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 21063,
+              "completion_tokens": 1208,
+              "output_size_bytes": 5326,
+              "prompt_characters": 20915,
+              "provider_request_id": null,
+              "completion_characters": 5284
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 4536,
+                "completion_tokens": 154
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:39.087Z",
+              "duration_ms": 2614,
+              "finished_at": "2026-07-25T10:22:41.701Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4536,
+              "estimated_cost": 0.000773,
+              "output_summary": "Opening: Saving ideas isn't the same as creating content.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 22223,
+              "completion_tokens": 154,
+              "output_size_bytes": 752,
+              "prompt_characters": 22083,
+              "provider_request_id": null,
+              "completion_characters": 748
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:41.701Z",
+              "duration_ms": 1,
+              "finished_at": "2026-07-25T10:22:41.701Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Phone-native aesthetic. The dominant visual is a real-lookin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2080,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2058
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9587,
+                "completion_tokens": 2601
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:41.703Z",
+              "duration_ms": 48692,
+              "finished_at": "2026-07-25T10:23:30.394Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9587,
+              "estimated_cost": 0.067776,
+              "output_summary": "Package: The Notes App Graveyard",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 39353,
+              "completion_tokens": 2601,
+              "output_size_bytes": 9733,
+              "prompt_characters": 39069,
+              "provider_request_id": null,
+              "completion_characters": 9659
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:23:30.395Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:23:30.395Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2142,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2124
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:23:30.395Z",
+              "duration_ms": 2021,
+              "finished_at": "2026-07-25T10:23:32.416Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=bdd15103-0305-42dd-bc6f-3dce050a9071; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A Mistake piece that exposes a specific, widespread error: treating a growing notes app backlog of content ideas as a content strategy. The video names the mistake clearly — saving ideas is not the s…",
+          "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone …",
+          "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses th…",
+          "visual_world": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a …",
+          "attention_pattern": "The opening statement challenges a common belief, creating curiosity about the real issue behind the growing backlog.",
+          "narrative_mechanism": "mistake: MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product sh…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+            "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+            "motifs": [],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "process",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're not failing at content. You're failing at deciding.",
+            "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+            "motifs": [
+              "laptop",
+              "close_up",
+              "product_asset",
+              "cafe"
+            ],
+            "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "place",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:23:30.483527+00:00",
+    "updated_at": "2026-07-25T10:23:32.59116+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 50,
+      "secondary": 36
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_mistake→warmth/steady",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+50)",
+      "fit_secondary(+36)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: empathetic, corrective, never shaming. Delivery: confiden"
+  },
+  "creative_mode": "mistake",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Running out of content ideas",
+    "strategy_pain_point": "Running out of content ideas"
+  },
+  "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses the backlog entirely. The website URL is the only input. The output is ready-to-post videos and platform assets. The notes app becomes irrelevant because production is no longer the owner's job.",
+  "narrative_arc": "MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product shots, caption drafts, trending audio reminders, a half-written TikTok hook from six weeks ago. The voiceover hits immediately: 'Having 23 content ideas is not the same as having content.' The myth lands first: most ecommerce owners believe the bottleneck is ideas. It is not. WHY IT BACKFIRES: The video walks through the real loop. Every week, something urgent wins — a shipment delay, a customer refund, a supplier call. The ideas stay saved. New ones get added because saving feels like progress. The backlog grows. The feed stays empty. The mistake is not laziness — it is believing that the idea stage and the production stage are the same stage. They are not, and confusing them is why nothing gets posted. CORRECT APPROACH: The fix is not a better note-taking system, a content calendar, or a dedicated filming afternoon. The fix is removing the production stage from your responsibility entirely. Hand over a website URL. Receive platform-ready videos, captions, and posts — nothing to film, nothing to edit, nothing to adapt per platform. The ideas in the notes app were never the problem. The gap between idea and published post was. CTA: Drop your website URL — your first content package is free, no notes app required.",
+  "emotional_tone": "Blunt and a little fed up — with the situation, never the viewer. The energy is high and impatient with the habit, not the person. There is a moment of dark recognition ('you have been treating saving as doing') followed by immediate relief that the fix is genuinely simple. No shame. No lecture. Just a clean correction.",
+  "audience_insight": "Ecommerce brand owners and small business operators are not short on ideas — they are short on execution bandwidth. The notes app backlog is a specific, real artifact of this: it grows because saving an idea takes ten seconds and feels productive, while turning it into a posted video takes hours they never have. The mistake is structural, not personal, and framing it that way makes the audience feel seen rather than criticized.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, tan, dusty terracotta — with the cool blue-white glow of the phone screen as contrast. The notes app UI provides a clean white anchor against the warmer surroundings.",
+    "lighting": "Warm, slightly overexposed ambient light — the kind you get from a window in a small home studio or back room of a retail space. No dramatic shadows. Feels like a real Tuesday afternoon, not a shoot day.",
+    "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a content studio. Looks like someone who runs a real business from a real room.",
+    "camera_style": "Handheld and close. Tight shots on the phone screen so the notes list is fully readable. Quick cuts between the screen and the desk environment. No tripod formality — feels like the viewer is looking over the owner's shoulder.",
+    "art_direction": "Phone-native aesthetic. The dominant visual is a real-looking Notes app screen filled with a long, slightly chaotic list of content ideas — half-finished captions, emoji placeholders, vague reminders like 'film the new packaging' and 'TikTok trend — check audio'. Text on screen is legible and specific. Occasional cuts to a cluttered but warm ecommerce workspace — a small desk with product samples, packaging tape, a laptop with too many tabs. Everything feels mid-task, not staged.",
+    "character_style": "No on-camera presenter required. The phone screen and voiceover carry the concept. If a hand appears, it belongs to an ecommerce owner — casual clothing, no ring light, no content-creator aesthetic."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Saving ideas isn't the same as creating content. / You've got 23 items in that notes app. / Zero of them are posted. / Every week, something urgent wins — / a shipment delay, a supplier call, a refund. / The ideas stay saved. New ones get added. / The backlog grows. The feed stays empty. / Saving felt like progress. It wasn't. / The gap isn't ideas. It's production."
+  },
+  "render_metadata": {
+    "id": "1e10b115-33c8-4c8d-9d63-4c12e62565c1",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:23:32.251555+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a phone screen showing a cluttered Notes app with a long scrollable list of 23 content ideas — half-finished captions, emoji placeholders, and reminders like 'film the new packaging' and 'TikTok trend — check audio'. Warm ambient window light reflects softly off the screen. Background is slightly blurred but shows a compact ecommerce workspace with product samples and a laptop. Phone-native aesthetic, handheld feel, warm neutrals and cool blue-white screen glow."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A compact ecommerce owner's desk in warm, slightly overexposed afternoon light — product samples arranged loosely, a roll of packaging tape, a laptop with multiple browser tabs open, a few small orders stacked to one side. No ring light, no content studio aesthetic. Feels mid-task and real. Cream and tan tones with dusty terracotta accents."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a hand — casual sleeve, no ring light aesthetic — typing a new note into the Notes app on a phone. The existing list is already long and slightly chaotic. The new entry is being added at the bottom. Warm ambient light, handheld camera angle, viewer feels like they are looking over the owner's shoulder."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A phone screen showing a sparse social media profile feed — only two or three posts visible, the most recent dated several weeks ago. The surrounding desk environment is warm and cluttered with ecommerce inventory. The contrast between the active notes app and the empty feed is implied by the stillness of the screen."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close the video sequence without a hard sell.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Saving ideas isn't the same as creating content.",
+    "cta": "Comment 'notes' if your backlog keeps growing and your feed stays empty.",
+    "voiceover_text": "Saving ideas isn't the same as creating content. You've got 23 items in that notes app. Zero of them are posted. Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added. The backlog grows. The feed stays empty. Saving felt like progress. It wasn't. The gap isn't ideas. It's production.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A Mistake piece that exposes a specific, widespread error: treating a growing notes app backlog of content ideas as a content strategy. The video names the mistake clearly — saving ideas is not the s…",
+      "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone …",
+      "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses th…",
+      "visual_world": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a …",
+      "attention_pattern": "The opening statement challenges a common belief, creating curiosity about the real issue behind the growing backlog.",
+      "narrative_mechanism": "mistake: MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product sh…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#ecommerce",
+    "#socialmediatips",
+    "#smallbusiness",
+    "#contentideas",
+    "#reels",
+    "#tiktokmarketing"
+  ],
+  "hook": "Saving ideas isn't the same as creating content.",
+  "scenario": "An ecommerce brand owner opens their notes app on a Tuesday afternoon between handling a supplier call and processing a return. The list has 23 items — a caption draft from last month, a reminder to film the new packaging, a TikTok audio they saved six weeks ago. They scroll to the bottom, add one more idea, lock the phone, and go back to the refund. Nothing gets posted. The list is now 24 items long.",
+  "video": {
+    "script": "[SCENE 1 — TIGHT PHONE SCREEN]\nVO: 'Saving ideas isn't the same as creating content.'\nScreen: Notes app, 23 items. Half-finished captions. 'film the new packaging.' 'TikTok trend — check audio.' Scrolls slowly.\n\n[SCENE 2 — DESK ENVIRONMENT]\nVO: 'You've got 23 items in that notes app. Zero of them are posted.'\nCut to compact ecommerce workspace — product samples, packaging tape, laptop with too many tabs open.\n\n[SCENE 3 — PHONE SCREEN AGAIN, NEW IDEA BEING TYPED]\nVO: 'Every week, something urgent wins — a shipment delay, a supplier call, a refund. The ideas stay saved. New ones get added.'\nHand types a new note. List grows longer.\n\n[SCENE 4 — EMPTY SOCIAL FEED ON PHONE]\nVO: 'The backlog grows. The feed stays empty. Saving felt like progress. It wasn't.'\nPhone shows a social profile with sparse, dated posts.\n\n[SCENE 5 — FENRIK STUDIO LOGO / BRAND ASSET]\nVO: 'The gap isn't ideas. It's production.'\nClean brand frame. Quiet. No hard sell.",
+    "concept": "A Mistake-mode short that names a specific, widespread error ecommerce owners make: treating a growing notes app backlog as a content strategy. The video opens on a cluttered Notes app screen — 23 saved ideas, zero posts. The voiceover hits immediately with the myth-breaking line. It then walks through why the backlog expands instead of shrinks: every week, something urgent takes priority, saving a new idea takes ten seconds and feels productive, but production never happens. The correction is blunt — the problem was never ideas, it was the gap between idea and published post. fenrik Studio is positioned as the structural fix: hand over a URL, receive ready-to-post content. No filming, no editing, no adapting per platform.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+      "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+      "motifs": [],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "process",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're not failing at content. You're failing at deciding.",
+      "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+      "motifs": [
+        "laptop",
+        "close_up",
+        "product_asset",
+        "cafe"
+      ],
+      "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "PHOTOGRAPHIC",
+      "meaning_carrier": "place",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 4827,
+          "completion_tokens": 1208
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:08.851Z",
+        "duration_ms": 30235,
+        "finished_at": "2026-07-25T10:22:39.086Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 4827,
+        "estimated_cost": 0.032601,
+        "output_summary": "Concept: The Notes App Graveyard",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 21063,
+        "completion_tokens": 1208,
+        "output_size_bytes": 5326,
+        "prompt_characters": 20915,
+        "provider_request_id": null,
+        "completion_characters": 5284
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 0,
+          "prompt_tokens": 4536,
+          "completion_tokens": 154
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:39.087Z",
+        "duration_ms": 2614,
+        "finished_at": "2026-07-25T10:22:41.701Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4536,
+        "estimated_cost": 0.000773,
+        "output_summary": "Opening: Saving ideas isn't the same as creating content.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 22223,
+        "completion_tokens": 154,
+        "output_size_bytes": 752,
+        "prompt_characters": 22083,
+        "provider_request_id": null,
+        "completion_characters": 748
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:41.701Z",
+        "duration_ms": 1,
+        "finished_at": "2026-07-25T10:22:41.701Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Phone-native aesthetic. The dominant visual is a real-lookin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2080,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2058
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9587,
+          "completion_tokens": 2601
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:41.703Z",
+        "duration_ms": 48692,
+        "finished_at": "2026-07-25T10:23:30.394Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9587,
+        "estimated_cost": 0.067776,
+        "output_summary": "Package: The Notes App Graveyard",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 39353,
+        "completion_tokens": 2601,
+        "output_size_bytes": 9733,
+        "prompt_characters": 39069,
+        "provider_request_id": null,
+        "completion_characters": 9659
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:23:30.395Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:23:30.395Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2142,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2124
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:23:30.395Z",
+        "duration_ms": 2021,
+        "finished_at": "2026-07-25T10:23:32.416Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=bdd15103-0305-42dd-bc6f-3dce050a9071; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

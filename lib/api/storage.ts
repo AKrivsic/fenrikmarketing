@@ -40,3 +40,30 @@ export function buildVideoRenderPath(
 ): string {
   return `${projectId}/video/${videoJobId}/${sanitizeFilename(filename)}`;
 }
+
+// video-renders: {project_id}/runway-tests/{test_job_id}/{filename}
+export function buildRunwayTestPath(
+  projectId: string,
+  testJobId: string,
+  filename: string,
+): string {
+  return `${projectId}/runway-tests/${testJobId}/${sanitizeFilename(filename)}`;
+}
+
+// video-renders: {project_id}/scene-video-attempts/{attempt_id}/{filename}
+export function buildSceneVideoAttemptPath(
+  projectId: string,
+  attemptId: string,
+  filename: string,
+): string {
+  return `${projectId}/scene-video-attempts/${attemptId}/${sanitizeFilename(filename)}`;
+}
+
+// video-renders: {project_id}/ai-media-benchmark/{run_id}/{filename}
+export function buildAiMediaBenchmarkPath(
+  projectId: string,
+  runId: string,
+  filename: string,
+): string {
+  return `${projectId}/ai-media-benchmark/${runId}/${sanitizeFilename(filename)}`;
+}

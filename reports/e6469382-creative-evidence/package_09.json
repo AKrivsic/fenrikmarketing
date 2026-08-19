@@ -1,0 +1,1754 @@
+{
+  "package_index": 9,
+  "run_item_id": "9529ffda-b20a-4104-b2e4-2c179dbe973a",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "d66799fb-01fa-4222-9554-797598b6ec39",
+  "package_title": "The Priority That Has No Deadline",
+  "package_status": "draft",
+  "strategy_item_id": "454934f0-ea76-40ec-8f02-1b227459246d",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "454934f0-ea76-40ec-8f02-1b227459246d",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "A reflective, conversational piece examining the structural reason content keeps getting deprioritized: it has no deadline, no angry customer, and no immediate consequence — until it does.",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "source": "production_run",
+      "pain_point": "Content production distracts from running the business",
+      "package_index": 9,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Awareness",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "angle": "A reflective, conversational piece examining the structural reason content keeps getting deprioritized: it has no deadline, no angry customer, and no immediate consequence — until it does.",
+      "seed": "Awareness|Why content always gets treated like a side project — even when it's a priority|A reflective, conversational piece examining the structural reason content keeps getting deprioritized: it has no deadline, no angry customer, and no immediate consequence — until it does.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "myth_buster",
+        "name": "Myth Buster",
+        "description": "Names a widespread myth and corrects it.",
+        "structure": "Myth -> why people believe it -> the reality -> CTA.",
+        "avoid": "Do not invent the myth; correct it with real, supportable facts only.",
+        "narrativeBeats": [
+          "myth",
+          "why_believed",
+          "reality",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "question",
+        "instruction": "Open with one pointed question whose answer the viewer needs.",
+        "exampleForm": "\"Why does your kitchen still smell after you clean it?\"",
+        "forbidGeneric": "Do not open with a lazy rhetorical question like \"Want a clean home?\"."
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Priority That Has No Deadline",
+    "core_idea": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams don't care about it or aren't disciplined enough — and corrects it with the structural truth: content is the only business task with no external deadline, no angry customer waiting on it, and no immediate consequence for skipping it, which means it will always lose to everything else that does have those things. The fix isn't more discipline. It's removing content from the list of things that require your time at all.",
+    "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you service that takes content off the list entirely. You submit a website URL. Content is delivered ready to post. The forcing function is built in. Named directly and briefly, without overselling.",
+    "why_it_works": "The myth-buster works because it reframes a familiar frustration as a systems problem rather than a personal one — which is both more accurate and more persuasive. The insider voice makes the structural diagnosis feel like privileged knowledge rather than a lecture. The hook question is specific enough to feel aimed directly at the viewer's experience without being generic. The concept is distinct from recent fingerprints: no desk scene, no timer, no freelancer dynamic, no calendar block — the visual world is abstract and motion-driven, and the narrative mechanism is pure structural argument rather than scenario or anecdote.",
+    "narrative_arc": "MYTH: Opens with the pointed insider question — 'Why does every team say content is a priority, and then not post for six weeks?' Frames the widespread assumption that the answer is poor discipline or weak follow-through. WHY PEOPLE BELIEVE IT: Walks through the structural logic of a real work week — a support ticket arrives, someone responds immediately; a client emails, someone picks up the phone; a bug surfaces, the team drops everything. Content has none of those forcing functions. No customer is angry. No system breaks. No revenue visibly disappears the day you skip a post. So the rational, well-intentioned person moves content to tomorrow, and tomorrow is always reasonable. REALITY: The myth is that content loses because it isn't important enough. The truth is content loses because importance without urgency always yields to urgency without importance — every single time, in every team, regardless of how much they care. This is not a discipline problem. It is a structural one. The only way to solve a structural problem is to remove the structure that causes it — meaning content can't be a task you do; it has to be something that happens without requiring your week. CTA: Directs the viewer to submit their website URL and get their first content package free, with the angle that no deadline means it will stay on the list forever unless something else removes it.",
+    "emotional_tone": "Reflective and slightly conspiratorial — the insider letting you in on a structural truth most people haven't named yet. Not accusatory. Calm and precise. The viewer should feel seen rather than criticized, and then quietly unsettled by how obvious the fix becomes once the real problem is named.",
+    "audience_insight": "Founders, small marketing teams, and solo operators already know content matters. They have said it out loud in standups. They have put it on the calendar. The pain is not ignorance — it is that every system around them correctly and rationally deprioritizes content in favor of things with immediate consequences. Naming the structural cause rather than implying personal failure is the unlock that makes this land.",
+    "visual_direction": {
+      "palette": "Deep near-black background (#0d0d0d or dark navy), white primary text, a single accent color — a sharp electric blue or cool mint — used only for the myth label and the resolution beat. No gradients, no photography, no illustration.",
+      "lighting": "Flat, even, high-contrast digital environment. No natural light simulation. The background is a deep near-black or very dark navy, making white and accent-colored text pop cleanly without any warmth or texture.",
+      "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the background to give depth without distraction.",
+      "camera_style": "No camera movement. Static frame with animated text and motion-graphic transitions between beats. Cuts are clean and timed to the voiceover. Pacing is deliberate — slightly slower than typical TikTok content to signal that this is a considered argument, not a reaction.",
+      "art_direction": "Clean, minimal motion-graphics aesthetic. Text-driven with kinetic typography as the primary visual layer. No clutter, no props, no desk scenes. Words appear, collide, and resolve on screen in sync with the voiceover — key phrases like 'no deadline', 'no angry customer', 'no immediate consequence' are isolated and enlarged for emphasis. The visual rhythm mirrors the logical structure of the argument: deliberate, spaced, precise.",
+      "character_style": "none"
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and measured, allowing each word to resonate before moving to the next.",
+    "emotion": "Reflective and slightly conspiratorial, inviting the viewer to consider a shared struggle.",
+    "first_image": "A stark, dark screen with bold white text that reads 'Why does every team say content is a priority?' The text appears with a sharp, kinetic motion, then pauses for emphasis.",
+    "attention_pattern": "The opening question creates immediate curiosity, prompting viewers to reflect on their own experiences while hinting at a deeper structural issue.",
+    "first_spoken_sentence": "Why does every team say content is a priority, and then not post for six weeks?"
+  },
+  "visual_identity": {
+    "palette": "Deep near-black background (#0d0d0d or dark navy), white primary text, a single accent color — a sharp electric blue or cool mint — used only for the myth label and the resolution beat. No gradients, no photography, no illustration.",
+    "lighting": "Flat, even, high-contrast digital environment. No natural light simulation. The background is a deep near-black or very dark navy, making white and accent-colored text pop cleanly without any warmth or texture.",
+    "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the background to give depth without distraction.",
+    "camera_style": "No camera movement. Static frame with animated text and motion-graphic transitions between beats. Cuts are clean and timed to the voiceover. Pacing is deliberate — slightly slower than typical TikTok content to signal that this is a considered argument, not a reaction.",
+    "art_direction": "Clean, minimal motion-graphics aesthetic. Text-driven with kinetic typography as the primary visual layer. No clutter, no props, no desk scenes. Words appear, collide, and resolve on screen in sync with the voiceover — key phrases like 'no deadline', 'no angry customer', 'no immediate consequence' are isolated and enlarged for emphasis. The visual rhythm mirrors the logical structure of the argument: deliberate, spaced, precise.",
+    "character_style": "none",
+    "opening_emotion": "Reflective and slightly conspiratorial, inviting the viewer to consider a shared struggle.",
+    "opening_first_image": "A stark, dark screen with bold white text that reads 'Why does every team say content is a priority?' The text appears with a sharp, kinetic motion, then pauses for emphasis."
+  },
+  "package": {
+    "title": "The Priority That Has No Deadline",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+    "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+    "video": {
+      "script": "SCENE 1 — HOOK\n[Dark screen. Bold white text animates in kinetically.]\nVO: 'Why does every team say content is a priority, and then not post for six weeks?'\n\nSCENE 2 — MYTH LABEL\n[Electric blue accent text: 'THE MYTH' appears, then fades. White text below: 'You just need more discipline.']\nVO: 'Here's the myth: it's a discipline problem. It isn't.'\n\nSCENE 3 — WHY PEOPLE BELIEVE IT\n[Three phrases appear in sequence, each isolated and enlarged: 'SUPPORT TICKET → deadline.' / 'CLIENT EMAIL → consequence.' / 'CONTENT → ?']\nVO: 'A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it.'\n\nSCENE 4 — REALITY\n[White text: 'So it moves to tomorrow — rationally, every time.' Pause. Then: 'That's not failure. That's structure.']\nVO: 'So it moves to tomorrow — rationally, every time. That's not failure. That's structure.'\n\nSCENE 5 — RESOLUTION / CTA\n[Cool mint accent text: 'THE FIX' appears. White text below: 'Remove it from your list entirely.']\nVO: 'And the only fix is removing content from your list entirely.'",
+      "concept": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams lack discipline — and corrects it with the structural truth: content is the only business task with no external deadline, no angry customer, and no immediate consequence for skipping it. It will always lose to tasks that do have those forcing functions. The fix is not trying harder. It is removing content from the category of things that require your time at all. fenrik Studio is introduced at the resolution as that structural fix — a done-for-you service where a website URL is the only input and ready-to-post content is the output.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediatips",
+      "#founderlife",
+      "#saasmarketing",
+      "#smallbusiness",
+      "#contentstrategy"
+    ],
+    "subtitles_planned": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette."
+    }
+  ],
+  "voiceover": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+  "voice_prompts": {
+    "voiceover_text": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: clear, authoritative correction without arrogance. Delivery: con",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography.",
+    "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration.",
+    "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic.",
+    "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic.",
+    "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — the fix isn't more discipline, it's a different structure.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Content isn't losing to laziness. It's losing to everything that has a deadline and a consequence. 🧵",
+        "hashtags": [
+          "#contentstrategy",
+          "#founderlife",
+          "#socialmediamarketing",
+          "#saas",
+          "#smallbusiness"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "Content isn't deprioritized because you don't care — it's deprioritized because it has no deadline and no immediate consequence. Here's the structural reason it keeps losing.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#saas"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Ever wonder why 'post something this week' survives every to-do list but never gets done? 🤔 It's not a motivation problem — content is genuinely the only task in your week with no deadline, no consequence, and no one chasing you for it. So it moves to tomorrow, and tomorrow is always reasonable. The fix isn't trying harder. It's taking content off your plate entirely. Drop a comment if this sounds familiar 👇",
+        "hashtags": [
+          "#socialmedia",
+          "#smallbusiness",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Content keeps getting deprioritized — and it's not a discipline problem.\n\nEvery other task in your week has a forcing function: a deadline, a client waiting, a system that breaks. Content has none of those. So the rational, well-intentioned person moves it to tomorrow. And tomorrow is always reasonable.\n\nImportance without urgency will always yield to urgency without importance. That's not a character flaw — it's how prioritization actually works.\n\nThe structural fix isn't more calendar blocks. It's removing content from the list of things that require your time at all.",
+        "hashtags": [
+          "#contentmarketing",
+          "#founderlife",
+          "#saas"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this.",
+        "format": "reel",
+        "caption": "Content keeps getting pushed because it has no deadline.\n\nNo angry customer waiting. No system breaking. No visible cost the day you skip it.\n\nThat's not a discipline problem — that's a structural one.\n\nSave this if you've ever moved 'post something' to next week and felt completely reasonable doing it.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediatips",
+          "#founderlife",
+          "#marketingstrategy",
+          "#smallbusinessowner",
+          "#saasmarketing",
+          "#contentmarketing",
+          "#creatoreconomy"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "e491633c-285b-40d1-b47d-620b15fec94b",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Priority That Has No Deadline",
+        "body": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+        "caption": "Content keeps getting pushed because it has no deadline.\n\nNo angry customer waiting. No system breaking. No visible cost the day you skip it.\n\nThat's not a discipline problem — that's a structural one.\n\nSave this if you've ever moved 'post something' to next week and felt completely reasonable doing it.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediatips",
+          "#founderlife",
+          "#marketingstrategy",
+          "#smallbusinessowner",
+          "#saasmarketing",
+          "#contentmarketing",
+          "#creatoreconomy"
+        ],
+        "cta": "Save this.",
+        "language": null
+      },
+      {
+        "id": "8d3332d6-a9be-4534-88bf-a01ca8f8273d",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Priority That Has No Deadline",
+        "body": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+        "caption": "Content isn't deprioritized because you don't care — it's deprioritized because it has no deadline and no immediate consequence. Here's the structural reason it keeps losing.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#saas"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "eb61c156-e41a-49cc-a71d-7b0f4eac860c",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Priority That Has No Deadline",
+        "body": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+        "caption": "Ever wonder why 'post something this week' survives every to-do list but never gets done? 🤔 It's not a motivation problem — content is genuinely the only task in your week with no deadline, no consequence, and no one chasing you for it. So it moves to tomorrow, and tomorrow is always reasonable. The fix isn't trying harder. It's taking content off your plate entirely. Drop a comment if this sounds familiar 👇",
+        "hashtags": [
+          "#socialmedia",
+          "#smallbusiness",
+          "#contentmarketing"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "0ed6493c-e140-47da-bc1d-43d38e240338",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Priority That Has No Deadline",
+        "body": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+        "caption": "Content keeps getting deprioritized — and it's not a discipline problem.\n\nEvery other task in your week has a forcing function: a deadline, a client waiting, a system that breaks. Content has none of those. So the rational, well-intentioned person moves it to tomorrow. And tomorrow is always reasonable.\n\nImportance without urgency will always yield to urgency without importance. That's not a character flaw — it's how prioritization actually works.\n\nThe structural fix isn't more calendar blocks. It's removing content from the list of things that require your time at all.",
+        "hashtags": [
+          "#contentmarketing",
+          "#founderlife",
+          "#saas"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "7f85bb7d-a0a1-4bfe-9df3-b6c6f440451d",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Priority That Has No Deadline",
+        "body": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+        "caption": "Content isn't losing to laziness. It's losing to everything that has a deadline and a consequence. 🧵",
+        "hashtags": [
+          "#contentstrategy",
+          "#founderlife",
+          "#socialmediamarketing",
+          "#saas",
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "d66799fb-01fa-4222-9554-797598b6ec39",
+    "title": "The Priority That Has No Deadline",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "454934f0-ea76-40ec-8f02-1b227459246d",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — the fix isn't more discipline, it's a different structure.",
+        "type": "save"
+      },
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "video": {
+        "script": "SCENE 1 — HOOK\n[Dark screen. Bold white text animates in kinetically.]\nVO: 'Why does every team say content is a priority, and then not post for six weeks?'\n\nSCENE 2 — MYTH LABEL\n[Electric blue accent text: 'THE MYTH' appears, then fades. White text below: 'You just need more discipline.']\nVO: 'Here's the myth: it's a discipline problem. It isn't.'\n\nSCENE 3 — WHY PEOPLE BELIEVE IT\n[Three phrases appear in sequence, each isolated and enlarged: 'SUPPORT TICKET → deadline.' / 'CLIENT EMAIL → consequence.' / 'CONTENT → ?']\nVO: 'A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it.'\n\nSCENE 4 — REALITY\n[White text: 'So it moves to tomorrow — rationally, every time.' Pause. Then: 'That's not failure. That's structure.']\nVO: 'So it moves to tomorrow — rationally, every time. That's not failure. That's structure.'\n\nSCENE 5 — RESOLUTION / CTA\n[Cool mint accent text: 'THE FIX' appears. White text below: 'Remove it from your list entirely.']\nVO: 'And the only fix is removing content from your list entirely.'",
+        "concept": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams lack discipline — and corrects it with the structural truth: content is the only business task with no external deadline, no angry customer, and no immediate consequence for skipping it. It will always lose to tasks that do have those forcing functions. The fix is not trying harder. It is removing content from the category of things that require your time at all. fenrik Studio is introduced at the resolution as that structural fix — a done-for-you service where a website URL is the only input and ready-to-post content is the output.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediatips",
+        "#founderlife",
+        "#saasmarketing",
+        "#smallbusiness",
+        "#contentstrategy"
+      ],
+      "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+      "subtitles": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography.",
+        "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration.",
+        "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic.",
+        "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic.",
+        "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette."
+        }
+      ],
+      "voiceover_text": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Content isn't losing to laziness. It's losing to everything that has a deadline and a consequence. 🧵",
+          "hashtags": [
+            "#contentstrategy",
+            "#founderlife",
+            "#socialmediamarketing",
+            "#saas",
+            "#smallbusiness"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "short",
+          "caption": "Content isn't deprioritized because you don't care — it's deprioritized because it has no deadline and no immediate consequence. Here's the structural reason it keeps losing.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmedia",
+            "#saas"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Ever wonder why 'post something this week' survives every to-do list but never gets done? 🤔 It's not a motivation problem — content is genuinely the only task in your week with no deadline, no consequence, and no one chasing you for it. So it moves to tomorrow, and tomorrow is always reasonable. The fix isn't trying harder. It's taking content off your plate entirely. Drop a comment if this sounds familiar 👇",
+          "hashtags": [
+            "#socialmedia",
+            "#smallbusiness",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Content keeps getting deprioritized — and it's not a discipline problem.\n\nEvery other task in your week has a forcing function: a deadline, a client waiting, a system that breaks. Content has none of those. So the rational, well-intentioned person moves it to tomorrow. And tomorrow is always reasonable.\n\nImportance without urgency will always yield to urgency without importance. That's not a character flaw — it's how prioritization actually works.\n\nThe structural fix isn't more calendar blocks. It's removing content from the list of things that require your time at all.",
+          "hashtags": [
+            "#contentmarketing",
+            "#founderlife",
+            "#saas"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this.",
+          "format": "reel",
+          "caption": "Content keeps getting pushed because it has no deadline.\n\nNo angry customer waiting. No system breaking. No visible cost the day you skip it.\n\nThat's not a discipline problem — that's a structural one.\n\nSave this if you've ever moved 'post something' to next week and felt completely reasonable doing it.",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmediatips",
+            "#founderlife",
+            "#marketingstrategy",
+            "#smallbusinessowner",
+            "#saasmarketing",
+            "#contentmarketing",
+            "#creatoreconomy"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "d66799fb-01fa-4222-9554-797598b6ec39",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 42,
+          "secondary": 48
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "myth_buster",
+        "video_concept": {
+          "title": "The Priority That Has No Deadline",
+          "core_idea": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams don't care about it or aren't disciplined enough — and corrects it with the structural truth: content is the only business task with no external deadline, no angry customer waiting on it, and no immediate consequence for skipping it, which means it will always lose to everything else that does have those things. The fix isn't more discipline. It's removing content from the list of things that require your time at all.",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you service that takes content off the list entirely. You submit a website URL. Content is delivered ready to post. The forcing function is built in. Named directly and briefly, without overselling.",
+          "why_it_works": "The myth-buster works because it reframes a familiar frustration as a systems problem rather than a personal one — which is both more accurate and more persuasive. The insider voice makes the structural diagnosis feel like privileged knowledge rather than a lecture. The hook question is specific enough to feel aimed directly at the viewer's experience without being generic. The concept is distinct from recent fingerprints: no desk scene, no timer, no freelancer dynamic, no calendar block — the visual world is abstract and motion-driven, and the narrative mechanism is pure structural argument rather than scenario or anecdote.",
+          "narrative_arc": "MYTH: Opens with the pointed insider question — 'Why does every team say content is a priority, and then not post for six weeks?' Frames the widespread assumption that the answer is poor discipline or weak follow-through. WHY PEOPLE BELIEVE IT: Walks through the structural logic of a real work week — a support ticket arrives, someone responds immediately; a client emails, someone picks up the phone; a bug surfaces, the team drops everything. Content has none of those forcing functions. No customer is angry. No system breaks. No revenue visibly disappears the day you skip a post. So the rational, well-intentioned person moves content to tomorrow, and tomorrow is always reasonable. REALITY: The myth is that content loses because it isn't important enough. The truth is content loses because importance without urgency always yields to urgency without importance — every single time, in every team, regardless of how much they care. This is not a discipline problem. It is a structural one. The only way to solve a structural problem is to remove the structure that causes it — meaning content can't be a task you do; it has to be something that happens without requiring your week. CTA: Directs the viewer to submit their website URL and get their first content package free, with the angle that no deadline means it will stay on the list forever unless something else removes it.",
+          "emotional_tone": "Reflective and slightly conspiratorial — the insider letting you in on a structural truth most people haven't named yet. Not accusatory. Calm and precise. The viewer should feel seen rather than criticized, and then quietly unsettled by how obvious the fix becomes once the real problem is named.",
+          "audience_insight": "Founders, small marketing teams, and solo operators already know content matters. They have said it out loud in standups. They have put it on the calendar. The pain is not ignorance — it is that every system around them correctly and rationally deprioritizes content in favor of things with immediate consequences. Naming the structural cause rather than implying personal failure is the unlock that makes this land.",
+          "visual_direction": {
+            "palette": "Deep near-black background (#0d0d0d or dark navy), white primary text, a single accent color — a sharp electric blue or cool mint — used only for the myth label and the resolution beat. No gradients, no photography, no illustration.",
+            "lighting": "Flat, even, high-contrast digital environment. No natural light simulation. The background is a deep near-black or very dark navy, making white and accent-colored text pop cleanly without any warmth or texture.",
+            "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the background to give depth without distraction.",
+            "camera_style": "No camera movement. Static frame with animated text and motion-graphic transitions between beats. Cuts are clean and timed to the voiceover. Pacing is deliberate — slightly slower than typical TikTok content to signal that this is a considered argument, not a reaction.",
+            "art_direction": "Clean, minimal motion-graphics aesthetic. Text-driven with kinetic typography as the primary visual layer. No clutter, no props, no desk scenes. Words appear, collide, and resolve on screen in sync with the voiceover — key phrases like 'no deadline', 'no angry customer', 'no immediate consequence' are isolated and enlarged for emphasis. The visual rhythm mirrors the logical structure of the argument: deliberate, spaced, precise.",
+            "character_style": "none"
+          }
+        },
+        "voice_reasons": [
+          "funnel_awareness→warmth/energy(+1)",
+          "mode_myth_buster→steady/energy",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+42)",
+          "fit_secondary(+45)",
+          "soft_tie_recent_primary(4)→secondary(+3)"
+        ],
+        "opening_impact": {
+          "pacing": "Deliberate and measured, allowing each word to resonate before moving to the next.",
+          "emotion": "Reflective and slightly conspiratorial, inviting the viewer to consider a shared struggle.",
+          "first_image": "A stark, dark screen with bold white text that reads 'Why does every team say content is a priority?' The text appears with a sharp, kinetic motion, then pauses for emphasis.",
+          "attention_pattern": "The opening question creates immediate curiosity, prompting viewers to reflect on their own experiences while hinting at a deeper structural issue.",
+          "first_spoken_sentence": "Why does every team say content is a priority, and then not post for six weeks?"
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: natural, curious, conversational. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Deep near-black background (#0d0d0d or dark navy), white primary text, a single accent color — a sharp electric blue or cool mint — used only for the myth label and the resolution beat. No gradients, no photography, no illustration.",
+          "lighting": "Flat, even, high-contrast digital environment. No natural light simulation. The background is a deep near-black or very dark navy, making white and accent-colored text pop cleanly without any warmth or texture.",
+          "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the background to give depth without distraction.",
+          "camera_style": "No camera movement. Static frame with animated text and motion-graphic transitions between beats. Cuts are clean and timed to the voiceover. Pacing is deliberate — slightly slower than typical TikTok content to signal that this is a considered argument, not a reaction.",
+          "art_direction": "Clean, minimal motion-graphics aesthetic. Text-driven with kinetic typography as the primary visual layer. No clutter, no props, no desk scenes. Words appear, collide, and resolve on screen in sync with the voiceover — key phrases like 'no deadline', 'no angry customer', 'no immediate consequence' are isolated and enlarged for emphasis. The visual rhythm mirrors the logical structure of the argument: deliberate, spaced, precise.",
+          "character_style": "none",
+          "opening_emotion": "Reflective and slightly conspiratorial, inviting the viewer to consider a shared struggle.",
+          "opening_first_image": "A stark, dark screen with bold white text that reads 'Why does every team say content is a priority?' The text appears with a sharp, kinetic motion, then pauses for emphasis."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: clear, authoritative correction without arrogance. Delivery: con",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Content production distracts from running the business",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 5998,
+                "completion_tokens": 1162
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:30:45.081Z",
+              "duration_ms": 30850,
+              "finished_at": "2026-07-25T10:31:15.931Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 5998,
+              "estimated_cost": 0.035424,
+              "output_summary": "Concept: The Priority That Has No Deadline",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 26064,
+              "completion_tokens": 1162,
+              "output_size_bytes": 5352,
+              "prompt_characters": 25840,
+              "provider_request_id": null,
+              "completion_characters": 5322
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5097,
+                "completion_tokens": 145
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:31:15.932Z",
+              "duration_ms": 1841,
+              "finished_at": "2026-07-25T10:31:17.773Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5097,
+              "estimated_cost": 0.000775,
+              "output_summary": "Opening: Why does every team say content is a priority, and then not post for six weeks?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 24993,
+              "completion_tokens": 145,
+              "output_size_bytes": 686,
+              "prompt_characters": 24855,
+              "provider_request_id": null,
+              "completion_characters": 686
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:31:17.773Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:31:17.773Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, minimal motion-graphics aesthetic. Text-driven with k",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1773,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1763
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10078,
+                "completion_tokens": 2606
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:31:17.774Z",
+              "duration_ms": 47583,
+              "finished_at": "2026-07-25T10:32:05.357Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10078,
+              "estimated_cost": 0.069324,
+              "output_summary": "Package: The Priority That Has No Deadline",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 41798,
+              "completion_tokens": 2606,
+              "output_size_bytes": 9941,
+              "prompt_characters": 41534,
+              "provider_request_id": null,
+              "completion_characters": 9871
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:05.357Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:32:05.357Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2306,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2290
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:05.357Z",
+              "duration_ms": 2050,
+              "finished_at": "2026-07-25T10:32:07.407Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=d66799fb-01fa-4222-9554-797598b6ec39; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "454934f0-ea76-40ec-8f02-1b227459246d",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams don't care about it or aren't disciplined enough — and corrects it with the structural truth: con…",
+          "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid o…",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you …",
+          "visual_world": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the b…",
+          "attention_pattern": "The opening question creates immediate curiosity, prompting viewers to reflect on their own experiences while hinting a…",
+          "narrative_mechanism": "myth_buster: MYTH: Opens with the pointed insider question — 'Why does every team say conten…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:32:05.448198+00:00",
+    "updated_at": "2026-07-25T10:32:07.581193+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 42,
+      "secondary": 48
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_myth_buster→steady/energy",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+42)",
+      "fit_secondary(+45)",
+      "soft_tie_recent_primary(4)→secondary(+3)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: clear, authoritative correction without arrogance. Delivery: con"
+  },
+  "creative_mode": "myth_buster",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Content production distracts from running the business",
+    "strategy_pain_point": "Content production distracts from running the business"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you service that takes content off the list entirely. You submit a website URL. Content is delivered ready to post. The forcing function is built in. Named directly and briefly, without overselling.",
+  "narrative_arc": "MYTH: Opens with the pointed insider question — 'Why does every team say content is a priority, and then not post for six weeks?' Frames the widespread assumption that the answer is poor discipline or weak follow-through. WHY PEOPLE BELIEVE IT: Walks through the structural logic of a real work week — a support ticket arrives, someone responds immediately; a client emails, someone picks up the phone; a bug surfaces, the team drops everything. Content has none of those forcing functions. No customer is angry. No system breaks. No revenue visibly disappears the day you skip a post. So the rational, well-intentioned person moves content to tomorrow, and tomorrow is always reasonable. REALITY: The myth is that content loses because it isn't important enough. The truth is content loses because importance without urgency always yields to urgency without importance — every single time, in every team, regardless of how much they care. This is not a discipline problem. It is a structural one. The only way to solve a structural problem is to remove the structure that causes it — meaning content can't be a task you do; it has to be something that happens without requiring your week. CTA: Directs the viewer to submit their website URL and get their first content package free, with the angle that no deadline means it will stay on the list forever unless something else removes it.",
+  "emotional_tone": "Reflective and slightly conspiratorial — the insider letting you in on a structural truth most people haven't named yet. Not accusatory. Calm and precise. The viewer should feel seen rather than criticized, and then quietly unsettled by how obvious the fix becomes once the real problem is named.",
+  "audience_insight": "Founders, small marketing teams, and solo operators already know content matters. They have said it out loud in standups. They have put it on the calendar. The pain is not ignorance — it is that every system around them correctly and rationally deprioritizes content in favor of things with immediate consequences. Naming the structural cause rather than implying personal failure is the unlock that makes this land.",
+  "visual_direction": {
+    "palette": "Deep near-black background (#0d0d0d or dark navy), white primary text, a single accent color — a sharp electric blue or cool mint — used only for the myth label and the resolution beat. No gradients, no photography, no illustration.",
+    "lighting": "Flat, even, high-contrast digital environment. No natural light simulation. The background is a deep near-black or very dark navy, making white and accent-colored text pop cleanly without any warmth or texture.",
+    "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the background to give depth without distraction.",
+    "camera_style": "No camera movement. Static frame with animated text and motion-graphic transitions between beats. Cuts are clean and timed to the voiceover. Pacing is deliberate — slightly slower than typical TikTok content to signal that this is a considered argument, not a reaction.",
+    "art_direction": "Clean, minimal motion-graphics aesthetic. Text-driven with kinetic typography as the primary visual layer. No clutter, no props, no desk scenes. Words appear, collide, and resolve on screen in sync with the voiceover — key phrases like 'no deadline', 'no angry customer', 'no immediate consequence' are isolated and enlarged for emphasis. The visual rhythm mirrors the logical structure of the argument: deliberate, spaced, precise.",
+    "character_style": "none"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely."
+  },
+  "render_metadata": {
+    "id": "08077c07-a602-4158-8432-ddc31f42916d",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:32:07.232399+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A stark, dark screen (#0d0d0d background) with bold white kinetic typography reading 'Why does every team say content is a priority?' — text appears mid-animation, sharp and slightly offset, then snaps to center. Faint geometric grid lines barely visible in the background. No people, no props, no photography."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Dark near-black screen with a sharp electric blue label 'THE MYTH' centered and oversized, then below it in clean white text: 'You just need more discipline.' High contrast, flat digital environment, subtle grid texture in background. No gradients, no illustration."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Three isolated white text phrases stacked vertically on a deep dark background, each with a right-arrow connector: 'SUPPORT TICKET → deadline' / 'CLIENT EMAIL → consequence' / 'CONTENT → ?' — the third line's answer conspicuously absent, rendered in dimmer grey. Electric blue accent on the arrows only. Kinetic layout, flat digital aesthetic."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Dark screen with bold white centered text: 'So it moves to tomorrow — rationally, every time.' Below it, slightly smaller: 'That's not failure. That's structure.' Deliberate typographic spacing. Faint geometric line texture in background. No photography, no illustration, flat digital aesthetic."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white text: 'Remove it from your list entirely.' Minimal, high-contrast, static frame with subtle background grid. The mint accent is the only color departure from white-on-dark palette."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+    "cta": "Save this — the fix isn't more discipline, it's a different structure.",
+    "voiceover_text": "Why does every team say content is a priority, and then not post for six weeks? Here's the myth: it's a discipline problem. It isn't. A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it. So it moves to tomorrow — rationally, every time. That's not failure. That's structure. And the only fix is removing content from your list entirely.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams don't care about it or aren't disciplined enough — and corrects it with the structural truth: con…",
+      "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid o…",
+      "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you …",
+      "visual_world": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the b…",
+      "attention_pattern": "The opening question creates immediate curiosity, prompting viewers to reflect on their own experiences while hinting a…",
+      "narrative_mechanism": "myth_buster: MYTH: Opens with the pointed insider question — 'Why does every team say conten…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediatips",
+    "#founderlife",
+    "#saasmarketing",
+    "#smallbusiness",
+    "#contentstrategy"
+  ],
+  "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+  "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+  "video": {
+    "script": "SCENE 1 — HOOK\n[Dark screen. Bold white text animates in kinetically.]\nVO: 'Why does every team say content is a priority, and then not post for six weeks?'\n\nSCENE 2 — MYTH LABEL\n[Electric blue accent text: 'THE MYTH' appears, then fades. White text below: 'You just need more discipline.']\nVO: 'Here's the myth: it's a discipline problem. It isn't.'\n\nSCENE 3 — WHY PEOPLE BELIEVE IT\n[Three phrases appear in sequence, each isolated and enlarged: 'SUPPORT TICKET → deadline.' / 'CLIENT EMAIL → consequence.' / 'CONTENT → ?']\nVO: 'A support ticket has a deadline. A client email has a consequence. Content has neither. No angry customer. No broken system. No visible cost on the day you skip it.'\n\nSCENE 4 — REALITY\n[White text: 'So it moves to tomorrow — rationally, every time.' Pause. Then: 'That's not failure. That's structure.']\nVO: 'So it moves to tomorrow — rationally, every time. That's not failure. That's structure.'\n\nSCENE 5 — RESOLUTION / CTA\n[Cool mint accent text: 'THE FIX' appears. White text below: 'Remove it from your list entirely.']\nVO: 'And the only fix is removing content from your list entirely.'",
+    "concept": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams lack discipline — and corrects it with the structural truth: content is the only business task with no external deadline, no angry customer, and no immediate consequence for skipping it. It will always lose to tasks that do have those forcing functions. The fix is not trying harder. It is removing content from the category of things that require your time at all. fenrik Studio is introduced at the resolution as that structural fix — a done-for-you service where a website URL is the only input and ready-to-post content is the output.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 5998,
+          "completion_tokens": 1162
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:30:45.081Z",
+        "duration_ms": 30850,
+        "finished_at": "2026-07-25T10:31:15.931Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 5998,
+        "estimated_cost": 0.035424,
+        "output_summary": "Concept: The Priority That Has No Deadline",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 26064,
+        "completion_tokens": 1162,
+        "output_size_bytes": 5352,
+        "prompt_characters": 25840,
+        "provider_request_id": null,
+        "completion_characters": 5322
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5097,
+          "completion_tokens": 145
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:31:15.932Z",
+        "duration_ms": 1841,
+        "finished_at": "2026-07-25T10:31:17.773Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5097,
+        "estimated_cost": 0.000775,
+        "output_summary": "Opening: Why does every team say content is a priority, and then not post for six weeks?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 24993,
+        "completion_tokens": 145,
+        "output_size_bytes": 686,
+        "prompt_characters": 24855,
+        "provider_request_id": null,
+        "completion_characters": 686
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:31:17.773Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:31:17.773Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, minimal motion-graphics aesthetic. Text-driven with k",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1773,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1763
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10078,
+          "completion_tokens": 2606
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:31:17.774Z",
+        "duration_ms": 47583,
+        "finished_at": "2026-07-25T10:32:05.357Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10078,
+        "estimated_cost": 0.069324,
+        "output_summary": "Package: The Priority That Has No Deadline",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 41798,
+        "completion_tokens": 2606,
+        "output_size_bytes": 9941,
+        "prompt_characters": 41534,
+        "provider_request_id": null,
+        "completion_characters": 9871
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:05.357Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:32:05.357Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2306,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2290
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:05.357Z",
+        "duration_ms": 2050,
+        "finished_at": "2026-07-25T10:32:07.407Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=d66799fb-01fa-4222-9554-797598b6ec39; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "454934f0-ea76-40ec-8f02-1b227459246d",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

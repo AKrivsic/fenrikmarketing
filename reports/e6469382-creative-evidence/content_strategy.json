@@ -1,0 +1,431 @@
+{
+  "strategies": [
+    {
+      "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+      "created_at": "2026-07-25T10:17:41.252221+00:00",
+      "strategy_brief": {
+        "theme": "Invisible Work, Visible Cost",
+        "source": "production_run",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+        "funnel_distribution": {
+          "Awareness": 6,
+          "Conversion": 1,
+          "Problem Aware": 10,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4491,
+                "completion_tokens": 2876
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T10:16:46.502Z",
+              "duration_ms": 54663,
+              "finished_at": "2026-07-25T10:17:41.164Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4491,
+              "estimated_cost": 0.056613,
+              "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 19566,
+              "completion_tokens": 2876,
+              "output_size_bytes": 11292,
+              "prompt_characters": 19462,
+              "provider_request_id": null,
+              "completion_characters": 11244
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:17:41.165Z",
+              "duration_ms": 300,
+              "finished_at": "2026-07-25T10:17:41.465Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "21 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 884,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 884
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        }
+      }
+    }
+  ],
+  "strategy_items": [
+    {
+      "id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A founder narrates their Tuesday in reverse — every hour they planned to use for growth was swallowed by writing one caption that still isn't done by 6pm. No drama, just a quiet audit of where the day actually went.",
+        "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+        "source": "production_run",
+        "pain_point": "Creating content takes too many hours every week",
+        "package_index": 0,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A product manager at a two-person SaaS team documents the gap between their content brainstorm on Monday and the reality that nothing was posted by Friday — the ideas existed, the time did not.",
+        "topic": "Why your content ideas never survive contact with your actual schedule",
+        "source": "production_run",
+        "pain_point": "Running out of content ideas",
+        "package_index": 1,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "POV: a potential customer discovers a brand through a Google search, clicks their Instagram link, and sees a feed that stopped nine weeks ago. The video walks through exactly what that stranger is thinking — and what decision they make next.",
+        "topic": "What your business looks like to a stranger who finds your social profile first",
+        "source": "production_run",
+        "pain_point": "Social accounts are inactive or inconsistent",
+        "package_index": 2,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "ee14fe1b-8f3f-466e-a92e-df5475511436",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "An ecommerce brand owner walks through their notes app: 23 saved content ideas, zero turned into posts. The video explores why the backlog keeps growing and why clearing it never makes the priority list.",
+        "topic": "The content backlog that grows faster than you can clear it",
+        "source": "production_run",
+        "pain_point": "Running out of content ideas",
+        "package_index": 3,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A solo founder describes the moment they realized their freelancer relationship required weekly briefs, revision rounds, and approval cycles — more hours spent managing content than they ever spent creating it themselves.",
+        "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+        "source": "production_run",
+        "pain_point": "Hiring creators or agencies is expensive",
+        "package_index": 4,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A small marketing team lead reflects on the recurring pattern: content production is always the first item bumped when a client call runs long or a product issue needs attention. The slot exists on the calendar; the output never does.",
+        "topic": "The meeting that replaced your content hour — every single week",
+        "source": "production_run",
+        "pain_point": "No time to create content regularly",
+        "package_index": 5,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A practical breakdown — not emotional, just numerical — of the real time and mental load required to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts simultaneously as a solo operator.",
+        "topic": "What it actually costs to stay active on four platforms at once without a team",
+        "source": "production_run",
+        "pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+        "package_index": 6,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A straightforward walkthrough of the fenrik Studio intake process: one URL submitted, no brief written, no creative direction given — and what comes back on the other side. Focuses on what the customer does not have to do.",
+        "topic": "What happens when your content input is just a URL — nothing else",
+        "source": "production_run",
+        "pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "package_index": 7,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A bootstrapped app founder ships a major update, sends the changelog to their email list, then realizes they posted nothing on any social channel — the moment passed, and so did the attention window.",
+        "topic": "The product launch that happened without a single post to support it",
+        "source": "production_run",
+        "pain_point": "Social accounts are inactive or inconsistent",
+        "package_index": 8,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "454934f0-ea76-40ec-8f02-1b227459246d",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A reflective, conversational piece examining the structural reason content keeps getting deprioritized: it has no deadline, no angry customer, and no immediate consequence — until it does.",
+        "topic": "Why content always gets treated like a side project — even when it's a priority",
+        "source": "production_run",
+        "pain_point": "Content production distracts from running the business",
+        "package_index": 9,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "An agency owner reflects on a client who paid for social media management for six months and still saw posting gaps — because the agency's bandwidth was spread across too many accounts to maintain genuine frequency for any one of them.",
+        "topic": "The agency retainer that didn't solve the consistency problem",
+        "source": "production_run",
+        "pain_point": "Hiring creators or agencies is expensive",
+        "package_index": 10,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "052b57b6-4b8f-4486-9115-b9ba9b5a4631",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A concrete, no-hype look at what a completed fenrik Studio package contains — video, captions, platform-specific posts — framed as 'here is what you would have spent your week building, delivered instead.'",
+        "topic": "From website to ready-to-post video: what the output actually looks like",
+        "source": "production_run",
+        "pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "package_index": 11,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A content-specific frustration piece: a SaaS marketer explains that the original video took 40 minutes to record and the next three hours were spent resizing, rewriting captions, and figuring out hashtag strategy per platform.",
+        "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+        "source": "production_run",
+        "pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+        "package_index": 12,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A local service business owner recounts a conversation with a long-term customer who admitted they almost switched providers because the business's social feed had gone dark for six weeks — they assumed something was wrong.",
+        "topic": "The quiet month that made a business look like it stopped caring",
+        "source": "production_run",
+        "pain_point": "Social accounts are inactive or inconsistent",
+        "package_index": 13,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "77799098-891c-47fb-a842-35169fea8808",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A candid look at the in-house content promise: the team agrees it's a priority, someone is nominally responsible, and three months later the account has two posts. The video diagnoses the structural gap — not the motivation gap.",
+        "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+        "source": "production_run",
+        "pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "package_index": 14,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "60d28510-fd98-4008-a1a8-a3724514266a",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "Reframes the value of a defined deliverable: it's not just about the videos — it's that a fixed package eliminates the open-ended decisions (what to make, how many, for which platforms) that cause teams to stall indefinitely.",
+        "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+        "source": "production_run",
+        "pain_point": "No time to create content regularly",
+        "package_index": 15,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "f4c0ffa0-e380-4501-b1ef-093c3a957ad0",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A founder reflects on the moment they realized they were spending more time thinking about what to post than actually running their business — and that this had been true for months without anyone naming it.",
+        "topic": "How content production quietly became a second job nobody applied for",
+        "source": "production_run",
+        "pain_point": "Content production distracts from running the business",
+        "package_index": 16,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A small marketing team documents a 'content week' they blocked off — the planning, the filming, the editing — and the final output: three posts across two platforms. The math on hours per post is the uncomfortable punchline.",
+        "topic": "The content sprint that burned out the whole team and produced three posts",
+        "source": "production_run",
+        "pain_point": "Creating content takes too many hours every week",
+        "package_index": 17,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A practical, grounded look at the operational shift when a batch of finished content lands in a team's hands — not inspirational, just functional: what gets removed from the weekly to-do list and what that time goes back to.",
+        "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+        "source": "production_run",
+        "pain_point": "No time to create content regularly",
+        "package_index": 18,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 1,
+      "brief": {
+        "angle": "A solo consultant describes the weekly pattern: energy and ideas on Sunday, a packed client schedule by Monday, and by Wednesday the content slot on the calendar has already been quietly deleted. The cycle repeats.",
+        "topic": "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+        "source": "production_run",
+        "pain_point": "Running out of content ideas",
+        "package_index": 19,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    },
+    {
+      "id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+      "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "conversion",
+      "priority": 1,
+      "brief": {
+        "angle": "A direct, low-pressure close: the video explains that the barrier most people imagine (the brief, the creative direction, the platform strategy) doesn't exist here. The only input is a URL. The first package costs nothing. The CTA is the whole point.",
+        "topic": "You already have a website — that's the only thing fenrik Studio needs from you",
+        "source": "production_run",
+        "pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "package_index": 20,
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  ]
+}

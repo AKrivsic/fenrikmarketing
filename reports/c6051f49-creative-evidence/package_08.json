@@ -1,0 +1,1067 @@
+{
+  "package_index": 8,
+  "run_item_id": "52d8e4a7-e031-4b2e-aa26-1159aa5e8a9f",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+  "package_title": "The Question That Actually Got Answered",
+  "package_status": "draft",
+  "strategy_item_id": "457eb186-ccf5-4301-98a1-71b7ccc7b8b3",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "457eb186-ccf5-4301-98a1-71b7ccc7b8b3",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "Walk through the moment a visitor lands on a site with an AI assistant active. They type a question. They get a clear, relevant answer in seconds. They stay. They convert. Contrast this with the silent static page they would have left.",
+        "topic": "What happens when a website visitor asks a question and actually gets an answer — immediately",
+        "source": "production_run",
+        "pain_point": "Visitors leave before contacting you",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Question That Actually Got Answered",
+    "core_idea": "A common myth: if your website has the information, visitors will find what they need and reach out. They won't. Information sitting on a static page is not the same as information delivered in the moment someone asks for it. This video walks through a single visitor interaction — question typed, answer given instantly, visitor stays and converts — then cuts to the identical moment on a static page: question unasked, tab closed, gone. The myth is the mistake. The fix is already live on your website URL.",
+    "product_role": "Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immediate — available the moment a visitor forms a question, not one business day later. The product does not require new content, new staff, or technical setup. It closes the gap between information existing and information being received.",
+    "why_it_works": "The myth hook is disarming because it states something the audience genuinely believes — and states it charitably, not mockingly. The two-path contrast (answer given vs. tab closed) is visceral and concrete without requiring invented data or testimonials. The pain point — visitors leaving before contacting you — is dramatized through a single realistic moment rather than an abstraction. The product introduction lands naturally as the structural fix to a structural problem the viewer has just watched play out in real time.",
+    "narrative_arc": "HOOK — State the myth flat: 'Your website has all the answers. That's enough.' Pause. 'It isn't.' CUT TO: a visitor landing on a site with Fenrik.chat active. They type a short, real question — something like which service package fits a small team. A clear, relevant answer appears in seconds. The visitor reads it. They don't leave. They book. No waiting. No form with a one-business-day reply promise. CUT TO: the same visitor moment on a static page. Same question forming in their head. No chat bubble. No input field. They look at a contact form. They don't fill it out. Tab closes. BEAT: 'The information was there both times. One page delivered it. One page just held it.' PRODUCT MOMENT: Fenrik.chat reads your existing website content and answers the question the moment it's asked — no training, no setup complexity, one embed script. CLOSE: 'Your website already has the answers. Make sure it can actually give them.' CTA: Create your AI assistant — your content is already doing half the work.",
+    "emotional_tone": "Blunt and clarifying — the tone of someone who is mildly fed up with a fixable problem. Not harsh toward the viewer; impatient with the myth. The correction lands as relief, not criticism. Energy stays high through the contrast sequence, then settles into confident practicality at the product moment.",
+    "audience_insight": "Solution-aware SMB owners and consultants already believe their website is working because it looks good and contains correct information. They have not separated 'information exists on the page' from 'information was delivered to the person who needed it.' This video names that gap precisely and makes the distinction feel obvious in retrospect — which is what drives action.",
+    "visual_direction": {
+      "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+      "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+      "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+      "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+      "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+      "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and direct, with a pause after the myth to build anticipation for the contrast.",
+    "emotion": "Mild frustration with a hint of urgency as the myth is challenged.",
+    "first_image": "A close-up of a laptop screen showing a clean, modern website with a chat bubble active. The background is a tidy home office with soft ambient daylight streaming through a window, creating a warm atmosphere.",
+    "attention_pattern": "The viewer is drawn in by the bold statement, creating a need to see how the myth unfolds and is debunked in the following scenes.",
+    "first_spoken_sentence": "Your website has all the answers. That's enough."
+  },
+  "visual_identity": {
+    "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+    "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+    "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+    "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+    "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+    "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story.",
+    "opening_emotion": "Mild frustration with a hint of urgency as the myth is challenged.",
+    "opening_first_image": "A close-up of a laptop screen showing a clean, modern website with a chat bubble active. The background is a tidy home office with soft ambient daylight streaming through a window, creating a warm atmosphere."
+  },
+  "package": {
+    "title": "The Question That Actually Got Answered",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "Your website has all the answers. That's enough.",
+    "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. A qualified prospect finds the site one evening, reads through the services carefully, and wants to ask one specific question before booking a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. A chat bubble appears and answers the question within seconds. The prospect books. The next morning, the consultant opens analytics: solid traffic, zero leads. The gap wasn't the content. It was the one unanswered question.",
+    "video": {
+      "script": "SCENE 1 — COLD OPEN [Close-up: laptop screen, warm ambient light, chat bubble visible in corner of a clean website] VO: 'Your website has all the answers. That's enough.' [Beat. Pause.] VO: 'It isn't.' SCENE 2 — ANSWERED PATH [Over-the-shoulder: visitor at desk, fingers on keyboard. Screen shows a chat input field. They type a short question.] [Screen insert: chat response appears within seconds — clean, relevant, direct.] VO: 'Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds.' [Visitor leans back slightly. Cursor moves toward a booking button.] VO: 'They stay. They book.' SCENE 3 — STATIC PATH [Same desk. Same warm-to-cool color shift. Same visitor posture — but the screen shows a static page. No chat bubble. No input field.] [Screen insert: a contact form. Text reads 'We'll get back to you within one business day.'] VO: 'Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day.' [Visitor's hand lifts from keyboard. Tab closes.] VO: 'Tab closes. Gone.' SCENE 4 — BEAT [Wide shot: the desk, now empty. Screen dim.] VO: 'The information was there both times. One page delivered it. One page just held it.' SCENE 5 — PRODUCT MOMENT [Screen insert: Fenrik.chat UI — clean, white, single accent-color chat bubble. Text overlay: 'Reads your website. Answers instantly. One embed script.'] [No spoken product pitch — visual carries it.] CLOSE [Text overlay: 'Create your AI assistant'] [End card: fenrik.chat]",
+      "concept": "Two parallel moments. Same desk, same visitor, same question — two completely different outcomes. In the first, a chat bubble is active. The visitor types a short question. A clear answer appears in seconds. They stay, they convert. In the second, the identical setup: no chat, no response, just a static contact form. The visitor looks. Waits. Leaves. The myth — that information on a page is the same as information delivered — is exposed through contrast, not argument. Fenrik.chat is the delivery layer that closes the gap.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#SmallBusiness",
+      "#AIAssistant",
+      "#WebsiteTips",
+      "#LeadGeneration",
+      "#AIchatbot",
+      "#DigitalMarketing"
+    ],
+    "subtitles_planned": "Your website has all the answers. That's enough. / It isn't. / Watch what happens when a visitor lands and actually asks a question. / Chat bubble. They type. Answer appears — seconds. / They stay. They book. / Now watch the same moment on a static page. / Same question forming. No input field. / A contact form promising a reply in one business day. / Tab closes. Gone. / The information was there both times. / One page delivered it. One page just held it."
+  },
+  "voiceover": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a laptop screen showing a clean, modern website with an active chat bubble in the lower corner. Warm ambient daylight through a window. Tidy home office desk, coffee cup visible. Warm off-white and soft amber palette. Slight handheld camera feel, natural and unposed."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Over-the-shoulder angle: a visitor in a plain shirt at a compact desk, fingers on keyboard. Laptop screen shows a chat input field with a short typed question and a clear, concise AI response appearing below it in seconds. Warm, slightly saturated color temperature. Soft amber screen glow. Handheld, documentary feel."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Same desk, same visitor posture, same plain shirt — but the laptop screen now shows a static website page. No chat bubble, no input field. A contact form is visible with small text. Color temperature is cooler and more desaturated than the previous scene. Screen glow is dimmer. The environment is identical to reinforce the parallel-world contrast."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product feature reference shown as a framed screen insert illustrating 24/7 AI assistant availability — used during the product moment beat",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Wide shot of the compact home office desk, now empty. Laptop screen is dim. In the corner of the frame, a clean white chat UI with a single soft accent-color chat bubble is shown as a framed screen insert. Warm off-white and light grey base palette. Minimal clutter. Calm, confident energy. Documentary lighting."
+    }
+  ],
+  "image_prompts": [
+    "Close-up of a laptop screen showing a clean, modern website with an active chat bubble in the lower corner. Warm ambient daylight through a window. Tidy home office desk, coffee cup visible. Warm off-white and soft amber palette. Slight handheld camera feel, natural and unposed.",
+    "Over-the-shoulder angle: a visitor in a plain shirt at a compact desk, fingers on keyboard. Laptop screen shows a chat input field with a short typed question and a clear, concise AI response appearing below it in seconds. Warm, slightly saturated color temperature. Soft amber screen glow. Handheld, documentary feel.",
+    "Same desk, same visitor posture, same plain shirt — but the laptop screen now shows a static website page. No chat bubble, no input field. A contact form is visible with small text. Color temperature is cooler and more desaturated than the previous scene. Screen glow is dimmer. The environment is identical to reinforce the parallel-world contrast.",
+    "Wide shot of the compact home office desk, now empty. Laptop screen is dim. In the corner of the frame, a clean white chat UI with a single soft accent-color chat bubble is shown as a framed screen insert. Warm off-white and light grey base palette. Minimal clutter. Calm, confident energy. Documentary lighting."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Create your AI assistant — your website already has the answers. Now let it give them.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant — fenrik.chat",
+        "format": "reel",
+        "caption": "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "title_variants": [
+          "The Question That Actually Got Answered",
+          "Your Website Has the Answers. It Can't Give Them.",
+          "Same Visitor. Same Question. Two Different Outcomes.",
+          "The Gap Between Information and Delivery",
+          "Why the Right Content Still Loses the Lead"
+        ],
+        "caption_variants": [
+          "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+          "A visitor typed a question on your site tonight. There was nowhere to put it. They left. Your contact form is still empty.",
+          "The myth: if the information is on your site, visitors will find it and reach out. The reality: they form a question, find no input field, and close the tab.",
+          "Information held on a page ≠ information delivered to someone asking. That's the whole gap. That's where leads go.",
+          "Static page. Right answer. Wrong format. The visitor needed a conversation, not a scroll."
+        ]
+      },
+      "tiktok": {
+        "cta": "Link in bio to see it live.",
+        "format": "reel",
+        "caption": "Your website has the answers. Your visitors just never get them. 👀 The gap is smaller than you think.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#aichatbot",
+          "#leadgeneration"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "Same website. Same visitor. Two completely different outcomes — the only difference is whether the page could actually answer the question.",
+        "hashtags": [
+          "#AIchatbot",
+          "#SmallBusiness",
+          "#WebsiteTips"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "reel",
+        "caption": "Here's something worth thinking about: your website might have every answer a visitor needs — and still lose them because there's no way to deliver those answers in the moment they ask. 💬 That gap is exactly what an AI assistant closes. No extra staff, no complex setup — just your existing content, made conversational. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant — your website already has the answers. Now let it give them.",
+        "format": "reel",
+        "caption": "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant",
+          "#LeadGeneration"
+        ],
+        "caption_variants": [
+          "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+          "Most websites are full of correct information that never reaches the person who needed it.\n\nThe visitor arrives. They want a specific answer. The page holds it — but passively. There's no chat, no interaction, only a contact form with a one-business-day reply window. They don't wait. They move on.\n\nThis isn't a content problem. It's a delivery problem. And it's fixable without rebuilding anything.\n\nCreate your AI assistant — your content is already doing half the work."
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio → Create your AI assistant.",
+        "format": "reel",
+        "caption": "Information sitting on a page is not the same as information delivered to someone who needs it right now.\n\nOne gets the booking. One gets the closed tab.\n\nYour content is already there. Make sure it can actually answer when someone asks.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#aichatbot",
+          "#digitalmarketing",
+          "#leadgen",
+          "#onlinebusiness",
+          "#clientexperience"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "5bc78a7b-82be-43c6-adee-cdbafdbfd77d",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Most websites are full of correct information that never reaches the person who needed it.\n\nThe visitor arrives. They want a specific answer. The page holds it — but passively. There's no chat, no interaction, only a contact form with a one-business-day reply window. They don't wait. They move on.\n\nThis isn't a content problem. It's a delivery problem. And it's fixable without rebuilding anything.\n\nCreate your AI assistant — your content is already doing half the work.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant",
+          "#LeadGeneration"
+        ],
+        "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "e02ea35b-604c-4442-a29c-9a002a83bf74",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant",
+          "#LeadGeneration"
+        ],
+        "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "bd101dbb-afcf-4efe-8375-95ee6b010057",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant — fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "dc85a1f0-052d-4bcd-9979-38d4e3805874",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Website Has the Answers. It Can't Give Them.",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "A visitor typed a question on your site tonight. There was nowhere to put it. They left. Your contact form is still empty.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant — fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "99af84a3-6cc4-4a78-ab7f-cbde2fb07e27",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Gap Between Information and Delivery",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Information held on a page ≠ information delivered to someone asking. That's the whole gap. That's where leads go.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant — fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "28b3d8e4-1b8e-410e-a6a9-f99560478fc5",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Same Visitor. Same Question. Two Different Outcomes.",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "The myth: if the information is on your site, visitors will find it and reach out. The reality: they form a question, find no input field, and close the tab. https://fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant — fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "e3d4c5de-249f-42aa-918a-d6bab61c4bff",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Why the Right Content Still Loses the Lead",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Static page. Right answer. Wrong format. The visitor needed a conversation, not a scroll.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant — fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "f620a440-e10d-4fec-90b7-18f9add9a101",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Your website has the answers. Your visitors just never get them. 👀 The gap is smaller than you think.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#aichatbot",
+          "#leadgeneration"
+        ],
+        "cta": "Link in bio to see it live.",
+        "language": null
+      },
+      {
+        "id": "220b9a0d-b87b-4efc-aa54-f43f1044b34b",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Information sitting on a page is not the same as information delivered to someone who needs it right now.\n\nOne gets the booking. One gets the closed tab.\n\nYour content is already there. Make sure it can actually answer when someone asks.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#aichatbot",
+          "#digitalmarketing",
+          "#leadgen",
+          "#onlinebusiness",
+          "#clientexperience"
+        ],
+        "cta": "Link in bio → Create your AI assistant.",
+        "language": null
+      },
+      {
+        "id": "0766fade-97e0-42db-bc4b-47647818c5db",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Same website. Same visitor. Two completely different outcomes — the only difference is whether the page could actually answer the question.",
+        "hashtags": [
+          "#AIchatbot",
+          "#SmallBusiness",
+          "#WebsiteTips"
+        ],
+        "cta": "Subscribe for more. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "bae9a0e8-02e2-4d29-a96d-faf407748c78",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Question That Actually Got Answered",
+        "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+        "caption": "Here's something worth thinking about: your website might have every answer a visitor needs — and still lose them because there's no way to deliver those answers in the moment they ask. 💬 That gap is exactly what an AI assistant closes. No extra staff, no complex setup — just your existing content, made conversational. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "cedar",
+    "tts_voice": "cedar",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 47,
+      "secondary": 42
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_mistake→warmth/steady",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+47)",
+      "fit_secondary(+42)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "mistake",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "Visitors leave before contacting you",
+    "strategy_pain_point": "Visitors leave before contacting you"
+  },
+  "product_role": "Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immediate — available the moment a visitor forms a question, not one business day later. The product does not require new content, new staff, or technical setup. It closes the gap between information existing and information being received.",
+  "narrative_arc": "HOOK — State the myth flat: 'Your website has all the answers. That's enough.' Pause. 'It isn't.' CUT TO: a visitor landing on a site with Fenrik.chat active. They type a short, real question — something like which service package fits a small team. A clear, relevant answer appears in seconds. The visitor reads it. They don't leave. They book. No waiting. No form with a one-business-day reply promise. CUT TO: the same visitor moment on a static page. Same question forming in their head. No chat bubble. No input field. They look at a contact form. They don't fill it out. Tab closes. BEAT: 'The information was there both times. One page delivered it. One page just held it.' PRODUCT MOMENT: Fenrik.chat reads your existing website content and answers the question the moment it's asked — no training, no setup complexity, one embed script. CLOSE: 'Your website already has the answers. Make sure it can actually give them.' CTA: Create your AI assistant — your content is already doing half the work.",
+  "emotional_tone": "Blunt and clarifying — the tone of someone who is mildly fed up with a fixable problem. Not harsh toward the viewer; impatient with the myth. The correction lands as relief, not criticism. Energy stays high through the contrast sequence, then settles into confident practicality at the product moment.",
+  "audience_insight": "Solution-aware SMB owners and consultants already believe their website is working because it looks good and contains correct information. They have not separated 'information exists on the page' from 'information was delivered to the person who needed it.' This video names that gap precisely and makes the distinction feel obvious in retrospect — which is what drives action.",
+  "visual_direction": {
+    "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+    "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+    "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+    "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+    "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+    "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Your website has all the answers. That's enough. / It isn't. / Watch what happens when a visitor lands and actually asks a question. / Chat bubble. They type. Answer appears — seconds. / They stay. They book. / Now watch the same moment on a static page. / Same question forming. No input field. / A contact form promising a reply in one business day. / Tab closes. Gone. / The information was there both times. / One page delivered it. One page just held it."
+  },
+  "render_metadata": {
+    "id": "14082286-893b-4960-ae3b-aa67144d9f2a",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:34:34.930334+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "cedar",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "5bc78a7b-82be-43c6-adee-cdbafdbfd77d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Most websites are full of correct information that never reaches the person who needed it.\n\nThe visitor arrives. They want a specific answer. The page holds it — but passively. There's no chat, no interaction, only a contact form with a one-business-day reply window. They don't wait. They move on.\n\nThis isn't a content problem. It's a delivery problem. And it's fixable without rebuilding anything.\n\nCreate your AI assistant — your content is already doing half the work.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant",
+        "#LeadGeneration"
+      ],
+      "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "e02ea35b-604c-4442-a29c-9a002a83bf74",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant",
+        "#LeadGeneration"
+      ],
+      "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "bd101dbb-afcf-4efe-8375-95ee6b010057",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "dc85a1f0-052d-4bcd-9979-38d4e3805874",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Has the Answers. It Can't Give Them.",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "A visitor typed a question on your site tonight. There was nowhere to put it. They left. Your contact form is still empty.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "99af84a3-6cc4-4a78-ab7f-cbde2fb07e27",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Gap Between Information and Delivery",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Information held on a page ≠ information delivered to someone asking. That's the whole gap. That's where leads go.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "28b3d8e4-1b8e-410e-a6a9-f99560478fc5",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Same Visitor. Same Question. Two Different Outcomes.",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "The myth: if the information is on your site, visitors will find it and reach out. The reality: they form a question, find no input field, and close the tab. https://fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "e3d4c5de-249f-42aa-918a-d6bab61c4bff",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why the Right Content Still Loses the Lead",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Static page. Right answer. Wrong format. The visitor needed a conversation, not a scroll.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "f620a440-e10d-4fec-90b7-18f9add9a101",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Your website has the answers. Your visitors just never get them. 👀 The gap is smaller than you think.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#leadgeneration"
+      ],
+      "cta": "Link in bio to see it live.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "220b9a0d-b87b-4efc-aa54-f43f1044b34b",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Information sitting on a page is not the same as information delivered to someone who needs it right now.\n\nOne gets the booking. One gets the closed tab.\n\nYour content is already there. Make sure it can actually answer when someone asks.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#digitalmarketing",
+        "#leadgen",
+        "#onlinebusiness",
+        "#clientexperience"
+      ],
+      "cta": "Link in bio → Create your AI assistant.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "0766fade-97e0-42db-bc4b-47647818c5db",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Same website. Same visitor. Two completely different outcomes — the only difference is whether the page could actually answer the question.",
+      "hashtags": [
+        "#AIchatbot",
+        "#SmallBusiness",
+        "#WebsiteTips"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    },
+    {
+      "id": "bae9a0e8-02e2-4d29-a96d-faf407748c78",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d8a38e21-ab6a-4b7b-81b1-541b9e1288c5",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Here's something worth thinking about: your website might have every answer a visitor needs — and still lose them because there's no way to deliver those answers in the moment they ask. 💬 That gap is exactly what an AI assistant closes. No extra staff, no complex setup — just your existing content, made conversational. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 8,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:34:32.785298+00:00",
+      "updated_at": "2026-07-25T07:34:32.785298+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A common myth: if your website has the information, visitors will find what they need and reach out. They won't. Information sitting on a static page is not the same as information delivered in the m…",
+      "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter.…",
+      "product_role": "Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immed…",
+      "visual_world": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate offic…",
+      "attention_pattern": "The viewer is drawn in by the bold statement, creating a need to see how the myth unfolds and is debunked in the follow…",
+      "narrative_mechanism": "mistake: HOOK — State the myth flat: 'Your website has all the answers. That's enough.' …"
+    }
+  },
+  "hashtags": [
+    "#SmallBusiness",
+    "#AIAssistant",
+    "#WebsiteTips",
+    "#LeadGeneration",
+    "#AIchatbot",
+    "#DigitalMarketing"
+  ],
+  "hook": "Your website has all the answers. That's enough.",
+  "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. A qualified prospect finds the site one evening, reads through the services carefully, and wants to ask one specific question before booking a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. A chat bubble appears and answers the question within seconds. The prospect books. The next morning, the consultant opens analytics: solid traffic, zero leads. The gap wasn't the content. It was the one unanswered question.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN [Close-up: laptop screen, warm ambient light, chat bubble visible in corner of a clean website] VO: 'Your website has all the answers. That's enough.' [Beat. Pause.] VO: 'It isn't.' SCENE 2 — ANSWERED PATH [Over-the-shoulder: visitor at desk, fingers on keyboard. Screen shows a chat input field. They type a short question.] [Screen insert: chat response appears within seconds — clean, relevant, direct.] VO: 'Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds.' [Visitor leans back slightly. Cursor moves toward a booking button.] VO: 'They stay. They book.' SCENE 3 — STATIC PATH [Same desk. Same warm-to-cool color shift. Same visitor posture — but the screen shows a static page. No chat bubble. No input field.] [Screen insert: a contact form. Text reads 'We'll get back to you within one business day.'] VO: 'Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day.' [Visitor's hand lifts from keyboard. Tab closes.] VO: 'Tab closes. Gone.' SCENE 4 — BEAT [Wide shot: the desk, now empty. Screen dim.] VO: 'The information was there both times. One page delivered it. One page just held it.' SCENE 5 — PRODUCT MOMENT [Screen insert: Fenrik.chat UI — clean, white, single accent-color chat bubble. Text overlay: 'Reads your website. Answers instantly. One embed script.'] [No spoken product pitch — visual carries it.] CLOSE [Text overlay: 'Create your AI assistant'] [End card: fenrik.chat]",
+    "concept": "Two parallel moments. Same desk, same visitor, same question — two completely different outcomes. In the first, a chat bubble is active. The visitor types a short question. A clear answer appears in seconds. They stay, they convert. In the second, the identical setup: no chat, no response, just a static contact form. The visitor looks. Waits. Leaves. The myth — that information on a page is the same as information delivered — is exposed through contrast, not argument. Fenrik.chat is the delivery layer that closes the gap.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product feature reference shown as a framed screen insert illustrating 24/7 AI assistant availability — used during the product moment beat",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

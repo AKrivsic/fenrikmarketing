@@ -1,0 +1,13 @@
+{
+  "world": "A single wall with two clocks \u2014 the entire universe of the piece. Time is the only actor.",
+  "productRole": "The mechanism that synchronizes both clocks \u2014 not by extending business hours, but by ensuring the business is present on the prospect's timeline.",
+  "coreConflict": "Two timelines exist simultaneously. The business has only ever watched one of them.",
+  "endingIntent": "The synchronization of both clocks must feel like relief and practical resolution \u2014 not triumph, just alignment.",
+  "mainCharacter": "The frozen clock \u2014 it is the business's self-image, the thing it believes is sufficient",
+  "immutableRules": [
+    "Both clocks must be identical models \u2014 the only difference is frozen vs. running",
+    "No voiceover during the clock sequence \u2014 the second hands carry the entire argument",
+    "The mustard wall must be the only color in the frame until the product reveal"
+  ],
+  "viewerQuestion": "What time is it in my prospect's world right now?"
+}

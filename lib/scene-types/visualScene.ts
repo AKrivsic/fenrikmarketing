@@ -20,6 +20,7 @@ export interface ScenePresentationStyling {
 export interface ImageSceneMediaAi {
   source: "ai";
   image_prompt: string;
+  motion_prompt?: string;
 }
 
 export interface ImageSceneMediaAsset {
@@ -28,6 +29,7 @@ export interface ImageSceneMediaAsset {
   used_as: string;
   video_usage?: string;
   modify?: string;
+  motion_prompt?: string;
 }
 
 export type ImageSceneMedia = ImageSceneMediaAi | ImageSceneMediaAsset;

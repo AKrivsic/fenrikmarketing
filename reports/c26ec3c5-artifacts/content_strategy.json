@@ -1,0 +1,93 @@
+{
+  "id": "3e6867dc-9b8e-4a75-91ef-8951b2314883",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "name": "The silent gap between website traffic and actual leads",
+  "objective": "lead_generation",
+  "period_start": "2026-07-24",
+  "period_end": null,
+  "strategy_brief": {
+    "theme": "The silent gap between website traffic and actual leads",
+    "source": "production_run",
+    "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603",
+    "funnel_distribution": {
+      "Awareness": 0,
+      "Conversion": 0,
+      "Problem Aware": 1,
+      "Solution Aware": 0
+    },
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "claude-sonnet-4-6",
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": {
+            "model": "claude-sonnet-4-6",
+            "cached_tokens": 0,
+            "prompt_tokens": 3967,
+            "completion_tokens": 258
+          },
+          "step_name": "Weekly Strategy",
+          "max_tokens": 8192,
+          "started_at": "2026-07-24T00:31:31.644Z",
+          "duration_ms": 5925,
+          "finished_at": "2026-07-24T00:31:37.568Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "Weekly Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+          "prompt_tokens": 3967,
+          "estimated_cost": 0.015771,
+          "output_summary": "Theme + funnel plan\n↓\n1 strategy item (requested 1)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 17629,
+          "completion_tokens": 258,
+          "output_size_bytes": 948,
+          "prompt_characters": 17543,
+          "provider_request_id": null,
+          "completion_characters": 944
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Strategy Items",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:31:37.569Z",
+          "duration_ms": 650,
+          "finished_at": "2026-07-24T00:31:38.219Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Strategy Items input:\n- Weekly Strategy plan\n- Funnel distribution",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "1 strategy item(s) persisted",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 104,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 104
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23",
+      "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603"
+    }
+  },
+  "created_at": "2026-07-24T00:31:37.839754+00:00"
+}

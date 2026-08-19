@@ -1,0 +1,12818 @@
+# Creative Evidence — `c6051f49-f957-4799-a646-47cdd0d741da`
+
+**Exported:** 2026-07-25T08:06:36.045Z
+**Project:** Fenrik.chat (`aabab9ff-9db4-4012-a53c-135e3bfea6cd`)
+**Run status:** `completed` · requested=14 · generated=3 · failed=11
+
+Scope: export of AI creative outputs only. No scoring. No marketing judgment. No implementation.
+
+Companion JSON: `reports/c6051f49-creative-evidence/`
+
+# Přehled
+
+| Package | Title | Poslední dokončený krok | Status | Co je možné hodnotit |
+| ---: | --- | --- | --- | --- |
+| 0 | The Sunday Night Visitor | Render | `completed` | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video |
+| 1 | The Storefront That Never Closes — But Also Never Speaks | Render | `completed` | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video |
+| 2 | The Heatwave That Exposed the Website | Render | `completed` | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video |
+| 3 | The Consultant Who Prepared for Everything Except the Question | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 4 | The Five Questions | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 5 | The Appointment That Booked Itself Somewhere Else | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 6 | The Chatbot Project That Never Shipped | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 7 | The Chat Widget That Clocked Out at Midnight | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 8 | The Question That Actually Got Answered | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 9 | The Website That Already Knew Everything | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 10 | The Leads That Showed Up While Nobody Did | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 11 | The Firm That Answered at 11 PM | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 12 | The Setup Checklist That Doesn't Exist | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+| 13 | The Monday Morning Math | Platform outputs | `failed` — Renderování videa selhalo. | Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction |
+
+# Checklist podle package
+
+## P0 — The Sunday Night Visitor
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✓
+- Final subtitles ✓
+- Render metadata ✓
+
+## P1 — The Storefront That Never Closes — But Also Never Speaks
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✓
+- Final subtitles ✓
+- Render metadata ✓
+
+## P2 — The Heatwave That Exposed the Website
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✓
+- Final subtitles ✓
+- Render metadata ✓
+
+## P3 — The Consultant Who Prepared for Everything Except the Question
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P4 — The Five Questions
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P5 — The Appointment That Booked Itself Somewhere Else
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P6 — The Chatbot Project That Never Shipped
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P7 — The Chat Widget That Clocked Out at Midnight
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P8 — The Question That Actually Got Answered
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P9 — The Website That Already Knew Everything
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P10 — The Leads That Showed Up While Nobody Did
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P11 — The Firm That Answered at 11 PM
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P12 — The Setup Checklist That Doesn't Exist
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+## P13 — The Monday Morning Math
+
+- Strategy ✓
+- Concept ✓
+- Opening ✓
+- Visual Identity ✓
+- Package ✓
+- Voiceover ✓
+- Storyboard ✓
+- Image prompts ✓
+- CTA ✓
+- Platform outputs ✓
+- Visual profile ✓
+- Voice selection ✓
+- Creative mode ✓
+- Funnel stage ✓
+- Pain point ✓
+- Product role ✓
+- Narrative arc ✓
+- Emotional tone ✓
+- Audience insight ✓
+- Visual direction ✓
+- Generated images ✗
+- Final subtitles ✗
+- Render metadata ✗
+
+---
+
+# Package 0 — The Sunday Night Visitor
+
+- package_id: `614272a8-b4be-4c04-a583-8acb19b8e1f1`
+- strategy_item_id: `7e74fde1-1e31-4cb3-b472-f7f63d85bdfa`
+- run_item_id: `5c803d09-9fe6-4a33-943f-07429b2e1f08`
+- run_item_status: `completed`
+- last_completed_step: **Render**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "7e74fde1-1e31-4cb3-b472-f7f63d85bdfa",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "A potential client visits a law firm's website late at night with an urgent question. The page is polished, the credentials are impressive — but there is no way to ask anything. They move on. This happens every weekend. The firm has no idea.",
+      "topic": "The lawyer who got 12 website visitors on a Sunday night and none of them left a name",
+      "source": "production_run",
+      "pain_point": "Visitors leave before contacting you",
+      "package_index": 0,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Sunday Night Visitor",
+  "core_idea": "A law firm's website looks flawless on a Sunday night — polished bio page, case results, contact form. A potential client with an urgent question lands on it, reads everything, finds nothing to interact with, and quietly moves on. The firm won't know until Monday, when the analytics show twelve sessions and zero leads. The question that could have become a client is already someone else's.",
+  "product_role": "Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing website content automatically, builds a knowledge base from it, and answers visitor questions the moment they're asked, any hour of the day. It also captures the visitor's contact information before they leave. The firm's Sunday night problem is solved without touching a line of code or training anything manually.",
+  "why_it_works": "The scenario is hyper-specific to a segment (law firms, professional services) that takes website credibility seriously but has a blind spot around responsiveness. Dropping into the scene mid-moment — a real person, a real question, a real late-night decision — makes the pain point visceral rather than abstract. The twist (the partner's Monday morning dashboard) reframes the problem from 'missed chat' to 'invisible lost lead,' which is more accurate and more alarming. The product resolution is shown, not just described, and it requires no leap of imagination from the viewer.",
+  "narrative_arc": "SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrolling a professional-looking law firm website late at night. The copy on screen reads something like 'Trusted. Experienced. Results-Driven.' The visitor looks like someone with a real problem and a real deadline. CONFLICT: They have one specific question — the kind that determines whether they call on Monday. They look for a way to ask it. There is no chat, no instant response, nothing interactive. Just a static contact form that says 'We'll get back to you within one business day.' They stare at it. They don't fill it out. TWIST: Cut to the law firm partner — Monday morning, coffee in hand, opening the analytics dashboard. Twelve visitors. Sunday night. Zero form submissions. He has no idea what any of them wanted, who any of them were, or where they went. He closes the laptop and moves on with his day. The data is invisible to him because there is no data — just sessions that ended in silence. RESOLUTION: A brief, unhurried demonstration of Fenrik.chat appearing on a website like the one shown — a visitor types a question, the AI answers immediately using the firm's own content, and the visitor's name and contact detail are captured before they leave. The partner's Monday morning looks different now. CTA: Direct address to camera or text overlay — the close.",
+  "emotional_tone": "Quiet and slightly unsettling — not dramatic, but the kind of slow realization that makes a professional feel something has been slipping through their fingers for a long time without their knowledge. Insider pacing: deliberate, close, like someone letting you in on something the firm's own partners haven't figured out yet.",
+  "audience_insight": "Professional service firms — lawyers, accountants, consultants — invest heavily in their website's credibility signals (credentials, case studies, testimonials) but almost never think about what happens when a visitor arrives outside business hours with an actual question. They assume a polished site is a working site. It isn't. The gap between 'impressive' and 'responsive' is where leads disappear, and most firms only discover this when they look at session data and feel a vague unease they can't quite name.",
+  "visual_direction": {
+    "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+    "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+    "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+    "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+    "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+    "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Deliberate and unhurried, drawing the viewer into the moment as the visitor's frustration builds.",
+  "emotion": "Quiet tension, as the viewer senses the urgency of the visitor's need against the backdrop of a static website.",
+  "first_image": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question.",
+  "attention_pattern": "The viewer is immediately drawn in by the contrast between the visitor's anxious search for answers and the cold, unresponsive website, creating a need to understand the consequences of this disconnect.",
+  "first_spoken_sentence": "What happens when your website looks perfect, but can't answer a single question?"
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+  "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+  "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+  "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+  "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+  "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text.",
+  "opening_emotion": "Quiet tension, as the viewer senses the urgency of the visitor's need against the backdrop of a static website.",
+  "opening_first_image": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Sunday Night Visitor",
+  "status": "draft",
+  "funnel_stage": "awareness",
+  "hook": "What happens when your website looks perfect, but can't answer a single question?",
+  "scenario": "A potential client sits in their living room on a Sunday night with an urgent legal question. They find a law firm's website — polished, credentialed, authoritative. They look for a way to ask their question. There is no chat, no interactive element, only a contact form promising a reply within one business day. They don't fill it out. Monday morning, the firm's partner opens the analytics dashboard and sees twelve sessions from the night before. Zero form submissions. No names, no questions, no way to follow up. The visitors are gone, and the firm has no idea they were ever there.",
+  "video": {
+    "script": "SCENE 1 — [Warm lamplight. A late-30s professional sits on a couch, phone in hand, scrolling a law firm website. Screen text: 'Trusted. Experienced. Results-Driven.' Their expression is focused, slightly tense.]\n\nVO: 'What happens when your website looks perfect, but can't answer a single question?'\n\nSCENE 2 — [Close on phone screen. The visitor taps through pages — bio, case results, a static contact form. Text overlay: 'We'll reply within one business day.' The visitor pauses. Does not fill it out. Puts the phone down.]\n\nVO: 'Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says we'll reply within one business day. They don't fill it out.'\n\nSCENE 3 — [Cut to: a law firm office, Monday morning. Cool flat light. A mid-40s professional in business casual sits at a desk, coffee in hand, laptop open. Analytics dashboard visible on screen: 12 sessions. 0 conversions.]\n\nVO: 'Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.'\n\nSCENE 4 — [Same desk. Now the laptop shows a law firm website with a small chat widget in the corner. A visitor types a question. The AI responds instantly. A simple lead card appears: name, email, question captured.]\n\n[Text overlay: 'Fenrik.chat — your website, answering questions. Any hour.']\n\nSCENE 5 — [Gentle push-in on the lead card on screen. The partner's expression is calm, unhurried. The Monday morning looks different.]\n\n[Text overlay CTA: 'Create your AI assistant — fenrik.chat']",
+    "concept": "A late-night visitor with a pressing legal question lands on a flawless law firm website — polished, credentialed, completely unresponsive. They leave without a trace. Monday morning, the firm's partner opens the analytics dashboard: twelve sessions, zero leads. The story reframes the problem from 'missed chat' to 'invisible lost lead.' The resolution shows Fenrik.chat quietly answering a visitor's question in real time and capturing their contact before they leave — no redesign, no new hire, no code.",
+    "duration_seconds": "45"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#lawfirm",
+    "#websitetips",
+    "#leadgeneration",
+    "#aiforbusiness",
+    "#professionalservices"
+  ],
+  "subtitles_planned": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went."
+}
+```
+
+## Voiceover
+```json
+"What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+    "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish.",
+  "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel.",
+  "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot.",
+  "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if your website has ever looked impressive and said nothing.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "title_variants": [
+        "12 visitors. Zero names. Sunday night.",
+        "Your website looks perfect. It can't say a word.",
+        "The Monday morning analytics problem no one talks about.",
+        "Impressive site. Zero response. Gone.",
+        "The question your website couldn't answer."
+      ],
+      "caption_variants": [
+        "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+        "A polished website isn't a responsive one. Most firms find out the hard way — Monday morning, analytics open, zero leads from 12 weekend sessions.",
+        "The visitor had a real question. The firm had a beautiful contact form. Nobody wins that story.",
+        "Professional services firms obsess over website credibility. Almost none think about what happens at 10 PM when a visitor can't find a way to ask anything.",
+        "Sessions don't equal leads. The gap between the two is a question your website couldn't answer. #smallbusiness"
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "12 visitors on a Sunday night. Zero left a name. The website looked perfect — it just couldn't say a word. 👀",
+      "hashtags": [
+        "#lawfirm",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "A law firm's website looked perfect. Twelve people visited Sunday night. None left a name. Here's why that keeps happening.",
+      "hashtags": [
+        "#websitetips",
+        "#aiforbusiness"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "format": "reel",
+      "caption": "Here's something a lot of professional service businesses don't realize until they check their analytics: visitors come to your website after hours with real questions — and leave without a trace because there's no one there to respond. 😔 A polished site isn't the same as a responsive one. If this sounds familiar, save this post — it's worth a second look.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ]
+    },
+    "linkedin": {
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "format": "reel",
+      "caption": "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+      "hashtags": [
+        "#professionalsservices",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "caption_variants": [
+        "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+        "Most professional service firms spend years building website credibility — the right credentials, the right case studies, the right layout.\n\nAlmost none of them think about what happens when a qualified visitor arrives at 10 PM on a Sunday with a specific question and no way to ask it.\n\nThey leave. The analytics record a session. The firm records nothing.\n\nThe gap between 'impressive' and 'responsive' is where leads disappear quietly."
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "format": "reel",
+      "caption": "Twelve people visited a law firm's website on a Sunday night.\n\nAll twelve left without leaving a name, an email, or a single message.\n\nThe site looked flawless. It just had no way to answer the one question that mattered.\n\nSave this if that sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#lawfirm",
+        "#leadgen",
+        "#aiforbusiness",
+        "#clientacquisition"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "285fa7ca-46e1-4491-b39a-a5512b1ea257",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday morning analytics problem no one talks about.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "The visitor had a real question. The firm had a beautiful contact form. Nobody wins that story. https://fenrik.chat",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "e0fa6028-5038-4e78-b5ed-ecbd8dd05621",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Impressive site. Zero response. Gone.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Professional services firms obsess over website credibility. Almost none think about what happens at 10 PM when a visitor can't find a way to ask anything.",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "91853438-c67a-4314-bbf5-e22b36150cae",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The question your website couldn't answer.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Sessions don't equal leads. The gap between the two is a question your website couldn't answer. #smallbusiness",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "cefec090-ab89-476a-b7bf-a03e5a368882",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "12 visitors on a Sunday night. Zero left a name. The website looked perfect — it just couldn't say a word. 👀",
+      "hashtags": [
+        "#lawfirm",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "3aa01e67-e0d4-4d59-831b-90cd08179430",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Twelve people visited a law firm's website on a Sunday night.\n\nAll twelve left without leaving a name, an email, or a single message.\n\nThe site looked flawless. It just had no way to answer the one question that mattered.\n\nSave this if that sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#lawfirm",
+        "#leadgen",
+        "#aiforbusiness",
+        "#clientacquisition"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "language": null
+    },
+    {
+      "id": "5992a5c1-df22-43bf-9822-76f589236dec",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A law firm's website looked perfect. Twelve people visited Sunday night. None left a name. Here's why that keeps happening.",
+      "hashtags": [
+        "#websitetips",
+        "#aiforbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "469aae42-ad08-439b-a9b5-7500a0ab1507",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Here's something a lot of professional service businesses don't realize until they check their analytics: visitors come to your website after hours with real questions — and leave without a trace because there's no one there to respond. 😔 A polished site isn't the same as a responsive one. If this sounds familiar, save this post — it's worth a second look.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "language": null
+    },
+    {
+      "id": "c3f928e9-c106-4091-9454-62d58dd1592f",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+      "hashtags": [
+        "#professionalsservices",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "language": null
+    },
+    {
+      "id": "ff259590-1b0c-4ab3-a366-3eb71f63d115",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Most professional service firms spend years building website credibility — the right credentials, the right case studies, the right layout.\n\nAlmost none of them think about what happens when a qualified visitor arrives at 10 PM on a Sunday with a specific question and no way to ask it.\n\nThey leave. The analytics record a session. The firm records nothing.\n\nThe gap between 'impressive' and 'responsive' is where leads disappear quietly.",
+      "hashtags": [
+        "#professionalsservices",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "language": null
+    },
+    {
+      "id": "f0faec15-971b-43d7-8d65-3f17389728ed",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "12 visitors. Zero names. Sunday night.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "314fb517-745d-4b46-bf2a-d515cfd4934c",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website looks perfect. It can't say a word.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A polished website isn't a responsive one. Most firms find out the hard way — Monday morning, analytics open, zero leads from 12 weekend sessions.",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 39,
+    "secondary": 50
+  },
+  "voice_reasons": [
+    "funnel_awareness→warmth/energy(+1)",
+    "mode_story→warmth(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+39)",
+    "fit_secondary(+50)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"story"
+```
+
+## Funnel stage
+```json
+"awareness"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Visitors leave before contacting you",
+  "strategy_pain_point": "Visitors leave before contacting you"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing website content automatically, builds a knowledge base from it, and answers visitor questions the moment they're asked, any hour of the day. It also captures the visitor's contact information before they leave. The firm's Sunday night problem is solved without touching a line of code or training anything manually."
+```
+
+## Narrative arc
+```json
+"SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrolling a professional-looking law firm website late at night. The copy on screen reads something like 'Trusted. Experienced. Results-Driven.' The visitor looks like someone with a real problem and a real deadline. CONFLICT: They have one specific question — the kind that determines whether they call on Monday. They look for a way to ask it. There is no chat, no instant response, nothing interactive. Just a static contact form that says 'We'll get back to you within one business day.' They stare at it. They don't fill it out. TWIST: Cut to the law firm partner — Monday morning, coffee in hand, opening the analytics dashboard. Twelve visitors. Sunday night. Zero form submissions. He has no idea what any of them wanted, who any of them were, or where they went. He closes the laptop and moves on with his day. The data is invisible to him because there is no data — just sessions that ended in silence. RESOLUTION: A brief, unhurried demonstration of Fenrik.chat appearing on a website like the one shown — a visitor types a question, the AI answers immediately using the firm's own content, and the visitor's name and contact detail are captured before they leave. The partner's Monday morning looks different now. CTA: Direct address to camera or text overlay — the close."
+```
+
+## Emotional tone
+```json
+"Quiet and slightly unsettling — not dramatic, but the kind of slow realization that makes a professional feel something has been slipping through their fingers for a long time without their knowledge. Insider pacing: deliberate, close, like someone letting you in on something the firm's own partners haven't figured out yet."
+```
+
+## Audience insight
+```json
+"Professional service firms — lawyers, accountants, consultants — invest heavily in their website's credibility signals (credentials, case studies, testimonials) but almost never think about what happens when a visitor arrives outside business hours with an actual question. They assume a polished site is a working site. It isn't. The gap between 'impressive' and 'responsive' is where leads disappear, and most firms only discover this when they look at session data and feel a vague unease they can't quite name."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+  "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+  "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+  "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+  "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+  "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text."
+}
+```
+
+## Generated images
+```json
+{
+  "local_files": [
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-5.png",
+    "reports/c6051f49-creative-evidence/images/package_00/thumbnail.png"
+  ],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-5.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "signed_urls": [],
+  "thumbnail_url": "[SIGNED_URL]"
+}
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": "[SIGNED_URL]",
+  "local_file": "reports/c6051f49-creative-evidence/images/package_00/subtitles.srt",
+  "planned": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "2a1abf5e-f36d-4659-ae14-1f5959c47b2a",
+  "status": "completed",
+  "error_message": null,
+  "created_at": "2026-07-25T07:21:33.451676+00:00",
+  "completed_at": "2026-07-25T07:26:26.521762+00:00",
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": "[SIGNED_URL]",
+  "subtitle_url": "[SIGNED_URL]",
+  "thumbnail_url": "[SIGNED_URL]",
+  "artifacts_persisted_at": "2026-07-25T07:26:26.138Z",
+  "render_spec": {
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-1.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-2.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-3.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/5c11b59c-f6fa-4652-9c4b-ead145418898/component-capture.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+            "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-5.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "version": 1,
+    "metadata": {
+      "rendered_at": "2026-07-25T07:26:25.867Z",
+      "semantic_motion": {
+        "beats": [
+          {
+            "beat_id": "beat-1",
+            "scene_id": "scene-1",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-2",
+            "scene_id": "scene-2",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "pan_left"
+          },
+          {
+            "beat_id": "beat-3",
+            "scene_id": "scene-3",
+            "motion_intent": "REVEAL",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "drift_up"
+          },
+          {
+            "beat_id": "beat-4",
+            "scene_id": "scene-4",
+            "motion_intent": "HOLD",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-5",
+            "scene_id": "scene-5",
+            "motion_intent": "CLOSE",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          }
+        ],
+        "version": "semantic-motion@2"
+      }
+    }
+  },
+  "image_urls": [],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-5.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "downloaded_images": [
+    "reports/c6051f49-creative-evidence/images/package_00/output.mp4",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_00/scene-scene-5.png",
+    "reports/c6051f49-creative-evidence/images/package_00/subtitles.srt",
+    "reports/c6051f49-creative-evidence/images/package_00/thumbnail.png"
+  ],
+  "debug": {
+    "match_ratio": 0.9848484848484849,
+    "audio_duration": 26.964,
+    "video_duration": 26.966667,
+    "speech_duration": 25.464,
+    "subtitle_source": "whisper",
+    "language_detected": "english",
+    "render_warning": false,
+    "render_warnings": [],
+    "tts_tail_validation_passed": true,
+    "whisper_word_count": 66,
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "gpt-4o-mini-tts",
+          "repair": false,
+          "success": true,
+          "provider": "tts",
+          "warnings": [],
+          "raw_usage": {
+            "character_count": 392,
+            "duration_seconds": 25.464,
+            "usd_per_1k_chars": 0.015
+          },
+          "step_name": "TTS",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:21:35.452Z",
+          "duration_ms": 5390,
+          "finished_at": "2026-07-25T07:21:40.841Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+          "prompt_tokens": null,
+          "estimated_cost": 0.00588,
+          "output_summary": "audio duration=25.464s",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": 392,
+          "completion_tokens": null,
+          "output_size_bytes": 114,
+          "prompt_characters": 392,
+          "provider_request_id": null,
+          "completion_characters": 114
+        },
+        {
+          "model": "whisper-1",
+          "repair": false,
+          "success": true,
+          "provider": "whisper",
+          "warnings": [],
+          "raw_usage": {
+            "word_count": 66,
+            "usd_per_min": 0.006,
+            "fallback_used": false,
+            "duration_seconds": 25.464
+          },
+          "step_name": "Whisper",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:21:40.842Z",
+          "duration_ms": 3993,
+          "finished_at": "2026-07-25T07:21:44.835Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+          "prompt_tokens": null,
+          "estimated_cost": 0.002546,
+          "output_summary": "66 words (english)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 37,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 37
+        },
+        {
+          "model": "gpt-image-1",
+          "repair": false,
+          "success": true,
+          "provider": "image",
+          "warnings": [],
+          "raw_usage": {
+            "usd_per_still": 0.042,
+            "reused_still_count": 1,
+            "generated_still_count": 4
+          },
+          "step_name": "Image generation",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:21:44.969Z",
+          "duration_ms": 121774,
+          "finished_at": "2026-07-25T07:23:46.742Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+          "prompt_tokens": null,
+          "estimated_cost": 0.168,
+          "output_summary": "generated=4; reused=1",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 67,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 67
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "video",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Video rendering",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:23:46.891Z",
+          "duration_ms": 153592,
+          "finished_at": "2026-07-25T07:26:20.482Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "video_duration=26.966667",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 50,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 50
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23"
+    }
+  },
+  "debug_keys": [
+    "sfx_mixed",
+    "sfx_reason",
+    "match_ratio",
+    "fallback_used",
+    "language_hint",
+    "audio_duration",
+    "duration_delta",
+    "render_warning",
+    "video_duration",
+    "render_warnings",
+    "speech_duration",
+    "subtitle_source",
+    "target_duration",
+    "srt_last_cue_end",
+    "subtitle_warning",
+    "language_detected",
+    "post_mux_duration",
+    "tts_tail_expected",
+    "tts_validation_log",
+    "whisper_word_count",
+    "tail_buffer_seconds",
+    "tts_tail_retry_used",
+    "tts_tail_transcript",
+    "generation_telemetry",
+    "post_subtitle_duration",
+    "tts_validation_attempts",
+    "subtitle_timeline_duration",
+    "tts_tail_validation_passed",
+    "intermediate_video_duration"
+  ],
+  "output_keys": [
+    "debug",
+    "mp4_url",
+    "render_spec",
+    "subtitle_url",
+    "thumbnail_url",
+    "artifacts_persisted_at"
+  ],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A law firm's website looks flawless on a Sunday night — polished bio page, case results, contact form. A potential client with an urgent question lands on it, reads everything, finds nothing to inter…",
+    "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen …",
+    "product_role": "Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing w…",
+    "visual_world": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a l…",
+    "attention_pattern": "The viewer is immediately drawn in by the contrast between the visitor's anxious search for answers and the cold, unres…",
+    "narrative_mechanism": "story: SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrol…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+    "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+  }
+]
+```
+
+---
+
+# Package 1 — The Storefront That Never Closes — But Also Never Speaks
+
+- package_id: `b497f5f2-3634-4370-876b-62291c8ca9c3`
+- strategy_item_id: `d1b3109c-659f-41ea-bdda-4cd8b6cbc7c9`
+- run_item_id: `6cc2ab7d-e7a9-46cc-a62c-ecb51c613b75`
+- run_item_status: `completed`
+- last_completed_step: **Render**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "d1b3109c-659f-41ea-bdda-4cd8b6cbc7c9",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 2,
+    "brief": {
+      "angle": "Most business owners think of their website as a brochure. This reframe shows it as a storefront with no staff — visitors arriving, looking around, and walking out because no one is there to help them.",
+      "topic": "What your website is actually doing at 2 AM when you are not watching",
+      "source": "production_run",
+      "pain_point": "Unable to answer customer questions when offline",
+      "package_index": 1,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Storefront That Never Closes — But Also Never Speaks",
+  "core_idea": "A local service business owner discovers, through a single night's worth of anonymous analytics data, that her website had six visitors between midnight and 3 AM — all of whom arrived with intent, found nothing to respond to them, and left. The video reframes the website not as a passive brochure but as an unstaffed storefront: the lights are on, the door is unlocked, customers are walking in — and there is nobody there to say a word.",
+  "product_role": "Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing website content automatically and becomes the voice that was never there. The product's ability to go live in about a minute from an existing URL makes the resolution feel genuinely achievable, not aspirational.",
+  "why_it_works": "The scenario is specific enough to feel true — a real business type, a real time window, a real sequence of pages visited — without naming or inventing any individual. The reframe from 'brochure' to 'unstaffed storefront' is the unexpected truth the hook archetype calls for: it is accurate, slightly uncomfortable, and impossible to unsee once stated. The narrative stays anchored to the dominant pain point throughout: the business was offline when visitors were not. The visual world — a kitchen table at dawn, a laptop, a coffee — is entirely distinct from the late-night law firm and the back-room desk of recent packages.",
+  "narrative_arc": "SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior design consultancy, sits at her kitchen table early in the morning with a coffee and her laptop. She pulls up her website analytics the way someone checks the weather. Routine. Comfortable. Then something catches her eye. CONFLICT: Six sessions. Last night. Between midnight and 2 AM. She leans in. Average time on page: 47 seconds. Pages visited: Services, Pricing, Contact. Bounced. All six. No form fills. No names. Nothing. She realizes these were not bots — these were people, deliberate enough to navigate three pages, curious enough to look at pricing, and then gone. TWIST: The camera holds on her face as the realization lands. Her website was open all night. It just could not say anything back. She had spent months refining the copy, the portfolio, the color palette — and the whole time, it was a beautifully decorated room with no one inside it. RESOLUTION: Text on screen: 'Fenrik.chat reads your website and builds an AI assistant that answers visitors the moment they arrive — day or night.' We see a brief, clean phone-screen mockup of a visitor typing a question at 1:47 AM and getting an instant, accurate answer pulled from the site's own content. The owner sets down her coffee. The next morning's analytics will look different. CTA: 'Create your AI assistant — your website is already doing the hard part. Let it finish the job.'",
+  "emotional_tone": "Quietly unsettling at first — the specific, mundane detail of six anonymous sessions makes the loss feel real rather than hypothetical. Shifts to calm recognition and then quiet relief. Never alarmist; the mood is insider and grounded, like a trusted colleague pointing out something you should have noticed sooner.",
+  "audience_insight": "Small business owners in professional services have poured real effort into their websites — copy, design, portfolio work — and they associate that effort with readiness. The idea that the website is 'done' and 'working' feels earned. This video exploits that assumption gently: the website looks ready, but readiness without responsiveness is just decoration. The pain is not dramatic; it is the slow, invisible leak of leads that never announce themselves.",
+  "visual_direction": {
+    "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+    "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+    "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+    "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+    "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+    "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Deliberate and calm, allowing the weight of the moment to resonate.",
+  "emotion": "Quietly unsettling as the realization of lost opportunities sinks in.",
+  "first_image": "A woman in her early 40s sits at a cluttered kitchen table, early morning light streaming through the window, her laptop open to an analytics dashboard showing six sessions from the previous night.",
+  "attention_pattern": "The viewer is drawn in by the specificity of the six visitors, creating curiosity about their intent and the conflict of unanswered questions.",
+  "first_spoken_sentence": "Six visitors arrived at your website last night — and left without a word."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+  "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+  "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+  "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+  "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+  "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot.",
+  "opening_emotion": "Quietly unsettling as the realization of lost opportunities sinks in.",
+  "opening_first_image": "A woman in her early 40s sits at a cluttered kitchen table, early morning light streaming through the window, her laptop open to an analytics dashboard showing six sessions from the previous night."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Storefront That Never Closes — But Also Never Speaks",
+  "status": "draft",
+  "funnel_stage": "awareness",
+  "hook": "Six visitors arrived at your website last night — and left without a word.",
+  "scenario": "An interior design consultancy owner opens her analytics dashboard at dawn out of habit. She sees six sessions from the previous night — midnight to 2 AM — all navigating deliberately through her services, pricing, and contact pages. Every single one bounced. No form fills, no names, no way to follow up. She had spent months refining her website's copy and portfolio. She had assumed it was ready. What she had not considered was that readiness without responsiveness is just decoration: her website was open all night, and it could not say a single word to any of them.",
+  "video": {
+    "script": "SCENE 1 — KITCHEN TABLE, EARLY MORNING\nHandheld, intimate. A woman in her early 40s sits at a slightly cluttered kitchen table. Morning light through the window. A half-drunk coffee. She opens her laptop — routine, comfortable.\n\nVO: 'Six visitors arrived at your website last night — and left without a word.'\n\nSCENE 2 — LAPTOP SCREEN CLOSE-UP\nPush in on the analytics dashboard. Six sessions. Time range: 12:03 AM – 2:11 AM. Pages: Services, Pricing, Contact. Bounce rate: 100%. Zero form submissions.\n\nVO: 'They found your services page. Your pricing. Your contact form. And then they left.'\n\nSCENE 3 — OWNER'S FACE, SLOW PUSH-IN\nThe realization lands. She leans in slightly. Not panicked — quietly unsettled.\n\nVO: 'No name. No question. No trace. Your website was open all night. It just couldn't say anything back.'\n\nSCENE 4 — OVERHEAD TABLE SHOT\nCut to overhead. The table: notebook, coffee, laptop. A phone screen enters frame — clean UI mockup. A visitor types: 'Do you work with residential projects?' A response appears instantly, drawn from the site's own content. Timestamp: 1:47 AM.\n\nVO: 'That's not a traffic problem. That's a storefront with the lights on and nobody inside.'\n\nSCENE 5 — OWNER SETS DOWN COFFEE\nShe closes the laptop gently. Not defeated — decided. Text on screen: 'Fenrik.chat — your website already has the answers. Let it give them.'\n\nSOFT CTA ON SCREEN: 'Create your AI assistant'\n",
+    "concept": "A woman in her early 40s — owner of a small interior design consultancy — sits at her kitchen table at dawn with a coffee and her laptop. She opens her analytics dashboard out of habit. Six sessions. Last night. Midnight to 2 AM. Services page, Pricing page, Contact page. All bounced. No form fills. No names. The camera holds on her face as the realization lands: her website was open all night. It just could not say anything back. The video reframes the website from a brochure into an unstaffed storefront — lights on, door unlocked, customers walking in, nobody there to help. Resolution: a clean phone mockup shows a visitor typing a question at 1:47 AM and receiving an instant answer drawn from the site's own content. The owner sets down her coffee. Tomorrow's analytics will look different.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#websitetips",
+    "#businessowner",
+    "#digitalmarketing",
+    "#leadgeneration"
+  ],
+  "subtitles_planned": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside."
+}
+```
+
+## Voiceover
+```json
+"Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+  },
+  {
+    "source": "asset",
+    "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow.",
+  "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it.",
+  "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing.",
+  "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if your website has ever been open while you were asleep.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "title_variants": [
+        "Your website is open. But is anyone home?",
+        "Six visitors. Zero leads. One quiet problem.",
+        "The storefront that never closes — but also never speaks.",
+        "What your website is actually doing at 2 AM.",
+        "The leads that leave without a word."
+      ],
+      "caption_variants": [
+        "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+        "A storefront with the lights on and nobody inside. That's what most websites are after 6 PM.",
+        "Six sessions. Midnight to 2 AM. Services, pricing, contact. All bounced. No names. Your website was open — it just couldn't speak.",
+        "The leads you never knew you lost are the most expensive ones. They don't bounce loudly. They just leave.",
+        "Readiness without responsiveness is just decoration. Your website is open 24/7. Is it actually answering anyone?"
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "6 people visited her website at 1 AM. All 6 left without a word. 👀 Your website is open 24/7. Is anyone actually home?",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#leadgeneration"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "Six visitors. Three pages. Zero leads. Your website was open all night — it just couldn't answer anyone.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "format": "reel",
+      "caption": "Ever opened your analytics on a Monday morning and seen sessions from the middle of the night — with zero leads to show for it? 😔 Those weren't bots. Those were real people, looking at your services, your pricing, your contact page — and leaving because no one was there to help them. Your website is open 24/7. But is it actually answering anyone? Save this one for later — it might change how you think about your site.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businesstips"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Most business owners treat their website as a finished product. Design done. Copy done. Ready.\n\nBut readiness without responsiveness is just decoration.\n\nSix sessions between midnight and 2 AM. Services page, pricing page, contact page. All bounced. No names. No questions. No way to follow up.\n\nThe website was open. It simply could not say anything back.\n\nThat's the part most of us never think to audit.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businessgrowth",
+        "#websitestrategy"
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "format": "reel",
+      "caption": "Six people visited her website between midnight and 2 AM.\n\nThey checked her services. Her pricing. Her contact page.\n\nThen left. No name. No message. Nothing.\n\nHer website was open all night — it just couldn't say a word back.\n\nSave this if that hits a little too close.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#digitalmarketing",
+        "#leadgeneration",
+        "#entrepreneurlife",
+        "#onlinebusiness"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "d22d4e96-c99f-4b68-84fb-704fc3f0ad74",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Six visitors. Zero leads. One quiet problem.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "A storefront with the lights on and nobody inside. That's what most websites are after 6 PM.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "99d589a6-e17f-4b1b-9e8e-c34df5597db9",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What your website is actually doing at 2 AM.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "The leads you never knew you lost are the most expensive ones. They don't bounce loudly. They just leave.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "05d8a6eb-e79a-4b13-8c14-6a44a8fb6779",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The leads that leave without a word.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Readiness without responsiveness is just decoration. Your website is open 24/7. Is it actually answering anyone?",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "cf7cd155-ec59-4925-a800-ea0e1bf5c056",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "6 people visited her website at 1 AM. All 6 left without a word. 👀 Your website is open 24/7. Is anyone actually home?",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "51c82314-311a-4679-adf0-fa079ac57ed2",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six people visited her website between midnight and 2 AM.\n\nThey checked her services. Her pricing. Her contact page.\n\nThen left. No name. No message. Nothing.\n\nHer website was open all night — it just couldn't say a word back.\n\nSave this if that hits a little too close.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#digitalmarketing",
+        "#leadgeneration",
+        "#entrepreneurlife",
+        "#onlinebusiness"
+      ],
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "language": null
+    },
+    {
+      "id": "ae05a861-00de-4ce4-b168-6ba0b243f33d",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six visitors. Three pages. Zero leads. Your website was open all night — it just couldn't answer anyone.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "55f00a3a-e680-4eeb-8942-a77fa0073dfe",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Ever opened your analytics on a Monday morning and seen sessions from the middle of the night — with zero leads to show for it? 😔 Those weren't bots. Those were real people, looking at your services, your pricing, your contact page — and leaving because no one was there to help them. Your website is open 24/7. But is it actually answering anyone? Save this one for later — it might change how you think about your site.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businesstips"
+      ],
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "language": null
+    },
+    {
+      "id": "4f40d1ed-c1fc-4db9-a86b-900bd3a930f4",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Most business owners treat their website as a finished product. Design done. Copy done. Ready.\n\nBut readiness without responsiveness is just decoration.\n\nSix sessions between midnight and 2 AM. Services page, pricing page, contact page. All bounced. No names. No questions. No way to follow up.\n\nThe website was open. It simply could not say anything back.\n\nThat's the part most of us never think to audit.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businessgrowth",
+        "#websitestrategy"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "185c156b-1e54-4ce4-a38b-905f88e3739d",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website is open. But is anyone home?",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "dc19e412-e5d8-4ee9-9131-535c13471edc",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The storefront that never closes — but also never speaks.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six sessions. Midnight to 2 AM. Services, pricing, contact. All bounced. No names. Your website was open — it just couldn't speak. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 39,
+    "secondary": 50
+  },
+  "voice_reasons": [
+    "funnel_awareness→warmth/energy(+1)",
+    "mode_story→warmth(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+39)",
+    "fit_secondary(+50)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"story"
+```
+
+## Funnel stage
+```json
+"awareness"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Unable to answer customer questions when offline",
+  "strategy_pain_point": "Unable to answer customer questions when offline"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing website content automatically and becomes the voice that was never there. The product's ability to go live in about a minute from an existing URL makes the resolution feel genuinely achievable, not aspirational."
+```
+
+## Narrative arc
+```json
+"SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior design consultancy, sits at her kitchen table early in the morning with a coffee and her laptop. She pulls up her website analytics the way someone checks the weather. Routine. Comfortable. Then something catches her eye. CONFLICT: Six sessions. Last night. Between midnight and 2 AM. She leans in. Average time on page: 47 seconds. Pages visited: Services, Pricing, Contact. Bounced. All six. No form fills. No names. Nothing. She realizes these were not bots — these were people, deliberate enough to navigate three pages, curious enough to look at pricing, and then gone. TWIST: The camera holds on her face as the realization lands. Her website was open all night. It just could not say anything back. She had spent months refining the copy, the portfolio, the color palette — and the whole time, it was a beautifully decorated room with no one inside it. RESOLUTION: Text on screen: 'Fenrik.chat reads your website and builds an AI assistant that answers visitors the moment they arrive — day or night.' We see a brief, clean phone-screen mockup of a visitor typing a question at 1:47 AM and getting an instant, accurate answer pulled from the site's own content. The owner sets down her coffee. The next morning's analytics will look different. CTA: 'Create your AI assistant — your website is already doing the hard part. Let it finish the job.'"
+```
+
+## Emotional tone
+```json
+"Quietly unsettling at first — the specific, mundane detail of six anonymous sessions makes the loss feel real rather than hypothetical. Shifts to calm recognition and then quiet relief. Never alarmist; the mood is insider and grounded, like a trusted colleague pointing out something you should have noticed sooner."
+```
+
+## Audience insight
+```json
+"Small business owners in professional services have poured real effort into their websites — copy, design, portfolio work — and they associate that effort with readiness. The idea that the website is 'done' and 'working' feels earned. This video exploits that assumption gently: the website looks ready, but readiness without responsiveness is just decoration. The pain is not dramatic; it is the slow, invisible leak of leads that never announce themselves."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+  "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+  "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+  "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+  "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+  "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot."
+}
+```
+
+## Generated images
+```json
+{
+  "local_files": [
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-4.png",
+    "reports/c6051f49-creative-evidence/images/package_01/thumbnail.png"
+  ],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-4.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "signed_urls": [],
+  "thumbnail_url": "[SIGNED_URL]"
+}
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": "[SIGNED_URL]",
+  "local_file": "reports/c6051f49-creative-evidence/images/package_01/subtitles.srt",
+  "planned": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "7cce1550-6208-450b-b0f5-3b9dbaa3cca3",
+  "status": "completed",
+  "error_message": null,
+  "created_at": "2026-07-25T07:23:11.951072+00:00",
+  "completed_at": "2026-07-25T07:30:52.604+00:00",
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": "[SIGNED_URL]",
+  "subtitle_url": "[SIGNED_URL]",
+  "thumbnail_url": "[SIGNED_URL]",
+  "artifacts_persisted_at": "2026-07-25T07:30:51.895Z",
+  "render_spec": {
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-1.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-2.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-3.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-4.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/b1b0d00c-0bfc-4095-954f-4b38a813747f/component-capture.png",
+        "video_usage": "framed_screen",
+        "image_bucket": "project-assets",
+        "image_prompt": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+            "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "version": 1,
+    "metadata": {
+      "rendered_at": "2026-07-25T07:30:51.796Z",
+      "semantic_motion": {
+        "beats": [
+          {
+            "beat_id": "beat-1",
+            "scene_id": "scene-1",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-2",
+            "scene_id": "scene-2",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "pan_left"
+          },
+          {
+            "beat_id": "beat-3",
+            "scene_id": "scene-3",
+            "motion_intent": "REVEAL",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "drift_up"
+          },
+          {
+            "beat_id": "beat-4",
+            "scene_id": "scene-4",
+            "motion_intent": "CLOSE",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-5",
+            "scene_id": "scene-5",
+            "motion_intent": "HOLD",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          }
+        ],
+        "version": "semantic-motion@2"
+      }
+    }
+  },
+  "image_urls": [],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-4.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "downloaded_images": [
+    "reports/c6051f49-creative-evidence/images/package_01/output.mp4",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_01/scene-scene-4.png",
+    "reports/c6051f49-creative-evidence/images/package_01/subtitles.srt",
+    "reports/c6051f49-creative-evidence/images/package_01/thumbnail.png"
+  ],
+  "debug": {
+    "match_ratio": 0.9836065573770492,
+    "audio_duration": 24.06,
+    "video_duration": 24.066667,
+    "speech_duration": 22.56,
+    "subtitle_source": "whisper",
+    "language_detected": "english",
+    "render_warning": false,
+    "render_warnings": [],
+    "tts_tail_validation_passed": true,
+    "whisper_word_count": 60,
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "gpt-4o-mini-tts",
+          "repair": false,
+          "success": true,
+          "provider": "tts",
+          "warnings": [],
+          "raw_usage": {
+            "character_count": 347,
+            "duration_seconds": 22.56,
+            "usd_per_1k_chars": 0.015
+          },
+          "step_name": "TTS",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:26:29.420Z",
+          "duration_ms": 3604,
+          "finished_at": "2026-07-25T07:26:33.024Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+          "prompt_tokens": null,
+          "estimated_cost": 0.005205,
+          "output_summary": "audio duration=22.56s",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": 349,
+          "completion_tokens": null,
+          "output_size_bytes": 113,
+          "prompt_characters": 347,
+          "provider_request_id": null,
+          "completion_characters": 113
+        },
+        {
+          "model": "whisper-1",
+          "repair": false,
+          "success": true,
+          "provider": "whisper",
+          "warnings": [],
+          "raw_usage": {
+            "word_count": 60,
+            "usd_per_min": 0.006,
+            "fallback_used": false,
+            "duration_seconds": 22.56
+          },
+          "step_name": "Whisper",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:26:33.024Z",
+          "duration_ms": 1579,
+          "finished_at": "2026-07-25T07:26:34.602Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+          "prompt_tokens": null,
+          "estimated_cost": 0.002256,
+          "output_summary": "60 words (english)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 37,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 37
+        },
+        {
+          "model": "gpt-image-1",
+          "repair": false,
+          "success": true,
+          "provider": "image",
+          "warnings": [],
+          "raw_usage": {
+            "usd_per_still": 0.042,
+            "reused_still_count": 1,
+            "generated_still_count": 4
+          },
+          "step_name": "Image generation",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:26:34.725Z",
+          "duration_ms": 117160,
+          "finished_at": "2026-07-25T07:28:31.884Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+          "prompt_tokens": null,
+          "estimated_cost": 0.168,
+          "output_summary": "generated=4; reused=1",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 67,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 67
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "video",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Video rendering",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:28:32.164Z",
+          "duration_ms": 133755,
+          "finished_at": "2026-07-25T07:30:45.918Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "video_duration=24.066667",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 49,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 49
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23"
+    }
+  },
+  "debug_keys": [
+    "sfx_mixed",
+    "sfx_reason",
+    "match_ratio",
+    "fallback_used",
+    "language_hint",
+    "audio_duration",
+    "duration_delta",
+    "render_warning",
+    "video_duration",
+    "render_warnings",
+    "speech_duration",
+    "subtitle_source",
+    "target_duration",
+    "srt_last_cue_end",
+    "subtitle_warning",
+    "language_detected",
+    "post_mux_duration",
+    "tts_tail_expected",
+    "tts_validation_log",
+    "whisper_word_count",
+    "tail_buffer_seconds",
+    "tts_tail_retry_used",
+    "tts_tail_transcript",
+    "generation_telemetry",
+    "post_subtitle_duration",
+    "tts_validation_attempts",
+    "subtitle_timeline_duration",
+    "tts_tail_validation_passed",
+    "intermediate_video_duration"
+  ],
+  "output_keys": [
+    "debug",
+    "mp4_url",
+    "render_spec",
+    "subtitle_url",
+    "thumbnail_url",
+    "artifacts_persisted_at"
+  ],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A local service business owner discovers, through a single night's worth of anonymous analytics data, that her website had six visitors between midnight and 3 AM — all of whom arrived with intent, fo…",
+    "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windo…",
+    "product_role": "Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing web…",
+    "visual_world": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes…",
+    "attention_pattern": "The viewer is drawn in by the specificity of the six visitors, creating curiosity about their intent and the conflict o…",
+    "narrative_mechanism": "story: SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior des…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 2 — The Heatwave That Exposed the Website
+
+- package_id: `d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4`
+- strategy_item_id: `c544c8b0-51ee-431e-8476-29d1acd2b0ba`
+- run_item_id: `83f3d479-3a99-4f56-a0d6-b715afcc5643`
+- run_item_status: `completed`
+- last_completed_step: **Render**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "c544c8b0-51ee-431e-8476-29d1acd2b0ba",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 3,
+    "brief": {
+      "angle": "Calls are flooding in, the front desk is overwhelmed, and the website is getting traffic too — but it can only show a phone number that nobody is picking up. Every online visitor during peak demand is quietly lost.",
+      "topic": "The HVAC company that got 80 website visitors during a heatwave and booked nothing",
+      "source": "production_run",
+      "pain_point": "Losing leads due to lack of instant website support",
+      "package_index": 2,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Heatwave That Exposed the Website",
+  "core_idea": "During a summer heatwave, an HVAC company's phone lines are completely overwhelmed — but their website is quietly getting traffic too. The site can only display a phone number nobody is answering. Every online visitor who could have been a booked job slips away unnoticed while the owner assumes the chaos means business is booming. The confession: the busiest day of the year was also the day they lost the most leads they never knew about.",
+  "product_role": "Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the existing website content automatically, requires no setup beyond a single embed script, and captures lead information from visitors who would otherwise leave the moment they see an unanswered phone number. It does not replace the front desk; it covers the channel the front desk cannot reach.",
+  "why_it_works": "The confession structure disarms skepticism immediately — the owner is not bragging, he is admitting a specific failure, which is more credible and more watchable than a product pitch. The heatwave scenario is concrete and seasonal, making the pain point visceral and relatable for any local service business owner who has experienced a demand spike. The visual of a ringing phone next to a silent website widget creates a split-screen logic that makes the problem undeniable. The product reveal is proportionate — it does not promise to fix the phones, only to cover the channel that was completely unattended. The CTA is a fresh angle: framing the AI assistant as the capture layer for what the phones physically cannot reach.",
+  "narrative_arc": "CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his forehead in a cluttered dispatch office. He speaks directly to camera: 'We had our best traffic day ever during the heatwave. We also had our worst lead capture day ever. We just didn't know it until after.' CUT TO: quick montage — phones ringing off the hook, a front-desk worker waving her hands overwhelmed, a browser tab showing the company website with nothing but a static phone number and a 'Call Us' button. IMPLICATION BEAT — Text overlay or VO: 'While the phones were full, 80 people visited the website. Every one of them saw a number no one was picking up. Every one of them left.' PROOF BEAT — Show the analytics screen: sessions, zero form fills, zero chat interactions, zero leads captured. The owner's face registers the quiet cost — not anger, just the specific exhaustion of understanding something too late. PRODUCT REVEAL — The same website now has a chat widget active. A visitor types: 'Do you service my area?' The AI responds instantly with a service zone answer and a prompt to leave contact details. A lead notification pings on the owner's phone — while the front desk is still fielding calls. CLOSE — Owner back on camera, calm: 'The phones were always going to get overwhelmed. The website didn't have to go silent at the same time.' CTA card: 'Create your AI assistant — let your website capture what the phones can't reach.'",
+  "emotional_tone": "Calm authority with a quiet gut-punch. The confession earns credibility; the implication lands without drama. No panic, no hyperbole — just the measured recognition of a real and specific cost that most business owners have never thought to measure.",
+  "audience_insight": "Local service business owners in high-demand trades assume that a flood of inbound calls means they are capturing all available demand. They have never separated 'phone traffic' from 'website traffic' in their mental model of a busy day. The idea that their website was simultaneously losing leads while the phones were ringing is genuinely new information — and it reframes what 'a great day' actually looked like.",
+  "visual_direction": {
+    "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+    "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+    "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+    "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+    "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+    "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Quick and urgent, with the ringing phones creating a sense of chaos that contrasts with the owner's calm demeanor.",
+  "emotion": "Frustration mixed with realization, as the owner grapples with the unexpected loss of leads.",
+  "first_image": "A cluttered dispatch office of an HVAC company, with a tired owner sitting at a desk, wiping sweat from their forehead as phones ring incessantly in the background.",
+  "attention_pattern": "The immediate visual chaos of the ringing phones draws viewers in, while the owner's confession creates curiosity about the unseen consequences of their busy day.",
+  "first_spoken_sentence": "We thought we were busy during the heatwave — until we saw the numbers."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+  "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+  "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+  "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+  "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+  "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice.",
+  "opening_emotion": "Frustration mixed with realization, as the owner grapples with the unexpected loss of leads.",
+  "opening_first_image": "A cluttered dispatch office of an HVAC company, with a tired owner sitting at a desk, wiping sweat from their forehead as phones ring incessantly in the background."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Heatwave That Exposed the Website",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "We thought we were busy during the heatwave — until we saw the numbers.",
+  "scenario": "During a summer heatwave, a local HVAC company's front desk is overwhelmed with inbound calls. At the same time, 80 people visit the company website looking for help — service area questions, availability, pricing. The website shows only a phone number. Nobody answers it. Every visitor leaves without a name, an email, or any record of their visit. The owner discovers this only when reviewing analytics after the rush, realizing that the busiest day of the year was also the day the website silently turned away the most potential customers.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN: Cluttered HVAC dispatch office. Owner, mid-40s, company polo, visibly exhausted, wipes forehead at desk. Phones ringing in background. Looks directly into camera. SPOKEN: 'We thought we were busy during the heatwave — until we saw the numbers.' SCENE 2 — MONTAGE: Quick cuts — phones ringing, front-desk worker waving hands overwhelmed, whiteboard job slots filling up. CUT TO: laptop screen showing company website. Static page. Phone number. 'Call Us' button. Nothing else. SPOKEN: 'Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up.' SCENE 3 — ANALYTICS SCREEN: Over-the-shoulder shot of analytics dashboard. Sessions visible. Form fills: zero. Chat interactions: zero. Leads: zero. Owner stares at screen. SPOKEN: 'Every one of them left.' SCENE 4 — REALIZATION: Owner back on camera, calm, measured. SPOKEN: 'The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.' SCENE 5 — CLOSE: Static card on screen. Text: 'Your website is open right now. Is it answering anyone?' Soft fade.",
+    "concept": "During a summer heatwave, an HVAC company's phones are overwhelmed — but the website is quietly getting traffic too. The site displays only a phone number that nobody can answer. Eighty online visitors arrive, find nothing interactive, and leave without a trace. The owner discovers this only after the fact, when the analytics tell a story the ringing phones had completely drowned out. The confession earns credibility; the implication reframes what a 'great day' actually cost.",
+    "duration_seconds": "38"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#hvac",
+    "#leadgeneration",
+    "#localservices",
+    "#websitetips",
+    "#businessgrowth"
+  ],
+  "subtitles_planned": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything."
+}
+```
+
+## Voiceover
+```json
+"We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen"
+  },
+  {
+    "source": "asset",
+    "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones",
+  "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup",
+  "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen",
+  "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if your busiest day might also be your biggest missed opportunity.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "title_variants": [
+        "The heatwave that exposed the website",
+        "80 visitors. Zero leads. One very quiet analytics dashboard.",
+        "When the phones are full, who's watching the website?",
+        "The busiest day was also the worst lead capture day",
+        "Peak demand, invisible loss"
+      ],
+      "caption_variants": [
+        "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+        "The phones ringing felt like success. The analytics said something different. 80 people visited the site. None of them could get a response. None of them stayed.",
+        "Peak demand exposed the gap. Calls: overwhelmed. Website: silent. 80 visitors, zero leads captured. Two channels. Only one anyone was watching.",
+        "Your busiest day might also be your worst lead capture day. You just won't know until you check the website data after the chaos clears.",
+        "Ringing phones don't mean you're capturing all the demand. 80 website visitors during a heatwave. Every one left without a name. The front desk never knew they existed."
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "80 website visitors during the heatwave. Zero leads captured. The phones were full — the website was just silent. 🥵",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#leadgeneration",
+        "#businesstips"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "80 website visitors during a heatwave. Zero leads. The phones were overwhelmed — but the website problem was invisible until the damage was done.",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#websitetips"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this for the next time demand spikes.",
+      "format": "reel",
+      "caption": "Here's something most service business owners never think to check after a busy day: what was the website doing while the phones were full? 🌡️ During a summer heatwave, one HVAC company had 80 people visit their site — and every single one left without leaving a name or number, because the only thing on the page was a phone nobody could answer. The phones felt like success. The analytics told a different story. If your business gets traffic spikes, it's worth asking whether your website is ready to handle them.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#localservices"
+      ],
+      "caption_variants": [
+        "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+        "Most service businesses measure a busy day by how many calls came in. They rarely measure how many website visitors arrived at the same time — and left because nobody could respond. During a heatwave, one HVAC company had 80 people visit their site while the phones were overwhelmed. Every visitor saw a phone number. Nobody answered it. The calls felt like a great day. The website data told a quieter story. Two channels. Only one was being watched. #smallbusiness #localservices #leadgeneration"
+      ]
+    },
+    "instagram": {
+      "cta": "Save this.",
+      "format": "reel",
+      "caption": "The busiest day of the year was also the day they lost the most leads.\n\nPhones overwhelmed. Website getting traffic. But the site could only show a phone number nobody was picking up.\n\nEighty visitors. Zero leads captured. They didn't even know until they checked the analytics.\n\nSave this if your website goes quiet exactly when demand goes loud.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac",
+        "#leadgeneration",
+        "#websitetips",
+        "#businessgrowth",
+        "#localservices",
+        "#customerservice"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "050f19af-d14f-4a12-a984-2a49502d5bb6",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during the heatwave. Zero leads captured. The phones were full — the website was just silent. 🥵",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#leadgeneration",
+        "#businesstips"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "dd04740d-b006-4ec6-8965-c30f7be20edc",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The busiest day was also the worst lead capture day",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Your busiest day might also be your worst lead capture day. You just won't know until you check the website data after the chaos clears.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "9ae2036b-76f5-4393-ba17-1705c93ceab5",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "The busiest day of the year was also the day they lost the most leads.\n\nPhones overwhelmed. Website getting traffic. But the site could only show a phone number nobody was picking up.\n\nEighty visitors. Zero leads captured. They didn't even know until they checked the analytics.\n\nSave this if your website goes quiet exactly when demand goes loud.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac",
+        "#leadgeneration",
+        "#websitetips",
+        "#businessgrowth",
+        "#localservices",
+        "#customerservice"
+      ],
+      "cta": "Save this.",
+      "language": null
+    },
+    {
+      "id": "4961fe83-8c07-456a-b0d6-a12129333545",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during a heatwave. Zero leads. The phones were overwhelmed — but the website problem was invisible until the damage was done.",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "000307d1-72bb-413b-9ca4-e2a6c992107d",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Here's something most service business owners never think to check after a busy day: what was the website doing while the phones were full? 🌡️ During a summer heatwave, one HVAC company had 80 people visit their site — and every single one left without leaving a name or number, because the only thing on the page was a phone nobody could answer. The phones felt like success. The analytics told a different story. If your business gets traffic spikes, it's worth asking whether your website is ready to handle them.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": "Save this for the next time demand spikes.",
+      "language": null
+    },
+    {
+      "id": "e664375c-66e0-4914-b0f6-707c85f35ecc",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#localservices"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "a2ef05e0-c06b-4e4b-8bc8-d5815db53845",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Most service businesses measure a busy day by how many calls came in. They rarely measure how many website visitors arrived at the same time — and left because nobody could respond. During a heatwave, one HVAC company had 80 people visit their site while the phones were overwhelmed. Every visitor saw a phone number. Nobody answered it. The calls felt like a great day. The website data told a quieter story. Two channels. Only one was being watched. #smallbusiness #localservices #leadgeneration",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#localservices"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "a8359bdb-ae4a-4de0-94e3-67c42fec743e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The heatwave that exposed the website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "763decb4-8940-405d-8262-7976df4f154a",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "80 visitors. Zero leads. One very quiet analytics dashboard.",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "The phones ringing felt like success. The analytics said something different. 80 people visited the site. None of them could get a response. None of them stayed.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "4366287e-b499-44e6-889d-ad4c08e20111",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "When the phones are full, who's watching the website?",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Peak demand exposed the gap. Calls: overwhelmed. Website: silent. 80 visitors, zero leads captured. Two channels. Only one anyone was watching. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "e41e23fc-7308-44f4-a7e5-22c9887ca420",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Peak demand, invisible loss",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Ringing phones don't mean you're capturing all the demand. 80 website visitors during a heatwave. Every one left without a name. The front desk never knew they existed.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 41,
+    "secondary": 46
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_shock→energy(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+41)",
+    "fit_secondary(+46)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+}
+```
+
+## Creative mode
+```json
+"shock"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Losing leads due to lack of instant website support",
+  "strategy_pain_point": "Losing leads due to lack of instant website support"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the existing website content automatically, requires no setup beyond a single embed script, and captures lead information from visitors who would otherwise leave the moment they see an unanswered phone number. It does not replace the front desk; it covers the channel the front desk cannot reach."
+```
+
+## Narrative arc
+```json
+"CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his forehead in a cluttered dispatch office. He speaks directly to camera: 'We had our best traffic day ever during the heatwave. We also had our worst lead capture day ever. We just didn't know it until after.' CUT TO: quick montage — phones ringing off the hook, a front-desk worker waving her hands overwhelmed, a browser tab showing the company website with nothing but a static phone number and a 'Call Us' button. IMPLICATION BEAT — Text overlay or VO: 'While the phones were full, 80 people visited the website. Every one of them saw a number no one was picking up. Every one of them left.' PROOF BEAT — Show the analytics screen: sessions, zero form fills, zero chat interactions, zero leads captured. The owner's face registers the quiet cost — not anger, just the specific exhaustion of understanding something too late. PRODUCT REVEAL — The same website now has a chat widget active. A visitor types: 'Do you service my area?' The AI responds instantly with a service zone answer and a prompt to leave contact details. A lead notification pings on the owner's phone — while the front desk is still fielding calls. CLOSE — Owner back on camera, calm: 'The phones were always going to get overwhelmed. The website didn't have to go silent at the same time.' CTA card: 'Create your AI assistant — let your website capture what the phones can't reach.'"
+```
+
+## Emotional tone
+```json
+"Calm authority with a quiet gut-punch. The confession earns credibility; the implication lands without drama. No panic, no hyperbole — just the measured recognition of a real and specific cost that most business owners have never thought to measure."
+```
+
+## Audience insight
+```json
+"Local service business owners in high-demand trades assume that a flood of inbound calls means they are capturing all available demand. They have never separated 'phone traffic' from 'website traffic' in their mental model of a busy day. The idea that their website was simultaneously losing leads while the phones were ringing is genuinely new information — and it reframes what 'a great day' actually looked like."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+  "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+  "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+  "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+  "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+  "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice."
+}
+```
+
+## Generated images
+```json
+{
+  "local_files": [
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-5.png",
+    "reports/c6051f49-creative-evidence/images/package_02/thumbnail.png"
+  ],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-5.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "signed_urls": [],
+  "thumbnail_url": "[SIGNED_URL]"
+}
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": "[SIGNED_URL]",
+  "local_file": "reports/c6051f49-creative-evidence/images/package_02/subtitles.srt",
+  "planned": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "f9fb81d9-4e43-4d8e-823b-086d6d939df3",
+  "status": "completed",
+  "error_message": null,
+  "created_at": "2026-07-25T07:24:54.533165+00:00",
+  "completed_at": "2026-07-25T07:35:26.016+00:00",
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": "[SIGNED_URL]",
+  "subtitle_url": "[SIGNED_URL]",
+  "thumbnail_url": "[SIGNED_URL]",
+  "artifacts_persisted_at": "2026-07-25T07:35:25.324Z",
+  "render_spec": {
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-1.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-2.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-3.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/b1b0d00c-0bfc-4095-954f-4b38a813747f/component-capture.png",
+        "video_usage": "framed_screen",
+        "image_bucket": "project-assets",
+        "image_prompt": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+            "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-5.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "version": 1,
+    "metadata": {
+      "rendered_at": "2026-07-25T07:35:25.223Z",
+      "semantic_motion": {
+        "beats": [
+          {
+            "beat_id": "beat-1",
+            "scene_id": "scene-1",
+            "motion_intent": "ATTENTION",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "zoom_in"
+          },
+          {
+            "beat_id": "beat-2",
+            "scene_id": "scene-2",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-3",
+            "scene_id": "scene-3",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "drift_down"
+          },
+          {
+            "beat_id": "beat-4",
+            "scene_id": "scene-4",
+            "motion_intent": "HOLD",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          },
+          {
+            "beat_id": "beat-5",
+            "scene_id": "scene-5",
+            "motion_intent": "CLOSE",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          }
+        ],
+        "version": "semantic-motion@2"
+      }
+    }
+  },
+  "image_urls": [],
+  "storage_files": [
+    "output.mp4",
+    "scene-scene-1.png",
+    "scene-scene-2.png",
+    "scene-scene-3.png",
+    "scene-scene-5.png",
+    "subtitles.srt",
+    "thumbnail.png"
+  ],
+  "downloaded_images": [
+    "reports/c6051f49-creative-evidence/images/package_02/output.mp4",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-1.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-2.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-3.png",
+    "reports/c6051f49-creative-evidence/images/package_02/scene-scene-5.png",
+    "reports/c6051f49-creative-evidence/images/package_02/subtitles.srt",
+    "reports/c6051f49-creative-evidence/images/package_02/thumbnail.png"
+  ],
+  "debug": {
+    "match_ratio": 0.9375,
+    "audio_duration": 24.756,
+    "video_duration": 24.766667,
+    "speech_duration": 23.256,
+    "subtitle_source": "whisper",
+    "language_detected": "english",
+    "render_warning": false,
+    "render_warnings": [],
+    "tts_tail_validation_passed": true,
+    "whisper_word_count": 63,
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "gpt-4o-mini-tts",
+          "repair": false,
+          "success": true,
+          "provider": "tts",
+          "warnings": [],
+          "raw_usage": {
+            "character_count": 363,
+            "duration_seconds": 23.256,
+            "usd_per_1k_chars": 0.015
+          },
+          "step_name": "TTS",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:30:54.610Z",
+          "duration_ms": 4196,
+          "finished_at": "2026-07-25T07:30:58.806Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+          "prompt_tokens": null,
+          "estimated_cost": 0.005445,
+          "output_summary": "audio duration=23.256s",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": 367,
+          "completion_tokens": null,
+          "output_size_bytes": 114,
+          "prompt_characters": 363,
+          "provider_request_id": null,
+          "completion_characters": 114
+        },
+        {
+          "model": "whisper-1",
+          "repair": false,
+          "success": true,
+          "provider": "whisper",
+          "warnings": [],
+          "raw_usage": {
+            "word_count": 63,
+            "usd_per_min": 0.006,
+            "fallback_used": false,
+            "duration_seconds": 23.256
+          },
+          "step_name": "Whisper",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:30:58.806Z",
+          "duration_ms": 1952,
+          "finished_at": "2026-07-25T07:31:00.757Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+          "prompt_tokens": null,
+          "estimated_cost": 0.002326,
+          "output_summary": "63 words (english)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 37,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 37
+        },
+        {
+          "model": "gpt-image-1",
+          "repair": false,
+          "success": true,
+          "provider": "image",
+          "warnings": [],
+          "raw_usage": {
+            "usd_per_still": 0.042,
+            "reused_still_count": 1,
+            "generated_still_count": 4
+          },
+          "step_name": "Image generation",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:31:00.881Z",
+          "duration_ms": 121904,
+          "finished_at": "2026-07-25T07:33:02.785Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+          "prompt_tokens": null,
+          "estimated_cost": 0.168,
+          "output_summary": "generated=4; reused=1",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 67,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 67
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "video",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Video rendering",
+          "max_tokens": null,
+          "started_at": "2026-07-25T07:33:02.919Z",
+          "duration_ms": 137889,
+          "finished_at": "2026-07-25T07:35:20.807Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "video_duration=24.766667",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 50,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 50
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23"
+    }
+  },
+  "debug_keys": [
+    "sfx_mixed",
+    "sfx_reason",
+    "match_ratio",
+    "fallback_used",
+    "language_hint",
+    "audio_duration",
+    "duration_delta",
+    "render_warning",
+    "video_duration",
+    "render_warnings",
+    "speech_duration",
+    "subtitle_source",
+    "target_duration",
+    "srt_last_cue_end",
+    "subtitle_warning",
+    "language_detected",
+    "post_mux_duration",
+    "tts_tail_expected",
+    "tts_validation_log",
+    "whisper_word_count",
+    "tail_buffer_seconds",
+    "tts_tail_retry_used",
+    "tts_tail_transcript",
+    "generation_telemetry",
+    "post_subtitle_duration",
+    "tts_validation_attempts",
+    "subtitle_timeline_duration",
+    "tts_tail_validation_passed",
+    "intermediate_video_duration"
+  ],
+  "output_keys": [
+    "debug",
+    "mp4_url",
+    "render_spec",
+    "subtitle_url",
+    "thumbnail_url",
+    "artifacts_persisted_at"
+  ],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "During a summer heatwave, an HVAC company's phone lines are completely overwhelmed — but their website is quietly getting traffic too. The site can only display a phone number nobody is answering. Ev…",
+    "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job boar…",
+    "product_role": "Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the exi…",
+    "visual_world": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running.…",
+    "attention_pattern": "The immediate visual chaos of the ringing phones draws viewers in, while the owner's confession creates curiosity about…",
+    "narrative_mechanism": "shock: CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 3 — The Consultant Who Prepared for Everything Except the Question
+
+- package_id: `c4deb821-7ef0-44c7-9f04-abbd00bd6d4e`
+- strategy_item_id: `83dd16d2-ce3b-4ac8-97dc-9be946437d02`
+- run_item_id: `ebfabb23-fbff-4f9f-844b-7a0da1994757`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "83dd16d2-ce3b-4ac8-97dc-9be946437d02",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 4,
+    "brief": {
+      "angle": "A qualified prospect lands on a consulting firm's site, reads through the services, and wants to know which package fits their situation. The page has no way to answer that. They open a competitor's site next.",
+      "topic": "The consultant whose website attracted the right client — and then said nothing",
+      "source": "production_run",
+      "pain_point": "Visitors leave before contacting you",
+      "package_index": 3,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Consultant Who Prepared for Everything Except the Question",
+  "core_idea": "A consultant spends weeks perfecting their website — clear service tiers, polished copy, a professional headshot — then watches a qualified prospect silently tab away because the site couldn't answer one specific question about which package fit their situation. The unexpected turn: the competitor they switched to had a worse-looking website. It just talked back.",
+  "product_role": "Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the presence that answers the one question standing between a qualified visitor and a booked call. It is introduced at the resolution moment: the thing the competitor had that the consultant's site didn't.",
+  "why_it_works": "The angle is fresh because it reframes the pain point as an irony rather than a failure — the consultant did everything right except the one thing that mattered at the moment of decision. The humor comes from the gap between effort and outcome, not from mocking the person. The competitor's uglier-but-responsive website is the unexpected turn that makes the lesson land without a lecture. The visual storytelling is split-screen in spirit — pride versus loss — which suits TikTok's fast cut rhythm and keeps the concept platform-native.",
+  "narrative_arc": "SITUATION: Open on a consultant at their desk, visibly proud — they're doing a final scroll through their newly redesigned website on a laptop. Everything looks sharp. They nod, close the laptop, go to bed. CUT TO: a phone screen in a stranger's hands, late evening. The stranger is on the consultant's site, reading carefully, clearly interested. They hover over the contact form. Then they type a question into a search bar instead and land on a competitor's site — plainer, less polished — but a chat bubble appears immediately and answers their question. The stranger books a call. PUNCHLINE: Back to the consultant the next morning, opening analytics. Good traffic. Zero leads. They tilt their head at the screen like a confused golden retriever. TEXT OVERLAY: 'Your website looked great. It just didn't say anything.' CTA card.",
+  "emotional_tone": "Warm, self-aware humor with a genuine sting of recognition — the kind of laugh that ends with 'okay, that's actually me.' The humor targets the situation, never the person. The fix lands seriously.",
+  "audience_insight": "Consultants and professional service providers invest heavily in how their website looks and reads — they treat it as a credential. What they underestimate is that a qualified visitor doesn't just want to read; they want to ask one specific question before they commit to contact. When the site can't answer it, the visitor doesn't wait — they move to whoever can.",
+  "visual_direction": {
+    "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+    "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+    "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+    "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+    "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+    "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Slow at first to build anticipation, then quickens as the scene shifts to the prospect's phone, creating urgency.",
+  "emotion": "A mix of pride and impending disappointment as the consultant's hard work is about to be undermined.",
+  "first_image": "A close-up of a laptop screen displaying a beautifully designed consulting website, with the cursor hovering over a contact form, while a warm desk lamp casts a soft glow in the background.",
+  "attention_pattern": "Starts with a moment of satisfaction, then shifts to tension as the prospect's need for information is unmet, compelling viewers to stay engaged.",
+  "first_spoken_sentence": "You spent weeks perfecting your website, but what happens when a visitor has a question?"
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+  "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+  "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+  "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+  "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+  "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience.",
+  "opening_emotion": "A mix of pride and impending disappointment as the consultant's hard work is about to be undermined.",
+  "opening_first_image": "A close-up of a laptop screen displaying a beautifully designed consulting website, with the cursor hovering over a contact form, while a warm desk lamp casts a soft glow in the background."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Consultant Who Prepared for Everything Except the Question",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "You spent weeks perfecting your website, but what happens when a visitor has a question?",
+  "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. That same week, a qualified prospect finds the site late one evening, reads through the services carefully, and wants to ask one specific question before committing to a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. It looks less polished. But a chat bubble appears and answers the question within seconds. The prospect books a call. The next morning, the consultant opens their analytics: good traffic, zero leads. The gap wasn't design. It was the one unanswered question.",
+  "video": {
+    "script": "SCENE 1 — EVENING, CONSULTANT'S HOME OFFICE\n[Warm desk lamp light. Hands scrolling a laptop showing a polished consulting website. Slow, satisfied scroll. Cursor hovers over contact form. Consultant nods slightly, closes laptop.]\nVO: 'You spent weeks perfecting your website, but what happens when a visitor has a question?'\n\nSCENE 2 — LATE NIGHT, PROSPECT'S LIVING ROOM\n[Cool blue phone-screen light. Hands holding a phone. Deliberate scrolling through services page. Finger hovers over contact form. Hesitates.]\nVO: 'They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call.'\n\nSCENE 3 — SAME NIGHT, SAME COUCH\n[Prospect types into a search bar. Lands on a competitor's site — visibly plainer. A chat bubble appears. Prospect types a question. A reply appears instantly. Prospect taps 'Book a call.']\nVO: 'So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book.'\n\nSCENE 4 — NEXT MORNING, CONSULTANT'S DESK\n[Consultant opens laptop. Analytics dashboard. Traffic looks good. Leads column: zero. Consultant tilts head slowly at the screen.]\nTEXT OVERLAY: 'Your website looked great. It just didn't say anything.'\nVO: 'You wake up to good traffic and zero leads.'\n\nSCENE 5 — CTA CARD\n[Clean dark card. Bold white text: 'Create your AI assistant — fenrik.chat']\n[Save prompt appears bottom frame.]",
+    "concept": "A consultant finishes polishing their website, closes the laptop with satisfaction, and goes to bed. That same night, a qualified prospect finds the site, reads carefully, wants to ask one specific question — and can't. No chat, no response, nothing. They open a competitor's site. It looks rougher. But a chat bubble appears and answers the question. They book a call. Morning: the consultant opens analytics. Great traffic. Zero leads. Head tilt. Text overlay drops: 'Your website looked great. It just didn't say anything.' CTA card closes.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#consulting",
+    "#smallbusiness",
+    "#websitestrategy",
+    "#leadgeneration",
+    "#businessgrowth"
+  ],
+  "subtitles_planned": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads."
+}
+```
+
+## Voiceover
+```json
+"You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "Close-up of a laptop screen displaying a beautifully designed consulting website with clean service tiers and polished typography, cursor hovering over a contact form, warm soft desk lamp casting golden light across a tidy home office desk with a notebook and small plant in the background — evening, intimate, aspirational-small-business aesthetic"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Hands holding a smartphone in a dimly lit living room at night, cool blue light from the phone screen illuminating the scene, the screen showing a services page on a consulting website, finger hovering hesitantly over a contact form — candid, unposed, decisive late-night mood"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Same hands on the same phone now on a plainer-looking competitor website, a small chat bubble visible in the corner of the screen with a reply appearing instantly, the prospect's thumb moving toward a book-a-call button — cool ambient blue light, intimate, the moment of decision"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A person sitting at a home office desk in soft morning light, laptop open to an analytics dashboard showing solid session numbers and a leads column at zero, head tilted gently to one side in quiet confusion — warm neutral tones, muted greens, gently humorous and relatable"
+  },
+  {
+    "source": "asset",
+    "used_as": "CTA card background showing industries and business types served, reinforcing that the solution applies universally — used as the closing frame insert",
+    "asset_id": "d0577ae7-6599-44f1-84af-c6ee18512312"
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "Close-up of a laptop screen displaying a beautifully designed consulting website with clean service tiers and polished typography, cursor hovering over a contact form, warm soft desk lamp casting golden light across a tidy home office desk with a notebook and small plant in the background — evening, intimate, aspirational-small-business aesthetic",
+  "Hands holding a smartphone in a dimly lit living room at night, cool blue light from the phone screen illuminating the scene, the screen showing a services page on a consulting website, finger hovering hesitantly over a contact form — candid, unposed, decisive late-night mood",
+  "Same hands on the same phone now on a plainer-looking competitor website, a small chat bubble visible in the corner of the screen with a reply appearing instantly, the prospect's thumb moving toward a book-a-call button — cool ambient blue light, intimate, the moment of decision",
+  "A person sitting at a home office desk in soft morning light, laptop open to an analytics dashboard showing solid session numbers and a leads column at zero, head tilted gently to one side in quiet confusion — warm neutral tones, muted greens, gently humorous and relatable"
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if your website has ever looked great and said absolutely nothing.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "title_variants": [
+        "The Consultant Who Prepared for Everything Except the Question",
+        "Good Traffic. Zero Leads. Here's Why.",
+        "Your Website Looked Great. It Just Didn't Say Anything.",
+        "The Competitor's Site Was Uglier — And Still Won the Client",
+        "One Unanswered Question Is All It Takes to Lose a Qualified Lead"
+      ],
+      "caption_variants": [
+        "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+        "The competitor's website was uglier. It just had a chat bubble that answered the question. That was enough.",
+        "Polished design. Clear services. Professional copy. Zero leads. Because the one question that mattered went unanswered.",
+        "Visitors don't leave because your website looks bad. They leave because it can't talk back when they're ready to ask something.",
+        "Good traffic and zero leads isn't a marketing problem. It's a conversation problem. #consulting #leadgeneration"
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your website had a qualified visitor last night. They left because it couldn't answer one question. 😬 The competitor's site was uglier. It just talked back.",
+      "hashtags": [
+        "#consulting",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "They found your website, read everything, and still left — because one question went unanswered. Here's what happened next.",
+      "hashtags": [
+        "#shorts",
+        "#smallbusiness",
+        "#consulting"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "format": "reel",
+      "caption": "Ever checked your website analytics and seen solid traffic — but zero leads? 😅 Here's a situation that might feel familiar: a qualified prospect lands on a consulting site, reads every service page, and wants to ask one specific question before booking. There's no way to ask it. They move on. The competitor's site was less polished — but it had a chat bubble that answered instantly. That was enough. If your website is working hard to attract visitors but can't hold the conversation, save this one.",
+      "hashtags": [
+        "#smallbusiness",
+        "#consulting"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "A consultant spent weeks refining their website — clear service tiers, polished copy, professional design. A qualified prospect found it late one evening, read carefully, and wanted to ask one question before committing to contact. The site had no way to answer it. They opened a competitor's site next. It looked rougher. But a chat bubble appeared and answered the question. They booked a call. The consultant woke up to good traffic and zero leads. The gap wasn't design. It was responsiveness.",
+      "hashtags": [
+        "#consulting",
+        "#businessgrowth",
+        "#leadgeneration"
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "format": "reel",
+      "caption": "They were on your services page. Reading carefully. Ready to ask the one question before committing.\n\nYour website had no answer.\n\nSo they opened the next tab — and booked with someone else.\n\nSave this if you've ever woken up to good traffic and zero leads.",
+      "hashtags": [
+        "#consultinglife",
+        "#smallbusiness",
+        "#websitestrategy",
+        "#leadgen",
+        "#businessgrowth"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "6a304dbb-23c0-44e2-a629-20ee875fc0dc",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Good Traffic. Zero Leads. Here's Why.",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "The competitor's website was uglier. It just had a chat bubble that answered the question. That was enough.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "bc239641-59d9-48f3-8683-6d66654c7fb3",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Your website had a qualified visitor last night. They left because it couldn't answer one question. 😬 The competitor's site was uglier. It just talked back.",
+      "hashtags": [
+        "#consulting",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "8aec5a62-8dd6-4edb-af57-78efdb8c9820",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "They were on your services page. Reading carefully. Ready to ask the one question before committing.\n\nYour website had no answer.\n\nSo they opened the next tab — and booked with someone else.\n\nSave this if you've ever woken up to good traffic and zero leads.",
+      "hashtags": [
+        "#consultinglife",
+        "#smallbusiness",
+        "#websitestrategy",
+        "#leadgen",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "language": null
+    },
+    {
+      "id": "0a02cecd-53f3-45de-be6c-4dfe42b904ce",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "They found your website, read everything, and still left — because one question went unanswered. Here's what happened next.",
+      "hashtags": [
+        "#shorts",
+        "#smallbusiness",
+        "#consulting"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "dd558804-e0ba-4be6-a3a5-be4fc8854316",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Ever checked your website analytics and seen solid traffic — but zero leads? 😅 Here's a situation that might feel familiar: a qualified prospect lands on a consulting site, reads every service page, and wants to ask one specific question before booking. There's no way to ask it. They move on. The competitor's site was less polished — but it had a chat bubble that answered instantly. That was enough. If your website is working hard to attract visitors but can't hold the conversation, save this one.",
+      "hashtags": [
+        "#smallbusiness",
+        "#consulting"
+      ],
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "language": null
+    },
+    {
+      "id": "4a17fff3-7cb9-4f21-8291-cc7dec335d6b",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "b08c3558-83ad-438e-8a27-9792edf3d636",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "A consultant spent weeks refining their website — clear service tiers, polished copy, professional design. A qualified prospect found it late one evening, read carefully, and wanted to ask one question before committing to contact. The site had no way to answer it. They opened a competitor's site next. It looked rougher. But a chat bubble appeared and answered the question. They booked a call. The consultant woke up to good traffic and zero leads. The gap wasn't design. It was responsiveness.",
+      "hashtags": [
+        "#consulting",
+        "#businessgrowth",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "8b7029d5-2a09-4483-8ff8-4247fcbdfd2d",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Looked Great. It Just Didn't Say Anything.",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Polished design. Clear services. Professional copy. Zero leads. Because the one question that mattered went unanswered. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "f5596f65-681d-430a-ab88-76cb618521fb",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Competitor's Site Was Uglier — And Still Won the Client",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Visitors don't leave because your website looks bad. They leave because it can't talk back when they're ready to ask something.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "19d9998e-f7dd-4df0-b75b-a10d26854aa2",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "One Unanswered Question Is All It Takes to Lose a Qualified Lead",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Good traffic and zero leads isn't a marketing problem. It's a conversation problem. #consulting #leadgeneration",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 40,
+    "secondary": 48
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_humor→energy/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+40)",
+    "fit_secondary(+48)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"humor"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Visitors leave before contacting you",
+  "strategy_pain_point": "Visitors leave before contacting you"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the presence that answers the one question standing between a qualified visitor and a booked call. It is introduced at the resolution moment: the thing the competitor had that the consultant's site didn't."
+```
+
+## Narrative arc
+```json
+"SITUATION: Open on a consultant at their desk, visibly proud — they're doing a final scroll through their newly redesigned website on a laptop. Everything looks sharp. They nod, close the laptop, go to bed. CUT TO: a phone screen in a stranger's hands, late evening. The stranger is on the consultant's site, reading carefully, clearly interested. They hover over the contact form. Then they type a question into a search bar instead and land on a competitor's site — plainer, less polished — but a chat bubble appears immediately and answers their question. The stranger books a call. PUNCHLINE: Back to the consultant the next morning, opening analytics. Good traffic. Zero leads. They tilt their head at the screen like a confused golden retriever. TEXT OVERLAY: 'Your website looked great. It just didn't say anything.' CTA card."
+```
+
+## Emotional tone
+```json
+"Warm, self-aware humor with a genuine sting of recognition — the kind of laugh that ends with 'okay, that's actually me.' The humor targets the situation, never the person. The fix lands seriously."
+```
+
+## Audience insight
+```json
+"Consultants and professional service providers invest heavily in how their website looks and reads — they treat it as a credential. What they underestimate is that a qualified visitor doesn't just want to read; they want to ask one specific question before they commit to contact. When the site can't answer it, the visitor doesn't wait — they move to whoever can."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+  "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+  "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+  "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+  "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+  "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "8295a520-95f5-44b9-9af7-5a906ebe4cc0",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:26:21.841267+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A consultant spends weeks perfecting their website — clear service tiers, polished copy, a professional headshot — then watches a qualified prospect silently tab away because the site couldn't answer…",
+    "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-s…",
+    "product_role": "Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the pr…",
+    "visual_world": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room …",
+    "attention_pattern": "Starts with a moment of satisfaction, then shifts to tension as the prospect's need for information is unmet, compellin…",
+    "narrative_mechanism": "humor: SITUATION: Open on a consultant at their desk, visibly proud — they're doing a …"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "CTA card background showing industries and business types served, reinforcing that the solution applies universally — used as the closing frame insert",
+    "asset_id": "d0577ae7-6599-44f1-84af-c6ee18512312"
+  }
+]
+```
+
+---
+
+# Package 4 — The Five Questions
+
+- package_id: `c0b70ea0-25e8-4d22-b12f-0f0788b27834`
+- strategy_item_id: `f4ed0308-9e0f-4892-b4a3-1faaaff2f719`
+- run_item_id: `5aa266fc-2c4a-47c9-ae60-251e9220e0f6`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "f4ed0308-9e0f-4892-b4a3-1faaaff2f719",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "Every business has a short list of questions that every new visitor asks. When those questions go unanswered on the website, they pile up in email, DMs, and calls — consuming time that could be spent on actual work.",
+      "topic": "Why the same five customer questions show up in your inbox every single week",
+      "source": "production_run",
+      "pain_point": "Repeating the same customer questions every day",
+      "package_index": 4,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Five Questions",
+  "core_idea": "Every small business owner has a short list of questions that every single new visitor asks — and instead of those questions being answered once, automatically, on the website where they originate, they travel through the inbox, the DMs, and the voicemail, arriving one at a time, every week, forever. The video exposes this pattern as a structural problem with a structural fix.",
+  "product_role": "Fenrik.chat is the structural fix to a structural problem. It reads the website the owner already built, understands the answers already written there, and delivers them to visitors the moment they ask — before the question ever reaches the inbox. The product does not replace the owner's knowledge; it deploys it automatically, at scale, without repetition.",
+  "why_it_works": "The selected pain point — repeating the same customer questions every day — is the entire story. The hook reframes a familiar frustration as a preventable system failure rather than an unavoidable cost of doing business. The reporter voice keeps the tone observational and credible, avoiding hype. The twist (the answers were already on the website) creates genuine surprise without invention. The visual world — a desk, a laptop, an inbox — is deliberately different from recent packages set in offices, kitchens, and dispatch rooms. The narrative mechanism (pattern exposure rather than a single missed-lead moment) distinguishes this from recent story-driven packages focused on one lost visitor.",
+  "narrative_arc": "SETUP: Open mid-scene — a service business owner, seated at a desk mid-morning, opening her laptop to a familiar sight: the same five questions in her inbox. Not spam. Real inquiries. 'What are your hours?' 'Do you work with small businesses?' 'How much does it cost?' 'What's included?' 'How do I get started?' She reads them with the flat expression of someone who has typed these answers hundreds of times. CONFLICT: A text card cuts in — factual, reporter-style: 'These five questions were also asked last week. And the week before.' The viewer understands: this is not a bad day. This is every day. The owner isn't failing at her business — she's spending real working hours answering questions her website already contains the answers to. TWIST: The camera holds on the website tab open in her browser — a well-built page, full of content. The answer to every single one of those inbox questions is already there, written out, sitting idle. The problem was never missing information. The problem is that the website couldn't deliver it in the moment someone asked. RESOLUTION: Fenrik.chat is shown being set up — the owner pastes her website URL, the AI reads the existing content, a preview chat appears. She types one of the five questions into the preview. The answer comes back instantly, drawn directly from her own site. She doesn't write a single word. CLOSING LINE (on screen, plain text): 'Your website already has the answers. It just couldn't say them.' CTA card: 'Create your AI assistant — stop answering the same questions twice.'",
+  "emotional_tone": "Dry recognition — the quiet exasperation of a competent person doing unnecessary repetitive work. No drama, no urgency. The emotional payoff is relief through clarity: the problem has a name, and the fix is already available.",
+  "audience_insight": "Service business owners and consultants know exactly which five questions fill their inbox every week. They have answered them so many times they could recite them. What they have not considered is that this is not a customer education problem — it is a website responsiveness problem. Naming the pattern precisely is what makes this video land.",
+  "visual_direction": {
+    "palette": "Muted neutrals — warm white desk surface, soft grey walls, one accent of deep navy or slate in the owner's clothing. The Fenrik.chat UI preview appears in clean white with a subtle blue accent, consistent with a professional SaaS product.",
+    "lighting": "Even, natural daylight from a side window. No dramatic shadows. The look is functional and honest — a real working space, not a staged one.",
+    "environment": "A compact home office or small studio workspace. Tidy but lived-in — a coffee cup, a notebook, a second monitor. Nothing aspirational. The kind of desk where real work happens.",
+    "camera_style": "Mostly static medium shots with one deliberate slow push-in toward the laptop screen during the twist beat. No handheld shake. Cuts are clean and unhurried. The pacing mirrors the reporter voice — factual, composed, no flourish.",
+    "art_direction": "Flat, editorial, slightly clinical. Text overlays are minimal — one or two cards in clean sans-serif, white on dark or dark on light. No motion graphics. The inbox list of five questions appears as a simple on-screen graphic, styled like a real email client screenshot, not an animated infographic.",
+    "character_style": "One lead character — a woman in her mid-thirties to mid-forties, dressed in smart-casual workwear. She is not performing frustration; she is simply doing a familiar task with the neutral efficiency of someone who has done it too many times. No exaggerated reactions. Her expression at the end — when the AI answers the question instantly — is quiet satisfaction, not excitement."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Measured and deliberate, reflecting the routine nature of the task, with a slight pause after the first sentence to let the realization sink in.",
+  "emotion": "Quiet exasperation mixed with recognition — the weight of repetitive tasks.",
+  "first_image": "A woman in her mid-thirties sits at a tidy home office desk, opening her laptop to reveal an email inbox filled with five identical questions from potential clients, styled like a real email client screenshot.",
+  "attention_pattern": "The viewer is drawn in by the familiarity of the situation, prompting them to consider their own experiences with unanswered visitor questions.",
+  "first_spoken_sentence": "Every week, the same five questions land in your inbox, and you know them by heart."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Muted neutrals — warm white desk surface, soft grey walls, one accent of deep navy or slate in the owner's clothing. The Fenrik.chat UI preview appears in clean white with a subtle blue accent, consistent with a professional SaaS product.",
+  "lighting": "Even, natural daylight from a side window. No dramatic shadows. The look is functional and honest — a real working space, not a staged one.",
+  "environment": "A compact home office or small studio workspace. Tidy but lived-in — a coffee cup, a notebook, a second monitor. Nothing aspirational. The kind of desk where real work happens.",
+  "camera_style": "Mostly static medium shots with one deliberate slow push-in toward the laptop screen during the twist beat. No handheld shake. Cuts are clean and unhurried. The pacing mirrors the reporter voice — factual, composed, no flourish.",
+  "art_direction": "Flat, editorial, slightly clinical. Text overlays are minimal — one or two cards in clean sans-serif, white on dark or dark on light. No motion graphics. The inbox list of five questions appears as a simple on-screen graphic, styled like a real email client screenshot, not an animated infographic.",
+  "character_style": "One lead character — a woman in her mid-thirties to mid-forties, dressed in smart-casual workwear. She is not performing frustration; she is simply doing a familiar task with the neutral efficiency of someone who has done it too many times. No exaggerated reactions. Her expression at the end — when the AI answers the question instantly — is quiet satisfaction, not excitement.",
+  "opening_emotion": "Quiet exasperation mixed with recognition — the weight of repetitive tasks.",
+  "opening_first_image": "A woman in her mid-thirties sits at a tidy home office desk, opening her laptop to reveal an email inbox filled with five identical questions from potential clients, styled like a real email client screenshot."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Five Questions",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "Every week, the same five questions land in your inbox, and you know them by heart.",
+  "scenario": "A service business owner opens her laptop mid-morning to find the same five questions waiting in her inbox — different senders, identical words. She begins typing the replies she has written dozens of times before. The camera holds on her website tab, open beside the inbox: a well-built services page with every answer written out, sitting idle. The problem was never missing information. Her website simply had no way to deliver those answers in the moment a visitor asked. Fenrik.chat reads the existing page and closes that gap automatically.",
+  "video": {
+    "script": "SCENE 1 — SETUP (0:00–0:05)\nMedium shot. A woman in her mid-thirties sits at a tidy home office desk. She opens her laptop. Her inbox loads. Five emails, five different senders, five familiar subject lines. Her expression is flat — not annoyed, just unsurprised. She has seen this before.\n\nON SCREEN TEXT CARD (clean sans-serif, dark on light):\n'What are your hours?'\n'How much does it cost?'\n'What's included?'\n'How do I get started?'\n'Do you work with small businesses?'\n\nVO: 'Every week, the same five questions land in your inbox, and you know them by heart.'\n\nSCENE 2 — CONFLICT (0:05–0:12)\nStatic medium shot. She begins typing a reply — the same reply she has typed before. Camera holds. A second text card cuts in, white on dark:\n\n'These five questions were also asked last week. And the week before.'\n\nVO: 'What are your hours? How much does it cost? What's included? How do I get started?'\n\nSCENE 3 — TWIST (0:12–0:20)\nSlow deliberate push-in toward the laptop screen. Her website tab is open beside the inbox. The camera settles on the screen — a well-built services page. The answer to every inbox question is visible, written out, sitting idle on the page.\n\nVO: 'Your website already had the answers. It just couldn't say them.'\n\nSCENE 4 — RESOLUTION (0:20–0:28)\nShe pastes her website URL into Fenrik.chat. The AI reads the page. A clean chat preview appears — white interface, subtle blue accent. She types one of the five questions into the preview. The answer comes back instantly, drawn word-for-word from her own site. She reads it. Quiet satisfaction — no performance.\n\nVO: 'Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.'\n\nSCENE 5 — CLOSE (0:28–0:33)\nCamera pulls back to the full desk. The inbox is still open. But no new question has arrived. Plain text on screen:\n\n'Your website already has the answers.'\n'Create your AI assistant — stop answering the same questions twice.'\n\nNo voiceover. Hold on the text. Cut to black.",
+    "concept": "A service business owner opens her laptop mid-morning to the same familiar sight — five questions in her inbox she has answered hundreds of times before. The video exposes this not as a customer problem but as a website responsiveness problem. The twist: every answer was already sitting on her website. The resolution: Fenrik.chat reads that existing content and delivers those answers automatically, the moment a visitor asks.",
+    "duration_seconds": "33"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#aiassistant",
+    "#websitetips",
+    "#businessowner",
+    "#aitools",
+    "#leadgeneration"
+  ],
+  "subtitles_planned": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox."
+}
+```
+
+## Voiceover
+```json
+"Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A woman in her mid-thirties sits at a tidy home office desk, opening her laptop to reveal an email inbox filled with five identical questions from potential clients, styled like a real email client screenshot. Even natural daylight from a side window. Warm white desk surface, soft grey walls, navy accent in her smart-casual clothing. Flat editorial look, no dramatic shadows."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "The woman typing a reply email at her desk, expression flat and practiced — the neutral efficiency of someone doing a familiar task for the hundredth time. Static medium shot, tidy lived-in workspace, coffee cup and notebook visible on warm white surface, soft grey walls, even side-window light."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Slow push-in view toward a laptop screen showing a well-built website services page — clearly written answers to common questions visible on screen, sitting idle and unread. Muted neutral tones, functional honest atmosphere, no dramatic lighting."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product UI reference — Fenrik.chat FAQ interface shown as framed insert on laptop screen during resolution beat, illustrating AI answering visitor questions from existing website content.",
+    "asset_id": "cd775ffc-9c6d-4d66-b879-8b175c8b1907"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Wide desk shot of the full compact home office workspace, laptop open with no new inbox messages arriving. Calm resolved atmosphere. Warm white desk surface, soft grey walls, natural side-window light. On-screen text card in clean sans-serif on light background reads: 'Your website already has the answers.' Flat editorial look, no motion."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A woman in her mid-thirties sits at a tidy home office desk, opening her laptop to reveal an email inbox filled with five identical questions from potential clients, styled like a real email client screenshot. Even natural daylight from a side window. Warm white desk surface, soft grey walls, navy accent in her smart-casual clothing. Flat editorial look, no dramatic shadows.",
+  "The woman typing a reply email at her desk, expression flat and practiced — the neutral efficiency of someone doing a familiar task for the hundredth time. Static medium shot, tidy lived-in workspace, coffee cup and notebook visible on warm white surface, soft grey walls, even side-window light.",
+  "Slow push-in view toward a laptop screen showing a well-built website services page — clearly written answers to common questions visible on screen, sitting idle and unread. Muted neutral tones, functional honest atmosphere, no dramatic lighting.",
+  "Wide desk shot of the full compact home office workspace, laptop open with no new inbox messages arriving. Calm resolved atmosphere. Warm white desk surface, soft grey walls, natural side-window light. On-screen text card in clean sans-serif on light background reads: 'Your website already has the answers.' Flat editorial look, no motion."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if you could recite your inbox questions from memory.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your inbox has the same five questions every week. Your website has every answer. The gap between them is costing you real working hours. #smallbusiness #ai",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "title_variants": [
+        "The Five Questions",
+        "Your Website Already Has the Answers",
+        "Same Questions, Every Week",
+        "The Inbox That Never Empties",
+        "It Was Never a Content Problem"
+      ],
+      "caption_variants": [
+        "Your inbox has the same five questions every week. Your website has every answer. The gap between them is costing you real working hours. #smallbusiness #ai",
+        "Answering the same customer question for the hundredth time isn't a customer problem. It's a website responsiveness problem. Different diagnosis, much simpler fix.",
+        "The answers were on your website the whole time. It just couldn't say them when someone asked. That's the whole problem.",
+        "Five questions. Every week. Different senders. Same words. At some point that stops being inbox noise and starts being a signal about your website.",
+        "Most business owners treat repeat inbox questions as a content gap. They're not. The content is there. The website just can't deliver it in real time. #aitools"
+      ]
+    },
+    "tiktok": {
+      "cta": "Save this if you know exactly which five questions are waiting in your inbox right now.",
+      "format": "reel",
+      "caption": "You've answered these five questions so many times you could type them in your sleep 😶 your website already has the answers — it just can't say them yet.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businesstips",
+        "#aitools",
+        "#websitetips"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "short",
+      "caption": "Your inbox has the same five questions every week — and your website already has every answer. Here's the gap most business owners never think to close.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this if it sounds familiar.",
+      "format": "reel",
+      "caption": "Raise your hand if you've typed the same five customer questions so many times you could do it in your sleep 🙋 The thing is — those answers are already on your website. They just never reach the visitor who needs them. This video is for any business owner whose inbox is quietly doing work their website should be handling. Worth a watch.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Most service businesses have a short list of questions that every new visitor asks. The same five show up in email, DMs, and voicemail — week after week.\n\nIt reads like a customer education problem. It isn't. The answers are already on the website. The gap is that the website can't deliver them in the moment someone asks.\n\nWhen you name it as a responsiveness problem rather than a content problem, the fix becomes obvious.\n\nFenrik.chat reads your existing site and answers those questions automatically — before they reach your inbox. Starting at $69/month.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#customerexperience"
+      ],
+      "caption_variants": [
+        "Most service businesses have a short list of questions that every new visitor asks. The same five show up in email, DMs, and voicemail — week after week.\n\nIt reads like a customer education problem. It isn't. The answers are already on the website. The gap is that the website can't deliver them in the moment someone asks.\n\nWhen you name it as a responsiveness problem rather than a content problem, the fix becomes obvious.\n\nFenrik.chat reads your existing site and answers those questions automatically — before they reach your inbox. Starting at $69/month.",
+        "There is a specific kind of inbox fatigue that service business owners know well: opening your laptop to the same five questions, from different people, for the hundredth time.\n\nThose questions don't come from a lack of information on your site. They come because your site can't respond when someone asks.\n\nThat's a structural problem with a structural fix — not more content, just a website that can actually answer in the moment.\n\nFenrik.chat does exactly that, using the content you already have."
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if your inbox has been doing a job your website should be doing.",
+      "format": "reel",
+      "caption": "You know the five questions by heart.\n\nBecause they arrive every single week — different senders, same words.\n\nThe answers were on your website the whole time. It just couldn't deliver them.\n\nSave this if your inbox has been doing a job your website should be doing.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businessowner",
+        "#aiassistant",
+        "#websitetips",
+        "#leadgeneration",
+        "#worksmarter"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "43e69ea5-f214-44a8-b9e8-345fdfb1490a",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "There is a specific kind of inbox fatigue that service business owners know well: opening your laptop to the same five questions, from different people, for the hundredth time.\n\nThose questions don't come from a lack of information on your site. They come because your site can't respond when someone asks.\n\nThat's a structural problem with a structural fix — not more content, just a website that can actually answer in the moment.\n\nFenrik.chat does exactly that, using the content you already have.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#customerexperience"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "6c18810b-8352-41d3-850b-e1c2bf6779b6",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Most service businesses have a short list of questions that every new visitor asks. The same five show up in email, DMs, and voicemail — week after week.\n\nIt reads like a customer education problem. It isn't. The answers are already on the website. The gap is that the website can't deliver them in the moment someone asks.\n\nWhen you name it as a responsiveness problem rather than a content problem, the fix becomes obvious.\n\nFenrik.chat reads your existing site and answers those questions automatically — before they reach your inbox. Starting at $69/month.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#customerexperience"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "f254000b-ec07-4ff5-980f-2df8a29e863b",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Your inbox has the same five questions every week. Your website has every answer. The gap between them is costing you real working hours. #smallbusiness #ai",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "78741cda-d05a-4f3c-879a-ff073c7ac265",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Already Has the Answers",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Answering the same customer question for the hundredth time isn't a customer problem. It's a website responsiveness problem. Different diagnosis, much simpler fix.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "1d3e7871-01e3-434c-9055-00c917a79303",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Same Questions, Every Week",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "The answers were on your website the whole time. It just couldn't say them when someone asked. That's the whole problem. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "15bfd300-d347-47ef-b5e8-eb20fead6533",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Inbox That Never Empties",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Five questions. Every week. Different senders. Same words. At some point that stops being inbox noise and starts being a signal about your website.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "f1c6a8ca-f65c-472f-80cb-d269e6c23098",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "It Was Never a Content Problem",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Most business owners treat repeat inbox questions as a content gap. They're not. The content is there. The website just can't deliver it in real time. #aitools",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "c625160a-221d-4d1d-8665-a45d68aee8e0",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "You've answered these five questions so many times you could type them in your sleep 😶 your website already has the answers — it just can't say them yet.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businesstips",
+        "#aitools",
+        "#websitetips"
+      ],
+      "cta": "Save this if you know exactly which five questions are waiting in your inbox right now.",
+      "language": null
+    },
+    {
+      "id": "400fa091-b035-4377-9187-51e7384cabae",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "You know the five questions by heart.\n\nBecause they arrive every single week — different senders, same words.\n\nThe answers were on your website the whole time. It just couldn't deliver them.\n\nSave this if your inbox has been doing a job your website should be doing.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businessowner",
+        "#aiassistant",
+        "#websitetips",
+        "#leadgeneration",
+        "#worksmarter"
+      ],
+      "cta": "Save this if your inbox has been doing a job your website should be doing.",
+      "language": null
+    },
+    {
+      "id": "656c5f3d-fe41-4da3-8336-0421e6ae8f38",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Your inbox has the same five questions every week — and your website already has every answer. Here's the gap most business owners never think to close.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Subscribe for more.",
+      "language": null
+    },
+    {
+      "id": "82b8c08c-4446-4711-9bfe-4e19fe8e4087",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Five Questions",
+      "body": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox.",
+      "caption": "Raise your hand if you've typed the same five customer questions so many times you could do it in your sleep 🙋 The thing is — those answers are already on your website. They just never reach the visitor who needs them. This video is for any business owner whose inbox is quietly doing work their website should be handling. Worth a watch.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Save this if it sounds familiar.",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 38,
+    "secondary": 52
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_story→warmth(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+38)",
+    "fit_secondary(+52)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"story"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Repeating the same customer questions every day",
+  "strategy_pain_point": "Repeating the same customer questions every day"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the structural fix to a structural problem. It reads the website the owner already built, understands the answers already written there, and delivers them to visitors the moment they ask — before the question ever reaches the inbox. The product does not replace the owner's knowledge; it deploys it automatically, at scale, without repetition."
+```
+
+## Narrative arc
+```json
+"SETUP: Open mid-scene — a service business owner, seated at a desk mid-morning, opening her laptop to a familiar sight: the same five questions in her inbox. Not spam. Real inquiries. 'What are your hours?' 'Do you work with small businesses?' 'How much does it cost?' 'What's included?' 'How do I get started?' She reads them with the flat expression of someone who has typed these answers hundreds of times. CONFLICT: A text card cuts in — factual, reporter-style: 'These five questions were also asked last week. And the week before.' The viewer understands: this is not a bad day. This is every day. The owner isn't failing at her business — she's spending real working hours answering questions her website already contains the answers to. TWIST: The camera holds on the website tab open in her browser — a well-built page, full of content. The answer to every single one of those inbox questions is already there, written out, sitting idle. The problem was never missing information. The problem is that the website couldn't deliver it in the moment someone asked. RESOLUTION: Fenrik.chat is shown being set up — the owner pastes her website URL, the AI reads the existing content, a preview chat appears. She types one of the five questions into the preview. The answer comes back instantly, drawn directly from her own site. She doesn't write a single word. CLOSING LINE (on screen, plain text): 'Your website already has the answers. It just couldn't say them.' CTA card: 'Create your AI assistant — stop answering the same questions twice.'"
+```
+
+## Emotional tone
+```json
+"Dry recognition — the quiet exasperation of a competent person doing unnecessary repetitive work. No drama, no urgency. The emotional payoff is relief through clarity: the problem has a name, and the fix is already available."
+```
+
+## Audience insight
+```json
+"Service business owners and consultants know exactly which five questions fill their inbox every week. They have answered them so many times they could recite them. What they have not considered is that this is not a customer education problem — it is a website responsiveness problem. Naming the pattern precisely is what makes this video land."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Muted neutrals — warm white desk surface, soft grey walls, one accent of deep navy or slate in the owner's clothing. The Fenrik.chat UI preview appears in clean white with a subtle blue accent, consistent with a professional SaaS product.",
+  "lighting": "Even, natural daylight from a side window. No dramatic shadows. The look is functional and honest — a real working space, not a staged one.",
+  "environment": "A compact home office or small studio workspace. Tidy but lived-in — a coffee cup, a notebook, a second monitor. Nothing aspirational. The kind of desk where real work happens.",
+  "camera_style": "Mostly static medium shots with one deliberate slow push-in toward the laptop screen during the twist beat. No handheld shake. Cuts are clean and unhurried. The pacing mirrors the reporter voice — factual, composed, no flourish.",
+  "art_direction": "Flat, editorial, slightly clinical. Text overlays are minimal — one or two cards in clean sans-serif, white on dark or dark on light. No motion graphics. The inbox list of five questions appears as a simple on-screen graphic, styled like a real email client screenshot, not an animated infographic.",
+  "character_style": "One lead character — a woman in her mid-thirties to mid-forties, dressed in smart-casual workwear. She is not performing frustration; she is simply doing a familiar task with the neutral efficiency of someone who has done it too many times. No exaggerated reactions. Her expression at the end — when the AI answers the question instantly — is quiet satisfaction, not excitement."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "Every week, the same five questions land in your inbox, and you know them by heart. What are your hours? How much does it cost? What's included? How do I get started? Your website already had the answers. It just couldn't say them. Fenrik.chat reads your existing site and answers those questions the moment a visitor asks — before they ever reach your inbox."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "66ebb3b8-6d30-4282-aab3-9ba3b760b2af",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:28:04.561853+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 7,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "Every small business owner has a short list of questions that every single new visitor asks — and instead of those questions being answered once, automatically, on the website where they originate, t…",
+    "environment": "A compact home office or small studio workspace. Tidy but lived-in — a coffee cup, a notebook, a second monitor. Nothin…",
+    "product_role": "Fenrik.chat is the structural fix to a structural problem. It reads the website the owner already built, understands the answers already written there, and del…",
+    "visual_world": "A compact home office or small studio workspace. Tidy but lived-in — a coffee cup, a notebook, a second monitor. Nothing aspirational. The kind of desk where r…",
+    "attention_pattern": "The viewer is drawn in by the familiarity of the situation, prompting them to consider their own experiences with unans…",
+    "narrative_mechanism": "story: SETUP: Open mid-scene — a service business owner, seated at a desk mid-morning,…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product UI reference — Fenrik.chat FAQ interface shown as framed insert on laptop screen during resolution beat, illustrating AI answering visitor questions from existing website content.",
+    "asset_id": "cd775ffc-9c6d-4d66-b879-8b175c8b1907"
+  }
+]
+```
+
+---
+
+# Package 5 — The Appointment That Booked Itself Somewhere Else
+
+- package_id: `a84a5b48-bf5b-45a1-a169-9fa722214168`
+- strategy_item_id: `5f6628a9-0fa4-4c3c-8e12-6435e1ecd17f`
+- run_item_id: `4ce4db96-0322-4e81-861b-f31066fa74b3`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "5f6628a9-0fa4-4c3c-8e12-6435e1ecd17f",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "A salon owner opens her website analytics on Monday and sees weekend traffic. She checks her inbox — nothing. Those visitors had questions about availability, got no answer, and booked somewhere else. She never had a chance to respond.",
+      "topic": "The beauty salon that discovered three appointment requests it never knew existed",
+      "source": "production_run",
+      "pain_point": "Unable to answer customer questions when offline",
+      "package_index": 5,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Appointment That Booked Itself Somewhere Else",
+  "core_idea": "A beauty salon owner believes that if nobody called and nobody emailed, nobody was interested. Monday morning analytics prove her wrong — three people visited over the weekend, spent real time on her services page, and left without a trace. The belief that silence means no demand is the trap. Silence just means the website had no way to respond.",
+  "product_role": "Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a captured name, and a booking opportunity. It reads the existing website content automatically and answers the question the visitor was about to give up on. No training, no code, no staff required.",
+  "why_it_works": "It challenges a belief the audience genuinely holds — quiet inbox equals quiet weekend — and dismantles it with a scenario that is immediately recognizable and specific. The hook is a counter-intuitive reframe delivered in the owner's own voice, which makes it land harder than a narrator stating a fact. The emotional pivot from confidence to quiet dread is relatable without being cruel. The product enters as the structural fix to a structural gap, not a feature list. The CTA lands the contrarian point directly: quiet inbox plus active analytics is not a slow weekend — it is a symptom.",
+  "narrative_arc": "HOOK — Open on a salon owner on a Monday morning, confident and calm, telling the camera: 'Quiet weekend. Nobody reached out, so nobody was looking.' Cut immediately to her phone screen showing the analytics dashboard: 3 sessions, Saturday night, average 2 minutes on the services page. The confidence drains. WHY WRONG — She didn't miss a slow weekend. She missed three people who were ready to book, sat on her page for two minutes each, had a question about availability, got a static page with a contact form, and closed the tab. They didn't disappear — they booked somewhere else. PROOF — The problem was never the traffic. It was the moment between interest and contact: a visitor with a question and a website that could only sit there. A website that can actually answer — right then, at 10 PM on a Saturday — doesn't lose that visitor to a form they'll never fill out. CTA — Direct close to camera: if your inbox is quiet but your analytics aren't, that's not a slow weekend. That's a gap. Create your AI assistant — and find out what your website has been missing.",
+  "emotional_tone": "Blunt and a little fed up — not at the salon owner, but at the gap between 'traffic happened' and 'nothing came of it.' The energy is impatient with the problem, empathetic toward the person. Ends with clarity rather than alarm.",
+  "audience_insight": "Service business owners — especially solo operators and small teams — default to measuring demand by direct contact: calls, emails, form fills. If none arrive, they assume no one was interested. They rarely connect silent analytics sessions to lost revenue because the website never surfaced those visitors as anything actionable. The pain is invisible until it's named.",
+  "visual_direction": {
+    "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+    "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+    "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+    "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+    "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+    "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Quick and direct, with an immediate cut to the analytics screen to heighten tension.",
+  "emotion": "Blunt and slightly fed up, reflecting the owner's initial confidence that quickly shifts to concern.",
+  "first_image": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. The warm morning light filters through the window, illuminating her tidy workspace. A tablet rests on the desk, displaying her website analytics dashboard, which shows three sessions from the weekend.",
+  "attention_pattern": "The opening creates curiosity by contrasting the owner's calm confidence with the unexpected data on her screen, hinting at lost opportunities.",
+  "first_spoken_sentence": "Quiet weekend, right? Nobody reached out, so nobody was looking."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+  "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+  "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+  "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+  "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+  "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed.",
+  "opening_emotion": "Blunt and slightly fed up, reflecting the owner's initial confidence that quickly shifts to concern.",
+  "opening_first_image": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. The warm morning light filters through the window, illuminating her tidy workspace. A tablet rests on the desk, displaying her website analytics dashboard, which shows three sessions from the weekend."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Appointment That Booked Itself Somewhere Else",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "Quiet weekend, right? Nobody reached out, so nobody was looking.",
+  "scenario": "A beauty salon owner opens her analytics dashboard on Monday morning, relaxed and assuming it was simply a quiet weekend — no calls, no emails, nothing unusual. The data shows three sessions from Saturday night, each lasting close to two minutes on the services page, with zero form submissions. She had no idea anyone visited. Those visitors had questions about availability, found only a static contact form, and left without a trace — booking elsewhere before Monday ever arrived.",
+  "video": {
+    "script": "SCENE 1 — OPENING (warm morning light, salon reception desk): Owner faces camera, relaxed and confident. She says: 'Quiet weekend, right? Nobody reached out, so nobody was looking.' She gestures lightly toward her phone on the desk — routine Monday check.\n\nSCENE 2 — ANALYTICS REVEAL (close-up on phone screen): She taps open her website analytics. The screen shows three sessions from Saturday night. Average time on services page: 2 minutes. Form fills: zero. Her expression shifts — not panic, just that quiet, sinking recognition.\n\nSCENE 3 — CUTAWAY (slightly cooler light, implied Saturday night): A phone screen showing a beauty salon services page. A cursor hovers near a contact form. No chat, no response option. The tab closes. VO: 'Three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab.'\n\nSCENE 4 — RETURN TO OWNER (morning light again): She looks directly at camera, quieter now. VO: 'They didn't disappear — they booked somewhere else.'\n\nSCENE 5 — DIRECT CLOSE (tight on face, honest energy): 'A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.' Hold on her face for one beat. End card: Save this if your inbox has ever been quiet while your analytics weren't.",
+    "concept": "A beauty salon owner opens her analytics on Monday morning, fully confident the weekend was just slow. The data says otherwise: three sessions, Saturday night, two minutes each on the services page, zero form fills. The video dismantles the belief that silence equals no demand — and names the real gap: a website that can't answer a question at 10 PM on a Saturday.",
+    "duration_seconds": "28"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#salonowner",
+    "#beautybusiness",
+    "#websitetips",
+    "#businessgrowth"
+  ],
+  "subtitles_planned": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered."
+}
+```
+
+## Voiceover
+```json
+"Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. Warm morning light filters through a window behind her, illuminating a tidy workspace with a tablet resting on the desk showing a website analytics dashboard with three weekend sessions visible. Vertical 9:16 framing, warm blush and neutral tones, handheld intimate feel."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close-up of a smartphone screen held in a woman's hand inside a beauty salon. The analytics dashboard displays three sessions from Saturday night with an average session duration of two minutes and zero conversions. The screen glows with a cooler blue-white contrast against the warm salon background. Vertical 9:16 framing."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A dimly lit scene with slightly cooler light suggesting late Saturday night — a phone screen displaying a beauty salon services page with a static contact form and no chat or interactive element visible. The cursor hovers near the form. Vertical 9:16 framing, muted cool tones marking the time shift."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product reference insert showing 24/7 AI assistant availability — used as a brief on-screen contrast to the static website moment",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Tight close-up on the salon owner's face, direct eye contact with camera, honest and composed expression. The warm salon environment is softly blurred behind her. Mood is clear and grounded — not alarmed, just certain. Vertical 9:16 framing, warm diffused morning light."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A beauty salon owner stands confidently at her reception desk, smiling at the camera. Warm morning light filters through a window behind her, illuminating a tidy workspace with a tablet resting on the desk showing a website analytics dashboard with three weekend sessions visible. Vertical 9:16 framing, warm blush and neutral tones, handheld intimate feel.",
+  "Close-up of a smartphone screen held in a woman's hand inside a beauty salon. The analytics dashboard displays three sessions from Saturday night with an average session duration of two minutes and zero conversions. The screen glows with a cooler blue-white contrast against the warm salon background. Vertical 9:16 framing.",
+  "A dimly lit scene with slightly cooler light suggesting late Saturday night — a phone screen displaying a beauty salon services page with a static contact form and no chat or interactive element visible. The cursor hovers near the form. Vertical 9:16 framing, muted cool tones marking the time shift.",
+  "Tight close-up on the salon owner's face, direct eye contact with camera, honest and composed expression. The warm salon environment is softly blurred behind her. Mood is clear and grounded — not alarmed, just certain. Vertical 9:16 framing, warm diffused morning light."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if your inbox has ever been quiet while your analytics weren't.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "format": "reel",
+      "caption": "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "title_variants": [
+        "The Appointment That Booked Itself Somewhere Else",
+        "Your Inbox Was Quiet. Your Analytics Weren't.",
+        "Three Visitors. Zero Bookings. One Unanswered Question.",
+        "Silence Isn't a Slow Weekend — It's a Gap",
+        "What the Contact Form Can't Catch at 10 PM"
+      ],
+      "caption_variants": [
+        "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+        "She assumed no messages meant no interest. Her analytics said three people visited Saturday night and left without a word. The website had no way to respond. They booked elsewhere.",
+        "The belief: quiet inbox = slow weekend. The reality: three visitors, two minutes each, one unanswered question, zero bookings. Silence isn't disinterest. It's a gap.",
+        "Traffic happened. Questions happened. Nothing got captured — because the page just sat there. A contact form at 10 PM on a Saturday isn't a response. It's a closed door.",
+        "Most service businesses measure demand by calls and emails. They miss everything that happened before someone decided not to reach out. That's where the bookings went."
+      ]
+    },
+    "tiktok": {
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "format": "reel",
+      "caption": "3 people were on her booking page Saturday night. Her inbox had zero messages Monday morning. Those aren't the same thing. 👀",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner",
+        "#businesstips",
+        "#websitetips"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "short",
+      "caption": "Her inbox was empty. Her analytics weren't. Three visitors, two minutes each, zero bookings — because the website had nothing to say at 10 PM on a Saturday.",
+      "hashtags": [
+        "#salonbusiness",
+        "#smallbusiness"
+      ]
+    },
+    "facebook": {
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "format": "reel",
+      "caption": "Ever had a quiet weekend with zero inquiries — then opened your analytics and realized people actually visited? 😬 That happened to a salon owner who found three sessions from Saturday night. Two minutes each on her services page. No messages, no bookings. They had questions, the website had no way to answer, and they moved on. A quiet inbox isn't always a slow weekend. Sometimes it's just a website that couldn't respond. Does this sound familiar to anyone else?",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "A common assumption in small service businesses: if nobody called or emailed, nobody was interested. It feels logical. It is often wrong. Three website visitors on a Saturday night, two minutes each on the services page, zero form fills — not because they weren't ready to book, but because a static page with a contact form wasn't enough to hold them at 10 PM. The inbox was quiet. The demand wasn't. That gap is worth examining.",
+      "hashtags": [
+        "#smallbusiness",
+        "#clientacquisition"
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "format": "reel",
+      "caption": "She thought it was a quiet weekend.\n\nThen she opened her analytics.\n\nThree visitors. Saturday night. Two minutes each on the services page. Zero messages.\n\nThey had questions. The website had nothing to offer them. So they left — and booked somewhere else.\n\nSave this if that gap sounds familiar.",
+      "hashtags": [
+        "#salonowner",
+        "#smallbusinessowner",
+        "#beautybusiness",
+        "#websitetips",
+        "#businessgrowth",
+        "#clientbooking"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "a5ea0d8a-68a3-4362-8ec0-497c4ab906f8",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "She thought it was a quiet weekend.\n\nThen she opened her analytics.\n\nThree visitors. Saturday night. Two minutes each on the services page. Zero messages.\n\nThey had questions. The website had nothing to offer them. So they left — and booked somewhere else.\n\nSave this if that gap sounds familiar.",
+      "hashtags": [
+        "#salonowner",
+        "#smallbusinessowner",
+        "#beautybusiness",
+        "#websitetips",
+        "#businessgrowth",
+        "#clientbooking"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "a8ceb9f2-b543-413e-8530-cd1ff7a784f9",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What the Contact Form Can't Catch at 10 PM",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Most service businesses measure demand by calls and emails. They miss everything that happened before someone decided not to reach out. That's where the bookings went.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "037046fe-f172-4c1f-a247-aa322b630cf3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Silence Isn't a Slow Weekend — It's a Gap",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Traffic happened. Questions happened. Nothing got captured — because the page just sat there. A contact form at 10 PM on a Saturday isn't a response. It's a closed door.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "f9c4ecd9-9166-4bb7-8239-639c5e10eea2",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Three Visitors. Zero Bookings. One Unanswered Question.",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "The belief: quiet inbox = slow weekend. The reality: three visitors, two minutes each, one unanswered question, zero bookings. Silence isn't disinterest. It's a gap. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "e7368615-cf65-419c-a19a-3ad8779abf39",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Inbox Was Quiet. Your Analytics Weren't.",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "She assumed no messages meant no interest. Her analytics said three people visited Saturday night and left without a word. The website had no way to respond. They booked elsewhere.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "ab40d793-4da9-4da7-bf3d-afdfe5d9a6d6",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "3d30f034-70bb-400d-b9a3-4a68bf0c6b90",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "A common assumption in small service businesses: if nobody called or emailed, nobody was interested. It feels logical. It is often wrong. Three website visitors on a Saturday night, two minutes each on the services page, zero form fills — not because they weren't ready to book, but because a static page with a contact form wasn't enough to hold them at 10 PM. The inbox was quiet. The demand wasn't. That gap is worth examining.",
+      "hashtags": [
+        "#smallbusiness",
+        "#clientacquisition"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "49059b4a-6c7a-4d2e-ae22-c1f0d5570cf7",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Ever had a quiet weekend with zero inquiries — then opened your analytics and realized people actually visited? 😬 That happened to a salon owner who found three sessions from Saturday night. Two minutes each on her services page. No messages, no bookings. They had questions, the website had no way to answer, and they moved on. A quiet inbox isn't always a slow weekend. Sometimes it's just a website that couldn't respond. Does this sound familiar to anyone else?",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "0d860e75-54e8-4574-ae73-9ba8f3062efd",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "3 people were on her booking page Saturday night. Her inbox had zero messages Monday morning. Those aren't the same thing. 👀",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner",
+        "#businesstips",
+        "#websitetips"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "language": null
+    },
+    {
+      "id": "4241c8fc-42ee-4be3-8630-5388906c89ff",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Her inbox was empty. Her analytics weren't. Three visitors, two minutes each, zero bookings — because the website had nothing to say at 10 PM on a Saturday.",
+      "hashtags": [
+        "#salonbusiness",
+        "#smallbusiness"
+      ],
+      "cta": "Subscribe for more.",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 41,
+    "secondary": 46
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_contrarian→energy(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+41)",
+    "fit_secondary(+46)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Language: en."
+}
+```
+
+## Creative mode
+```json
+"contrarian"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Unable to answer customer questions when offline",
+  "strategy_pain_point": "Unable to answer customer questions when offline"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a captured name, and a booking opportunity. It reads the existing website content automatically and answers the question the visitor was about to give up on. No training, no code, no staff required."
+```
+
+## Narrative arc
+```json
+"HOOK — Open on a salon owner on a Monday morning, confident and calm, telling the camera: 'Quiet weekend. Nobody reached out, so nobody was looking.' Cut immediately to her phone screen showing the analytics dashboard: 3 sessions, Saturday night, average 2 minutes on the services page. The confidence drains. WHY WRONG — She didn't miss a slow weekend. She missed three people who were ready to book, sat on her page for two minutes each, had a question about availability, got a static page with a contact form, and closed the tab. They didn't disappear — they booked somewhere else. PROOF — The problem was never the traffic. It was the moment between interest and contact: a visitor with a question and a website that could only sit there. A website that can actually answer — right then, at 10 PM on a Saturday — doesn't lose that visitor to a form they'll never fill out. CTA — Direct close to camera: if your inbox is quiet but your analytics aren't, that's not a slow weekend. That's a gap. Create your AI assistant — and find out what your website has been missing."
+```
+
+## Emotional tone
+```json
+"Blunt and a little fed up — not at the salon owner, but at the gap between 'traffic happened' and 'nothing came of it.' The energy is impatient with the problem, empathetic toward the person. Ends with clarity rather than alarm."
+```
+
+## Audience insight
+```json
+"Service business owners — especially solo operators and small teams — default to measuring demand by direct contact: calls, emails, form fills. If none arrive, they assume no one was interested. They rarely connect silent analytics sessions to lost revenue because the website never surfaced those visitors as anything actionable. The pain is invisible until it's named."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+  "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+  "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+  "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+  "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+  "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "40e204b4-c396-4a22-a700-77afc9bc5542",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:29:34.974782+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 6,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A beauty salon owner believes that if nobody called and nobody emailed, nobody was interested. Monday morning analytics prove her wrong — three people visited over the weekend, spent real time on her…",
+    "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone…",
+    "product_role": "Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a capt…",
+    "visual_world": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo g…",
+    "attention_pattern": "The opening creates curiosity by contrasting the owner's calm confidence with the unexpected data on her screen, hintin…",
+    "narrative_mechanism": "contrarian: HOOK — Open on a salon owner on a Monday morning, confident and calm, telling t…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product reference insert showing 24/7 AI assistant availability — used as a brief on-screen contrast to the static website moment",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 6 — The Chatbot Project That Never Shipped
+
+- package_id: `fb57a914-975e-4683-8316-274ab9046700`
+- strategy_item_id: `e152c37f-4b0c-42e0-bfa6-098c8f34e6a5`
+- run_item_id: `07e416a4-7007-4c1f-8d82-18a896e8e3a2`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "e152c37f-4b0c-42e0-bfa6-098c8f34e6a5",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "Walk through the real timeline and resource drain of traditional chatbot projects: developer hours, training data, ongoing maintenance. Then contrast it with the reality that most small businesses abandon the project entirely and go without.",
+      "topic": "What it actually costs to build a custom chatbot — and why most businesses never finish",
+      "source": "production_run",
+      "pain_point": "Complexity and cost of traditional chatbot integrations",
+      "package_index": 6,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Chatbot Project That Never Shipped",
+  "core_idea": "A small business owner confidently starts a custom chatbot project — budgets for a developer, collects training data, attends three kickoff calls — and then, six months later, still has no chatbot. The video walks through the honest, familiar comedy of a traditional chatbot build: the scope creep, the maintenance overhead, the developer who goes quiet, the spreadsheet of FAQs nobody finishes filling in. The punchline is that most businesses don't end up with a bad chatbot — they end up with no chatbot at all. Fenrik.chat enters not as a feature comparison but as the project that actually finishes.",
+  "product_role": "Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the existing website content automatically and creates a working AI assistant in about one minute. It is introduced as the contrast to the abandoned project — not as a feature list, but as the thing that is already done.",
+  "why_it_works": "The confession hook earns immediate attention because it opens with vulnerability rather than a brand claim — viewers who have lived a version of this story recognize it instantly. The visual gags make the pain point specific and funny without exaggerating or inventing. The punchline reframes the dominant pain point — complexity and cost of traditional chatbot integrations — with a single honest line that lands the contrast cleanly. The product enters at exactly the right moment: after the problem has been felt, not before. The calm advisor close keeps the CTA credible rather than salesy.",
+  "narrative_arc": "CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directly to camera with the calm, slightly embarrassed energy of someone telling a story on themselves. 'I started building a chatbot for my website about eight months ago.' CUT TO: a series of quick visual gags — a shared doc titled 'FAQ Training Data v4 FINAL (2).xlsx', a calendar with a recurring 'chatbot sync' meeting that keeps getting pushed, a Slack message that just says 'still scoping'. UNEXPECTED TURN: The owner checks their website. The chat widget is still not there. Eight months, a developer retainer, and a spreadsheet nobody finished — and visitors are still landing on a static page with no way to ask a question. PUNCHLINE: 'Turns out the hardest part of building a chatbot is finishing it.' Brief pause. 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.' CTA delivered calm and direct to camera.",
+  "emotional_tone": "Warm, self-deprecating humor with a calm, trustworthy close. The comedy comes from the situation — not from mocking the viewer. The resolution lands as genuine relief rather than a sales pitch.",
+  "audience_insight": "Small business owners and consultants have often mentally priced themselves out of chatbot solutions before they start — assuming the path runs through developers, training data, and months of setup. Many have either started and abandoned a project exactly like this, or decided not to start at all. The video validates that instinct while reframing the assumption: the complexity was never necessary.",
+  "visual_direction": {
+    "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+    "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+    "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+    "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+    "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+    "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Calm and steady, with a slight build-up as the visuals transition to the chaotic project details.",
+  "emotion": "Self-deprecating humor mixed with relatable frustration.",
+  "first_image": "A cluttered desk with a laptop open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL', surrounded by crumpled notes and a coffee mug with a cold cup of coffee, while a calendar on the wall shows a recurring 'Chatbot Sync' meeting that has been pushed back multiple times.",
+  "attention_pattern": "The viewer is drawn in by the relatable confession, intrigued by the unexpected complexity of a seemingly simple task, and left wanting to know how it all went wrong.",
+  "first_spoken_sentence": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+  "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+  "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+  "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+  "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+  "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters.",
+  "opening_emotion": "Self-deprecating humor mixed with relatable frustration.",
+  "opening_first_image": "A cluttered desk with a laptop open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL', surrounded by crumpled notes and a coffee mug with a cold cup of coffee, while a calendar on the wall shows a recurring 'Chatbot Sync' meeting that has been pushed back multiple times."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Chatbot Project That Never Shipped",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.",
+  "scenario": "A small business owner starts a custom chatbot project with genuine optimism — budgets for a developer, opens a shared FAQ spreadsheet, attends three kickoff calls. Eight months later, the developer has gone quiet, the spreadsheet has been renamed four times and is still half-empty, and the website still has no chat widget. Visitors arrive, find a static page, and leave without a word. The owner discovers the gap only when reviewing analytics — and realizes the project never failed dramatically. It just quietly stopped.",
+  "video": {
+    "script": "[SCENE 1 — MEDIUM SHOT, OWNER AT DESK, DIRECT TO CAMERA]\nOwner speaks calmly, slight smile: 'I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.'\n\n[SCENE 2 — QUICK CUT: LAPTOP SCREEN]\nClose-up on a spreadsheet filename: 'FAQ Training Data v4 FINAL (2).xlsx'. Rows half-filled. Scroll reveals blank cells below.\n\n[SCENE 3 — QUICK CUT: CALENDAR VIEW]\nA recurring calendar event labeled 'Chatbot Sync' — rescheduled four times in a row, the latest pushed another two weeks out.\n\n[SCENE 4 — QUICK CUT: SLACK OR MESSAGING APP]\nA single message visible: 'still scoping — will update EOW'. Sent six weeks ago. No reply.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, unhurried: 'A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget.'\n\n[BEAT — slight pause, calm delivery]\n'Turns out the hardest part of building a chatbot is finishing it.'\n\n[SCENE 5 — CLOSE-UP: LAPTOP SCREEN]\nFenrik.chat interface appears — clean, immediate, visually distinct from the muted surroundings. A chat bubble is live on a website.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, direct and warm: 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.'\n\n[SOFT CLOSE — OWNER GLANCES AT COFFEE MUG, BACK TO CAMERA]\nSmall smile. No hard sell.",
+    "concept": "A small business owner sits at a cluttered desk and opens with a calm, self-deprecating confession directly to camera. The video walks through the honest, specific comedy of a traditional chatbot build — the renamed spreadsheets, the rescheduled sync meetings, the developer who went quiet — before landing on the punchline: most businesses don't end up with a bad chatbot, they end up with no chatbot at all. Fenrik.chat enters as the project that actually finishes, introduced through a clean close-up of the interface appearing on the laptop screen.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#chatbot",
+    "#aitools",
+    "#websitetips",
+    "#smb",
+    "#AI",
+    "#productivity"
+  ],
+  "subtitles_planned": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee."
+}
+```
+
+## Voiceover
+```json
+"I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A cluttered home office desk in soft natural side light. A laptop is open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL' with half-filled rows and blank cells below. Crumpled notes are scattered around the keyboard. A coffee mug sits to the side, the coffee clearly cold. On the wall behind, a paper calendar shows a recurring 'Chatbot Sync' meeting block crossed out and rewritten four times, the latest pushed two weeks forward. Muted palette of warm off-whites, soft greys, and wood desk tones. Deadpan realism, no dramatic shadows."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Extreme close-up on a laptop screen showing a file manager. A spreadsheet file is visible with the filename 'FAQ Training Data v4 FINAL (2).xlsx' — long and slightly absurd. Surrounding desktop cluttered with similarly renamed files. Soft natural light reflects off the screen. Muted realistic tones, no stylization."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A digital calendar view on a monitor screen photographed in soft daylight. A recurring weekly event titled 'Chatbot Sync' is visible across multiple weeks — each instance has a strikethrough or rescheduled indicator, the latest moved another two weeks out. The calendar grid feels mundane and familiar. Warm off-white and grey tones. Static shot."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A business owner in their late thirties in everyday professional clothing — simple shirt, no suit — sits at a compact home office desk looking directly into camera. Expression warm and slightly self-aware, as if telling a story on themselves. Laptop open beside them, notepad with crossed-out items nearby. Soft natural daylight from a window to the left. Static medium shot. Muted realistic palette."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product UI shown as laptop screen insert during the Fenrik.chat reveal moment — clean interface contrasting with the cluttered desk environment",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A cluttered home office desk in soft natural side light. A laptop is open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL' with half-filled rows and blank cells below. Crumpled notes are scattered around the keyboard. A coffee mug sits to the side, the coffee clearly cold. On the wall behind, a paper calendar shows a recurring 'Chatbot Sync' meeting block crossed out and rewritten four times, the latest pushed two weeks forward. Muted palette of warm off-whites, soft greys, and wood desk tones. Deadpan realism, no dramatic shadows.",
+  "Extreme close-up on a laptop screen showing a file manager. A spreadsheet file is visible with the filename 'FAQ Training Data v4 FINAL (2).xlsx' — long and slightly absurd. Surrounding desktop cluttered with similarly renamed files. Soft natural light reflects off the screen. Muted realistic tones, no stylization.",
+  "A digital calendar view on a monitor screen photographed in soft daylight. A recurring weekly event titled 'Chatbot Sync' is visible across multiple weeks — each instance has a strikethrough or rescheduled indicator, the latest moved another two weeks out. The calendar grid feels mundane and familiar. Warm off-white and grey tones. Static shot.",
+  "A business owner in their late thirties in everyday professional clothing — simple shirt, no suit — sits at a compact home office desk looking directly into camera. Expression warm and slightly self-aware, as if telling a story on themselves. Laptop open beside them, notepad with crossed-out items nearby. Soft natural daylight from a window to the left. Static medium shot. Muted realistic palette."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if you've ever started a chatbot project and quietly let it die.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "title_variants": [
+        "The Chatbot Project That Never Shipped",
+        "Why Most Chatbot Builds Quietly Die",
+        "FAQ Training Data v4 FINAL (2).xlsx",
+        "The Hardest Part of Building a Chatbot Is Finishing It",
+        "Eight Months. No Chat Widget."
+      ],
+      "caption_variants": [
+        "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+        "Most businesses don't end up with a bad chatbot. They end up with no chatbot. Traditional builds are expensive, slow, and very easy to quietly abandon. #AI",
+        "FAQ Training Data v4 FINAL (2).xlsx is the most honest summary of how custom chatbot projects actually go. #smallbusiness #chatbot",
+        "The chatbot project isn't failing. It's just permanently 'almost scoped.' Meanwhile, visitors are landing on a static page with no way to ask a question.",
+        "Scope creep. Developer goes quiet. Spreadsheet nobody finishes. Six months of recurring meetings that get pushed. This is what traditional chatbot integration actually costs."
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "8 months. A developer. A spreadsheet nobody finished. Still no chatbot. 💀 The hardest part of building one is actually finishing it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#chatbot",
+        "#aitools",
+        "#websitetips"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "Eight months, a developer retainer, and a spreadsheet nobody finished — still no chatbot. The hardest part of the project is finishing it.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "facebook": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Honest question: have you ever started a chatbot project and quietly let it die? 😅 Developer quotes, FAQ spreadsheets, kickoff calls — and somehow, months later, still nothing live on the website. You're not alone. The complexity of traditional chatbot builds is exactly why most small businesses just go without. Save this one — it might reframe how you think about the whole thing.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AITools"
+      ]
+    },
+    "linkedin": {
+      "cta": "Save this if you've watched a similar project lose momentum.",
+      "format": "reel",
+      "caption": "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AI",
+        "#CustomerExperience"
+      ],
+      "caption_variants": [
+        "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+        "The honest version of most chatbot projects: a developer quote, a kickoff call, a spreadsheet of FAQs that nobody finishes filling in — and then, gradually, nothing.\n\nNot a bad chatbot. No chatbot.\n\nTraditional integrations are expensive and slow to build. For small businesses without a dedicated technical team, the real cost isn't the retainer — it's the months of website visitors who arrived with questions and left without answers.\n\nSave this if the project on your list has been 'almost ready' for longer than it should be."
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if that story sounds familiar.",
+      "format": "reel",
+      "caption": "Eight months. A retainer. A spreadsheet renamed four times.\n\nStill no chatbot on the website.\n\nTurns out most businesses don't end up with a bad chatbot — they end up with no chatbot at all.\n\nSave this if that story sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#smb",
+        "#productivity"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "8cf9f85d-23c8-4c68-8d2d-2bd7df4eb84e",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AI",
+        "#CustomerExperience"
+      ],
+      "cta": "Save this if you've watched a similar project lose momentum.",
+      "language": null
+    },
+    {
+      "id": "8195878c-31f7-4a05-b90b-762ae2d8601c",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "8 months. A developer. A spreadsheet nobody finished. Still no chatbot. 💀 The hardest part of building one is actually finishing it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#chatbot",
+        "#aitools",
+        "#websitetips"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "7f36a838-e68c-4215-994e-0c13d44e2553",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Eight months. A retainer. A spreadsheet renamed four times.\n\nStill no chatbot on the website.\n\nTurns out most businesses don't end up with a bad chatbot — they end up with no chatbot at all.\n\nSave this if that story sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#smb",
+        "#productivity"
+      ],
+      "cta": "Save this if that story sounds familiar.",
+      "language": null
+    },
+    {
+      "id": "58b642ef-c60f-4324-aab4-305b924d781b",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Eight months, a developer retainer, and a spreadsheet nobody finished — still no chatbot. The hardest part of the project is finishing it.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "19be99a7-ce85-4cc6-98a1-282355efa825",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Honest question: have you ever started a chatbot project and quietly let it die? 😅 Developer quotes, FAQ spreadsheets, kickoff calls — and somehow, months later, still nothing live on the website. You're not alone. The complexity of traditional chatbot builds is exactly why most small businesses just go without. Save this one — it might reframe how you think about the whole thing.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AITools"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "f54d1d80-f0b2-439b-9f27-c30ea5df05a1",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "The honest version of most chatbot projects: a developer quote, a kickoff call, a spreadsheet of FAQs that nobody finishes filling in — and then, gradually, nothing.\n\nNot a bad chatbot. No chatbot.\n\nTraditional integrations are expensive and slow to build. For small businesses without a dedicated technical team, the real cost isn't the retainer — it's the months of website visitors who arrived with questions and left without answers.\n\nSave this if the project on your list has been 'almost ready' for longer than it should be.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AI",
+        "#CustomerExperience"
+      ],
+      "cta": "Save this if you've watched a similar project lose momentum.",
+      "language": null
+    },
+    {
+      "id": "1045a670-547f-4ec7-bbda-3835a4ee2753",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "19a4bda4-442f-4f5d-bf69-190c452eb8cd",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why Most Chatbot Builds Quietly Die",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Most businesses don't end up with a bad chatbot. They end up with no chatbot. Traditional builds are expensive, slow, and very easy to quietly abandon. #AI",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "3f1ccfdc-6924-4b8e-80cf-9e259361c819",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "FAQ Training Data v4 FINAL (2).xlsx",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "FAQ Training Data v4 FINAL (2).xlsx is the most honest summary of how custom chatbot projects actually go. #smallbusiness #chatbot. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "d2018edd-7fa9-4171-b643-b88a93832d94",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Hardest Part of Building a Chatbot Is Finishing It",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "The chatbot project isn't failing. It's just permanently 'almost scoped.' Meanwhile, visitors are landing on a static page with no way to ask a question.",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "1cf0ebb7-75fb-4d7d-ab26-0a21e0253d87",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Eight Months. No Chat Widget.",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Scope creep. Developer goes quiet. Spreadsheet nobody finishes. Six months of recurring meetings that get pushed. This is what traditional chatbot integration actually costs.",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 40,
+    "secondary": 48
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_humor→energy/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+40)",
+    "fit_secondary(+48)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"humor"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Complexity and cost of traditional chatbot integrations",
+  "strategy_pain_point": "Complexity and cost of traditional chatbot integrations"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the existing website content automatically and creates a working AI assistant in about one minute. It is introduced as the contrast to the abandoned project — not as a feature list, but as the thing that is already done."
+```
+
+## Narrative arc
+```json
+"CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directly to camera with the calm, slightly embarrassed energy of someone telling a story on themselves. 'I started building a chatbot for my website about eight months ago.' CUT TO: a series of quick visual gags — a shared doc titled 'FAQ Training Data v4 FINAL (2).xlsx', a calendar with a recurring 'chatbot sync' meeting that keeps getting pushed, a Slack message that just says 'still scoping'. UNEXPECTED TURN: The owner checks their website. The chat widget is still not there. Eight months, a developer retainer, and a spreadsheet nobody finished — and visitors are still landing on a static page with no way to ask a question. PUNCHLINE: 'Turns out the hardest part of building a chatbot is finishing it.' Brief pause. 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.' CTA delivered calm and direct to camera."
+```
+
+## Emotional tone
+```json
+"Warm, self-deprecating humor with a calm, trustworthy close. The comedy comes from the situation — not from mocking the viewer. The resolution lands as genuine relief rather than a sales pitch."
+```
+
+## Audience insight
+```json
+"Small business owners and consultants have often mentally priced themselves out of chatbot solutions before they start — assuming the path runs through developers, training data, and months of setup. Many have either started and abandoned a project exactly like this, or decided not to start at all. The video validates that instinct while reframing the assumption: the complexity was never necessary."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+  "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+  "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+  "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+  "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+  "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "4c7e823d-3ed9-4f87-90fb-ae86a8e2d728",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:31:18.624154+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A small business owner confidently starts a custom chatbot project — budgets for a developer, collects training data, attends three kickoff calls — and then, six months later, still has no chatbot. T…",
+    "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long…",
+    "product_role": "Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the e…",
+    "visual_world": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out…",
+    "attention_pattern": "The viewer is drawn in by the relatable confession, intrigued by the unexpected complexity of a seemingly simple task, …",
+    "narrative_mechanism": "humor: CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directl…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product UI shown as laptop screen insert during the Fenrik.chat reveal moment — clean interface contrasting with the cluttered desk environment",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```
+
+---
+
+# Package 7 — The Chat Widget That Clocked Out at Midnight
+
+- package_id: `fc64c2ed-20bb-49a7-8b3f-e6d9971be009`
+- strategy_item_id: `9552fb42-8d5b-4eca-983c-9c8f762709d4`
+- run_item_id: `81219f57-4ffe-4cad-81dd-e66571b49c0c`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "9552fb42-8d5b-4eca-983c-9c8f762709d4",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "Live chat only works when someone is live. A founder installs a chat tool, feels the problem is solved, then checks analytics weeks later to find that most visitor drop-off happens between midnight and 7 AM when no agent is online.",
+      "topic": "The SaaS founder who added a live chat widget — and still lost visitors overnight",
+      "source": "production_run",
+      "pain_point": "Need for 24/7 customer support without extra staff",
+      "package_index": 7,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Chat Widget That Clocked Out at Midnight",
+  "core_idea": "A SaaS founder installs a live chat widget, feels the problem is solved, and moves on. Weeks later, a single analytics filter — sessions by hour — reveals that the vast majority of visitor drop-off happens between midnight and 7 AM, the exact window when no agent is ever online. The live chat widget didn't fix the 24/7 problem. It fixed the 9-to-5 problem. Those are not the same thing.",
+  "product_role": "Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in every hour a human cannot cover. It reads the website's existing content automatically, requires no training, and answers the question the live chat widget would have handled if anyone had been awake to handle it.",
+  "why_it_works": "The hook is grounded in a real, common decision — installing live chat — and reframes it not as a mistake but as an incomplete solution. That distinction matters: the viewer doesn't feel criticized, they feel informed. The analytics reveal is a concrete, visual moment of recognition that any data-aware founder will immediately understand. The pain point — needing 24/7 support without extra staff — is carried entirely by the overnight gap the data exposes, not by abstract claims. The product enters as the structural answer to a structural problem the viewer has just watched themselves discover.",
+  "narrative_arc": "UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing at a chat widget badge on their website — 'We added live chat. Visitors can ask questions now.' Cut to a clean analytics dashboard. A single filter is applied: sessions by hour. The overnight band lights up with traffic. The chat widget shows zero conversations in that window — every single night. IMPLICATION: The founder's expression shifts — not panic, just the quiet recognition of a wrong assumption. Voice-over lands the point precisely: live chat is a staffing solution. It requires a person. Most SaaS visitors don't arrive during business hours — they arrive when the founder is asleep. The tool was real. The coverage was not. PROOF: The gap isn't about the widget. It's about what happens when no one is behind it. An AI assistant built from the website's existing content answers the moment a visitor asks — at 2 AM, on a Sunday, during a product launch when the team is heads-down. No agent required. No training required. The website already holds the answers; Fenrik.chat delivers them. CTA: Direct, calm, no urgency theater — the founder closes the analytics tab and opens Fenrik.chat.",
+  "emotional_tone": "Calm authority with a quiet edge of recognition — not alarming, not mocking. The founder is competent; they made a reasonable assumption that turned out to be wrong. The video respects that intelligence while making the gap impossible to ignore.",
+  "audience_insight": "SaaS founders and growth-stage software teams are problem-solvers by instinct. When they identify a gap — visitors leaving without converting — they reach for the most visible tool: a live chat widget. Installing it feels like a decision made. What they rarely interrogate is the coverage model underneath it. This video meets them at the moment after the decision, when the data quietly contradicts the confidence.",
+  "visual_direction": {
+    "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+    "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+    "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+    "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+    "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+    "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Measured and deliberate, allowing the viewer to absorb the data before the implication hits.",
+  "emotion": "Calm recognition with a hint of concern.",
+  "first_image": "A clean analytics dashboard on a dark monitor, displaying a bar chart with a sharp spike in overnight sessions and a flat zero line for chat conversations, set against a minimal home office backdrop with cool, ambient lighting.",
+  "attention_pattern": "The stark contrast between the traffic spike and the zero conversations creates immediate curiosity about the missed opportunities.",
+  "first_spoken_sentence": "You added a live chat widget, but what happens when no one's there to answer?"
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+  "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+  "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+  "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+  "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+  "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person.",
+  "opening_emotion": "Calm recognition with a hint of concern.",
+  "opening_first_image": "A clean analytics dashboard on a dark monitor, displaying a bar chart with a sharp spike in overnight sessions and a flat zero line for chat conversations, set against a minimal home office backdrop with cool, ambient lighting."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Chat Widget That Clocked Out at Midnight",
+  "status": "draft",
+  "funnel_stage": "problem_aware",
+  "hook": "You added a live chat widget, but what happens when no one's there to answer?",
+  "scenario": "A SaaS founder identifies that visitors are leaving without converting and installs a live chat widget — a reasonable, visible solution. They move on, confident the gap is closed. Weeks later, reviewing analytics, they apply a single filter: sessions by hour. The overnight band, midnight to 7 AM, shows consistent traffic. The chat widget shows zero conversations in that same window — every night. The widget was real. The coverage was not. The founder had solved the 9-to-5 problem and left the 24/7 problem completely untouched.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN (static shot, dark monitor, analytics dashboard visible): Founder at desk, calm, gesturing toward the chat widget badge on their website. They look satisfied. The chat bubble pulses green.\n\nVO: 'You added a live chat widget, but what happens when no one's there to answer?'\n\nSCENE 2 — ANALYTICS REVEAL (slow push-in on monitor): A clean bar chart fills the screen. A single filter is applied: sessions by hour. The overnight band — midnight to 7 AM — lights up in muted amber. A second line, flat at zero, represents chat conversations in the same window. The contrast is immediate and stark.\n\nVO: 'Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night.'\n\nSCENE 3 — FOUNDER REACTION (single close cut, face neutral, processing): No panic. Just the quiet recognition of a wrong assumption. The founder looks at the screen, not the camera.\n\nVO: 'Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule.'\n\nSCENE 4 — RESOLUTION FRAME (static, product UI suggestion, minimal): The analytics tab closes. A new interface is implied — an AI assistant reading the website's existing content, ready at 2 AM, no agent required.\n\nVO: 'The gap isn't the tool. It's who's behind it.'\n\nSCENE 5 — SOFT CLOSE (static, founder at desk, screen glow): No dramatic resolution. The founder is still. The implication is clear. Text on screen: fenrik.chat",
+    "concept": "A SaaS founder installs a live chat widget, feels the gap is closed, and moves on. Weeks later, one analytics filter — sessions by hour — reveals that visitor drop-off concentrates almost entirely between midnight and 7 AM, the exact window when no agent is ever online. The widget didn't fix the 24/7 problem. It fixed the 9-to-5 problem. Those are not the same thing. Fenrik.chat enters as the structural answer: an AI assistant built from the website's existing content, present in every hour a human cannot cover.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#saas",
+    "#startups",
+    "#websitetraffic",
+    "#leadgeneration",
+    "#chatbot",
+    "#saasfounder",
+    "#growthhacking"
+  ],
+  "subtitles_planned": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it."
+}
+```
+
+## Voiceover
+```json
+"You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A clean analytics dashboard on a dark monitor displaying a bar chart with a sharp amber-highlighted spike in overnight sessions from midnight to 7 AM and a flat zero line for chat conversations in the same window, set against a minimal home office backdrop with cool blue-white ambient lighting, grey desk surface, off-white walls, no windows visible."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Extreme close-up of a monitor screen showing a two-line data chart: one series of amber bars representing overnight website sessions, one completely flat grey line at zero representing chat widget activity in the same time window. The contrast is stark. Abstract data visualization, no invented text labels."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A gender-neutral founder in their early 30s wearing a plain t-shirt, seated at a minimal grey desk, looking at a monitor with a calm, neutral expression — processing, not panicking. Cool blue-white ambient light. Phone face-down beside a laptop. No windows visible."
+  },
+  {
+    "source": "asset",
+    "used_as": "product feature reference shown as a framed screen insert illustrating 24/7 AI support availability — contrasted against the zero-conversation overnight window revealed in the analytics scene",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A minimal home office desk at a late, indeterminate hour — single dark monitor glowing softly, laptop closed to the side, phone face-down, no windows, cool clinical ambient light. The room is still and empty. The scene suggests it could be midnight or 2 AM. No person present. The emptiness carries the narrative weight."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A clean analytics dashboard on a dark monitor displaying a bar chart with a sharp amber-highlighted spike in overnight sessions from midnight to 7 AM and a flat zero line for chat conversations in the same window, set against a minimal home office backdrop with cool blue-white ambient lighting, grey desk surface, off-white walls, no windows visible.",
+  "Extreme close-up of a monitor screen showing a two-line data chart: one series of amber bars representing overnight website sessions, one completely flat grey line at zero representing chat widget activity in the same time window. The contrast is stark. Abstract data visualization, no invented text labels.",
+  "A gender-neutral founder in their early 30s wearing a plain t-shirt, seated at a minimal grey desk, looking at a monitor with a calm, neutral expression — processing, not panicking. Cool blue-white ambient light. Phone face-down beside a laptop. No windows visible.",
+  "A minimal home office desk at a late, indeterminate hour — single dark monitor glowing softly, laptop closed to the side, phone face-down, no windows, cool clinical ambient light. The room is still and empty. The scene suggests it could be midnight or 2 AM. No person present. The emptiness carries the narrative weight."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Save this if you've ever felt the problem was solved — and the data said otherwise.",
+    "type": "save"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": null,
+      "format": "reel",
+      "caption": "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "title_variants": [
+        "The Chat Widget That Clocked Out at Midnight",
+        "Live Chat Has a Shift. Your Visitors Don't.",
+        "The Analytics Filter That Changes Everything",
+        "You Fixed the 9-to-5 Problem. Not the 24/7 One.",
+        "What the Hourly Sessions Chart Actually Shows"
+      ],
+      "caption_variants": [
+        "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+        "Live chat is a staffing solution. Most SaaS founders don't realize that until they look at who's actually visiting their site at 1 AM.",
+        "The overnight analytics filter is the most humbling thing a SaaS founder can run. Sessions up. Chat conversations: flat zero.",
+        "Installed live chat. Moved on. Weeks later: traffic between midnight and 7 AM is the highest-volume window on the chart. Widget shows zero conversations. The gap was never the tool.",
+        "Your live chat widget has business hours. Your visitors don't. #saasfounder #websiteconversion"
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your live chat widget clocked out at midnight. Your visitors didn't. 👀",
+      "hashtags": [
+        "#saas",
+        "#startups",
+        "#websitetraffic",
+        "#growthhacks"
+      ]
+    },
+    "youtube": {
+      "cta": null,
+      "format": "short",
+      "caption": "You added live chat — but your visitors kept dropping off overnight. Here's what the hourly data actually shows.",
+      "hashtags": [
+        "#saas",
+        "#websiteconversion"
+      ]
+    },
+    "facebook": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Ever installed a live chat widget and felt like the problem was finally handled? A lot of founders do. Then one analytics filter changes everything — sessions by hour, midnight to 7 AM, full of traffic. Chat conversations in that same window: zero. Live chat is a great tool. It just needs someone awake to run it. Worth knowing before you assume the gap is closed. 💡",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ]
+    },
+    "linkedin": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Installing a live chat widget feels like a decision made. The problem is identified, the tool is deployed, the box is checked.\n\nThen someone filters the analytics by hour.\n\nMidnight to 7 AM: consistent traffic. Chat conversations in that window: zero — every night, without exception.\n\nLive chat is a staffing solution. It requires a person to be present. Most SaaS visitors don't arrive during business hours — they arrive when the team is offline.\n\nThe tool was the right instinct. The coverage model underneath it was the wrong assumption.",
+      "hashtags": [
+        "#saas",
+        "#growthhacking",
+        "#websiteoptimization"
+      ]
+    },
+    "instagram": {
+      "cta": "Save this if the data has ever quietly contradicted your confidence.",
+      "format": "reel",
+      "caption": "You installed the chat widget and felt the problem was solved.\n\nThen you filtered your analytics by hour.\n\nMidnight to 7 AM: sessions everywhere. Chat conversations: zero. Every night.\n\nLive chat needs someone live. Most visitors don't check your calendar first.",
+      "hashtags": [
+        "#saasfounder",
+        "#websitetips",
+        "#leadgeneration",
+        "#smallbusiness",
+        "#growthmindset",
+        "#startuplife",
+        "#digitalmarketing"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "03e04ce9-1995-4782-98b6-7fb65deed1c6",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You added live chat. Felt solved. Then checked sessions by hour. Midnight–7 AM: full of traffic. Chat conversations: zero. Every night. Live chat needs someone live. #saas",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "c564d9e2-ba5d-48af-9469-7f8b4c548272",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Live Chat Has a Shift. Your Visitors Don't.",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Live chat is a staffing solution. Most SaaS founders don't realize that until they look at who's actually visiting their site at 1 AM.",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "7404f17a-f188-418a-b054-0fda1717aa46",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Analytics Filter That Changes Everything",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "The overnight analytics filter is the most humbling thing a SaaS founder can run. Sessions up. Chat conversations: flat zero. https://fenrik.chat",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "51d90d7d-08fd-4efd-a81f-fbb1bcb35447",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "You Fixed the 9-to-5 Problem. Not the 24/7 One.",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Installed live chat. Moved on. Weeks later: traffic between midnight and 7 AM is the highest-volume window on the chart. Widget shows zero conversations. The gap was never the tool.",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "f19ebc0b-34f7-4484-8c17-f6dddffb1060",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What the Hourly Sessions Chart Actually Shows",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Your live chat widget has business hours. Your visitors don't. #saasfounder #websiteconversion",
+      "hashtags": [
+        "#saas",
+        "#startups"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "a76f7d0e-25e2-4cec-acb0-d213e3acbfe1",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Ever installed a live chat widget and felt like the problem was finally handled? A lot of founders do. Then one analytics filter changes everything — sessions by hour, midnight to 7 AM, full of traffic. Chat conversations in that same window: zero. Live chat is a great tool. It just needs someone awake to run it. Worth knowing before you assume the gap is closed. 💡",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "90509db5-8d27-44d9-abcb-28f65de34a5c",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You installed the chat widget and felt the problem was solved.\n\nThen you filtered your analytics by hour.\n\nMidnight to 7 AM: sessions everywhere. Chat conversations: zero. Every night.\n\nLive chat needs someone live. Most visitors don't check your calendar first.",
+      "hashtags": [
+        "#saasfounder",
+        "#websitetips",
+        "#leadgeneration",
+        "#smallbusiness",
+        "#growthmindset",
+        "#startuplife",
+        "#digitalmarketing"
+      ],
+      "cta": "Save this if the data has ever quietly contradicted your confidence.",
+      "language": null
+    },
+    {
+      "id": "15dfdce1-edd4-4318-9abf-7f5083bcd0f7",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "You added live chat — but your visitors kept dropping off overnight. Here's what the hourly data actually shows.",
+      "hashtags": [
+        "#saas",
+        "#websiteconversion"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "92987841-2878-46b9-89b7-3ab553898aa0",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Your live chat widget clocked out at midnight. Your visitors didn't. 👀",
+      "hashtags": [
+        "#saas",
+        "#startups",
+        "#websitetraffic",
+        "#growthhacks"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "6a2025f5-495a-4874-84f9-81544c1e19f3",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chat Widget That Clocked Out at Midnight",
+      "body": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it.",
+      "caption": "Installing a live chat widget feels like a decision made. The problem is identified, the tool is deployed, the box is checked.\n\nThen someone filters the analytics by hour.\n\nMidnight to 7 AM: consistent traffic. Chat conversations in that window: zero — every night, without exception.\n\nLive chat is a staffing solution. It requires a person to be present. Most SaaS visitors don't arrive during business hours — they arrive when the team is offline.\n\nThe tool was the right instinct. The coverage model underneath it was the wrong assumption.",
+      "hashtags": [
+        "#saas",
+        "#growthhacking",
+        "#websiteoptimization"
+      ],
+      "cta": null,
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 41,
+    "secondary": 46
+  },
+  "voice_reasons": [
+    "funnel_problem→warmth(+2)",
+    "mode_shock→energy(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+41)",
+    "fit_secondary(+46)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+}
+```
+
+## Creative mode
+```json
+"shock"
+```
+
+## Funnel stage
+```json
+"problem_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Need for 24/7 customer support without extra staff",
+  "strategy_pain_point": "Need for 24/7 customer support without extra staff"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in every hour a human cannot cover. It reads the website's existing content automatically, requires no training, and answers the question the live chat widget would have handled if anyone had been awake to handle it."
+```
+
+## Narrative arc
+```json
+"UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing at a chat widget badge on their website — 'We added live chat. Visitors can ask questions now.' Cut to a clean analytics dashboard. A single filter is applied: sessions by hour. The overnight band lights up with traffic. The chat widget shows zero conversations in that window — every single night. IMPLICATION: The founder's expression shifts — not panic, just the quiet recognition of a wrong assumption. Voice-over lands the point precisely: live chat is a staffing solution. It requires a person. Most SaaS visitors don't arrive during business hours — they arrive when the founder is asleep. The tool was real. The coverage was not. PROOF: The gap isn't about the widget. It's about what happens when no one is behind it. An AI assistant built from the website's existing content answers the moment a visitor asks — at 2 AM, on a Sunday, during a product launch when the team is heads-down. No agent required. No training required. The website already holds the answers; Fenrik.chat delivers them. CTA: Direct, calm, no urgency theater — the founder closes the analytics tab and opens Fenrik.chat."
+```
+
+## Emotional tone
+```json
+"Calm authority with a quiet edge of recognition — not alarming, not mocking. The founder is competent; they made a reasonable assumption that turned out to be wrong. The video respects that intelligence while making the gap impossible to ignore."
+```
+
+## Audience insight
+```json
+"SaaS founders and growth-stage software teams are problem-solvers by instinct. When they identify a gap — visitors leaving without converting — they reach for the most visible tool: a live chat widget. Installing it feels like a decision made. What they rarely interrogate is the coverage model underneath it. This video meets them at the moment after the decision, when the data quietly contradicts the confidence."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Desaturated background: off-white walls, grey desk surface, dark monitor. One accent color — a muted amber or soft red — used exclusively on the overnight analytics bar to draw the eye without editorializing.",
+  "lighting": "Cool, even ambient light throughout — the kind of light that exists at a desk at 11 PM. No warm tones. Slightly blue-white, clinical. Reinforces the late-night context without theatrics.",
+  "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No windows visible — the environment is deliberately timeless, suggesting it could be any hour.",
+  "camera_style": "Static or very slow push-in shots. No handheld movement. The camera holds on the analytics screen long enough for the viewer to read the data themselves. One close cut to the founder's face — neutral, processing. No reaction performance.",
+  "art_direction": "Clean, minimal SaaS aesthetic — flat surfaces, sharp edges, no clutter. The analytics dashboard is the hero visual: a simple bar chart with an unmistakable overnight spike in sessions and a flat zero line for chat conversations in the same window. The contrast between the two lines does the work. No dramatic lighting changes, no fast cuts — the stillness makes the data land harder.",
+  "character_style": "A single founder figure — gender-neutral presentation, early 30s, dressed in a plain t-shirt or minimal workwear. No exaggerated expressions. The character's stillness is intentional: the data is the drama, not the person."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "You added a live chat widget, but what happens when no one's there to answer? Filter your analytics by hour. The overnight band — midnight to 7 AM — is full of sessions. The chat widget shows zero conversations in that window. Every night. Live chat is a staffing solution. It requires a person. Most visitors don't arrive on your schedule. The gap isn't the tool. It's who's behind it."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "eb016b52-5322-49ac-949d-c14bb7b6be3f",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:32:52.021665+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A SaaS founder installs a live chat widget, feels the problem is solved, and moves on. Weeks later, a single analytics filter — sessions by hour — reveals that the vast majority of visitor drop-off h…",
+    "environment": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly…",
+    "product_role": "Fenrik.chat is the layer that operates when no agent can. It is not a replacement for human support during business hours — it is the presence that exists in e…",
+    "visual_world": "A minimal home office or studio apartment desk setup. Single monitor showing the analytics dashboard. A laptop slightly to the side. A phone face-down. No wind…",
+    "attention_pattern": "The stark contrast between the traffic spike and the zero conversations creates immediate curiosity about the missed op…",
+    "narrative_mechanism": "shock: UNEXPECTED FACT: Open on a founder at their desk, calm and confident, pointing …"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "product feature reference shown as a framed screen insert illustrating 24/7 AI support availability — contrasted against the zero-conversation overnight window revealed in the analytics scene",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 8 — The Question That Actually Got Answered
+
+- package_id: `d8a38e21-ab6a-4b7b-81b1-541b9e1288c5`
+- strategy_item_id: `457eb186-ccf5-4301-98a1-71b7ccc7b8b3`
+- run_item_id: `52d8e4a7-e031-4b2e-aa26-1159aa5e8a9f`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "457eb186-ccf5-4301-98a1-71b7ccc7b8b3",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "Walk through the moment a visitor lands on a site with an AI assistant active. They type a question. They get a clear, relevant answer in seconds. They stay. They convert. Contrast this with the silent static page they would have left.",
+      "topic": "What happens when a website visitor asks a question and actually gets an answer — immediately",
+      "source": "production_run",
+      "pain_point": "Visitors leave before contacting you",
+      "package_index": 8,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Question That Actually Got Answered",
+  "core_idea": "A common myth: if your website has the information, visitors will find what they need and reach out. They won't. Information sitting on a static page is not the same as information delivered in the moment someone asks for it. This video walks through a single visitor interaction — question typed, answer given instantly, visitor stays and converts — then cuts to the identical moment on a static page: question unasked, tab closed, gone. The myth is the mistake. The fix is already live on your website URL.",
+  "product_role": "Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immediate — available the moment a visitor forms a question, not one business day later. The product does not require new content, new staff, or technical setup. It closes the gap between information existing and information being received.",
+  "why_it_works": "The myth hook is disarming because it states something the audience genuinely believes — and states it charitably, not mockingly. The two-path contrast (answer given vs. tab closed) is visceral and concrete without requiring invented data or testimonials. The pain point — visitors leaving before contacting you — is dramatized through a single realistic moment rather than an abstraction. The product introduction lands naturally as the structural fix to a structural problem the viewer has just watched play out in real time.",
+  "narrative_arc": "HOOK — State the myth flat: 'Your website has all the answers. That's enough.' Pause. 'It isn't.' CUT TO: a visitor landing on a site with Fenrik.chat active. They type a short, real question — something like which service package fits a small team. A clear, relevant answer appears in seconds. The visitor reads it. They don't leave. They book. No waiting. No form with a one-business-day reply promise. CUT TO: the same visitor moment on a static page. Same question forming in their head. No chat bubble. No input field. They look at a contact form. They don't fill it out. Tab closes. BEAT: 'The information was there both times. One page delivered it. One page just held it.' PRODUCT MOMENT: Fenrik.chat reads your existing website content and answers the question the moment it's asked — no training, no setup complexity, one embed script. CLOSE: 'Your website already has the answers. Make sure it can actually give them.' CTA: Create your AI assistant — your content is already doing half the work.",
+  "emotional_tone": "Blunt and clarifying — the tone of someone who is mildly fed up with a fixable problem. Not harsh toward the viewer; impatient with the myth. The correction lands as relief, not criticism. Energy stays high through the contrast sequence, then settles into confident practicality at the product moment.",
+  "audience_insight": "Solution-aware SMB owners and consultants already believe their website is working because it looks good and contains correct information. They have not separated 'information exists on the page' from 'information was delivered to the person who needed it.' This video names that gap precisely and makes the distinction feel obvious in retrospect — which is what drives action.",
+  "visual_direction": {
+    "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+    "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+    "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+    "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+    "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+    "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Quick and direct, with a pause after the myth to build anticipation for the contrast.",
+  "emotion": "Mild frustration with a hint of urgency as the myth is challenged.",
+  "first_image": "A close-up of a laptop screen showing a clean, modern website with a chat bubble active. The background is a tidy home office with soft ambient daylight streaming through a window, creating a warm atmosphere.",
+  "attention_pattern": "The viewer is drawn in by the bold statement, creating a need to see how the myth unfolds and is debunked in the following scenes.",
+  "first_spoken_sentence": "Your website has all the answers. That's enough."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+  "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+  "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+  "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+  "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+  "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story.",
+  "opening_emotion": "Mild frustration with a hint of urgency as the myth is challenged.",
+  "opening_first_image": "A close-up of a laptop screen showing a clean, modern website with a chat bubble active. The background is a tidy home office with soft ambient daylight streaming through a window, creating a warm atmosphere."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Question That Actually Got Answered",
+  "status": "draft",
+  "funnel_stage": "solution_aware",
+  "hook": "Your website has all the answers. That's enough.",
+  "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. A qualified prospect finds the site one evening, reads through the services carefully, and wants to ask one specific question before booking a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. A chat bubble appears and answers the question within seconds. The prospect books. The next morning, the consultant opens analytics: solid traffic, zero leads. The gap wasn't the content. It was the one unanswered question.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN [Close-up: laptop screen, warm ambient light, chat bubble visible in corner of a clean website] VO: 'Your website has all the answers. That's enough.' [Beat. Pause.] VO: 'It isn't.' SCENE 2 — ANSWERED PATH [Over-the-shoulder: visitor at desk, fingers on keyboard. Screen shows a chat input field. They type a short question.] [Screen insert: chat response appears within seconds — clean, relevant, direct.] VO: 'Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds.' [Visitor leans back slightly. Cursor moves toward a booking button.] VO: 'They stay. They book.' SCENE 3 — STATIC PATH [Same desk. Same warm-to-cool color shift. Same visitor posture — but the screen shows a static page. No chat bubble. No input field.] [Screen insert: a contact form. Text reads 'We'll get back to you within one business day.'] VO: 'Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day.' [Visitor's hand lifts from keyboard. Tab closes.] VO: 'Tab closes. Gone.' SCENE 4 — BEAT [Wide shot: the desk, now empty. Screen dim.] VO: 'The information was there both times. One page delivered it. One page just held it.' SCENE 5 — PRODUCT MOMENT [Screen insert: Fenrik.chat UI — clean, white, single accent-color chat bubble. Text overlay: 'Reads your website. Answers instantly. One embed script.'] [No spoken product pitch — visual carries it.] CLOSE [Text overlay: 'Create your AI assistant'] [End card: fenrik.chat]",
+    "concept": "Two parallel moments. Same desk, same visitor, same question — two completely different outcomes. In the first, a chat bubble is active. The visitor types a short question. A clear answer appears in seconds. They stay, they convert. In the second, the identical setup: no chat, no response, just a static contact form. The visitor looks. Waits. Leaves. The myth — that information on a page is the same as information delivered — is exposed through contrast, not argument. Fenrik.chat is the delivery layer that closes the gap.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#SmallBusiness",
+    "#AIAssistant",
+    "#WebsiteTips",
+    "#LeadGeneration",
+    "#AIchatbot",
+    "#DigitalMarketing"
+  ],
+  "subtitles_planned": "Your website has all the answers. That's enough. / It isn't. / Watch what happens when a visitor lands and actually asks a question. / Chat bubble. They type. Answer appears — seconds. / They stay. They book. / Now watch the same moment on a static page. / Same question forming. No input field. / A contact form promising a reply in one business day. / Tab closes. Gone. / The information was there both times. / One page delivered it. One page just held it."
+}
+```
+
+## Voiceover
+```json
+"Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "Close-up of a laptop screen showing a clean, modern website with an active chat bubble in the lower corner. Warm ambient daylight through a window. Tidy home office desk, coffee cup visible. Warm off-white and soft amber palette. Slight handheld camera feel, natural and unposed."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Over-the-shoulder angle: a visitor in a plain shirt at a compact desk, fingers on keyboard. Laptop screen shows a chat input field with a short typed question and a clear, concise AI response appearing below it in seconds. Warm, slightly saturated color temperature. Soft amber screen glow. Handheld, documentary feel."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Same desk, same visitor posture, same plain shirt — but the laptop screen now shows a static website page. No chat bubble, no input field. A contact form is visible with small text. Color temperature is cooler and more desaturated than the previous scene. Screen glow is dimmer. The environment is identical to reinforce the parallel-world contrast."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product feature reference shown as a framed screen insert illustrating 24/7 AI assistant availability — used during the product moment beat",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Wide shot of the compact home office desk, now empty. Laptop screen is dim. In the corner of the frame, a clean white chat UI with a single soft accent-color chat bubble is shown as a framed screen insert. Warm off-white and light grey base palette. Minimal clutter. Calm, confident energy. Documentary lighting."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "Close-up of a laptop screen showing a clean, modern website with an active chat bubble in the lower corner. Warm ambient daylight through a window. Tidy home office desk, coffee cup visible. Warm off-white and soft amber palette. Slight handheld camera feel, natural and unposed.",
+  "Over-the-shoulder angle: a visitor in a plain shirt at a compact desk, fingers on keyboard. Laptop screen shows a chat input field with a short typed question and a clear, concise AI response appearing below it in seconds. Warm, slightly saturated color temperature. Soft amber screen glow. Handheld, documentary feel.",
+  "Same desk, same visitor posture, same plain shirt — but the laptop screen now shows a static website page. No chat bubble, no input field. A contact form is visible with small text. Color temperature is cooler and more desaturated than the previous scene. Screen glow is dimmer. The environment is identical to reinforce the parallel-world contrast.",
+  "Wide shot of the compact home office desk, now empty. Laptop screen is dim. In the corner of the frame, a clean white chat UI with a single soft accent-color chat bubble is shown as a framed screen insert. Warm off-white and light grey base palette. Minimal clutter. Calm, confident energy. Documentary lighting."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Create your AI assistant — your website already has the answers. Now let it give them.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Create your AI assistant — fenrik.chat",
+      "format": "reel",
+      "caption": "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "title_variants": [
+        "The Question That Actually Got Answered",
+        "Your Website Has the Answers. It Can't Give Them.",
+        "Same Visitor. Same Question. Two Different Outcomes.",
+        "The Gap Between Information and Delivery",
+        "Why the Right Content Still Loses the Lead"
+      ],
+      "caption_variants": [
+        "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+        "A visitor typed a question on your site tonight. There was nowhere to put it. They left. Your contact form is still empty.",
+        "The myth: if the information is on your site, visitors will find it and reach out. The reality: they form a question, find no input field, and close the tab.",
+        "Information held on a page ≠ information delivered to someone asking. That's the whole gap. That's where leads go.",
+        "Static page. Right answer. Wrong format. The visitor needed a conversation, not a scroll."
+      ]
+    },
+    "tiktok": {
+      "cta": "Link in bio to see it live.",
+      "format": "reel",
+      "caption": "Your website has the answers. Your visitors just never get them. 👀 The gap is smaller than you think.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#leadgeneration"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "short",
+      "caption": "Same website. Same visitor. Two completely different outcomes — the only difference is whether the page could actually answer the question.",
+      "hashtags": [
+        "#AIchatbot",
+        "#SmallBusiness",
+        "#WebsiteTips"
+      ]
+    },
+    "facebook": {
+      "cta": "Create your AI assistant at fenrik.chat",
+      "format": "reel",
+      "caption": "Here's something worth thinking about: your website might have every answer a visitor needs — and still lose them because there's no way to deliver those answers in the moment they ask. 💬 That gap is exactly what an AI assistant closes. No extra staff, no complex setup — just your existing content, made conversational. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ]
+    },
+    "linkedin": {
+      "cta": "Create your AI assistant — your website already has the answers. Now let it give them.",
+      "format": "reel",
+      "caption": "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant",
+        "#LeadGeneration"
+      ],
+      "caption_variants": [
+        "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+        "Most websites are full of correct information that never reaches the person who needed it.\n\nThe visitor arrives. They want a specific answer. The page holds it — but passively. There's no chat, no interaction, only a contact form with a one-business-day reply window. They don't wait. They move on.\n\nThis isn't a content problem. It's a delivery problem. And it's fixable without rebuilding anything.\n\nCreate your AI assistant — your content is already doing half the work."
+      ]
+    },
+    "instagram": {
+      "cta": "Link in bio → Create your AI assistant.",
+      "format": "reel",
+      "caption": "Information sitting on a page is not the same as information delivered to someone who needs it right now.\n\nOne gets the booking. One gets the closed tab.\n\nYour content is already there. Make sure it can actually answer when someone asks.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#digitalmarketing",
+        "#leadgen",
+        "#onlinebusiness",
+        "#clientexperience"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "5bc78a7b-82be-43c6-adee-cdbafdbfd77d",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Most websites are full of correct information that never reaches the person who needed it.\n\nThe visitor arrives. They want a specific answer. The page holds it — but passively. There's no chat, no interaction, only a contact form with a one-business-day reply window. They don't wait. They move on.\n\nThis isn't a content problem. It's a delivery problem. And it's fixable without rebuilding anything.\n\nCreate your AI assistant — your content is already doing half the work.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant",
+        "#LeadGeneration"
+      ],
+      "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "e02ea35b-604c-4442-a29c-9a002a83bf74",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "There's a distinction most business owners haven't made yet: information existing on a page is not the same as information being delivered to the person who needs it.\n\nA visitor lands. They have a specific question. The answer is written somewhere on your site — but there's no mechanism to surface it in the moment they ask. So they leave. No form fill. No follow-up.\n\nThe content was never the problem. The delivery layer was missing.\n\nCreate your AI assistant — your website already has the answers. Now let it give them.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant",
+        "#LeadGeneration"
+      ],
+      "cta": "Create your AI assistant — your website already has the answers. Now let it give them. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "bd101dbb-afcf-4efe-8375-95ee6b010057",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Your website has the answers. That's not the same as your website giving them. One tab closed right now because of that gap.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "dc85a1f0-052d-4bcd-9979-38d4e3805874",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Has the Answers. It Can't Give Them.",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "A visitor typed a question on your site tonight. There was nowhere to put it. They left. Your contact form is still empty.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "99af84a3-6cc4-4a78-ab7f-cbde2fb07e27",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Gap Between Information and Delivery",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Information held on a page ≠ information delivered to someone asking. That's the whole gap. That's where leads go.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "28b3d8e4-1b8e-410e-a6a9-f99560478fc5",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Same Visitor. Same Question. Two Different Outcomes.",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "The myth: if the information is on your site, visitors will find it and reach out. The reality: they form a question, find no input field, and close the tab. https://fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "e3d4c5de-249f-42aa-918a-d6bab61c4bff",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why the Right Content Still Loses the Lead",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Static page. Right answer. Wrong format. The visitor needed a conversation, not a scroll.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant — fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "f620a440-e10d-4fec-90b7-18f9add9a101",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Your website has the answers. Your visitors just never get them. 👀 The gap is smaller than you think.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#leadgeneration"
+      ],
+      "cta": "Link in bio to see it live.",
+      "language": null
+    },
+    {
+      "id": "220b9a0d-b87b-4efc-aa54-f43f1044b34b",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Information sitting on a page is not the same as information delivered to someone who needs it right now.\n\nOne gets the booking. One gets the closed tab.\n\nYour content is already there. Make sure it can actually answer when someone asks.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#aichatbot",
+        "#digitalmarketing",
+        "#leadgen",
+        "#onlinebusiness",
+        "#clientexperience"
+      ],
+      "cta": "Link in bio → Create your AI assistant.",
+      "language": null
+    },
+    {
+      "id": "0766fade-97e0-42db-bc4b-47647818c5db",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Same website. Same visitor. Two completely different outcomes — the only difference is whether the page could actually answer the question.",
+      "hashtags": [
+        "#AIchatbot",
+        "#SmallBusiness",
+        "#WebsiteTips"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "bae9a0e8-02e2-4d29-a96d-faf407748c78",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Question That Actually Got Answered",
+      "body": "Your website has all the answers. That's enough. It isn't. Watch what happens when a visitor lands and actually asks a question. Chat bubble. They type. Answer appears — seconds. They stay. They book. Now watch the same moment on a static page. Same question forming. No input field. A contact form promising a reply in one business day. Tab closes. Gone. The information was there both times. One page delivered it. One page just held it.",
+      "caption": "Here's something worth thinking about: your website might have every answer a visitor needs — and still lose them because there's no way to deliver those answers in the moment they ask. 💬 That gap is exactly what an AI assistant closes. No extra staff, no complex setup — just your existing content, made conversational. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "cedar",
+  "tts_voice": "cedar",
+  "voice_source": "package_primary",
+  "voice_scores": {
+    "primary": 47,
+    "secondary": 42
+  },
+  "voice_reasons": [
+    "funnel_solution→steady/energy(+1)",
+    "mode_mistake→warmth/steady",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+47)",
+    "fit_secondary(+42)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"mistake"
+```
+
+## Funnel stage
+```json
+"solution_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Visitors leave before contacting you",
+  "strategy_pain_point": "Visitors leave before contacting you"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immediate — available the moment a visitor forms a question, not one business day later. The product does not require new content, new staff, or technical setup. It closes the gap between information existing and information being received."
+```
+
+## Narrative arc
+```json
+"HOOK — State the myth flat: 'Your website has all the answers. That's enough.' Pause. 'It isn't.' CUT TO: a visitor landing on a site with Fenrik.chat active. They type a short, real question — something like which service package fits a small team. A clear, relevant answer appears in seconds. The visitor reads it. They don't leave. They book. No waiting. No form with a one-business-day reply promise. CUT TO: the same visitor moment on a static page. Same question forming in their head. No chat bubble. No input field. They look at a contact form. They don't fill it out. Tab closes. BEAT: 'The information was there both times. One page delivered it. One page just held it.' PRODUCT MOMENT: Fenrik.chat reads your existing website content and answers the question the moment it's asked — no training, no setup complexity, one embed script. CLOSE: 'Your website already has the answers. Make sure it can actually give them.' CTA: Create your AI assistant — your content is already doing half the work."
+```
+
+## Emotional tone
+```json
+"Blunt and clarifying — the tone of someone who is mildly fed up with a fixable problem. Not harsh toward the viewer; impatient with the myth. The correction lands as relief, not criticism. Energy stays high through the contrast sequence, then settles into confident practicality at the product moment."
+```
+
+## Audience insight
+```json
+"Solution-aware SMB owners and consultants already believe their website is working because it looks good and contains correct information. They have not separated 'information exists on the page' from 'information was delivered to the person who needed it.' This video names that gap precisely and makes the distinction feel obvious in retrospect — which is what drives action."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm off-white and light grey as the base. Accent of soft amber in the active-chat sequence. Desaturated blue-grey in the static-page sequence. Product UI shown in clean white with a single accent color for the chat bubble.",
+  "lighting": "Soft ambient daylight through a window — neutral and realistic. In the 'answered' sequence, a faint warm fill from the screen. In the 'static page' sequence, the same setup but the screen glow is cooler and dimmer, reinforcing the absence of interaction without heavy-handed visual effects.",
+  "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate office. The kind of space a consultant, agency owner, or small business operator actually works from. The environment stays identical across both sequences to reinforce the parallel-world contrast.",
+  "camera_style": "Handheld but controlled — slight natural movement to keep it feeling documentary and real, not staged. Close-up inserts on the keyboard and screen for the typing and response moments. Over-the-shoulder angle for the visitor POV. No dramatic zooms; cuts are clean and deliberate. Screen recordings of the chat interaction are shown as direct screen inserts, not animated mockups.",
+  "art_direction": "Split-reality visual language: the same physical desk and screen appear in both the 'answered' and 'unanswered' sequences, making the contrast feel like parallel universes rather than two different stories. Subtle color temperature shift between the two worlds — warmer and slightly more saturated when the chat answers, cooler and flatter when the page is silent. On-screen UI mockups are clean and readable without being overly polished or branded.",
+  "character_style": "One non-speaking visitor character — seen from behind or in partial profile only, never full face. Gender and age deliberately ambiguous to represent any visitor type. Dressed simply: a plain shirt, no identifying details. The character is a stand-in, not a protagonist — the interaction itself is the story."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "Your website has all the answers. That's enough. / It isn't. / Watch what happens when a visitor lands and actually asks a question. / Chat bubble. They type. Answer appears — seconds. / They stay. They book. / Now watch the same moment on a static page. / Same question forming. No input field. / A contact form promising a reply in one business day. / Tab closes. Gone. / The information was there both times. / One page delivered it. One page just held it."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "14082286-893b-4960-ae3b-aa67144d9f2a",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:34:34.930334+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "cedar",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: clear, confident, practical. Delivery: empathetic, corrective, never shaming. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A common myth: if your website has the information, visitors will find what they need and reach out. They won't. Information sitting on a static page is not the same as information delivered in the m…",
+    "environment": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter.…",
+    "product_role": "Fenrik.chat is the delivery layer the static page was always missing. It takes the content already written on the website and makes it conversational and immed…",
+    "visual_world": "A compact, tidy home office or small professional workspace — a real desk with a laptop, a coffee cup, minimal clutter. Not a studio set; not a corporate offic…",
+    "attention_pattern": "The viewer is drawn in by the bold statement, creating a need to see how the myth unfolds and is debunked in the follow…",
+    "narrative_mechanism": "mistake: HOOK — State the myth flat: 'Your website has all the answers. That's enough.' …"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product feature reference shown as a framed screen insert illustrating 24/7 AI assistant availability — used during the product moment beat",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 9 — The Website That Already Knew Everything
+
+- package_id: `ee9ad2d3-7a10-49f0-ae9b-3528dc39568e`
+- strategy_item_id: `bf68a7d2-4692-4146-93e0-2967049facc1`
+- run_item_id: `37350d9f-f9a5-4356-bc9a-47c702e536e9`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "bf68a7d2-4692-4146-93e0-2967049facc1",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "The website content is already there — service pages, FAQs, about sections. Show how an AI assistant reads that content automatically and starts answering visitor questions from it, without any manual training or new writing required.",
+      "topic": "How a website that already exists becomes a 24/7 support resource without rebuilding anything",
+      "source": "production_run",
+      "pain_point": "No resources to build or maintain a custom chatbot",
+      "package_index": 9,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Website That Already Knew Everything",
+  "core_idea": "A business owner realizes, mid-conversation with a developer, that the chatbot project they are about to pay thousands for is essentially going to read their website — the same website that already exists, already has the answers, and already gets traffic. The punchline: Fenrik.chat does exactly that, automatically, without the project, the developer, or the wait.",
+  "product_role": "Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base from that content, and starts answering visitor questions without any manual training, writing, or developer involvement. The website already had the answers. Fenrik.chat is what finally delivers them.",
+  "why_it_works": "The confession hook earns attention immediately by opening mid-scene in a recognizable, slightly uncomfortable situation. The unexpected turn reframes something the viewer already owns — their website — as the solution they were about to pay to recreate. The punchline is earned, not forced, and the dry delivery matches the Expert voice persona. It avoids every recent fingerprint: the visual world is a video call rather than a solo desk scene, the mechanism is realization-via-contrast rather than analytics shock or inbox repetition, and the pain point — no resources to build or maintain a custom chatbot — is the entire engine of the story rather than a supporting detail.",
+  "narrative_arc": "CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a developer. The developer is explaining the chatbot build process — they will need to gather FAQs, review the service pages, pull the pricing copy, and use all of that to train the bot. The owner nods along, then slowly turns to look directly at the camera with a dawning expression. UNEXPECTED TURN: A cut to the owner's screen — the website is right there, open in another tab. Services page. About page. FAQ section. Pricing. Every answer the developer just described 'gathering' is already written, already live, already being visited by real people. PUNCHLINE: The owner closes the developer tab. Dry, calm delivery to camera: 'So the chatbot was just going to read my website. My website that already exists.' A beat. 'There is an app for that.' CTA card appears. The fix is presented seriously: Fenrik.chat reads your existing website automatically and starts answering visitor questions from it — no training, no project, no developer required.",
+  "emotional_tone": "Dry, self-aware humor with a calm expert undercurrent. The comedy comes from the dawning realization, not from mocking anyone. The product fix lands seriously and cleanly after the punchline.",
+  "audience_insight": "Solution-aware business owners in this segment have often explored or quoted custom chatbot builds and walked away because the process felt disproportionately complex relative to what the bot would actually do. They already sense the problem is solvable — they just do not yet know that the raw material they need already exists on their own website. This concept names that exact moment of recognition.",
+  "visual_direction": {
+    "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+    "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+    "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+    "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+    "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+    "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Slow build during the developer's explanation, quick cut to the owner's dawning understanding.",
+  "emotion": "Surprise and realization as the owner connects the dots.",
+  "first_image": "A business owner sits at a cluttered desk, mid-video call with a developer. The developer's voice is heard explaining the chatbot build process, while the owner's expression shifts from engaged to confused as they glance at their website open in another tab.",
+  "attention_pattern": "The tension builds as the developer outlines the complexity, then sharply contrasts with the simplicity of the existing website content, creating a moment of clarity.",
+  "first_spoken_sentence": "I thought I needed a custom chatbot until I realized my website already had all the answers."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+  "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+  "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+  "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+  "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+  "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character.",
+  "opening_emotion": "Surprise and realization as the owner connects the dots.",
+  "opening_first_image": "A business owner sits at a cluttered desk, mid-video call with a developer. The developer's voice is heard explaining the chatbot build process, while the owner's expression shifts from engaged to confused as they glance at their website open in another tab."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Website That Already Knew Everything",
+  "status": "draft",
+  "funnel_stage": "solution_aware",
+  "hook": "I thought I needed a custom chatbot until I realized my website already had all the answers.",
+  "scenario": "A business owner books a discovery call with a developer to scope out a custom chatbot. The developer walks through the build process: gather the FAQs, review the service pages, pull the pricing copy, and use all of that content to train the bot. The owner nods along — until they glance at their screen and notice a browser tab sitting open behind the video call. Their own website. Services page. FAQ section. Pricing. Every piece of content the developer just described 'gathering' is already written, already live, already being visited by real people. The owner closes the developer tab. The chatbot project was never the answer — the website already was.",
+  "video": {
+    "script": "[SCENE 1 — VIDEO CALL, COOL BLUE-GREY LIGHT]\nDeveloper (voice-over, small video tile visible): 'So what we'll do is pull together your FAQs, go through the service pages, grab the pricing copy — and use all of that to build out the knowledge base for the bot.'\nOwner nods slowly. Expression shifts. Eyes drift to a background tab.\n\n[SCENE 2 — SLOW ZOOM ON OWNER'S FACE]\nVO (owner, direct): 'I thought I needed a custom chatbot until I realized my website already had all the answers.'\n\n[SCENE 3 — CUT TO SCREEN, WARM AMBER LIGHT]\nOwner's website tab fills the frame: Services page. FAQ section. Pricing. About. All of it, already live.\nVO: 'The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there.'\n\n[SCENE 4 — OWNER TO CAMERA, STATIC FRAME]\nOwner closes the developer tab. Dry, calm delivery:\nVO: 'Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.'\n\n[SCENE 5 — CTA CARD]\nText on screen: 'Create your AI assistant — your website is already ready.'\nfenrik.chat",
+    "concept": "A business owner sits mid-video call with a developer who is walking through the custom chatbot build process — explaining how they will need to gather FAQs, scrape service pages, and compile pricing copy to train the bot. The owner nods along, then slowly turns to glance at their screen. Another tab is open: their own website, with every answer the developer just described already written out and live. The owner turns back to camera with a dry, quiet expression. They close the developer tab. The punchline lands: Fenrik.chat does exactly what the developer described — automatically, from the existing website, without the project, the cost, or the wait.",
+    "duration_seconds": "38"
+  },
+  "hashtags": [
+    "#chatbot",
+    "#aiassistant",
+    "#smallbusiness",
+    "#websitetips",
+    "#aitools",
+    "#saas"
+  ],
+  "subtitles_planned": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer."
+}
+```
+
+## Voiceover
+```json
+"I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A business owner in their late 30s sits at a compact home office desk, mid-video call on a laptop. A small developer video tile is visible in one corner of the screen. The room is lit with cool, flat overhead light — slightly grey-blue tones. The owner's expression is attentive but shifting toward puzzled as their eyes drift toward a background browser tab. Realistic, cinematic, handheld-feeling frame."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close-up slow zoom on the owner's face as the realization lands — eyes moving from the video call tile to the browser tab in the background. Expression is dry, calm, not exaggerated. Cool blue-grey ambient light. Shallow depth of field. The emotion is quiet recognition, not shock."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A bright laptop screen fills the frame showing a clean business website — a Services page with clear section headings, an FAQ accordion, and a Pricing block. Warm off-white and soft amber desk light. The contrast with the previous scene is immediate: this content is familiar, accessible, already written. No URLs or domain names visible in the image."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "The owner sits back from the desk, one hand hovering over the trackpad, the developer video tile now minimized. They look directly into the camera with a composed, slightly wry expression. Static frame, no movement. Warm desk light. Casual professional clothing. The humor lives entirely in the stillness and the look."
+  },
+  {
+    "source": "asset",
+    "used_as": "CTA end card — product feature summary shown as closing screen insert reinforcing the one-minute AI assistant setup message",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A business owner in their late 30s sits at a compact home office desk, mid-video call on a laptop. A small developer video tile is visible in one corner of the screen. The room is lit with cool, flat overhead light — slightly grey-blue tones. The owner's expression is attentive but shifting toward puzzled as their eyes drift toward a background browser tab. Realistic, cinematic, handheld-feeling frame.",
+  "Close-up slow zoom on the owner's face as the realization lands — eyes moving from the video call tile to the browser tab in the background. Expression is dry, calm, not exaggerated. Cool blue-grey ambient light. Shallow depth of field. The emotion is quiet recognition, not shock.",
+  "A bright laptop screen fills the frame showing a clean business website — a Services page with clear section headings, an FAQ accordion, and a Pricing block. Warm off-white and soft amber desk light. The contrast with the previous scene is immediate: this content is familiar, accessible, already written. No URLs or domain names visible in the image.",
+  "The owner sits back from the desk, one hand hovering over the trackpad, the developer video tile now minimized. They look directly into the camera with a composed, slightly wry expression. Static frame, no movement. Warm desk light. Casual professional clothing. The humor lives entirely in the stillness and the look."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Create your AI assistant — your website is already ready.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Create your AI assistant — your website is already ready.",
+      "format": "reel",
+      "caption": "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "title_variants": [
+        "The chatbot project that was just my website all along",
+        "Your website already has the answers. The bot just needs to read it.",
+        "Why most chatbot projects take months to do something your website already does",
+        "The developer was going to read my FAQ page. I found a faster way.",
+        "Custom chatbot vs. the website you already have"
+      ],
+      "caption_variants": [
+        "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+        "Custom chatbot quote: $8,000. Timeline: 4 months. Their process: read your FAQ page and service copy. Your FAQ page that's already live. fenrik.chat",
+        "The chatbot project was going to gather my content, organize it, and train a bot on it. I had a tab open with all of that content. Already written. Already live.",
+        "Nobody tells you that most chatbot builds are just your own website content, reformatted. Fenrik.chat skips the reformatting. fenrik.chat",
+        "Closed the developer call. Opened fenrik.chat. Entered my URL. Done. The website already had everything the bot needed."
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "The developer's whole plan was just… to read my website 😶 Your site already has the answers. link in bio.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#websitetips",
+        "#aitools"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "short",
+      "caption": "The developer's chatbot plan was just going to read your website — the one that already exists. There's a faster way.",
+      "hashtags": [
+        "#chatbot",
+        "#aitools",
+        "#smallbusiness"
+      ]
+    },
+    "facebook": {
+      "cta": "Create your AI assistant at fenrik.chat",
+      "format": "reel",
+      "caption": "Ever get a quote for a custom chatbot and think — wait, isn't this just my website with a chat bubble? 😅 That's basically it. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No developer, no training, no months-long project. Your content is already there. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "linkedin": {
+      "cta": "Create your AI assistant — your website is already ready.",
+      "format": "reel",
+      "caption": "Most custom chatbot projects stall for the same reason: the scope feels disproportionate to what the bot will actually do. Gather the FAQs. Review the service pages. Pull the pricing copy. Train the model. The irony is that all of that content already exists — on the website the business has been running for years. Fenrik.chat reads your existing website automatically and builds its knowledge base from that content. No training required. No developer involved. The website already had the answers.",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness",
+        "#saas"
+      ]
+    },
+    "instagram": {
+      "cta": "Create your AI assistant — link in bio.",
+      "format": "reel",
+      "caption": "Spent an hour on a call with a developer explaining how they'd build my chatbot.\n\nThen I realized — they were just going to read my website.\n\nThe FAQ page. The services page. The pricing copy. It was all already there.\n\nFenrik.chat does exactly that, automatically. No build. No wait. Link in bio.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#saas",
+        "#digitalmarketing"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "3f660450-07ba-4866-9130-0a85392f137a",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The developer's whole plan was just… to read my website 😶 Your site already has the answers. link in bio.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#websitetips",
+        "#aitools"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "9e643423-90c8-4f5e-bdd5-b86b37c4e6bc",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Spent an hour on a call with a developer explaining how they'd build my chatbot.\n\nThen I realized — they were just going to read my website.\n\nThe FAQ page. The services page. The pricing copy. It was all already there.\n\nFenrik.chat does exactly that, automatically. No build. No wait. Link in bio.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#saas",
+        "#digitalmarketing"
+      ],
+      "cta": "Create your AI assistant — link in bio.",
+      "language": null
+    },
+    {
+      "id": "8265cd8d-ad4d-4f28-9ca6-2c1e520b07d1",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The developer's chatbot plan was just going to read your website — the one that already exists. There's a faster way.",
+      "hashtags": [
+        "#chatbot",
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "03e6a1bc-10b4-4a0a-ad53-8d043e410236",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Ever get a quote for a custom chatbot and think — wait, isn't this just my website with a chat bubble? 😅 That's basically it. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No developer, no training, no months-long project. Your content is already there. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "0f46ea5e-0dbe-4158-879a-ad8bb50970ea",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Most custom chatbot projects stall for the same reason: the scope feels disproportionate to what the bot will actually do. Gather the FAQs. Review the service pages. Pull the pricing copy. Train the model. The irony is that all of that content already exists — on the website the business has been running for years. Fenrik.chat reads your existing website automatically and builds its knowledge base from that content. No training required. No developer involved. The website already had the answers.",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness",
+        "#saas"
+      ],
+      "cta": "Create your AI assistant — your website is already ready. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "87f84098-ef83-4d03-a8a7-aacdf8b0d0c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The chatbot project that was just my website all along",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "language": null
+    },
+    {
+      "id": "7c8e4711-1b25-45d4-aebc-64e7c1e5564f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website already has the answers. The bot just needs to read it.",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Custom chatbot quote: $8,000. Timeline: 4 months. Their process: read your FAQ page and service copy. Your FAQ page that's already live. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "language": null
+    },
+    {
+      "id": "1ffe81c1-3388-4a63-8607-e0c9abbec965",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why most chatbot projects take months to do something your website already does",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The chatbot project was going to gather my content, organize it, and train a bot on it. I had a tab open with all of that content. Already written. Already live. https://fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "language": null
+    },
+    {
+      "id": "b054a121-b464-4803-8188-c5acaae28621",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The developer was going to read my FAQ page. I found a faster way.",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Nobody tells you that most chatbot builds are just your own website content, reformatted. Fenrik.chat skips the reformatting. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "language": null
+    },
+    {
+      "id": "0fc9d860-9e37-4ad6-b44c-836415133928",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Custom chatbot vs. the website you already have",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Closed the developer call. Opened fenrik.chat. Entered my URL. Done. The website already had everything the bot needed.",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "cedar",
+  "tts_voice": "cedar",
+  "voice_source": "package_primary",
+  "voice_scores": {
+    "primary": 47,
+    "secondary": 42
+  },
+  "voice_reasons": [
+    "funnel_solution→steady/energy(+1)",
+    "mode_humor→energy/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+45)",
+    "fit_secondary(+42)",
+    "soft_tie_recent_secondary(5)→primary(+2)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"humor"
+```
+
+## Funnel stage
+```json
+"solution_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "No resources to build or maintain a custom chatbot",
+  "strategy_pain_point": "No resources to build or maintain a custom chatbot"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base from that content, and starts answering visitor questions without any manual training, writing, or developer involvement. The website already had the answers. Fenrik.chat is what finally delivers them."
+```
+
+## Narrative arc
+```json
+"CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a developer. The developer is explaining the chatbot build process — they will need to gather FAQs, review the service pages, pull the pricing copy, and use all of that to train the bot. The owner nods along, then slowly turns to look directly at the camera with a dawning expression. UNEXPECTED TURN: A cut to the owner's screen — the website is right there, open in another tab. Services page. About page. FAQ section. Pricing. Every answer the developer just described 'gathering' is already written, already live, already being visited by real people. PUNCHLINE: The owner closes the developer tab. Dry, calm delivery to camera: 'So the chatbot was just going to read my website. My website that already exists.' A beat. 'There is an app for that.' CTA card appears. The fix is presented seriously: Fenrik.chat reads your existing website automatically and starts answering visitor questions from it — no training, no project, no developer required."
+```
+
+## Emotional tone
+```json
+"Dry, self-aware humor with a calm expert undercurrent. The comedy comes from the dawning realization, not from mocking anyone. The product fix lands seriously and cleanly after the punchline."
+```
+
+## Audience insight
+```json
+"Solution-aware business owners in this segment have often explored or quoted custom chatbot builds and walked away because the process felt disproportionately complex relative to what the bot would actually do. They already sense the problem is solvable — they just do not yet know that the raw material they need already exists on their own website. This concept names that exact moment of recognition."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+  "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+  "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+  "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+  "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+  "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "c15b148e-3180-4230-98fa-4862b492feb1",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:36:10.921655+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "cedar",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A business owner realizes, mid-conversation with a developer, that the chatbot project they are about to pay thousands for is essentially going to read their website — the same website that already e…",
+    "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and …",
+    "product_role": "Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base f…",
+    "visual_world": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a backgroun…",
+    "attention_pattern": "The tension builds as the developer outlines the complexity, then sharply contrasts with the simplicity of the existing…",
+    "narrative_mechanism": "humor: CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a deve…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "CTA end card — product feature summary shown as closing screen insert reinforcing the one-minute AI assistant setup message",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```
+
+---
+
+# Package 10 — The Leads That Showed Up While Nobody Did
+
+- package_id: `53d3ac0e-9af9-4418-85c9-b9e637e1bab0`
+- strategy_item_id: `34468aba-61e3-4e23-9980-ab0dcd15f43b`
+- run_item_id: `39d39fc3-20e1-4d0d-90a7-7a5e1748ca3a`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "34468aba-61e3-4e23-9980-ab0dcd15f43b",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "A dealership's website handles a surge of holiday traffic autonomously — answering questions about inventory and financing, capturing contact details — while the sales team is completely off. Monday morning, there are leads waiting.",
+      "topic": "The car dealership that captured leads over a holiday weekend without a single salesperson online",
+      "source": "production_run",
+      "pain_point": "Losing leads due to lack of instant website support",
+      "package_index": 10,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Leads That Showed Up While Nobody Did",
+  "core_idea": "A car dealership's sales team takes a holiday weekend completely off — phones dark, showroom locked, nobody online. Meanwhile, the website gets a surge of traffic: people asking about financing, checking inventory, trying to figure out if a specific model is available. Without an AI assistant, every one of those visitors hits a static page and leaves. With one, they get answers immediately, and their contact details are captured automatically. Monday morning, the sales manager opens their laptop expecting a blank CRM — and finds a queue of leads waiting. The mistake wasn't taking the weekend off. It was assuming the website would do nothing while they did.",
+  "product_role": "Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the existing website content automatically — inventory pages, financing FAQs, service information — and answers visitor questions in real time without any staff involvement. It captures contact details from interested visitors before they leave, so Monday morning has something in it. No training, no developer, no integration complexity — just a single embed script and an AI assistant that works while the team doesn't have to.",
+  "why_it_works": "The concept is anchored in a highly specific, relatable scenario — the holiday weekend sales gap — that immediately signals relevance to dealerships and any service business with offline hours. The narrative mechanism is a payoff reveal: the viewer expects Monday to be empty and gets leads instead, which makes the product's value concrete and memorable without overstating it. The mistake framing (assuming the website does nothing) is honest and non-judgmental, which fits the friendly, direct tone of voice. The scenario is fresh relative to recent fingerprints, the visual world is a dealership environment not yet used, and the story shape — mistake named, implication shown, fix demonstrated, payoff delivered — is distinct from the confession, contrarian, and analytics-dashboard structures dominating the recent pipeline.",
+  "narrative_arc": "HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sales day of the quarter might be a day nobody worked. Cut to the implication: holiday weekends drive serious buyer research online — people with time, intent, and zero friction stopping them from reaching out — but most dealership websites respond to that traffic with silence. The visitor asks a question. The page says nothing. They leave. Show the gap as a specific, concrete mistake: the website was open, the visitors were ready, and the only thing missing was something to answer them. PROOF — Introduce Fenrik.chat as the presence that fills that exact gap: reads the existing website, answers inventory and financing questions instantly, captures contact details automatically, no staff required. No new content needed, no developer, no training. PAYOFF — The sales manager arrives Monday morning. The CRM has leads. The team didn't work the weekend. The website did.",
+  "emotional_tone": "Warm and a little playful — the tone of a witty friend pointing out a mistake you'll immediately recognize. The punchline lands gently: the fix was always available, the gap was just invisible until now. No guilt, just a clear 'oh, obviously' moment.",
+  "audience_insight": "Car dealerships and local service businesses instinctively think of lead capture as a human activity — someone has to be there to take the inquiry. Holiday weekends feel like a natural pause. What they underestimate is that buyer intent doesn't pause with them: people research and decide when they have free time, which is exactly when the sales team is offline. The insight that the website can work autonomously — and actually deliver leads on Monday morning — reframes the weekend from a gap to an asset.",
+  "visual_direction": {
+    "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+    "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+    "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+    "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+    "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+    "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Deliberate and steady, with a quick cut to the active chat interface to create urgency.",
+  "emotion": "Warm and slightly playful, evoking a sense of realization about missed opportunities.",
+  "first_image": "A dimly lit car dealership showroom at dusk, with cars visible through the glass, all lights off and the door locked, contrasting with a bright laptop screen showing an active chat interface answering questions.",
+  "attention_pattern": "Starts with a striking visual of the closed dealership, then shifts focus to the busy website, creating a contrast that raises curiosity about what happens next.",
+  "first_spoken_sentence": "Your dealership's best sales day might just be a day when nobody's working."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+  "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+  "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+  "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+  "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+  "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story.",
+  "opening_emotion": "Warm and slightly playful, evoking a sense of realization about missed opportunities.",
+  "opening_first_image": "A dimly lit car dealership showroom at dusk, with cars visible through the glass, all lights off and the door locked, contrasting with a bright laptop screen showing an active chat interface answering questions."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Leads That Showed Up While Nobody Did",
+  "status": "draft",
+  "funnel_stage": "solution_aware",
+  "hook": "Your dealership's best sales day might just be a day when nobody's working.",
+  "scenario": "A car dealership's sales team takes a full holiday weekend off — showroom locked, phones dark, nobody online. Meanwhile, the website receives a surge of traffic: buyers with time on their hands researching financing options, checking inventory, asking whether a specific model is available. Without an AI assistant, every visitor lands on a static page, gets no response, and leaves without a trace. With Fenrik.chat reading the existing site and answering questions automatically, contact details are captured before each visitor goes. Monday morning, the sales manager opens their laptop expecting the usual blank slate — and finds a queue of leads waiting. The team didn't work the weekend. The website did.",
+  "video": {
+    "script": "[SCENE 1 — LOCKED SHOWROOM AT DUSK]\nSlide in on the exterior of a car dealership at dusk. Lights off. Door locked. Cars visible through the glass. The lot is still.\nVO: 'Your dealership's best sales day might just be a day when nobody's working.'\n\n[SCENE 2 — VISITOR AT HOME, LAPTOP OPEN]\nCut to: hands on a keyboard. A person researching on a laptop at home during the holiday weekend — browsing inventory, hovering over a financing FAQ. No chat. No response. They close the tab.\nVO: 'Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave.'\n\n[SCENE 3 — ACTIVE CHAT INTERFACE, NO ONE AT THE DESK]\nCut to: a laptop on a dark desk, no one seated. The screen shows a live chat interface actively responding — questions coming in, answers appearing instantly. Contact details being captured in the background.\nVO: 'Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically.'\n\n[SCENE 4 — MONDAY MORNING PAYOFF]\nCut to: a sales manager arriving Monday morning. Business casual. Coffee in hand. Opens the laptop. Sunlight through the window. The CRM shows new lead entries. A small, genuine look of surprise — the good kind.\nVO: 'Monday morning, leads are waiting. The website worked. Nobody had to.'\n\n[SCENE 5 — PRODUCT CARD / CTA]\nCut to: clean product visual. Fenrik.chat branding. Simple embed. One line of text.\nText overlay: 'Create your AI assistant — let your website work the weekend shift.'",
+    "concept": "A car dealership's sales team takes a full holiday weekend off. The showroom is dark, phones are silent, nobody is online. Meanwhile, the website gets a surge of traffic — buyers researching financing, checking inventory, asking about specific models. Without an AI assistant, every visitor hits a static page and leaves. With Fenrik.chat, each question gets an immediate answer and each interested visitor's contact details are captured automatically. Monday morning, the sales manager opens their laptop expecting nothing — and finds a queue of leads. The mistake wasn't taking the weekend off. It was assuming the website would do nothing while they did.",
+    "duration_seconds": "30"
+  },
+  "hashtags": [
+    "#carsales",
+    "#dealership",
+    "#leadgeneration",
+    "#aiassistant",
+    "#smallbusiness",
+    "#websitetools",
+    "#automatedleads",
+    "#fenrikchat"
+  ],
+  "subtitles_planned": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to."
+}
+```
+
+## Voiceover
+```json
+"Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A dimly lit car dealership showroom at dusk, exterior shot, cars visible through large glass windows, all interior lights off, front door locked with a closed sign — deep navy and charcoal palette, cinematic realism, no staff visible, the lot still and quiet."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Hands on a laptop keyboard at home during a holiday evening, the screen showing a car dealership website with static text and a contact form but no chat option — a visitor hovering over the page, then moving to close the tab — cool blue-white monitor glow, dark background, face not prominent."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A laptop on a dark empty desk with no one seated, the screen displaying a live AI chat interface actively responding to visitor questions — messages appearing in real time about financing options and vehicle availability, contact details being entered by the visitor — electric blue and white UI glow, quiet purposeful atmosphere."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product feature reference shown as a framed screen insert during the AI assistant explanation beat",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A sales manager in business casual attire sitting down at their office desk Monday morning, coffee cup in hand, opening a laptop — warm amber sunlight streaming through a window behind them, the laptop screen showing a CRM inbox with several new lead entries, the manager's expression shifting to genuine pleasant surprise."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A dimly lit car dealership showroom at dusk, exterior shot, cars visible through large glass windows, all interior lights off, front door locked with a closed sign — deep navy and charcoal palette, cinematic realism, no staff visible, the lot still and quiet.",
+  "Hands on a laptop keyboard at home during a holiday evening, the screen showing a car dealership website with static text and a contact form but no chat option — a visitor hovering over the page, then moving to close the tab — cool blue-white monitor glow, dark background, face not prominent.",
+  "A laptop on a dark empty desk with no one seated, the screen displaying a live AI chat interface actively responding to visitor questions — messages appearing in real time about financing options and vehicle availability, contact details being entered by the visitor — electric blue and white UI glow, quiet purposeful atmosphere.",
+  "A sales manager in business casual attire sitting down at their office desk Monday morning, coffee cup in hand, opening a laptop — warm amber sunlight streaming through a window behind them, the laptop screen showing a CRM inbox with several new lead entries, the manager's expression shifting to genuine pleasant surprise."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Create your AI assistant — let your website work the weekend shift.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "format": "post",
+      "caption": "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "title_variants": [
+        "The dealership was closed. The leads weren't.",
+        "80 weekend visitors. Zero leads. One fixable mistake.",
+        "Your buyers don't take holidays. Your website should know that.",
+        "The shift nobody scheduled — and the leads it left behind.",
+        "Closed showroom. Open website. Empty CRM. Sound familiar?"
+      ],
+      "caption_variants": [
+        "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+        "Buyers don't take holiday weekends off. Your sales team does. That gap is exactly where leads disappear. fenrik.chat fixes it automatically.",
+        "Monday morning CRM: empty. Website analytics: 80 sessions over the weekend. Same problem, different business, every single time.",
+        "The mistake isn't closing the showroom on a holiday. It's assuming the website will just sit there too. It doesn't have to. fenrik.chat",
+        "Hot take: your website's best shift is the one nobody's scheduled to work. Set it up once. Let it run. #leadgeneration fenrik.chat"
+      ]
+    },
+    "tiktok": {
+      "cta": null,
+      "format": "reel",
+      "caption": "Your dealership had its best weekend — and nobody showed up to work 👀 The website handled it. #carsales #smallbusiness #aitools #leadgen #worksmart",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#aitools",
+        "#leadgen",
+        "#worksmart"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "shorts",
+      "caption": "The dealership was closed all weekend. The leads weren't. Here's what changed.",
+      "hashtags": [
+        "#shorts",
+        "#carsales",
+        "#aitools"
+      ]
+    },
+    "facebook": {
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "format": "post",
+      "caption": "Ever wonder what your website is doing while you're off for the holiday weekend? 🚗 For most dealerships, the honest answer is: nothing. Visitors arrive, ask questions, get silence, and leave. Fenrik.chat changes that — it reads your existing website and answers visitor questions automatically, 24/7, capturing their contact details before they go. Monday morning looks a lot different when the website actually worked the weekend. Try a live preview at fenrik.chat — no signup needed.",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#leadgeneration"
+      ]
+    },
+    "linkedin": {
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "format": "post",
+      "caption": "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+      "hashtags": [
+        "#leadgeneration",
+        "#carsales",
+        "#ai"
+      ],
+      "caption_variants": [
+        "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+        "A dealership's sales team takes a long weekend completely off. Reasonable.\n\nWhat isn't reasonable: assuming buyer intent pauses with them. Holiday weekends drive serious online research — financing questions, inventory checks, availability inquiries — all arriving on a website that can't respond.\n\nFenrik.chat fills that gap. It reads your existing site automatically, answers visitor questions in real time, and captures contact details before anyone leaves. No training. No integration complexity. One embed script.\n\nThe leads on Monday morning aren't a surprise. They're just what happens when the website finally has something to say.\n\nCreate your AI assistant — let your website work the weekend shift."
+      ]
+    },
+    "instagram": {
+      "cta": "Link in bio to create your AI assistant.",
+      "format": "reel",
+      "caption": "The holiday weekend felt quiet.\n\nNo calls. No emails. Nobody online.\n\nBut the website? It was busy — answering questions, capturing names, doing the thing nobody thought to set up.\n\nMonday had leads in it. That's the part most businesses don't plan for.\n\nLink in bio to set yours up before the next long weekend.\n\n#carsales #dealership #smallbusiness #aiassistant #leadgeneration #websitetips #digitalmarketing #businessgrowth #automatedleads #fenrikchat",
+      "hashtags": [
+        "#carsales",
+        "#dealership",
+        "#smallbusiness",
+        "#aiassistant",
+        "#leadgeneration",
+        "#websitetips",
+        "#digitalmarketing",
+        "#businessgrowth",
+        "#automatedleads",
+        "#fenrikchat"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "1d2245d5-d3a3-4fe7-9dfc-66dc06cd50ae",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "Your buyers don't take holidays. Your website should know that.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Monday morning CRM: empty. Website analytics: 80 sessions over the weekend. Same problem, different business, every single time. https://fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "language": null
+    },
+    {
+      "id": "ed632533-e368-4f75-bba7-445e0fb4cf3a",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "The shift nobody scheduled — and the leads it left behind.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The mistake isn't closing the showroom on a holiday. It's assuming the website will just sit there too. It doesn't have to. fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "language": null
+    },
+    {
+      "id": "4a864019-6b0a-49e2-a2f9-88162412e75f",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "Closed showroom. Open website. Empty CRM. Sound familiar?",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Hot take: your website's best shift is the one nobody's scheduled to work. Set it up once. Let it run. #leadgeneration fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "language": null
+    },
+    {
+      "id": "6fed7872-0517-4bf9-b727-979affa4d907",
+      "platform": "facebook",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Ever wonder what your website is doing while you're off for the holiday weekend? 🚗 For most dealerships, the honest answer is: nothing. Visitors arrive, ask questions, get silence, and leave. Fenrik.chat changes that — it reads your existing website and answers visitor questions automatically, 24/7, capturing their contact details before they go. Monday morning looks a lot different when the website actually worked the weekend. Try a live preview at fenrik.chat — no signup needed.",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#leadgeneration"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "7cfc422e-8754-4941-8c76-a86b14f70aff",
+      "platform": "linkedin",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+      "hashtags": [
+        "#leadgeneration",
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "50ee8c5b-9b62-491c-adec-e9371a4b9871",
+      "platform": "linkedin",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "A dealership's sales team takes a long weekend completely off. Reasonable.\n\nWhat isn't reasonable: assuming buyer intent pauses with them. Holiday weekends drive serious online research — financing questions, inventory checks, availability inquiries — all arriving on a website that can't respond.\n\nFenrik.chat fills that gap. It reads your existing site automatically, answers visitor questions in real time, and captures contact details before anyone leaves. No training. No integration complexity. One embed script.\n\nThe leads on Monday morning aren't a surprise. They're just what happens when the website finally has something to say.\n\nCreate your AI assistant — let your website work the weekend shift.",
+      "hashtags": [
+        "#leadgeneration",
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "4e59789b-76dc-4620-99fb-e7b290c23227",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Your dealership had its best weekend — and nobody showed up to work 👀 The website handled it. #carsales #smallbusiness #aitools #leadgen #worksmart",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#aitools",
+        "#leadgen",
+        "#worksmart"
+      ],
+      "cta": null,
+      "language": null
+    },
+    {
+      "id": "65f92875-aa07-450e-9308-ada6480a5c66",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The holiday weekend felt quiet.\n\nNo calls. No emails. Nobody online.\n\nBut the website? It was busy — answering questions, capturing names, doing the thing nobody thought to set up.\n\nMonday had leads in it. That's the part most businesses don't plan for.\n\nLink in bio to set yours up before the next long weekend.\n\n#carsales #dealership #smallbusiness #aiassistant #leadgeneration #websitetips #digitalmarketing #businessgrowth #automatedleads #fenrikchat",
+      "hashtags": [
+        "#carsales",
+        "#dealership",
+        "#smallbusiness",
+        "#aiassistant",
+        "#leadgeneration",
+        "#websitetips",
+        "#digitalmarketing",
+        "#businessgrowth",
+        "#automatedleads",
+        "#fenrikchat"
+      ],
+      "cta": "Link in bio to create your AI assistant.",
+      "language": null
+    },
+    {
+      "id": "d0bdb2ea-2d72-4d27-b34f-d0603d1100c8",
+      "platform": "youtube",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The dealership was closed all weekend. The leads weren't. Here's what changed.",
+      "hashtags": [
+        "#shorts",
+        "#carsales",
+        "#aitools"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "3e146da0-9603-49b3-8577-b1ac9d2c4e13",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "The dealership was closed. The leads weren't.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "language": null
+    },
+    {
+      "id": "0506f797-a138-48f7-b085-7461d72eaf4c",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "80 weekend visitors. Zero leads. One fixable mistake.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Buyers don't take holiday weekends off. Your sales team does. That gap is exactly where leads disappear. fenrik.chat fixes it automatically.",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "cedar",
+  "tts_voice": "cedar",
+  "voice_source": "package_primary",
+  "voice_scores": {
+    "primary": 46,
+    "secondary": 40
+  },
+  "voice_reasons": [
+    "funnel_solution→steady/energy(+1)",
+    "mode_shock→energy(+3)",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+46)",
+    "fit_secondary(+40)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+}
+```
+
+## Creative mode
+```json
+"shock"
+```
+
+## Funnel stage
+```json
+"solution_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Losing leads due to lack of instant website support",
+  "strategy_pain_point": "Losing leads due to lack of instant website support"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the existing website content automatically — inventory pages, financing FAQs, service information — and answers visitor questions in real time without any staff involvement. It captures contact details from interested visitors before they leave, so Monday morning has something in it. No training, no developer, no integration complexity — just a single embed script and an AI assistant that works while the team doesn't have to."
+```
+
+## Narrative arc
+```json
+"HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sales day of the quarter might be a day nobody worked. Cut to the implication: holiday weekends drive serious buyer research online — people with time, intent, and zero friction stopping them from reaching out — but most dealership websites respond to that traffic with silence. The visitor asks a question. The page says nothing. They leave. Show the gap as a specific, concrete mistake: the website was open, the visitors were ready, and the only thing missing was something to answer them. PROOF — Introduce Fenrik.chat as the presence that fills that exact gap: reads the existing website, answers inventory and financing questions instantly, captures contact details automatically, no staff required. No new content needed, no developer, no training. PAYOFF — The sales manager arrives Monday morning. The CRM has leads. The team didn't work the weekend. The website did."
+```
+
+## Emotional tone
+```json
+"Warm and a little playful — the tone of a witty friend pointing out a mistake you'll immediately recognize. The punchline lands gently: the fix was always available, the gap was just invisible until now. No guilt, just a clear 'oh, obviously' moment."
+```
+
+## Audience insight
+```json
+"Car dealerships and local service businesses instinctively think of lead capture as a human activity — someone has to be there to take the inquiry. Holiday weekends feel like a natural pause. What they underestimate is that buyer intent doesn't pause with them: people research and decide when they have free time, which is exactly when the sales team is offline. The insight that the website can work autonomously — and actually deliver leads on Monday morning — reframes the weekend from a gap to an asset."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+  "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+  "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+  "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+  "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+  "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "fd1858ac-b0f3-430e-8ad1-662a7dd0d79c",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:38:01.816975+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "cedar",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: clear, confident, practical. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 6,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A car dealership's sales team takes a holiday weekend completely off — phones dark, showroom locked, nobody online. Meanwhile, the website gets a surge of traffic: people asking about financing, chec…",
+    "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights of…",
+    "product_role": "Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the e…",
+    "visual_world": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desk…",
+    "attention_pattern": "Starts with a striking visual of the closed dealership, then shifts focus to the busy website, creating a contrast that…",
+    "narrative_mechanism": "shock: HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sale…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product feature reference shown as a framed screen insert during the AI assistant explanation beat",
+    "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+  }
+]
+```
+
+---
+
+# Package 11 — The Firm That Answered at 11 PM
+
+- package_id: `916a128a-2423-4f9b-be02-b86ded8cf86a`
+- strategy_item_id: `29e24fc3-e054-48c5-ba8a-bb6c6f8879a7`
+- run_item_id: `6d1d15f5-8be2-4d81-af51-29012f773fa2`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "29e24fc3-e054-48c5-ba8a-bb6c6f8879a7",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 5,
+    "brief": {
+      "angle": "A small accounting firm or local agency with an AI assistant on their website responds to visitor questions instantly — even at 11 PM. Larger competitors with manual processes respond the next business day. The lead goes to whoever answered first.",
+      "topic": "Why small service businesses are quietly outcompeting larger ones on response time",
+      "source": "production_run",
+      "pain_point": "Need for 24/7 customer support without extra staff",
+      "package_index": 11,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Firm That Answered at 11 PM",
+  "core_idea": "A small local accounting firm with no extra staff quietly wins a lead from a larger, better-known competitor — not because of credentials or pricing, but because their website answered a visitor's question at 11 PM while the bigger firm's site sat silent until morning. The punchline: the small firm didn't hire anyone. They just added an AI assistant to their website.",
+  "product_role": "Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor's tax question without any staff involvement. The product is not presented as a complex system — it is the thing that made a one-person shop faster than a larger team. Simple, invisible, always on.",
+  "why_it_works": "The concept is anchored in the selected pain point — 24/7 support without extra staff — and delivers it through a competitive reframe that is genuinely surprising for the target audience. The split-screen structure is native to TikTok and immediately legible. The humor is in the role reversal, not in mocking anyone. The product's core strength (instant, automatic, always-on) lands as the punchline rather than a feature list. The scenario is fresh — a small accounting firm outcompeting a larger one — and has not appeared in recent memory. The funnel stage (Solution Aware) is served by showing the mechanism of the win, not just the problem.",
+  "narrative_arc": "SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-branded accounting firm website on the left (large firm), and a modest but clean small firm website on the right. A visitor lands on both, late at night, with a tax deadline question. The large firm's site: a contact form, a 'we'll get back to you within one business day' message, silence. The small firm's site: a chat bubble appears instantly, answers the question, captures the visitor's name and email. UNEXPECTED TURN: Cut to the next morning. The large firm's inbox: empty. The small firm's inbox: a new lead, timestamped 11:04 PM. The business owner — a single person at a small desk — looks genuinely surprised. PUNCHLINE: On-screen text lands the joke: 'She didn't hire a night shift. She just let her website talk.' CTA closes the video with warmth and a direct prompt to act.",
+  "emotional_tone": "Warm, lightly comic, satisfying — the underdog wins not through hustle but through a smarter setup. The humor is in the absurd simplicity of the advantage. No stress, no drama — just a quiet, delightful reversal.",
+  "audience_insight": "Small service business owners — accountants, consultants, local agencies — often assume they are at a structural disadvantage against larger competitors. They believe response time is a staffing problem, which means it feels unsolvable without budget they don't have. This concept reframes the gap: response time is now a website problem, and that is a problem they can actually fix today.",
+  "visual_direction": {
+    "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+    "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+    "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+    "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+    "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+    "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Quick cuts between the two websites, creating a sense of urgency and contrast.",
+  "emotion": "Intrigued and slightly anxious as the stakes of unanswered questions are revealed.",
+  "first_image": "A split-screen shows a polished, well-branded accounting firm's website on the left with a contact form, and a modest small firm's website on the right with a chat bubble appearing instantly.",
+  "attention_pattern": "The viewer is drawn in by the immediate visual contrast and the implication that one firm is about to gain a significant advantage.",
+  "first_spoken_sentence": "It's 11 PM, and one website is ready to answer while the other is silent."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+  "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+  "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+  "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+  "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+  "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator.",
+  "opening_emotion": "Intrigued and slightly anxious as the stakes of unanswered questions are revealed.",
+  "opening_first_image": "A split-screen shows a polished, well-branded accounting firm's website on the left with a contact form, and a modest small firm's website on the right with a chat bubble appearing instantly."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Firm That Answered at 11 PM",
+  "status": "draft",
+  "funnel_stage": "solution_aware",
+  "hook": "It's 11 PM, and one website is ready to answer while the other is silent.",
+  "scenario": "A potential client is at home on a Sunday night with an urgent tax deadline question. They find two accounting firm websites. The larger firm's site offers a polished contact form and a promise to reply within one business day. The smaller firm's site has an AI assistant that answers the question instantly and captures the visitor's name and email. Monday morning, the large firm's inbox is empty. The small firm wakes up to a lead timestamped 11:04 PM — captured without a single staff member being online.",
+  "video": {
+    "script": "SCENE 1 — SPLIT-SCREEN, NIGHT\nVertical frame. Left side: a polished, well-branded accounting firm website. A contact form. Text reads 'We'll get back to you within one business day.' Right side: a modest but clean small firm website. A teal chat bubble appears.\nVO: 'It's 11 PM, and one website is ready to answer while the other is silent.'\n\nSCENE 2 — CLOSE-UP, LAPTOP SCREEN\nThe visitor types a tax deadline question. Left side: nothing happens. Right side: the chat bubble responds instantly. A name and email field populates.\nVO: 'A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead.'\n\nSCENE 3 — MORNING REVEAL\nBright natural light. The small firm owner — a woman, mid-thirties, casual, compact desk — opens her laptop. She sees a notification: one new lead, 11:04 PM. Her expression: quiet, genuine surprise. Slow push-in on her face.\nVO: 'Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM.'\n\nSCENE 4 — TEXT OVERLAY, PUNCHLINE\nBold minimal text on a clean background: 'She didn't hire a night shift. She just let her website talk.'\nVO: 'She didn't hire a night shift. She just let her website talk.'\n\nSCENE 5 — CTA CARD\nClean screen. Fenrik.chat branding. Text: 'Create your AI assistant — let your website answer while you sleep.'\n",
+    "concept": "Split-screen contrast between a large, polished accounting firm website and a small firm's modest site. A late-night visitor asks a tax deadline question. The big firm offers only a contact form. The small firm's AI chat bubble answers instantly and captures the lead. Next morning reveal: the small firm has a new lead timestamped 11:04 PM. The punchline lands on screen: she didn't hire a night shift — she just let her website talk. Closes with a warm, direct CTA.",
+    "duration_seconds": "28"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#aiassistant",
+    "#leadgeneration",
+    "#businesstips",
+    "#aitools",
+    "#websitetips"
+  ],
+  "subtitles_planned": "It's 11 PM, and one website is ready to answer while the other is silent. / A visitor has a tax deadline question. / The big firm's site: a contact form, a promise to reply by tomorrow. / The small firm's site: a chat bubble appears, answers the question, captures the lead. / Next morning, the big firm's inbox is empty. / The small firm's? One new lead. Timestamped 11:04 PM. / She didn't hire a night shift. / She just let her website talk."
+}
+```
+
+## Voiceover
+```json
+"It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "Vertical split-screen on a laptop monitor in a dark room lit by a single desk lamp. Left half: a polished, well-branded accounting firm website with a contact form and text reading 'We'll get back to you within one business day.' Right half: a modest, clean small firm website with a bright teal chat bubble appearing in the bottom corner. Deep navy background, soft amber monitor glow. Mobile-native vertical framing."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close-up of a laptop screen in low ambient light. On the right side of the split-screen, a teal chat bubble displays a short typed answer to a tax deadline question. Below the chat, a small form with a name and email field is partially filled in. The left side shows only a blank contact form with no response. Warm amber desk lamp glow from the side."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Bright natural morning light fills a small, lived-in home office. A woman in her mid-thirties, casually dressed, sits at a compact desk with a single monitor, a coffee mug, and a notepad. She is looking at her laptop screen with a quiet, genuine expression of surprise. A notification is visible on screen — a new lead timestamped 11:04 PM. Clean white tones, warm daylight."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Bold minimal text on a clean off-white background: 'She didn't hire a night shift. She just let her website talk.' Typography is large, modern sans-serif. A single teal accent line underscores the word 'website.' No other elements. Stark and punchline-ready."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Portrait 9:16 vertical composition. CTA card background showing 24/7 AI support features as the closing product reference frame. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "Vertical split-screen on a laptop monitor in a dark room lit by a single desk lamp. Left half: a polished, well-branded accounting firm website with a contact form and text reading 'We'll get back to you within one business day.' Right half: a modest, clean small firm website with a bright teal chat bubble appearing in the bottom corner. Deep navy background, soft amber monitor glow. Mobile-native vertical framing.",
+  "Close-up of a laptop screen in low ambient light. On the right side of the split-screen, a teal chat bubble displays a short typed answer to a tax deadline question. Below the chat, a small form with a name and email field is partially filled in. The left side shows only a blank contact form with no response. Warm amber desk lamp glow from the side.",
+  "Bright natural morning light fills a small, lived-in home office. A woman in her mid-thirties, casually dressed, sits at a compact desk with a single monitor, a coffee mug, and a notepad. She is looking at her laptop screen with a quiet, genuine expression of surprise. A notification is visible on screen — a new lead timestamped 11:04 PM. Clean white tones, warm daylight.",
+  "Bold minimal text on a clean off-white background: 'She didn't hire a night shift. She just let her website talk.' Typography is large, modern sans-serif. A single teal accent line underscores the word 'website.' No other elements. Stark and punchline-ready.",
+  "Portrait 9:16 vertical composition. CTA card background showing 24/7 AI support features as the closing product reference frame. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Create your AI assistant — let your website answer while you sleep.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "format": "reel",
+      "caption": "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "title_variants": [
+        "The Firm That Answered at 11 PM",
+        "Small Firm, Big Advantage: Response Time After Hours",
+        "Why Your Website Goes Silent When Leads Are Still Searching",
+        "The Lead That Went to Whoever Answered First",
+        "Your Website Has a Night Shift Problem"
+      ],
+      "caption_variants": [
+        "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+        "The big firm had a better brand. The small firm had a website that answered at 11 PM. One of them got the lead. https://fenrik.chat",
+        "Late-night visitor. Tax deadline question. One site responded. One didn't. Guess which firm got the lead. https://fenrik.chat",
+        "Your competitor isn't winning because they're bigger. They're winning because their website talks when yours is asleep. https://fenrik.chat",
+        "No night shift. No extra staff. Just a website that answered at 11 PM and captured the lead. That's the whole story. https://fenrik.chat"
+      ]
+    },
+    "tiktok": {
+      "cta": "Link in bio",
+      "format": "reel",
+      "caption": "Small firm vs big firm at 11 PM. The result will surprise you. 👀 Link in bio to try it free.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#businesstips",
+        "#leadgeneration"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe",
+      "format": "short",
+      "caption": "A small firm just outcompeted a bigger one — not on credentials, but on who answered at 11 PM. Subscribe for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "facebook": {
+      "cta": "Create your AI assistant at fenrik.chat",
+      "format": "reel",
+      "caption": "Here's something most small business owners don't realize: your website can answer visitor questions at 11 PM — even when you're asleep. 💡 A small accounting firm recently captured a lead that a larger competitor missed, simply because their site responded instantly to a late-night question. No extra staff. No complex setup. Just an AI assistant reading their existing website content. If your website goes quiet after hours, it might be worth a look. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "linkedin": {
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "format": "reel",
+      "caption": "Response time is no longer a staffing problem. It's a website problem — and that's actually good news for smaller firms.\n\nA small accounting firm with no after-hours staff captured a late-night lead that a larger, better-resourced competitor missed entirely. The visitor had a tax deadline question at 11 PM. One site offered a contact form and a next-business-day promise. The other answered immediately, captured the name and email, and closed the gap before morning.\n\nThe small firm didn't hire anyone. They added an AI assistant that reads their existing website and answers questions automatically — around the clock.\n\nIf your website goes silent after 5 PM, that silence has a cost. Worth fixing.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#leadgeneration"
+      ]
+    },
+    "instagram": {
+      "cta": "Link in bio",
+      "format": "reel",
+      "caption": "The big firm had a better logo. The small firm had a better website.\n\nOne visitor. One tax question. 11 PM.\n\nOne site answered. One didn't.\n\nThe lead went to whoever responded first — and it wasn't the bigger name.\n\nLink in bio to let your website do the same.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#leadgeneration",
+        "#businessgrowth",
+        "#accounting",
+        "#servicebusiness"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "54be1aac-1349-4c61-a5d9-476a73e9e00e",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Small firm vs big firm at 11 PM. The result will surprise you. 👀 Link in bio to try it free.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#businesstips",
+        "#leadgeneration"
+      ],
+      "cta": "Link in bio",
+      "language": null
+    },
+    {
+      "id": "0689c168-f7e5-4613-8e54-1ff8d805df8c",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "A small firm just outcompeted a bigger one — not on credentials, but on who answered at 11 PM. Subscribe for more.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Subscribe. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "2409060d-da39-4766-b1c7-66a3a9f60329",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Here's something most small business owners don't realize: your website can answer visitor questions at 11 PM — even when you're asleep. 💡 A small accounting firm recently captured a lead that a larger competitor missed, simply because their site responded instantly to a late-night question. No extra staff. No complex setup. Just an AI assistant reading their existing website content. If your website goes quiet after hours, it might be worth a look. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "a937e143-8153-4329-9b4e-e29a3a9cbade",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why Your Website Goes Silent When Leads Are Still Searching",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Late-night visitor. Tax deadline question. One site responded. One didn't. Guess which firm got the lead. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "language": null
+    },
+    {
+      "id": "11960968-aabc-4171-ab02-b351f1a224b8",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Response time is no longer a staffing problem. It's a website problem — and that's actually good news for smaller firms.\n\nA small accounting firm with no after-hours staff captured a late-night lead that a larger, better-resourced competitor missed entirely. The visitor had a tax deadline question at 11 PM. One site offered a contact form and a next-business-day promise. The other answered immediately, captured the name and email, and closed the gap before morning.\n\nThe small firm didn't hire anyone. They added an AI assistant that reads their existing website and answers questions automatically — around the clock.\n\nIf your website goes silent after 5 PM, that silence has a cost. Worth fixing.",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai",
+        "#leadgeneration"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "ce6dfc30-6196-40ab-9080-e7ef21dcdcb9",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "A small accounting firm beat a bigger competitor last night. Not on price. Not on reputation. On who answered at 11 PM. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "language": null
+    },
+    {
+      "id": "f11d6e3b-ebff-4ce4-bdaf-a524e57f9437",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Small Firm, Big Advantage: Response Time After Hours",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "The big firm had a better brand. The small firm had a website that answered at 11 PM. One of them got the lead. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "language": null
+    },
+    {
+      "id": "d0409aa7-2263-426f-8292-a85074d7f107",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Has a Night Shift Problem",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "No night shift. No extra staff. Just a website that answered at 11 PM and captured the lead. That's the whole story. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "language": null
+    },
+    {
+      "id": "adab18fc-4b3d-4fa8-ae0e-3cf72bf45e66",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Lead That Went to Whoever Answered First",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "Your competitor isn't winning because they're bigger. They're winning because their website talks when yours is asleep. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website answer while you sleep.",
+      "language": null
+    },
+    {
+      "id": "f7fbcfa2-f636-4db3-aa53-7eb18cc5ff7c",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Firm That Answered at 11 PM",
+      "body": "It's 11 PM, and one website is ready to answer while the other is silent. A visitor has a tax deadline question. The big firm's site: a contact form, a promise to reply by tomorrow. The small firm's site: a chat bubble appears, answers the question, captures the lead. Next morning, the big firm's inbox is empty. The small firm's? One new lead. Timestamped 11:04 PM. She didn't hire a night shift. She just let her website talk.",
+      "caption": "The big firm had a better logo. The small firm had a better website.\n\nOne visitor. One tax question. 11 PM.\n\nOne site answered. One didn't.\n\nThe lead went to whoever responded first — and it wasn't the bigger name.\n\nLink in bio to let your website do the same.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#leadgeneration",
+        "#businessgrowth",
+        "#accounting",
+        "#servicebusiness"
+      ],
+      "cta": "Link in bio",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "shimmer",
+  "tts_voice": "shimmer",
+  "voice_source": "package_secondary",
+  "voice_scores": {
+    "primary": 45,
+    "secondary": 45
+  },
+  "voice_reasons": [
+    "funnel_solution→steady/energy(+1)",
+    "mode_humor→energy/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+45)",
+    "fit_secondary(+42)",
+    "soft_tie_recent_primary(3)→secondary(+3)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+}
+```
+
+## Creative mode
+```json
+"humor"
+```
+
+## Funnel stage
+```json
+"solution_aware"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Need for 24/7 customer support without extra staff",
+  "strategy_pain_point": "Need for 24/7 customer support without extra staff"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor's tax question without any staff involvement. The product is not presented as a complex system — it is the thing that made a one-person shop faster than a larger team. Simple, invisible, always on."
+```
+
+## Narrative arc
+```json
+"SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-branded accounting firm website on the left (large firm), and a modest but clean small firm website on the right. A visitor lands on both, late at night, with a tax deadline question. The large firm's site: a contact form, a 'we'll get back to you within one business day' message, silence. The small firm's site: a chat bubble appears instantly, answers the question, captures the visitor's name and email. UNEXPECTED TURN: Cut to the next morning. The large firm's inbox: empty. The small firm's inbox: a new lead, timestamped 11:04 PM. The business owner — a single person at a small desk — looks genuinely surprised. PUNCHLINE: On-screen text lands the joke: 'She didn't hire a night shift. She just let her website talk.' CTA closes the video with warmth and a direct prompt to act."
+```
+
+## Emotional tone
+```json
+"Warm, lightly comic, satisfying — the underdog wins not through hustle but through a smarter setup. The humor is in the absurd simplicity of the advantage. No stress, no drama — just a quiet, delightful reversal."
+```
+
+## Audience insight
+```json
+"Small service business owners — accountants, consultants, local agencies — often assume they are at a structural disadvantage against larger competitors. They believe response time is a staffing problem, which means it feels unsolvable without budget they don't have. This concept reframes the gap: response time is now a website problem, and that is a problem they can actually fix today."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Deep navy and soft amber for the night scenes; clean white and warm daylight tones for the morning reveal. Accent color — a single bright teal or green — used only for the chat bubble and the lead notification to draw the eye.",
+  "lighting": "Warm, low ambient light for the late-night scenes — a desk lamp or monitor glow. Bright, natural morning light for the 'next day' reveal. The contrast in lighting reinforces the time shift without needing a clock graphic.",
+  "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home office or compact professional desk — a single monitor, a coffee mug, a notepad. Deliberately modest to contrast with the implied size of the larger competitor.",
+  "camera_style": "Tight, mobile-native vertical framing. Quick cuts between the two website experiences. One slow push-in on the small firm owner's face when she sees the lead notification — held just long enough for the reaction to land before the text overlay hits. No unnecessary motion; every cut earns its place.",
+  "art_direction": "Split-screen or rapid-cut contrast between two website interfaces on a laptop screen, followed by a close-up of a small business owner at a modest desk reacting to an unexpected inbox notification. Clean, slightly stylized UI mockups — not overly designed. Text overlays are bold, minimal, and timed to land like punchlines.",
+  "character_style": "One character: a woman in her mid-thirties to mid-forties, casually dressed, clearly running a small professional firm from a compact but organized workspace. No exaggerated expressions — her reaction is understated and genuine, which makes the punchline land harder. No voiceover character; she is a visual anchor, not a narrator."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "It's 11 PM, and one website is ready to answer while the other is silent. / A visitor has a tax deadline question. / The big firm's site: a contact form, a promise to reply by tomorrow. / The small firm's site: a chat bubble appears, answers the question, captures the lead. / Next morning, the big firm's inbox is empty. / The small firm's? One new lead. Timestamped 11:04 PM. / She didn't hire a night shift. / She just let her website talk."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "15eb7a04-e1cf-4c16-8846-ace134b27901",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:39:36.623102+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "shimmer",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 6,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A small local accounting firm with no extra staff quietly wins a lead from a larger, better-known competitor — not because of credentials or pricing, but because their website answered a visitor's qu…",
+    "environment": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI c…",
+    "product_role": "Fenrik.chat is the reason the small firm answered at 11 PM. It read the firm's existing website, built a knowledge base automatically, and answered the visitor…",
+    "visual_world": "Two environments: (1) a laptop screen showing two website interfaces side by side, filmed close enough to read the UI clearly; (2) a small, lived-in home offic…",
+    "attention_pattern": "The viewer is drawn in by the immediate visual contrast and the implication that one firm is about to gain a significan…",
+    "narrative_mechanism": "humor: SITUATION: Open on a split-screen or quick-cut contrast — a polished, well-bran…"
+  }
+}
+```
+
+## Asset usage
+```json
+[]
+```
+
+---
+
+# Package 12 — The Setup Checklist That Doesn't Exist
+
+- package_id: `263ebbb1-07de-4894-9309-9a6b8ce3091e`
+- strategy_item_id: `ace483e7-76a7-4175-9594-9fb4545285cc`
+- run_item_id: `eae28369-be95-4334-ad85-d2efaed8778e`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "ace483e7-76a7-4175-9594-9fb4545285cc",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "conversion",
+    "priority": 5,
+    "brief": {
+      "angle": "Direct, practical breakdown: your website URL is the only input required. The assistant reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions — no setup checklist, no training sessions, no technical work.",
+      "topic": "You already have everything your AI assistant needs to get started",
+      "source": "production_run",
+      "pain_point": "No resources to build or maintain a custom chatbot",
+      "package_index": 12,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Setup Checklist That Doesn't Exist",
+  "core_idea": "A small business owner mentally prepares for a long, painful AI chatbot setup — FAQs to write, content to upload, training sessions to schedule — then discovers the only thing Fenrik.chat actually needs is the URL they already have.",
+  "product_role": "Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manual input, and is ready to answer visitor questions from the moment the URL is submitted. The product doesn't ask the owner to do the work — it does the work with what's already there.",
+  "why_it_works": "The confession hook earns attention because the dread of 'setting up AI' is universal and deeply relatable for non-technical business owners. The reveal reframes the observation — the checklist isn't just short, it's unnecessary — which is genuinely surprising rather than predictable. The visual payoff (pen cap going back on, list crossed out) lands the joke without a punchline. The CTA converts the emotional relief directly into action at the exact moment the viewer is most ready.",
+  "narrative_arc": "OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, visibly bracing herself. She's written a to-do list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales. This is going to take weeks. CUT TO: She types her website URL into Fenrik.chat. Waits. The assistant appears — already knowing her services, her pricing, her most common questions — pulled directly from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. MEANING: The setup she dreaded was never required. Every answer was already on her website. Fenrik.chat just learned to deliver them. REVEAL: The camera slowly tilts down to the notepad. Every item on the list has a single line through it — not crossed out in frustration, crossed out because none of it was necessary. CTA card: 'Your website already has everything it needs. Create your AI assistant.'",
+  "emotional_tone": "Warm and quietly funny — the relief of discovering the hard thing you prepared for was never actually hard. No mockery, no drama. Just the satisfying deflation of unnecessary dread.",
+  "audience_insight": "Small business owners and consultants who want an AI assistant but assume the setup will consume time, budget, and technical effort they don't have. The pain point isn't fear of the product — it's the assumed cost of entry. Showing that the checklist is blank before they even start removes the last barrier between interest and action.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+    "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+    "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+    "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+    "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+    "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Slow and deliberate, building tension as she anticipates the workload ahead.",
+  "emotion": "Relief mixed with mild disbelief as she prepares for a daunting task.",
+  "first_image": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.'",
+  "attention_pattern": "The viewer is drawn in by her anxiety about the setup process, creating curiosity about how it will unfold and what the actual requirements are.",
+  "first_spoken_sentence": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+  "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+  "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+  "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+  "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+  "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp.",
+  "opening_emotion": "Relief mixed with mild disbelief as she prepares for a daunting task.",
+  "opening_first_image": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.'"
+}
+```
+
+## Package
+```json
+{
+  "title": "The Setup Checklist That Doesn't Exist",
+  "status": "draft",
+  "funnel_stage": "conversion",
+  "hook": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.",
+  "scenario": "A boutique consulting firm owner sits down one evening to finally tackle the AI chatbot project she has been putting off for months. She opens a fresh notepad and starts writing everything she assumes she will need to do: gather FAQs, write training prompts, upload content, find a developer, schedule an onboarding call. The list grows. She exhales. Then, on a whim, she types her website URL into Fenrik.chat. The assistant loads — already knowing her service tiers, her pricing, her most common visitor questions, all drawn from the pages she already has live. She looks at the notepad. Looks back at the screen. Puts the cap back on the pen. The checklist was never the obstacle. The work was already done.",
+  "video": {
+    "script": "SCENE 1 — MEDIUM SHOT: A woman in her 30s sits at a tidy home office desk. Notepad front and center, pen poised. The list reads: 'AI Chatbot Setup — Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales slowly, furrowed brow. The mood is quiet dread. VO: 'I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.'\n\nSCENE 2 — CLOSE-UP ON NOTEPAD: Camera holds on the list. She taps the pen against the paper. VO: 'I had a whole checklist ready: gather FAQs, write training prompts, find a developer.'\n\nSCENE 3 — OVER-THE-SHOULDER: She types her website URL into Fenrik.chat. The screen shows the assistant loading, then appearing — service details, pricing, FAQ responses, all drawn from her existing pages. Her expression shifts: quiet raised eyebrow, slow exhale. VO: 'Turns out, Fenrik.chat just reads your existing website and builds the assistant for you.'\n\nSCENE 4 — TIGHT CLOSE-UP: Her hand rests the pen on the desk and slowly presses the cap back on. VO: 'No training. No setup.'\n\nSCENE 5 — SLOW TILT DOWN TO NOTEPAD: Every item on the list has a single clean line through it. Deliberate, calm. Not angry — unnecessary. VO: 'The checklist was already empty. Create your AI assistant at fenrik.chat.' CTA CARD fades in: 'Your website already has everything it needs. Create your AI assistant.'",
+    "concept": "A small business owner sits at her desk, notepad open, pen ready, bracing for a long and painful AI chatbot setup. She's written a to-do list: Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer. She exhales — this is going to take weeks. Then she types her website URL into Fenrik.chat. The assistant appears almost immediately, already knowing her services, her pricing, her most common questions — all pulled from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. The camera tilts down to the notepad: every item on the list has a single clean line through it — not in frustration, but because none of it was ever necessary.",
+    "duration_seconds": "28"
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#aiassistant",
+    "#websitetools",
+    "#nocode",
+    "#chatbot",
+    "#businessowner",
+    "#fenrikchat"
+  ],
+  "subtitles_planned": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat."
+}
+```
+
+## Voiceover
+```json
+"I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Soft natural daylight from a side window. Warm neutral palette — cream, light wood tones, soft white. A ceramic mug with a muted teal tone sits nearby."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Over-the-shoulder view of the same woman typing a website URL into a laptop browser. The screen shows a clean AI assistant chat interface loading, with service descriptions and FAQ-style answers populating automatically from the website content. Her posture is relaxed. The notepad remains visible in the foreground, slightly out of focus. Warm, unhurried natural light. Lived-in home office setting."
+  },
+  {
+    "source": "asset",
+    "used_as": "Screen content insert showing the AI assistant creation interface — reinforces that setup takes about one minute from a website URL",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Tight close-up of the woman's hand calmly pressing the cap back onto a pen and resting it beside the notepad. The gesture is quiet and deliberate — not dramatic. The notepad is softly out of focus in the background. Warm natural daylight from the left. Cream and light wood tones fill the frame."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Slow downward camera tilt — close-up on the notepad. Every item on the checklist has a single clean horizontal line through it: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Lines are neat and deliberate, not scribbled. The mood is quiet satisfaction, not frustration. Warm neutral tones, soft side daylight. The notepad is the only object in frame."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Soft natural daylight from a side window. Warm neutral palette — cream, light wood tones, soft white. A ceramic mug with a muted teal tone sits nearby.",
+  "Over-the-shoulder view of the same woman typing a website URL into a laptop browser. The screen shows a clean AI assistant chat interface loading, with service descriptions and FAQ-style answers populating automatically from the website content. Her posture is relaxed. The notepad remains visible in the foreground, slightly out of focus. Warm, unhurried natural light. Lived-in home office setting.",
+  "Tight close-up of the woman's hand calmly pressing the cap back onto a pen and resting it beside the notepad. The gesture is quiet and deliberate — not dramatic. The notepad is softly out of focus in the background. Warm natural daylight from the left. Cream and light wood tones fill the frame.",
+  "Slow downward camera tilt — close-up on the notepad. Every item on the checklist has a single clean horizontal line through it: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Lines are neat and deliberate, not scribbled. The mood is quiet satisfaction, not frustration. Warm neutral tones, soft side daylight. The notepad is the only object in frame."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Create your AI assistant — your website already has everything it needs.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Create your AI assistant at fenrik.chat",
+      "format": "reel",
+      "caption": "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "title_variants": [
+        "The Setup Checklist That Doesn't Exist",
+        "Your Website URL Is the Entire Setup",
+        "I Prepared for Weeks. It Took One URL.",
+        "The AI Assistant That Reads Your Website So You Don't Have To",
+        "Everything Your AI Assistant Needs Is Already on Your Site"
+      ],
+      "caption_variants": [
+        "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+        "The thing stopping most business owners from adding an AI assistant isn't budget or time. It's the assumption that setup is complicated. It isn't. Your URL is the entire checklist.",
+        "Gathered FAQs. Drafted training prompts. Scheduled a developer call. Then typed my URL into Fenrik.chat and watched it build the assistant from my existing pages. The checklist was decorative.",
+        "Your website already has the content. Your AI assistant just needs the URL to find it. That's the whole setup.",
+        "Every item on my chatbot setup list was crossed out before I started — because none of it was actually required. fenrik.chat does it from your URL. #nocode"
+      ]
+    },
+    "tiktok": {
+      "cta": "Check the link in bio to try it free",
+      "format": "reel",
+      "caption": "I made a whole setup checklist. Turns out none of it was needed 😭 link in bio",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#websitetips",
+        "#businessowner"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more",
+      "format": "short",
+      "caption": "She prepared for weeks of setup. It took one URL. Watch what Fenrik.chat actually needs to get started.",
+      "hashtags": [
+        "#fenrikchat",
+        "#aiassistant"
+      ]
+    },
+    "facebook": {
+      "cta": "Create your AI assistant at fenrik.chat",
+      "format": "reel",
+      "caption": "Ever sat down to tackle a big tech project and immediately felt your energy drain? 😅 That was me with AI chatbot setup — I had a whole checklist written before I even started. Turns out, Fenrik.chat only needs your website URL. It reads your existing pages and builds the assistant automatically. No training, no developer, no long to-do list. If you've been putting it off because it seemed complicated, it really isn't. Give it a look: https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ]
+    },
+    "linkedin": {
+      "cta": "Create your AI assistant — your website already has everything it needs.",
+      "format": "reel",
+      "caption": "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#productivity"
+      ],
+      "caption_variants": [
+        "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+        "The hardest part of setting up an AI assistant for your website is usually the part that comes before you start — the mental list of everything you assume it will require.\n\nFenrik.chat skips that list entirely. It reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions without any manual input from you.\n\nYour website content is already there. That's enough. https://fenrik.chat"
+      ]
+    },
+    "instagram": {
+      "cta": "Try it — link in bio",
+      "format": "reel",
+      "caption": "I genuinely sat down with a notepad and wrote out everything I thought I'd need to do.\n\nGather FAQs. Write training prompts. Find a developer. Schedule an onboarding call.\n\nThen I typed my website URL into Fenrik.chat — and it built the whole assistant from my existing pages. No training. No setup. The list never needed to exist.\n\nLink in bio to try it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetools",
+        "#businesstips",
+        "#worksmarter",
+        "#solopreneur",
+        "#chatbot"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "5917dcb0-7dd1-49bf-9e8d-442caba98716",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "She prepared for weeks of setup. It took one URL. Watch what Fenrik.chat actually needs to get started.",
+      "hashtags": [
+        "#fenrikchat",
+        "#aiassistant"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "1fa1eb3f-46f3-42f9-8a70-27e3056ed285",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "I made a whole setup checklist. Turns out none of it was needed 😭 link in bio",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#websitetips",
+        "#businessowner"
+      ],
+      "cta": "Check the link in bio to try it free",
+      "language": null
+    },
+    {
+      "id": "243cb02c-4235-43b8-9643-a2f233cce369",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "I genuinely sat down with a notepad and wrote out everything I thought I'd need to do.\n\nGather FAQs. Write training prompts. Find a developer. Schedule an onboarding call.\n\nThen I typed my website URL into Fenrik.chat — and it built the whole assistant from my existing pages. No training. No setup. The list never needed to exist.\n\nLink in bio to try it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetools",
+        "#businesstips",
+        "#worksmarter",
+        "#solopreneur",
+        "#chatbot"
+      ],
+      "cta": "Try it — link in bio",
+      "language": null
+    },
+    {
+      "id": "b7171181-bcef-4734-a6a1-9807149db4a5",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Ever sat down to tackle a big tech project and immediately felt your energy drain? 😅 That was me with AI chatbot setup — I had a whole checklist written before I even started. Turns out, Fenrik.chat only needs your website URL. It reads your existing pages and builds the assistant automatically. No training, no developer, no long to-do list. If you've been putting it off because it seemed complicated, it really isn't. Give it a look: https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "91ba1e1a-f46e-4a4e-a0a9-9e25394e12a8",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#productivity"
+      ],
+      "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "3fdbc416-8549-4cfe-9921-663471154539",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "The hardest part of setting up an AI assistant for your website is usually the part that comes before you start — the mental list of everything you assume it will require.\n\nFenrik.chat skips that list entirely. It reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions without any manual input from you.\n\nYour website content is already there. That's enough. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#productivity"
+      ],
+      "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "7f5f8209-77ee-4629-9508-b24db9a91c29",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "381d6740-ccc2-4bed-a4f5-5d10d902c119",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website URL Is the Entire Setup",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "The thing stopping most business owners from adding an AI assistant isn't budget or time. It's the assumption that setup is complicated. It isn't. Your URL is the entire checklist.",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "420057b2-a51e-4b5e-9d3c-c3beb395a053",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "I Prepared for Weeks. It Took One URL.",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Gathered FAQs. Drafted training prompts. Scheduled a developer call. Then typed my URL into Fenrik.chat and watched it build the assistant from my existing pages. The checklist was decorative. https://fenrik.chat",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "251a1642-2942-40f8-8db3-5acd7b99c830",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The AI Assistant That Reads Your Website So You Don't Have To",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Your website already has the content. Your AI assistant just needs the URL to find it. That's the whole setup.",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "3b55c425-b848-4760-8fee-ba688664de5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Everything Your AI Assistant Needs Is Already on Your Site",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Every item on my chatbot setup list was crossed out before I started — because none of it was actually required. fenrik.chat does it from your URL. #nocode",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "cedar",
+  "tts_voice": "cedar",
+  "voice_source": "package_primary",
+  "voice_scores": {
+    "primary": 46,
+    "secondary": 32
+  },
+  "voice_reasons": [
+    "funnel_conversion→steadiness(+2)",
+    "mode_observation→steady/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+46)",
+    "fit_secondary(+32)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en."
+}
+```
+
+## Creative mode
+```json
+"observation"
+```
+
+## Funnel stage
+```json
+"conversion"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "No resources to build or maintain a custom chatbot",
+  "strategy_pain_point": "No resources to build or maintain a custom chatbot"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manual input, and is ready to answer visitor questions from the moment the URL is submitted. The product doesn't ask the owner to do the work — it does the work with what's already there."
+```
+
+## Narrative arc
+```json
+"OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, visibly bracing herself. She's written a to-do list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales. This is going to take weeks. CUT TO: She types her website URL into Fenrik.chat. Waits. The assistant appears — already knowing her services, her pricing, her most common questions — pulled directly from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. MEANING: The setup she dreaded was never required. Every answer was already on her website. Fenrik.chat just learned to deliver them. REVEAL: The camera slowly tilts down to the notepad. Every item on the list has a single line through it — not crossed out in frustration, crossed out because none of it was necessary. CTA card: 'Your website already has everything it needs. Create your AI assistant.'"
+```
+
+## Emotional tone
+```json
+"Warm and quietly funny — the relief of discovering the hard thing you prepared for was never actually hard. No mockery, no drama. Just the satisfying deflation of unnecessary dread."
+```
+
+## Audience insight
+```json
+"Small business owners and consultants who want an AI assistant but assume the setup will consume time, budget, and technical effort they don't have. The pain point isn't fear of the product — it's the assumed cost of entry. Showing that the checklist is blank before they even start removes the last barrier between interest and action."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+  "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+  "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+  "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+  "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+  "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "7c49223f-2a47-41a8-9848-6c60ec65fdf1",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:41:09.822386+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "cedar",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 6,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A small business owner mentally prepares for a long, painful AI chatbot setup — FAQs to write, content to upload, training sessions to schedule — then discovers the only thing Fenrik.chat actually ne…",
+    "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. …",
+    "product_role": "Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manu…",
+    "visual_world": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-per…",
+    "attention_pattern": "The viewer is drawn in by her anxiety about the setup process, creating curiosity about how it will unfold and what the…",
+    "narrative_mechanism": "observation: OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, vis…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Screen content insert showing the AI assistant creation interface — reinforces that setup takes about one minute from a website URL",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```
+
+---
+
+# Package 13 — The Monday Morning Math
+
+- package_id: `129dd1a5-11b0-47de-92df-e3409329af5f`
+- strategy_item_id: `cd20cb06-6b1d-4fd3-a6d1-a0b1047ba91c`
+- run_item_id: `fd9dce51-fffa-4f76-8289-6237efc71250`
+- run_item_status: `failed`
+- run_item_error: Renderování videa selhalo.
+- last_completed_step: **Platform outputs**
+
+## Strategy
+```json
+{
+  "strategy_item": {
+    "id": "cd20cb06-6b1d-4fd3-a6d1-a0b1047ba91c",
+    "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "conversion",
+    "priority": 5,
+    "brief": {
+      "angle": "Close with urgency grounded in the cost of inaction. Every night without an AI assistant is another set of visitors arriving, finding silence, and leaving. The fix is available, the preview requires no registration, and setup takes about a minute.",
+      "topic": "The one thing most business owners do after realizing how many leads their website has been losing",
+      "source": "production_run",
+      "pain_point": "Losing leads due to lack of instant website support",
+      "package_index": 13,
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+    }
+  },
+  "content_strategy": {
+    "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+    "strategy_brief": {
+      "theme": "Your Website Is Losing You Business While You Sleep",
+      "source": "production_run",
+      "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+      "funnel_distribution": {
+        "Awareness": 2,
+        "Conversion": 2,
+        "Problem Aware": 6,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.content_plan[5].priority: expected <= 5",
+              "$.content_plan[6].priority: expected <= 5",
+              "$.content_plan[7].priority: expected <= 5",
+              "$.content_plan[8].priority: expected <= 5",
+              "$.content_plan[9].priority: expected <= 5",
+              "$.content_plan[10].priority: expected <= 5",
+              "$.content_plan[11].priority: expected <= 5",
+              "$.content_plan[12].priority: expected <= 5",
+              "$.content_plan[13].priority: expected <= 5"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 2205,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 1420,
+              "validation_issues": [
+                {
+                  "path": "$.content_plan[5].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[6].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[7].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[8].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[9].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[10].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[11].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[12].priority",
+                  "message": "expected <= 5"
+                },
+                {
+                  "path": "$.content_plan[13].priority",
+                  "message": "expected <= 5"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:34.259Z",
+            "duration_ms": 14344,
+            "finished_at": "2026-07-25T07:19:48.602Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 2205,
+            "estimated_cost": 0.001183,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 6932,
+            "completion_tokens": 1420,
+            "output_size_bytes": 6927,
+            "prompt_characters": 6904,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4193,
+              "completion_tokens": 2025
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T07:18:55.469Z",
+            "duration_ms": 53135,
+            "finished_at": "2026-07-25T07:19:48.604Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4193,
+            "estimated_cost": 0.042954,
+            "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 18656,
+            "completion_tokens": 2025,
+            "output_size_bytes": 6927,
+            "prompt_characters": 18564,
+            "provider_request_id": null,
+            "completion_characters": 6899
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:19:48.604Z",
+            "duration_ms": 298,
+            "finished_at": "2026-07-25T07:19:48.902Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "14 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 611,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 611
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    }
+  }
+}
+```
+
+## Concept
+```json
+{
+  "title": "The Monday Morning Math",
+  "core_idea": "A law firm partner sits down Monday morning with a fresh coffee, opens her analytics dashboard expecting the usual quiet weekend numbers — and instead sees 14 sessions from Sunday night alone. She does the math out loud: 14 visitors, zero form fills, zero names, zero emails. Then she does the harder math: how many Sundays has this been happening? The observation reframes from 'quiet weekend' to 'weekly recurring loss.' The fix — Fenrik.chat — is already available, requires no registration to preview, and takes about a minute to set up. The cost of another Sunday without it is now visible and specific.",
+  "product_role": "Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already written — and answers questions automatically, around the clock, without any staff present. The preview requires no registration. Setup is a single embed script that takes about a minute. It is not a project to start; it is a gap to close tonight.",
+  "why_it_works": "The hook is a fear archetype grounded in a concrete, specific moment: not 'you might be losing leads' but 'fourteen people showed up last Sunday and none of them left a name.' The observation-to-meaning structure lets the viewer arrive at the conclusion themselves before it is stated, which makes it land harder. The narrative stays calm and wry — no melodrama — which makes the math feel more credible, not less urgent. The CTA closes with genuine urgency: another Sunday is coming, the preview is free, and setup takes about a minute. Every element of the product pitch is honest and grounded in product truth.",
+  "narrative_arc": "OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relaxed, coffee in hand, pulling up analytics as a routine check. She sees 14 weekend sessions. She tilts her head. Zero leads. She says out loud, almost to herself: 'Huh. Fourteen people.' MEANING: She starts doing the math — not panicking, just calculating. If 14 people showed up Sunday night with legal questions and found a contact form promising a reply in one business day, none of them waited. She says: 'They didn't leave. They just... went somewhere that answered.' REVEAL: She realizes this isn't a one-time anomaly. She scrolls back — last Sunday, the Sunday before. The pattern is there every week. The website has been open every night. It has never said a word to anyone. She exhales. 'So it's not a quiet weekend problem. It's a every-weekend problem.' CTA: Cut to clean screen. 'Your website is already open tonight. Fenrik.chat — preview it free, no signup. Setup takes about a minute.'",
+  "emotional_tone": "Calm realization shading into mild urgency — not panic, not drama. The wit comes from the understatement: she is not devastated, she is just doing math, and the math is quietly devastating on its own. Warm, grounded, a little wry.",
+  "audience_insight": "Service business owners — lawyers, consultants, accountants — check analytics occasionally but rarely filter by time of day or day of week. They interpret silence as absence of demand rather than absence of response. The real insight is that 'quiet weekend' is a story they told themselves because the data never surfaced the visitors who came and left without a trace. When the data becomes specific and visible, the cost of inaction stops being abstract.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+    "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+    "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+    "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+    "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+    "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson."
+  }
+}
+```
+
+## Opening
+```json
+{
+  "pacing": "Deliberate and measured, allowing the weight of the numbers to sink in before she continues her thoughts.",
+  "emotion": "Calm realization tinged with mild urgency as she processes the implications of the data.",
+  "first_image": "A law firm partner sits at her tidy home office desk, warm morning light streaming in. She has a coffee cup in hand, looking at her laptop screen displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible.",
+  "attention_pattern": "The viewer is drawn in by the specific numbers and the implication of lost opportunities, creating a need to understand the consequences and the solution.",
+  "first_spoken_sentence": "Fourteen visitors last night, and not a single one left their name."
+}
+```
+
+## Visual Identity
+```json
+{
+  "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+  "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+  "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+  "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+  "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+  "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson.",
+  "opening_emotion": "Calm realization tinged with mild urgency as she processes the implications of the data.",
+  "opening_first_image": "A law firm partner sits at her tidy home office desk, warm morning light streaming in. She has a coffee cup in hand, looking at her laptop screen displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible."
+}
+```
+
+## Package
+```json
+{
+  "title": "The Monday Morning Math",
+  "status": "draft",
+  "funnel_stage": "conversion",
+  "hook": "Fourteen visitors last night, and not a single one left their name.",
+  "scenario": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting the usual quiet weekend summary. She sees 14 sessions from Sunday night — and zero leads. She starts doing the math: 14 visitors, no names, no emails, no way to follow up. Then, almost on a whim, she scrolls back through the previous Sundays. The same pattern is there every week. The website had been open every single night. It had never said a word to anyone who arrived. The realization is quiet and wry — not a crisis, just math. And the math had been running silently for months.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN: Law firm partner at her tidy home office desk. Warm morning light. Coffee in hand. She opens her laptop, pulls up analytics as a Monday routine. Her expression is relaxed, almost distracted. She leans in slightly. SPOKEN: 'Fourteen visitors last night, and not a single one left their name.' TEXT OVERLAY: '14 sessions. 0 leads.' SCENE 2 — THE MATH: She sets down her coffee. Not panicked — calculating. She speaks almost to herself. SPOKEN: 'She scrolled back — last Sunday, the Sunday before. Same pattern, every week.' INSERT SHOT: Her finger scrolling back through weekly analytics rows. Each row: sessions, zero leads. SCENE 3 — THE REVEAL: She exhales slowly. A quiet, wry expression. SPOKEN: 'The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss.' TEXT OVERLAY: 'Every Sunday. Same result.' SCENE 4 — PRODUCT MOMENT: Cut to clean, minimal screen showing Fenrik.chat interface — chat bubble appearing on a website, answering a visitor question automatically. SPOKEN: 'Fenrik.chat reads your existing website and answers visitors automatically, around the clock.' SCENE 5 — CTA: Clean frame. Minimal. Warm neutral background. SPOKEN: 'Preview it free — no signup. Setup takes about a minute.'",
+    "concept": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting a quiet weekend summary. She sees 14 sessions from Sunday night. Zero leads. She starts doing the math out loud — not panicking, just calculating. Then she scrolls back through previous Sundays and realizes the pattern has been there every week. The website was open every night. It never answered anyone. The realization reframes 'quiet weekend' as 'weekly recurring loss.' The fix — Fenrik.chat — is already available, requires no registration to preview, and takes about a minute to set up.",
+    "duration_seconds": "42"
+  },
+  "hashtags": [
+    "#SmallBusiness",
+    "#LeadGeneration",
+    "#AIAssistant",
+    "#WebsiteMarketing",
+    "#ServiceBusiness",
+    "#BusinessGrowth",
+    "#DigitalMarketing"
+  ],
+  "subtitles_planned": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute."
+}
+```
+
+## Voiceover
+```json
+"Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute."
+```
+
+## Storyboard
+```json
+[
+  {
+    "source": "ai",
+    "image_prompt": "A woman in her late 30s to early 40s in smart-casual professional attire sits at a tidy home office desk in warm morning light. She holds a coffee cup and looks at her open laptop displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible. Bookshelves with book spines visible in the background, a framed credential on the wall. Warm cream and wood-tone palette, soft golden light from a side window, cool blue-white glow from the laptop screen on her face. Handheld, composed framing."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "Close insert shot of a laptop analytics dashboard screen showing a weekly sessions table — rows for each day of the week, each row showing session counts with a zero in the leads column. A woman's finger scrolls slowly down the list, revealing the same pattern week after week. Warm office light reflected on the screen. Shallow depth of field, screen in sharp focus."
+  },
+  {
+    "source": "ai",
+    "image_prompt": "The same woman sets her coffee cup down on the desk and leans back slightly, exhaling with a calm, wry expression — not distressed, just calculating. The laptop screen glows softly in the foreground. Warm morning light, lived-in professional office corner. Close enough to read her expression clearly."
+  },
+  {
+    "source": "asset",
+    "used_as": "Product UI screen insert showing the AI assistant being created from a website URL — reinforces the 'about a minute' setup claim during the product moment.",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  },
+  {
+    "source": "ai",
+    "image_prompt": "A clean, minimal final frame with a warm neutral background — cream or soft white. Simple centered text reads 'Preview free. No signup. About a minute to set up.' No clutter, no decorative elements. Calm, direct, and unambiguous — a clear next-step signal to close the video."
+  }
+]
+```
+
+## Image prompts
+```json
+[
+  "A woman in her late 30s to early 40s in smart-casual professional attire sits at a tidy home office desk in warm morning light. She holds a coffee cup and looks at her open laptop displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible. Bookshelves with book spines visible in the background, a framed credential on the wall. Warm cream and wood-tone palette, soft golden light from a side window, cool blue-white glow from the laptop screen on her face. Handheld, composed framing.",
+  "Close insert shot of a laptop analytics dashboard screen showing a weekly sessions table — rows for each day of the week, each row showing session counts with a zero in the leads column. A woman's finger scrolls slowly down the list, revealing the same pattern week after week. Warm office light reflected on the screen. Shallow depth of field, screen in sharp focus.",
+  "The same woman sets her coffee cup down on the desk and leans back slightly, exhaling with a calm, wry expression — not distressed, just calculating. The laptop screen glows softly in the foreground. Warm morning light, lived-in professional office corner. Close enough to read her expression clearly.",
+  "A clean, minimal final frame with a warm neutral background — cream or soft white. Simple centered text reads 'Preview free. No signup. About a minute to set up.' No clutter, no decorative elements. Calm, direct, and unambiguous — a clear next-step signal to close the video."
+]
+```
+
+## CTA
+```json
+{
+  "package_cta": {
+    "text": "Preview your AI assistant free — no signup needed. Setup takes about a minute.",
+    "type": "sign_up"
+  },
+  "cta_selected": false,
+  "cta_decision_reason": "no typed CTA requested in visual plan",
+  "cta_composition_id": null
+}
+```
+
+## Platform outputs
+```json
+{
+  "brief_platform_outputs": {
+    "x": {
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "format": "reel",
+      "caption": "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "title_variants": [
+        "14 Visitors. 0 Leads. Every Sunday.",
+        "Your Website Is Open. Is It Answering?",
+        "The Quiet Loss in Your Weekend Analytics",
+        "Not a Quiet Weekend — A Recurring Loss",
+        "The Pattern She Found by Scrolling Back"
+      ],
+      "caption_variants": [
+        "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+        "The website wasn't down. It wasn't broken. It just couldn't answer a single question — every night, for months. That's the quiet loss most analytics never surface. fenrik.chat",
+        "Not a quiet weekend. A recurring loss. There's a difference — and most business owners only see it when they filter analytics by day of week. #LeadGeneration fenrik.chat",
+        "Every Sunday: visitors arrive, find silence, leave. No names, no emails, no record. Your website is open 24/7. Is it actually answering anyone? fenrik.chat",
+        "She thought nobody was looking on weekends. 14 sessions said otherwise. Zero of them left a name. That's not an anomaly — that's a pattern. fenrik.chat"
+      ]
+    },
+    "tiktok": {
+      "cta": "Preview free at the link in bio — no signup needed.",
+      "format": "reel",
+      "caption": "14 people visited her website Sunday night. Zero left a name. Turns out that was every Sunday. 👀",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#WebsiteTips",
+        "#AIAssistant"
+      ]
+    },
+    "youtube": {
+      "cta": "Subscribe for more.",
+      "format": "short",
+      "caption": "She checked her analytics Monday morning and found 14 weekend visitors — zero leads, zero names. It had been happening every Sunday. Here's what changed.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ]
+    },
+    "facebook": {
+      "cta": "Try the free preview at fenrik.chat.",
+      "format": "reel",
+      "caption": "Ever open your analytics on a Monday and realize the weekend wasn't actually quiet — it was just unanswered? 😔 One business owner found 14 Sunday-night visitors in her law firm's analytics. Zero leads. She scrolled back. Same story, every week. Fenrik.chat reads your existing website and answers visitor questions automatically — day or night, no extra staff needed. Preview it free at fenrik.chat — no signup required, setup takes about a minute.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ]
+    },
+    "linkedin": {
+      "cta": "Preview your AI assistant free at fenrik.chat.",
+      "format": "reel",
+      "caption": "Most service business owners interpret a quiet weekend as low demand. The analytics tell a different story.\n\nFourteen sessions on a Sunday night. Zero form submissions. She scrolled back — the same pattern appeared every week. The website had been open every night. It had never responded to a single visitor.\n\nThe gap wasn't traffic. It was response.\n\nFenrik.chat reads your existing website and answers visitor questions automatically, around the clock — no rebuild, no coding required. Preview is free, no registration needed, and setup takes about a minute.\n\nfenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant"
+      ]
+    },
+    "instagram": {
+      "cta": "Try the free preview — link in bio.",
+      "format": "reel",
+      "caption": "14 visitors. 0 leads. And it wasn't just last Sunday.\n\nShe scrolled back through her analytics and saw the same pattern — every single week. The website was open. It just couldn't answer anyone.\n\nThat's not a quiet weekend. That's a recurring loss.\n\nFenrik.chat turns your existing website into a 24/7 assistant — no rebuild, no coding. Preview it free from the link in bio.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant",
+        "#WebsiteMarketing",
+        "#BusinessGrowth",
+        "#ServiceBusiness",
+        "#DigitalMarketing"
+      ]
+    }
+  },
+  "content_items": [
+    {
+      "id": "5c585d5a-957f-439c-bb20-66ecd6c767ea",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Ever open your analytics on a Monday and realize the weekend wasn't actually quiet — it was just unanswered? 😔 One business owner found 14 Sunday-night visitors in her law firm's analytics. Zero leads. She scrolled back. Same story, every week. Fenrik.chat reads your existing website and answers visitor questions automatically — day or night, no extra staff needed. Preview it free at fenrik.chat — no signup required, setup takes about a minute.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Try the free preview at fenrik.chat. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "7c77a278-7ffa-4903-b897-937e91335a70",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Most service business owners interpret a quiet weekend as low demand. The analytics tell a different story.\n\nFourteen sessions on a Sunday night. Zero form submissions. She scrolled back — the same pattern appeared every week. The website had been open every night. It had never responded to a single visitor.\n\nThe gap wasn't traffic. It was response.\n\nFenrik.chat reads your existing website and answers visitor questions automatically, around the clock — no rebuild, no coding required. Preview is free, no registration needed, and setup takes about a minute.\n\nfenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant"
+      ],
+      "cta": "Preview your AI assistant free at fenrik.chat. https://fenrik.chat",
+      "language": null
+    },
+    {
+      "id": "6fec39a8-957c-47ce-a22c-ad6d84db7acb",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Pattern She Found by Scrolling Back",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "She thought nobody was looking on weekends. 14 sessions said otherwise. Zero of them left a name. That's not an anomaly — that's a pattern. fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "language": null
+    },
+    {
+      "id": "6811a0de-6c59-4f70-9962-5ce5f6378c68",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 people visited her website Sunday night. Zero left a name. Turns out that was every Sunday. 👀",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#WebsiteTips",
+        "#AIAssistant"
+      ],
+      "cta": "Preview free at the link in bio — no signup needed.",
+      "language": null
+    },
+    {
+      "id": "d9b13dd8-a8ae-4268-ae18-0e635daa263d",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Not a Quiet Weekend — A Recurring Loss",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Every Sunday: visitors arrive, find silence, leave. No names, no emails, no record. Your website is open 24/7. Is it actually answering anyone? fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "language": null
+    },
+    {
+      "id": "16df8346-4c20-4a6a-a457-7b0f551aaf61",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Quiet Loss in Your Weekend Analytics",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Not a quiet weekend. A recurring loss. There's a difference — and most business owners only see it when they filter analytics by day of week. #LeadGeneration fenrik.chat. https://fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "language": null
+    },
+    {
+      "id": "6b13911a-863d-4e69-b9cd-c3dc5e806988",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Is Open. Is It Answering?",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "The website wasn't down. It wasn't broken. It just couldn't answer a single question — every night, for months. That's the quiet loss most analytics never surface. fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "language": null
+    },
+    {
+      "id": "dea29b8a-818f-468c-b878-4a3888bd3e20",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "14 Visitors. 0 Leads. Every Sunday.",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "language": null
+    },
+    {
+      "id": "6cdc3946-8595-4faa-ae8b-1507cd3854c7",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 visitors. 0 leads. And it wasn't just last Sunday.\n\nShe scrolled back through her analytics and saw the same pattern — every single week. The website was open. It just couldn't answer anyone.\n\nThat's not a quiet weekend. That's a recurring loss.\n\nFenrik.chat turns your existing website into a 24/7 assistant — no rebuild, no coding. Preview it free from the link in bio.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant",
+        "#WebsiteMarketing",
+        "#BusinessGrowth",
+        "#ServiceBusiness",
+        "#DigitalMarketing"
+      ],
+      "cta": "Try the free preview — link in bio.",
+      "language": null
+    },
+    {
+      "id": "6533f918-259b-47cd-ac57-83cbead323da",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "She checked her analytics Monday morning and found 14 weekend visitors — zero leads, zero names. It had been happening every Sunday. Here's what changed.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "language": null
+    }
+  ]
+}
+```
+
+## Visual profile
+```json
+{
+  "visual_profile": "MINIMAL",
+  "visual_profile_version": "visual-profile@3",
+  "visual_profile_source": "auto",
+  "visual_profile_scores": {
+    "BOLD": 0,
+    "MINIMAL": 6,
+    "NATURAL": 5,
+    "PREMIUM": 0,
+    "EDITORIAL": 4
+  },
+  "visual_profile_reasons": [
+    "NATURAL:brain_approachable(+1)",
+    "NATURAL:brain_local(+1)",
+    "NATURAL:brain_practical(+1)",
+    "NATURAL:brain_friendly(+1)",
+    "NATURAL:brain_honest(+1)",
+    "MINIMAL:brain_simple(+3)",
+    "MINIMAL:brain_saas(+1)",
+    "MINIMAL:brain_software(+1)",
+    "MINIMAL:brain_platform(+1)",
+    "EDITORIAL:brain_professional(+1)",
+    "EDITORIAL:brain_consulting(+1)",
+    "EDITORIAL:brain_content(+1,capped_from_2)",
+    "EDITORIAL:brain_marketing(+1)"
+  ]
+}
+```
+
+## Voice selection
+```json
+{
+  "selected_voice": "cedar",
+  "tts_voice": "cedar",
+  "voice_source": "package_primary",
+  "voice_scores": {
+    "primary": 46,
+    "secondary": 32
+  },
+  "voice_reasons": [
+    "funnel_conversion→steadiness(+2)",
+    "mode_observation→steady/warmth",
+    "roles_close/proof→steadiness(+1)",
+    "fit_primary(+46)",
+    "fit_secondary(+32)"
+  ],
+  "resolved_primary_voice": "cedar",
+  "resolved_secondary_voice": "shimmer",
+  "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en."
+}
+```
+
+## Creative mode
+```json
+"observation"
+```
+
+## Funnel stage
+```json
+"conversion"
+```
+
+## Pain point
+```json
+{
+  "selected_pain_point": "Losing leads due to lack of instant website support",
+  "strategy_pain_point": "Losing leads due to lack of instant website support"
+}
+```
+
+## Product role
+```json
+"Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already written — and answers questions automatically, around the clock, without any staff present. The preview requires no registration. Setup is a single embed script that takes about a minute. It is not a project to start; it is a gap to close tonight."
+```
+
+## Narrative arc
+```json
+"OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relaxed, coffee in hand, pulling up analytics as a routine check. She sees 14 weekend sessions. She tilts her head. Zero leads. She says out loud, almost to herself: 'Huh. Fourteen people.' MEANING: She starts doing the math — not panicking, just calculating. If 14 people showed up Sunday night with legal questions and found a contact form promising a reply in one business day, none of them waited. She says: 'They didn't leave. They just... went somewhere that answered.' REVEAL: She realizes this isn't a one-time anomaly. She scrolls back — last Sunday, the Sunday before. The pattern is there every week. The website has been open every night. It has never said a word to anyone. She exhales. 'So it's not a quiet weekend problem. It's a every-weekend problem.' CTA: Cut to clean screen. 'Your website is already open tonight. Fenrik.chat — preview it free, no signup. Setup takes about a minute.'"
+```
+
+## Emotional tone
+```json
+"Calm realization shading into mild urgency — not panic, not drama. The wit comes from the understatement: she is not devastated, she is just doing math, and the math is quietly devastating on its own. Warm, grounded, a little wry."
+```
+
+## Audience insight
+```json
+"Service business owners — lawyers, consultants, accountants — check analytics occasionally but rarely filter by time of day or day of week. They interpret silence as absence of demand rather than absence of response. The real insight is that 'quiet weekend' is a story they told themselves because the data never surfaced the visitors who came and left without a trace. When the data becomes specific and visible, the cost of inaction stops being abstract."
+```
+
+## Visual direction
+```json
+{
+  "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+  "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+  "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+  "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+  "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+  "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson."
+}
+```
+
+## Generated images
+```json
+null
+```
+
+## Final subtitles
+```json
+{
+  "subtitle_url": null,
+  "local_file": null,
+  "planned": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute."
+}
+```
+
+## Render metadata
+```json
+{
+  "id": "ddecd0f7-c9e4-4a93-a5f7-26cf5c0c094b",
+  "status": "failed",
+  "error_message": "Video job stale: worker lease expired without completion.",
+  "created_at": "2026-07-25T07:42:48.184348+00:00",
+  "completed_at": null,
+  "render_kind": "package",
+  "render_language": null,
+  "selected_voice": "cedar",
+  "visual_profile": "MINIMAL",
+  "scenes_count": 5,
+  "mp4_url": null,
+  "subtitle_url": null,
+  "thumbnail_url": null,
+  "artifacts_persisted_at": null,
+  "render_spec": null,
+  "image_urls": [],
+  "storage_files": [],
+  "downloaded_images": [],
+  "debug": {
+    "match_ratio": null,
+    "audio_duration": null,
+    "video_duration": null,
+    "speech_duration": null,
+    "subtitle_source": null,
+    "language_detected": null,
+    "render_warning": null,
+    "render_warnings": null,
+    "tts_tail_validation_passed": null,
+    "whisper_word_count": null,
+    "generation_telemetry": null
+  },
+  "debug_keys": [],
+  "output_keys": [],
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "tts_instructions",
+    "production_run_id",
+    "weekly_strategy_id",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_scores",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_reasons",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ]
+}
+```
+
+## Presentation generation meta
+```json
+{
+  "mode": "enabled",
+  "pipeline": "content_pipeline",
+  "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en.",
+  "visual_beat_count": 5,
+  "target_visual_beat_count": 8,
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "content_pipeline_fingerprint": {
+    "version": "content-pipeline-fingerprint@1",
+    "core_idea": "A law firm partner sits down Monday morning with a fresh coffee, opens her analytics dashboard expecting the usual quiet weekend numbers — and instead sees 14 sessions from Sunday night alone. She do…",
+    "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a fram…",
+    "product_role": "Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already writt…",
+    "visual_world": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothin…",
+    "attention_pattern": "The viewer is drawn in by the specific numbers and the implication of lost opportunities, creating a need to understand…",
+    "narrative_mechanism": "observation: OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relax…"
+  }
+}
+```
+
+## Asset usage
+```json
+[
+  {
+    "used_as": "Product UI screen insert showing the AI assistant being created from a website URL — reinforces the 'about a minute' setup claim during the product moment.",
+    "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+  }
+]
+```

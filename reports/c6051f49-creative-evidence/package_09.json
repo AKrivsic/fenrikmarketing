@@ -1,0 +1,1021 @@
+{
+  "package_index": 9,
+  "run_item_id": "37350d9f-f9a5-4356-bc9a-47c702e536e9",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+  "package_title": "The Website That Already Knew Everything",
+  "package_status": "draft",
+  "strategy_item_id": "bf68a7d2-4692-4146-93e0-2967049facc1",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "bf68a7d2-4692-4146-93e0-2967049facc1",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "The website content is already there — service pages, FAQs, about sections. Show how an AI assistant reads that content automatically and starts answering visitor questions from it, without any manual training or new writing required.",
+        "topic": "How a website that already exists becomes a 24/7 support resource without rebuilding anything",
+        "source": "production_run",
+        "pain_point": "No resources to build or maintain a custom chatbot",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Website That Already Knew Everything",
+    "core_idea": "A business owner realizes, mid-conversation with a developer, that the chatbot project they are about to pay thousands for is essentially going to read their website — the same website that already exists, already has the answers, and already gets traffic. The punchline: Fenrik.chat does exactly that, automatically, without the project, the developer, or the wait.",
+    "product_role": "Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base from that content, and starts answering visitor questions without any manual training, writing, or developer involvement. The website already had the answers. Fenrik.chat is what finally delivers them.",
+    "why_it_works": "The confession hook earns attention immediately by opening mid-scene in a recognizable, slightly uncomfortable situation. The unexpected turn reframes something the viewer already owns — their website — as the solution they were about to pay to recreate. The punchline is earned, not forced, and the dry delivery matches the Expert voice persona. It avoids every recent fingerprint: the visual world is a video call rather than a solo desk scene, the mechanism is realization-via-contrast rather than analytics shock or inbox repetition, and the pain point — no resources to build or maintain a custom chatbot — is the entire engine of the story rather than a supporting detail.",
+    "narrative_arc": "CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a developer. The developer is explaining the chatbot build process — they will need to gather FAQs, review the service pages, pull the pricing copy, and use all of that to train the bot. The owner nods along, then slowly turns to look directly at the camera with a dawning expression. UNEXPECTED TURN: A cut to the owner's screen — the website is right there, open in another tab. Services page. About page. FAQ section. Pricing. Every answer the developer just described 'gathering' is already written, already live, already being visited by real people. PUNCHLINE: The owner closes the developer tab. Dry, calm delivery to camera: 'So the chatbot was just going to read my website. My website that already exists.' A beat. 'There is an app for that.' CTA card appears. The fix is presented seriously: Fenrik.chat reads your existing website automatically and starts answering visitor questions from it — no training, no project, no developer required.",
+    "emotional_tone": "Dry, self-aware humor with a calm expert undercurrent. The comedy comes from the dawning realization, not from mocking anyone. The product fix lands seriously and cleanly after the punchline.",
+    "audience_insight": "Solution-aware business owners in this segment have often explored or quoted custom chatbot builds and walked away because the process felt disproportionately complex relative to what the bot would actually do. They already sense the problem is solvable — they just do not yet know that the raw material they need already exists on their own website. This concept names that exact moment of recognition.",
+    "visual_direction": {
+      "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+      "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+      "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+      "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+      "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+      "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character."
+    }
+  },
+  "opening": {
+    "pacing": "Slow build during the developer's explanation, quick cut to the owner's dawning understanding.",
+    "emotion": "Surprise and realization as the owner connects the dots.",
+    "first_image": "A business owner sits at a cluttered desk, mid-video call with a developer. The developer's voice is heard explaining the chatbot build process, while the owner's expression shifts from engaged to confused as they glance at their website open in another tab.",
+    "attention_pattern": "The tension builds as the developer outlines the complexity, then sharply contrasts with the simplicity of the existing website content, creating a moment of clarity.",
+    "first_spoken_sentence": "I thought I needed a custom chatbot until I realized my website already had all the answers."
+  },
+  "visual_identity": {
+    "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+    "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+    "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+    "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+    "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+    "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character.",
+    "opening_emotion": "Surprise and realization as the owner connects the dots.",
+    "opening_first_image": "A business owner sits at a cluttered desk, mid-video call with a developer. The developer's voice is heard explaining the chatbot build process, while the owner's expression shifts from engaged to confused as they glance at their website open in another tab."
+  },
+  "package": {
+    "title": "The Website That Already Knew Everything",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "I thought I needed a custom chatbot until I realized my website already had all the answers.",
+    "scenario": "A business owner books a discovery call with a developer to scope out a custom chatbot. The developer walks through the build process: gather the FAQs, review the service pages, pull the pricing copy, and use all of that content to train the bot. The owner nods along — until they glance at their screen and notice a browser tab sitting open behind the video call. Their own website. Services page. FAQ section. Pricing. Every piece of content the developer just described 'gathering' is already written, already live, already being visited by real people. The owner closes the developer tab. The chatbot project was never the answer — the website already was.",
+    "video": {
+      "script": "[SCENE 1 — VIDEO CALL, COOL BLUE-GREY LIGHT]\nDeveloper (voice-over, small video tile visible): 'So what we'll do is pull together your FAQs, go through the service pages, grab the pricing copy — and use all of that to build out the knowledge base for the bot.'\nOwner nods slowly. Expression shifts. Eyes drift to a background tab.\n\n[SCENE 2 — SLOW ZOOM ON OWNER'S FACE]\nVO (owner, direct): 'I thought I needed a custom chatbot until I realized my website already had all the answers.'\n\n[SCENE 3 — CUT TO SCREEN, WARM AMBER LIGHT]\nOwner's website tab fills the frame: Services page. FAQ section. Pricing. About. All of it, already live.\nVO: 'The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there.'\n\n[SCENE 4 — OWNER TO CAMERA, STATIC FRAME]\nOwner closes the developer tab. Dry, calm delivery:\nVO: 'Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.'\n\n[SCENE 5 — CTA CARD]\nText on screen: 'Create your AI assistant — your website is already ready.'\nfenrik.chat",
+      "concept": "A business owner sits mid-video call with a developer who is walking through the custom chatbot build process — explaining how they will need to gather FAQs, scrape service pages, and compile pricing copy to train the bot. The owner nods along, then slowly turns to glance at their screen. Another tab is open: their own website, with every answer the developer just described already written out and live. The owner turns back to camera with a dry, quiet expression. They close the developer tab. The punchline lands: Fenrik.chat does exactly what the developer described — automatically, from the existing website, without the project, the cost, or the wait.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#chatbot",
+      "#aiassistant",
+      "#smallbusiness",
+      "#websitetips",
+      "#aitools",
+      "#saas"
+    ],
+    "subtitles_planned": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer."
+  },
+  "voiceover": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A business owner in their late 30s sits at a compact home office desk, mid-video call on a laptop. A small developer video tile is visible in one corner of the screen. The room is lit with cool, flat overhead light — slightly grey-blue tones. The owner's expression is attentive but shifting toward puzzled as their eyes drift toward a background browser tab. Realistic, cinematic, handheld-feeling frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up slow zoom on the owner's face as the realization lands — eyes moving from the video call tile to the browser tab in the background. Expression is dry, calm, not exaggerated. Cool blue-grey ambient light. Shallow depth of field. The emotion is quiet recognition, not shock."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A bright laptop screen fills the frame showing a clean business website — a Services page with clear section headings, an FAQ accordion, and a Pricing block. Warm off-white and soft amber desk light. The contrast with the previous scene is immediate: this content is familiar, accessible, already written. No URLs or domain names visible in the image."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The owner sits back from the desk, one hand hovering over the trackpad, the developer video tile now minimized. They look directly into the camera with a composed, slightly wry expression. Static frame, no movement. Warm desk light. Casual professional clothing. The humor lives entirely in the stillness and the look."
+    },
+    {
+      "source": "asset",
+      "used_as": "CTA end card — product feature summary shown as closing screen insert reinforcing the one-minute AI assistant setup message",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ],
+  "image_prompts": [
+    "A business owner in their late 30s sits at a compact home office desk, mid-video call on a laptop. A small developer video tile is visible in one corner of the screen. The room is lit with cool, flat overhead light — slightly grey-blue tones. The owner's expression is attentive but shifting toward puzzled as their eyes drift toward a background browser tab. Realistic, cinematic, handheld-feeling frame.",
+    "Close-up slow zoom on the owner's face as the realization lands — eyes moving from the video call tile to the browser tab in the background. Expression is dry, calm, not exaggerated. Cool blue-grey ambient light. Shallow depth of field. The emotion is quiet recognition, not shock.",
+    "A bright laptop screen fills the frame showing a clean business website — a Services page with clear section headings, an FAQ accordion, and a Pricing block. Warm off-white and soft amber desk light. The contrast with the previous scene is immediate: this content is familiar, accessible, already written. No URLs or domain names visible in the image.",
+    "The owner sits back from the desk, one hand hovering over the trackpad, the developer video tile now minimized. They look directly into the camera with a composed, slightly wry expression. Static frame, no movement. Warm desk light. Casual professional clothing. The humor lives entirely in the stillness and the look."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Create your AI assistant — your website is already ready.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant — your website is already ready.",
+        "format": "reel",
+        "caption": "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "title_variants": [
+          "The chatbot project that was just my website all along",
+          "Your website already has the answers. The bot just needs to read it.",
+          "Why most chatbot projects take months to do something your website already does",
+          "The developer was going to read my FAQ page. I found a faster way.",
+          "Custom chatbot vs. the website you already have"
+        ],
+        "caption_variants": [
+          "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+          "Custom chatbot quote: $8,000. Timeline: 4 months. Their process: read your FAQ page and service copy. Your FAQ page that's already live. fenrik.chat",
+          "The chatbot project was going to gather my content, organize it, and train a bot on it. I had a tab open with all of that content. Already written. Already live.",
+          "Nobody tells you that most chatbot builds are just your own website content, reformatted. Fenrik.chat skips the reformatting. fenrik.chat",
+          "Closed the developer call. Opened fenrik.chat. Entered my URL. Done. The website already had everything the bot needed."
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "The developer's whole plan was just… to read my website 😶 Your site already has the answers. link in bio.",
+        "hashtags": [
+          "#chatbot",
+          "#smallbusiness",
+          "#websitetips",
+          "#aitools"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "The developer's chatbot plan was just going to read your website — the one that already exists. There's a faster way.",
+        "hashtags": [
+          "#chatbot",
+          "#aitools",
+          "#smallbusiness"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "reel",
+        "caption": "Ever get a quote for a custom chatbot and think — wait, isn't this just my website with a chat bubble? 😅 That's basically it. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No developer, no training, no months-long project. Your content is already there. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant — your website is already ready.",
+        "format": "reel",
+        "caption": "Most custom chatbot projects stall for the same reason: the scope feels disproportionate to what the bot will actually do. Gather the FAQs. Review the service pages. Pull the pricing copy. Train the model. The irony is that all of that content already exists — on the website the business has been running for years. Fenrik.chat reads your existing website automatically and builds its knowledge base from that content. No training required. No developer involved. The website already had the answers.",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness",
+          "#saas"
+        ]
+      },
+      "instagram": {
+        "cta": "Create your AI assistant — link in bio.",
+        "format": "reel",
+        "caption": "Spent an hour on a call with a developer explaining how they'd build my chatbot.\n\nThen I realized — they were just going to read my website.\n\nThe FAQ page. The services page. The pricing copy. It was all already there.\n\nFenrik.chat does exactly that, automatically. No build. No wait. Link in bio.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#chatbot",
+          "#businesstools",
+          "#saas",
+          "#digitalmarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "3f660450-07ba-4866-9130-0a85392f137a",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Website That Already Knew Everything",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "The developer's whole plan was just… to read my website 😶 Your site already has the answers. link in bio.",
+        "hashtags": [
+          "#chatbot",
+          "#smallbusiness",
+          "#websitetips",
+          "#aitools"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "9e643423-90c8-4f5e-bdd5-b86b37c4e6bc",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Website That Already Knew Everything",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Spent an hour on a call with a developer explaining how they'd build my chatbot.\n\nThen I realized — they were just going to read my website.\n\nThe FAQ page. The services page. The pricing copy. It was all already there.\n\nFenrik.chat does exactly that, automatically. No build. No wait. Link in bio.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#chatbot",
+          "#businesstools",
+          "#saas",
+          "#digitalmarketing"
+        ],
+        "cta": "Create your AI assistant — link in bio.",
+        "language": null
+      },
+      {
+        "id": "8265cd8d-ad4d-4f28-9ca6-2c1e520b07d1",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Website That Already Knew Everything",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "The developer's chatbot plan was just going to read your website — the one that already exists. There's a faster way.",
+        "hashtags": [
+          "#chatbot",
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Subscribe for more. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "03e6a1bc-10b4-4a0a-ad53-8d043e410236",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Website That Already Knew Everything",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Ever get a quote for a custom chatbot and think — wait, isn't this just my website with a chat bubble? 😅 That's basically it. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No developer, no training, no months-long project. Your content is already there. Create your AI assistant at fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "0f46ea5e-0dbe-4158-879a-ad8bb50970ea",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Website That Already Knew Everything",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Most custom chatbot projects stall for the same reason: the scope feels disproportionate to what the bot will actually do. Gather the FAQs. Review the service pages. Pull the pricing copy. Train the model. The irony is that all of that content already exists — on the website the business has been running for years. Fenrik.chat reads your existing website automatically and builds its knowledge base from that content. No training required. No developer involved. The website already had the answers.",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness",
+          "#saas"
+        ],
+        "cta": "Create your AI assistant — your website is already ready. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "87f84098-ef83-4d03-a8a7-aacdf8b0d0c3",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The chatbot project that was just my website all along",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant — your website is already ready.",
+        "language": null
+      },
+      {
+        "id": "7c8e4711-1b25-45d4-aebc-64e7c1e5564f",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your website already has the answers. The bot just needs to read it.",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Custom chatbot quote: $8,000. Timeline: 4 months. Their process: read your FAQ page and service copy. Your FAQ page that's already live. fenrik.chat",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant — your website is already ready.",
+        "language": null
+      },
+      {
+        "id": "1ffe81c1-3388-4a63-8607-e0c9abbec965",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Why most chatbot projects take months to do something your website already does",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "The chatbot project was going to gather my content, organize it, and train a bot on it. I had a tab open with all of that content. Already written. Already live. https://fenrik.chat",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant — your website is already ready.",
+        "language": null
+      },
+      {
+        "id": "b054a121-b464-4803-8188-c5acaae28621",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The developer was going to read my FAQ page. I found a faster way.",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Nobody tells you that most chatbot builds are just your own website content, reformatted. Fenrik.chat skips the reformatting. fenrik.chat",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant — your website is already ready.",
+        "language": null
+      },
+      {
+        "id": "0fc9d860-9e37-4ad6-b44c-836415133928",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Custom chatbot vs. the website you already have",
+        "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+        "caption": "Closed the developer call. Opened fenrik.chat. Entered my URL. Done. The website already had everything the bot needed.",
+        "hashtags": [
+          "#ai",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant — your website is already ready.",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "cedar",
+    "tts_voice": "cedar",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 47,
+      "secondary": 42
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+45)",
+      "fit_secondary(+42)",
+      "soft_tie_recent_secondary(5)→primary(+2)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "No resources to build or maintain a custom chatbot",
+    "strategy_pain_point": "No resources to build or maintain a custom chatbot"
+  },
+  "product_role": "Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base from that content, and starts answering visitor questions without any manual training, writing, or developer involvement. The website already had the answers. Fenrik.chat is what finally delivers them.",
+  "narrative_arc": "CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a developer. The developer is explaining the chatbot build process — they will need to gather FAQs, review the service pages, pull the pricing copy, and use all of that to train the bot. The owner nods along, then slowly turns to look directly at the camera with a dawning expression. UNEXPECTED TURN: A cut to the owner's screen — the website is right there, open in another tab. Services page. About page. FAQ section. Pricing. Every answer the developer just described 'gathering' is already written, already live, already being visited by real people. PUNCHLINE: The owner closes the developer tab. Dry, calm delivery to camera: 'So the chatbot was just going to read my website. My website that already exists.' A beat. 'There is an app for that.' CTA card appears. The fix is presented seriously: Fenrik.chat reads your existing website automatically and starts answering visitor questions from it — no training, no project, no developer required.",
+  "emotional_tone": "Dry, self-aware humor with a calm expert undercurrent. The comedy comes from the dawning realization, not from mocking anyone. The product fix lands seriously and cleanly after the punchline.",
+  "audience_insight": "Solution-aware business owners in this segment have often explored or quoted custom chatbot builds and walked away because the process felt disproportionately complex relative to what the bot would actually do. They already sense the problem is solvable — they just do not yet know that the raw material they need already exists on their own website. This concept names that exact moment of recognition.",
+  "visual_direction": {
+    "palette": "Cool, slightly grey-blue tones during the developer call. Warm off-white and soft amber when the camera lands on the owner's actual website. The palette shift reinforces the emotional shift from complexity to simplicity.",
+    "lighting": "Soft, slightly flat overhead or ring-light setup for the video call segment — the kind of lighting that makes a remote meeting feel a little tedious. When cutting to the website tab, natural warm desk light takes over, making the existing content feel accessible and close.",
+    "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a background tab. The desk is tidy but not staged — a real working space, not a showroom.",
+    "camera_style": "Handheld-feeling, close and intimate. The key shot is a slow zoom toward the owner's face as the realization lands, followed by a clean cut to the screen showing the website tab. Final CTA delivered straight to camera, static frame, no movement — lets the dry delivery land without distraction.",
+    "art_direction": "Clean, realistic screen-recorded or dramatized aesthetic. Split visual language: the video call with the developer feels slightly formal and slightly draining — muted, slightly overlit. The owner's own screen, when it cuts to the website tab, feels bright, immediate, and familiar. The contrast between the two is the visual joke.",
+    "character_style": "Single lead character — a business owner in their 30s or 40s, dressed casually professional. No exaggerated expressions; the humor lives in restraint and timing. The developer is voice-only or shown only as a small video tile — they are a device, not a character."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer."
+  },
+  "render_metadata": {
+    "id": "c15b148e-3180-4230-98fa-4862b492feb1",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:36:10.921655+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "cedar",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "3f660450-07ba-4866-9130-0a85392f137a",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The developer's whole plan was just… to read my website 😶 Your site already has the answers. link in bio.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#websitetips",
+        "#aitools"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "9e643423-90c8-4f5e-bdd5-b86b37c4e6bc",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Spent an hour on a call with a developer explaining how they'd build my chatbot.\n\nThen I realized — they were just going to read my website.\n\nThe FAQ page. The services page. The pricing copy. It was all already there.\n\nFenrik.chat does exactly that, automatically. No build. No wait. Link in bio.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#saas",
+        "#digitalmarketing"
+      ],
+      "cta": "Create your AI assistant — link in bio.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "8265cd8d-ad4d-4f28-9ca6-2c1e520b07d1",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The developer's chatbot plan was just going to read your website — the one that already exists. There's a faster way.",
+      "hashtags": [
+        "#chatbot",
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "03e6a1bc-10b4-4a0a-ad53-8d043e410236",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Ever get a quote for a custom chatbot and think — wait, isn't this just my website with a chat bubble? 😅 That's basically it. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No developer, no training, no months-long project. Your content is already there. Create your AI assistant at fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "0f46ea5e-0dbe-4158-879a-ad8bb50970ea",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Website That Already Knew Everything",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Most custom chatbot projects stall for the same reason: the scope feels disproportionate to what the bot will actually do. Gather the FAQs. Review the service pages. Pull the pricing copy. Train the model. The irony is that all of that content already exists — on the website the business has been running for years. Fenrik.chat reads your existing website automatically and builds its knowledge base from that content. No training required. No developer involved. The website already had the answers.",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness",
+        "#saas"
+      ],
+      "cta": "Create your AI assistant — your website is already ready. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "87f84098-ef83-4d03-a8a7-aacdf8b0d0c3",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The chatbot project that was just my website all along",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Spent an hour with a developer planning my chatbot. Their whole plan was to read my website. My website that already exists. There's a tool for that. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "7c8e4711-1b25-45d4-aebc-64e7c1e5564f",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website already has the answers. The bot just needs to read it.",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Custom chatbot quote: $8,000. Timeline: 4 months. Their process: read your FAQ page and service copy. Your FAQ page that's already live. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "1ffe81c1-3388-4a63-8607-e0c9abbec965",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why most chatbot projects take months to do something your website already does",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "The chatbot project was going to gather my content, organize it, and train a bot on it. I had a tab open with all of that content. Already written. Already live. https://fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "b054a121-b464-4803-8188-c5acaae28621",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The developer was going to read my FAQ page. I found a faster way.",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Nobody tells you that most chatbot builds are just your own website content, reformatted. Fenrik.chat skips the reformatting. fenrik.chat",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    },
+    {
+      "id": "0fc9d860-9e37-4ad6-b44c-836415133928",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "ee9ad2d3-7a10-49f0-ae9b-3528dc39568e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Custom chatbot vs. the website you already have",
+      "body": "I thought I needed a custom chatbot until I realized my website already had all the answers. The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there. Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.",
+      "caption": "Closed the developer call. Opened fenrik.chat. Entered my URL. Done. The website already had everything the bot needed.",
+      "hashtags": [
+        "#ai",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant — your website is already ready.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 9,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:36:08.837067+00:00",
+      "updated_at": "2026-07-25T07:36:08.837067+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A business owner realizes, mid-conversation with a developer, that the chatbot project they are about to pay thousands for is essentially going to read their website — the same website that already e…",
+      "environment": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and …",
+      "product_role": "Fenrik.chat is the version of the chatbot project that skips the project entirely. It reads the existing website automatically, builds its own knowledge base f…",
+      "visual_world": "A compact home office or small business back room. One monitor visible, showing an active video call in one window and the business website open in a backgroun…",
+      "attention_pattern": "The tension builds as the developer outlines the complexity, then sharply contrasts with the simplicity of the existing…",
+      "narrative_mechanism": "humor: CONFESSION HOOK: Open on a business owner at a desk, mid-video-call with a deve…"
+    }
+  },
+  "hashtags": [
+    "#chatbot",
+    "#aiassistant",
+    "#smallbusiness",
+    "#websitetips",
+    "#aitools",
+    "#saas"
+  ],
+  "hook": "I thought I needed a custom chatbot until I realized my website already had all the answers.",
+  "scenario": "A business owner books a discovery call with a developer to scope out a custom chatbot. The developer walks through the build process: gather the FAQs, review the service pages, pull the pricing copy, and use all of that content to train the bot. The owner nods along — until they glance at their screen and notice a browser tab sitting open behind the video call. Their own website. Services page. FAQ section. Pricing. Every piece of content the developer just described 'gathering' is already written, already live, already being visited by real people. The owner closes the developer tab. The chatbot project was never the answer — the website already was.",
+  "video": {
+    "script": "[SCENE 1 — VIDEO CALL, COOL BLUE-GREY LIGHT]\nDeveloper (voice-over, small video tile visible): 'So what we'll do is pull together your FAQs, go through the service pages, grab the pricing copy — and use all of that to build out the knowledge base for the bot.'\nOwner nods slowly. Expression shifts. Eyes drift to a background tab.\n\n[SCENE 2 — SLOW ZOOM ON OWNER'S FACE]\nVO (owner, direct): 'I thought I needed a custom chatbot until I realized my website already had all the answers.'\n\n[SCENE 3 — CUT TO SCREEN, WARM AMBER LIGHT]\nOwner's website tab fills the frame: Services page. FAQ section. Pricing. About. All of it, already live.\nVO: 'The developer was going to gather my FAQs, pull my service pages, review my pricing copy — and use all of that to train a bot. I opened another tab. It was all already there.'\n\n[SCENE 4 — OWNER TO CAMERA, STATIC FRAME]\nOwner closes the developer tab. Dry, calm delivery:\nVO: 'Fenrik.chat reads your existing website automatically and starts answering visitor questions from it. No training. No project. No developer.'\n\n[SCENE 5 — CTA CARD]\nText on screen: 'Create your AI assistant — your website is already ready.'\nfenrik.chat",
+    "concept": "A business owner sits mid-video call with a developer who is walking through the custom chatbot build process — explaining how they will need to gather FAQs, scrape service pages, and compile pricing copy to train the bot. The owner nods along, then slowly turns to glance at their screen. Another tab is open: their own website, with every answer the developer just described already written out and live. The owner turns back to camera with a dry, quiet expression. They close the developer tab. The punchline lands: Fenrik.chat does exactly what the developer described — automatically, from the existing website, without the project, the cost, or the wait.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [
+    {
+      "used_as": "CTA end card — product feature summary shown as closing screen insert reinforcing the one-minute AI assistant setup message",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ]
+}

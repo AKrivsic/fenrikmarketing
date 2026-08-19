@@ -1,0 +1,1721 @@
+{
+  "package_index": 18,
+  "run_item_id": "36c922d8-d9f9-4c0f-85d5-82cbc1047f14",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "fec62148-0544-4eb0-80af-e32e13a536cf",
+  "package_title": "What Actually Leaves the List",
+  "package_status": "draft",
+  "strategy_item_id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A practical, grounded look at the operational shift when a batch of finished content lands in a team's hands — not inspirational, just functional: what gets removed from the weekly to-do list and what that time goes back to.",
+      "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+      "source": "production_run",
+      "pain_point": "No time to create content regularly",
+      "package_index": 18,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Solution Aware",
+      "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+      "angle": "A practical, grounded look at the operational shift when a batch of finished content lands in a team's hands — not inspirational, just functional: what gets removed from the weekly to-do list and what that time goes back to.",
+      "seed": "Solution Aware|What 20 ready-to-post videos actually does to a team's weekly workload|A practical, grounded look at the operational shift when a batch of finished content lands in a team's hands — not inspirational, just functional: what gets removed from the weekly to-do list and what that time goes back to.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "observation",
+        "name": "Observation",
+        "description": "Starts from a sharp, relatable observation and finds the meaning.",
+        "structure": "Specific observation -> what it really means -> the reveal -> CTA.",
+        "avoid": "Do not state the obvious; the reveal must reframe the observation, not restate it.",
+        "narrativeBeats": [
+          "observation",
+          "meaning",
+          "reveal",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "confession",
+        "instruction": "Open with a candid, first-person admission that earns attention.",
+        "exampleForm": "\"We used to clean it wrong too — until a client showed us.\"",
+        "forbidGeneric": "Do not open with a neutral brand statement about yourself."
+      },
+      "persona": {
+        "id": "calm_advisor",
+        "name": "Calm Advisor",
+        "vocabulary": "reassuring, simple, supportive",
+        "rhythm": "unhurried, guiding",
+        "energy": "steady and trustworthy",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "What Actually Leaves the List",
+    "core_idea": "A marketing ops lead at a small SaaS team makes a quiet, almost accidental observation on a Monday morning: for the first time in months, the weekly team standup has no content tasks on the board. Not deprioritized. Not moved to next week. Simply not there. The video traces what that absence actually means — not in motivational terms, but in operational ones. What specific tasks disappeared, where that time went, and what the team is doing instead.",
+    "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is positioned as the thing that made a specific set of weekly tasks stop existing. The 20-video batch is the concrete mechanism: one URL submitted, a full batch of ready-to-post videos and platform assets returned, nothing left to produce or reformat.",
+    "why_it_works": "The observation mode earns credibility because it starts from something small and specific — a task board with an empty row — rather than a bold claim. The reveal reframes that small observation into an operational truth without overstating it. The Calm Advisor voice keeps the tone grounded and trustworthy. The POV (marketing ops lead, not founder) is distinct from recent fingerprints. The visual world — a task board, a Monday standup, a quiet office — is different from recent environments. The concept avoids forbidden claims by describing what is removed from the workload, not what is gained in results.",
+    "narrative_arc": "OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scanning the team's task board on a Monday morning. She notices, almost offhandedly, that the content row is empty. Not blank because it was skipped — blank because it is already handled. A 20-video batch from fenrik Studio landed on Friday. Every post is labeled, captioned, and ready. MEANING: The video names, plainly and without drama, what used to live in that content row: deciding what to post, writing scripts, reformatting captions for each platform, chasing a freelancer for revisions, and blocking two hours on Thursday that nobody ever actually used. That is what is gone. Not the desire to do content — the operational weight of producing it from scratch every week. REVEAL: The reframe is functional, not inspirational. The team did not suddenly become better at content. They stopped being the ones who make it. The hours that used to disappear into content decisions — quietly, without anyone noticing until Friday — are now on other tasks. The board looks different not because the team changed, but because one input changed: a URL submitted once, a batch delivered back. CTA: Prompt the viewer to submit their website URL and receive their first content package free — framed as removing one row from the list, not as a transformation.",
+    "emotional_tone": "Calm and functional — no excitement, no urgency. The tone is the same one a competent operations person uses when explaining why a process changed: matter-of-fact, slightly relieved, entirely unsentimental. The relief is real but understated.",
+    "audience_insight": "Small marketing teams and solo operators do not experience content debt as a dramatic crisis — they experience it as a low-grade, recurring friction that quietly consumes planning time, standup time, and Thursday afternoons. The pain is not loud. It is the task that moves to next week for the fourth time. Showing the absence of that task — rather than the solution to it — is more credible than any before-and-after framing.",
+    "visual_direction": {
+      "palette": "Muted and neutral: off-white, light grey, and a single soft accent color (a muted teal or slate blue) used only for the task board UI. No bold brand colors dominating the frame.",
+      "lighting": "Flat, even natural daylight from a window to the side — the kind of light that exists in a real office on a Monday morning, not a studio. No dramatic shadows, no warm golden tones. Honest and unremarkable.",
+      "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a while. No clutter, but also no staging. The space looks used.",
+      "camera_style": "Static or very gently handheld — no cuts for energy, no fast zooms. Slow push-in on the task board screen as the observation lands. Occasional close-up on the empty content row. Vertical 9:16 framing throughout for TikTok.",
+      "art_direction": "Clean, utilitarian digital workspace aesthetic — the kind of environment where work actually happens, not where it is performed for a camera. Task management interface on screen, minimal desk surface visible. Text overlays are plain and functional: no decorative fonts, no motion graphics. On-screen labels appear as the tasks are named, then visually struck through or removed as the observation lands.",
+      "character_style": "One person — a marketing ops lead or small team member, mid-twenties to mid-thirties, dressed in everyday work clothes (not startup-casual, not corporate). Present in the frame briefly at the open and close; the task board is the primary visual subject, not the person."
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, allowing the viewer to absorb the observation.",
+    "emotion": "Calm and slightly relieved, as if uncovering a small but significant change.",
+    "first_image": "A close-up of a task management board on a laptop screen, showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in.",
+    "attention_pattern": "The absence of tasks creates immediate curiosity about what has changed and why it matters.",
+    "first_spoken_sentence": "I opened our task board this morning and realized something was missing."
+  },
+  "visual_identity": {
+    "palette": "Muted and neutral: off-white, light grey, and a single soft accent color (a muted teal or slate blue) used only for the task board UI. No bold brand colors dominating the frame.",
+    "lighting": "Flat, even natural daylight from a window to the side — the kind of light that exists in a real office on a Monday morning, not a studio. No dramatic shadows, no warm golden tones. Honest and unremarkable.",
+    "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a while. No clutter, but also no staging. The space looks used.",
+    "camera_style": "Static or very gently handheld — no cuts for energy, no fast zooms. Slow push-in on the task board screen as the observation lands. Occasional close-up on the empty content row. Vertical 9:16 framing throughout for TikTok.",
+    "art_direction": "Clean, utilitarian digital workspace aesthetic — the kind of environment where work actually happens, not where it is performed for a camera. Task management interface on screen, minimal desk surface visible. Text overlays are plain and functional: no decorative fonts, no motion graphics. On-screen labels appear as the tasks are named, then visually struck through or removed as the observation lands.",
+    "character_style": "One person — a marketing ops lead or small team member, mid-twenties to mid-thirties, dressed in everyday work clothes (not startup-casual, not corporate). Present in the frame briefly at the open and close; the task board is the primary visual subject, not the person.",
+    "opening_emotion": "Calm and slightly relieved, as if uncovering a small but significant change.",
+    "opening_first_image": "A close-up of a task management board on a laptop screen, showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in."
+  },
+  "package": {
+    "title": "What Actually Leaves the List",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "I opened our task board this morning and realized something was missing.",
+    "scenario": "A marketing ops lead at a two-person SaaS team opens the shared task board on a Monday morning standup. She scans the columns out of habit — bugs, customer requests, growth tasks — and stops at the content row. It is empty. Not because someone forgot to add tasks. Because a 20-video batch from fenrik Studio arrived on Friday, fully labeled and platform-ready. For the first time in months, there is nothing to decide, nothing to reformat, nothing to chase. The standup moves on in four minutes. Nobody mentions it. That is exactly the point.",
+    "video": {
+      "script": "SCENE 1 — CLOSE ON TASK BOARD\nCamera pushes slowly into a laptop screen showing a task management board. One row labeled 'Content Tasks' is visibly empty. Muted teal accent. Natural side light.\n\nVO: 'I opened our task board this morning and realized something was missing.'\n\nSCENE 2 — EMPTY ROW, SLIGHT PULL BACK\nThe empty content row stays on screen. A coffee cup sits at the edge of frame. The room is quiet.\n\nVO: 'The content row was empty. Not moved to next week. Not deprioritized. Just gone.'\n\nSCENE 3 — SCREEN INSERT: BATCH FILES\nCut to a folder view on screen — video files labeled by platform, caption docs alongside them. Tidy, complete, nothing missing.\n\nVO: 'A 20-video batch landed on Friday — every post labeled, captioned, platform-ready.'\n\nSCENE 4 — TASK BOARD: STRUCK-THROUGH ITEMS\nReturn to the task board. Previous content tasks appear briefly as greyed-out struck-through text, then clear.\n\nVO: 'What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work.'\n\nSCENE 5 — PERSON AT DESK, QUIET CLOSE\nThe ops lead glances at the screen, then back to other work. Calm. Unremarkable. The board is still visible in background.\n\nVO: 'One URL submitted. One batch returned. Nothing left to produce.'",
+      "concept": "A marketing ops lead scans the team task board on a Monday morning and notices the content row is completely empty — not skipped, not deferred, simply handled. The video traces what that absence means operationally: which specific tasks vanished, where the hours went, and what changed. The mechanism is plain: a 20-video batch from fenrik Studio arrived Friday, ready to post. One URL in, a full batch out. The content row stopped existing because the production work stopped belonging to the team.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediatips",
+      "#marketingteam",
+      "#smallbusiness",
+      "#saasmarketing"
+    ],
+    "subtitles_planned": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+  "voice_prompts": {
+    "voiceover_text": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, ",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing.",
+    "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes.",
+    "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing.",
+    "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16.",
+    "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Submit your website URL — your first content package is free, nothing left to produce.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Link in bio — first package is free.",
+        "format": "reel",
+        "caption": "The content row on our task board was empty this Monday. Not delayed. Actually gone. 👀 That's what 20 ready-to-post videos does to a team's week. Link in bio to get your first package free.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#smallbusiness",
+          "#marketingteam",
+          "#saas"
+        ]
+      },
+      "youtube": {
+        "cta": "Submit your website at https://fenrik.studio — first content package is free.",
+        "format": "short",
+        "caption": "The content row on the task board was empty Monday morning — not delayed, just done. Here's what actually changed when 20 ready-to-post videos landed on Friday.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#marketingteam"
+        ]
+      },
+      "facebook": {
+        "cta": "Submit your website at https://fenrik.studio — first package is free.",
+        "format": "reel",
+        "caption": "Ever open your team's task board on a Monday and just... not see the content row? That happened this week — because 20 ready-to-post videos arrived Friday, fully labeled and platform-ready. No scripts to write. No captions to reformat. No revisions to chase. Just a cleared row and a few hours back. If your content tasks keep sliding to next week, fenrik Studio can handle the whole batch. First package is free — submit your website at https://fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness"
+        ]
+      },
+      "linkedin": {
+        "cta": "Submit your website — first package is free.",
+        "format": "reel",
+        "caption": "I noticed something on the task board Monday morning: the content row was empty. Not deferred. Not someone's Friday problem. Gone — because a 20-video batch arrived the week before, fully captioned and platform-ready.\n\nWhat that removed from the week: deciding what to post, writing scripts, reformatting for each channel, chasing a freelancer for one more revision.\n\nThe team didn't get better at content. They stopped being the ones producing it. One URL submitted. A full batch returned. That's the operational difference.\n\nIf that row keeps moving to next week, fenrik Studio removes it. First package is free — no brief, no call required.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingops",
+          "#saas"
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio — first package is free.",
+        "format": "reel",
+        "caption": "Monday morning. Task board open. Content row: empty.\n\nNot pushed to next week. Not someone's problem to solve at 4pm on Thursday. Just handled.\n\n20 ready-to-post videos arrived Friday. Captions, platform assets, everything labeled. The hours that used to disappear into content decisions went somewhere else this week.\n\nThat's the shift — not inspiration, just one fewer row on the list.\n\nLink in bio to get your first package free.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingops",
+          "#socialmedia",
+          "#smallteam",
+          "#saasmarketing",
+          "#contentbatch",
+          "#digitalmarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "780dbbf3-1bb1-4150-8c45-dadc5d5976ca",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "What Actually Leaves the List",
+        "body": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+        "caption": "Ever open your team's task board on a Monday and just... not see the content row? That happened this week — because 20 ready-to-post videos arrived Friday, fully labeled and platform-ready. No scripts to write. No captions to reformat. No revisions to chase. Just a cleared row and a few hours back. If your content tasks keep sliding to next week, fenrik Studio can handle the whole batch. First package is free — submit your website at https://fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness"
+        ],
+        "cta": "Submit your website at https://fenrik.studio — first package is free.",
+        "language": null
+      },
+      {
+        "id": "ab3592e1-7527-48e1-97d5-807a0d633a4d",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "What Actually Leaves the List",
+        "body": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+        "caption": "The content row on our task board was empty this Monday. Not delayed. Actually gone. 👀 That's what 20 ready-to-post videos does to a team's week. Link in bio to get your first package free.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#smallbusiness",
+          "#marketingteam",
+          "#saas"
+        ],
+        "cta": "Link in bio — first package is free.",
+        "language": null
+      },
+      {
+        "id": "1357ad6b-5d4f-404c-b210-8e5b482da646",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "What Actually Leaves the List",
+        "body": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+        "caption": "Monday morning. Task board open. Content row: empty.\n\nNot pushed to next week. Not someone's problem to solve at 4pm on Thursday. Just handled.\n\n20 ready-to-post videos arrived Friday. Captions, platform assets, everything labeled. The hours that used to disappear into content decisions went somewhere else this week.\n\nThat's the shift — not inspiration, just one fewer row on the list.\n\nLink in bio to get your first package free.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingops",
+          "#socialmedia",
+          "#smallteam",
+          "#saasmarketing",
+          "#contentbatch",
+          "#digitalmarketing"
+        ],
+        "cta": "Link in bio — first package is free.",
+        "language": null
+      },
+      {
+        "id": "e4408dab-f8dc-4985-980c-97049a20f4c5",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "What Actually Leaves the List",
+        "body": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+        "caption": "The content row on the task board was empty Monday morning — not delayed, just done. Here's what actually changed when 20 ready-to-post videos landed on Friday.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#marketingteam"
+        ],
+        "cta": "Submit your website at https://fenrik.studio — first content package is free.",
+        "language": null
+      },
+      {
+        "id": "c8faad42-9754-4add-90a3-13138764a745",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "What Actually Leaves the List",
+        "body": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+        "caption": "I noticed something on the task board Monday morning: the content row was empty. Not deferred. Not someone's Friday problem. Gone — because a 20-video batch arrived the week before, fully captioned and platform-ready.\n\nWhat that removed from the week: deciding what to post, writing scripts, reformatting for each channel, chasing a freelancer for one more revision.\n\nThe team didn't get better at content. They stopped being the ones producing it. One URL submitted. A full batch returned. That's the operational difference.\n\nIf that row keeps moving to next week, fenrik Studio removes it. First package is free — no brief, no call required.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingops",
+          "#saas"
+        ],
+        "cta": "Submit your website — first package is free. https://fenrik.studio",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "fec62148-0544-4eb0-80af-e32e13a536cf",
+    "title": "What Actually Leaves the List",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+    "package_brief": {
+      "cta": {
+        "text": "Submit your website URL — your first content package is free, nothing left to produce.",
+        "type": "sign_up"
+      },
+      "hook": "I opened our task board this morning and realized something was missing.",
+      "video": {
+        "script": "SCENE 1 — CLOSE ON TASK BOARD\nCamera pushes slowly into a laptop screen showing a task management board. One row labeled 'Content Tasks' is visibly empty. Muted teal accent. Natural side light.\n\nVO: 'I opened our task board this morning and realized something was missing.'\n\nSCENE 2 — EMPTY ROW, SLIGHT PULL BACK\nThe empty content row stays on screen. A coffee cup sits at the edge of frame. The room is quiet.\n\nVO: 'The content row was empty. Not moved to next week. Not deprioritized. Just gone.'\n\nSCENE 3 — SCREEN INSERT: BATCH FILES\nCut to a folder view on screen — video files labeled by platform, caption docs alongside them. Tidy, complete, nothing missing.\n\nVO: 'A 20-video batch landed on Friday — every post labeled, captioned, platform-ready.'\n\nSCENE 4 — TASK BOARD: STRUCK-THROUGH ITEMS\nReturn to the task board. Previous content tasks appear briefly as greyed-out struck-through text, then clear.\n\nVO: 'What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work.'\n\nSCENE 5 — PERSON AT DESK, QUIET CLOSE\nThe ops lead glances at the screen, then back to other work. Calm. Unremarkable. The board is still visible in background.\n\nVO: 'One URL submitted. One batch returned. Nothing left to produce.'",
+        "concept": "A marketing ops lead scans the team task board on a Monday morning and notices the content row is completely empty — not skipped, not deferred, simply handled. The video traces what that absence means operationally: which specific tasks vanished, where the hours went, and what changed. The mechanism is plain: a 20-video batch from fenrik Studio arrived Friday, ready to post. One URL in, a full batch out. The content row stopped existing because the production work stopped belonging to the team.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediatips",
+        "#marketingteam",
+        "#smallbusiness",
+        "#saasmarketing"
+      ],
+      "scenario": "A marketing ops lead at a two-person SaaS team opens the shared task board on a Monday morning standup. She scans the columns out of habit — bugs, customer requests, growth tasks — and stops at the content row. It is empty. Not because someone forgot to add tasks. Because a 20-video batch from fenrik Studio arrived on Friday, fully labeled and platform-ready. For the first time in months, there is nothing to decide, nothing to reformat, nothing to chase. The standup moves on in four minutes. Nobody mentions it. That is exactly the point.",
+      "subtitles": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing.",
+        "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes.",
+        "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing.",
+        "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16.",
+        "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Link in bio — first package is free.",
+          "format": "reel",
+          "caption": "The content row on our task board was empty this Monday. Not delayed. Actually gone. 👀 That's what 20 ready-to-post videos does to a team's week. Link in bio to get your first package free.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediatips",
+            "#smallbusiness",
+            "#marketingteam",
+            "#saas"
+          ]
+        },
+        "youtube": {
+          "cta": "Submit your website at https://fenrik.studio — first content package is free.",
+          "format": "short",
+          "caption": "The content row on the task board was empty Monday morning — not delayed, just done. Here's what actually changed when 20 ready-to-post videos landed on Friday.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediatips",
+            "#marketingteam"
+          ]
+        },
+        "facebook": {
+          "cta": "Submit your website at https://fenrik.studio — first package is free.",
+          "format": "reel",
+          "caption": "Ever open your team's task board on a Monday and just... not see the content row? That happened this week — because 20 ready-to-post videos arrived Friday, fully labeled and platform-ready. No scripts to write. No captions to reformat. No revisions to chase. Just a cleared row and a few hours back. If your content tasks keep sliding to next week, fenrik Studio can handle the whole batch. First package is free — submit your website at https://fenrik.studio",
+          "hashtags": [
+            "#contentmarketing",
+            "#smallbusiness"
+          ]
+        },
+        "linkedin": {
+          "cta": "Submit your website — first package is free.",
+          "format": "reel",
+          "caption": "I noticed something on the task board Monday morning: the content row was empty. Not deferred. Not someone's Friday problem. Gone — because a 20-video batch arrived the week before, fully captioned and platform-ready.\n\nWhat that removed from the week: deciding what to post, writing scripts, reformatting for each channel, chasing a freelancer for one more revision.\n\nThe team didn't get better at content. They stopped being the ones producing it. One URL submitted. A full batch returned. That's the operational difference.\n\nIf that row keeps moving to next week, fenrik Studio removes it. First package is free — no brief, no call required.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingops",
+            "#saas"
+          ]
+        },
+        "instagram": {
+          "cta": "Link in bio — first package is free.",
+          "format": "reel",
+          "caption": "Monday morning. Task board open. Content row: empty.\n\nNot pushed to next week. Not someone's problem to solve at 4pm on Thursday. Just handled.\n\n20 ready-to-post videos arrived Friday. Captions, platform assets, everything labeled. The hours that used to disappear into content decisions went somewhere else this week.\n\nThat's the shift — not inspiration, just one fewer row on the list.\n\nLink in bio to get your first package free.",
+          "hashtags": [
+            "#contentcreation",
+            "#marketingops",
+            "#socialmedia",
+            "#smallteam",
+            "#saasmarketing",
+            "#contentbatch",
+            "#digitalmarketing"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "fec62148-0544-4eb0-80af-e32e13a536cf",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 36,
+          "secondary": 43
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "observation",
+        "video_concept": {
+          "title": "What Actually Leaves the List",
+          "core_idea": "A marketing ops lead at a small SaaS team makes a quiet, almost accidental observation on a Monday morning: for the first time in months, the weekly team standup has no content tasks on the board. Not deprioritized. Not moved to next week. Simply not there. The video traces what that absence actually means — not in motivational terms, but in operational ones. What specific tasks disappeared, where that time went, and what the team is doing instead.",
+          "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is positioned as the thing that made a specific set of weekly tasks stop existing. The 20-video batch is the concrete mechanism: one URL submitted, a full batch of ready-to-post videos and platform assets returned, nothing left to produce or reformat.",
+          "why_it_works": "The observation mode earns credibility because it starts from something small and specific — a task board with an empty row — rather than a bold claim. The reveal reframes that small observation into an operational truth without overstating it. The Calm Advisor voice keeps the tone grounded and trustworthy. The POV (marketing ops lead, not founder) is distinct from recent fingerprints. The visual world — a task board, a Monday standup, a quiet office — is different from recent environments. The concept avoids forbidden claims by describing what is removed from the workload, not what is gained in results.",
+          "narrative_arc": "OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scanning the team's task board on a Monday morning. She notices, almost offhandedly, that the content row is empty. Not blank because it was skipped — blank because it is already handled. A 20-video batch from fenrik Studio landed on Friday. Every post is labeled, captioned, and ready. MEANING: The video names, plainly and without drama, what used to live in that content row: deciding what to post, writing scripts, reformatting captions for each platform, chasing a freelancer for revisions, and blocking two hours on Thursday that nobody ever actually used. That is what is gone. Not the desire to do content — the operational weight of producing it from scratch every week. REVEAL: The reframe is functional, not inspirational. The team did not suddenly become better at content. They stopped being the ones who make it. The hours that used to disappear into content decisions — quietly, without anyone noticing until Friday — are now on other tasks. The board looks different not because the team changed, but because one input changed: a URL submitted once, a batch delivered back. CTA: Prompt the viewer to submit their website URL and receive their first content package free — framed as removing one row from the list, not as a transformation.",
+          "emotional_tone": "Calm and functional — no excitement, no urgency. The tone is the same one a competent operations person uses when explaining why a process changed: matter-of-fact, slightly relieved, entirely unsentimental. The relief is real but understated.",
+          "audience_insight": "Small marketing teams and solo operators do not experience content debt as a dramatic crisis — they experience it as a low-grade, recurring friction that quietly consumes planning time, standup time, and Thursday afternoons. The pain is not loud. It is the task that moves to next week for the fourth time. Showing the absence of that task — rather than the solution to it — is more credible than any before-and-after framing.",
+          "visual_direction": {
+            "palette": "Muted and neutral: off-white, light grey, and a single soft accent color (a muted teal or slate blue) used only for the task board UI. No bold brand colors dominating the frame.",
+            "lighting": "Flat, even natural daylight from a window to the side — the kind of light that exists in a real office on a Monday morning, not a studio. No dramatic shadows, no warm golden tones. Honest and unremarkable.",
+            "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a while. No clutter, but also no staging. The space looks used.",
+            "camera_style": "Static or very gently handheld — no cuts for energy, no fast zooms. Slow push-in on the task board screen as the observation lands. Occasional close-up on the empty content row. Vertical 9:16 framing throughout for TikTok.",
+            "art_direction": "Clean, utilitarian digital workspace aesthetic — the kind of environment where work actually happens, not where it is performed for a camera. Task management interface on screen, minimal desk surface visible. Text overlays are plain and functional: no decorative fonts, no motion graphics. On-screen labels appear as the tasks are named, then visually struck through or removed as the observation lands.",
+            "character_style": "One person — a marketing ops lead or small team member, mid-twenties to mid-thirties, dressed in everyday work clothes (not startup-casual, not corporate). Present in the frame briefly at the open and close; the task board is the primary visual subject, not the person."
+          }
+        },
+        "voice_reasons": [
+          "funnel_solution→steady/energy(+1)",
+          "mode_observation→steady/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+36)",
+          "fit_secondary(+40)",
+          "soft_tie_recent_primary(4)→secondary(+3)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and deliberate, allowing the viewer to absorb the observation.",
+          "emotion": "Calm and slightly relieved, as if uncovering a small but significant change.",
+          "first_image": "A close-up of a task management board on a laptop screen, showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in.",
+          "attention_pattern": "The absence of tasks creates immediate curiosity about what has changed and why it matters.",
+          "first_spoken_sentence": "I opened our task board this morning and realized something was missing."
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: clear, confident, practical. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted and neutral: off-white, light grey, and a single soft accent color (a muted teal or slate blue) used only for the task board UI. No bold brand colors dominating the frame.",
+          "lighting": "Flat, even natural daylight from a window to the side — the kind of light that exists in a real office on a Monday morning, not a studio. No dramatic shadows, no warm golden tones. Honest and unremarkable.",
+          "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a while. No clutter, but also no staging. The space looks used.",
+          "camera_style": "Static or very gently handheld — no cuts for energy, no fast zooms. Slow push-in on the task board screen as the observation lands. Occasional close-up on the empty content row. Vertical 9:16 framing throughout for TikTok.",
+          "art_direction": "Clean, utilitarian digital workspace aesthetic — the kind of environment where work actually happens, not where it is performed for a camera. Task management interface on screen, minimal desk surface visible. Text overlays are plain and functional: no decorative fonts, no motion graphics. On-screen labels appear as the tasks are named, then visually struck through or removed as the observation lands.",
+          "character_style": "One person — a marketing ops lead or small team member, mid-twenties to mid-thirties, dressed in everyday work clothes (not startup-casual, not corporate). Present in the frame briefly at the open and close; the task board is the primary visual subject, not the person.",
+          "opening_emotion": "Calm and slightly relieved, as if uncovering a small but significant change.",
+          "opening_first_image": "A close-up of a task management board on a laptop screen, showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, ",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "No time to create content regularly",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 7052,
+                "completion_tokens": 1211
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:45:03.965Z",
+              "duration_ms": 31764,
+              "finished_at": "2026-07-25T10:45:35.729Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 7052,
+              "estimated_cost": 0.039321,
+              "output_summary": "Concept: What Actually Leaves the List",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 30508,
+              "completion_tokens": 1211,
+              "output_size_bytes": 5361,
+              "prompt_characters": 30230,
+              "provider_request_id": null,
+              "completion_characters": 5319
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5856,
+                "completion_tokens": 132
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:45:35.729Z",
+              "duration_ms": 2075,
+              "finished_at": "2026-07-25T10:45:37.804Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5856,
+              "estimated_cost": 0.000881,
+              "output_summary": "Opening: I opened our task board this morning and realized something was missing.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 28300,
+              "completion_tokens": 132,
+              "output_size_bytes": 631,
+              "prompt_characters": 28142,
+              "provider_request_id": null,
+              "completion_characters": 631
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:45:37.804Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:45:37.804Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, utilitarian digital workspace aesthetic — the kind of",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1936,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1926
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10973,
+                "completion_tokens": 2653
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:45:37.805Z",
+              "duration_ms": 50121,
+              "finished_at": "2026-07-25T10:46:27.926Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10973,
+              "estimated_cost": 0.072714,
+              "output_summary": "Package: What Actually Leaves the List",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 45381,
+              "completion_tokens": 2653,
+              "output_size_bytes": 9986,
+              "prompt_characters": 45093,
+              "provider_request_id": null,
+              "completion_characters": 9920
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:46:27.927Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:46:27.927Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2838,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2814
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:46:27.927Z",
+              "duration_ms": 1981,
+              "finished_at": "2026-07-25T10:46:29.908Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=fec62148-0544-4eb0-80af-e32e13a536cf; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A marketing ops lead at a small SaaS team makes a quiet, almost accidental observation on a Monday morning: for the first time in months, the weekly team standup has no content tasks on the board. No…",
+          "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management boar…",
+          "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is…",
+          "visual_world": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a wh…",
+          "attention_pattern": "The absence of tasks creates immediate curiosity about what has changed and why it matters.",
+          "narrative_mechanism": "observation: OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scannin…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "How did a whole week of 'Content Week' only produce three posts?",
+            "topic": "The content sprint that burned out the whole team and produced three posts",
+            "motifs": [
+              "laptop",
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "group"
+            ],
+            "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+            "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+            "motifs": [],
+            "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+            "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+            "motifs": [
+              "meeting",
+              "group",
+              "monitor"
+            ],
+            "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "meeting",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:46:28.028581+00:00",
+    "updated_at": "2026-07-25T10:46:30.099788+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 36,
+      "secondary": 43
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_observation→steady/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+36)",
+      "fit_secondary(+40)",
+      "soft_tie_recent_primary(4)→secondary(+3)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, "
+  },
+  "creative_mode": "observation",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "No time to create content regularly",
+    "strategy_pain_point": "No time to create content regularly"
+  },
+  "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is positioned as the thing that made a specific set of weekly tasks stop existing. The 20-video batch is the concrete mechanism: one URL submitted, a full batch of ready-to-post videos and platform assets returned, nothing left to produce or reformat.",
+  "narrative_arc": "OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scanning the team's task board on a Monday morning. She notices, almost offhandedly, that the content row is empty. Not blank because it was skipped — blank because it is already handled. A 20-video batch from fenrik Studio landed on Friday. Every post is labeled, captioned, and ready. MEANING: The video names, plainly and without drama, what used to live in that content row: deciding what to post, writing scripts, reformatting captions for each platform, chasing a freelancer for revisions, and blocking two hours on Thursday that nobody ever actually used. That is what is gone. Not the desire to do content — the operational weight of producing it from scratch every week. REVEAL: The reframe is functional, not inspirational. The team did not suddenly become better at content. They stopped being the ones who make it. The hours that used to disappear into content decisions — quietly, without anyone noticing until Friday — are now on other tasks. The board looks different not because the team changed, but because one input changed: a URL submitted once, a batch delivered back. CTA: Prompt the viewer to submit their website URL and receive their first content package free — framed as removing one row from the list, not as a transformation.",
+  "emotional_tone": "Calm and functional — no excitement, no urgency. The tone is the same one a competent operations person uses when explaining why a process changed: matter-of-fact, slightly relieved, entirely unsentimental. The relief is real but understated.",
+  "audience_insight": "Small marketing teams and solo operators do not experience content debt as a dramatic crisis — they experience it as a low-grade, recurring friction that quietly consumes planning time, standup time, and Thursday afternoons. The pain is not loud. It is the task that moves to next week for the fourth time. Showing the absence of that task — rather than the solution to it — is more credible than any before-and-after framing.",
+  "visual_direction": {
+    "palette": "Muted and neutral: off-white, light grey, and a single soft accent color (a muted teal or slate blue) used only for the task board UI. No bold brand colors dominating the frame.",
+    "lighting": "Flat, even natural daylight from a window to the side — the kind of light that exists in a real office on a Monday morning, not a studio. No dramatic shadows, no warm golden tones. Honest and unremarkable.",
+    "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a while. No clutter, but also no staging. The space looks used.",
+    "camera_style": "Static or very gently handheld — no cuts for energy, no fast zooms. Slow push-in on the task board screen as the observation lands. Occasional close-up on the empty content row. Vertical 9:16 framing throughout for TikTok.",
+    "art_direction": "Clean, utilitarian digital workspace aesthetic — the kind of environment where work actually happens, not where it is performed for a camera. Task management interface on screen, minimal desk surface visible. Text overlays are plain and functional: no decorative fonts, no motion graphics. On-screen labels appear as the tasks are named, then visually struck through or removed as the observation lands.",
+    "character_style": "One person — a marketing ops lead or small team member, mid-twenties to mid-thirties, dressed in everyday work clothes (not startup-casual, not corporate). Present in the frame briefly at the open and close; the task board is the primary visual subject, not the person."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce."
+  },
+  "render_metadata": {
+    "id": "899ef0dc-a74f-4cab-865c-c74336564e02",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:46:29.748236+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a task management board on a laptop screen showing an empty row labeled 'Content Tasks' with a muted teal accent color. The background is a tidy home office with natural daylight streaming in from the side. Off-white and light grey palette. Vertical 9:16 framing."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Wide shot of a compact tidy desk workspace — laptop open to a task board, a coffee cup at the edge of frame, soft natural side light from a window. No clutter, no staging. The space looks genuinely used. One person partially visible at the edge of frame, mid-twenties, everyday work clothes."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Screen insert close-up of a file folder view on a monitor — video files and caption documents neatly labeled by platform name. Muted teal folder accent. Clean, complete, nothing missing. Flat even natural light. Vertical 9:16 framing."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Task management board on a laptop screen — content task items briefly visible as greyed-out struck-through text, then the row clears to empty. Muted teal accent on the empty row. Natural daylight from the side. Static frame, vertical 9:16."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against an off-white background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "I opened our task board this morning and realized something was missing.",
+    "cta": "Submit your website URL — your first content package is free, nothing left to produce.",
+    "voiceover_text": "I opened our task board this morning and realized something was missing. The content row was empty. Not moved to next week. Not deprioritized. Just gone. A 20-video batch landed on Friday — every post labeled, captioned, platform-ready. What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work. One URL submitted. One batch returned. Nothing left to produce.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: thoughtful, reflective, steady pacing. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A marketing ops lead at a small SaaS team makes a quiet, almost accidental observation on a Monday morning: for the first time in months, the weekly team standup has no content tasks on the board. No…",
+      "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management boar…",
+      "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is…",
+      "visual_world": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a wh…",
+      "attention_pattern": "The absence of tasks creates immediate curiosity about what has changed and why it matters.",
+      "narrative_mechanism": "observation: OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scannin…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediatips",
+    "#marketingteam",
+    "#smallbusiness",
+    "#saasmarketing"
+  ],
+  "hook": "I opened our task board this morning and realized something was missing.",
+  "scenario": "A marketing ops lead at a two-person SaaS team opens the shared task board on a Monday morning standup. She scans the columns out of habit — bugs, customer requests, growth tasks — and stops at the content row. It is empty. Not because someone forgot to add tasks. Because a 20-video batch from fenrik Studio arrived on Friday, fully labeled and platform-ready. For the first time in months, there is nothing to decide, nothing to reformat, nothing to chase. The standup moves on in four minutes. Nobody mentions it. That is exactly the point.",
+  "video": {
+    "script": "SCENE 1 — CLOSE ON TASK BOARD\nCamera pushes slowly into a laptop screen showing a task management board. One row labeled 'Content Tasks' is visibly empty. Muted teal accent. Natural side light.\n\nVO: 'I opened our task board this morning and realized something was missing.'\n\nSCENE 2 — EMPTY ROW, SLIGHT PULL BACK\nThe empty content row stays on screen. A coffee cup sits at the edge of frame. The room is quiet.\n\nVO: 'The content row was empty. Not moved to next week. Not deprioritized. Just gone.'\n\nSCENE 3 — SCREEN INSERT: BATCH FILES\nCut to a folder view on screen — video files labeled by platform, caption docs alongside them. Tidy, complete, nothing missing.\n\nVO: 'A 20-video batch landed on Friday — every post labeled, captioned, platform-ready.'\n\nSCENE 4 — TASK BOARD: STRUCK-THROUGH ITEMS\nReturn to the task board. Previous content tasks appear briefly as greyed-out struck-through text, then clear.\n\nVO: 'What disappeared: deciding what to post, writing scripts, reformatting captions, chasing revisions. That time went back to actual work.'\n\nSCENE 5 — PERSON AT DESK, QUIET CLOSE\nThe ops lead glances at the screen, then back to other work. Calm. Unremarkable. The board is still visible in background.\n\nVO: 'One URL submitted. One batch returned. Nothing left to produce.'",
+    "concept": "A marketing ops lead scans the team task board on a Monday morning and notices the content row is completely empty — not skipped, not deferred, simply handled. The video traces what that absence means operationally: which specific tasks vanished, where the hours went, and what changed. The mechanism is plain: a 20-video batch from fenrik Studio arrived Friday, ready to post. One URL in, a full batch out. The content row stopped existing because the production work stopped belonging to the team.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "How did a whole week of 'Content Week' only produce three posts?",
+      "topic": "The content sprint that burned out the whole team and produced three posts",
+      "motifs": [
+        "laptop",
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "group"
+      ],
+      "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "motifs": [],
+      "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "motifs": [
+        "meeting",
+        "group",
+        "monitor"
+      ],
+      "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "meeting",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 7052,
+          "completion_tokens": 1211
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:45:03.965Z",
+        "duration_ms": 31764,
+        "finished_at": "2026-07-25T10:45:35.729Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 7052,
+        "estimated_cost": 0.039321,
+        "output_summary": "Concept: What Actually Leaves the List",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 30508,
+        "completion_tokens": 1211,
+        "output_size_bytes": 5361,
+        "prompt_characters": 30230,
+        "provider_request_id": null,
+        "completion_characters": 5319
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5856,
+          "completion_tokens": 132
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:45:35.729Z",
+        "duration_ms": 2075,
+        "finished_at": "2026-07-25T10:45:37.804Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5856,
+        "estimated_cost": 0.000881,
+        "output_summary": "Opening: I opened our task board this morning and realized something was missing.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 28300,
+        "completion_tokens": 132,
+        "output_size_bytes": 631,
+        "prompt_characters": 28142,
+        "provider_request_id": null,
+        "completion_characters": 631
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:45:37.804Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:45:37.804Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, utilitarian digital workspace aesthetic — the kind of",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1936,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1926
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10973,
+          "completion_tokens": 2653
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:45:37.805Z",
+        "duration_ms": 50121,
+        "finished_at": "2026-07-25T10:46:27.926Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10973,
+        "estimated_cost": 0.072714,
+        "output_summary": "Package: What Actually Leaves the List",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 45381,
+        "completion_tokens": 2653,
+        "output_size_bytes": 9986,
+        "prompt_characters": 45093,
+        "provider_request_id": null,
+        "completion_characters": 9920
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:46:27.927Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:46:27.927Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2838,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2814
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:46:27.927Z",
+        "duration_ms": 1981,
+        "finished_at": "2026-07-25T10:46:29.908Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=fec62148-0544-4eb0-80af-e32e13a536cf; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "c614ac61-a9e9-4ec7-ba7f-fc7012a10d41",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

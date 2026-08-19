@@ -1,0 +1,25 @@
+{
+  "passed": false,
+  "summary": [
+    "scenes_2_and_3_no_visual_progression:static_repetition|location_unknown|action_unknown"
+  ],
+  "version": "visual-progression@1",
+  "warnings": [
+    {
+      "indexA": 1,
+      "indexB": 2,
+      "changed": {
+        "action": false,
+        "stakes": false,
+        "emotion": false,
+        "location": false,
+        "information": false
+      },
+      "reasons": [
+        "static_repetition",
+        "location_unknown",
+        "action_unknown"
+      ]
+    }
+  ]
+}

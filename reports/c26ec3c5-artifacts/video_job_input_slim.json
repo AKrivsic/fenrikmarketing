@@ -1,0 +1,118 @@
+{
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "delivery_arc",
+    "sfx_selected",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "opening_delivery",
+    "tts_instructions",
+    "attention_version",
+    "creative_identity",
+    "opening_structure",
+    "production_run_id",
+    "weekly_strategy_id",
+    "attention_mechanism",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "narrative_beat_roles",
+    "visual_medium_source",
+    "opening_motion_intent",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ],
+  "scenes": [
+    {
+      "id": "scene-1",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality \u2014 soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame \u2014 a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality \u2014 soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame \u2014 a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-2",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM \u2014 its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion \u2014 a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM \u2014 its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion \u2014 a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-3",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM \u2014 its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock \u2014 the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM \u2014 its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock \u2014 the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-4",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible \u2014 left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface \u2014 a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible \u2014 left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface \u2014 a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-5",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time \u2014 second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff \u2014 two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension \u2014 only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time \u2014 second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff \u2014 two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension \u2014 only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+        }
+      },
+      "renderer_version": "image@1"
+    }
+  ],
+  "voice": null,
+  "voiceover": "HOOK (0\u20133s): Tight shot on the mustard-yellow wall. The left clock's second hand snaps to 6:00 PM and freezes mid-sweep. No voiceover. The stillness is the hook. SETUP (3\u201310s): Camera holds. Both clocks visible. Left labeled 'Us' \u2014 frozen. Right unlabeled \u2014 running. VO begins: 'Your clock stopped. Theirs didn't. You close at six. You respond fast \u2014 during business hours.' ESCALATION (10\u201318s): The right clock moves to 11:30 PM. A hand enters frame and writes 'Them' on the right clock. Camera pulls back slightly to frame both. VO: 'But the prospect doing serious research at midnight? They're not on your schedule. One unanswered question at the wrong hour, and they move to whoever was there.' RESOLUTION (18\u201325s): A phone enters the lower frame \u2014 screen shows an active AI chat interface responding at 12:43 AM. The left clock's second hand begins moving. Both clocks now run together. VO: 'Your website doesn't have to sleep. Create your AI assistant \u2014 let your website keep running when you can't.'",
+  "motion": null
+}

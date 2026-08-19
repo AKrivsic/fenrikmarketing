@@ -1,0 +1,472 @@
+{
+  "id": "481814b9-64ad-45f9-90a4-a1041030e15d",
+  "status": "completed",
+  "created_at": "2026-07-24T00:54:13.05587+00:00",
+  "updated_at": "2026-07-24T00:59:20.574665+00:00",
+  "error_message": null,
+  "input_keys": [
+    "cta",
+    "hook",
+    "angle",
+    "topic",
+    "scenes",
+    "script",
+    "concept",
+    "scenario",
+    "subtitles",
+    "tts_voice",
+    "package_id",
+    "asset_images",
+    "delivery_arc",
+    "sfx_selected",
+    "voice_scores",
+    "voice_source",
+    "creative_mode",
+    "image_prompts",
+    "visual_medium",
+    "visual_scenes",
+    "voice_reasons",
+    "selected_voice",
+    "visual_profile",
+    "voiceover_text",
+    "delivery_reason",
+    "opening_delivery",
+    "tts_instructions",
+    "attention_version",
+    "creative_identity",
+    "opening_structure",
+    "production_run_id",
+    "weekly_strategy_id",
+    "attention_mechanism",
+    "creative_mode_beats",
+    "explicit_scene_plan",
+    "narrative_beat_roles",
+    "visual_medium_source",
+    "opening_motion_intent",
+    "presentation_analyzer",
+    "visual_medium_version",
+    "visual_profile_source",
+    "resolved_primary_voice",
+    "visual_profile_version",
+    "resolved_secondary_voice"
+  ],
+  "output_keys": [
+    "debug",
+    "mp4_url",
+    "render_spec",
+    "subtitle_url",
+    "thumbnail_url",
+    "artifacts_persisted_at"
+  ],
+  "debug": {
+    "sfx_mixed": false,
+    "sfx_reason": "not_selected",
+    "match_ratio": 0.967741935483871,
+    "fallback_used": false,
+    "language_hint": null,
+    "audio_duration": 25.356,
+    "duration_delta": 0.010666999999997984,
+    "render_warning": false,
+    "video_duration": 25.366667,
+    "render_warnings": [],
+    "speech_duration": 23.856,
+    "subtitle_source": "whisper",
+    "target_duration": 25.356,
+    "srt_last_cue_end": 23.856,
+    "subtitle_warning": false,
+    "language_detected": "english",
+    "post_mux_duration": 25.356,
+    "tts_tail_expected": [
+      "website",
+      "keep",
+      "running",
+      "when",
+      "you",
+      "cant"
+    ],
+    "tts_validation_log": [
+      {
+        "pass": true,
+        "attempt": 1,
+        "expected_tail": [
+          "website",
+          "keep",
+          "running",
+          "when",
+          "you",
+          "cant"
+        ],
+        "durationSeconds": 23.856,
+        "transcript_tail": [
+          "let",
+          "your",
+          "website",
+          "keep",
+          "running",
+          "when",
+          "you",
+          "cant"
+        ]
+      }
+    ],
+    "whisper_word_count": 60,
+    "tail_buffer_seconds": 1.5,
+    "tts_tail_retry_used": false,
+    "tts_tail_transcript": [
+      "let",
+      "your",
+      "website",
+      "keep",
+      "running",
+      "when",
+      "you",
+      "cant"
+    ],
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "gpt-4o-mini-tts",
+          "repair": false,
+          "success": true,
+          "provider": "tts",
+          "warnings": [],
+          "raw_usage": {
+            "character_count": 365,
+            "duration_seconds": 23.856,
+            "usd_per_1k_chars": 0.015
+          },
+          "step_name": "TTS",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:15.482Z",
+          "duration_ms": 4859,
+          "finished_at": "2026-07-24T00:54:20.340Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+          "prompt_tokens": null,
+          "estimated_cost": 0.005475,
+          "output_summary": "audio duration=23.856s",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": 369,
+          "completion_tokens": null,
+          "output_size_bytes": 114,
+          "prompt_characters": 365,
+          "provider_request_id": null,
+          "completion_characters": 114
+        },
+        {
+          "model": "whisper-1",
+          "repair": false,
+          "success": true,
+          "provider": "whisper",
+          "warnings": [],
+          "raw_usage": {
+            "word_count": 60,
+            "usd_per_min": 0.006,
+            "fallback_used": false,
+            "duration_seconds": 23.856
+          },
+          "step_name": "Whisper",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:20.341Z",
+          "duration_ms": 2478,
+          "finished_at": "2026-07-24T00:54:22.819Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+          "prompt_tokens": null,
+          "estimated_cost": 0.002386,
+          "output_summary": "60 words (english)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 37,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 37
+        },
+        {
+          "model": "gpt-image-1",
+          "repair": false,
+          "success": true,
+          "provider": "image",
+          "warnings": [],
+          "raw_usage": {
+            "usd_per_still": 0.042,
+            "reused_still_count": 0,
+            "generated_still_count": 5
+          },
+          "step_name": "Image generation",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:22.964Z",
+          "duration_ms": 110405,
+          "finished_at": "2026-07-24T00:56:13.368Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+          "prompt_tokens": null,
+          "estimated_cost": 0.21,
+          "output_summary": "generated=5; reused=0",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 67,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 67
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "video",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Video rendering",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:56:13.576Z",
+          "duration_ms": 179742,
+          "finished_at": "2026-07-24T00:59:13.317Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "video_duration=25.366667",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 50,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 50
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23"
+    },
+    "post_subtitle_duration": 25.366667,
+    "tts_validation_attempts": 1,
+    "subtitle_timeline_duration": 23.856,
+    "tts_tail_validation_passed": true,
+    "intermediate_video_duration": 25.366667
+  },
+  "render_spec": {
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-1.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-2.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-3.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-4.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-5.png",
+        "image_bucket": "video-renders",
+        "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "version": 1,
+    "metadata": {
+      "rendered_at": "2026-07-24T00:59:18.850Z",
+      "semantic_motion": {
+        "beats": [
+          {
+            "beat_id": "beat-1",
+            "scene_id": "scene-1",
+            "motion_intent": "ATTENTION",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "MEDIUM",
+            "motion_primitive": "zoom_in"
+          },
+          {
+            "beat_id": "beat-2",
+            "scene_id": "scene-2",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "drift_up"
+          },
+          {
+            "beat_id": "beat-3",
+            "scene_id": "scene-3",
+            "motion_intent": "EXPLAIN",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "drift_down"
+          },
+          {
+            "beat_id": "beat-4",
+            "scene_id": "scene-4",
+            "motion_intent": "EMPHASIS",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "zoom_in"
+          },
+          {
+            "beat_id": "beat-5",
+            "scene_id": "scene-5",
+            "motion_intent": "CLOSE",
+            "motion_version": "semantic-motion@2",
+            "motion_intensity": "LOW",
+            "motion_primitive": "static"
+          }
+        ],
+        "version": "semantic-motion@2"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-2",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-3",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-4",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents."
+        }
+      },
+      "renderer_version": "image@1"
+    },
+    {
+      "id": "scene-5",
+      "type": "IMAGE",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment.",
+      "duration_seconds": 4,
+      "payload_snapshot": {
+        "media": {
+          "source": "ai",
+          "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+        }
+      },
+      "renderer_version": "image@1"
+    }
+  ],
+  "voice": null,
+  "tts": null,
+  "whisper": null,
+  "images": null,
+  "ffmpeg": null,
+  "cost": null
+}

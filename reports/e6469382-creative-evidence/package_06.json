@@ -1,0 +1,1768 @@
+{
+  "package_index": 6,
+  "run_item_id": "b33ec513-7ed4-45a1-8f5d-43ad71d7f85d",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "c92ad59a-5346-4586-8591-a3bb8357fb90",
+  "package_title": "The Four-Platform Tax Nobody Warned You About",
+  "package_status": "draft",
+  "strategy_item_id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A practical breakdown — not emotional, just numerical — of the real time and mental load required to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts simultaneously as a solo operator.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "source": "production_run",
+      "pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+      "package_index": 6,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "angle": "A practical breakdown — not emotional, just numerical — of the real time and mental load required to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts simultaneously as a solo operator.",
+      "seed": "Problem Aware|What it actually costs to stay active on four platforms at once without a team|A practical breakdown — not emotional, just numerical — of the real time and mental load required to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts simultaneously as a solo operator.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "story",
+        "name": "Story",
+        "description": "A tiny narrative built around one real customer or operator moment.",
+        "structure": "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
+        "avoid": "No abstract advice; keep it one situation, not a montage of tips.",
+        "narrativeBeats": [
+          "setup",
+          "conflict",
+          "twist",
+          "resolution",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "fear",
+        "instruction": "Open on a concrete, relevant risk or consequence the viewer wants to avoid.",
+        "exampleForm": "\"Guests in two hours and the bathroom still smells.\"",
+        "forbidGeneric": "Do not open with a vague warning like \"Be careful with...\"."
+      },
+      "persona": {
+        "id": "witty_friend",
+        "name": "Witty Friend",
+        "vocabulary": "casual, playful, relatable",
+        "rhythm": "snappy, short beats with a punchline",
+        "energy": "warm and fun",
+        "exaggeration": "moderate, comedic — never about the facts"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Four-Platform Tax Nobody Warned You About",
+    "core_idea": "A solo operator sits down on a Sunday afternoon to 'knock out social content for the week' across LinkedIn, Instagram, TikTok, and YouTube Shorts — and a running on-screen tally of actual time spent reveals the real cost before they've posted a single thing.",
+    "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all four channels simultaneously. The product is not positioned as a shortcut; it's positioned as the removal of a tax the viewer didn't know they were paying.",
+    "why_it_works": "The fear hook is concrete and specific — not 'content is hard' but 'watch three hours disappear in real time.' The running timer mechanic is visual, native to short-form video, and makes an abstract pain point feel measurable and undeniable. The twist reframes the loss — it's not just one afternoon, it's every topic, every week. The resolution earns its place because the problem has been fully dramatized before the product appears. The witty friend voice keeps the tone light enough that the viewer smiles through the discomfort rather than scrolling past it.",
+    "narrative_arc": "SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee still hot, genuinely optimistic. Caption on screen: 'Sunday 2pm. Gonna smash out this week's content.' They open a blank doc and type 'LinkedIn post.' A small timer appears in the corner. CONFLICT: Cut through the next 90 seconds in rapid, slightly comedic time-lapse. LinkedIn: draft, redraft, reformat for professional tone — timer hits 45 minutes. Instagram: same message, now needs a hook caption, line breaks, five hashtags, a visual — timer hits 1 hr 20 min. TikTok: completely different format, needs a spoken hook, a trending angle, a script that sounds natural not written — timer hits 2 hrs 10 min. YouTube Shorts: vertical cut, different pacing, description copy, tags — timer hits 3 hrs 05 min. Each platform gets a small icon and a running total. The coffee is cold. The founder hasn't posted anything yet. TWIST: A second caption appears: 'That was just one topic. You have four weeks of content to fill.' The founder stares at the screen. Not panicked — just quietly doing the math. On-screen text: '3 hours. 1 topic. 0 posts published.' RESOLUTION: Calm voiceover: 'fenrik Studio takes your website URL and delivers ready-to-post videos, captions, and hashtags for all four platforms — no camera, no reformatting, no Sunday afternoon gone.' CTA slides in clean. PUNCHLINE ENERGY: The humor is in the tally — not mocking the founder, mocking the task itself.",
+    "emotional_tone": "Wry and relatable — the viewer recognizes themselves immediately and laughs before they feel the sting. The revelation is practical, not dramatic. The resolution feels like relief, not rescue.",
+    "audience_insight": "Solo operators and small teams genuinely underestimate the platform-switching tax. They budget for 'an hour of content' without accounting for the fact that LinkedIn, Instagram, TikTok, and YouTube Shorts each have distinct formats, tones, and technical requirements. The real cost isn't writing — it's reformatting the same idea four times from scratch. Showing this as a running clock makes an invisible problem suddenly visible and quantifiable.",
+    "visual_direction": {
+      "palette": "Warm off-white and light oak tones for the environment; the timer and platform badges use clean, high-contrast white-on-dark chips so they read instantly on a phone screen at thumb-scroll speed.",
+      "lighting": "Soft natural afternoon window light, slightly warm. As the time-lapse progresses and the afternoon fades, the light shifts subtly cooler and dimmer — a visual metaphor for the day slipping away without being heavy-handed about it.",
+      "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon, not a stock photo. A window with soft daylight visible in the background.",
+      "camera_style": "Mostly static medium shot on the founder at the table, with occasional tight cuts to the laptop screen showing the blank doc and the timer. Time-lapse sequences are slightly sped up with a subtle zoom drift to signal time passing. No shaky cam — clean and readable at mobile scale.",
+      "art_direction": "Clean, slightly warm realism. The running timer in the corner is the hero graphic element — bold, simple, impossible to ignore. Each platform gets a small recognizable icon badge as it's introduced. On-screen text overlays are minimal and punchy — no decorative elements, just the numbers doing the work.",
+      "character_style": "One solo founder — gender-neutral presentation, casual weekend clothes (plain sweatshirt, no branding), early 30s, looks competent not stressed. The character is the straight-man; the comedy comes from the situation, not from the person being foolish."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and engaging, setting up a comedic time-lapse that contrasts optimism with the reality of the task ahead.",
+    "emotion": "Wry and relatable, evoking a sense of shared frustration.",
+    "first_image": "A solo founder sits at a cluttered kitchen table, laptop open, coffee mug steaming, with a blank document on the screen. A timer appears in the corner, starting at zero.",
+    "attention_pattern": "The timer's presence creates immediate curiosity about how long it will take to produce content, hinting at the hidden costs of managing multiple platforms.",
+    "first_spoken_sentence": "It's Sunday at 2pm, and you're ready to tackle this week's social content."
+  },
+  "visual_identity": {
+    "palette": "Warm off-white and light oak tones for the environment; the timer and platform badges use clean, high-contrast white-on-dark chips so they read instantly on a phone screen at thumb-scroll speed.",
+    "lighting": "Soft natural afternoon window light, slightly warm. As the time-lapse progresses and the afternoon fades, the light shifts subtly cooler and dimmer — a visual metaphor for the day slipping away without being heavy-handed about it.",
+    "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon, not a stock photo. A window with soft daylight visible in the background.",
+    "camera_style": "Mostly static medium shot on the founder at the table, with occasional tight cuts to the laptop screen showing the blank doc and the timer. Time-lapse sequences are slightly sped up with a subtle zoom drift to signal time passing. No shaky cam — clean and readable at mobile scale.",
+    "art_direction": "Clean, slightly warm realism. The running timer in the corner is the hero graphic element — bold, simple, impossible to ignore. Each platform gets a small recognizable icon badge as it's introduced. On-screen text overlays are minimal and punchy — no decorative elements, just the numbers doing the work.",
+    "character_style": "One solo founder — gender-neutral presentation, casual weekend clothes (plain sweatshirt, no branding), early 30s, looks competent not stressed. The character is the straight-man; the comedy comes from the situation, not from the person being foolish.",
+    "opening_emotion": "Wry and relatable, evoking a sense of shared frustration.",
+    "opening_first_image": "A solo founder sits at a cluttered kitchen table, laptop open, coffee mug steaming, with a blank document on the screen. A timer appears in the corner, starting at zero."
+  },
+  "package": {
+    "title": "The Four-Platform Tax Nobody Warned You About",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+    "scenario": "A solo SaaS founder clears their Sunday afternoon to produce one week of social content across LinkedIn, Instagram, TikTok, and YouTube Shorts. They open a blank document at 2pm feeling genuinely optimistic. By 5pm they have four half-finished drafts in different tabs, a cold coffee, and zero published posts. The problem was never the idea — it was reformatting the same idea four times from scratch, for four platforms with completely different formats, tones, and technical requirements. The afternoon is gone. The content is not.",
+    "video": {
+      "script": "SCENE 1 — SETUP\n[Medium shot. Solo founder at kitchen table, laptop open, coffee steaming. Blank document on screen. Timer appears in corner: 0:00.]\nVO: 'It's Sunday at 2pm, and you're ready to tackle this week's social content.'\nOn-screen text: 'Sunday 2pm. One topic. Four platforms. Let's go.'\n\nSCENE 2 — CONFLICT: LINKEDIN\n[Slight time-lapse. Founder typing, deleting, retyping. Timer: 0:45.]\nVO: 'LinkedIn post — 45 minutes.'\nOn-screen badge: LinkedIn icon. Timer chip: 45 min.\n\nSCENE 3 — CONFLICT: INSTAGRAM\n[Cut to founder scrolling for a visual reference, rewriting caption with line breaks. Timer: 1:20.]\nVO: 'Instagram caption plus visuals — another 35.'\nOn-screen badge: Instagram icon. Timer chip: 1 hr 20 min.\n\nSCENE 4 — CONFLICT: TIKTOK + YOUTUBE\n[Rapid time-lapse. Founder speaking quietly to themselves, scripting, scrapping, rewriting. Light through window shifts cooler. Timer: 2:10, then 3:05.]\nVO: 'TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours.'\nOn-screen badges: TikTok icon, YouTube icon. Running total chip: 3 hrs 05 min.\n\nSCENE 5 — TWIST\n[Static shot. Founder stares at screen. Coffee mug untouched and cold. On-screen text appears: '3 hours. 1 topic. 0 posts published.']\nVO: 'Coffee's cold. Nothing is posted. That was one topic.'\n\nSCENE 6 — RESOLUTION\n[Clean cut. Calm. Laptop screen shows fenrik Studio logo asset.]\nVO: 'fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.'\nCTA card slides in: 'Save this so you remember what Sunday actually costs you.'",
+      "concept": "A solo founder sits down at their kitchen table on a Sunday afternoon, genuinely optimistic about knocking out a week of social content. A running timer in the corner of the screen tracks real time as they attempt to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts — one topic, four platforms, from scratch. The timer becomes the punchline. By the time they've finished reformatting the same idea for the fourth platform, three hours have passed and nothing has been published. The twist reframes the loss: that was one topic. The resolution introduces fenrik Studio as the mechanism that eliminates the reformatting loop entirely.",
+      "duration_seconds": "55"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#solofounder",
+      "#socialmediatips",
+      "#contentcreation",
+      "#worksmarter"
+    ],
+    "subtitles_planned": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style."
+    },
+    {
+      "source": "asset",
+      "used_as": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "voiceover": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+  "voice_prompts": {
+    "voiceover_text": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot.",
+    "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette.",
+    "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip.",
+    "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this so you remember what Sunday actually costs you.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "3 hours. 1 topic. 0 posts published. The four-platform tax is real 😶 link in bio",
+        "hashtags": [
+          "#contentcreator",
+          "#socialmediamarketing",
+          "#solofounder",
+          "#contentstrategy",
+          "#creatortips"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "shorts",
+        "caption": "You sat down to do one week of content. Three hours later, nothing's posted. Here's the math nobody shows you.",
+        "hashtags": [
+          "#YouTubeShorts",
+          "#contentmarketing",
+          "#solofounder"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Ever sit down on a Sunday to 'quickly sort out your social content' — and look up three hours later with nothing actually posted? 😅 LinkedIn needs one tone, Instagram needs line breaks and hashtags, TikTok needs a totally different script, YouTube Shorts needs its own pacing. Same idea, four complete rewrites. That's the part nobody budgets for. Drop a 🕐 in the comments if this sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmedia"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Most solo operators budget about an hour for 'content this week.' What they don't budget for is the platform-switching tax.\n\nLinkedIn needs a professional tone and structured copy. Instagram needs a hook, line breaks, and hashtags. TikTok needs a spoken script that sounds unscripted. YouTube Shorts needs different pacing and separate metadata.\n\nSame topic. Four complete rewrites. Three hours later — nothing published.\n\nThe cost isn't writing the idea. It's reformatting it four times from scratch, every single week.\n\nIf that math is quietly eating your Sundays, you're not alone.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#productivitytips"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this so you remember what Sunday actually costs you.",
+        "format": "reel",
+        "caption": "Sunday 2pm. Coffee hot. Motivation high.\n\nThree hours later — cold coffee, four half-finished drafts, zero posts published.\n\nLinkedIn wants professional. Instagram wants a hook and line breaks. TikTok wants a spoken script that sounds natural. YouTube Shorts wants different pacing and separate copy.\n\nSame topic. Four complete rewrites from scratch. Every single week.\n\nSave this if that math hits a little too close. 👇",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#socialmediatips",
+          "#smallbusiness",
+          "#creatorburnout",
+          "#contentcreation",
+          "#marketingtips",
+          "#worksmarter"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "11225a14-db9d-4bac-8b1c-73bb2964ca3b",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Four-Platform Tax Nobody Warned You About",
+        "body": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+        "caption": "Most solo operators budget about an hour for 'content this week.' What they don't budget for is the platform-switching tax.\n\nLinkedIn needs a professional tone and structured copy. Instagram needs a hook, line breaks, and hashtags. TikTok needs a spoken script that sounds unscripted. YouTube Shorts needs different pacing and separate metadata.\n\nSame topic. Four complete rewrites. Three hours later — nothing published.\n\nThe cost isn't writing the idea. It's reformatting it four times from scratch, every single week.\n\nIf that math is quietly eating your Sundays, you're not alone.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#productivitytips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c8b519dd-7900-4185-baed-9b6e8ce40e61",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Four-Platform Tax Nobody Warned You About",
+        "body": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+        "caption": "3 hours. 1 topic. 0 posts published. The four-platform tax is real 😶 link in bio",
+        "hashtags": [
+          "#contentcreator",
+          "#socialmediamarketing",
+          "#solofounder",
+          "#contentstrategy",
+          "#creatortips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "6fbbd86f-d9d9-4a7d-94cd-b4e528c75661",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Four-Platform Tax Nobody Warned You About",
+        "body": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+        "caption": "Sunday 2pm. Coffee hot. Motivation high.\n\nThree hours later — cold coffee, four half-finished drafts, zero posts published.\n\nLinkedIn wants professional. Instagram wants a hook and line breaks. TikTok wants a spoken script that sounds natural. YouTube Shorts wants different pacing and separate copy.\n\nSame topic. Four complete rewrites from scratch. Every single week.\n\nSave this if that math hits a little too close. 👇",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#socialmediatips",
+          "#smallbusiness",
+          "#creatorburnout",
+          "#contentcreation",
+          "#marketingtips",
+          "#worksmarter"
+        ],
+        "cta": "Save this so you remember what Sunday actually costs you.",
+        "language": null
+      },
+      {
+        "id": "a3cb18e3-5e59-4cce-a04d-8c9412859622",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Four-Platform Tax Nobody Warned You About",
+        "body": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+        "caption": "You sat down to do one week of content. Three hours later, nothing's posted. Here's the math nobody shows you.",
+        "hashtags": [
+          "#YouTubeShorts",
+          "#contentmarketing",
+          "#solofounder"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "fa721ebc-2ed4-4d08-83ee-d153d9c72e2e",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Four-Platform Tax Nobody Warned You About",
+        "body": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+        "caption": "Ever sit down on a Sunday to 'quickly sort out your social content' — and look up three hours later with nothing actually posted? 😅 LinkedIn needs one tone, Instagram needs line breaks and hashtags, TikTok needs a totally different script, YouTube Shorts needs its own pacing. Same idea, four complete rewrites. That's the part nobody budgets for. Drop a 🕐 in the comments if this sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmedia"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "c92ad59a-5346-4586-8591-a3bb8357fb90",
+    "title": "The Four-Platform Tax Nobody Warned You About",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+    "package_brief": {
+      "cta": {
+        "text": "Save this so you remember what Sunday actually costs you.",
+        "type": "save"
+      },
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "video": {
+        "script": "SCENE 1 — SETUP\n[Medium shot. Solo founder at kitchen table, laptop open, coffee steaming. Blank document on screen. Timer appears in corner: 0:00.]\nVO: 'It's Sunday at 2pm, and you're ready to tackle this week's social content.'\nOn-screen text: 'Sunday 2pm. One topic. Four platforms. Let's go.'\n\nSCENE 2 — CONFLICT: LINKEDIN\n[Slight time-lapse. Founder typing, deleting, retyping. Timer: 0:45.]\nVO: 'LinkedIn post — 45 minutes.'\nOn-screen badge: LinkedIn icon. Timer chip: 45 min.\n\nSCENE 3 — CONFLICT: INSTAGRAM\n[Cut to founder scrolling for a visual reference, rewriting caption with line breaks. Timer: 1:20.]\nVO: 'Instagram caption plus visuals — another 35.'\nOn-screen badge: Instagram icon. Timer chip: 1 hr 20 min.\n\nSCENE 4 — CONFLICT: TIKTOK + YOUTUBE\n[Rapid time-lapse. Founder speaking quietly to themselves, scripting, scrapping, rewriting. Light through window shifts cooler. Timer: 2:10, then 3:05.]\nVO: 'TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours.'\nOn-screen badges: TikTok icon, YouTube icon. Running total chip: 3 hrs 05 min.\n\nSCENE 5 — TWIST\n[Static shot. Founder stares at screen. Coffee mug untouched and cold. On-screen text appears: '3 hours. 1 topic. 0 posts published.']\nVO: 'Coffee's cold. Nothing is posted. That was one topic.'\n\nSCENE 6 — RESOLUTION\n[Clean cut. Calm. Laptop screen shows fenrik Studio logo asset.]\nVO: 'fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.'\nCTA card slides in: 'Save this so you remember what Sunday actually costs you.'",
+        "concept": "A solo founder sits down at their kitchen table on a Sunday afternoon, genuinely optimistic about knocking out a week of social content. A running timer in the corner of the screen tracks real time as they attempt to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts — one topic, four platforms, from scratch. The timer becomes the punchline. By the time they've finished reformatting the same idea for the fourth platform, three hours have passed and nothing has been published. The twist reframes the loss: that was one topic. The resolution introduces fenrik Studio as the mechanism that eliminates the reformatting loop entirely.",
+        "duration_seconds": "55"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#solofounder",
+        "#socialmediatips",
+        "#contentcreation",
+        "#worksmarter"
+      ],
+      "scenario": "A solo SaaS founder clears their Sunday afternoon to produce one week of social content across LinkedIn, Instagram, TikTok, and YouTube Shorts. They open a blank document at 2pm feeling genuinely optimistic. By 5pm they have four half-finished drafts in different tabs, a cold coffee, and zero published posts. The problem was never the idea — it was reformatting the same idea four times from scratch, for four platforms with completely different formats, tones, and technical requirements. The afternoon is gone. The content is not.",
+      "subtitles": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+      "asset_usage": [
+        {
+          "used_as": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "image_prompts": [
+        "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot.",
+        "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette.",
+        "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip.",
+        "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style."
+        },
+        {
+          "source": "asset",
+          "used_as": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "voiceover_text": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "3 hours. 1 topic. 0 posts published. The four-platform tax is real 😶 link in bio",
+          "hashtags": [
+            "#contentcreator",
+            "#socialmediamarketing",
+            "#solofounder",
+            "#contentstrategy",
+            "#creatortips"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "shorts",
+          "caption": "You sat down to do one week of content. Three hours later, nothing's posted. Here's the math nobody shows you.",
+          "hashtags": [
+            "#YouTubeShorts",
+            "#contentmarketing",
+            "#solofounder"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Ever sit down on a Sunday to 'quickly sort out your social content' — and look up three hours later with nothing actually posted? 😅 LinkedIn needs one tone, Instagram needs line breaks and hashtags, TikTok needs a totally different script, YouTube Shorts needs its own pacing. Same idea, four complete rewrites. That's the part nobody budgets for. Drop a 🕐 in the comments if this sounds familiar.",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmedia"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Most solo operators budget about an hour for 'content this week.' What they don't budget for is the platform-switching tax.\n\nLinkedIn needs a professional tone and structured copy. Instagram needs a hook, line breaks, and hashtags. TikTok needs a spoken script that sounds unscripted. YouTube Shorts needs different pacing and separate metadata.\n\nSame topic. Four complete rewrites. Three hours later — nothing published.\n\nThe cost isn't writing the idea. It's reformatting it four times from scratch, every single week.\n\nIf that math is quietly eating your Sundays, you're not alone.",
+          "hashtags": [
+            "#contentmarketing",
+            "#solofounder",
+            "#productivitytips"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this so you remember what Sunday actually costs you.",
+          "format": "reel",
+          "caption": "Sunday 2pm. Coffee hot. Motivation high.\n\nThree hours later — cold coffee, four half-finished drafts, zero posts published.\n\nLinkedIn wants professional. Instagram wants a hook and line breaks. TikTok wants a spoken script that sounds natural. YouTube Shorts wants different pacing and separate copy.\n\nSame topic. Four complete rewrites from scratch. Every single week.\n\nSave this if that math hits a little too close. 👇",
+          "hashtags": [
+            "#contentmarketing",
+            "#solofounder",
+            "#socialmediatips",
+            "#smallbusiness",
+            "#creatorburnout",
+            "#contentcreation",
+            "#marketingtips",
+            "#worksmarter"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "c92ad59a-5346-4586-8591-a3bb8357fb90",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 54,
+          "secondary": 31
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "story",
+        "video_concept": {
+          "title": "The Four-Platform Tax Nobody Warned You About",
+          "core_idea": "A solo operator sits down on a Sunday afternoon to 'knock out social content for the week' across LinkedIn, Instagram, TikTok, and YouTube Shorts — and a running on-screen tally of actual time spent reveals the real cost before they've posted a single thing.",
+          "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all four channels simultaneously. The product is not positioned as a shortcut; it's positioned as the removal of a tax the viewer didn't know they were paying.",
+          "why_it_works": "The fear hook is concrete and specific — not 'content is hard' but 'watch three hours disappear in real time.' The running timer mechanic is visual, native to short-form video, and makes an abstract pain point feel measurable and undeniable. The twist reframes the loss — it's not just one afternoon, it's every topic, every week. The resolution earns its place because the problem has been fully dramatized before the product appears. The witty friend voice keeps the tone light enough that the viewer smiles through the discomfort rather than scrolling past it.",
+          "narrative_arc": "SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee still hot, genuinely optimistic. Caption on screen: 'Sunday 2pm. Gonna smash out this week's content.' They open a blank doc and type 'LinkedIn post.' A small timer appears in the corner. CONFLICT: Cut through the next 90 seconds in rapid, slightly comedic time-lapse. LinkedIn: draft, redraft, reformat for professional tone — timer hits 45 minutes. Instagram: same message, now needs a hook caption, line breaks, five hashtags, a visual — timer hits 1 hr 20 min. TikTok: completely different format, needs a spoken hook, a trending angle, a script that sounds natural not written — timer hits 2 hrs 10 min. YouTube Shorts: vertical cut, different pacing, description copy, tags — timer hits 3 hrs 05 min. Each platform gets a small icon and a running total. The coffee is cold. The founder hasn't posted anything yet. TWIST: A second caption appears: 'That was just one topic. You have four weeks of content to fill.' The founder stares at the screen. Not panicked — just quietly doing the math. On-screen text: '3 hours. 1 topic. 0 posts published.' RESOLUTION: Calm voiceover: 'fenrik Studio takes your website URL and delivers ready-to-post videos, captions, and hashtags for all four platforms — no camera, no reformatting, no Sunday afternoon gone.' CTA slides in clean. PUNCHLINE ENERGY: The humor is in the tally — not mocking the founder, mocking the task itself.",
+          "emotional_tone": "Wry and relatable — the viewer recognizes themselves immediately and laughs before they feel the sting. The revelation is practical, not dramatic. The resolution feels like relief, not rescue.",
+          "audience_insight": "Solo operators and small teams genuinely underestimate the platform-switching tax. They budget for 'an hour of content' without accounting for the fact that LinkedIn, Instagram, TikTok, and YouTube Shorts each have distinct formats, tones, and technical requirements. The real cost isn't writing — it's reformatting the same idea four times from scratch. Showing this as a running clock makes an invisible problem suddenly visible and quantifiable.",
+          "visual_direction": {
+            "palette": "Warm off-white and light oak tones for the environment; the timer and platform badges use clean, high-contrast white-on-dark chips so they read instantly on a phone screen at thumb-scroll speed.",
+            "lighting": "Soft natural afternoon window light, slightly warm. As the time-lapse progresses and the afternoon fades, the light shifts subtly cooler and dimmer — a visual metaphor for the day slipping away without being heavy-handed about it.",
+            "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon, not a stock photo. A window with soft daylight visible in the background.",
+            "camera_style": "Mostly static medium shot on the founder at the table, with occasional tight cuts to the laptop screen showing the blank doc and the timer. Time-lapse sequences are slightly sped up with a subtle zoom drift to signal time passing. No shaky cam — clean and readable at mobile scale.",
+            "art_direction": "Clean, slightly warm realism. The running timer in the corner is the hero graphic element — bold, simple, impossible to ignore. Each platform gets a small recognizable icon badge as it's introduced. On-screen text overlays are minimal and punchy — no decorative elements, just the numbers doing the work.",
+            "character_style": "One solo founder — gender-neutral presentation, casual weekend clothes (plain sweatshirt, no branding), early 30s, looks competent not stressed. The character is the straight-man; the comedy comes from the situation, not from the person being foolish."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_story→warmth(+3)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+54)",
+          "fit_secondary(+31)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and engaging, setting up a comedic time-lapse that contrasts optimism with the reality of the task ahead.",
+          "emotion": "Wry and relatable, evoking a sense of shared frustration.",
+          "first_image": "A solo founder sits at a cluttered kitchen table, laptop open, coffee mug steaming, with a blank document on the screen. A timer appears in the corner, starting at zero.",
+          "attention_pattern": "The timer's presence creates immediate curiosity about how long it will take to produce content, hinting at the hidden costs of managing multiple platforms.",
+          "first_spoken_sentence": "It's Sunday at 2pm, and you're ready to tackle this week's social content."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm off-white and light oak tones for the environment; the timer and platform badges use clean, high-contrast white-on-dark chips so they read instantly on a phone screen at thumb-scroll speed.",
+          "lighting": "Soft natural afternoon window light, slightly warm. As the time-lapse progresses and the afternoon fades, the light shifts subtly cooler and dimmer — a visual metaphor for the day slipping away without being heavy-handed about it.",
+          "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon, not a stock photo. A window with soft daylight visible in the background.",
+          "camera_style": "Mostly static medium shot on the founder at the table, with occasional tight cuts to the laptop screen showing the blank doc and the timer. Time-lapse sequences are slightly sped up with a subtle zoom drift to signal time passing. No shaky cam — clean and readable at mobile scale.",
+          "art_direction": "Clean, slightly warm realism. The running timer in the corner is the hero graphic element — bold, simple, impossible to ignore. Each platform gets a small recognizable icon badge as it's introduced. On-screen text overlays are minimal and punchy — no decorative elements, just the numbers doing the work.",
+          "character_style": "One solo founder — gender-neutral presentation, casual weekend clothes (plain sweatshirt, no branding), early 30s, looks competent not stressed. The character is the straight-man; the comedy comes from the situation, not from the person being foolish.",
+          "opening_emotion": "Wry and relatable, evoking a sense of shared frustration.",
+          "opening_first_image": "A solo founder sits at a cluttered kitchen table, laptop open, coffee mug steaming, with a blank document on the screen. A timer appears in the corner, starting at zero."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 5420,
+                "completion_tokens": 1226
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:20.362Z",
+              "duration_ms": 31181,
+              "finished_at": "2026-07-25T10:26:51.543Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 5420,
+              "estimated_cost": 0.03465,
+              "output_summary": "Concept: The Four-Platform Tax Nobody Warned You About",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 23627,
+              "completion_tokens": 1226,
+              "output_size_bytes": 5138,
+              "prompt_characters": 23435,
+              "provider_request_id": null,
+              "completion_characters": 5098
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4823,
+                "completion_tokens": 150
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:51.543Z",
+              "duration_ms": 2379,
+              "finished_at": "2026-07-25T10:26:53.922Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4823,
+              "estimated_cost": 0.000737,
+              "output_summary": "Opening: It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 23479,
+              "completion_tokens": 150,
+              "output_size_bytes": 681,
+              "prompt_characters": 23331,
+              "provider_request_id": null,
+              "completion_characters": 681
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:53.922Z",
+              "duration_ms": 1,
+              "finished_at": "2026-07-25T10:26:53.922Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, slightly warm realism. The running timer in the corne",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1881,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1869
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9872,
+                "completion_tokens": 2935
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:53.923Z",
+              "duration_ms": 55089,
+              "finished_at": "2026-07-25T10:27:49.012Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9872,
+              "estimated_cost": 0.073641,
+              "output_summary": "Package: The Four-Platform Tax Nobody Warned You About",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 40318,
+              "completion_tokens": 2935,
+              "output_size_bytes": 10823,
+              "prompt_characters": 40040,
+              "provider_request_id": null,
+              "completion_characters": 10745
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:27:49.013Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:27:49.013Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2381,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2367
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:27:49.013Z",
+              "duration_ms": 2232,
+              "finished_at": "2026-07-25T10:27:51.245Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=c92ad59a-5346-4586-8591-a3bb8357fb90; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A solo operator sits down on a Sunday afternoon to 'knock out social content for the week' across LinkedIn, Instagram, TikTok, and YouTube Shorts — and a running on-screen tally of actual time spent …",
+          "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark of…",
+          "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all…",
+          "visual_world": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon…",
+          "attention_pattern": "The timer's presence creates immediate curiosity about how long it will take to produce content, hinting at the hidden …",
+          "narrative_mechanism": "story: SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee …"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:27:49.114524+00:00",
+    "updated_at": "2026-07-25T10:27:51.418767+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 54,
+      "secondary": 31
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_story→warmth(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+54)",
+      "fit_secondary(+31)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver"
+  },
+  "creative_mode": "story",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+    "strategy_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously"
+  },
+  "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all four channels simultaneously. The product is not positioned as a shortcut; it's positioned as the removal of a tax the viewer didn't know they were paying.",
+  "narrative_arc": "SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee still hot, genuinely optimistic. Caption on screen: 'Sunday 2pm. Gonna smash out this week's content.' They open a blank doc and type 'LinkedIn post.' A small timer appears in the corner. CONFLICT: Cut through the next 90 seconds in rapid, slightly comedic time-lapse. LinkedIn: draft, redraft, reformat for professional tone — timer hits 45 minutes. Instagram: same message, now needs a hook caption, line breaks, five hashtags, a visual — timer hits 1 hr 20 min. TikTok: completely different format, needs a spoken hook, a trending angle, a script that sounds natural not written — timer hits 2 hrs 10 min. YouTube Shorts: vertical cut, different pacing, description copy, tags — timer hits 3 hrs 05 min. Each platform gets a small icon and a running total. The coffee is cold. The founder hasn't posted anything yet. TWIST: A second caption appears: 'That was just one topic. You have four weeks of content to fill.' The founder stares at the screen. Not panicked — just quietly doing the math. On-screen text: '3 hours. 1 topic. 0 posts published.' RESOLUTION: Calm voiceover: 'fenrik Studio takes your website URL and delivers ready-to-post videos, captions, and hashtags for all four platforms — no camera, no reformatting, no Sunday afternoon gone.' CTA slides in clean. PUNCHLINE ENERGY: The humor is in the tally — not mocking the founder, mocking the task itself.",
+  "emotional_tone": "Wry and relatable — the viewer recognizes themselves immediately and laughs before they feel the sting. The revelation is practical, not dramatic. The resolution feels like relief, not rescue.",
+  "audience_insight": "Solo operators and small teams genuinely underestimate the platform-switching tax. They budget for 'an hour of content' without accounting for the fact that LinkedIn, Instagram, TikTok, and YouTube Shorts each have distinct formats, tones, and technical requirements. The real cost isn't writing — it's reformatting the same idea four times from scratch. Showing this as a running clock makes an invisible problem suddenly visible and quantifiable.",
+  "visual_direction": {
+    "palette": "Warm off-white and light oak tones for the environment; the timer and platform badges use clean, high-contrast white-on-dark chips so they read instantly on a phone screen at thumb-scroll speed.",
+    "lighting": "Soft natural afternoon window light, slightly warm. As the time-lapse progresses and the afternoon fades, the light shifts subtly cooler and dimmer — a visual metaphor for the day slipping away without being heavy-handed about it.",
+    "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon, not a stock photo. A window with soft daylight visible in the background.",
+    "camera_style": "Mostly static medium shot on the founder at the table, with occasional tight cuts to the laptop screen showing the blank doc and the timer. Time-lapse sequences are slightly sped up with a subtle zoom drift to signal time passing. No shaky cam — clean and readable at mobile scale.",
+    "art_direction": "Clean, slightly warm realism. The running timer in the corner is the hero graphic element — bold, simple, impossible to ignore. Each platform gets a small recognizable icon badge as it's introduced. On-screen text overlays are minimal and punchy — no decorative elements, just the numbers doing the work.",
+    "character_style": "One solo founder — gender-neutral presentation, casual weekend clothes (plain sweatshirt, no branding), early 30s, looks competent not stressed. The character is the straight-man; the comedy comes from the situation, not from the person being foolish."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required."
+  },
+  "render_metadata": {
+    "id": "87216141-82d5-4bfa-a48b-483e0ce65fd5",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:27:50.985668+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A solo founder in a plain sweatshirt sits at a lived-in kitchen table, laptop open showing a blank document, coffee mug steaming beside a closed notebook. Soft warm afternoon window light streams from a background window. A bold white-on-dark timer chip in the corner reads 0:00. Clean, slightly warm realism, warm off-white and light oak tones. Medium static shot."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Same kitchen table. The founder leans forward typing intently, expression concentrated but calm. Warm afternoon window light unchanged. A small LinkedIn icon badge appears in the upper-left corner of the frame. The timer chip in the corner now reads 45 min. Slight zoom drift suggesting time-lapse. Warm off-white and light oak palette."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Kitchen table from a medium static shot. Window light has shifted subtly cooler and dimmer — late afternoon fading. The founder sits back in their chair, staring at the laptop screen with a quiet, calculating expression. The coffee mug sits untouched and cold. Four small platform icon badges stacked in a column visible on the laptop screen area. Timer chip reads 3 hrs 05 min. Warm off-white environment, high-contrast timer chip."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Tight cut to the laptop screen on the kitchen table. A clean minimal interface is visible on screen. The environment around the laptop is softly blurred — warm off-white table surface, notebook edge. Calm resolved lighting. No URLs or text addresses visible anywhere in the image. Warm realism style."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742",
+        "image_path": "163c1822-ad30-4cee-8826-dfacd9c188b9/source/e895c555-e0b4-4628-9ee8-1fd5a65dc742/web-img.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+    "cta": "Save this so you remember what Sunday actually costs you.",
+    "voiceover_text": "It's Sunday at 2pm, and you're ready to tackle this week's social content. LinkedIn post — 45 minutes. Instagram caption plus visuals — another 35. TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours. Coffee's cold. Nothing is posted. That was one topic. fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A solo operator sits down on a Sunday afternoon to 'knock out social content for the week' across LinkedIn, Instagram, TikTok, and YouTube Shorts — and a running on-screen tally of actual time spent …",
+      "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark of…",
+      "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all…",
+      "visual_world": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon…",
+      "attention_pattern": "The timer's presence creates immediate curiosity about how long it will take to produce content, hinting at the hidden …",
+      "narrative_mechanism": "story: SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee …"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#solofounder",
+    "#socialmediatips",
+    "#contentcreation",
+    "#worksmarter"
+  ],
+  "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+  "scenario": "A solo SaaS founder clears their Sunday afternoon to produce one week of social content across LinkedIn, Instagram, TikTok, and YouTube Shorts. They open a blank document at 2pm feeling genuinely optimistic. By 5pm they have four half-finished drafts in different tabs, a cold coffee, and zero published posts. The problem was never the idea — it was reformatting the same idea four times from scratch, for four platforms with completely different formats, tones, and technical requirements. The afternoon is gone. The content is not.",
+  "video": {
+    "script": "SCENE 1 — SETUP\n[Medium shot. Solo founder at kitchen table, laptop open, coffee steaming. Blank document on screen. Timer appears in corner: 0:00.]\nVO: 'It's Sunday at 2pm, and you're ready to tackle this week's social content.'\nOn-screen text: 'Sunday 2pm. One topic. Four platforms. Let's go.'\n\nSCENE 2 — CONFLICT: LINKEDIN\n[Slight time-lapse. Founder typing, deleting, retyping. Timer: 0:45.]\nVO: 'LinkedIn post — 45 minutes.'\nOn-screen badge: LinkedIn icon. Timer chip: 45 min.\n\nSCENE 3 — CONFLICT: INSTAGRAM\n[Cut to founder scrolling for a visual reference, rewriting caption with line breaks. Timer: 1:20.]\nVO: 'Instagram caption plus visuals — another 35.'\nOn-screen badge: Instagram icon. Timer chip: 1 hr 20 min.\n\nSCENE 4 — CONFLICT: TIKTOK + YOUTUBE\n[Rapid time-lapse. Founder speaking quietly to themselves, scripting, scrapping, rewriting. Light through window shifts cooler. Timer: 2:10, then 3:05.]\nVO: 'TikTok needs a completely different script — add 50 minutes. YouTube Shorts — different pacing, different copy — you're now at three hours.'\nOn-screen badges: TikTok icon, YouTube icon. Running total chip: 3 hrs 05 min.\n\nSCENE 5 — TWIST\n[Static shot. Founder stares at screen. Coffee mug untouched and cold. On-screen text appears: '3 hours. 1 topic. 0 posts published.']\nVO: 'Coffee's cold. Nothing is posted. That was one topic.'\n\nSCENE 6 — RESOLUTION\n[Clean cut. Calm. Laptop screen shows fenrik Studio logo asset.]\nVO: 'fenrik Studio turns your website URL into ready-to-post content for all four platforms — no reformatting required.'\nCTA card slides in: 'Save this so you remember what Sunday actually costs you.'",
+    "concept": "A solo founder sits down at their kitchen table on a Sunday afternoon, genuinely optimistic about knocking out a week of social content. A running timer in the corner of the screen tracks real time as they attempt to produce native content for LinkedIn, Instagram, TikTok, and YouTube Shorts — one topic, four platforms, from scratch. The timer becomes the punchline. By the time they've finished reformatting the same idea for the fourth platform, three hours have passed and nothing has been published. The twist reframes the loss: that was one topic. The resolution introduces fenrik Studio as the mechanism that eliminates the reformatting loop entirely.",
+    "duration_seconds": "55"
+  },
+  "asset_usage": [
+    {
+      "used_as": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 5420,
+          "completion_tokens": 1226
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:20.362Z",
+        "duration_ms": 31181,
+        "finished_at": "2026-07-25T10:26:51.543Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 5420,
+        "estimated_cost": 0.03465,
+        "output_summary": "Concept: The Four-Platform Tax Nobody Warned You About",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 23627,
+        "completion_tokens": 1226,
+        "output_size_bytes": 5138,
+        "prompt_characters": 23435,
+        "provider_request_id": null,
+        "completion_characters": 5098
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4823,
+          "completion_tokens": 150
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:51.543Z",
+        "duration_ms": 2379,
+        "finished_at": "2026-07-25T10:26:53.922Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4823,
+        "estimated_cost": 0.000737,
+        "output_summary": "Opening: It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 23479,
+        "completion_tokens": 150,
+        "output_size_bytes": 681,
+        "prompt_characters": 23331,
+        "provider_request_id": null,
+        "completion_characters": 681
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:53.922Z",
+        "duration_ms": 1,
+        "finished_at": "2026-07-25T10:26:53.922Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, slightly warm realism. The running timer in the corne",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1881,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1869
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9872,
+          "completion_tokens": 2935
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:53.923Z",
+        "duration_ms": 55089,
+        "finished_at": "2026-07-25T10:27:49.012Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9872,
+        "estimated_cost": 0.073641,
+        "output_summary": "Package: The Four-Platform Tax Nobody Warned You About",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 40318,
+        "completion_tokens": 2935,
+        "output_size_bytes": 10823,
+        "prompt_characters": 40040,
+        "provider_request_id": null,
+        "completion_characters": 10745
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:27:49.013Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:27:49.013Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2381,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2367
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:27:49.013Z",
+        "duration_ms": 2232,
+        "finished_at": "2026-07-25T10:27:51.245Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=c92ad59a-5346-4586-8591-a3bb8357fb90; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "46f493e2-8a5e-4598-968f-c8eb6f3ecca5",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

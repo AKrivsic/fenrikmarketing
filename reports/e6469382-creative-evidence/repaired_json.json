@@ -1,0 +1,4 @@
+{
+  "status": "NOT_STORED",
+  "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+}

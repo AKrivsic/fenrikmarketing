@@ -78,6 +78,23 @@ import {
 import { PRODUCTION_RUN_CANCELLED_MESSAGE } from "@/lib/api/production-run-cancel";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
+  parseVideoJobRenderOptions,
+  VIDEO_RENDER_MODE_STILL,
+} from "@/lib/video-engine/schemas/videoJobRenderMode";
+import {
+  AiVideoClipJobError,
+  isAiVideoLeaseLostError,
+  runAiVideoClipJobPhase,
+} from "@/video-worker/aiVideoClipJobPhase";
+import { finalizeAiVideoClipJob } from "@/video-worker/finalizeAiVideoClipJob";
+import { resolveAlreadyCompletedAiVideoJob } from "@/lib/video-worker/aiVideoJobOutput";
+import { readAiVideoMeta } from "@/lib/video-worker/aiVideoJobOutput";
+import {
+  AiVideoCheckpointValidationError,
+  assertJobInputFingerprintForResume,
+} from "@/lib/video-worker/aiVideoCheckpointValidation";
+import { computeAiVideoJobInputFingerprintFromSpec } from "@/lib/video-worker/aiVideoEarlyFingerprint";
+import {
   buildDurableArtifactOutput,
   claimVideoJobForWorker,
   getWorkerInstanceId,
@@ -268,7 +285,7 @@ function totalDuration(spec: RenderSpec): number {
 // path and are not re-uploaded) and assembles the resolved render_spec that is
 // returned in the callback. The result lets a later render reuse the exact same
 // visuals by passing these scenes back as input.
-async function buildRenderSpecOutput(args: {
+export async function buildRenderSpecOutput(args: {
   spec: RenderSpec;
   images: SceneImage[];
   projectId: string;
@@ -322,6 +339,8 @@ async function buildRenderSpecOutput(args: {
       type: scene.type ?? DEFAULT_SCENE_TYPE,
       ...(scene.payload_snapshot ? { payload_snapshot: scene.payload_snapshot } : {}),
       renderer_version: scene.renderer_version ?? IMAGE_SCENE_RENDERER_VERSION,
+      ...(scene.motion_prompt ? { motion_prompt: scene.motion_prompt } : {}),
+      ...(scene.transition_in ? { transition_in: scene.transition_in } : {}),
     });
   }
 
@@ -447,6 +466,80 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
 
   try {
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
+
+    const renderOptions = parseVideoJobRenderOptions(
+      payload.input as Record<string, unknown>,
+    );
+    if (!renderOptions.ok) {
+      throw new Error(
+        `video_job_render_options_invalid:${renderOptions.reason}`,
+      );
+    }
+
+    if (renderOptions.mode !== VIDEO_RENDER_MODE_STILL) {
+      const { data: earlyJob, error: earlyErr } = await leaseSupabase
+        .from("video_jobs")
+        .select("output")
+        .eq("id", payload.video_job_id)
+        .eq("project_id", payload.project_id)
+        .maybeSingle();
+      if (earlyErr) throw earlyErr;
+      const earlyOutput =
+        earlyJob?.output &&
+        typeof earlyJob.output === "object" &&
+        !Array.isArray(earlyJob.output)
+          ? (earlyJob.output as Record<string, unknown>)
+          : {};
+      const earlySpec = buildRenderSpec(payload.input);
+      const earlySubtitlesBurnIn = Boolean(earlySpec.subtitles?.trim());
+      const earlyJobInputFingerprint = computeAiVideoJobInputFingerprintFromSpec(
+        {
+          videoJobId: payload.video_job_id,
+          spec: earlySpec,
+          subtitlesBurnInRequested: earlySubtitlesBurnIn,
+        },
+      );
+      try {
+        assertJobInputFingerprintForResume({
+          meta: readAiVideoMeta(earlyOutput),
+          computedJobInputFingerprint: earlyJobInputFingerprint,
+        });
+      } catch (fpErr) {
+        if (fpErr instanceof AiVideoCheckpointValidationError) {
+          throw new AiVideoClipJobError(fpErr.code, fpErr.message);
+        }
+        throw fpErr;
+      }
+      const alreadyDone = resolveAlreadyCompletedAiVideoJob({
+        output: earlyOutput,
+        videoJobId: payload.video_job_id,
+        projectId: payload.project_id,
+        expectedJobInputFingerprint: earlyJobInputFingerprint,
+      });
+      if (alreadyDone) {
+        await sendVideoCallback(
+          payload.callback_url,
+          {
+            video_job_id: payload.video_job_id,
+            status: "completed",
+            mp4_url: alreadyDone.mp4Url,
+            thumbnail_url: alreadyDone.thumbnailUrl,
+            ...(alreadyDone.subtitleUrl
+              ? { subtitle_url: alreadyDone.subtitleUrl }
+              : {}),
+            render_spec: alreadyDone.renderSpec,
+            debug: alreadyDone.debug,
+          },
+          transport,
+        );
+        completedCallbackSucceeded = true;
+        console.log(
+          "[video-worker] ai_video_clips job already completed (idempotent)",
+          JSON.stringify({ video_job_id: payload.video_job_id }),
+        );
+        return;
+      }
+    }
 
     const spec = buildRenderSpec(payload.input);
     ensureSceneRendererRegistry();
@@ -663,6 +756,92 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       ...(beat.motion_intensity ? { motion_intensity: beat.motion_intensity } : {}),
     }));
 
+    const semanticMotionBeats = storyboard.map((beat) => ({
+      beat_id: beat.id,
+      scene_id: beat.sceneId,
+      motion_intent: beat.motion_intent ?? "EXPLAIN",
+      motion_primitive: beat.motion,
+      motion_intensity: beat.motion_intensity ?? "LOW",
+      motion_version: beat.motion_version ?? "semantic-motion@1",
+    }));
+
+    const subtitleDebugBase = {
+      ...ttsTailDebug,
+      ...sfxDebug,
+      subtitle_source: subtitleSource,
+      match_ratio: matchRatio,
+      fallback_used: fallbackUsed,
+      language_hint: languageHint,
+      language_detected: languageDetected,
+      whisper_word_count: whisperWordCount,
+      audio_duration: voiceover.durationSeconds ?? null,
+      srt_last_cue_end: srtLastCueEnd,
+      speech_duration: voiceover.durationSeconds ?? null,
+      subtitle_timeline_duration: srtLastCueEnd,
+      tail_buffer_seconds: TAIL_BUFFER_SECONDS,
+      subtitle_warning: fallbackUsed,
+    };
+
+    const subtitlesBurnInRequested = Boolean(spec.subtitles?.trim());
+
+    if (renderOptions.mode !== VIDEO_RENDER_MODE_STILL) {
+      await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
+      const phaseResult = await runAiVideoClipJobPhase(
+        {
+          payload,
+          spec,
+          images,
+          renderAudioPath,
+          srtPath,
+          subtitlesBurnInRequested,
+          maxBudgetUsd: renderOptions.maxBudgetUsd,
+          confirmPaidRun: true,
+          workDir: dir,
+          leaseSupabase,
+          leaseOwner,
+          semanticMotionBeats,
+          subtitleDebug: subtitleDebugBase,
+          signal: abort.signal,
+        },
+        { buildPersistedRenderSpec: buildRenderSpecOutput },
+      );
+
+      const aiJobInputFingerprint = computeAiVideoJobInputFingerprintFromSpec({
+        videoJobId: payload.video_job_id,
+        spec,
+        subtitlesBurnInRequested,
+      });
+
+      const finalized = await finalizeAiVideoClipJob({
+        projectId: payload.project_id,
+        videoJobId: payload.video_job_id,
+        leaseOwner,
+        leaseSupabase,
+        subtitlesBurnInRequested,
+        jobInputFingerprint: aiJobInputFingerprint,
+        phase: phaseResult,
+        sendCallback: async (callback) => {
+          await sendVideoCallback(payload.callback_url, callback, transport);
+        },
+      });
+
+      if (finalized.status === "completed") {
+        artifactsPersisted = finalized.artifactsPersisted;
+        completedCallbackSucceeded = finalized.callbackSent;
+      }
+      if (finalized.status === "already_completed") {
+        completedCallbackSucceeded = finalized.callbackSent;
+      }
+      console.log(
+        "[video-worker] ai_video_clips job finished",
+        JSON.stringify({
+          video_job_id: payload.video_job_id,
+          finalize_status: finalized.status,
+        }),
+      );
+      return;
+    }
+
     const mp4OutputPath = join(dir, `output-${payload.video_job_id}.mp4`);
     tempFiles.add(mp4OutputPath);
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
@@ -787,14 +966,7 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       images,
       projectId: payload.project_id,
       videoJobId: payload.video_job_id,
-      semanticMotionBeats: storyboard.map((beat) => ({
-        beat_id: beat.id,
-        scene_id: beat.sceneId,
-        motion_intent: beat.motion_intent ?? "EXPLAIN",
-        motion_primitive: beat.motion,
-        motion_intensity: beat.motion_intensity ?? "LOW",
-        motion_version: beat.motion_version ?? "semantic-motion@1",
-      })),
+      semanticMotionBeats,
     });
 
     await assertVideoJobStillActive(payload.video_job_id, payload.project_id);
@@ -827,12 +999,24 @@ async function runVideoJobInner(rawPayload: WorkerPayload): Promise<void> {
       JSON.stringify({ video_job_id: payload.video_job_id }),
     );
   } catch (err) {
+    if (isAiVideoLeaseLostError(err)) {
+      console.warn(
+        "[video-worker] ai_video lease lost — no callback",
+        JSON.stringify({
+          video_job_id: payload.video_job_id,
+          error: err instanceof Error ? err.message : String(err),
+        }),
+      );
+      return;
+    }
     const cancelled = err instanceof JobCancelledError;
     const errorMessage = cancelled
       ? PRODUCTION_RUN_CANCELLED_MESSAGE
-      : err instanceof Error
-        ? err.message
-        : String(err);
+      : err instanceof AiVideoClipJobError
+        ? `ai_video_${err.code}:${err.message}`
+        : err instanceof Error
+          ? err.message
+          : String(err);
     console.error(
       "[video-worker] job failed",
       JSON.stringify({

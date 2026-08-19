@@ -1,0 +1,367 @@
+{
+  "beats": [
+    {
+      "role": "HOOK",
+      "whatChanged": "",
+      "whyContinue": "What time is it in my prospect's world right now?",
+      "sourceFields": [
+        "openingSituation",
+        "hookLine",
+        "expectedViewerQuestion"
+      ],
+      "viewerLearns": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes\u2026",
+      "comprehension": {
+        "viewer_question": "What time is it in my prospect's world right now?",
+        "viewer_expectation": "The explanation is coming.",
+        "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+      },
+      "informationKey": "anomaly|open|analog_clock_hand_snaps",
+      "modeBeatLabels": [
+        "common_belief"
+      ]
+    },
+    {
+      "role": "SETUP",
+      "whatChanged": "After the hook meaning unit lands: name the problem world (Quiet and eerie \u2014 the eeriness of two clocks on the same wall showing different times, one alive and\u2026",
+      "whyContinue": "Stakes become clear \u2014 A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock ke\u2026",
+      "sourceFields": [
+        "storyProgression",
+        "coreIdea",
+        "emotionalReaction"
+      ],
+      "viewerLearns": "The camera holds on the wall \u2014 two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clo\u2026",
+      "comprehension": {
+        "viewer_question": "Why is this happening / what does it cost?",
+        "viewer_expectation": "Someone should solve this \u2014 or stakes will rise.",
+        "viewer_understands": "The problem is: A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unla\u2026"
+      },
+      "informationKey": "problem_named|open|camera_holds_wall_clocks",
+      "modeBeatLabels": [
+        "why_wrong"
+      ]
+    },
+    {
+      "role": "ESCALATION",
+      "whatChanged": "Failure / consequence deepens \u2014 not a restatement of the setup.",
+      "whyContinue": "Viewer needs the fix: The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is\u2026",
+      "sourceFields": [
+        "storyProgression",
+        "visualPromise",
+        "productConnection"
+      ],
+      "viewerLearns": "into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall \u2014 the frozen one and the running one. The\u2026",
+      "comprehension": {
+        "viewer_question": "Can this be fixed?",
+        "viewer_expectation": "Show the solution.",
+        "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+      },
+      "informationKey": "cost_rising|open|frame_writes_label_right",
+      "modeBeatLabels": [
+        "proof"
+      ]
+    },
+    {
+      "role": "RESOLUTION",
+      "whatChanged": "Problem turns into solution / outcome: Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The p\u2026",
+      "whyContinue": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+      "sourceFields": [
+        "productConnection",
+        "ending"
+      ],
+      "viewerLearns": "The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is now synchronized with\u2026",
+      "comprehension": {
+        "viewer_question": "none",
+        "viewer_expectation": "Finished.",
+        "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again\u2026"
+      },
+      "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+      "modeBeatLabels": [
+        "cta"
+      ]
+    }
+  ],
+  "version": "narrative-beats@1.1",
+  "timeline_debug": {
+    "version": "narrative-timeline-debug@1",
+    "timeline": [
+      {
+        "role": "HOOK",
+        "index": 0,
+        "share": 0.282,
+        "sceneSummary": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutio\u2026",
+        "comprehension": {
+          "viewer_question": "What time is it in my prospect's world right now?",
+          "viewer_expectation": "The explanation is coming.",
+          "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+        },
+        "informationKey": "anomaly|open|analog_clock_hand_snaps",
+        "durationSeconds": 6.73
+      },
+      {
+        "role": "SETUP",
+        "index": 1,
+        "share": 0.218,
+        "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced anal\u2026",
+        "comprehension": {
+          "viewer_question": "Why is this happening / what does it cost?",
+          "viewer_expectation": "Someone should solve this \u2014 or stakes will rise.",
+          "viewer_understands": "The problem is: A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unla\u2026"
+        },
+        "informationKey": "problem_named|open|camera_holds_wall_clocks",
+        "durationSeconds": 5.2
+      },
+      {
+        "role": "ESCALATION",
+        "index": 2,
+        "share": 0.308,
+        "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM \u2014 its second h\u2026",
+        "comprehension": {
+          "viewer_question": "Can this be fixed?",
+          "viewer_expectation": "Show the solution.",
+          "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+        },
+        "informationKey": "cost_rising|open|frame_writes_label_right",
+        "durationSeconds": 7.34
+      },
+      {
+        "role": "RESOLUTION",
+        "index": 3,
+        "share": 0.192,
+        "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible \u2014 left frozen at 6:00 PM, rig\u2026",
+        "comprehension": {
+          "viewer_question": "none",
+          "viewer_expectation": "Finished.",
+          "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again\u2026"
+        },
+        "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+        "durationSeconds": 4.58
+      },
+      {
+        "role": "beat_5",
+        "index": 4,
+        "share": null,
+        "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time \u2014 second hands\u2026",
+        "comprehension": null,
+        "informationKey": null,
+        "durationSeconds": null
+      }
+    ],
+    "voiceover": {
+      "text": "Your clock stopped. Theirs didn't. You close at six. You respond fast \u2014 during business hours. But the prospect doing serious research at midnight? They're not on your schedule. One unanswered question at the wrong hour, and they move to whoever was there. Your website doesn't have to sleep. Create your AI assistant \u2014 let your website keep running when you can't.",
+      "wordCount": 62
+    },
+    "storyboard": {
+      "sceneCount": 5,
+      "sceneSummaries": [
+        "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutio\u2026",
+        "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced anal\u2026",
+        "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM \u2014 its second h\u2026",
+        "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible \u2014 left frozen at 6:00 PM, rig\u2026",
+        "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time \u2014 second hands\u2026"
+      ]
+    },
+    "duration_plan": {
+      "roles": [
+        "HOOK",
+        "SETUP",
+        "ESCALATION",
+        "RESOLUTION"
+      ],
+      "shares": [
+        0.282,
+        0.218,
+        0.308,
+        0.192
+      ],
+      "validation": {
+        "passed": true,
+        "shares": [
+          0.282,
+          0.218,
+          0.308,
+          0.192
+        ],
+        "summary": [],
+        "version": "duration-validation@1",
+        "warnings": []
+      },
+      "durationsSeconds": [
+        6.73,
+        5.2,
+        7.34,
+        4.58
+      ],
+      "justifiedOverMax": [
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "narrative_beats": [
+      {
+        "role": "HOOK",
+        "whatChanged": "",
+        "whyContinue": "What time is it in my prospect's world right now?",
+        "viewerLearns": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes\u2026",
+        "informationKey": "anomaly|open|analog_clock_hand_snaps",
+        "modeBeatLabels": [
+          "common_belief"
+        ]
+      },
+      {
+        "role": "SETUP",
+        "whatChanged": "After the hook meaning unit lands: name the problem world (Quiet and eerie \u2014 the eeriness of two clocks on the same wall showing different times, one alive and\u2026",
+        "whyContinue": "Stakes become clear \u2014 A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock ke\u2026",
+        "viewerLearns": "The camera holds on the wall \u2014 two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clo\u2026",
+        "informationKey": "problem_named|open|camera_holds_wall_clocks",
+        "modeBeatLabels": [
+          "why_wrong"
+        ]
+      },
+      {
+        "role": "ESCALATION",
+        "whatChanged": "Failure / consequence deepens \u2014 not a restatement of the setup.",
+        "whyContinue": "Viewer needs the fix: The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is\u2026",
+        "viewerLearns": "into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall \u2014 the frozen one and the running one. The\u2026",
+        "informationKey": "cost_rising|open|frame_writes_label_right",
+        "modeBeatLabels": [
+          "proof"
+        ]
+      },
+      {
+        "role": "RESOLUTION",
+        "whatChanged": "Problem turns into solution / outcome: Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The p\u2026",
+        "whyContinue": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+        "viewerLearns": "The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is now synchronized with\u2026",
+        "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+        "modeBeatLabels": [
+          "cta"
+        ]
+      }
+    ],
+    "metaphor_clarity": {
+      "reasons": [
+        "class:one_mental_step",
+        "understandable_within_~10s",
+        "understandable_within_first_third"
+      ],
+      "guidance": null,
+      "metaphorClass": "one_mental_step",
+      "understandableWithin10s": true,
+      "preferEarlyProductProblem": false,
+      "understandableWithinFirstThird": true
+    },
+    "creative_candidate": {
+      "ending": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+      "family": "invented",
+      "coreIdea": "A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+      "hookLine": "Your clock stopped. Theirs didn't.",
+      "candidateId": "c4",
+      "openingSituation": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+      "storyProgression": "The camera holds on the wall \u2014 two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running \u2014 second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall \u2014 the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+      "productConnection": "The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock."
+    },
+    "corrective_guidance": null,
+    "viewer_comprehension": [
+      {
+        "viewer_question": "What time is it in my prospect's world right now?",
+        "viewer_expectation": "The explanation is coming.",
+        "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+      },
+      {
+        "viewer_question": "Why is this happening / what does it cost?",
+        "viewer_expectation": "Someone should solve this \u2014 or stakes will rise.",
+        "viewer_understands": "The problem is: A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unla\u2026"
+      },
+      {
+        "viewer_question": "Can this be fixed?",
+        "viewer_expectation": "Show the solution.",
+        "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+      },
+      {
+        "viewer_question": "none",
+        "viewer_expectation": "Finished.",
+        "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again\u2026"
+      }
+    ],
+    "information_progression": {
+      "passed": true,
+      "summary": [],
+      "version": "information-progression@1",
+      "warnings": [],
+      "correctiveGuidance": null
+    }
+  },
+  "metaphorClarity": {
+    "reasons": [
+      "class:one_mental_step",
+      "understandable_within_~10s",
+      "understandable_within_first_third"
+    ],
+    "guidance": null,
+    "metaphorClass": "one_mental_step",
+    "understandableWithin10s": true,
+    "preferEarlyProductProblem": false,
+    "understandableWithinFirstThird": true
+  },
+  "correctiveGuidance": null,
+  "durationValidation": {
+    "passed": true,
+    "shares": [
+      0.282,
+      0.218,
+      0.308,
+      0.192
+    ],
+    "summary": [],
+    "version": "duration-validation@1",
+    "warnings": []
+  },
+  "progressionWarnings": [],
+  "informationProgression": {
+    "passed": true,
+    "summary": [],
+    "version": "information-progression@1",
+    "warnings": [],
+    "correctiveGuidance": null
+  },
+  "storyProgressionDiagnostics": {
+    "passed": true,
+    "summary": [],
+    "version": "story-progression@1",
+    "warnings": []
+  },
+  "visualProgressionDiagnostics": {
+    "passed": false,
+    "summary": [
+      "scenes_2_and_3_no_visual_progression:static_repetition|location_unknown|action_unknown"
+    ],
+    "version": "visual-progression@1",
+    "warnings": [
+      {
+        "indexA": 1,
+        "indexB": 2,
+        "changed": {
+          "action": false,
+          "stakes": false,
+          "emotion": false,
+          "location": false,
+          "information": false
+        },
+        "reasons": [
+          "static_repetition",
+          "location_unknown",
+          "action_unknown"
+        ]
+      }
+    ]
+  },
+  "postLlmInformationProgression": {
+    "passed": true,
+    "summary": [],
+    "version": "information-progression@1",
+    "warnings": [],
+    "correctiveGuidance": null
+  }
+}

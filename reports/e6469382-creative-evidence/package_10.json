@@ -1,0 +1,1727 @@
+{
+  "package_index": 10,
+  "run_item_id": "709f3643-0cc2-48fb-8a64-9b751246a463",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "52f5f262-d679-4f8b-95be-2acae0265175",
+  "package_title": "Six Months of Retainer, Still No Posts",
+  "package_status": "draft",
+  "strategy_item_id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "An agency owner reflects on a client who paid for social media management for six months and still saw posting gaps — because the agency's bandwidth was spread across too many accounts to maintain genuine frequency for any one of them.",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "source": "production_run",
+      "pain_point": "Hiring creators or agencies is expensive",
+      "package_index": 10,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "angle": "An agency owner reflects on a client who paid for social media management for six months and still saw posting gaps — because the agency's bandwidth was spread across too many accounts to maintain genuine frequency for any one of them.",
+      "seed": "Problem Aware|The agency retainer that didn't solve the consistency problem|An agency owner reflects on a client who paid for social media management for six months and still saw posting gaps — because the agency's bandwidth was spread across too many accounts to maintain genuine frequency for any one of them.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "humor",
+        "name": "Humor",
+        "description": "Light, self-aware tone that entertains while informing.",
+        "structure": "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
+        "avoid": "Humor must not mock the customer or devalue the product; the fix stays serious.",
+        "narrativeBeats": [
+          "situation",
+          "unexpected_turn",
+          "punchline",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "proof_shock",
+        "instruction": "Open on a striking proof point FROM THE PROOF POOL (never invented).",
+        "exampleForm": "\"<a real metric/result from the proof pool>, and here is why.\"",
+        "forbidGeneric": "Do not invent numbers; if no real proof exists, use a different archetype."
+      },
+      "persona": {
+        "id": "calm_advisor",
+        "name": "Calm Advisor",
+        "vocabulary": "reassuring, simple, supportive",
+        "rhythm": "unhurried, guiding",
+        "energy": "steady and trustworthy",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "Six Months of Retainer, Still No Posts",
+    "core_idea": "An agency owner sits across from a client during a quarterly review and confidently pulls up the posting report — only to discover that 'consistent content' across six months means three weeks of solid posting followed by five-week gaps, repeated twice. The agency was not slacking. They were just spread across forty other accounts doing the exact same thing to everyone.",
+    "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post videos and platform assets from a website URL, without requiring an agency's hours or a client's time to manage the relationship. The free first package is mentioned as the entry point, framed as the opposite of a six-month commitment.",
+    "why_it_works": "The humor lands because it is entirely recognizable — anyone who has paid for 'managed social' and checked the posting calendar knows this exact moment. The unexpected turn works because the client's question is gentle and devastating at the same time. The punchline reframes the pain point cleanly: hiring is expensive not just in money but in the false confidence it creates. The product enters as a structural fix, not a pitch, which keeps the Calm Advisor voice intact while the humor does the heavy lifting.",
+    "narrative_arc": "SITUATION: An agency owner walks into a client review meeting carrying genuine confidence. Six months in. Retainer paid. Content was supposed to be handled. They open the reporting dashboard on a laptop and spin it around to show the client. The calendar view loads. There are clusters of posts in January, a long blank stretch, a cluster in March, another long blank stretch, and then a small flurry in May. The agency owner's confident expression does not change immediately — which is somehow funnier than if it did. UNEXPECTED TURN: The client leans forward and says, completely without malice, 'So… is this what consistent looks like?' The agency owner looks at the screen. Then back at the client. Then at the screen again. The math is not mathing. Six months. A real budget. A real retainer. And the feed looks like a heartbeat monitor for someone who is mostly fine but occasionally alarmed. PUNCHLINE: The agency was not lying. They were not lazy. They had thirty-nine other clients with the same retainer, the same promise, and the same calendar. Bandwidth is not a content strategy. Paying for consistency does not manufacture the hours to produce it. CTA: The video closes with a calm, direct line about what actually solves the frequency problem — and how to get started without a briefing call, a retainer negotiation, or a six-month contract.",
+    "emotional_tone": "Dry, self-aware humor with a warm undertone — the agency owner is not a villain and the client is not a victim; the situation itself is the punchline. The fix lands seriously without breaking the light tone.",
+    "audience_insight": "Business owners and founders who have paid an agency or freelancer for social media help and still ended up with an inconsistent feed understand immediately that the problem is not bad intentions — it is that human bandwidth is finite and retainers do not expand it. This concept meets them at the moment they already suspect the model is broken.",
+    "visual_direction": {
+      "palette": "Neutral warm whites and soft greys for the room; the laptop screen provides the only real color contrast — muted blues and greens from the analytics dashboard, with the posting gaps rendered in obvious empty white space.",
+      "lighting": "Bright, even, natural-feeling office light — no drama, no shadows. The flatness of the lighting mirrors the flatness of the reporting dashboard, which makes the gap-filled calendar more absurd by contrast.",
+      "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. A glass of water on the table that nobody touches. Feels real, not staged.",
+      "camera_style": "Handheld but controlled — close enough to catch facial expressions clearly. Cuts between the agency owner's face, the laptop screen (posting calendar visible), and the client's face. No shaky cam; the movement is subtle and deliberate. Vertical frame optimized for TikTok.",
+      "art_direction": "Clean, corporate-adjacent meeting room aesthetic with a light satirical edge — the kind of space that looks professional but slightly too optimistic for what is about to happen. Laptop screen visible and legible. Minimal props. The humor lives in expressions and timing, not visual chaos.",
+      "character_style": "Two real-feeling adults in their thirties — the agency owner dressed in smart-casual (neat shirt, no tie), the client in a slightly more relaxed look. Neither is a caricature. The comedy comes from the situation, not from exaggerated performances."
+    }
+  },
+  "opening": {
+    "pacing": "Quick, with a setup that leads directly into the punchline; the contrast between confidence and the upcoming revelation creates anticipation.",
+    "emotion": "Dry humor with a hint of self-awareness; the agency owner is confident but about to face an unexpected reality.",
+    "first_image": "A bright, tidy meeting room with a round table. An agency owner, dressed in a smart-casual shirt, sits confidently across from a client, who is slightly more relaxed. A laptop is open between them, displaying a calendar view filled with clusters of posts and long blank stretches.",
+    "attention_pattern": "The viewer is drawn in by the agency owner's confidence, then immediately intrigued by the unexpected twist of the posting gaps, prompting them to want to see the resolution.",
+    "first_spoken_sentence": "Six months of retainer, and this is what 'consistent' looks like?"
+  },
+  "visual_identity": {
+    "palette": "Neutral warm whites and soft greys for the room; the laptop screen provides the only real color contrast — muted blues and greens from the analytics dashboard, with the posting gaps rendered in obvious empty white space.",
+    "lighting": "Bright, even, natural-feeling office light — no drama, no shadows. The flatness of the lighting mirrors the flatness of the reporting dashboard, which makes the gap-filled calendar more absurd by contrast.",
+    "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. A glass of water on the table that nobody touches. Feels real, not staged.",
+    "camera_style": "Handheld but controlled — close enough to catch facial expressions clearly. Cuts between the agency owner's face, the laptop screen (posting calendar visible), and the client's face. No shaky cam; the movement is subtle and deliberate. Vertical frame optimized for TikTok.",
+    "art_direction": "Clean, corporate-adjacent meeting room aesthetic with a light satirical edge — the kind of space that looks professional but slightly too optimistic for what is about to happen. Laptop screen visible and legible. Minimal props. The humor lives in expressions and timing, not visual chaos.",
+    "character_style": "Two real-feeling adults in their thirties — the agency owner dressed in smart-casual (neat shirt, no tie), the client in a slightly more relaxed look. Neither is a caricature. The comedy comes from the situation, not from exaggerated performances.",
+    "opening_emotion": "Dry humor with a hint of self-awareness; the agency owner is confident but about to face an unexpected reality.",
+    "opening_first_image": "A bright, tidy meeting room with a round table. An agency owner, dressed in a smart-casual shirt, sits confidently across from a client, who is slightly more relaxed. A laptop is open between them, displaying a calendar view filled with clusters of posts and long blank stretches."
+  },
+  "package": {
+    "title": "Six Months of Retainer, Still No Posts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+    "scenario": "An agency owner sits across from a client during a six-month retainer review. They open the reporting dashboard with genuine confidence and spin the laptop to show the posting calendar. January has a cluster of posts. Then a five-week blank. March has another cluster. Then another long blank. A small flurry in May. The client leans forward and asks, without any edge in their voice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. The agency was not slacking — they were managing thirty-nine other accounts with the same promise and the same finite team. The retainer was real. The bandwidth was not.",
+    "video": {
+      "script": "[SCENE 1 — Meeting room, wide shot. Agency owner seated confidently across from client. Laptop open between them.]\nVO: 'Six months of retainer, and this is what consistent looks like?'\n\n[SCENE 2 — Close on laptop screen. Calendar view. Clusters of posts, then long blank white stretches, repeated twice.]\nVO: 'Three weeks of posts. Five-week gap. Three more weeks. Another gap.'\n\n[SCENE 3 — Cut to agency owner's face. Expression steady. A beat too long.]\nVO: 'The agency wasn't lazy.'\n\n[SCENE 4 — Wide shot. Client leans forward slightly, genuinely curious, not angry.]\nVO: 'They had thirty-nine other clients with the exact same promise.'\n\n[SCENE 5 — Back to laptop screen. Empty white stretches feel larger now.]\nVO: 'Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.'",
+      "concept": "An agency owner walks into a six-month client review full of confidence. They spin the laptop around to show the posting calendar. Clusters in January. Long blank stretch. Clusters in March. Long blank stretch. Small flurry in May. The client leans forward and asks, without malice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. Then at the screen again. The punchline: the agency wasn't failing — they were just spread across forty accounts making the same promise to everyone. The fix is structural, not personal.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#socialmediamarketing",
+      "#contentcreation",
+      "#agencylife",
+      "#marketingstrategy",
+      "#smallbusiness"
+    ],
+    "subtitles_planned": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok."
+    }
+  ],
+  "voiceover": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+  "voice_prompts": {
+    "voiceover_text": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, ",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame.",
+    "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby.",
+    "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame.",
+    "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame.",
+    "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next time you're evaluating a retainer, remember: hours don't scale, models do.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Six months of retainer. This is the posting calendar. 👀 The agency wasn't slacking — they had 39 other clients with the same promise. Bandwidth doesn't scale. The model does.",
+        "hashtags": [
+          "#socialmediamarketing",
+          "#contentcreator",
+          "#agencylife",
+          "#smallbusiness",
+          "#marketingtips"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "Six months of retainer and the calendar is full of gaps. The agency wasn't lazy — they were just spread across 40 accounts. Bandwidth isn't a content strategy.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing",
+          "#agencylife"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Ever paid an agency for six months of social media management and still ended up with posting gaps? 😅 It's not always bad intentions — it's a bandwidth problem. When one team is managing forty accounts with the same promise, something always slips. The model is the issue, not the effort. Worth thinking about before signing the next retainer.",
+        "hashtags": [
+          "#socialmedia",
+          "#smallbusiness",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": "Save this if you're evaluating how your content actually gets produced.",
+        "format": "reel",
+        "caption": "Six months of retainer. A real budget. A posting calendar full of five-week gaps.\n\nThe agency wasn't underperforming. They were managing thirty-nine other accounts with the exact same promise. Human bandwidth is finite — retainers don't change that.\n\nPaying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#agencylife"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if you've ever paid for 'managed social' and still ended up with gaps.",
+        "format": "reel",
+        "caption": "Six months. A real budget. A real retainer.\n\nAnd the posting calendar looked like a heartbeat monitor for someone who was mostly fine but occasionally alarmed.\n\nThe agency wasn't the problem. Forty accounts, one team, same promise to everyone — the math was never going to work.\n\nBandwidth isn't a content strategy.",
+        "hashtags": [
+          "#socialmediamanagement",
+          "#contentmarketing",
+          "#agencylife",
+          "#marketingstrategy",
+          "#smallbusinessowner",
+          "#contentcreation",
+          "#socialmediatips",
+          "#entrepreneurship"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "00eaab01-50f8-44c8-a2e2-fb3c6f26def7",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "Six Months of Retainer, Still No Posts",
+        "body": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+        "caption": "Six months of retainer. This is the posting calendar. 👀 The agency wasn't slacking — they had 39 other clients with the same promise. Bandwidth doesn't scale. The model does.",
+        "hashtags": [
+          "#socialmediamarketing",
+          "#contentcreator",
+          "#agencylife",
+          "#smallbusiness",
+          "#marketingtips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c558b8c9-2cd7-4e6a-88cf-29d885235e90",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "Six Months of Retainer, Still No Posts",
+        "body": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+        "caption": "Six months. A real budget. A real retainer.\n\nAnd the posting calendar looked like a heartbeat monitor for someone who was mostly fine but occasionally alarmed.\n\nThe agency wasn't the problem. Forty accounts, one team, same promise to everyone — the math was never going to work.\n\nBandwidth isn't a content strategy.",
+        "hashtags": [
+          "#socialmediamanagement",
+          "#contentmarketing",
+          "#agencylife",
+          "#marketingstrategy",
+          "#smallbusinessowner",
+          "#contentcreation",
+          "#socialmediatips",
+          "#entrepreneurship"
+        ],
+        "cta": "Save this if you've ever paid for 'managed social' and still ended up with gaps.",
+        "language": null
+      },
+      {
+        "id": "eec3c85a-178c-4e4b-ba7d-dfdd80201f5f",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "Six Months of Retainer, Still No Posts",
+        "body": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+        "caption": "Ever paid an agency for six months of social media management and still ended up with posting gaps? 😅 It's not always bad intentions — it's a bandwidth problem. When one team is managing forty accounts with the same promise, something always slips. The model is the issue, not the effort. Worth thinking about before signing the next retainer.",
+        "hashtags": [
+          "#socialmedia",
+          "#smallbusiness",
+          "#contentmarketing"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c0dd0513-df36-4f89-98ba-fd248b668dd3",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "Six Months of Retainer, Still No Posts",
+        "body": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+        "caption": "Six months of retainer and the calendar is full of gaps. The agency wasn't lazy — they were just spread across 40 accounts. Bandwidth isn't a content strategy.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing",
+          "#agencylife"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "52f5f262-d679-4f8b-95be-2acae0265175",
+    "title": "Six Months of Retainer, Still No Posts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next time you're evaluating a retainer, remember: hours don't scale, models do.",
+        "type": "save"
+      },
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "video": {
+        "script": "[SCENE 1 — Meeting room, wide shot. Agency owner seated confidently across from client. Laptop open between them.]\nVO: 'Six months of retainer, and this is what consistent looks like?'\n\n[SCENE 2 — Close on laptop screen. Calendar view. Clusters of posts, then long blank white stretches, repeated twice.]\nVO: 'Three weeks of posts. Five-week gap. Three more weeks. Another gap.'\n\n[SCENE 3 — Cut to agency owner's face. Expression steady. A beat too long.]\nVO: 'The agency wasn't lazy.'\n\n[SCENE 4 — Wide shot. Client leans forward slightly, genuinely curious, not angry.]\nVO: 'They had thirty-nine other clients with the exact same promise.'\n\n[SCENE 5 — Back to laptop screen. Empty white stretches feel larger now.]\nVO: 'Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.'",
+        "concept": "An agency owner walks into a six-month client review full of confidence. They spin the laptop around to show the posting calendar. Clusters in January. Long blank stretch. Clusters in March. Long blank stretch. Small flurry in May. The client leans forward and asks, without malice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. Then at the screen again. The punchline: the agency wasn't failing — they were just spread across forty accounts making the same promise to everyone. The fix is structural, not personal.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#socialmediamarketing",
+        "#contentcreation",
+        "#agencylife",
+        "#marketingstrategy",
+        "#smallbusiness"
+      ],
+      "scenario": "An agency owner sits across from a client during a six-month retainer review. They open the reporting dashboard with genuine confidence and spin the laptop to show the posting calendar. January has a cluster of posts. Then a five-week blank. March has another cluster. Then another long blank. A small flurry in May. The client leans forward and asks, without any edge in their voice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. The agency was not slacking — they were managing thirty-nine other accounts with the same promise and the same finite team. The retainer was real. The bandwidth was not.",
+      "subtitles": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame.",
+        "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby.",
+        "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame.",
+        "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame.",
+        "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok."
+        }
+      ],
+      "voiceover_text": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Six months of retainer. This is the posting calendar. 👀 The agency wasn't slacking — they had 39 other clients with the same promise. Bandwidth doesn't scale. The model does.",
+          "hashtags": [
+            "#socialmediamarketing",
+            "#contentcreator",
+            "#agencylife",
+            "#smallbusiness",
+            "#marketingtips"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "short",
+          "caption": "Six months of retainer and the calendar is full of gaps. The agency wasn't lazy — they were just spread across 40 accounts. Bandwidth isn't a content strategy.",
+          "hashtags": [
+            "#socialmedia",
+            "#contentmarketing",
+            "#agencylife"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Ever paid an agency for six months of social media management and still ended up with posting gaps? 😅 It's not always bad intentions — it's a bandwidth problem. When one team is managing forty accounts with the same promise, something always slips. The model is the issue, not the effort. Worth thinking about before signing the next retainer.",
+          "hashtags": [
+            "#socialmedia",
+            "#smallbusiness",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": "Save this if you're evaluating how your content actually gets produced.",
+          "format": "reel",
+          "caption": "Six months of retainer. A real budget. A posting calendar full of five-week gaps.\n\nThe agency wasn't underperforming. They were managing thirty-nine other accounts with the exact same promise. Human bandwidth is finite — retainers don't change that.\n\nPaying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmedia",
+            "#agencylife"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this if you've ever paid for 'managed social' and still ended up with gaps.",
+          "format": "reel",
+          "caption": "Six months. A real budget. A real retainer.\n\nAnd the posting calendar looked like a heartbeat monitor for someone who was mostly fine but occasionally alarmed.\n\nThe agency wasn't the problem. Forty accounts, one team, same promise to everyone — the math was never going to work.\n\nBandwidth isn't a content strategy.",
+          "hashtags": [
+            "#socialmediamanagement",
+            "#contentmarketing",
+            "#agencylife",
+            "#marketingstrategy",
+            "#smallbusinessowner",
+            "#contentcreation",
+            "#socialmediatips",
+            "#entrepreneurship"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "52f5f262-d679-4f8b-95be-2acae0265175",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 50,
+          "secondary": 35
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "humor",
+        "video_concept": {
+          "title": "Six Months of Retainer, Still No Posts",
+          "core_idea": "An agency owner sits across from a client during a quarterly review and confidently pulls up the posting report — only to discover that 'consistent content' across six months means three weeks of solid posting followed by five-week gaps, repeated twice. The agency was not slacking. They were just spread across forty other accounts doing the exact same thing to everyone.",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post videos and platform assets from a website URL, without requiring an agency's hours or a client's time to manage the relationship. The free first package is mentioned as the entry point, framed as the opposite of a six-month commitment.",
+          "why_it_works": "The humor lands because it is entirely recognizable — anyone who has paid for 'managed social' and checked the posting calendar knows this exact moment. The unexpected turn works because the client's question is gentle and devastating at the same time. The punchline reframes the pain point cleanly: hiring is expensive not just in money but in the false confidence it creates. The product enters as a structural fix, not a pitch, which keeps the Calm Advisor voice intact while the humor does the heavy lifting.",
+          "narrative_arc": "SITUATION: An agency owner walks into a client review meeting carrying genuine confidence. Six months in. Retainer paid. Content was supposed to be handled. They open the reporting dashboard on a laptop and spin it around to show the client. The calendar view loads. There are clusters of posts in January, a long blank stretch, a cluster in March, another long blank stretch, and then a small flurry in May. The agency owner's confident expression does not change immediately — which is somehow funnier than if it did. UNEXPECTED TURN: The client leans forward and says, completely without malice, 'So… is this what consistent looks like?' The agency owner looks at the screen. Then back at the client. Then at the screen again. The math is not mathing. Six months. A real budget. A real retainer. And the feed looks like a heartbeat monitor for someone who is mostly fine but occasionally alarmed. PUNCHLINE: The agency was not lying. They were not lazy. They had thirty-nine other clients with the same retainer, the same promise, and the same calendar. Bandwidth is not a content strategy. Paying for consistency does not manufacture the hours to produce it. CTA: The video closes with a calm, direct line about what actually solves the frequency problem — and how to get started without a briefing call, a retainer negotiation, or a six-month contract.",
+          "emotional_tone": "Dry, self-aware humor with a warm undertone — the agency owner is not a villain and the client is not a victim; the situation itself is the punchline. The fix lands seriously without breaking the light tone.",
+          "audience_insight": "Business owners and founders who have paid an agency or freelancer for social media help and still ended up with an inconsistent feed understand immediately that the problem is not bad intentions — it is that human bandwidth is finite and retainers do not expand it. This concept meets them at the moment they already suspect the model is broken.",
+          "visual_direction": {
+            "palette": "Neutral warm whites and soft greys for the room; the laptop screen provides the only real color contrast — muted blues and greens from the analytics dashboard, with the posting gaps rendered in obvious empty white space.",
+            "lighting": "Bright, even, natural-feeling office light — no drama, no shadows. The flatness of the lighting mirrors the flatness of the reporting dashboard, which makes the gap-filled calendar more absurd by contrast.",
+            "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. A glass of water on the table that nobody touches. Feels real, not staged.",
+            "camera_style": "Handheld but controlled — close enough to catch facial expressions clearly. Cuts between the agency owner's face, the laptop screen (posting calendar visible), and the client's face. No shaky cam; the movement is subtle and deliberate. Vertical frame optimized for TikTok.",
+            "art_direction": "Clean, corporate-adjacent meeting room aesthetic with a light satirical edge — the kind of space that looks professional but slightly too optimistic for what is about to happen. Laptop screen visible and legible. Minimal props. The humor lives in expressions and timing, not visual chaos.",
+            "character_style": "Two real-feeling adults in their thirties — the agency owner dressed in smart-casual (neat shirt, no tie), the client in a slightly more relaxed look. Neither is a caricature. The comedy comes from the situation, not from exaggerated performances."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_humor→energy/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+50)",
+          "fit_secondary(+35)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick, with a setup that leads directly into the punchline; the contrast between confidence and the upcoming revelation creates anticipation.",
+          "emotion": "Dry humor with a hint of self-awareness; the agency owner is confident but about to face an unexpected reality.",
+          "first_image": "A bright, tidy meeting room with a round table. An agency owner, dressed in a smart-casual shirt, sits confidently across from a client, who is slightly more relaxed. A laptop is open between them, displaying a calendar view filled with clusters of posts and long blank stretches.",
+          "attention_pattern": "The viewer is drawn in by the agency owner's confidence, then immediately intrigued by the unexpected twist of the posting gaps, prompting them to want to see the resolution.",
+          "first_spoken_sentence": "Six months of retainer, and this is what 'consistent' looks like?"
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Neutral warm whites and soft greys for the room; the laptop screen provides the only real color contrast — muted blues and greens from the analytics dashboard, with the posting gaps rendered in obvious empty white space.",
+          "lighting": "Bright, even, natural-feeling office light — no drama, no shadows. The flatness of the lighting mirrors the flatness of the reporting dashboard, which makes the gap-filled calendar more absurd by contrast.",
+          "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. A glass of water on the table that nobody touches. Feels real, not staged.",
+          "camera_style": "Handheld but controlled — close enough to catch facial expressions clearly. Cuts between the agency owner's face, the laptop screen (posting calendar visible), and the client's face. No shaky cam; the movement is subtle and deliberate. Vertical frame optimized for TikTok.",
+          "art_direction": "Clean, corporate-adjacent meeting room aesthetic with a light satirical edge — the kind of space that looks professional but slightly too optimistic for what is about to happen. Laptop screen visible and legible. Minimal props. The humor lives in expressions and timing, not visual chaos.",
+          "character_style": "Two real-feeling adults in their thirties — the agency owner dressed in smart-casual (neat shirt, no tie), the client in a slightly more relaxed look. Neither is a caricature. The comedy comes from the situation, not from exaggerated performances.",
+          "opening_emotion": "Dry humor with a hint of self-awareness; the agency owner is confident but about to face an unexpected reality.",
+          "opening_first_image": "A bright, tidy meeting room with a round table. An agency owner, dressed in a smart-casual shirt, sits confidently across from a client, who is slightly more relaxed. A laptop is open between them, displaying a calendar view filled with clusters of posts and long blank stretches."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, ",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Hiring creators or agencies is expensive",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6204,
+                "completion_tokens": 1117
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:10.570Z",
+              "duration_ms": 29576,
+              "finished_at": "2026-07-25T10:32:40.146Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6204,
+              "estimated_cost": 0.035367,
+              "output_summary": "Concept: Six Months of Retainer, Still No Posts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 26980,
+              "completion_tokens": 1117,
+              "output_size_bytes": 5049,
+              "prompt_characters": 26746,
+              "provider_request_id": null,
+              "completion_characters": 5021
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 5185,
+                "completion_tokens": 185
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:40.147Z",
+              "duration_ms": 2215,
+              "finished_at": "2026-07-25T10:32:42.362Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5185,
+              "estimated_cost": 0.000889,
+              "output_summary": "Opening: Six months of retainer, and this is what 'consistent' looks like?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 25324,
+              "completion_tokens": 185,
+              "output_size_bytes": 885,
+              "prompt_characters": 25188,
+              "provider_request_id": null,
+              "completion_characters": 885
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:42.362Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:32:42.362Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, corporate-adjacent meeting room aesthetic with a ligh",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2017,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2005
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10219,
+                "completion_tokens": 2405
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:32:42.363Z",
+              "duration_ms": 42848,
+              "finished_at": "2026-07-25T10:33:25.211Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10219,
+              "estimated_cost": 0.066732,
+              "output_summary": "Package: Six Months of Retainer, Still No Posts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 42398,
+              "completion_tokens": 2405,
+              "output_size_bytes": 9443,
+              "prompt_characters": 42136,
+              "provider_request_id": null,
+              "completion_characters": 9409
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:33:25.212Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:33:25.212Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2264,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2250
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:33:25.212Z",
+              "duration_ms": 1828,
+              "finished_at": "2026-07-25T10:33:27.040Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=52f5f262-d679-4f8b-95be-2acae0265175; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "An agency owner sits across from a client during a quarterly review and confidently pulls up the posting report — only to discover that 'consistent content' across six months means three weeks of sol…",
+          "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each ot…",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post v…",
+          "visual_world": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. …",
+          "attention_pattern": "The viewer is drawn in by the agency owner's confidence, then immediately intrigued by the unexpected twist of the post…",
+          "narrative_mechanism": "humor: SITUATION: An agency owner walks into a client review meeting carrying genuine …"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:33:25.49057+00:00",
+    "updated_at": "2026-07-25T10:33:27.215198+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 50,
+      "secondary": 35
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+50)",
+      "fit_secondary(+35)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, "
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Hiring creators or agencies is expensive",
+    "strategy_pain_point": "Hiring creators or agencies is expensive"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post videos and platform assets from a website URL, without requiring an agency's hours or a client's time to manage the relationship. The free first package is mentioned as the entry point, framed as the opposite of a six-month commitment.",
+  "narrative_arc": "SITUATION: An agency owner walks into a client review meeting carrying genuine confidence. Six months in. Retainer paid. Content was supposed to be handled. They open the reporting dashboard on a laptop and spin it around to show the client. The calendar view loads. There are clusters of posts in January, a long blank stretch, a cluster in March, another long blank stretch, and then a small flurry in May. The agency owner's confident expression does not change immediately — which is somehow funnier than if it did. UNEXPECTED TURN: The client leans forward and says, completely without malice, 'So… is this what consistent looks like?' The agency owner looks at the screen. Then back at the client. Then at the screen again. The math is not mathing. Six months. A real budget. A real retainer. And the feed looks like a heartbeat monitor for someone who is mostly fine but occasionally alarmed. PUNCHLINE: The agency was not lying. They were not lazy. They had thirty-nine other clients with the same retainer, the same promise, and the same calendar. Bandwidth is not a content strategy. Paying for consistency does not manufacture the hours to produce it. CTA: The video closes with a calm, direct line about what actually solves the frequency problem — and how to get started without a briefing call, a retainer negotiation, or a six-month contract.",
+  "emotional_tone": "Dry, self-aware humor with a warm undertone — the agency owner is not a villain and the client is not a victim; the situation itself is the punchline. The fix lands seriously without breaking the light tone.",
+  "audience_insight": "Business owners and founders who have paid an agency or freelancer for social media help and still ended up with an inconsistent feed understand immediately that the problem is not bad intentions — it is that human bandwidth is finite and retainers do not expand it. This concept meets them at the moment they already suspect the model is broken.",
+  "visual_direction": {
+    "palette": "Neutral warm whites and soft greys for the room; the laptop screen provides the only real color contrast — muted blues and greens from the analytics dashboard, with the posting gaps rendered in obvious empty white space.",
+    "lighting": "Bright, even, natural-feeling office light — no drama, no shadows. The flatness of the lighting mirrors the flatness of the reporting dashboard, which makes the gap-filled calendar more absurd by contrast.",
+    "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. A glass of water on the table that nobody touches. Feels real, not staged.",
+    "camera_style": "Handheld but controlled — close enough to catch facial expressions clearly. Cuts between the agency owner's face, the laptop screen (posting calendar visible), and the client's face. No shaky cam; the movement is subtle and deliberate. Vertical frame optimized for TikTok.",
+    "art_direction": "Clean, corporate-adjacent meeting room aesthetic with a light satirical edge — the kind of space that looks professional but slightly too optimistic for what is about to happen. Laptop screen visible and legible. Minimal props. The humor lives in expressions and timing, not visual chaos.",
+    "character_style": "Two real-feeling adults in their thirties — the agency owner dressed in smart-casual (neat shirt, no tie), the client in a slightly more relaxed look. Neither is a caricature. The comedy comes from the situation, not from exaggerated performances."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model."
+  },
+  "render_metadata": {
+    "id": "86efabce-dc8a-4d5a-8346-5ef39607f3ad",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:33:26.873211+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A bright, tidy meeting room with a round table. An agency owner in a smart-casual shirt sits confidently across from a client in a relaxed outfit. A laptop is open between them displaying a calendar view with clusters of posts and long blank white stretches. Natural even office lighting. Warm whites and soft greys. Vertical frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a laptop screen showing a social media posting calendar. Clusters of colored post indicators in January and March, separated by large empty white gaps. The screen glows with muted blues and greens. The surrounding table is clean and minimal. A glass of water sits untouched nearby."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Medium shot of the agency owner's face in the meeting room. Expression is composed and steady — held just a beat too long after seeing the calendar. Smart-casual shirt. Even natural lighting. Slight trace of dry self-awareness in the expression. Vertical frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Wide shot of the client leaning forward slightly across the round table, expression genuinely curious rather than accusatory. Relaxed outfit. Laptop screen visible between them showing the gap-filled calendar. Warm flat office light. Clean minimal environment. Vertical frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces feel larger and more obvious. Muted blue and green analytics colors frame the emptiness. The table around it is tidy and undisturbed. Vertical frame optimized for TikTok."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+    "cta": "Save this — next time you're evaluating a retainer, remember: hours don't scale, models do.",
+    "voiceover_text": "Six months of retainer, and this is what 'consistent' looks like? Three weeks of posts. Five-week gap. Three more weeks. Another gap. The agency wasn't lazy. They had thirty-nine other clients with the exact same promise. Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "An agency owner sits across from a client during a quarterly review and confidently pulls up the posting report — only to discover that 'consistent content' across six months means three weeks of sol…",
+      "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each ot…",
+      "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post v…",
+      "visual_world": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. …",
+      "attention_pattern": "The viewer is drawn in by the agency owner's confidence, then immediately intrigued by the unexpected twist of the post…",
+      "narrative_mechanism": "humor: SITUATION: An agency owner walks into a client review meeting carrying genuine …"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#socialmediamarketing",
+    "#contentcreation",
+    "#agencylife",
+    "#marketingstrategy",
+    "#smallbusiness"
+  ],
+  "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+  "scenario": "An agency owner sits across from a client during a six-month retainer review. They open the reporting dashboard with genuine confidence and spin the laptop to show the posting calendar. January has a cluster of posts. Then a five-week blank. March has another cluster. Then another long blank. A small flurry in May. The client leans forward and asks, without any edge in their voice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. The agency was not slacking — they were managing thirty-nine other accounts with the same promise and the same finite team. The retainer was real. The bandwidth was not.",
+  "video": {
+    "script": "[SCENE 1 — Meeting room, wide shot. Agency owner seated confidently across from client. Laptop open between them.]\nVO: 'Six months of retainer, and this is what consistent looks like?'\n\n[SCENE 2 — Close on laptop screen. Calendar view. Clusters of posts, then long blank white stretches, repeated twice.]\nVO: 'Three weeks of posts. Five-week gap. Three more weeks. Another gap.'\n\n[SCENE 3 — Cut to agency owner's face. Expression steady. A beat too long.]\nVO: 'The agency wasn't lazy.'\n\n[SCENE 4 — Wide shot. Client leans forward slightly, genuinely curious, not angry.]\nVO: 'They had thirty-nine other clients with the exact same promise.'\n\n[SCENE 5 — Back to laptop screen. Empty white stretches feel larger now.]\nVO: 'Bandwidth isn't a content strategy. Paying for consistency doesn't manufacture the hours to produce it. The problem was never the budget. It was the model.'",
+    "concept": "An agency owner walks into a six-month client review full of confidence. They spin the laptop around to show the posting calendar. Clusters in January. Long blank stretch. Clusters in March. Long blank stretch. Small flurry in May. The client leans forward and asks, without malice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. Then at the screen again. The punchline: the agency wasn't failing — they were just spread across forty accounts making the same promise to everyone. The fix is structural, not personal.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6204,
+          "completion_tokens": 1117
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:10.570Z",
+        "duration_ms": 29576,
+        "finished_at": "2026-07-25T10:32:40.146Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6204,
+        "estimated_cost": 0.035367,
+        "output_summary": "Concept: Six Months of Retainer, Still No Posts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 26980,
+        "completion_tokens": 1117,
+        "output_size_bytes": 5049,
+        "prompt_characters": 26746,
+        "provider_request_id": null,
+        "completion_characters": 5021
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 0,
+          "prompt_tokens": 5185,
+          "completion_tokens": 185
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:40.147Z",
+        "duration_ms": 2215,
+        "finished_at": "2026-07-25T10:32:42.362Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5185,
+        "estimated_cost": 0.000889,
+        "output_summary": "Opening: Six months of retainer, and this is what 'consistent' looks like?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 25324,
+        "completion_tokens": 185,
+        "output_size_bytes": 885,
+        "prompt_characters": 25188,
+        "provider_request_id": null,
+        "completion_characters": 885
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:42.362Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:32:42.362Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, corporate-adjacent meeting room aesthetic with a ligh",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2017,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2005
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10219,
+          "completion_tokens": 2405
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:32:42.363Z",
+        "duration_ms": 42848,
+        "finished_at": "2026-07-25T10:33:25.211Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10219,
+        "estimated_cost": 0.066732,
+        "output_summary": "Package: Six Months of Retainer, Still No Posts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 42398,
+        "completion_tokens": 2405,
+        "output_size_bytes": 9443,
+        "prompt_characters": 42136,
+        "provider_request_id": null,
+        "completion_characters": 9409
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:33:25.212Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:33:25.212Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2264,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2250
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:33:25.212Z",
+        "duration_ms": 1828,
+        "finished_at": "2026-07-25T10:33:27.040Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=52f5f262-d679-4f8b-95be-2acae0265175; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "6910f2b1-3bfa-4efc-ab9f-3a4e9731623c",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

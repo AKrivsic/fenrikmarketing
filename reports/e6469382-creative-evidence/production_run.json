@@ -1,0 +1,80 @@
+{
+  "id": "e6469382-a897-42b7-88fe-2d650b778d42",
+  "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+  "status": "completed",
+  "requested_config": {
+    "plan": {
+      "videoCount": 21,
+      "packageCount": 21,
+      "totalOutputs": 77,
+      "platformOutputs": [
+        {
+          "kind": "video",
+          "label": "TikTok",
+          "outputs": 21,
+          "platform": "tiktok",
+          "multiplier": 1
+        },
+        {
+          "kind": "video",
+          "label": "Instagram",
+          "outputs": 21,
+          "platform": "instagram",
+          "multiplier": 1
+        },
+        {
+          "kind": "video",
+          "label": "YouTube",
+          "outputs": 21,
+          "platform": "youtube",
+          "multiplier": 1
+        },
+        {
+          "kind": "text",
+          "label": "LinkedIn",
+          "outputs": 14,
+          "platform": "linkedin",
+          "multiplier": 0.67
+        }
+      ],
+      "textOutputsTotal": 14,
+      "videoOutputsTotal": 63,
+      "activeVideoPlatforms": [
+        "tiktok",
+        "instagram",
+        "youtube"
+      ]
+    },
+    "config": {
+      "platforms": [
+        "tiktok",
+        "instagram",
+        "youtube",
+        "linkedin"
+      ],
+      "multipliers": {
+        "tiktok": 1,
+        "youtube": 1,
+        "linkedin": 0.67,
+        "instagram": 1
+      },
+      "packageCount": 21,
+      "platformContentTypes": {
+        "x": "text_only",
+        "tiktok": "video",
+        "youtube": "video",
+        "facebook": "text_only",
+        "linkedin": "text_only",
+        "instagram": "video",
+        "google_business": "text_only"
+      }
+    }
+  },
+  "package_count": 21,
+  "requested_total": 21,
+  "generated_total": 0,
+  "failed_total": 21,
+  "error_message": null,
+  "created_at": "2026-07-25T10:16:44.105747+00:00",
+  "updated_at": "2026-07-25T11:16:01.927218+00:00"
+}

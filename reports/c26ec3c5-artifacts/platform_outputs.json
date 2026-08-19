@@ -1,0 +1,92 @@
+{
+  "x": {
+    "cta": "fenrik.chat",
+    "format": "X Video Post",
+    "caption": "Your clock stopped at 6 PM. Their research didn't. That's where deals are lost.",
+    "hashtags": [
+      "#AIAssistant",
+      "#LeadGen"
+    ],
+    "title_variants": [
+      "Your clock stopped at 6 PM. Their research didn't.",
+      "Fast response times are a myth if you close at 6.",
+      "The deal was decided at midnight. You found out Monday morning.",
+      "You weren't slow. You were just closed.",
+      "Two clocks on the same wall. Only one of them kept running."
+    ],
+    "caption_variants": [
+      "Your clock stopped at 6 PM. Their research didn't. That's where deals are lost.",
+      "Fast response times only matter if your prospect is awake during business hours. Most aren't. #AIAssistant",
+      "The enterprise prospect visited your site at 2 AM. Got no answer. Chose your competitor by 9 AM. You never knew.",
+      "You weren't slow to respond. You were just closed when it counted. Your website doesn't have to be. fenrik.chat",
+      "Two identical clocks on the same wall. One stopped at 6. One kept running past midnight. That second clock is your competitor."
+    ]
+  },
+  "tiktok": {
+    "cta": "Link in bio to keep your site running after hours.",
+    "format": "Vertical Short (9:16)",
+    "caption": "Your website closes at 6. Their research doesn't. 🕛",
+    "hashtags": [
+      "#SmallBusiness",
+      "#WebsiteTips",
+      "#AIAssistant",
+      "#LeadGeneration",
+      "#AfterHours"
+    ]
+  },
+  "youtube": {
+    "cta": "Subscribe for more insights on turning website traffic into leads.",
+    "format": "YouTube Shorts (9:16)",
+    "caption": "Your business closes at 6. Your prospects' questions don't. See what happens when your website finally stays open.",
+    "hashtags": [
+      "#AIAssistant",
+      "#SmallBusiness",
+      "#WebsiteTips"
+    ]
+  },
+  "facebook": {
+    "cta": "Visit fenrik.chat to create your AI assistant.",
+    "format": "Facebook Video Post",
+    "caption": "Here's something worth thinking about: your team responds fast during business hours. But what about the person researching your services at midnight? 🕛 They have a question, your website is silent, and they move on to a competitor — before your workday even starts. An AI assistant on your website changes that. It answers visitors whenever they show up, not just when you're at your desk. Try it at fenrik.chat — no coding, no setup headaches.",
+    "hashtags": [
+      "#SmallBusiness",
+      "#AIAssistant",
+      "#LeadGeneration"
+    ]
+  },
+  "linkedin": {
+    "cta": "Create your AI assistant at fenrik.chat — your website doesn't have to close when you do.",
+    "format": "LinkedIn Video Post",
+    "caption": "Fast response times during business hours feel like a competitive advantage. Until you look at when your highest-value prospects are actually doing their research. Enterprise buyers, serious service shoppers, qualified leads — they're often on your website at 11 PM or 2 AM. One unanswered question at the wrong hour, and the deal moves to whoever was present. Your website's availability gap isn't a staffing problem. It's a timing problem. And it's solvable.",
+    "hashtags": [
+      "#LeadGeneration",
+      "#CustomerExperience",
+      "#AIAssistant"
+    ],
+    "title_variants": [
+      "Fast response times feel like a win — until you see when your best prospects actually show up",
+      "The enterprise deal you lost before your workday started"
+    ],
+    "caption_variants": [
+      "Fast response times during business hours feel like a competitive advantage. Until you look at when your highest-value prospects are actually doing their research. Enterprise buyers, serious service shoppers, qualified leads — they're often on your website at 11 PM or 2 AM. One unanswered question at the wrong hour, and the deal moves to whoever was present. Your website's availability gap isn't a staffing problem. It's a timing problem. And it's solvable.",
+      "There's a belief most service businesses share: 'We respond quickly, so we're covered.' But quick response during office hours misses the point entirely. The prospect with the biggest budget, the most urgency, the clearest intent — they often do their research after hours. Your clock stopped at 6 PM. Theirs didn't. The businesses closing those deals aren't necessarily faster. They're just present when it actually matters."
+    ]
+  },
+  "instagram": {
+    "cta": "Link in bio → Create your AI assistant.",
+    "format": "Reels (9:16)",
+    "caption": "You respond fast during business hours.\n\nBut the prospect doing serious research at midnight isn't on your schedule.\n\nOne unanswered question at the wrong hour — and they move to whoever was there.\n\nYour website doesn't have to sleep.",
+    "hashtags": [
+      "#SmallBusiness",
+      "#WebsiteStrategy",
+      "#AIAssistant",
+      "#LeadGeneration",
+      "#CustomerSupport",
+      "#BusinessGrowth",
+      "#DigitalMarketing",
+      "#AfterHours",
+      "#Chatbot",
+      "#ServiceBusiness"
+    ]
+  }
+}

@@ -1,0 +1,1731 @@
+{
+  "package_index": 17,
+  "run_item_id": "2af685d7-4a47-4a61-946a-efdbbf035fc0",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "0c082332-132e-472e-a75f-0d7dea339da2",
+  "package_title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+  "package_status": "draft",
+  "strategy_item_id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A small marketing team documents a 'content week' they blocked off — the planning, the filming, the editing — and the final output: three posts across two platforms. The math on hours per post is the uncomfortable punchline.",
+      "topic": "The content sprint that burned out the whole team and produced three posts",
+      "source": "production_run",
+      "pain_point": "Creating content takes too many hours every week",
+      "package_index": 17,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "The content sprint that burned out the whole team and produced three posts",
+      "angle": "A small marketing team documents a 'content week' they blocked off — the planning, the filming, the editing — and the final output: three posts across two platforms. The math on hours per post is the uncomfortable punchline.",
+      "seed": "Problem Aware|The content sprint that burned out the whole team and produced three posts|A small marketing team documents a 'content week' they blocked off — the planning, the filming, the editing — and the final output: three posts across two platforms. The math on hours per post is the uncomfortable punchline.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "micro_case",
+        "name": "Micro Case",
+        "description": "A compact before/after style mini case study.",
+        "structure": "Before (starting situation) -> what changed -> after (outcome) -> CTA.",
+        "avoid": "Use only outcomes supported by real proof; never fabricate metrics or results.",
+        "narrativeBeats": [
+          "before",
+          "change",
+          "after",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "question",
+        "instruction": "Open with one pointed question whose answer the viewer needs.",
+        "exampleForm": "\"Why does your kitchen still smell after you clean it?\"",
+        "forbidGeneric": "Do not open with a lazy rhetorical question like \"Want a clean home?\"."
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+    "core_idea": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated 'content sprint' — no client calls, no standups, just content. By Friday they have three posts live across two platforms. The concept uses the before/after structure of a micro case study to make the math feel genuinely uncomfortable: roughly 13 hours per post, across a week that was supposed to solve the consistency problem for good.",
+    "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch of platform-ready videos and captions out. No sprint required. The first package is free, so the comparison has a concrete, low-friction entry point that does not require the viewer to commit anything before seeing what the output actually looks like.",
+    "why_it_works": "The micro case format works here because the numbers do the emotional work without any exaggeration — 40 hours and 3 posts is a real, recognizable outcome that the audience has either lived or feared. The insider voice makes the narration feel like a debrief from someone who has seen this pattern, not a sales pitch. The platform is TikTok, where compressed storytelling and a slightly dry, knowing tone land well. The concept is distinct from recent fingerprints: the visual world is a physical team workspace with a whiteboard and a week-long timeline rather than a solo founder at a laptop or a digital-only screen environment, and the narrative mechanism is a compressed timeline case study rather than a myth-bust, FAQ, or single-scene reveal.",
+    "narrative_arc": "BEFORE: Open on the team at the start of Monday morning with a whiteboard that says 'Content Week' in big letters and a shared doc full of ideas. The mood is optimistic — this is finally the week it all gets done. The insider voice narrates like someone who has watched this play out before: 'Here is what a content sprint actually looks like from the inside.' We track the week in compressed form — Monday planning, Tuesday scripting, Wednesday filming (one setup, two retakes, lighting issues), Thursday editing, Friday reviewing and approving. CHANGE: By Thursday afternoon, the energy has visibly shifted. The doc has 22 ideas. Three are in any state of done. The team makes a quiet decision to post the three finished pieces and call it a win. AFTER: Friday. Three posts are live — two on LinkedIn, one on Instagram. TikTok has nothing. YouTube Shorts has nothing. The team closes their laptops. Someone does the math out loud: forty hours, three posts, two platforms. Thirteen hours per post. The whiteboard still says 'Content Week.' The CTA lands here, delivered in the same insider tone — not triumphant, just honest: 'That math is why some teams stop doing content sprints and start sending a URL instead.'",
+    "emotional_tone": "Dry, knowing, and a little uncomfortable — like someone quietly doing the math on something you already suspected but never said out loud. Not cruel, not mocking. The team in the story is competent; the problem is structural, not personal.",
+    "audience_insight": "Small marketing teams and founders often believe that blocking off dedicated time will finally solve the content problem. What they discover is that the time disappears into planning, reformatting, and revision — not into published posts. The sprint feels productive while it is happening, which makes the final output count feel even more deflating. This audience will recognize the whiteboard, the shared doc, and the quiet Friday pivot immediately.",
+    "visual_direction": {
+      "palette": "Warm off-white walls, a whiteboard with black marker text, muted desk surfaces. Accent colors come from laptop screens and sticky notes — yellow, light blue. The palette stays practical and undesigned, like a real working space rather than a content studio.",
+      "lighting": "Natural daylight shifting across the week — bright and optimistic on Monday, slightly flatter and more overcast-feeling by Thursday and Friday. No dramatic lighting shifts, just a subtle warmth-to-cool arc that mirrors the team's energy without being heavy-handed.",
+      "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in one corner (the filming setup they actually used). Not a polished office, not a home setup — a rented desk or co-working room that feels like a genuine sprint environment.",
+      "camera_style": "Handheld with slight movement — not shaky, but not locked off. Quick cuts between moments in the week. One or two wider shots to establish the room, then tighter cuts on the whiteboard, the shared doc on screen, and the team's faces. The final shot is a slow pull back from the whiteboard to reveal the two people closing laptops — static for a beat before the CTA text appears.",
+      "art_direction": "Compressed week-in-review aesthetic — quick cuts that visually mark each day of the sprint. Text overlays showing the day (MON, TUE, WED, THU, FRI) appear as simple, bold labels in the corner of each scene. A whiteboard in the background anchors the space throughout and becomes a visual constant the viewer returns to. By Friday, the whiteboard is unchanged — 'Content Week' still written in the same marker — while the energy in the room has clearly shifted.",
+      "character_style": "Two people — one slightly more senior, one more junior — both dressed in everyday work clothes (not styled). No exaggerated expressions. The performances are understated: a glance, a small headshake, someone doing mental math on their fingers. Relatable without being caricature."
+    }
+  },
+  "opening": {
+    "pacing": "Quick cuts between the team’s optimistic planning on Monday and the growing tension as the week progresses, leading to a stark contrast by Friday.",
+    "emotion": "Dry and slightly uncomfortable, evoking a sense of relatable frustration.",
+    "first_image": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold letters, and a laptop open with a shared document full of ideas visible on the screen.",
+    "attention_pattern": "The viewer is drawn in by the initial question, creating curiosity about the outcome of the week while hinting at the inefficiency of the content sprint.",
+    "first_spoken_sentence": "How did a whole week of 'Content Week' only produce three posts?"
+  },
+  "visual_identity": {
+    "palette": "Warm off-white walls, a whiteboard with black marker text, muted desk surfaces. Accent colors come from laptop screens and sticky notes — yellow, light blue. The palette stays practical and undesigned, like a real working space rather than a content studio.",
+    "lighting": "Natural daylight shifting across the week — bright and optimistic on Monday, slightly flatter and more overcast-feeling by Thursday and Friday. No dramatic lighting shifts, just a subtle warmth-to-cool arc that mirrors the team's energy without being heavy-handed.",
+    "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in one corner (the filming setup they actually used). Not a polished office, not a home setup — a rented desk or co-working room that feels like a genuine sprint environment.",
+    "camera_style": "Handheld with slight movement — not shaky, but not locked off. Quick cuts between moments in the week. One or two wider shots to establish the room, then tighter cuts on the whiteboard, the shared doc on screen, and the team's faces. The final shot is a slow pull back from the whiteboard to reveal the two people closing laptops — static for a beat before the CTA text appears.",
+    "art_direction": "Compressed week-in-review aesthetic — quick cuts that visually mark each day of the sprint. Text overlays showing the day (MON, TUE, WED, THU, FRI) appear as simple, bold labels in the corner of each scene. A whiteboard in the background anchors the space throughout and becomes a visual constant the viewer returns to. By Friday, the whiteboard is unchanged — 'Content Week' still written in the same marker — while the energy in the room has clearly shifted.",
+    "character_style": "Two people — one slightly more senior, one more junior — both dressed in everyday work clothes (not styled). No exaggerated expressions. The performances are understated: a glance, a small headshake, someone doing mental math on their fingers. Relatable without being caricature.",
+    "opening_emotion": "Dry and slightly uncomfortable, evoking a sense of relatable frustration.",
+    "opening_first_image": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold letters, and a laptop open with a shared document full of ideas visible on the screen."
+  },
+  "package": {
+    "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "How did a whole week of 'Content Week' only produce three posts?",
+    "scenario": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated content sprint — no client calls, no standups, just content. Monday feels genuinely productive: the whiteboard is full, the shared doc has twenty-two ideas, and the energy is high. By Thursday afternoon, the energy has quietly shifted. Three pieces are in any state of done. On Friday, they post the three finished pieces and call it a win. Someone does the math out loud: forty hours across the week, three posts live, two platforms covered, TikTok and YouTube untouched. Thirteen hours per post. The whiteboard still says 'Content Week' in the same marker from Monday morning.",
+    "video": {
+      "script": "SCENE 1 — MONDAY MORNING\n[Wide shot: two desks facing each other, whiteboard behind them reading 'Content Week' in bold marker. Laptop open, shared doc visible on screen. Bright natural light. Text overlay: MON.]\nVO: 'How did a whole week of Content Week only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high.'\n\nSCENE 2 — MID-WEEK GRIND\n[Quick cuts: scripting on Tuesday, camera setup on Wednesday with a small tripod visible, one person adjusting a ring light, a second retake happening. Text overlays: TUE, WED. Light is slightly flatter.]\nVO: 'Tuesday: scripting. Wednesday: filming — two retakes, lighting issues.'\n\nSCENE 3 — THURSDAY EDITING\n[Tighter shot: one person at laptop, timeline visible on screen, headphones on. The other reviews a doc. Text overlay: THU. Light cooler, slightly overcast feel.]\nVO: 'Thursday: editing.'\n\nSCENE 4 — FRIDAY RECKONING\n[Two people at desks. Three posts are live — shown briefly on a screen. TikTok and YouTube tabs are empty. Text overlay: FRI. One person counts on their fingers silently.]\nVO: 'Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post.'\n\nSCENE 5 — FINAL PULL BACK\n[Slow pull back from the whiteboard — 'Content Week' still written in the same marker, unchanged. The two people close their laptops. Static beat. CTA text appears on screen.]\nVO: 'The whiteboard still said Content Week.'\n[TEXT ON SCREEN: Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.]",
+      "concept": "A two-person marketing team blocks off an entire week as a dedicated content sprint. The video tracks that week in compressed form — Monday's optimism, the grinding middle, and Friday's quiet reckoning: three posts live, two platforms covered, two platforms untouched, and roughly thirteen hours spent per published post. The micro case format lets the numbers do the emotional work without exaggeration. The insider voice narrates like someone who has watched this pattern play out before — not mocking the team, just doing the math honestly.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#marketingteam",
+      "#socialmediatips",
+      "#contentcreation",
+      "#saas",
+      "#startuplife",
+      "#socialmediamarketing"
+    ],
+    "subtitles_planned": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'"
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen."
+    }
+  ],
+  "voiceover": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+  "voice_prompts": {
+    "voiceover_text": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: concrete, calm before/after clarity. Delivery: confident,",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot.",
+    "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement.",
+    "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel.",
+    "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot.",
+    "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Save this for the next sprint conversation.",
+        "format": "reel",
+        "caption": "A full week blocked for content. Three posts by Friday. Someone did the math: 13 hours per post. 😶 The whiteboard still said 'Content Week.' Save this for the next sprint conversation.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingteam",
+          "#socialmediatips",
+          "#contentcreator",
+          "#startuplife"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more honest takes on content production.",
+        "format": "short",
+        "caption": "They blocked off a full week for content. By Friday: three posts, two platforms, thirteen hours per post. Watch the math play out.",
+        "hashtags": [
+          "#contentmarketing",
+          "#youtubeshorts",
+          "#marketingtips"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this post — it's worth revisiting before the next sprint.",
+        "format": "reel",
+        "caption": "Ever block off a whole week just for content — and still end up with almost nothing to show for it? 😅 A two-person team did exactly that. By Friday they had three posts live, two platforms covered, and the math came out to about thirteen hours per post. The whiteboard still said 'Content Week.' If this sounds familiar, save this post — it's worth revisiting before the next sprint.",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness",
+          "#socialmediatips"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A two-person marketing team blocked off an entire week — no calls, no standups — to finally get ahead on content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: nothing.\n\nSomeone did the math: forty hours, three posts, thirteen hours per published piece.\n\nThe sprint felt productive the whole time. That's what made the Friday count so deflating.\n\nThe problem was never effort. It was structure.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#saas"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this for the next time someone suggests a sprint.",
+        "format": "reel",
+        "caption": "A whole week. No client calls. No standups. Just content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: untouched.\n\nSomeone did the math. Forty hours. Three posts. Thirteen hours each.\n\nThe whiteboard still said 'Content Week.' 🖊️\n\nSave this for the next time someone suggests a sprint.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#socialmediamarketing",
+          "#contentcreation",
+          "#smallbusiness",
+          "#saas",
+          "#marketingteam",
+          "#reels"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "f69a4d72-1b0f-4e83-8fa4-a7ab9aa4cca6",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+        "body": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+        "caption": "A two-person marketing team blocked off an entire week — no calls, no standups — to finally get ahead on content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: nothing.\n\nSomeone did the math: forty hours, three posts, thirteen hours per published piece.\n\nThe sprint felt productive the whole time. That's what made the Friday count so deflating.\n\nThe problem was never effort. It was structure.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#saas"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "27eb5bd2-ab77-4b3a-b14c-be1d89e6ac57",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+        "body": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+        "caption": "A full week blocked for content. Three posts by Friday. Someone did the math: 13 hours per post. 😶 The whiteboard still said 'Content Week.' Save this for the next sprint conversation.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingteam",
+          "#socialmediatips",
+          "#contentcreator",
+          "#startuplife"
+        ],
+        "cta": "Save this for the next sprint conversation.",
+        "language": null
+      },
+      {
+        "id": "1cae3091-d9de-4bad-a82a-c10b93e71047",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+        "body": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+        "caption": "A whole week. No client calls. No standups. Just content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: untouched.\n\nSomeone did the math. Forty hours. Three posts. Thirteen hours each.\n\nThe whiteboard still said 'Content Week.' 🖊️\n\nSave this for the next time someone suggests a sprint.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#socialmediamarketing",
+          "#contentcreation",
+          "#smallbusiness",
+          "#saas",
+          "#marketingteam",
+          "#reels"
+        ],
+        "cta": "Save this for the next time someone suggests a sprint.",
+        "language": null
+      },
+      {
+        "id": "38e0154f-a792-4418-a89a-e09fa3331763",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+        "body": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+        "caption": "They blocked off a full week for content. By Friday: three posts, two platforms, thirteen hours per post. Watch the math play out.",
+        "hashtags": [
+          "#contentmarketing",
+          "#youtubeshorts",
+          "#marketingtips"
+        ],
+        "cta": "Subscribe for more honest takes on content production.",
+        "language": null
+      },
+      {
+        "id": "c01ddd91-8d62-4045-8d72-95836f7d21ce",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+        "body": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+        "caption": "Ever block off a whole week just for content — and still end up with almost nothing to show for it? 😅 A two-person team did exactly that. By Friday they had three posts live, two platforms covered, and the math came out to about thirteen hours per post. The whiteboard still said 'Content Week.' If this sounds familiar, save this post — it's worth revisiting before the next sprint.",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness",
+          "#socialmediatips"
+        ],
+        "cta": "Save this post — it's worth revisiting before the next sprint.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "0c082332-132e-472e-a75f-0d7dea339da2",
+    "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.",
+        "type": "save"
+      },
+      "hook": "How did a whole week of 'Content Week' only produce three posts?",
+      "video": {
+        "script": "SCENE 1 — MONDAY MORNING\n[Wide shot: two desks facing each other, whiteboard behind them reading 'Content Week' in bold marker. Laptop open, shared doc visible on screen. Bright natural light. Text overlay: MON.]\nVO: 'How did a whole week of Content Week only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high.'\n\nSCENE 2 — MID-WEEK GRIND\n[Quick cuts: scripting on Tuesday, camera setup on Wednesday with a small tripod visible, one person adjusting a ring light, a second retake happening. Text overlays: TUE, WED. Light is slightly flatter.]\nVO: 'Tuesday: scripting. Wednesday: filming — two retakes, lighting issues.'\n\nSCENE 3 — THURSDAY EDITING\n[Tighter shot: one person at laptop, timeline visible on screen, headphones on. The other reviews a doc. Text overlay: THU. Light cooler, slightly overcast feel.]\nVO: 'Thursday: editing.'\n\nSCENE 4 — FRIDAY RECKONING\n[Two people at desks. Three posts are live — shown briefly on a screen. TikTok and YouTube tabs are empty. Text overlay: FRI. One person counts on their fingers silently.]\nVO: 'Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post.'\n\nSCENE 5 — FINAL PULL BACK\n[Slow pull back from the whiteboard — 'Content Week' still written in the same marker, unchanged. The two people close their laptops. Static beat. CTA text appears on screen.]\nVO: 'The whiteboard still said Content Week.'\n[TEXT ON SCREEN: Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.]",
+        "concept": "A two-person marketing team blocks off an entire week as a dedicated content sprint. The video tracks that week in compressed form — Monday's optimism, the grinding middle, and Friday's quiet reckoning: three posts live, two platforms covered, two platforms untouched, and roughly thirteen hours spent per published post. The micro case format lets the numbers do the emotional work without exaggeration. The insider voice narrates like someone who has watched this pattern play out before — not mocking the team, just doing the math honestly.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#marketingteam",
+        "#socialmediatips",
+        "#contentcreation",
+        "#saas",
+        "#startuplife",
+        "#socialmediamarketing"
+      ],
+      "scenario": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated content sprint — no client calls, no standups, just content. Monday feels genuinely productive: the whiteboard is full, the shared doc has twenty-two ideas, and the energy is high. By Thursday afternoon, the energy has quietly shifted. Three pieces are in any state of done. On Friday, they post the three finished pieces and call it a win. Someone does the math out loud: forty hours across the week, three posts live, two platforms covered, TikTok and YouTube untouched. Thirteen hours per post. The whiteboard still says 'Content Week' in the same marker from Monday morning.",
+      "subtitles": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+      "asset_usage": [],
+      "image_prompts": [
+        "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot.",
+        "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement.",
+        "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel.",
+        "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot.",
+        "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen."
+        }
+      ],
+      "voiceover_text": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Save this for the next sprint conversation.",
+          "format": "reel",
+          "caption": "A full week blocked for content. Three posts by Friday. Someone did the math: 13 hours per post. 😶 The whiteboard still said 'Content Week.' Save this for the next sprint conversation.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingteam",
+            "#socialmediatips",
+            "#contentcreator",
+            "#startuplife"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more honest takes on content production.",
+          "format": "short",
+          "caption": "They blocked off a full week for content. By Friday: three posts, two platforms, thirteen hours per post. Watch the math play out.",
+          "hashtags": [
+            "#contentmarketing",
+            "#youtubeshorts",
+            "#marketingtips"
+          ]
+        },
+        "facebook": {
+          "cta": "Save this post — it's worth revisiting before the next sprint.",
+          "format": "reel",
+          "caption": "Ever block off a whole week just for content — and still end up with almost nothing to show for it? 😅 A two-person team did exactly that. By Friday they had three posts live, two platforms covered, and the math came out to about thirteen hours per post. The whiteboard still said 'Content Week.' If this sounds familiar, save this post — it's worth revisiting before the next sprint.",
+          "hashtags": [
+            "#contentmarketing",
+            "#smallbusiness",
+            "#socialmediatips"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "A two-person marketing team blocked off an entire week — no calls, no standups — to finally get ahead on content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: nothing.\n\nSomeone did the math: forty hours, three posts, thirteen hours per published piece.\n\nThe sprint felt productive the whole time. That's what made the Friday count so deflating.\n\nThe problem was never effort. It was structure.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingstrategy",
+            "#saas"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this for the next time someone suggests a sprint.",
+          "format": "reel",
+          "caption": "A whole week. No client calls. No standups. Just content.\n\nBy Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok and YouTube: untouched.\n\nSomeone did the math. Forty hours. Three posts. Thirteen hours each.\n\nThe whiteboard still said 'Content Week.' 🖊️\n\nSave this for the next time someone suggests a sprint.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingstrategy",
+            "#socialmediamarketing",
+            "#contentcreation",
+            "#smallbusiness",
+            "#saas",
+            "#marketingteam",
+            "#reels"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "0c082332-132e-472e-a75f-0d7dea339da2",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 46,
+          "secondary": 41
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "micro_case",
+        "video_concept": {
+          "title": "The Content Week That Cost 40 Hours and Produced Three Posts",
+          "core_idea": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated 'content sprint' — no client calls, no standups, just content. By Friday they have three posts live across two platforms. The concept uses the before/after structure of a micro case study to make the math feel genuinely uncomfortable: roughly 13 hours per post, across a week that was supposed to solve the consistency problem for good.",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch of platform-ready videos and captions out. No sprint required. The first package is free, so the comparison has a concrete, low-friction entry point that does not require the viewer to commit anything before seeing what the output actually looks like.",
+          "why_it_works": "The micro case format works here because the numbers do the emotional work without any exaggeration — 40 hours and 3 posts is a real, recognizable outcome that the audience has either lived or feared. The insider voice makes the narration feel like a debrief from someone who has seen this pattern, not a sales pitch. The platform is TikTok, where compressed storytelling and a slightly dry, knowing tone land well. The concept is distinct from recent fingerprints: the visual world is a physical team workspace with a whiteboard and a week-long timeline rather than a solo founder at a laptop or a digital-only screen environment, and the narrative mechanism is a compressed timeline case study rather than a myth-bust, FAQ, or single-scene reveal.",
+          "narrative_arc": "BEFORE: Open on the team at the start of Monday morning with a whiteboard that says 'Content Week' in big letters and a shared doc full of ideas. The mood is optimistic — this is finally the week it all gets done. The insider voice narrates like someone who has watched this play out before: 'Here is what a content sprint actually looks like from the inside.' We track the week in compressed form — Monday planning, Tuesday scripting, Wednesday filming (one setup, two retakes, lighting issues), Thursday editing, Friday reviewing and approving. CHANGE: By Thursday afternoon, the energy has visibly shifted. The doc has 22 ideas. Three are in any state of done. The team makes a quiet decision to post the three finished pieces and call it a win. AFTER: Friday. Three posts are live — two on LinkedIn, one on Instagram. TikTok has nothing. YouTube Shorts has nothing. The team closes their laptops. Someone does the math out loud: forty hours, three posts, two platforms. Thirteen hours per post. The whiteboard still says 'Content Week.' The CTA lands here, delivered in the same insider tone — not triumphant, just honest: 'That math is why some teams stop doing content sprints and start sending a URL instead.'",
+          "emotional_tone": "Dry, knowing, and a little uncomfortable — like someone quietly doing the math on something you already suspected but never said out loud. Not cruel, not mocking. The team in the story is competent; the problem is structural, not personal.",
+          "audience_insight": "Small marketing teams and founders often believe that blocking off dedicated time will finally solve the content problem. What they discover is that the time disappears into planning, reformatting, and revision — not into published posts. The sprint feels productive while it is happening, which makes the final output count feel even more deflating. This audience will recognize the whiteboard, the shared doc, and the quiet Friday pivot immediately.",
+          "visual_direction": {
+            "palette": "Warm off-white walls, a whiteboard with black marker text, muted desk surfaces. Accent colors come from laptop screens and sticky notes — yellow, light blue. The palette stays practical and undesigned, like a real working space rather than a content studio.",
+            "lighting": "Natural daylight shifting across the week — bright and optimistic on Monday, slightly flatter and more overcast-feeling by Thursday and Friday. No dramatic lighting shifts, just a subtle warmth-to-cool arc that mirrors the team's energy without being heavy-handed.",
+            "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in one corner (the filming setup they actually used). Not a polished office, not a home setup — a rented desk or co-working room that feels like a genuine sprint environment.",
+            "camera_style": "Handheld with slight movement — not shaky, but not locked off. Quick cuts between moments in the week. One or two wider shots to establish the room, then tighter cuts on the whiteboard, the shared doc on screen, and the team's faces. The final shot is a slow pull back from the whiteboard to reveal the two people closing laptops — static for a beat before the CTA text appears.",
+            "art_direction": "Compressed week-in-review aesthetic — quick cuts that visually mark each day of the sprint. Text overlays showing the day (MON, TUE, WED, THU, FRI) appear as simple, bold labels in the corner of each scene. A whiteboard in the background anchors the space throughout and becomes a visual constant the viewer returns to. By Friday, the whiteboard is unchanged — 'Content Week' still written in the same marker — while the energy in the room has clearly shifted.",
+            "character_style": "Two people — one slightly more senior, one more junior — both dressed in everyday work clothes (not styled). No exaggerated expressions. The performances are understated: a glance, a small headshake, someone doing mental math on their fingers. Relatable without being caricature."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_micro_case→steady/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+46)",
+          "fit_secondary(+41)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick cuts between the team’s optimistic planning on Monday and the growing tension as the week progresses, leading to a stark contrast by Friday.",
+          "emotion": "Dry and slightly uncomfortable, evoking a sense of relatable frustration.",
+          "first_image": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold letters, and a laptop open with a shared document full of ideas visible on the screen.",
+          "attention_pattern": "The viewer is drawn in by the initial question, creating curiosity about the outcome of the week while hinting at the inefficiency of the content sprint.",
+          "first_spoken_sentence": "How did a whole week of 'Content Week' only produce three posts?"
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: concrete, calm before/after clarity. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm off-white walls, a whiteboard with black marker text, muted desk surfaces. Accent colors come from laptop screens and sticky notes — yellow, light blue. The palette stays practical and undesigned, like a real working space rather than a content studio.",
+          "lighting": "Natural daylight shifting across the week — bright and optimistic on Monday, slightly flatter and more overcast-feeling by Thursday and Friday. No dramatic lighting shifts, just a subtle warmth-to-cool arc that mirrors the team's energy without being heavy-handed.",
+          "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in one corner (the filming setup they actually used). Not a polished office, not a home setup — a rented desk or co-working room that feels like a genuine sprint environment.",
+          "camera_style": "Handheld with slight movement — not shaky, but not locked off. Quick cuts between moments in the week. One or two wider shots to establish the room, then tighter cuts on the whiteboard, the shared doc on screen, and the team's faces. The final shot is a slow pull back from the whiteboard to reveal the two people closing laptops — static for a beat before the CTA text appears.",
+          "art_direction": "Compressed week-in-review aesthetic — quick cuts that visually mark each day of the sprint. Text overlays showing the day (MON, TUE, WED, THU, FRI) appear as simple, bold labels in the corner of each scene. A whiteboard in the background anchors the space throughout and becomes a visual constant the viewer returns to. By Friday, the whiteboard is unchanged — 'Content Week' still written in the same marker — while the energy in the room has clearly shifted.",
+          "character_style": "Two people — one slightly more senior, one more junior — both dressed in everyday work clothes (not styled). No exaggerated expressions. The performances are understated: a glance, a small headshake, someone doing mental math on their fingers. Relatable without being caricature.",
+          "opening_emotion": "Dry and slightly uncomfortable, evoking a sense of relatable frustration.",
+          "opening_first_image": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold letters, and a laptop open with a shared document full of ideas visible on the screen."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: concrete, calm before/after clarity. Delivery: confident,",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Creating content takes too many hours every week",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6935,
+                "completion_tokens": 1328
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:43:32.614Z",
+              "duration_ms": 34831,
+              "finished_at": "2026-07-25T10:44:07.445Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6935,
+              "estimated_cost": 0.040725,
+              "output_summary": "Concept: The Content Week That Cost 40 Hours and Produced Three Posts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 30065,
+              "completion_tokens": 1328,
+              "output_size_bytes": 5885,
+              "prompt_characters": 29791,
+              "provider_request_id": null,
+              "completion_characters": 5845
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5831,
+                "completion_tokens": 160
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:44:07.445Z",
+              "duration_ms": 2056,
+              "finished_at": "2026-07-25T10:44:09.501Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5831,
+              "estimated_cost": 0.000894,
+              "output_summary": "Opening: How did a whole week of 'Content Week' only produce three posts?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 28234,
+              "completion_tokens": 160,
+              "output_size_bytes": 757,
+              "prompt_characters": 28074,
+              "provider_request_id": null,
+              "completion_characters": 755
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:44:09.501Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:44:09.501Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Compressed week-in-review aesthetic — quick cuts that visual",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2416,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2394
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 11039,
+                "completion_tokens": 2879
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:44:09.502Z",
+              "duration_ms": 49783,
+              "finished_at": "2026-07-25T10:44:59.285Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 11039,
+              "estimated_cost": 0.076302,
+              "output_summary": "Package: The Content Week That Cost 40 Hours and Produced Three Posts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 45822,
+              "completion_tokens": 2879,
+              "output_size_bytes": 11004,
+              "prompt_characters": 45524,
+              "provider_request_id": null,
+              "completion_characters": 10948
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:44:59.285Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:44:59.285Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2410,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2392
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:44:59.285Z",
+              "duration_ms": 1724,
+              "finished_at": "2026-07-25T10:45:01.009Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=0c082332-132e-472e-a75f-0d7dea339da2; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated 'content sprint' — no client calls, no standups, just content. By Friday they have three posts live across two p…",
+          "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open,…",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch o…",
+          "visual_world": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in o…",
+          "attention_pattern": "The viewer is drawn in by the initial question, creating curiosity about the outcome of the week while hinting at the i…",
+          "narrative_mechanism": "micro_case: BEFORE: Open on the team at the start of Monday morning with a whiteboard that …"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+            "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+            "motifs": [],
+            "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+            "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+            "motifs": [
+              "meeting",
+              "group",
+              "monitor"
+            ],
+            "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "meeting",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:44:59.389394+00:00",
+    "updated_at": "2026-07-25T10:45:01.178287+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 46,
+      "secondary": 41
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_micro_case→steady/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+46)",
+      "fit_secondary(+41)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: concrete, calm before/after clarity. Delivery: confident,"
+  },
+  "creative_mode": "micro_case",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Creating content takes too many hours every week",
+    "strategy_pain_point": "Creating content takes too many hours every week"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch of platform-ready videos and captions out. No sprint required. The first package is free, so the comparison has a concrete, low-friction entry point that does not require the viewer to commit anything before seeing what the output actually looks like.",
+  "narrative_arc": "BEFORE: Open on the team at the start of Monday morning with a whiteboard that says 'Content Week' in big letters and a shared doc full of ideas. The mood is optimistic — this is finally the week it all gets done. The insider voice narrates like someone who has watched this play out before: 'Here is what a content sprint actually looks like from the inside.' We track the week in compressed form — Monday planning, Tuesday scripting, Wednesday filming (one setup, two retakes, lighting issues), Thursday editing, Friday reviewing and approving. CHANGE: By Thursday afternoon, the energy has visibly shifted. The doc has 22 ideas. Three are in any state of done. The team makes a quiet decision to post the three finished pieces and call it a win. AFTER: Friday. Three posts are live — two on LinkedIn, one on Instagram. TikTok has nothing. YouTube Shorts has nothing. The team closes their laptops. Someone does the math out loud: forty hours, three posts, two platforms. Thirteen hours per post. The whiteboard still says 'Content Week.' The CTA lands here, delivered in the same insider tone — not triumphant, just honest: 'That math is why some teams stop doing content sprints and start sending a URL instead.'",
+  "emotional_tone": "Dry, knowing, and a little uncomfortable — like someone quietly doing the math on something you already suspected but never said out loud. Not cruel, not mocking. The team in the story is competent; the problem is structural, not personal.",
+  "audience_insight": "Small marketing teams and founders often believe that blocking off dedicated time will finally solve the content problem. What they discover is that the time disappears into planning, reformatting, and revision — not into published posts. The sprint feels productive while it is happening, which makes the final output count feel even more deflating. This audience will recognize the whiteboard, the shared doc, and the quiet Friday pivot immediately.",
+  "visual_direction": {
+    "palette": "Warm off-white walls, a whiteboard with black marker text, muted desk surfaces. Accent colors come from laptop screens and sticky notes — yellow, light blue. The palette stays practical and undesigned, like a real working space rather than a content studio.",
+    "lighting": "Natural daylight shifting across the week — bright and optimistic on Monday, slightly flatter and more overcast-feeling by Thursday and Friday. No dramatic lighting shifts, just a subtle warmth-to-cool arc that mirrors the team's energy without being heavy-handed.",
+    "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in one corner (the filming setup they actually used). Not a polished office, not a home setup — a rented desk or co-working room that feels like a genuine sprint environment.",
+    "camera_style": "Handheld with slight movement — not shaky, but not locked off. Quick cuts between moments in the week. One or two wider shots to establish the room, then tighter cuts on the whiteboard, the shared doc on screen, and the team's faces. The final shot is a slow pull back from the whiteboard to reveal the two people closing laptops — static for a beat before the CTA text appears.",
+    "art_direction": "Compressed week-in-review aesthetic — quick cuts that visually mark each day of the sprint. Text overlays showing the day (MON, TUE, WED, THU, FRI) appear as simple, bold labels in the corner of each scene. A whiteboard in the background anchors the space throughout and becomes a visual constant the viewer returns to. By Friday, the whiteboard is unchanged — 'Content Week' still written in the same marker — while the energy in the room has clearly shifted.",
+    "character_style": "Two people — one slightly more senior, one more junior — both dressed in everyday work clothes (not styled). No exaggerated expressions. The performances are understated: a glance, a small headshake, someone doing mental math on their fingers. Relatable without being caricature."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'"
+  },
+  "render_metadata": {
+    "id": "fb6b1d28-f13a-4d0f-bdb2-970204b8e873",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:45:00.84409+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A small team workspace with two desks facing each other, a whiteboard in the background reading 'Content Week' in bold black marker letters, and a laptop open with a shared document full of ideas visible on the screen. Warm natural daylight, off-white walls, yellow sticky notes on the whiteboard edge. Text overlay in corner: MON. Handheld camera feel, slightly wide establishing shot."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A person at a desk scripting on a laptop while a second person reviews notes on paper. A small camera tripod is visible in the corner of the room. Natural light, slightly flatter than the Monday scene. Muted desk surfaces, light blue sticky notes. Text overlay in corner: TUE. Medium shot, slight handheld movement."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A close shot of a camera on a small tripod being adjusted in a modest co-working room. One person stands in front of it as if preparing for a second take; the other adjusts the angle. A ring light is partially visible. Whiteboard still readable in background. Text overlay: WED. Slightly overcast daylight feel."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "One person at a laptop with a video editing timeline visible on the screen, headphones on, focused expression. The other person reviews a document beside them. Cooler, flatter light. The whiteboard is visible but out of focus in the background. Text overlay: THU. Tight handheld shot."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. Two people are closing their laptops simultaneously. The room is quieter — no camera equipment, no papers spread out. Flat, slightly cool natural light. A moment of stillness before a text overlay appears on screen."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "How did a whole week of 'Content Week' only produce three posts?",
+    "cta": "Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.",
+    "voiceover_text": "How did a whole week of 'Content Week' only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high. Tuesday: scripting. Wednesday: filming — two retakes, lighting issues. Thursday: editing. Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post. The whiteboard still said 'Content Week.'",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: concrete, calm before/after clarity. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated 'content sprint' — no client calls, no standups, just content. By Friday they have three posts live across two p…",
+      "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open,…",
+      "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch o…",
+      "visual_world": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in o…",
+      "attention_pattern": "The viewer is drawn in by the initial question, creating curiosity about the outcome of the week while hinting at the i…",
+      "narrative_mechanism": "micro_case: BEFORE: Open on the team at the start of Monday morning with a whiteboard that …"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#marketingteam",
+    "#socialmediatips",
+    "#contentcreation",
+    "#saas",
+    "#startuplife",
+    "#socialmediamarketing"
+  ],
+  "hook": "How did a whole week of 'Content Week' only produce three posts?",
+  "scenario": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated content sprint — no client calls, no standups, just content. Monday feels genuinely productive: the whiteboard is full, the shared doc has twenty-two ideas, and the energy is high. By Thursday afternoon, the energy has quietly shifted. Three pieces are in any state of done. On Friday, they post the three finished pieces and call it a win. Someone does the math out loud: forty hours across the week, three posts live, two platforms covered, TikTok and YouTube untouched. Thirteen hours per post. The whiteboard still says 'Content Week' in the same marker from Monday morning.",
+  "video": {
+    "script": "SCENE 1 — MONDAY MORNING\n[Wide shot: two desks facing each other, whiteboard behind them reading 'Content Week' in bold marker. Laptop open, shared doc visible on screen. Bright natural light. Text overlay: MON.]\nVO: 'How did a whole week of Content Week only produce three posts? Monday: whiteboard full of ideas, shared doc ready, energy high.'\n\nSCENE 2 — MID-WEEK GRIND\n[Quick cuts: scripting on Tuesday, camera setup on Wednesday with a small tripod visible, one person adjusting a ring light, a second retake happening. Text overlays: TUE, WED. Light is slightly flatter.]\nVO: 'Tuesday: scripting. Wednesday: filming — two retakes, lighting issues.'\n\nSCENE 3 — THURSDAY EDITING\n[Tighter shot: one person at laptop, timeline visible on screen, headphones on. The other reviews a doc. Text overlay: THU. Light cooler, slightly overcast feel.]\nVO: 'Thursday: editing.'\n\nSCENE 4 — FRIDAY RECKONING\n[Two people at desks. Three posts are live — shown briefly on a screen. TikTok and YouTube tabs are empty. Text overlay: FRI. One person counts on their fingers silently.]\nVO: 'Friday: three posts live. Two on LinkedIn, one on Instagram. TikTok: nothing. YouTube: nothing. Someone did the math out loud. Forty hours. Three posts. Thirteen hours per post.'\n\nSCENE 5 — FINAL PULL BACK\n[Slow pull back from the whiteboard — 'Content Week' still written in the same marker, unchanged. The two people close their laptops. Static beat. CTA text appears on screen.]\nVO: 'The whiteboard still said Content Week.'\n[TEXT ON SCREEN: Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.]",
+    "concept": "A two-person marketing team blocks off an entire week as a dedicated content sprint. The video tracks that week in compressed form — Monday's optimism, the grinding middle, and Friday's quiet reckoning: three posts live, two platforms covered, two platforms untouched, and roughly thirteen hours spent per published post. The micro case format lets the numbers do the emotional work without exaggeration. The insider voice narrates like someone who has watched this pattern play out before — not mocking the team, just doing the math honestly.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "motifs": [],
+      "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "motifs": [
+        "meeting",
+        "group",
+        "monitor"
+      ],
+      "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "meeting",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6935,
+          "completion_tokens": 1328
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:43:32.614Z",
+        "duration_ms": 34831,
+        "finished_at": "2026-07-25T10:44:07.445Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6935,
+        "estimated_cost": 0.040725,
+        "output_summary": "Concept: The Content Week That Cost 40 Hours and Produced Three Posts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 30065,
+        "completion_tokens": 1328,
+        "output_size_bytes": 5885,
+        "prompt_characters": 29791,
+        "provider_request_id": null,
+        "completion_characters": 5845
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5831,
+          "completion_tokens": 160
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:44:07.445Z",
+        "duration_ms": 2056,
+        "finished_at": "2026-07-25T10:44:09.501Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5831,
+        "estimated_cost": 0.000894,
+        "output_summary": "Opening: How did a whole week of 'Content Week' only produce three posts?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 28234,
+        "completion_tokens": 160,
+        "output_size_bytes": 757,
+        "prompt_characters": 28074,
+        "provider_request_id": null,
+        "completion_characters": 755
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:44:09.501Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:44:09.501Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Compressed week-in-review aesthetic — quick cuts that visual",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2416,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2394
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 11039,
+          "completion_tokens": 2879
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:44:09.502Z",
+        "duration_ms": 49783,
+        "finished_at": "2026-07-25T10:44:59.285Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 11039,
+        "estimated_cost": 0.076302,
+        "output_summary": "Package: The Content Week That Cost 40 Hours and Produced Three Posts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 45822,
+        "completion_tokens": 2879,
+        "output_size_bytes": 11004,
+        "prompt_characters": 45524,
+        "provider_request_id": null,
+        "completion_characters": 10948
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:44:59.285Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:44:59.285Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2410,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2392
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:44:59.285Z",
+        "duration_ms": 1724,
+        "finished_at": "2026-07-25T10:45:01.009Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=0c082332-132e-472e-a75f-0d7dea339da2; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "ea30dcbe-8838-459d-9b6d-fffad5cce561",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

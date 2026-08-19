@@ -1,0 +1,1720 @@
+{
+  "package_index": 0,
+  "run_item_id": "87cde4fc-839e-487b-9346-1673b6612cb0",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "c269284d-8903-410c-8d03-48f636ca2348",
+  "package_title": "The Tuesday Caption",
+  "package_status": "draft",
+  "strategy_item_id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "A founder narrates their Tuesday in reverse — every hour they planned to use for growth was swallowed by writing one caption that still isn't done by 6pm. No drama, just a quiet audit of where the day actually went.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "source": "production_run",
+      "pain_point": "Creating content takes too many hours every week",
+      "package_index": 0,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Awareness",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "angle": "A founder narrates their Tuesday in reverse — every hour they planned to use for growth was swallowed by writing one caption that still isn't done by 6pm. No drama, just a quiet audit of where the day actually went.",
+      "seed": "Awareness|The social media task that looks small but quietly consumes your whole Tuesday|A founder narrates their Tuesday in reverse — every hour they planned to use for growth was swallowed by writing one caption that still isn't done by 6pm. No drama, just a quiet audit of where the day actually went.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "humor",
+        "name": "Humor",
+        "description": "Light, self-aware tone that entertains while informing.",
+        "structure": "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
+        "avoid": "Humor must not mock the customer or devalue the product; the fix stays serious.",
+        "narrativeBeats": [
+          "situation",
+          "unexpected_turn",
+          "punchline",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "mistake",
+        "instruction": "Open by naming a specific mistake the viewer is probably making.",
+        "exampleForm": "\"You are wiping the counter — and spreading the mess.\"",
+        "forbidGeneric": "Do not open with \"Here are some tips to avoid mistakes.\""
+      },
+      "persona": {
+        "id": "calm_advisor",
+        "name": "Calm Advisor",
+        "vocabulary": "reassuring, simple, supportive",
+        "rhythm": "unhurried, guiding",
+        "energy": "steady and trustworthy",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Tuesday Caption",
+    "core_idea": "A founder narrates their Tuesday in reverse, revealing that every hour they protected for growth was quietly consumed by a single unfinished caption — told with light, self-aware humor that exposes how content writing expands to fill all available time.",
+    "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik Studio as the thing that gives Tuesday back, not as a tool the viewer has to operate.",
+    "why_it_works": "The reverse timeline is a fresh narrative device not used in recent memory. It reframes a familiar frustration — content taking too long — as a quiet comedy of errors rather than a crisis. The punchline (a five-word caption eating a full workday) is specific and absurd enough to be funny, but honest enough to sting. The Calm Advisor voice keeps the CTA grounded and trustworthy after the humor lands. The mistake hook archetype is present: the mistake is treating caption-writing as a small task. The format is native to TikTok — direct-to-camera, text overlays, fast cuts, no production crew required.",
+    "narrative_arc": "SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee cold, looking mildly defeated. On-screen text reads: '4:47pm. Still on the caption.' Cut to a reverse timeline — 4:00pm, they were 'almost done.' 3:15pm, they were 'just tweaking the tone.' 2:30pm, they had 'a great draft going.' 1:00pm, they opened a blank document. 12:45pm, they ate lunch at their desk 'to save time.' 9:00am, they had blocked Tuesday for growth work. UNEXPECTED TURN: The reverse timeline lands back at 9:00am and the on-screen text reads: 'The caption is still not posted.' The founder holds up their phone — the draft is still open. Then they look directly at camera and say, very calmly: 'It's a good caption though.' PUNCHLINE: Cut to a final frame — the caption on screen reads: 'Exciting news — we've been working on something big.' That's it. That's the whole caption. The founder shrugs. CTA: On-screen text fades in: 'Give us your website URL. We'll handle the captions, posts, and videos. First package is free — no Tuesday required.'",
+    "emotional_tone": "Light, self-aware, quietly comedic — the humor is warm and recognizable, never mocking. The founder is in on the joke. The absurdity is gentle: one caption, one whole day, zero drama, maximum relatability.",
+    "audience_insight": "Founders and small marketing teams know this feeling viscerally — not because they are bad at their jobs, but because writing for social media is deceptively hard. It looks like a fifteen-minute task and becomes a four-hour identity crisis. The reverse timeline makes the invisible visible without exaggeration.",
+    "visual_direction": {
+      "palette": "Muted warm neutrals — off-white walls, warm wood desk, soft beige tones. No brand colors dominating. Clean and relatable, not aspirational.",
+      "lighting": "Flat, natural daylight from a window — midday light that slowly warms toward afternoon gold as the reverse timeline progresses backward, subtly reinforcing the passage of time.",
+      "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and immediately recognizable.",
+      "camera_style": "Handheld with very slight drift — feels candid and real, not polished. Close-up cuts to the phone screen and the notebook. One sustained medium shot of the founder looking directly at camera for the punchline delivery.",
+      "art_direction": "Deadpan documentary style. Text overlays drive the reverse timeline — large, clean sans-serif timestamps in the top corner of each cut. The caption draft is shown on a phone screen in close-up, clearly unfinished. Final frame shows the full 'caption' in large centered type — five words, deliberately anticlimactic.",
+      "character_style": "One founder — gender-neutral presentation, casual work clothes, late twenties to early forties. No exaggerated expressions. The humor comes from underreaction, not performance."
+    }
+  },
+  "opening": {
+    "pacing": "Quick cuts between timestamps, creating a sense of urgency and mounting absurdity.",
+    "emotion": "Relatable frustration mixed with light humor.",
+    "first_image": "A close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, while a coffee cup sits cold and untouched beside it.",
+    "attention_pattern": "The viewer is drawn in by the relatable struggle of time slipping away, creating curiosity about how the day unfolded.",
+    "first_spoken_sentence": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen."
+  },
+  "visual_identity": {
+    "palette": "Muted warm neutrals — off-white walls, warm wood desk, soft beige tones. No brand colors dominating. Clean and relatable, not aspirational.",
+    "lighting": "Flat, natural daylight from a window — midday light that slowly warms toward afternoon gold as the reverse timeline progresses backward, subtly reinforcing the passage of time.",
+    "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and immediately recognizable.",
+    "camera_style": "Handheld with very slight drift — feels candid and real, not polished. Close-up cuts to the phone screen and the notebook. One sustained medium shot of the founder looking directly at camera for the punchline delivery.",
+    "art_direction": "Deadpan documentary style. Text overlays drive the reverse timeline — large, clean sans-serif timestamps in the top corner of each cut. The caption draft is shown on a phone screen in close-up, clearly unfinished. Final frame shows the full 'caption' in large centered type — five words, deliberately anticlimactic.",
+    "character_style": "One founder — gender-neutral presentation, casual work clothes, late twenties to early forties. No exaggerated expressions. The humor comes from underreaction, not performance.",
+    "opening_emotion": "Relatable frustration mixed with light humor.",
+    "opening_first_image": "A close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, while a coffee cup sits cold and untouched beside it."
+  },
+  "package": {
+    "title": "The Tuesday Caption",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+    "scenario": "A bootstrapped founder blocks Tuesday morning for growth work, eats lunch at their desk to protect the time, and by 6pm has produced exactly one caption — five words, still not posted — while every other growth task remains untouched.",
+    "video": {
+      "script": "SCENE 1 — COLD OPEN (0:00–0:04)\nClose-up: phone screen showing a blank document titled 'Caption Draft,' cursor blinking. Cold coffee cup beside it. No music yet — ambient desk silence.\nVO: 'You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.'\nText overlay: '4:47 PM'\n\nSCENE 2 — REVERSE TIMELINE BEGINS (0:04–0:22)\nFast cuts, each 2–3 seconds. Founder at desk in slightly different states. Text overlays count backward.\n'4:00 PM — Almost done.'\n'3:15 PM — Just tweaking the tone.'\n'2:30 PM — Great draft going.'\n'1:00 PM — Opened the document.'\n'12:00 PM — Lunch at desk to save time.'\n'9:00 AM — Tuesday blocked for growth.'\nVO tracks the timestamps, calm and unhurried.\n\nSCENE 3 — UNEXPECTED TURN (0:22–0:28)\nReverse timeline lands back at 9:00 AM. Text overlay: 'Caption still not posted.'\nFounder holds up phone to camera. Draft is still open. They look directly at lens — no exaggerated expression. Just a quiet, knowing look.\n\nSCENE 4 — PUNCHLINE (0:28–0:36)\nCut to clean final frame. Large centered type on off-white background:\n'Exciting news — we've been working on something big.'\nFounder shrugs. Slight smile. That's the whole caption.\nVO: 'One whole Tuesday. One caption. Five words. That's it. That's the caption.'\n\nSCENE 5 — CTA FRAME (0:36–0:42)\nText fades in over the same clean background:\n'Give us your URL. We handle the captions, posts, and videos. First package is free.'\nFounder looks at camera one more time, nods once, looks back at phone.",
+      "concept": "A founder narrates their Tuesday in reverse — every hour they protected for growth was quietly swallowed by a single unfinished caption. Told with deadpan, self-aware humor using text overlay timestamps, the reverse timeline reveals the absurdity gently: one whole day, one five-word caption, still not posted. The punchline lands on the caption itself — anticlimactic, honest, and immediately recognizable to anyone who has ever tried to write social content between real work.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#ContentCreation",
+      "#FounderLife",
+      "#SocialMediaMarketing",
+      "#SmallBusiness",
+      "#MarketingLife",
+      "#ContentMarketing",
+      "#SoloFounder"
+    ],
+    "subtitles_planned": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work."
+    }
+  ],
+  "voiceover": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+  "voice_prompts": {
+    "voiceover_text": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors.",
+    "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real.",
+    "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel.",
+    "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish.",
+    "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Comment 'Tuesday' if this has happened to you.",
+      "type": "comment"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "comment 'Tuesday' if this is you",
+        "format": "reel",
+        "caption": "blocked off Tuesday for growth. it is 6pm. the caption has five words and is still not posted 💀",
+        "hashtags": [
+          "#ContentCreation",
+          "#FounderLife",
+          "#SocialMediaMarketing",
+          "#SmallBusiness",
+          "#TuesdayVibes"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "You blocked Tuesday for growth. It's 6pm. The caption still isn't posted. Sound familiar?",
+        "hashtags": [
+          "#Shorts",
+          "#FounderLife",
+          "#ContentCreation"
+        ]
+      },
+      "facebook": {
+        "cta": "Comment 'Tuesday' if this sounds familiar.",
+        "format": "reel",
+        "caption": "Ever block off a whole day for 'growth work' — and spend most of it on a single caption that still isn't posted by evening? 😅 You're not alone. Content writing has a way of expanding to fill every hour you give it. Drop a comment if Tuesday has done this to you.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#ContentCreation",
+          "#FounderLife"
+        ]
+      },
+      "linkedin": {
+        "cta": "Comment below — how many Tuesdays has this happened to you?",
+        "format": "reel",
+        "caption": "There's a specific kind of Tuesday that founders and small teams know well.\n\nYou block the morning for growth work. By noon you're still on the caption. By late afternoon you're tweaking the tone of a sentence you've rewritten four times. By evening it still isn't posted.\n\nContent writing looks like a fifteen-minute task. It rarely is.\n\nIf this pattern sounds familiar, comment below — curious how many people have lost a Tuesday to a single caption.",
+        "hashtags": [
+          "#ContentMarketing",
+          "#FounderLife",
+          "#SocialMedia"
+        ]
+      },
+      "instagram": {
+        "cta": "Comment 🙋 if this has happened to you.",
+        "format": "reel",
+        "caption": "You told yourself Tuesday was for growth.\n\nBy 4pm you were still on the caption.\nBy 6pm it still wasn't posted.\n\nOne day. One caption. Five words.\n\nIf this is your Tuesday, drop a 🙋 below.",
+        "hashtags": [
+          "#ContentCreation",
+          "#FounderLife",
+          "#SocialMediaTips",
+          "#SmallBusinessOwner",
+          "#MarketingLife",
+          "#ContentMarketing",
+          "#SoloFounder"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "ca47c20e-fd5c-4d35-ad20-d3d548282170",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Tuesday Caption",
+        "body": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+        "caption": "Ever block off a whole day for 'growth work' — and spend most of it on a single caption that still isn't posted by evening? 😅 You're not alone. Content writing has a way of expanding to fill every hour you give it. Drop a comment if Tuesday has done this to you.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#ContentCreation",
+          "#FounderLife"
+        ],
+        "cta": "Comment 'Tuesday' if this sounds familiar.",
+        "language": null
+      },
+      {
+        "id": "35d7b340-25f5-4394-ab0f-e5e90d088e9b",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Tuesday Caption",
+        "body": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+        "caption": "You told yourself Tuesday was for growth.\n\nBy 4pm you were still on the caption.\nBy 6pm it still wasn't posted.\n\nOne day. One caption. Five words.\n\nIf this is your Tuesday, drop a 🙋 below.",
+        "hashtags": [
+          "#ContentCreation",
+          "#FounderLife",
+          "#SocialMediaTips",
+          "#SmallBusinessOwner",
+          "#MarketingLife",
+          "#ContentMarketing",
+          "#SoloFounder"
+        ],
+        "cta": "Comment 🙋 if this has happened to you.",
+        "language": null
+      },
+      {
+        "id": "187d3a2c-4628-487c-861c-b6174858f7b4",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Tuesday Caption",
+        "body": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+        "caption": "blocked off Tuesday for growth. it is 6pm. the caption has five words and is still not posted 💀",
+        "hashtags": [
+          "#ContentCreation",
+          "#FounderLife",
+          "#SocialMediaMarketing",
+          "#SmallBusiness",
+          "#TuesdayVibes"
+        ],
+        "cta": "comment 'Tuesday' if this is you",
+        "language": null
+      },
+      {
+        "id": "c61acfd4-063f-41ed-8589-9b57d1389d28",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Tuesday Caption",
+        "body": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+        "caption": "You blocked Tuesday for growth. It's 6pm. The caption still isn't posted. Sound familiar?",
+        "hashtags": [
+          "#Shorts",
+          "#FounderLife",
+          "#ContentCreation"
+        ],
+        "cta": "Subscribe for more.",
+        "language": null
+      },
+      {
+        "id": "47d9fc8a-2d09-4fe7-8a60-95ae0ae4fd82",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Tuesday Caption",
+        "body": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+        "caption": "There's a specific kind of Tuesday that founders and small teams know well.\n\nYou block the morning for growth work. By noon you're still on the caption. By late afternoon you're tweaking the tone of a sentence you've rewritten four times. By evening it still isn't posted.\n\nContent writing looks like a fifteen-minute task. It rarely is.\n\nIf this pattern sounds familiar, comment below — curious how many people have lost a Tuesday to a single caption.",
+        "hashtags": [
+          "#ContentMarketing",
+          "#FounderLife",
+          "#SocialMedia"
+        ],
+        "cta": "Comment below — how many Tuesdays has this happened to you?",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "c269284d-8903-410c-8d03-48f636ca2348",
+    "title": "The Tuesday Caption",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+    "package_brief": {
+      "cta": {
+        "text": "Comment 'Tuesday' if this has happened to you.",
+        "type": "comment"
+      },
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "video": {
+        "script": "SCENE 1 — COLD OPEN (0:00–0:04)\nClose-up: phone screen showing a blank document titled 'Caption Draft,' cursor blinking. Cold coffee cup beside it. No music yet — ambient desk silence.\nVO: 'You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.'\nText overlay: '4:47 PM'\n\nSCENE 2 — REVERSE TIMELINE BEGINS (0:04–0:22)\nFast cuts, each 2–3 seconds. Founder at desk in slightly different states. Text overlays count backward.\n'4:00 PM — Almost done.'\n'3:15 PM — Just tweaking the tone.'\n'2:30 PM — Great draft going.'\n'1:00 PM — Opened the document.'\n'12:00 PM — Lunch at desk to save time.'\n'9:00 AM — Tuesday blocked for growth.'\nVO tracks the timestamps, calm and unhurried.\n\nSCENE 3 — UNEXPECTED TURN (0:22–0:28)\nReverse timeline lands back at 9:00 AM. Text overlay: 'Caption still not posted.'\nFounder holds up phone to camera. Draft is still open. They look directly at lens — no exaggerated expression. Just a quiet, knowing look.\n\nSCENE 4 — PUNCHLINE (0:28–0:36)\nCut to clean final frame. Large centered type on off-white background:\n'Exciting news — we've been working on something big.'\nFounder shrugs. Slight smile. That's the whole caption.\nVO: 'One whole Tuesday. One caption. Five words. That's it. That's the caption.'\n\nSCENE 5 — CTA FRAME (0:36–0:42)\nText fades in over the same clean background:\n'Give us your URL. We handle the captions, posts, and videos. First package is free.'\nFounder looks at camera one more time, nods once, looks back at phone.",
+        "concept": "A founder narrates their Tuesday in reverse — every hour they protected for growth was quietly swallowed by a single unfinished caption. Told with deadpan, self-aware humor using text overlay timestamps, the reverse timeline reveals the absurdity gently: one whole day, one five-word caption, still not posted. The punchline lands on the caption itself — anticlimactic, honest, and immediately recognizable to anyone who has ever tried to write social content between real work.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#ContentCreation",
+        "#FounderLife",
+        "#SocialMediaMarketing",
+        "#SmallBusiness",
+        "#MarketingLife",
+        "#ContentMarketing",
+        "#SoloFounder"
+      ],
+      "scenario": "A bootstrapped founder blocks Tuesday morning for growth work, eats lunch at their desk to protect the time, and by 6pm has produced exactly one caption — five words, still not posted — while every other growth task remains untouched.",
+      "subtitles": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors.",
+        "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real.",
+        "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel.",
+        "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish.",
+        "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work."
+        }
+      ],
+      "voiceover_text": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "comment 'Tuesday' if this is you",
+          "format": "reel",
+          "caption": "blocked off Tuesday for growth. it is 6pm. the caption has five words and is still not posted 💀",
+          "hashtags": [
+            "#ContentCreation",
+            "#FounderLife",
+            "#SocialMediaMarketing",
+            "#SmallBusiness",
+            "#TuesdayVibes"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "short",
+          "caption": "You blocked Tuesday for growth. It's 6pm. The caption still isn't posted. Sound familiar?",
+          "hashtags": [
+            "#Shorts",
+            "#FounderLife",
+            "#ContentCreation"
+          ]
+        },
+        "facebook": {
+          "cta": "Comment 'Tuesday' if this sounds familiar.",
+          "format": "reel",
+          "caption": "Ever block off a whole day for 'growth work' — and spend most of it on a single caption that still isn't posted by evening? 😅 You're not alone. Content writing has a way of expanding to fill every hour you give it. Drop a comment if Tuesday has done this to you.",
+          "hashtags": [
+            "#SmallBusiness",
+            "#ContentCreation",
+            "#FounderLife"
+          ]
+        },
+        "linkedin": {
+          "cta": "Comment below — how many Tuesdays has this happened to you?",
+          "format": "reel",
+          "caption": "There's a specific kind of Tuesday that founders and small teams know well.\n\nYou block the morning for growth work. By noon you're still on the caption. By late afternoon you're tweaking the tone of a sentence you've rewritten four times. By evening it still isn't posted.\n\nContent writing looks like a fifteen-minute task. It rarely is.\n\nIf this pattern sounds familiar, comment below — curious how many people have lost a Tuesday to a single caption.",
+          "hashtags": [
+            "#ContentMarketing",
+            "#FounderLife",
+            "#SocialMedia"
+          ]
+        },
+        "instagram": {
+          "cta": "Comment 🙋 if this has happened to you.",
+          "format": "reel",
+          "caption": "You told yourself Tuesday was for growth.\n\nBy 4pm you were still on the caption.\nBy 6pm it still wasn't posted.\n\nOne day. One caption. Five words.\n\nIf this is your Tuesday, drop a 🙋 below.",
+          "hashtags": [
+            "#ContentCreation",
+            "#FounderLife",
+            "#SocialMediaTips",
+            "#SmallBusinessOwner",
+            "#MarketingLife",
+            "#ContentMarketing",
+            "#SoloFounder"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "c269284d-8903-410c-8d03-48f636ca2348",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 48,
+          "secondary": 37
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "humor",
+        "video_concept": {
+          "title": "The Tuesday Caption",
+          "core_idea": "A founder narrates their Tuesday in reverse, revealing that every hour they protected for growth was quietly consumed by a single unfinished caption — told with light, self-aware humor that exposes how content writing expands to fill all available time.",
+          "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik Studio as the thing that gives Tuesday back, not as a tool the viewer has to operate.",
+          "why_it_works": "The reverse timeline is a fresh narrative device not used in recent memory. It reframes a familiar frustration — content taking too long — as a quiet comedy of errors rather than a crisis. The punchline (a five-word caption eating a full workday) is specific and absurd enough to be funny, but honest enough to sting. The Calm Advisor voice keeps the CTA grounded and trustworthy after the humor lands. The mistake hook archetype is present: the mistake is treating caption-writing as a small task. The format is native to TikTok — direct-to-camera, text overlays, fast cuts, no production crew required.",
+          "narrative_arc": "SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee cold, looking mildly defeated. On-screen text reads: '4:47pm. Still on the caption.' Cut to a reverse timeline — 4:00pm, they were 'almost done.' 3:15pm, they were 'just tweaking the tone.' 2:30pm, they had 'a great draft going.' 1:00pm, they opened a blank document. 12:45pm, they ate lunch at their desk 'to save time.' 9:00am, they had blocked Tuesday for growth work. UNEXPECTED TURN: The reverse timeline lands back at 9:00am and the on-screen text reads: 'The caption is still not posted.' The founder holds up their phone — the draft is still open. Then they look directly at camera and say, very calmly: 'It's a good caption though.' PUNCHLINE: Cut to a final frame — the caption on screen reads: 'Exciting news — we've been working on something big.' That's it. That's the whole caption. The founder shrugs. CTA: On-screen text fades in: 'Give us your website URL. We'll handle the captions, posts, and videos. First package is free — no Tuesday required.'",
+          "emotional_tone": "Light, self-aware, quietly comedic — the humor is warm and recognizable, never mocking. The founder is in on the joke. The absurdity is gentle: one caption, one whole day, zero drama, maximum relatability.",
+          "audience_insight": "Founders and small marketing teams know this feeling viscerally — not because they are bad at their jobs, but because writing for social media is deceptively hard. It looks like a fifteen-minute task and becomes a four-hour identity crisis. The reverse timeline makes the invisible visible without exaggeration.",
+          "visual_direction": {
+            "palette": "Muted warm neutrals — off-white walls, warm wood desk, soft beige tones. No brand colors dominating. Clean and relatable, not aspirational.",
+            "lighting": "Flat, natural daylight from a window — midday light that slowly warms toward afternoon gold as the reverse timeline progresses backward, subtly reinforcing the passage of time.",
+            "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and immediately recognizable.",
+            "camera_style": "Handheld with very slight drift — feels candid and real, not polished. Close-up cuts to the phone screen and the notebook. One sustained medium shot of the founder looking directly at camera for the punchline delivery.",
+            "art_direction": "Deadpan documentary style. Text overlays drive the reverse timeline — large, clean sans-serif timestamps in the top corner of each cut. The caption draft is shown on a phone screen in close-up, clearly unfinished. Final frame shows the full 'caption' in large centered type — five words, deliberately anticlimactic.",
+            "character_style": "One founder — gender-neutral presentation, casual work clothes, late twenties to early forties. No exaggerated expressions. The humor comes from underreaction, not performance."
+          }
+        },
+        "voice_reasons": [
+          "funnel_awareness→warmth/energy(+1)",
+          "mode_humor→energy/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+48)",
+          "fit_secondary(+37)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick cuts between timestamps, creating a sense of urgency and mounting absurdity.",
+          "emotion": "Relatable frustration mixed with light humor.",
+          "first_image": "A close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, while a coffee cup sits cold and untouched beside it.",
+          "attention_pattern": "The viewer is drawn in by the relatable struggle of time slipping away, creating curiosity about how the day unfolded.",
+          "first_spoken_sentence": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted warm neutrals — off-white walls, warm wood desk, soft beige tones. No brand colors dominating. Clean and relatable, not aspirational.",
+          "lighting": "Flat, natural daylight from a window — midday light that slowly warms toward afternoon gold as the reverse timeline progresses backward, subtly reinforcing the passage of time.",
+          "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and immediately recognizable.",
+          "camera_style": "Handheld with very slight drift — feels candid and real, not polished. Close-up cuts to the phone screen and the notebook. One sustained medium shot of the founder looking directly at camera for the punchline delivery.",
+          "art_direction": "Deadpan documentary style. Text overlays drive the reverse timeline — large, clean sans-serif timestamps in the top corner of each cut. The caption draft is shown on a phone screen in close-up, clearly unfinished. Final frame shows the full 'caption' in large centered type — five words, deliberately anticlimactic.",
+          "character_style": "One founder — gender-neutral presentation, casual work clothes, late twenties to early forties. No exaggerated expressions. The humor comes from underreaction, not performance.",
+          "opening_emotion": "Relatable frustration mixed with light humor.",
+          "opening_first_image": "A close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, while a coffee cup sits cold and untouched beside it."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Creating content takes too many hours every week",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4265,
+                "completion_tokens": 1051
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:17:47.668Z",
+              "duration_ms": 25799,
+              "finished_at": "2026-07-25T10:18:13.466Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 4265,
+              "estimated_cost": 0.02856,
+              "output_summary": "Concept: The Tuesday Caption",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18679,
+              "completion_tokens": 1051,
+              "output_size_bytes": 4257,
+              "prompt_characters": 18573,
+              "provider_request_id": null,
+              "completion_characters": 4219
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 4199,
+                "completion_tokens": 130
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:18:13.469Z",
+              "duration_ms": 5256,
+              "finished_at": "2026-07-25T10:18:18.725Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4199,
+              "estimated_cost": 0.000708,
+              "output_summary": "Opening: You blocked off your Tuesday for growth — and here you are, still staring at a b",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 20369,
+              "completion_tokens": 130,
+              "output_size_bytes": 610,
+              "prompt_characters": 20235,
+              "provider_request_id": null,
+              "completion_characters": 608
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:18:18.726Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:18:18.726Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Deadpan documentary style. Text overlays drive the reverse t",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1574,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1560
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9121,
+                "completion_tokens": 2555
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:18:18.730Z",
+              "duration_ms": 49530,
+              "finished_at": "2026-07-25T10:19:08.260Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9121,
+              "estimated_cost": 0.065688,
+              "output_summary": "Package: The Tuesday Caption",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 36891,
+              "completion_tokens": 2555,
+              "output_size_bytes": 9252,
+              "prompt_characters": 36623,
+              "provider_request_id": null,
+              "completion_characters": 9158
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:08.262Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:19:08.262Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1990,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1976
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:08.262Z",
+              "duration_ms": 1788,
+              "finished_at": "2026-07-25T10:19:10.050Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=c269284d-8903-410c-8d03-48f636ca2348; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A founder narrates their Tuesday in reverse, revealing that every hour they protected for growth was quietly consumed by a single unfinished caption — told with light, self-aware humor that exposes h…",
+          "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful writte…",
+          "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik S…",
+          "visual_world": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and…",
+          "attention_pattern": "The viewer is drawn in by the relatable struggle of time slipping away, creating curiosity about how the day unfolded.",
+          "narrative_mechanism": "humor: SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee …"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+            "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+            "motifs": [],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "process",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're not failing at content. You're failing at deciding.",
+            "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+            "motifs": [
+              "laptop",
+              "close_up",
+              "product_asset",
+              "cafe"
+            ],
+            "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "place",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+            "topic": "How one website URL becomes a full month of platform-ready social content",
+            "motifs": [
+              "desk",
+              "office",
+              "group",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're treating 'done-for-you' like it still means you do half the work.",
+            "topic": "What a done-for-you content service actually delivers — and what it doesn't ask you to do",
+            "motifs": [
+              "desk",
+              "close_up"
+            ],
+            "closing": "typed_cta",
+            "typed_cta": true,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "CTA"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": "headline_action_line",
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "I'll be honest — I used to think a quiet social feed just looked boring. Then I started checking competitors the way customers do.",
+            "topic": "Why most businesses are one quiet month away from looking like they've shut down",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A clean, quiet studio-like interior, cool clear morning light. Th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:19:08.536682+00:00",
+    "updated_at": "2026-07-25T10:19:10.215687+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 48,
+      "secondary": 37
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+48)",
+      "fit_secondary(+37)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise"
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Creating content takes too many hours every week",
+    "strategy_pain_point": "Creating content takes too many hours every week"
+  },
+  "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik Studio as the thing that gives Tuesday back, not as a tool the viewer has to operate.",
+  "narrative_arc": "SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee cold, looking mildly defeated. On-screen text reads: '4:47pm. Still on the caption.' Cut to a reverse timeline — 4:00pm, they were 'almost done.' 3:15pm, they were 'just tweaking the tone.' 2:30pm, they had 'a great draft going.' 1:00pm, they opened a blank document. 12:45pm, they ate lunch at their desk 'to save time.' 9:00am, they had blocked Tuesday for growth work. UNEXPECTED TURN: The reverse timeline lands back at 9:00am and the on-screen text reads: 'The caption is still not posted.' The founder holds up their phone — the draft is still open. Then they look directly at camera and say, very calmly: 'It's a good caption though.' PUNCHLINE: Cut to a final frame — the caption on screen reads: 'Exciting news — we've been working on something big.' That's it. That's the whole caption. The founder shrugs. CTA: On-screen text fades in: 'Give us your website URL. We'll handle the captions, posts, and videos. First package is free — no Tuesday required.'",
+  "emotional_tone": "Light, self-aware, quietly comedic — the humor is warm and recognizable, never mocking. The founder is in on the joke. The absurdity is gentle: one caption, one whole day, zero drama, maximum relatability.",
+  "audience_insight": "Founders and small marketing teams know this feeling viscerally — not because they are bad at their jobs, but because writing for social media is deceptively hard. It looks like a fifteen-minute task and becomes a four-hour identity crisis. The reverse timeline makes the invisible visible without exaggeration.",
+  "visual_direction": {
+    "palette": "Muted warm neutrals — off-white walls, warm wood desk, soft beige tones. No brand colors dominating. Clean and relatable, not aspirational.",
+    "lighting": "Flat, natural daylight from a window — midday light that slowly warms toward afternoon gold as the reverse timeline progresses backward, subtly reinforcing the passage of time.",
+    "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and immediately recognizable.",
+    "camera_style": "Handheld with very slight drift — feels candid and real, not polished. Close-up cuts to the phone screen and the notebook. One sustained medium shot of the founder looking directly at camera for the punchline delivery.",
+    "art_direction": "Deadpan documentary style. Text overlays drive the reverse timeline — large, clean sans-serif timestamps in the top corner of each cut. The caption draft is shown on a phone screen in close-up, clearly unfinished. Final frame shows the full 'caption' in large centered type — five words, deliberately anticlimactic.",
+    "character_style": "One founder — gender-neutral presentation, casual work clothes, late twenties to early forties. No exaggerated expressions. The humor comes from underreaction, not performance."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption."
+  },
+  "render_metadata": {
+    "id": "cebda8b2-925f-44dd-9585-9e341f738b38",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:19:09.886196+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a phone screen displaying a blank document titled 'Caption Draft' with a blinking cursor, a cold coffee cup sitting untouched beside it on a warm wood desk, flat natural daylight from a window, muted warm neutrals — off-white, beige, warm wood — deadpan documentary style, slightly handheld feel, no brand colors."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A founder in casual work clothes, gender-neutral, late twenties to early forties, sitting at a compact home office desk with a second monitor and an open notebook with nothing useful written, looking quietly at their phone with mild defeat — warm afternoon light, off-white walls, beige tones, no exaggerated expression, candid and real."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Overhead close-up of an open notebook on a warm wood desk, a few crossed-out lines but nothing coherent written, a cold coffee cup beside it, soft afternoon golden light from a window reinforcing time passing, muted warm palette, handheld documentary feel."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A phone held up toward camera showing a notes app draft with only five words visible on screen — the founder's hand relaxed and unbothered, background a soft off-white wall, flat natural light, deadpan framing, slightly candid, no polish."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on something big.' — deliberately minimal and anticlimactic, warm neutral tone, no decoration, the emptiness of the frame emphasizes how little output came from a full day's work."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+    "cta": "Comment 'Tuesday' if this has happened to you.",
+    "voiceover_text": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen. Nine AM: growth work blocked. Noon: lunch at your desk to save time. Two-thirty: great draft going. Four forty-seven: still tweaking the tone. Six PM: caption still not posted. One whole Tuesday. One caption. Five words. 'Exciting news — we've been working on something big.' That's it. That's the caption.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A founder narrates their Tuesday in reverse, revealing that every hour they protected for growth was quietly consumed by a single unfinished caption — told with light, self-aware humor that exposes h…",
+      "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful writte…",
+      "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik S…",
+      "visual_world": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and…",
+      "attention_pattern": "The viewer is drawn in by the relatable struggle of time slipping away, creating curiosity about how the day unfolded.",
+      "narrative_mechanism": "humor: SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee …"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#ContentCreation",
+    "#FounderLife",
+    "#SocialMediaMarketing",
+    "#SmallBusiness",
+    "#MarketingLife",
+    "#ContentMarketing",
+    "#SoloFounder"
+  ],
+  "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+  "scenario": "A bootstrapped founder blocks Tuesday morning for growth work, eats lunch at their desk to protect the time, and by 6pm has produced exactly one caption — five words, still not posted — while every other growth task remains untouched.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN (0:00–0:04)\nClose-up: phone screen showing a blank document titled 'Caption Draft,' cursor blinking. Cold coffee cup beside it. No music yet — ambient desk silence.\nVO: 'You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.'\nText overlay: '4:47 PM'\n\nSCENE 2 — REVERSE TIMELINE BEGINS (0:04–0:22)\nFast cuts, each 2–3 seconds. Founder at desk in slightly different states. Text overlays count backward.\n'4:00 PM — Almost done.'\n'3:15 PM — Just tweaking the tone.'\n'2:30 PM — Great draft going.'\n'1:00 PM — Opened the document.'\n'12:00 PM — Lunch at desk to save time.'\n'9:00 AM — Tuesday blocked for growth.'\nVO tracks the timestamps, calm and unhurried.\n\nSCENE 3 — UNEXPECTED TURN (0:22–0:28)\nReverse timeline lands back at 9:00 AM. Text overlay: 'Caption still not posted.'\nFounder holds up phone to camera. Draft is still open. They look directly at lens — no exaggerated expression. Just a quiet, knowing look.\n\nSCENE 4 — PUNCHLINE (0:28–0:36)\nCut to clean final frame. Large centered type on off-white background:\n'Exciting news — we've been working on something big.'\nFounder shrugs. Slight smile. That's the whole caption.\nVO: 'One whole Tuesday. One caption. Five words. That's it. That's the caption.'\n\nSCENE 5 — CTA FRAME (0:36–0:42)\nText fades in over the same clean background:\n'Give us your URL. We handle the captions, posts, and videos. First package is free.'\nFounder looks at camera one more time, nods once, looks back at phone.",
+    "concept": "A founder narrates their Tuesday in reverse — every hour they protected for growth was quietly swallowed by a single unfinished caption. Told with deadpan, self-aware humor using text overlay timestamps, the reverse timeline reveals the absurdity gently: one whole day, one five-word caption, still not posted. The punchline lands on the caption itself — anticlimactic, honest, and immediately recognizable to anyone who has ever tried to write social content between real work.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+      "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+      "motifs": [],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "process",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're not failing at content. You're failing at deciding.",
+      "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+      "motifs": [
+        "laptop",
+        "close_up",
+        "product_asset",
+        "cafe"
+      ],
+      "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "PHOTOGRAPHIC",
+      "meaning_carrier": "place",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+      "topic": "How one website URL becomes a full month of platform-ready social content",
+      "motifs": [
+        "desk",
+        "office",
+        "group",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "SOFT_3D",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're treating 'done-for-you' like it still means you do half the work.",
+      "topic": "What a done-for-you content service actually delivers — and what it doesn't ask you to do",
+      "motifs": [
+        "desk",
+        "close_up"
+      ],
+      "closing": "typed_cta",
+      "typed_cta": true,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "CTA"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "SOFT_3D",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": "headline_action_line",
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "I'll be honest — I used to think a quiet social feed just looked boring. Then I started checking competitors the way customers do.",
+      "topic": "Why most businesses are one quiet month away from looking like they've shut down",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A clean, quiet studio-like interior, cool clear morning light. Th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 4265,
+          "completion_tokens": 1051
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:17:47.668Z",
+        "duration_ms": 25799,
+        "finished_at": "2026-07-25T10:18:13.466Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 4265,
+        "estimated_cost": 0.02856,
+        "output_summary": "Concept: The Tuesday Caption",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 18679,
+        "completion_tokens": 1051,
+        "output_size_bytes": 4257,
+        "prompt_characters": 18573,
+        "provider_request_id": null,
+        "completion_characters": 4219
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 0,
+          "prompt_tokens": 4199,
+          "completion_tokens": 130
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:18:13.469Z",
+        "duration_ms": 5256,
+        "finished_at": "2026-07-25T10:18:18.725Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4199,
+        "estimated_cost": 0.000708,
+        "output_summary": "Opening: You blocked off your Tuesday for growth — and here you are, still staring at a b",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 20369,
+        "completion_tokens": 130,
+        "output_size_bytes": 610,
+        "prompt_characters": 20235,
+        "provider_request_id": null,
+        "completion_characters": 608
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:18:18.726Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:18:18.726Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Deadpan documentary style. Text overlays drive the reverse t",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1574,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1560
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9121,
+          "completion_tokens": 2555
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:18:18.730Z",
+        "duration_ms": 49530,
+        "finished_at": "2026-07-25T10:19:08.260Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9121,
+        "estimated_cost": 0.065688,
+        "output_summary": "Package: The Tuesday Caption",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 36891,
+        "completion_tokens": 2555,
+        "output_size_bytes": 9252,
+        "prompt_characters": 36623,
+        "provider_request_id": null,
+        "completion_characters": 9158
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:08.262Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:19:08.262Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1990,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1976
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:08.262Z",
+        "duration_ms": 1788,
+        "finished_at": "2026-07-25T10:19:10.050Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=c269284d-8903-410c-8d03-48f636ca2348; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "14a56e85-187b-470d-a4d2-4ae689317b6f",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

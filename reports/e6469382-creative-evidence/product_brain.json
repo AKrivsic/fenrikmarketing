@@ -1,0 +1,286 @@
+{
+  "id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+  "name": "fenrik Studio",
+  "type": "saas",
+  "language": "en",
+  "market_scope": "global",
+  "target_audience": {
+    "segments": [
+      "SaaS companies and AI tool makers needing social content",
+      "Agencies, consultants, and freelancers",
+      "Ecommerce brands and local businesses",
+      "Teams who lack time or resources to produce consistent social video content",
+      "Founders",
+      "Solo operators",
+      "Small marketing teams",
+      "Businesses without dedicated content creators"
+    ]
+  },
+  "goal_type": "lead_generation",
+  "product_is": [
+    "A content production service that turns websites or products into ready-to-post social content",
+    "Delivers short-form AI videos for TikTok, Instagram, Facebook, LinkedIn, and YouTube Shorts",
+    "Provides platform-ready captions, posts, and hashtags for every channel",
+    "Offered in monthly batch packages of 5, 10, or 20 videos",
+    "Uses only a website URL as input",
+    "Every video comes with complete social media assets",
+    "Content is delivered ready to publish"
+  ],
+  "product_is_not": [
+    "Not a DIY content tool — fenrik Studio creates the content for you",
+    "No payment required for the initial free sample package",
+    "Not a social media management platform",
+    "Not a video editing software",
+    "Not a content planning tool"
+  ],
+  "product_strengths": [
+    "First content package delivered free with no payment required",
+    "Uses client's own website URL as the sole input to create content",
+    "Each video includes captions and posts for all major social channels",
+    "Scalable packages: 5 videos ($199), 10 videos ($349), 20 videos ($599)",
+    "Content is ready to copy and post immediately — no editing needed",
+    "No content team required",
+    "No editing required before publishing",
+    "One piece of work produces assets for multiple platforms",
+    "Fixed package pricing",
+    "Fast content production proces"
+  ],
+  "pain_points": [
+    "Struggling to produce consistent, platform-ready social media content",
+    "Difficulty maintaining a presence across multiple social platforms simultaneously",
+    "No time to create content regularly",
+    "Social accounts are inactive or inconsistent",
+    "Creating content takes too many hours every week",
+    "Running out of content ideas",
+    "Hiring creators or agencies is expensive",
+    "Content production distracts from running the business"
+  ],
+  "forbidden_claims": [
+    "Guaranteed business growth",
+    "Guaranteed increase in sales",
+    "Guaranteed increase in followers",
+    "Guaranteed increase in engagement",
+    "Guaranteed viral content",
+    "Guaranteed lead generation",
+    "Guaranteed ROI",
+    "Industry-leading results",
+    "Best content service on the market",
+    "#1 content production service",
+    "Proven results unless evidence exists",
+    "Claims about specific performance improvements without proof"
+  ],
+  "tone_of_voice": {
+    "notes": [
+      "Conversational and direct",
+      "Relatable and empathetic to everyday work frustrations",
+      "Concise — short sentences, minimal fluff",
+      "Slightly informal with occasional emoji use",
+      "Confident without being aggressive",
+      "Practical",
+      "Results-oriented",
+      "Avoids marketing jargon"
+    ]
+  },
+  "platforms": [
+    "instagram",
+    "tiktok",
+    "linkedin",
+    "youtube"
+  ],
+  "publishing_rules": {
+    "funnel_mix": {
+      "awareness": 30,
+      "conversion": 5,
+      "problem_aware": 45,
+      "solution_aware": 20
+    },
+    "posts_per_week": 5,
+    "publishing_time": "09:00",
+    "videos_per_week": "every_package",
+    "platform_targets": {
+      "tiktok": 21,
+      "youtube": 21,
+      "linkedin": 14,
+      "instagram": 21
+    },
+    "funnel_mix_preset": "custom",
+    "publishing_weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "platform_content_types": {
+      "x": "text_only",
+      "tiktok": "video",
+      "youtube": "video",
+      "facebook": "text_only",
+      "linkedin": "text_only",
+      "instagram": "video",
+      "google_business": "text_only"
+    }
+  },
+  "default_cta": "Submit your website and get your first content package free.",
+  "enabled_languages": [],
+  "knowledge": {
+    "cards": {
+      "proof": {
+        "source": "url",
+        "status": "approved",
+        "statements": [
+          "First content package is explicitly offered free with no payment required",
+          "Sample package includes a real video and platform-ready text for multiple channels",
+          "Content is generated from a real business website",
+          "Every package includes publishable assets, not drafts",
+          "Public examples of completed packages are available"
+        ],
+        "asset_statements": []
+      },
+      "voice": {
+        "tone": [
+          "Conversational and direct",
+          "Relatable and empathetic to everyday work frustrations",
+          "Concise — short sentences, minimal fluff",
+          "Slightly informal with occasional emoji use",
+          "Confident without being aggressive",
+          "Practical",
+          "Results-oriented",
+          "Avoids marketing jargon"
+        ],
+        "source": "url",
+        "status": "approved",
+        "forbidden_claims": [
+          "Guaranteed business growth",
+          "Guaranteed increase in sales",
+          "Guaranteed increase in followers",
+          "Guaranteed increase in engagement",
+          "Guaranteed viral content",
+          "Guaranteed lead generation",
+          "Guaranteed ROI",
+          "Industry-leading results",
+          "Best content service on the market",
+          "#1 content production service",
+          "Proven results unless evidence exists",
+          "Claims about specific performance improvements without proof"
+        ]
+      },
+      "product": {
+        "source": "url",
+        "status": "approved",
+        "product_is": [
+          "A content production service that turns websites or products into ready-to-post social content",
+          "Delivers short-form AI videos for TikTok, Instagram, Facebook, LinkedIn, and YouTube Shorts",
+          "Provides platform-ready captions, posts, and hashtags for every channel",
+          "Offered in monthly batch packages of 5, 10, or 20 videos",
+          "Uses only a website URL as input",
+          "Every video comes with complete social media assets",
+          "Content is delivered ready to publish"
+        ],
+        "product_is_not": [
+          "Not a DIY content tool — fenrik Studio creates the content for you",
+          "No payment required for the initial free sample package",
+          "Not a social media management platform",
+          "Not a video editing software",
+          "Not a content planning tool"
+        ],
+        "product_strengths": [
+          "First content package delivered free with no payment required",
+          "Uses client's own website URL as the sole input to create content",
+          "Each video includes captions and posts for all major social channels",
+          "Scalable packages: 5 videos ($199), 10 videos ($349), 20 videos ($599)",
+          "Content is ready to copy and post immediately — no editing needed",
+          "No content team required",
+          "No editing required before publishing",
+          "One piece of work produces assets for multiple platforms",
+          "Fixed package pricing",
+          "Fast content production proces"
+        ]
+      },
+      "customer": {
+        "source": "url",
+        "status": "approved",
+        "pain_points": [
+          "Struggling to produce consistent, platform-ready social media content",
+          "Difficulty maintaining a presence across multiple social platforms simultaneously",
+          "No time to create content regularly",
+          "Social accounts are inactive or inconsistent",
+          "Creating content takes too many hours every week",
+          "Running out of content ideas",
+          "Hiring creators or agencies is expensive",
+          "Content production distracts from running the business"
+        ],
+        "target_audience": [
+          "SaaS companies and AI tool makers needing social content",
+          "Agencies, consultants, and freelancers",
+          "Ecommerce brands and local businesses",
+          "Teams who lack time or resources to produce consistent social video content",
+          "Founders",
+          "Solo operators",
+          "Small marketing teams",
+          "Businesses without dedicated content creators"
+        ]
+      }
+    },
+    "scenarios": [
+      {
+        "text": "A solo SaaS founder opens their company's Instagram page on a Sunday night and realizes the last post was six weeks ago, the day before a major product launch.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A freelance consultant wraps up a client project and sits down to write a LinkedIn post about it, only to spend two hours staring at a blank document and giving up.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A small ecommerce brand owner schedules time on Friday afternoon to film a TikTok, but the shoot runs long and the footage sits unedited through the entire weekend.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A two-person marketing team at an AI startup finishes a sprint and realizes they have no content queued for the next three weeks across any of their social channels.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A local gym owner gets a comment on their Facebook page asking if they are still open because there have been no posts in over a month.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "An agency owner pitches a new client on social media management, then realizes they cannot keep up with content production for their own agency's accounts while handling client work.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A SaaS founder scrolls through a competitor's TikTok and counts seventeen short videos posted in the last month while their own account has none.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A bootstrapped startup team finishes their Monday standup and realizes that 'post something on social this week' has appeared on the to-do list for the fourth week in a row without getting done.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "An ecommerce brand manager opens Hootsuite to schedule the week's content and finds the queue completely empty with nothing drafted or ready to upload.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      },
+      {
+        "text": "A solo app developer launches a new feature update and wants to post about it across LinkedIn, Instagram, and TikTok but does not know how to adapt the same message for each platform's format.",
+        "source": "generated",
+        "created_at": "2026-06-23T23:07:57.126Z"
+      }
+    ],
+    "source_url": "https://fenrik.studio",
+    "extracted_at": "2026-06-23T22:26:02.766Z",
+    "extraction_status": "success",
+    "last_extraction_at": "2026-06-23T22:26:02.766Z",
+    "last_extraction_error": null,
+    "last_extraction_reason": null
+  }
+}

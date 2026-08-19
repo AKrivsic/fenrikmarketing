@@ -1,0 +1,26 @@
+[
+  {
+    "label": "The Audit That Runs Without You",
+    "why_fits": "The strategy's overlooked-detail angle is perfectly expressed through audit logic \u2014 the detail most businesses miss is that they are being evaluated right now, at hours they cannot see, by people they do not know have arrived. This resonates strongly with professional services firms and agencies who understand formal evaluation processes.",
+    "mechanism": "Frames the prospect's off-hours research behavior as an audit \u2014 a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+    "direction_id": "d5",
+    "diversity_note": "Unlike the invisible-loss mechanism (which focuses on what cannot be measured after the fact) and the decision-site displacement mechanism (which relocates where decisions happen), this focuses on the active, ongoing nature of the evaluation process itself \u2014 the prospect is not just deciding, they are auditing, and it is happening continuously.",
+    "anti_repetition_note": "Audit logic \u2014 an active, structured, private evaluation the business cannot participate in \u2014 has not appeared in any recent directions. Does not use data, parallel tracks, spatial/threshold, or staffing logic."
+  },
+  {
+    "label": "The Overlooked Clock",
+    "why_fits": "The strategy's core insight \u2014 that the biggest-budget prospects research at midnight \u2014 is perfectly served by a two-clock mechanism. The audience has been optimizing one timeline completely unaware the other one exists. Problem-aware audiences running lean operations will immediately recognize they've only ever tracked one of the two.",
+    "mechanism": "Introduces a second clock that the audience has never been watching \u2014 not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+    "direction_id": "d2",
+    "diversity_note": "Unlike decision-site displacement logic (which relocates where decisions happen), this mechanism is not about location \u2014 it is about the simultaneous existence of two timelines that never sync, making the gap structural rather than situational.",
+    "anti_repetition_note": "Does not use data reframing, staffing-role logic, threshold/spatial logic, or dormant-infrastructure logic. The dual-clock mechanism is a time-based structural gap concept that has not appeared in recent directions."
+  },
+  {
+    "label": "The Question That Ended the Evaluation",
+    "why_fits": "Enterprise and high-value prospects doing research at 2 AM have often already narrowed their shortlist. One unanswered question at that stage is not a delay \u2014 it is a disqualification. This fits the strategy's angle precisely and speaks directly to service firms and SaaS companies who understand high-stakes evaluation cycles.",
+    "mechanism": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process \u2014 it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+    "direction_id": "d3",
+    "diversity_note": "Unlike the competitive-transfer mechanism (which focuses on where the lead went) and the invisible-loss mechanism (which focuses on what can never be measured), this centers on the singular, irreversible nature of the terminal event itself \u2014 finality, not destination or invisibility.",
+    "anti_repetition_note": "Does not use data, parallel tracks, pipe/infrastructure, threshold, or staffing metaphors. The finality-of-a-single-moment mechanism is distinct from all recent directions."
+  }
+]

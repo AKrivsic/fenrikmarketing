@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { sceneSchema } from "./sceneSchema";
 import { SCENE_TYPES } from "@/lib/scene-types/sceneType";
+import { sceneVideoClipSchema } from "@/lib/video-engine/schemas/sceneVideoClipSchema";
+import { RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16 } from "@/lib/ai/runway";
+import { sceneTransitionInSchema } from "./sceneSchema";
 
 // The render specification: everything the Video Worker needs to assemble one
 // video. This is the eventual shape of a job's `input`. MVP scope: ordered
@@ -21,6 +24,9 @@ export type RenderSpec = z.infer<typeof renderSchema>;
 // actually used, so a later render can reuse the exact same visuals without any
 // new image generation. Durable bucket/path is stored (NOT a signed URL, which
 // expires); callers re-sign on demand.
+//
+// video_clip remains optional on the persisted scene for backward compatibility:
+// still-only jobs omit it; clip-ready jobs may include durable clip refs.
 export const persistedSceneSchema = z.object({
   id: z.string().min(1),
   image_prompt: z.string().min(1),
@@ -32,6 +38,13 @@ export const persistedSceneSchema = z.object({
   type: z.enum(SCENE_TYPES).optional(),
   payload_snapshot: z.record(z.string(), z.unknown()).optional(),
   renderer_version: z.string().min(1).optional(),
+  video_clip: sceneVideoClipSchema.optional(),
+  motion_prompt: z
+    .string()
+    .min(1)
+    .max(RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16)
+    .optional(),
+  transition_in: sceneTransitionInSchema.optional(),
 });
 
 export const renderSpecOutputSchema = z.object({

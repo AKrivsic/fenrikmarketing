@@ -1,0 +1,1086 @@
+{
+  "package_index": 10,
+  "run_item_id": "39d39fc3-20e1-4d0d-90a7-7a5e1748ca3a",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+  "package_title": "The Leads That Showed Up While Nobody Did",
+  "package_status": "draft",
+  "strategy_item_id": "34468aba-61e3-4e23-9980-ab0dcd15f43b",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "34468aba-61e3-4e23-9980-ab0dcd15f43b",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "solution_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "A dealership's website handles a surge of holiday traffic autonomously — answering questions about inventory and financing, capturing contact details — while the sales team is completely off. Monday morning, there are leads waiting.",
+        "topic": "The car dealership that captured leads over a holiday weekend without a single salesperson online",
+        "source": "production_run",
+        "pain_point": "Losing leads due to lack of instant website support",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Leads That Showed Up While Nobody Did",
+    "core_idea": "A car dealership's sales team takes a holiday weekend completely off — phones dark, showroom locked, nobody online. Meanwhile, the website gets a surge of traffic: people asking about financing, checking inventory, trying to figure out if a specific model is available. Without an AI assistant, every one of those visitors hits a static page and leaves. With one, they get answers immediately, and their contact details are captured automatically. Monday morning, the sales manager opens their laptop expecting a blank CRM — and finds a queue of leads waiting. The mistake wasn't taking the weekend off. It was assuming the website would do nothing while they did.",
+    "product_role": "Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the existing website content automatically — inventory pages, financing FAQs, service information — and answers visitor questions in real time without any staff involvement. It captures contact details from interested visitors before they leave, so Monday morning has something in it. No training, no developer, no integration complexity — just a single embed script and an AI assistant that works while the team doesn't have to.",
+    "why_it_works": "The concept is anchored in a highly specific, relatable scenario — the holiday weekend sales gap — that immediately signals relevance to dealerships and any service business with offline hours. The narrative mechanism is a payoff reveal: the viewer expects Monday to be empty and gets leads instead, which makes the product's value concrete and memorable without overstating it. The mistake framing (assuming the website does nothing) is honest and non-judgmental, which fits the friendly, direct tone of voice. The scenario is fresh relative to recent fingerprints, the visual world is a dealership environment not yet used, and the story shape — mistake named, implication shown, fix demonstrated, payoff delivered — is distinct from the confession, contrarian, and analytics-dashboard structures dominating the recent pipeline.",
+    "narrative_arc": "HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sales day of the quarter might be a day nobody worked. Cut to the implication: holiday weekends drive serious buyer research online — people with time, intent, and zero friction stopping them from reaching out — but most dealership websites respond to that traffic with silence. The visitor asks a question. The page says nothing. They leave. Show the gap as a specific, concrete mistake: the website was open, the visitors were ready, and the only thing missing was something to answer them. PROOF — Introduce Fenrik.chat as the presence that fills that exact gap: reads the existing website, answers inventory and financing questions instantly, captures contact details automatically, no staff required. No new content needed, no developer, no training. PAYOFF — The sales manager arrives Monday morning. The CRM has leads. The team didn't work the weekend. The website did.",
+    "emotional_tone": "Warm and a little playful — the tone of a witty friend pointing out a mistake you'll immediately recognize. The punchline lands gently: the fix was always available, the gap was just invisible until now. No guilt, just a clear 'oh, obviously' moment.",
+    "audience_insight": "Car dealerships and local service businesses instinctively think of lead capture as a human activity — someone has to be there to take the inquiry. Holiday weekends feel like a natural pause. What they underestimate is that buyer intent doesn't pause with them: people research and decide when they have free time, which is exactly when the sales team is offline. The insight that the website can work autonomously — and actually deliver leads on Monday morning — reframes the weekend from a gap to an asset.",
+    "visual_direction": {
+      "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+      "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+      "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+      "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+      "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+      "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story."
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and steady, with a quick cut to the active chat interface to create urgency.",
+    "emotion": "Warm and slightly playful, evoking a sense of realization about missed opportunities.",
+    "first_image": "A dimly lit car dealership showroom at dusk, with cars visible through the glass, all lights off and the door locked, contrasting with a bright laptop screen showing an active chat interface answering questions.",
+    "attention_pattern": "Starts with a striking visual of the closed dealership, then shifts focus to the busy website, creating a contrast that raises curiosity about what happens next.",
+    "first_spoken_sentence": "Your dealership's best sales day might just be a day when nobody's working."
+  },
+  "visual_identity": {
+    "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+    "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+    "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+    "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+    "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+    "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story.",
+    "opening_emotion": "Warm and slightly playful, evoking a sense of realization about missed opportunities.",
+    "opening_first_image": "A dimly lit car dealership showroom at dusk, with cars visible through the glass, all lights off and the door locked, contrasting with a bright laptop screen showing an active chat interface answering questions."
+  },
+  "package": {
+    "title": "The Leads That Showed Up While Nobody Did",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "Your dealership's best sales day might just be a day when nobody's working.",
+    "scenario": "A car dealership's sales team takes a full holiday weekend off — showroom locked, phones dark, nobody online. Meanwhile, the website receives a surge of traffic: buyers with time on their hands researching financing options, checking inventory, asking whether a specific model is available. Without an AI assistant, every visitor lands on a static page, gets no response, and leaves without a trace. With Fenrik.chat reading the existing site and answering questions automatically, contact details are captured before each visitor goes. Monday morning, the sales manager opens their laptop expecting the usual blank slate — and finds a queue of leads waiting. The team didn't work the weekend. The website did.",
+    "video": {
+      "script": "[SCENE 1 — LOCKED SHOWROOM AT DUSK]\nSlide in on the exterior of a car dealership at dusk. Lights off. Door locked. Cars visible through the glass. The lot is still.\nVO: 'Your dealership's best sales day might just be a day when nobody's working.'\n\n[SCENE 2 — VISITOR AT HOME, LAPTOP OPEN]\nCut to: hands on a keyboard. A person researching on a laptop at home during the holiday weekend — browsing inventory, hovering over a financing FAQ. No chat. No response. They close the tab.\nVO: 'Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave.'\n\n[SCENE 3 — ACTIVE CHAT INTERFACE, NO ONE AT THE DESK]\nCut to: a laptop on a dark desk, no one seated. The screen shows a live chat interface actively responding — questions coming in, answers appearing instantly. Contact details being captured in the background.\nVO: 'Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically.'\n\n[SCENE 4 — MONDAY MORNING PAYOFF]\nCut to: a sales manager arriving Monday morning. Business casual. Coffee in hand. Opens the laptop. Sunlight through the window. The CRM shows new lead entries. A small, genuine look of surprise — the good kind.\nVO: 'Monday morning, leads are waiting. The website worked. Nobody had to.'\n\n[SCENE 5 — PRODUCT CARD / CTA]\nCut to: clean product visual. Fenrik.chat branding. Simple embed. One line of text.\nText overlay: 'Create your AI assistant — let your website work the weekend shift.'",
+      "concept": "A car dealership's sales team takes a full holiday weekend off. The showroom is dark, phones are silent, nobody is online. Meanwhile, the website gets a surge of traffic — buyers researching financing, checking inventory, asking about specific models. Without an AI assistant, every visitor hits a static page and leaves. With Fenrik.chat, each question gets an immediate answer and each interested visitor's contact details are captured automatically. Monday morning, the sales manager opens their laptop expecting nothing — and finds a queue of leads. The mistake wasn't taking the weekend off. It was assuming the website would do nothing while they did.",
+      "duration_seconds": "30"
+    },
+    "hashtags": [
+      "#carsales",
+      "#dealership",
+      "#leadgeneration",
+      "#aiassistant",
+      "#smallbusiness",
+      "#websitetools",
+      "#automatedleads",
+      "#fenrikchat"
+    ],
+    "subtitles_planned": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to."
+  },
+  "voiceover": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A dimly lit car dealership showroom at dusk, exterior shot, cars visible through large glass windows, all interior lights off, front door locked with a closed sign — deep navy and charcoal palette, cinematic realism, no staff visible, the lot still and quiet."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Hands on a laptop keyboard at home during a holiday evening, the screen showing a car dealership website with static text and a contact form but no chat option — a visitor hovering over the page, then moving to close the tab — cool blue-white monitor glow, dark background, face not prominent."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A laptop on a dark empty desk with no one seated, the screen displaying a live AI chat interface actively responding to visitor questions — messages appearing in real time about financing options and vehicle availability, contact details being entered by the visitor — electric blue and white UI glow, quiet purposeful atmosphere."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product feature reference shown as a framed screen insert during the AI assistant explanation beat",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A sales manager in business casual attire sitting down at their office desk Monday morning, coffee cup in hand, opening a laptop — warm amber sunlight streaming through a window behind them, the laptop screen showing a CRM inbox with several new lead entries, the manager's expression shifting to genuine pleasant surprise."
+    }
+  ],
+  "image_prompts": [
+    "A dimly lit car dealership showroom at dusk, exterior shot, cars visible through large glass windows, all interior lights off, front door locked with a closed sign — deep navy and charcoal palette, cinematic realism, no staff visible, the lot still and quiet.",
+    "Hands on a laptop keyboard at home during a holiday evening, the screen showing a car dealership website with static text and a contact form but no chat option — a visitor hovering over the page, then moving to close the tab — cool blue-white monitor glow, dark background, face not prominent.",
+    "A laptop on a dark empty desk with no one seated, the screen displaying a live AI chat interface actively responding to visitor questions — messages appearing in real time about financing options and vehicle availability, contact details being entered by the visitor — electric blue and white UI glow, quiet purposeful atmosphere.",
+    "A sales manager in business casual attire sitting down at their office desk Monday morning, coffee cup in hand, opening a laptop — warm amber sunlight streaming through a window behind them, the laptop screen showing a CRM inbox with several new lead entries, the manager's expression shifting to genuine pleasant surprise."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Create your AI assistant — let your website work the weekend shift.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "format": "post",
+        "caption": "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "title_variants": [
+          "The dealership was closed. The leads weren't.",
+          "80 weekend visitors. Zero leads. One fixable mistake.",
+          "Your buyers don't take holidays. Your website should know that.",
+          "The shift nobody scheduled — and the leads it left behind.",
+          "Closed showroom. Open website. Empty CRM. Sound familiar?"
+        ],
+        "caption_variants": [
+          "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+          "Buyers don't take holiday weekends off. Your sales team does. That gap is exactly where leads disappear. fenrik.chat fixes it automatically.",
+          "Monday morning CRM: empty. Website analytics: 80 sessions over the weekend. Same problem, different business, every single time.",
+          "The mistake isn't closing the showroom on a holiday. It's assuming the website will just sit there too. It doesn't have to. fenrik.chat",
+          "Hot take: your website's best shift is the one nobody's scheduled to work. Set it up once. Let it run. #leadgeneration fenrik.chat"
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Your dealership had its best weekend — and nobody showed up to work 👀 The website handled it. #carsales #smallbusiness #aitools #leadgen #worksmart",
+        "hashtags": [
+          "#carsales",
+          "#smallbusiness",
+          "#aitools",
+          "#leadgen",
+          "#worksmart"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "shorts",
+        "caption": "The dealership was closed all weekend. The leads weren't. Here's what changed.",
+        "hashtags": [
+          "#shorts",
+          "#carsales",
+          "#aitools"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "format": "post",
+        "caption": "Ever wonder what your website is doing while you're off for the holiday weekend? 🚗 For most dealerships, the honest answer is: nothing. Visitors arrive, ask questions, get silence, and leave. Fenrik.chat changes that — it reads your existing website and answers visitor questions automatically, 24/7, capturing their contact details before they go. Monday morning looks a lot different when the website actually worked the weekend. Try a live preview at fenrik.chat — no signup needed.",
+        "hashtags": [
+          "#carsales",
+          "#smallbusiness",
+          "#leadgeneration"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "format": "post",
+        "caption": "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+        "hashtags": [
+          "#leadgeneration",
+          "#carsales",
+          "#ai"
+        ],
+        "caption_variants": [
+          "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+          "A dealership's sales team takes a long weekend completely off. Reasonable.\n\nWhat isn't reasonable: assuming buyer intent pauses with them. Holiday weekends drive serious online research — financing questions, inventory checks, availability inquiries — all arriving on a website that can't respond.\n\nFenrik.chat fills that gap. It reads your existing site automatically, answers visitor questions in real time, and captures contact details before anyone leaves. No training. No integration complexity. One embed script.\n\nThe leads on Monday morning aren't a surprise. They're just what happens when the website finally has something to say.\n\nCreate your AI assistant — let your website work the weekend shift."
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio to create your AI assistant.",
+        "format": "reel",
+        "caption": "The holiday weekend felt quiet.\n\nNo calls. No emails. Nobody online.\n\nBut the website? It was busy — answering questions, capturing names, doing the thing nobody thought to set up.\n\nMonday had leads in it. That's the part most businesses don't plan for.\n\nLink in bio to set yours up before the next long weekend.\n\n#carsales #dealership #smallbusiness #aiassistant #leadgeneration #websitetips #digitalmarketing #businessgrowth #automatedleads #fenrikchat",
+        "hashtags": [
+          "#carsales",
+          "#dealership",
+          "#smallbusiness",
+          "#aiassistant",
+          "#leadgeneration",
+          "#websitetips",
+          "#digitalmarketing",
+          "#businessgrowth",
+          "#automatedleads",
+          "#fenrikchat"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "1d2245d5-d3a3-4fe7-9dfc-66dc06cd50ae",
+        "platform": "x",
+        "format": "post",
+        "status": "draft",
+        "title": "Your buyers don't take holidays. Your website should know that.",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Monday morning CRM: empty. Website analytics: 80 sessions over the weekend. Same problem, different business, every single time. https://fenrik.chat",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "language": null
+      },
+      {
+        "id": "ed632533-e368-4f75-bba7-445e0fb4cf3a",
+        "platform": "x",
+        "format": "post",
+        "status": "draft",
+        "title": "The shift nobody scheduled — and the leads it left behind.",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "The mistake isn't closing the showroom on a holiday. It's assuming the website will just sit there too. It doesn't have to. fenrik.chat",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "language": null
+      },
+      {
+        "id": "4a864019-6b0a-49e2-a2f9-88162412e75f",
+        "platform": "x",
+        "format": "post",
+        "status": "draft",
+        "title": "Closed showroom. Open website. Empty CRM. Sound familiar?",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Hot take: your website's best shift is the one nobody's scheduled to work. Set it up once. Let it run. #leadgeneration fenrik.chat",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "language": null
+      },
+      {
+        "id": "6fed7872-0517-4bf9-b727-979affa4d907",
+        "platform": "facebook",
+        "format": "post",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Ever wonder what your website is doing while you're off for the holiday weekend? 🚗 For most dealerships, the honest answer is: nothing. Visitors arrive, ask questions, get silence, and leave. Fenrik.chat changes that — it reads your existing website and answers visitor questions automatically, 24/7, capturing their contact details before they go. Monday morning looks a lot different when the website actually worked the weekend. Try a live preview at fenrik.chat — no signup needed.",
+        "hashtags": [
+          "#carsales",
+          "#smallbusiness",
+          "#leadgeneration"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "7cfc422e-8754-4941-8c76-a86b14f70aff",
+        "platform": "linkedin",
+        "format": "post",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+        "hashtags": [
+          "#leadgeneration",
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "50ee8c5b-9b62-491c-adec-e9371a4b9871",
+        "platform": "linkedin",
+        "format": "post",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "A dealership's sales team takes a long weekend completely off. Reasonable.\n\nWhat isn't reasonable: assuming buyer intent pauses with them. Holiday weekends drive serious online research — financing questions, inventory checks, availability inquiries — all arriving on a website that can't respond.\n\nFenrik.chat fills that gap. It reads your existing site automatically, answers visitor questions in real time, and captures contact details before anyone leaves. No training. No integration complexity. One embed script.\n\nThe leads on Monday morning aren't a surprise. They're just what happens when the website finally has something to say.\n\nCreate your AI assistant — let your website work the weekend shift.",
+        "hashtags": [
+          "#leadgeneration",
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "4e59789b-76dc-4620-99fb-e7b290c23227",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Your dealership had its best weekend — and nobody showed up to work 👀 The website handled it. #carsales #smallbusiness #aitools #leadgen #worksmart",
+        "hashtags": [
+          "#carsales",
+          "#smallbusiness",
+          "#aitools",
+          "#leadgen",
+          "#worksmart"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "65f92875-aa07-450e-9308-ada6480a5c66",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "The holiday weekend felt quiet.\n\nNo calls. No emails. Nobody online.\n\nBut the website? It was busy — answering questions, capturing names, doing the thing nobody thought to set up.\n\nMonday had leads in it. That's the part most businesses don't plan for.\n\nLink in bio to set yours up before the next long weekend.\n\n#carsales #dealership #smallbusiness #aiassistant #leadgeneration #websitetips #digitalmarketing #businessgrowth #automatedleads #fenrikchat",
+        "hashtags": [
+          "#carsales",
+          "#dealership",
+          "#smallbusiness",
+          "#aiassistant",
+          "#leadgeneration",
+          "#websitetips",
+          "#digitalmarketing",
+          "#businessgrowth",
+          "#automatedleads",
+          "#fenrikchat"
+        ],
+        "cta": "Link in bio to create your AI assistant.",
+        "language": null
+      },
+      {
+        "id": "d0bdb2ea-2d72-4d27-b34f-d0603d1100c8",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Leads That Showed Up While Nobody Did",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "The dealership was closed all weekend. The leads weren't. Here's what changed.",
+        "hashtags": [
+          "#shorts",
+          "#carsales",
+          "#aitools"
+        ],
+        "cta": "Subscribe for more. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "3e146da0-9603-49b3-8577-b1ac9d2c4e13",
+        "platform": "x",
+        "format": "post",
+        "status": "draft",
+        "title": "The dealership was closed. The leads weren't.",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "language": null
+      },
+      {
+        "id": "0506f797-a138-48f7-b085-7461d72eaf4c",
+        "platform": "x",
+        "format": "post",
+        "status": "draft",
+        "title": "80 weekend visitors. Zero leads. One fixable mistake.",
+        "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+        "caption": "Buyers don't take holiday weekends off. Your sales team does. That gap is exactly where leads disappear. fenrik.chat fixes it automatically.",
+        "hashtags": [
+          "#carsales",
+          "#ai"
+        ],
+        "cta": "Create your AI assistant — let your website work the weekend shift.",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "cedar",
+    "tts_voice": "cedar",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 46,
+      "secondary": 40
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_shock→energy(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+46)",
+      "fit_secondary(+40)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+  },
+  "creative_mode": "shock",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "Losing leads due to lack of instant website support",
+    "strategy_pain_point": "Losing leads due to lack of instant website support"
+  },
+  "product_role": "Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the existing website content automatically — inventory pages, financing FAQs, service information — and answers visitor questions in real time without any staff involvement. It captures contact details from interested visitors before they leave, so Monday morning has something in it. No training, no developer, no integration complexity — just a single embed script and an AI assistant that works while the team doesn't have to.",
+  "narrative_arc": "HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sales day of the quarter might be a day nobody worked. Cut to the implication: holiday weekends drive serious buyer research online — people with time, intent, and zero friction stopping them from reaching out — but most dealership websites respond to that traffic with silence. The visitor asks a question. The page says nothing. They leave. Show the gap as a specific, concrete mistake: the website was open, the visitors were ready, and the only thing missing was something to answer them. PROOF — Introduce Fenrik.chat as the presence that fills that exact gap: reads the existing website, answers inventory and financing questions instantly, captures contact details automatically, no staff required. No new content needed, no developer, no training. PAYOFF — The sales manager arrives Monday morning. The CRM has leads. The team didn't work the weekend. The website did.",
+  "emotional_tone": "Warm and a little playful — the tone of a witty friend pointing out a mistake you'll immediately recognize. The punchline lands gently: the fix was always available, the gap was just invisible until now. No guilt, just a clear 'oh, obviously' moment.",
+  "audience_insight": "Car dealerships and local service businesses instinctively think of lead capture as a human activity — someone has to be there to take the inquiry. Holiday weekends feel like a natural pause. What they underestimate is that buyer intent doesn't pause with them: people research and decide when they have free time, which is exactly when the sales team is offline. The insight that the website can work autonomously — and actually deliver leads on Monday morning — reframes the weekend from a gap to an asset.",
+  "visual_direction": {
+    "palette": "Deep navy and charcoal for the closed showroom environment; cool white and electric blue for the digital/screen moments; a warm amber accent when the Monday morning scene arrives — sunlight through an office window, signaling the payoff.",
+    "lighting": "Showroom scenes: dim ambient light filtering through large glass windows at dusk or night — the kind of lighting that makes a car lot look closed but still visually striking. Website/screen scenes: cool blue-white monitor glow against a darker background, creating a sense of quiet activity.",
+    "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desktop screen showing a live chat interface actively answering questions, set against a dark desk with no one seated at it. Scene three: a sales manager's desk Monday morning — laptop open, coffee in hand, CRM or inbox visible with new lead entries.",
+    "camera_style": "Steady, deliberate shots with slow push-ins on key moments — the locked showroom door, the unanswered chat bubble on a competitor's static page, the active Fenrik.chat conversation, the Monday morning inbox. Quick cuts between the visitor's screen and the empty showroom to establish the contrast. Final shot holds on the leads queue — let it breathe for a beat.",
+    "art_direction": "Clean, slightly cinematic realism. Split-world contrast: the locked, dark showroom on one side of the frame, and the active website chat interface on the other — both existing simultaneously. Text overlays are minimal, sharp, and modern. No stock-photo energy; everything should feel like a real business on a real weekend.",
+    "character_style": "Two characters, briefly shown: a generic website visitor (hands on keyboard, face not prominent) researching on a laptop at home during the holiday weekend, and a sales manager arriving Monday morning — business casual, relaxed, then visibly surprised in a good way at the screen. No dialogue required; reactions carry the story."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to."
+  },
+  "render_metadata": {
+    "id": "fd1858ac-b0f3-430e-8ad1-662a7dd0d79c",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:38:01.816975+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "cedar",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "1d2245d5-d3a3-4fe7-9dfc-66dc06cd50ae",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "Your buyers don't take holidays. Your website should know that.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Monday morning CRM: empty. Website analytics: 80 sessions over the weekend. Same problem, different business, every single time. https://fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "ed632533-e368-4f75-bba7-445e0fb4cf3a",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "The shift nobody scheduled — and the leads it left behind.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The mistake isn't closing the showroom on a holiday. It's assuming the website will just sit there too. It doesn't have to. fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "4a864019-6b0a-49e2-a2f9-88162412e75f",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "Closed showroom. Open website. Empty CRM. Sound familiar?",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Hot take: your website's best shift is the one nobody's scheduled to work. Set it up once. Let it run. #leadgeneration fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "6fed7872-0517-4bf9-b727-979affa4d907",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "facebook",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Ever wonder what your website is doing while you're off for the holiday weekend? 🚗 For most dealerships, the honest answer is: nothing. Visitors arrive, ask questions, get silence, and leave. Fenrik.chat changes that — it reads your existing website and answers visitor questions automatically, 24/7, capturing their contact details before they go. Monday morning looks a lot different when the website actually worked the weekend. Try a live preview at fenrik.chat — no signup needed.",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#leadgeneration"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "7cfc422e-8754-4941-8c76-a86b14f70aff",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "linkedin",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Most car dealerships assume a quiet holiday weekend means no buyer activity. The analytics tell a different story.\n\nHoliday weekends are when buyers have time — to research, compare, and decide. They visit your website with real questions about financing and inventory. If the page can't respond, they move on.\n\nFenrik.chat reads your existing website content and answers those questions automatically, capturing contact details before the visitor leaves. No staff required. No developer. No new content to write.\n\nMonday morning, there are leads waiting. The team didn't work the weekend. The website did.\n\nCreate your AI assistant — let your website work the weekend shift.",
+      "hashtags": [
+        "#leadgeneration",
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "50ee8c5b-9b62-491c-adec-e9371a4b9871",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "linkedin",
+      "format": "post",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "A dealership's sales team takes a long weekend completely off. Reasonable.\n\nWhat isn't reasonable: assuming buyer intent pauses with them. Holiday weekends drive serious online research — financing questions, inventory checks, availability inquiries — all arriving on a website that can't respond.\n\nFenrik.chat fills that gap. It reads your existing site automatically, answers visitor questions in real time, and captures contact details before anyone leaves. No training. No integration complexity. One embed script.\n\nThe leads on Monday morning aren't a surprise. They're just what happens when the website finally has something to say.\n\nCreate your AI assistant — let your website work the weekend shift.",
+      "hashtags": [
+        "#leadgeneration",
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "4e59789b-76dc-4620-99fb-e7b290c23227",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Your dealership had its best weekend — and nobody showed up to work 👀 The website handled it. #carsales #smallbusiness #aitools #leadgen #worksmart",
+      "hashtags": [
+        "#carsales",
+        "#smallbusiness",
+        "#aitools",
+        "#leadgen",
+        "#worksmart"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "65f92875-aa07-450e-9308-ada6480a5c66",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The holiday weekend felt quiet.\n\nNo calls. No emails. Nobody online.\n\nBut the website? It was busy — answering questions, capturing names, doing the thing nobody thought to set up.\n\nMonday had leads in it. That's the part most businesses don't plan for.\n\nLink in bio to set yours up before the next long weekend.\n\n#carsales #dealership #smallbusiness #aiassistant #leadgeneration #websitetips #digitalmarketing #businessgrowth #automatedleads #fenrikchat",
+      "hashtags": [
+        "#carsales",
+        "#dealership",
+        "#smallbusiness",
+        "#aiassistant",
+        "#leadgeneration",
+        "#websitetips",
+        "#digitalmarketing",
+        "#businessgrowth",
+        "#automatedleads",
+        "#fenrikchat"
+      ],
+      "cta": "Link in bio to create your AI assistant.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "d0bdb2ea-2d72-4d27-b34f-d0603d1100c8",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "youtube",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Leads That Showed Up While Nobody Did",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The dealership was closed all weekend. The leads weren't. Here's what changed.",
+      "hashtags": [
+        "#shorts",
+        "#carsales",
+        "#aitools"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "3e146da0-9603-49b3-8577-b1ac9d2c4e13",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "The dealership was closed. The leads weren't.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "The dealership was dark all weekend. The website had 60 visitors. Zero captured. That's not a quiet weekend — that's a leak. fenrik.chat",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    },
+    {
+      "id": "0506f797-a138-48f7-b085-7461d72eaf4c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "53d3ac0e-9af9-4418-85c9-b9e637e1bab0",
+      "platform": "x",
+      "format": "post",
+      "status": "draft",
+      "title": "80 weekend visitors. Zero leads. One fixable mistake.",
+      "body": "Your dealership's best sales day might just be a day when nobody's working. Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave. Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically. Monday morning, leads are waiting. The website worked. Nobody had to.",
+      "caption": "Buyers don't take holiday weekends off. Your sales team does. That gap is exactly where leads disappear. fenrik.chat fixes it automatically.",
+      "hashtags": [
+        "#carsales",
+        "#ai"
+      ],
+      "cta": "Create your AI assistant — let your website work the weekend shift.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "solution_aware",
+        "package_index": 10,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:38:00.06289+00:00",
+      "updated_at": "2026-07-25T07:38:00.06289+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 6,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A car dealership's sales team takes a holiday weekend completely off — phones dark, showroom locked, nobody online. Meanwhile, the website gets a surge of traffic: people asking about financing, chec…",
+      "environment": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights of…",
+      "product_role": "Fenrik.chat is the presence the dealership's website was missing during every holiday, every evening, and every moment the team was unavailable. It reads the e…",
+      "visual_world": "Scene one: exterior or interior of a locked car dealership showroom at dusk — vehicles visible through glass, lights off, no staff. Scene two: a laptop or desk…",
+      "attention_pattern": "Starts with a striking visual of the closed dealership, then shifts focus to the busy website, creating a contrast that…",
+      "narrative_mechanism": "shock: HOOK — Open on a bold, slightly uncomfortable fact: your dealership's best sale…"
+    }
+  },
+  "hashtags": [
+    "#carsales",
+    "#dealership",
+    "#leadgeneration",
+    "#aiassistant",
+    "#smallbusiness",
+    "#websitetools",
+    "#automatedleads",
+    "#fenrikchat"
+  ],
+  "hook": "Your dealership's best sales day might just be a day when nobody's working.",
+  "scenario": "A car dealership's sales team takes a full holiday weekend off — showroom locked, phones dark, nobody online. Meanwhile, the website receives a surge of traffic: buyers with time on their hands researching financing options, checking inventory, asking whether a specific model is available. Without an AI assistant, every visitor lands on a static page, gets no response, and leaves without a trace. With Fenrik.chat reading the existing site and answering questions automatically, contact details are captured before each visitor goes. Monday morning, the sales manager opens their laptop expecting the usual blank slate — and finds a queue of leads waiting. The team didn't work the weekend. The website did.",
+  "video": {
+    "script": "[SCENE 1 — LOCKED SHOWROOM AT DUSK]\nSlide in on the exterior of a car dealership at dusk. Lights off. Door locked. Cars visible through the glass. The lot is still.\nVO: 'Your dealership's best sales day might just be a day when nobody's working.'\n\n[SCENE 2 — VISITOR AT HOME, LAPTOP OPEN]\nCut to: hands on a keyboard. A person researching on a laptop at home during the holiday weekend — browsing inventory, hovering over a financing FAQ. No chat. No response. They close the tab.\nVO: 'Holiday weekends send serious buyers to your website — people with time, intent, and real questions about financing and inventory. But if your website can't answer them, they leave.'\n\n[SCENE 3 — ACTIVE CHAT INTERFACE, NO ONE AT THE DESK]\nCut to: a laptop on a dark desk, no one seated. The screen shows a live chat interface actively responding — questions coming in, answers appearing instantly. Contact details being captured in the background.\nVO: 'Fenrik.chat reads your existing site and answers those questions instantly, capturing contact details automatically.'\n\n[SCENE 4 — MONDAY MORNING PAYOFF]\nCut to: a sales manager arriving Monday morning. Business casual. Coffee in hand. Opens the laptop. Sunlight through the window. The CRM shows new lead entries. A small, genuine look of surprise — the good kind.\nVO: 'Monday morning, leads are waiting. The website worked. Nobody had to.'\n\n[SCENE 5 — PRODUCT CARD / CTA]\nCut to: clean product visual. Fenrik.chat branding. Simple embed. One line of text.\nText overlay: 'Create your AI assistant — let your website work the weekend shift.'",
+    "concept": "A car dealership's sales team takes a full holiday weekend off. The showroom is dark, phones are silent, nobody is online. Meanwhile, the website gets a surge of traffic — buyers researching financing, checking inventory, asking about specific models. Without an AI assistant, every visitor hits a static page and leaves. With Fenrik.chat, each question gets an immediate answer and each interested visitor's contact details are captured automatically. Monday morning, the sales manager opens their laptop expecting nothing — and finds a queue of leads. The mistake wasn't taking the weekend off. It was assuming the website would do nothing while they did.",
+    "duration_seconds": "30"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product feature reference shown as a framed screen insert during the AI assistant explanation beat",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

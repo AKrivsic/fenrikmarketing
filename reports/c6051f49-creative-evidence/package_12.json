@@ -1,0 +1,1066 @@
+{
+  "package_index": 12,
+  "run_item_id": "eae28369-be95-4334-ad85-d2efaed8778e",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+  "package_title": "The Setup Checklist That Doesn't Exist",
+  "package_status": "draft",
+  "strategy_item_id": "ace483e7-76a7-4175-9594-9fb4545285cc",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "ace483e7-76a7-4175-9594-9fb4545285cc",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "conversion",
+      "priority": 5,
+      "brief": {
+        "angle": "Direct, practical breakdown: your website URL is the only input required. The assistant reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions — no setup checklist, no training sessions, no technical work.",
+        "topic": "You already have everything your AI assistant needs to get started",
+        "source": "production_run",
+        "pain_point": "No resources to build or maintain a custom chatbot",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Setup Checklist That Doesn't Exist",
+    "core_idea": "A small business owner mentally prepares for a long, painful AI chatbot setup — FAQs to write, content to upload, training sessions to schedule — then discovers the only thing Fenrik.chat actually needs is the URL they already have.",
+    "product_role": "Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manual input, and is ready to answer visitor questions from the moment the URL is submitted. The product doesn't ask the owner to do the work — it does the work with what's already there.",
+    "why_it_works": "The confession hook earns attention because the dread of 'setting up AI' is universal and deeply relatable for non-technical business owners. The reveal reframes the observation — the checklist isn't just short, it's unnecessary — which is genuinely surprising rather than predictable. The visual payoff (pen cap going back on, list crossed out) lands the joke without a punchline. The CTA converts the emotional relief directly into action at the exact moment the viewer is most ready.",
+    "narrative_arc": "OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, visibly bracing herself. She's written a to-do list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales. This is going to take weeks. CUT TO: She types her website URL into Fenrik.chat. Waits. The assistant appears — already knowing her services, her pricing, her most common questions — pulled directly from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. MEANING: The setup she dreaded was never required. Every answer was already on her website. Fenrik.chat just learned to deliver them. REVEAL: The camera slowly tilts down to the notepad. Every item on the list has a single line through it — not crossed out in frustration, crossed out because none of it was necessary. CTA card: 'Your website already has everything it needs. Create your AI assistant.'",
+    "emotional_tone": "Warm and quietly funny — the relief of discovering the hard thing you prepared for was never actually hard. No mockery, no drama. Just the satisfying deflation of unnecessary dread.",
+    "audience_insight": "Small business owners and consultants who want an AI assistant but assume the setup will consume time, budget, and technical effort they don't have. The pain point isn't fear of the product — it's the assumed cost of entry. Showing that the checklist is blank before they even start removes the last barrier between interest and action.",
+    "visual_direction": {
+      "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+      "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+      "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+      "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+      "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+      "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp."
+    }
+  },
+  "opening": {
+    "pacing": "Slow and deliberate, building tension as she anticipates the workload ahead.",
+    "emotion": "Relief mixed with mild disbelief as she prepares for a daunting task.",
+    "first_image": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.'",
+    "attention_pattern": "The viewer is drawn in by her anxiety about the setup process, creating curiosity about how it will unfold and what the actual requirements are.",
+    "first_spoken_sentence": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+    "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+    "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+    "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+    "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+    "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp.",
+    "opening_emotion": "Relief mixed with mild disbelief as she prepares for a daunting task.",
+    "opening_first_image": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.'"
+  },
+  "package": {
+    "title": "The Setup Checklist That Doesn't Exist",
+    "status": "draft",
+    "funnel_stage": "conversion",
+    "hook": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.",
+    "scenario": "A boutique consulting firm owner sits down one evening to finally tackle the AI chatbot project she has been putting off for months. She opens a fresh notepad and starts writing everything she assumes she will need to do: gather FAQs, write training prompts, upload content, find a developer, schedule an onboarding call. The list grows. She exhales. Then, on a whim, she types her website URL into Fenrik.chat. The assistant loads — already knowing her service tiers, her pricing, her most common visitor questions, all drawn from the pages she already has live. She looks at the notepad. Looks back at the screen. Puts the cap back on the pen. The checklist was never the obstacle. The work was already done.",
+    "video": {
+      "script": "SCENE 1 — MEDIUM SHOT: A woman in her 30s sits at a tidy home office desk. Notepad front and center, pen poised. The list reads: 'AI Chatbot Setup — Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales slowly, furrowed brow. The mood is quiet dread. VO: 'I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.'\n\nSCENE 2 — CLOSE-UP ON NOTEPAD: Camera holds on the list. She taps the pen against the paper. VO: 'I had a whole checklist ready: gather FAQs, write training prompts, find a developer.'\n\nSCENE 3 — OVER-THE-SHOULDER: She types her website URL into Fenrik.chat. The screen shows the assistant loading, then appearing — service details, pricing, FAQ responses, all drawn from her existing pages. Her expression shifts: quiet raised eyebrow, slow exhale. VO: 'Turns out, Fenrik.chat just reads your existing website and builds the assistant for you.'\n\nSCENE 4 — TIGHT CLOSE-UP: Her hand rests the pen on the desk and slowly presses the cap back on. VO: 'No training. No setup.'\n\nSCENE 5 — SLOW TILT DOWN TO NOTEPAD: Every item on the list has a single clean line through it. Deliberate, calm. Not angry — unnecessary. VO: 'The checklist was already empty. Create your AI assistant at fenrik.chat.' CTA CARD fades in: 'Your website already has everything it needs. Create your AI assistant.'",
+      "concept": "A small business owner sits at her desk, notepad open, pen ready, bracing for a long and painful AI chatbot setup. She's written a to-do list: Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer. She exhales — this is going to take weeks. Then she types her website URL into Fenrik.chat. The assistant appears almost immediately, already knowing her services, her pricing, her most common questions — all pulled from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. The camera tilts down to the notepad: every item on the list has a single clean line through it — not in frustration, but because none of it was ever necessary.",
+      "duration_seconds": "28"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#aiassistant",
+      "#websitetools",
+      "#nocode",
+      "#chatbot",
+      "#businessowner",
+      "#fenrikchat"
+    ],
+    "subtitles_planned": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat."
+  },
+  "voiceover": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Soft natural daylight from a side window. Warm neutral palette — cream, light wood tones, soft white. A ceramic mug with a muted teal tone sits nearby."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Over-the-shoulder view of the same woman typing a website URL into a laptop browser. The screen shows a clean AI assistant chat interface loading, with service descriptions and FAQ-style answers populating automatically from the website content. Her posture is relaxed. The notepad remains visible in the foreground, slightly out of focus. Warm, unhurried natural light. Lived-in home office setting."
+    },
+    {
+      "source": "asset",
+      "used_as": "Screen content insert showing the AI assistant creation interface — reinforces that setup takes about one minute from a website URL",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight close-up of the woman's hand calmly pressing the cap back onto a pen and resting it beside the notepad. The gesture is quiet and deliberate — not dramatic. The notepad is softly out of focus in the background. Warm natural daylight from the left. Cream and light wood tones fill the frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Slow downward camera tilt — close-up on the notepad. Every item on the checklist has a single clean horizontal line through it: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Lines are neat and deliberate, not scribbled. The mood is quiet satisfaction, not frustration. Warm neutral tones, soft side daylight. The notepad is the only object in frame."
+    }
+  ],
+  "image_prompts": [
+    "A woman in her 30s sits at a tidy home office desk, staring at a notepad with a long checklist titled 'AI Chatbot Setup.' She looks visibly tense, pen poised above the page, ready to write. The camera captures her furrowed brow and the neatly written items on the list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Soft natural daylight from a side window. Warm neutral palette — cream, light wood tones, soft white. A ceramic mug with a muted teal tone sits nearby.",
+    "Over-the-shoulder view of the same woman typing a website URL into a laptop browser. The screen shows a clean AI assistant chat interface loading, with service descriptions and FAQ-style answers populating automatically from the website content. Her posture is relaxed. The notepad remains visible in the foreground, slightly out of focus. Warm, unhurried natural light. Lived-in home office setting.",
+    "Tight close-up of the woman's hand calmly pressing the cap back onto a pen and resting it beside the notepad. The gesture is quiet and deliberate — not dramatic. The notepad is softly out of focus in the background. Warm natural daylight from the left. Cream and light wood tones fill the frame.",
+    "Slow downward camera tilt — close-up on the notepad. Every item on the checklist has a single clean horizontal line through it: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' Lines are neat and deliberate, not scribbled. The mood is quiet satisfaction, not frustration. Warm neutral tones, soft side daylight. The notepad is the only object in frame."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Create your AI assistant — your website already has everything it needs.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "reel",
+        "caption": "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "title_variants": [
+          "The Setup Checklist That Doesn't Exist",
+          "Your Website URL Is the Entire Setup",
+          "I Prepared for Weeks. It Took One URL.",
+          "The AI Assistant That Reads Your Website So You Don't Have To",
+          "Everything Your AI Assistant Needs Is Already on Your Site"
+        ],
+        "caption_variants": [
+          "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+          "The thing stopping most business owners from adding an AI assistant isn't budget or time. It's the assumption that setup is complicated. It isn't. Your URL is the entire checklist.",
+          "Gathered FAQs. Drafted training prompts. Scheduled a developer call. Then typed my URL into Fenrik.chat and watched it build the assistant from my existing pages. The checklist was decorative.",
+          "Your website already has the content. Your AI assistant just needs the URL to find it. That's the whole setup.",
+          "Every item on my chatbot setup list was crossed out before I started — because none of it was actually required. fenrik.chat does it from your URL. #nocode"
+        ]
+      },
+      "tiktok": {
+        "cta": "Check the link in bio to try it free",
+        "format": "reel",
+        "caption": "I made a whole setup checklist. Turns out none of it was needed 😭 link in bio",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#websitetips",
+          "#businessowner"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more",
+        "format": "short",
+        "caption": "She prepared for weeks of setup. It took one URL. Watch what Fenrik.chat actually needs to get started.",
+        "hashtags": [
+          "#fenrikchat",
+          "#aiassistant"
+        ]
+      },
+      "facebook": {
+        "cta": "Create your AI assistant at fenrik.chat",
+        "format": "reel",
+        "caption": "Ever sat down to tackle a big tech project and immediately felt your energy drain? 😅 That was me with AI chatbot setup — I had a whole checklist written before I even started. Turns out, Fenrik.chat only needs your website URL. It reads your existing pages and builds the assistant automatically. No training, no developer, no long to-do list. If you've been putting it off because it seemed complicated, it really isn't. Give it a look: https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ]
+      },
+      "linkedin": {
+        "cta": "Create your AI assistant — your website already has everything it needs.",
+        "format": "reel",
+        "caption": "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#productivity"
+        ],
+        "caption_variants": [
+          "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+          "The hardest part of setting up an AI assistant for your website is usually the part that comes before you start — the mental list of everything you assume it will require.\n\nFenrik.chat skips that list entirely. It reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions without any manual input from you.\n\nYour website content is already there. That's enough. https://fenrik.chat"
+        ]
+      },
+      "instagram": {
+        "cta": "Try it — link in bio",
+        "format": "reel",
+        "caption": "I genuinely sat down with a notepad and wrote out everything I thought I'd need to do.\n\nGather FAQs. Write training prompts. Find a developer. Schedule an onboarding call.\n\nThen I typed my website URL into Fenrik.chat — and it built the whole assistant from my existing pages. No training. No setup. The list never needed to exist.\n\nLink in bio to try it.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetools",
+          "#businesstips",
+          "#worksmarter",
+          "#solopreneur",
+          "#chatbot"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "5917dcb0-7dd1-49bf-9e8d-442caba98716",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "She prepared for weeks of setup. It took one URL. Watch what Fenrik.chat actually needs to get started.",
+        "hashtags": [
+          "#fenrikchat",
+          "#aiassistant"
+        ],
+        "cta": "Subscribe for more. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "1fa1eb3f-46f3-42f9-8a70-27e3056ed285",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "I made a whole setup checklist. Turns out none of it was needed 😭 link in bio",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#websitetips",
+          "#businessowner"
+        ],
+        "cta": "Check the link in bio to try it free",
+        "language": null
+      },
+      {
+        "id": "243cb02c-4235-43b8-9643-a2f233cce369",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "I genuinely sat down with a notepad and wrote out everything I thought I'd need to do.\n\nGather FAQs. Write training prompts. Find a developer. Schedule an onboarding call.\n\nThen I typed my website URL into Fenrik.chat — and it built the whole assistant from my existing pages. No training. No setup. The list never needed to exist.\n\nLink in bio to try it.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetools",
+          "#businesstips",
+          "#worksmarter",
+          "#solopreneur",
+          "#chatbot"
+        ],
+        "cta": "Try it — link in bio",
+        "language": null
+      },
+      {
+        "id": "b7171181-bcef-4734-a6a1-9807149db4a5",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Ever sat down to tackle a big tech project and immediately felt your energy drain? 😅 That was me with AI chatbot setup — I had a whole checklist written before I even started. Turns out, Fenrik.chat only needs your website URL. It reads your existing pages and builds the assistant automatically. No training, no developer, no long to-do list. If you've been putting it off because it seemed complicated, it really isn't. Give it a look: https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "91ba1e1a-f46e-4a4e-a0a9-9e25394e12a8",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#productivity"
+        ],
+        "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "3fdbc416-8549-4cfe-9921-663471154539",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "The hardest part of setting up an AI assistant for your website is usually the part that comes before you start — the mental list of everything you assume it will require.\n\nFenrik.chat skips that list entirely. It reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions without any manual input from you.\n\nYour website content is already there. That's enough. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#aitools",
+          "#productivity"
+        ],
+        "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "7f5f8209-77ee-4629-9508-b24db9a91c29",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Setup Checklist That Doesn't Exist",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "381d6740-ccc2-4bed-a4f5-5d10d902c119",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Website URL Is the Entire Setup",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "The thing stopping most business owners from adding an AI assistant isn't budget or time. It's the assumption that setup is complicated. It isn't. Your URL is the entire checklist.",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "420057b2-a51e-4b5e-9d3c-c3beb395a053",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "I Prepared for Weeks. It Took One URL.",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Gathered FAQs. Drafted training prompts. Scheduled a developer call. Then typed my URL into Fenrik.chat and watched it build the assistant from my existing pages. The checklist was decorative. https://fenrik.chat",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "251a1642-2942-40f8-8db3-5acd7b99c830",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The AI Assistant That Reads Your Website So You Don't Have To",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Your website already has the content. Your AI assistant just needs the URL to find it. That's the whole setup.",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "3b55c425-b848-4760-8fee-ba688664de5f",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Everything Your AI Assistant Needs Is Already on Your Site",
+        "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+        "caption": "Every item on my chatbot setup list was crossed out before I started — because none of it was actually required. fenrik.chat does it from your URL. #nocode",
+        "hashtags": [
+          "#aitools",
+          "#smallbusiness"
+        ],
+        "cta": "Create your AI assistant at fenrik.chat",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "cedar",
+    "tts_voice": "cedar",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 46,
+      "secondary": 32
+    },
+    "voice_reasons": [
+      "funnel_conversion→steadiness(+2)",
+      "mode_observation→steady/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+46)",
+      "fit_secondary(+32)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en."
+  },
+  "creative_mode": "observation",
+  "funnel_stage": "conversion",
+  "pain_point": {
+    "selected_pain_point": "No resources to build or maintain a custom chatbot",
+    "strategy_pain_point": "No resources to build or maintain a custom chatbot"
+  },
+  "product_role": "Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manual input, and is ready to answer visitor questions from the moment the URL is submitted. The product doesn't ask the owner to do the work — it does the work with what's already there.",
+  "narrative_arc": "OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, visibly bracing herself. She's written a to-do list: 'Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales. This is going to take weeks. CUT TO: She types her website URL into Fenrik.chat. Waits. The assistant appears — already knowing her services, her pricing, her most common questions — pulled directly from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. MEANING: The setup she dreaded was never required. Every answer was already on her website. Fenrik.chat just learned to deliver them. REVEAL: The camera slowly tilts down to the notepad. Every item on the list has a single line through it — not crossed out in frustration, crossed out because none of it was necessary. CTA card: 'Your website already has everything it needs. Create your AI assistant.'",
+  "emotional_tone": "Warm and quietly funny — the relief of discovering the hard thing you prepared for was never actually hard. No mockery, no drama. Just the satisfying deflation of unnecessary dread.",
+  "audience_insight": "Small business owners and consultants who want an AI assistant but assume the setup will consume time, budget, and technical effort they don't have. The pain point isn't fear of the product — it's the assumed cost of entry. Showing that the checklist is blank before they even start removes the last barrier between interest and action.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, light wood tones, soft white. A single accent of muted teal or sage from a plant or mug to suggest calm productivity without sterility.",
+    "lighting": "Soft, natural daylight from a window to the side — warm and unhurried. No dramatic shadows. The mood is a relaxed Tuesday morning, not a crisis.",
+    "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-person business owner's real workspace.",
+    "camera_style": "Handheld but steady — close and observational. Opens on a medium shot of the owner at the desk, cuts to an over-the-shoulder screen view as she types the URL, then a tight close-up on the notepad as the pen cap goes back on. Final shot is a slow tilt down to the crossed-out list.",
+    "art_direction": "Realistic, slightly comedic — everyday office objects treated with deadpan seriousness. The notepad is the hero prop. Text on the list should be legible in close-up. Crossed-out lines are clean and deliberate, not scribbled.",
+    "character_style": "One character: a woman in her 30s or 40s, casually dressed, professional but not corporate. Expressive without being theatrical — her reaction to the screen is a quiet raised eyebrow and a slow exhale, not a gasp."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat."
+  },
+  "render_metadata": {
+    "id": "7c49223f-2a47-41a8-9848-6c60ec65fdf1",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:41:09.822386+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "cedar",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "5917dcb0-7dd1-49bf-9e8d-442caba98716",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "She prepared for weeks of setup. It took one URL. Watch what Fenrik.chat actually needs to get started.",
+      "hashtags": [
+        "#fenrikchat",
+        "#aiassistant"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "1fa1eb3f-46f3-42f9-8a70-27e3056ed285",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "I made a whole setup checklist. Turns out none of it was needed 😭 link in bio",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#websitetips",
+        "#businessowner"
+      ],
+      "cta": "Check the link in bio to try it free",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "243cb02c-4235-43b8-9643-a2f233cce369",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "I genuinely sat down with a notepad and wrote out everything I thought I'd need to do.\n\nGather FAQs. Write training prompts. Find a developer. Schedule an onboarding call.\n\nThen I typed my website URL into Fenrik.chat — and it built the whole assistant from my existing pages. No training. No setup. The list never needed to exist.\n\nLink in bio to try it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetools",
+        "#businesstips",
+        "#worksmarter",
+        "#solopreneur",
+        "#chatbot"
+      ],
+      "cta": "Try it — link in bio",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "b7171181-bcef-4734-a6a1-9807149db4a5",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Ever sat down to tackle a big tech project and immediately felt your energy drain? 😅 That was me with AI chatbot setup — I had a whole checklist written before I even started. Turns out, Fenrik.chat only needs your website URL. It reads your existing pages and builds the assistant automatically. No training, no developer, no long to-do list. If you've been putting it off because it seemed complicated, it really isn't. Give it a look: https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "91ba1e1a-f46e-4a4e-a0a9-9e25394e12a8",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Most small business owners assume building an AI assistant means weeks of work — gathering FAQs, writing training prompts, coordinating with a developer.\n\nThe assumption is wrong. Fenrik.chat reads your existing website and builds its own knowledge base automatically. The only input required is your URL.\n\nIf the setup cost has been the reason you haven't started, that reason doesn't exist. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#productivity"
+      ],
+      "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "3fdbc416-8549-4cfe-9921-663471154539",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "The hardest part of setting up an AI assistant for your website is usually the part that comes before you start — the mental list of everything you assume it will require.\n\nFenrik.chat skips that list entirely. It reads your existing pages, builds its own knowledge base, and is ready to answer visitor questions without any manual input from you.\n\nYour website content is already there. That's enough. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#aitools",
+        "#productivity"
+      ],
+      "cta": "Create your AI assistant — your website already has everything it needs. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "7f5f8209-77ee-4629-9508-b24db9a91c29",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Setup Checklist That Doesn't Exist",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Built a whole setup checklist for my AI assistant. Turns out the only thing it needed was my website URL. The list was always empty. #aitools #smallbusiness",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "381d6740-ccc2-4bed-a4f5-5d10d902c119",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website URL Is the Entire Setup",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "The thing stopping most business owners from adding an AI assistant isn't budget or time. It's the assumption that setup is complicated. It isn't. Your URL is the entire checklist.",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "420057b2-a51e-4b5e-9d3c-c3beb395a053",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "I Prepared for Weeks. It Took One URL.",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Gathered FAQs. Drafted training prompts. Scheduled a developer call. Then typed my URL into Fenrik.chat and watched it build the assistant from my existing pages. The checklist was decorative. https://fenrik.chat",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "251a1642-2942-40f8-8db3-5acd7b99c830",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The AI Assistant That Reads Your Website So You Don't Have To",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Your website already has the content. Your AI assistant just needs the URL to find it. That's the whole setup.",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    },
+    {
+      "id": "3b55c425-b848-4760-8fee-ba688664de5f",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "263ebbb1-07de-4894-9309-9a6b8ce3091e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Everything Your AI Assistant Needs Is Already on Your Site",
+      "body": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL. I had a whole checklist ready: gather FAQs, write training prompts, find a developer. Turns out, Fenrik.chat just reads your existing website and builds the assistant for you. No training. No setup. The checklist was already empty. Create your AI assistant at fenrik.chat.",
+      "caption": "Every item on my chatbot setup list was crossed out before I started — because none of it was actually required. fenrik.chat does it from your URL. #nocode",
+      "hashtags": [
+        "#aitools",
+        "#smallbusiness"
+      ],
+      "cta": "Create your AI assistant at fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 12,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:41:08.329015+00:00",
+      "updated_at": "2026-07-25T07:41:08.329015+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 6,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A small business owner mentally prepares for a long, painful AI chatbot setup — FAQs to write, content to upload, training sessions to schedule — then discovers the only thing Fenrik.chat actually ne…",
+      "environment": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. …",
+      "product_role": "Fenrik.chat is the proof that the setup checklist was always empty. It reads the existing website automatically, builds its own knowledge base without any manu…",
+      "visual_world": "A tidy but lived-in home office or small studio desk. Laptop open, a ceramic mug nearby, the notepad front and center. No corporate setting — this is a one-per…",
+      "attention_pattern": "The viewer is drawn in by her anxiety about the setup process, creating curiosity about how it will unfold and what the…",
+      "narrative_mechanism": "observation: OBSERVATION: Open on a business owner at her desk, notepad open, pen ready, vis…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#aiassistant",
+    "#websitetools",
+    "#nocode",
+    "#chatbot",
+    "#businessowner",
+    "#fenrikchat"
+  ],
+  "hook": "I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.",
+  "scenario": "A boutique consulting firm owner sits down one evening to finally tackle the AI chatbot project she has been putting off for months. She opens a fresh notepad and starts writing everything she assumes she will need to do: gather FAQs, write training prompts, upload content, find a developer, schedule an onboarding call. The list grows. She exhales. Then, on a whim, she types her website URL into Fenrik.chat. The assistant loads — already knowing her service tiers, her pricing, her most common visitor questions, all drawn from the pages she already has live. She looks at the notepad. Looks back at the screen. Puts the cap back on the pen. The checklist was never the obstacle. The work was already done.",
+  "video": {
+    "script": "SCENE 1 — MEDIUM SHOT: A woman in her 30s sits at a tidy home office desk. Notepad front and center, pen poised. The list reads: 'AI Chatbot Setup — Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer.' She exhales slowly, furrowed brow. The mood is quiet dread. VO: 'I thought setting up an AI assistant would take weeks — until I realized it only needed my website URL.'\n\nSCENE 2 — CLOSE-UP ON NOTEPAD: Camera holds on the list. She taps the pen against the paper. VO: 'I had a whole checklist ready: gather FAQs, write training prompts, find a developer.'\n\nSCENE 3 — OVER-THE-SHOULDER: She types her website URL into Fenrik.chat. The screen shows the assistant loading, then appearing — service details, pricing, FAQ responses, all drawn from her existing pages. Her expression shifts: quiet raised eyebrow, slow exhale. VO: 'Turns out, Fenrik.chat just reads your existing website and builds the assistant for you.'\n\nSCENE 4 — TIGHT CLOSE-UP: Her hand rests the pen on the desk and slowly presses the cap back on. VO: 'No training. No setup.'\n\nSCENE 5 — SLOW TILT DOWN TO NOTEPAD: Every item on the list has a single clean line through it. Deliberate, calm. Not angry — unnecessary. VO: 'The checklist was already empty. Create your AI assistant at fenrik.chat.' CTA CARD fades in: 'Your website already has everything it needs. Create your AI assistant.'",
+    "concept": "A small business owner sits at her desk, notepad open, pen ready, bracing for a long and painful AI chatbot setup. She's written a to-do list: Gather FAQs. Write training prompts. Upload content. Schedule onboarding call. Find developer. She exhales — this is going to take weeks. Then she types her website URL into Fenrik.chat. The assistant appears almost immediately, already knowing her services, her pricing, her most common questions — all pulled from her existing pages. She looks at the notepad. Looks back at the screen. Slowly puts the cap back on the pen. The camera tilts down to the notepad: every item on the list has a single clean line through it — not in frustration, but because none of it was ever necessary.",
+    "duration_seconds": "28"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Screen content insert showing the AI assistant creation interface — reinforces that setup takes about one minute from a website URL",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ]
+}

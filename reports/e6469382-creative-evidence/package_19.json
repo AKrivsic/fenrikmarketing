@@ -1,0 +1,1725 @@
+{
+  "package_index": 19,
+  "run_item_id": "6ce0a6fd-90a2-4f22-8013-9b3ef49b2cb0",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "afbfba74-0267-448b-b293-2034f6d359a2",
+  "package_title": "The Sunday Clarity Trap",
+  "package_status": "draft",
+  "strategy_item_id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A solo consultant describes the weekly pattern: energy and ideas on Sunday, a packed client schedule by Monday, and by Wednesday the content slot on the calendar has already been quietly deleted. The cycle repeats.",
+      "topic": "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+      "source": "production_run",
+      "pain_point": "Running out of content ideas",
+      "package_index": 19,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+      "angle": "A solo consultant describes the weekly pattern: energy and ideas on Sunday, a packed client schedule by Monday, and by Wednesday the content slot on the calendar has already been quietly deleted. The cycle repeats.",
+      "seed": "Problem Aware|Why content ideas feel abundant on Sunday and impossible by Wednesday|A solo consultant describes the weekly pattern: energy and ideas on Sunday, a packed client schedule by Monday, and by Wednesday the content slot on the calendar has already been quietly deleted. The cycle repeats.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "opinion",
+        "name": "Opinion",
+        "description": "States a clear point of view and defends it.",
+        "structure": "Bold take -> reasoning -> evidence or lived example -> CTA.",
+        "avoid": "No empty hot takes; the opinion must be supportable from Product Brain / proof.",
+        "narrativeBeats": [
+          "take",
+          "reasoning",
+          "evidence",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "confession",
+        "instruction": "Open with a candid, first-person admission that earns attention.",
+        "exampleForm": "\"We used to clean it wrong too — until a client showed us.\"",
+        "forbidGeneric": "Do not open with a neutral brand statement about yourself."
+      },
+      "persona": {
+        "id": "witty_friend",
+        "name": "Witty Friend",
+        "vocabulary": "casual, playful, relatable",
+        "rhythm": "snappy, short beats with a punchline",
+        "energy": "warm and fun",
+        "exaggeration": "moderate, comedic — never about the facts"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Sunday Clarity Trap",
+    "core_idea": "Sunday content energy is a lie your schedule tells you. The ideas feel real, the motivation feels real, and by Wednesday the calendar slot is already gone. This is not a discipline problem — it is a structural one. And the fix is not trying harder on Sunday.",
+    "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from your week entirely. The website URL replaces the notes app. The delivered package replaces the Wednesday calendar slot that never survives. The first package is offered free, no brief or camera required.",
+    "why_it_works": "The confession hook earns immediate trust by admitting the pattern rather than diagnosing the viewer. The opinion is defensible — more ideas genuinely do not solve a structural production gap — so it lands as insight rather than hot take. The Wednesday calendar deletion is a hyper-specific, recognizable moment that makes the viewer feel understood before the product is ever mentioned. The humor keeps the tone light while the structural argument does the real persuasive work. The CTA reframes the free package as the literal answer to the gap described in the video, making it feel earned rather than bolted on.",
+    "narrative_arc": "TAKE: Open with a candid confession in the voice of a solo consultant who knows the pattern intimately — 'I'll be honest: I have never once run out of content ideas on a Sunday. Wednesday is a different story.' Land the take hard and fast. REASONING: Walk through the weekly collapse with dry, knowing humor. Sunday: ideas everywhere, a notes app full of half-formed hooks, genuine optimism. Monday: client calls fill the morning. Tuesday: a proposal deadline nobody planned for. Wednesday: the content slot on the calendar quietly gets dragged to Thursday. Thursday: it disappears entirely. The ideas from Sunday are still in the notes app, exactly where they will stay until next Sunday, when the whole thing starts again. The problem is not the ideas. It is that ideas live in a notes app and content has to live on a platform — and nothing connects the two. EVIDENCE (lived example): The consultant opens the notes app. Forty-three saved ideas. Zero posts in the last three weeks. The app is not the problem. The gap between 'saved idea' and 'ready-to-post video with captions' is where the week eats everything. OPINION DEFENDED: More ideas will not fix this. A better notes app will not fix this. Blocking off more time will not fix this — you already tried that and the block got deleted by Wednesday. The only thing that fixes it is removing the production step entirely, so the gap between idea and published content stops existing. CTA: Redirect to fenrik Studio — hand over the website URL, get the first content package free, no notes app required.",
+    "emotional_tone": "Warm self-awareness mixed with dry humor — the tone of someone who has lived the exact pattern they are describing and finds it equal parts funny and maddening. No lecture. No superiority. Just a knowing laugh at a cycle that feels embarrassingly familiar.",
+    "audience_insight": "Solo consultants, founders, and small operators do not lack ideas — they lack a production pipeline that survives contact with a real week. The notes app full of saved hooks is the universal symbol of this: proof that the problem was never inspiration, it was always the gap between idea and execution. This audience will recognize the Wednesday calendar deletion instantly and feel seen rather than criticized.",
+    "visual_direction": {
+      "palette": "Warm amber and cream for Sunday sequences. Muted grey-blue and off-white for Wednesday sequences. Consistent enough to feel like the same room, distinct enough to signal the emotional shift.",
+      "lighting": "Sunday scenes: warm, diffused natural window light suggesting late morning. Wednesday scenes: cooler, flatter overhead light suggesting a middle-of-the-week afternoon with no particular energy.",
+      "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No studio feel. The kind of desk that doubles as a dining table.",
+      "camera_style": "Handheld, close and intimate — the kind of framing that feels like a voice-memo turned into a video. Slight push-ins on the phone screen showing the notes app. Quick cuts between Sunday and Wednesday to compress the weekly collapse into a few seconds. No drone, no wide establishing shots.",
+      "art_direction": "Split visual rhythm — warm and optimistic on Sunday, progressively stripped and muted by Wednesday. Sunday half uses soft natural light and a lived-in desk with a notebook open and a phone face-up showing a notes app. Wednesday half uses the same desk but emptier: notebook closed, phone face-down, calendar on screen with a content block visibly absent. The contrast is subtle, not dramatic — the same room, slightly colder.",
+      "character_style": "Single on-camera presenter — a solo consultant in their early 30s to mid-40s, casual but put-together, speaking directly to camera with the relaxed confidence of someone telling a story they have lived a hundred times. No co-host, no actors in the background."
+    }
+  },
+  "opening": {
+    "pacing": "Quick cuts between the vibrant Sunday scene and the stark, empty Wednesday desk, creating a sense of urgency and familiarity.",
+    "emotion": "Warm self-awareness mixed with dry humor, reflecting a relatable frustration.",
+    "first_image": "A warm, sunlit home office with a casual desk setup: a laptop open to a notes app filled with colorful ideas, a half-drunk mug of coffee, and a notebook with scribbled thoughts, all bathed in soft natural light.",
+    "attention_pattern": "The contrast between the hopeful energy of Sunday and the stark reality of Wednesday hooks the viewer, making them curious about the cycle and how to break it.",
+    "first_spoken_sentence": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town."
+  },
+  "visual_identity": {
+    "palette": "Warm amber and cream for Sunday sequences. Muted grey-blue and off-white for Wednesday sequences. Consistent enough to feel like the same room, distinct enough to signal the emotional shift.",
+    "lighting": "Sunday scenes: warm, diffused natural window light suggesting late morning. Wednesday scenes: cooler, flatter overhead light suggesting a middle-of-the-week afternoon with no particular energy.",
+    "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No studio feel. The kind of desk that doubles as a dining table.",
+    "camera_style": "Handheld, close and intimate — the kind of framing that feels like a voice-memo turned into a video. Slight push-ins on the phone screen showing the notes app. Quick cuts between Sunday and Wednesday to compress the weekly collapse into a few seconds. No drone, no wide establishing shots.",
+    "art_direction": "Split visual rhythm — warm and optimistic on Sunday, progressively stripped and muted by Wednesday. Sunday half uses soft natural light and a lived-in desk with a notebook open and a phone face-up showing a notes app. Wednesday half uses the same desk but emptier: notebook closed, phone face-down, calendar on screen with a content block visibly absent. The contrast is subtle, not dramatic — the same room, slightly colder.",
+    "character_style": "Single on-camera presenter — a solo consultant in their early 30s to mid-40s, casual but put-together, speaking directly to camera with the relaxed confidence of someone telling a story they have lived a hundred times. No co-host, no actors in the background.",
+    "opening_emotion": "Warm self-awareness mixed with dry humor, reflecting a relatable frustration.",
+    "opening_first_image": "A warm, sunlit home office with a casual desk setup: a laptop open to a notes app filled with colorful ideas, a half-drunk mug of coffee, and a notebook with scribbled thoughts, all bathed in soft natural light."
+  },
+  "package": {
+    "title": "The Sunday Clarity Trap",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+    "scenario": "A solo consultant clears Sunday afternoon with genuine optimism — opens the notes app, adds four more hooks to the existing thirty-nine, writes half a caption, saves it. Monday arrives with two client calls that run long. Tuesday surfaces a proposal deadline that was not on the radar. Wednesday at 1:58pm, two minutes before the content block on the calendar, a client pings with an urgent question. The block gets dragged to Thursday. Thursday it disappears entirely, no drama, just a quiet delete. By Sunday the notes app has forty-three items. The feed has nothing new. The ideas were never the problem.",
+    "video": {
+      "script": "SCENE 1 — SUNDAY DESK (warm amber light, notes app open, coffee steaming)\nVO: 'I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.'\n[Presenter speaks directly to camera, relaxed, slight smile — the tone of someone telling a story they find equal parts funny and maddening.]\n\nSCENE 2 — QUICK CUTS: Sunday notes app full of hooks / Monday calendar filling with client calls / Tuesday a proposal email open\nVO: 'Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for.'\n[Fast cuts, each beat one second — compress the collapse.]\n\nSCENE 3 — WEDNESDAY DESK (cooler light, notebook closed, calendar on screen with content block absent)\nVO: 'Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears.'\n[Slow push-in on the empty calendar slot. No drama. Just the quiet truth.]\n\nSCENE 4 — CLOSE ON PHONE: notes app, 43 items, zero posts\nVO: 'The ideas are still there. They always are. The problem was never the ideas.'\n[Presenter looks at phone, looks back at camera — knowing, dry, not defeated.]\n\nSCENE 5 — LOGO CARD / PRODUCT FRAME\n[fenrik Studio logo. No voiceover. On-screen text: 'Your website is the only input. First package free.']",
+      "concept": "A solo consultant delivers a candid, self-aware confession about the weekly content cycle: Sunday optimism collapses into Wednesday silence, not because ideas run dry, but because the gap between a saved idea and a published post swallows the entire week. The video takes a clear stance — more ideas do not fix a structural production gap — and lands it with dry humor and hyper-specific detail that makes the viewer feel seen before the product is ever mentioned.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#contentcreation",
+      "#solofounder",
+      "#contentmarketing",
+      "#socialmediatips",
+      "#smallbusiness",
+      "#creatorproblems"
+    ],
+    "subtitles_planned": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible."
+    },
+    {
+      "source": "asset",
+      "used_as": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "voiceover": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+  "voice_prompts": {
+    "voiceover_text": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident point of view, reasoned not aggressive. Deliver",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered.",
+    "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy.",
+    "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday.",
+    "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next Sunday when the ideas feel real, remember what Wednesday actually looks like.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "43 saved content ideas. Zero posts this week. The notes app is not the problem 👀",
+        "hashtags": [
+          "#contentcreator",
+          "#solofounder",
+          "#contentstrategy",
+          "#smallbusiness"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "shorts",
+        "caption": "You have 43 content ideas saved. Zero posted this week. That gap has a name — and more ideas won't close it.",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#youtubeshorts"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this for next Sunday.",
+        "format": "reel",
+        "caption": "Raise your hand if your notes app is full of content ideas and your social feed is basically empty 🙋 Sunday energy is real — the problem is Wednesday always has other plans. The ideas aren't the issue. The gap between 'saved idea' and 'posted content' is where the week disappears. Sound familiar? Save this post — it might explain more than you'd expect.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Here is an opinion that might sting a little: running out of content ideas is almost never the real problem.\n\nThe notes app is full. The Sunday energy is genuine. The ideas are good.\n\nBut by Wednesday, a client deadline moved, a call ran long, and the content block on the calendar quietly got dragged to next week — where it will disappear again.\n\nMore ideas do not fix a structural gap. A different production model does.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#marketingstrategy"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this for the next Sunday you feel ahead of the game.",
+        "format": "reel",
+        "caption": "Sunday me has so many ideas.\n\nWednesday me has a client call, a proposal deadline, and a content block that quietly disappeared from the calendar.\n\nThe notes app has 43 items. The feed has nothing.\n\nIt was never an ideas problem.",
+        "hashtags": [
+          "#contentmarketing",
+          "#soloconsultant",
+          "#smallbusinessowner",
+          "#socialmediatips",
+          "#creatorlife",
+          "#marketingtips",
+          "#contentideas",
+          "#businessowner"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "23e27d03-6d24-492e-8a0b-41aaaf16f38c",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Clarity Trap",
+        "body": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+        "caption": "43 saved content ideas. Zero posts this week. The notes app is not the problem 👀",
+        "hashtags": [
+          "#contentcreator",
+          "#solofounder",
+          "#contentstrategy",
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "8c15e6ab-6f95-4a82-a885-e523bc758d4f",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Clarity Trap",
+        "body": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+        "caption": "Sunday me has so many ideas.\n\nWednesday me has a client call, a proposal deadline, and a content block that quietly disappeared from the calendar.\n\nThe notes app has 43 items. The feed has nothing.\n\nIt was never an ideas problem.",
+        "hashtags": [
+          "#contentmarketing",
+          "#soloconsultant",
+          "#smallbusinessowner",
+          "#socialmediatips",
+          "#creatorlife",
+          "#marketingtips",
+          "#contentideas",
+          "#businessowner"
+        ],
+        "cta": "Save this for the next Sunday you feel ahead of the game.",
+        "language": null
+      },
+      {
+        "id": "57af7f7f-0681-4fae-a390-ab992038a7f9",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Clarity Trap",
+        "body": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+        "caption": "You have 43 content ideas saved. Zero posted this week. That gap has a name — and more ideas won't close it.",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#youtubeshorts"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "7b749c35-df8d-44df-926e-1555f7ea0769",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Clarity Trap",
+        "body": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+        "caption": "Raise your hand if your notes app is full of content ideas and your social feed is basically empty 🙋 Sunday energy is real — the problem is Wednesday always has other plans. The ideas aren't the issue. The gap between 'saved idea' and 'posted content' is where the week disappears. Sound familiar? Save this post — it might explain more than you'd expect.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ],
+        "cta": "Save this for next Sunday.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "afbfba74-0267-448b-b293-2034f6d359a2",
+    "title": "The Sunday Clarity Trap",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next Sunday when the ideas feel real, remember what Wednesday actually looks like.",
+        "type": "save"
+      },
+      "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+      "video": {
+        "script": "SCENE 1 — SUNDAY DESK (warm amber light, notes app open, coffee steaming)\nVO: 'I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.'\n[Presenter speaks directly to camera, relaxed, slight smile — the tone of someone telling a story they find equal parts funny and maddening.]\n\nSCENE 2 — QUICK CUTS: Sunday notes app full of hooks / Monday calendar filling with client calls / Tuesday a proposal email open\nVO: 'Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for.'\n[Fast cuts, each beat one second — compress the collapse.]\n\nSCENE 3 — WEDNESDAY DESK (cooler light, notebook closed, calendar on screen with content block absent)\nVO: 'Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears.'\n[Slow push-in on the empty calendar slot. No drama. Just the quiet truth.]\n\nSCENE 4 — CLOSE ON PHONE: notes app, 43 items, zero posts\nVO: 'The ideas are still there. They always are. The problem was never the ideas.'\n[Presenter looks at phone, looks back at camera — knowing, dry, not defeated.]\n\nSCENE 5 — LOGO CARD / PRODUCT FRAME\n[fenrik Studio logo. No voiceover. On-screen text: 'Your website is the only input. First package free.']",
+        "concept": "A solo consultant delivers a candid, self-aware confession about the weekly content cycle: Sunday optimism collapses into Wednesday silence, not because ideas run dry, but because the gap between a saved idea and a published post swallows the entire week. The video takes a clear stance — more ideas do not fix a structural production gap — and lands it with dry humor and hyper-specific detail that makes the viewer feel seen before the product is ever mentioned.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#contentcreation",
+        "#solofounder",
+        "#contentmarketing",
+        "#socialmediatips",
+        "#smallbusiness",
+        "#creatorproblems"
+      ],
+      "scenario": "A solo consultant clears Sunday afternoon with genuine optimism — opens the notes app, adds four more hooks to the existing thirty-nine, writes half a caption, saves it. Monday arrives with two client calls that run long. Tuesday surfaces a proposal deadline that was not on the radar. Wednesday at 1:58pm, two minutes before the content block on the calendar, a client pings with an urgent question. The block gets dragged to Thursday. Thursday it disappears entirely, no drama, just a quiet delete. By Sunday the notes app has forty-three items. The feed has nothing new. The ideas were never the problem.",
+      "subtitles": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+      "asset_usage": [
+        {
+          "used_as": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "image_prompts": [
+        "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered.",
+        "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy.",
+        "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday.",
+        "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible."
+        },
+        {
+          "source": "asset",
+          "used_as": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "voiceover_text": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "43 saved content ideas. Zero posts this week. The notes app is not the problem 👀",
+          "hashtags": [
+            "#contentcreator",
+            "#solofounder",
+            "#contentstrategy",
+            "#smallbusiness"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "shorts",
+          "caption": "You have 43 content ideas saved. Zero posted this week. That gap has a name — and more ideas won't close it.",
+          "hashtags": [
+            "#contentcreation",
+            "#solofounder",
+            "#youtubeshorts"
+          ]
+        },
+        "facebook": {
+          "cta": "Save this for next Sunday.",
+          "format": "reel",
+          "caption": "Raise your hand if your notes app is full of content ideas and your social feed is basically empty 🙋 Sunday energy is real — the problem is Wednesday always has other plans. The ideas aren't the issue. The gap between 'saved idea' and 'posted content' is where the week disappears. Sound familiar? Save this post — it might explain more than you'd expect.",
+          "hashtags": [
+            "#smallbusiness",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Here is an opinion that might sting a little: running out of content ideas is almost never the real problem.\n\nThe notes app is full. The Sunday energy is genuine. The ideas are good.\n\nBut by Wednesday, a client deadline moved, a call ran long, and the content block on the calendar quietly got dragged to next week — where it will disappear again.\n\nMore ideas do not fix a structural gap. A different production model does.",
+          "hashtags": [
+            "#contentmarketing",
+            "#solofounder",
+            "#marketingstrategy"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this for the next Sunday you feel ahead of the game.",
+          "format": "reel",
+          "caption": "Sunday me has so many ideas.\n\nWednesday me has a client call, a proposal deadline, and a content block that quietly disappeared from the calendar.\n\nThe notes app has 43 items. The feed has nothing.\n\nIt was never an ideas problem.",
+          "hashtags": [
+            "#contentmarketing",
+            "#soloconsultant",
+            "#smallbusinessowner",
+            "#socialmediatips",
+            "#creatorlife",
+            "#marketingtips",
+            "#contentideas",
+            "#businessowner"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "afbfba74-0267-448b-b293-2034f6d359a2",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 46,
+          "secondary": 40
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "opinion",
+        "video_concept": {
+          "title": "The Sunday Clarity Trap",
+          "core_idea": "Sunday content energy is a lie your schedule tells you. The ideas feel real, the motivation feels real, and by Wednesday the calendar slot is already gone. This is not a discipline problem — it is a structural one. And the fix is not trying harder on Sunday.",
+          "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from your week entirely. The website URL replaces the notes app. The delivered package replaces the Wednesday calendar slot that never survives. The first package is offered free, no brief or camera required.",
+          "why_it_works": "The confession hook earns immediate trust by admitting the pattern rather than diagnosing the viewer. The opinion is defensible — more ideas genuinely do not solve a structural production gap — so it lands as insight rather than hot take. The Wednesday calendar deletion is a hyper-specific, recognizable moment that makes the viewer feel understood before the product is ever mentioned. The humor keeps the tone light while the structural argument does the real persuasive work. The CTA reframes the free package as the literal answer to the gap described in the video, making it feel earned rather than bolted on.",
+          "narrative_arc": "TAKE: Open with a candid confession in the voice of a solo consultant who knows the pattern intimately — 'I'll be honest: I have never once run out of content ideas on a Sunday. Wednesday is a different story.' Land the take hard and fast. REASONING: Walk through the weekly collapse with dry, knowing humor. Sunday: ideas everywhere, a notes app full of half-formed hooks, genuine optimism. Monday: client calls fill the morning. Tuesday: a proposal deadline nobody planned for. Wednesday: the content slot on the calendar quietly gets dragged to Thursday. Thursday: it disappears entirely. The ideas from Sunday are still in the notes app, exactly where they will stay until next Sunday, when the whole thing starts again. The problem is not the ideas. It is that ideas live in a notes app and content has to live on a platform — and nothing connects the two. EVIDENCE (lived example): The consultant opens the notes app. Forty-three saved ideas. Zero posts in the last three weeks. The app is not the problem. The gap between 'saved idea' and 'ready-to-post video with captions' is where the week eats everything. OPINION DEFENDED: More ideas will not fix this. A better notes app will not fix this. Blocking off more time will not fix this — you already tried that and the block got deleted by Wednesday. The only thing that fixes it is removing the production step entirely, so the gap between idea and published content stops existing. CTA: Redirect to fenrik Studio — hand over the website URL, get the first content package free, no notes app required.",
+          "emotional_tone": "Warm self-awareness mixed with dry humor — the tone of someone who has lived the exact pattern they are describing and finds it equal parts funny and maddening. No lecture. No superiority. Just a knowing laugh at a cycle that feels embarrassingly familiar.",
+          "audience_insight": "Solo consultants, founders, and small operators do not lack ideas — they lack a production pipeline that survives contact with a real week. The notes app full of saved hooks is the universal symbol of this: proof that the problem was never inspiration, it was always the gap between idea and execution. This audience will recognize the Wednesday calendar deletion instantly and feel seen rather than criticized.",
+          "visual_direction": {
+            "palette": "Warm amber and cream for Sunday sequences. Muted grey-blue and off-white for Wednesday sequences. Consistent enough to feel like the same room, distinct enough to signal the emotional shift.",
+            "lighting": "Sunday scenes: warm, diffused natural window light suggesting late morning. Wednesday scenes: cooler, flatter overhead light suggesting a middle-of-the-week afternoon with no particular energy.",
+            "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No studio feel. The kind of desk that doubles as a dining table.",
+            "camera_style": "Handheld, close and intimate — the kind of framing that feels like a voice-memo turned into a video. Slight push-ins on the phone screen showing the notes app. Quick cuts between Sunday and Wednesday to compress the weekly collapse into a few seconds. No drone, no wide establishing shots.",
+            "art_direction": "Split visual rhythm — warm and optimistic on Sunday, progressively stripped and muted by Wednesday. Sunday half uses soft natural light and a lived-in desk with a notebook open and a phone face-up showing a notes app. Wednesday half uses the same desk but emptier: notebook closed, phone face-down, calendar on screen with a content block visibly absent. The contrast is subtle, not dramatic — the same room, slightly colder.",
+            "character_style": "Single on-camera presenter — a solo consultant in their early 30s to mid-40s, casual but put-together, speaking directly to camera with the relaxed confidence of someone telling a story they have lived a hundred times. No co-host, no actors in the background."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_opinion→energy/steady",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+46)",
+          "fit_secondary(+40)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick cuts between the vibrant Sunday scene and the stark, empty Wednesday desk, creating a sense of urgency and familiarity.",
+          "emotion": "Warm self-awareness mixed with dry humor, reflecting a relatable frustration.",
+          "first_image": "A warm, sunlit home office with a casual desk setup: a laptop open to a notes app filled with colorful ideas, a half-drunk mug of coffee, and a notebook with scribbled thoughts, all bathed in soft natural light.",
+          "attention_pattern": "The contrast between the hopeful energy of Sunday and the stark reality of Wednesday hooks the viewer, making them curious about the cycle and how to break it.",
+          "first_spoken_sentence": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: confident point of view, reasoned not aggressive. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm amber and cream for Sunday sequences. Muted grey-blue and off-white for Wednesday sequences. Consistent enough to feel like the same room, distinct enough to signal the emotional shift.",
+          "lighting": "Sunday scenes: warm, diffused natural window light suggesting late morning. Wednesday scenes: cooler, flatter overhead light suggesting a middle-of-the-week afternoon with no particular energy.",
+          "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No studio feel. The kind of desk that doubles as a dining table.",
+          "camera_style": "Handheld, close and intimate — the kind of framing that feels like a voice-memo turned into a video. Slight push-ins on the phone screen showing the notes app. Quick cuts between Sunday and Wednesday to compress the weekly collapse into a few seconds. No drone, no wide establishing shots.",
+          "art_direction": "Split visual rhythm — warm and optimistic on Sunday, progressively stripped and muted by Wednesday. Sunday half uses soft natural light and a lived-in desk with a notebook open and a phone face-up showing a notes app. Wednesday half uses the same desk but emptier: notebook closed, phone face-down, calendar on screen with a content block visibly absent. The contrast is subtle, not dramatic — the same room, slightly colder.",
+          "character_style": "Single on-camera presenter — a solo consultant in their early 30s to mid-40s, casual but put-together, speaking directly to camera with the relaxed confidence of someone telling a story they have lived a hundred times. No co-host, no actors in the background.",
+          "opening_emotion": "Warm self-awareness mixed with dry humor, reflecting a relatable frustration.",
+          "opening_first_image": "A warm, sunlit home office with a casual desk setup: a laptop open to a notes app filled with colorful ideas, a half-drunk mug of coffee, and a notebook with scribbled thoughts, all bathed in soft natural light."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident point of view, reasoned not aggressive. Deliver",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Running out of content ideas",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 7125,
+                "completion_tokens": 1200
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:46:33.032Z",
+              "duration_ms": 30992,
+              "finished_at": "2026-07-25T10:47:04.024Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 7125,
+              "estimated_cost": 0.039375,
+              "output_summary": "Concept: The Sunday Clarity Trap",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 30880,
+              "completion_tokens": 1200,
+              "output_size_bytes": 5422,
+              "prompt_characters": 30598,
+              "provider_request_id": null,
+              "completion_characters": 5392
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5940,
+                "completion_tokens": 175
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:47:04.025Z",
+              "duration_ms": 1981,
+              "finished_at": "2026-07-25T10:47:06.006Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5940,
+              "estimated_cost": 0.000919,
+              "output_summary": "Opening: I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday,",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 28718,
+              "completion_tokens": 175,
+              "output_size_bytes": 805,
+              "prompt_characters": 28566,
+              "provider_request_id": null,
+              "completion_characters": 803
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:47:06.006Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:47:06.006Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Split visual rhythm — warm and optimistic on Sunday, progres",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2022,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2012
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 11029,
+                "completion_tokens": 2467
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:47:06.007Z",
+              "duration_ms": 49675,
+              "finished_at": "2026-07-25T10:47:55.682Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 11029,
+              "estimated_cost": 0.070092,
+              "output_summary": "Package: The Sunday Clarity Trap",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 45826,
+              "completion_tokens": 2467,
+              "output_size_bytes": 9371,
+              "prompt_characters": 45544,
+              "provider_request_id": null,
+              "completion_characters": 9299
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:47:55.683Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:47:55.683Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1988,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1976
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:47:55.683Z",
+              "duration_ms": 2159,
+              "finished_at": "2026-07-25T10:47:57.842Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=afbfba74-0267-448b-b293-2034f6d359a2; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "Sunday content energy is a lie your schedule tells you. The ideas feel real, the motivation feels real, and by Wednesday the calendar slot is already gone. This is not a discipline problem — it is a …",
+          "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a…",
+          "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from…",
+          "visual_world": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No s…",
+          "attention_pattern": "The contrast between the hopeful energy of Sunday and the stark reality of Wednesday hooks the viewer, making them curi…",
+          "narrative_mechanism": "opinion: TAKE: Open with a candid confession in the voice of a solo consultant who knows…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "I opened our task board this morning and realized something was missing.",
+            "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "close_up",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "How did a whole week of 'Content Week' only produce three posts?",
+            "topic": "The content sprint that burned out the whole team and produced three posts",
+            "motifs": [
+              "laptop",
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "group"
+            ],
+            "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+            "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+            "motifs": [],
+            "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+            "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+            "motifs": [
+              "meeting",
+              "group",
+              "monitor"
+            ],
+            "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "meeting",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:47:55.780824+00:00",
+    "updated_at": "2026-07-25T10:47:58.011726+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 46,
+      "secondary": 40
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_opinion→energy/steady",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+46)",
+      "fit_secondary(+40)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident point of view, reasoned not aggressive. Deliver"
+  },
+  "creative_mode": "opinion",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Running out of content ideas",
+    "strategy_pain_point": "Running out of content ideas"
+  },
+  "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from your week entirely. The website URL replaces the notes app. The delivered package replaces the Wednesday calendar slot that never survives. The first package is offered free, no brief or camera required.",
+  "narrative_arc": "TAKE: Open with a candid confession in the voice of a solo consultant who knows the pattern intimately — 'I'll be honest: I have never once run out of content ideas on a Sunday. Wednesday is a different story.' Land the take hard and fast. REASONING: Walk through the weekly collapse with dry, knowing humor. Sunday: ideas everywhere, a notes app full of half-formed hooks, genuine optimism. Monday: client calls fill the morning. Tuesday: a proposal deadline nobody planned for. Wednesday: the content slot on the calendar quietly gets dragged to Thursday. Thursday: it disappears entirely. The ideas from Sunday are still in the notes app, exactly where they will stay until next Sunday, when the whole thing starts again. The problem is not the ideas. It is that ideas live in a notes app and content has to live on a platform — and nothing connects the two. EVIDENCE (lived example): The consultant opens the notes app. Forty-three saved ideas. Zero posts in the last three weeks. The app is not the problem. The gap between 'saved idea' and 'ready-to-post video with captions' is where the week eats everything. OPINION DEFENDED: More ideas will not fix this. A better notes app will not fix this. Blocking off more time will not fix this — you already tried that and the block got deleted by Wednesday. The only thing that fixes it is removing the production step entirely, so the gap between idea and published content stops existing. CTA: Redirect to fenrik Studio — hand over the website URL, get the first content package free, no notes app required.",
+  "emotional_tone": "Warm self-awareness mixed with dry humor — the tone of someone who has lived the exact pattern they are describing and finds it equal parts funny and maddening. No lecture. No superiority. Just a knowing laugh at a cycle that feels embarrassingly familiar.",
+  "audience_insight": "Solo consultants, founders, and small operators do not lack ideas — they lack a production pipeline that survives contact with a real week. The notes app full of saved hooks is the universal symbol of this: proof that the problem was never inspiration, it was always the gap between idea and execution. This audience will recognize the Wednesday calendar deletion instantly and feel seen rather than criticized.",
+  "visual_direction": {
+    "palette": "Warm amber and cream for Sunday sequences. Muted grey-blue and off-white for Wednesday sequences. Consistent enough to feel like the same room, distinct enough to signal the emotional shift.",
+    "lighting": "Sunday scenes: warm, diffused natural window light suggesting late morning. Wednesday scenes: cooler, flatter overhead light suggesting a middle-of-the-week afternoon with no particular energy.",
+    "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No studio feel. The kind of desk that doubles as a dining table.",
+    "camera_style": "Handheld, close and intimate — the kind of framing that feels like a voice-memo turned into a video. Slight push-ins on the phone screen showing the notes app. Quick cuts between Sunday and Wednesday to compress the weekly collapse into a few seconds. No drone, no wide establishing shots.",
+    "art_direction": "Split visual rhythm — warm and optimistic on Sunday, progressively stripped and muted by Wednesday. Sunday half uses soft natural light and a lived-in desk with a notebook open and a phone face-up showing a notes app. Wednesday half uses the same desk but emptier: notebook closed, phone face-down, calendar on screen with a content block visibly absent. The contrast is subtle, not dramatic — the same room, slightly colder.",
+    "character_style": "Single on-camera presenter — a solo consultant in their early 30s to mid-40s, casual but put-together, speaking directly to camera with the relaxed confidence of someone telling a story they have lived a hundred times. No co-host, no actors in the background."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas."
+  },
+  "render_metadata": {
+    "id": "553bc06a-0bea-4b6a-82b4-4111a926142d",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:47:57.572802+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A warm, sunlit home office desk setup: a laptop open to a notes app filled with colorful content ideas, a half-drunk mug of coffee, and a notebook with scribbled hooks, all bathed in soft diffused natural window light — amber and cream tones, Sunday late-morning feel, lived-in but not cluttered."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "The same desk viewed from a slightly closer angle on Monday: a calendar on the laptop screen filling with client call blocks stacked through the morning, the notebook still open but untouched, warm light beginning to flatten into a more neutral tone — a subtle but readable shift in energy."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A laptop screen in close-up on Wednesday afternoon: a digital calendar showing a content creation block that has been dragged from its original 2pm slot and dropped into a greyed-out deleted area — cooler overhead light, muted grey-blue palette, the desk surface quieter and more sparse than Sunday."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A hand holding a smartphone with a notes app open, scrolling through a long list of content ideas — 43 items visible, none checked, no drafts started — cool flat light from above, off-white desk surface beneath, the gap between saved ideas and published content made quietly visible."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742",
+        "image_path": "163c1822-ad30-4cee-8826-dfacd9c188b9/source/e895c555-e0b4-4628-9ee8-1fd5a65dc742/web-img.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+            "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+    "cta": "Save this — next Sunday when the ideas feel real, remember what Wednesday actually looks like.",
+    "voiceover_text": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town. Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for. Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears. The ideas are still there. They always are. The problem was never the ideas.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: confident point of view, reasoned not aggressive. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "Sunday content energy is a lie your schedule tells you. The ideas feel real, the motivation feels real, and by Wednesday the calendar slot is already gone. This is not a discipline problem — it is a …",
+      "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a…",
+      "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from…",
+      "visual_world": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No s…",
+      "attention_pattern": "The contrast between the hopeful energy of Sunday and the stark reality of Wednesday hooks the viewer, making them curi…",
+      "narrative_mechanism": "opinion: TAKE: Open with a candid confession in the voice of a solo consultant who knows…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentcreation",
+    "#solofounder",
+    "#contentmarketing",
+    "#socialmediatips",
+    "#smallbusiness",
+    "#creatorproblems"
+  ],
+  "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+  "scenario": "A solo consultant clears Sunday afternoon with genuine optimism — opens the notes app, adds four more hooks to the existing thirty-nine, writes half a caption, saves it. Monday arrives with two client calls that run long. Tuesday surfaces a proposal deadline that was not on the radar. Wednesday at 1:58pm, two minutes before the content block on the calendar, a client pings with an urgent question. The block gets dragged to Thursday. Thursday it disappears entirely, no drama, just a quiet delete. By Sunday the notes app has forty-three items. The feed has nothing new. The ideas were never the problem.",
+  "video": {
+    "script": "SCENE 1 — SUNDAY DESK (warm amber light, notes app open, coffee steaming)\nVO: 'I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.'\n[Presenter speaks directly to camera, relaxed, slight smile — the tone of someone telling a story they find equal parts funny and maddening.]\n\nSCENE 2 — QUICK CUTS: Sunday notes app full of hooks / Monday calendar filling with client calls / Tuesday a proposal email open\nVO: 'Sunday: notes app full, energy high, forty-three saved hooks. Monday: client calls. Tuesday: a proposal nobody planned for.'\n[Fast cuts, each beat one second — compress the collapse.]\n\nSCENE 3 — WEDNESDAY DESK (cooler light, notebook closed, calendar on screen with content block absent)\nVO: 'Wednesday: the content block quietly gets dragged to Thursday. Thursday: it disappears.'\n[Slow push-in on the empty calendar slot. No drama. Just the quiet truth.]\n\nSCENE 4 — CLOSE ON PHONE: notes app, 43 items, zero posts\nVO: 'The ideas are still there. They always are. The problem was never the ideas.'\n[Presenter looks at phone, looks back at camera — knowing, dry, not defeated.]\n\nSCENE 5 — LOGO CARD / PRODUCT FRAME\n[fenrik Studio logo. No voiceover. On-screen text: 'Your website is the only input. First package free.']",
+    "concept": "A solo consultant delivers a candid, self-aware confession about the weekly content cycle: Sunday optimism collapses into Wednesday silence, not because ideas run dry, but because the gap between a saved idea and a published post swallows the entire week. The video takes a clear stance — more ideas do not fix a structural production gap — and lands it with dry humor and hyper-specific detail that makes the viewer feel seen before the product is ever mentioned.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is the only input. First package free.'",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "I opened our task board this morning and realized something was missing.",
+      "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "close_up",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "How did a whole week of 'Content Week' only produce three posts?",
+      "topic": "The content sprint that burned out the whole team and produced three posts",
+      "motifs": [
+        "laptop",
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "group"
+      ],
+      "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "motifs": [],
+      "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "motifs": [
+        "meeting",
+        "group",
+        "monitor"
+      ],
+      "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "meeting",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 7125,
+          "completion_tokens": 1200
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:46:33.032Z",
+        "duration_ms": 30992,
+        "finished_at": "2026-07-25T10:47:04.024Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 7125,
+        "estimated_cost": 0.039375,
+        "output_summary": "Concept: The Sunday Clarity Trap",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 30880,
+        "completion_tokens": 1200,
+        "output_size_bytes": 5422,
+        "prompt_characters": 30598,
+        "provider_request_id": null,
+        "completion_characters": 5392
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5940,
+          "completion_tokens": 175
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:47:04.025Z",
+        "duration_ms": 1981,
+        "finished_at": "2026-07-25T10:47:06.006Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5940,
+        "estimated_cost": 0.000919,
+        "output_summary": "Opening: I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday,",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 28718,
+        "completion_tokens": 175,
+        "output_size_bytes": 805,
+        "prompt_characters": 28566,
+        "provider_request_id": null,
+        "completion_characters": 803
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:47:06.006Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:47:06.006Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Split visual rhythm — warm and optimistic on Sunday, progres",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2022,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2012
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 11029,
+          "completion_tokens": 2467
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:47:06.007Z",
+        "duration_ms": 49675,
+        "finished_at": "2026-07-25T10:47:55.682Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 11029,
+        "estimated_cost": 0.070092,
+        "output_summary": "Package: The Sunday Clarity Trap",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 45826,
+        "completion_tokens": 2467,
+        "output_size_bytes": 9371,
+        "prompt_characters": 45544,
+        "provider_request_id": null,
+        "completion_characters": 9299
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:47:55.683Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:47:55.683Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1988,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1976
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:47:55.683Z",
+        "duration_ms": 2159,
+        "finished_at": "2026-07-25T10:47:57.842Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=afbfba74-0267-448b-b293-2034f6d359a2; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "dc862f1f-92bb-4393-b606-fd2c9577c593",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

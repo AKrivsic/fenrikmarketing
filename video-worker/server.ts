@@ -19,6 +19,12 @@ import { cancelQueuedVideoJobs, enqueueVideoJob } from "@/video-worker/queue";
 import { regenerateSceneImage } from "@/video-worker/services/regenerateSceneImage";
 import { editSceneImage } from "@/video-worker/services/editSceneImage";
 import { insertSceneBrandAsset } from "@/video-worker/services/insertSceneBrandAsset";
+import {
+  assembleBenchmarkCombinedScene,
+  CombinedAssembleError,
+} from "@/video-worker/services/assembleBenchmarkCombinedScene";
+import { BENCHMARK_UUID_RE } from "@/lib/ai-media-benchmark/combinedContract";
+import { STORAGE_BUCKETS } from "@/lib/api/storage";
 
 // Auth header the Vercel client (lib/video-worker/client.ts) sends with every
 // render request. Single source of truth shared with that caller by convention.
@@ -374,6 +380,122 @@ async function handleInsertSceneAsset(
   }
 }
 
+const assembleCombinedSchema = z.object({
+  combined_run_id: z.string().regex(BENCHMARK_UUID_RE),
+  project_id: z.string().regex(BENCHMARK_UUID_RE),
+  video: z.object({
+    bucket: z.literal(STORAGE_BUCKETS.videoRenders),
+    path: z.string().min(1),
+  }),
+  voice: z.object({
+    bucket: z.literal(STORAGE_BUCKETS.videoRenders),
+    path: z.string().min(1),
+  }),
+  sound: z
+    .object({
+      bucket: z.literal(STORAGE_BUCKETS.videoRenders),
+      path: z.string().min(1),
+    })
+    .nullable()
+    .optional(),
+  mix: z.object({
+    targetDurationSeconds: z.literal(4),
+    voiceoverStartSeconds: z.literal(0),
+    voiceoverGain: z.literal(1),
+    sceneAudioGain: z.literal(0.22),
+    ambientGain: z.literal(0.08),
+    useSceneAudio: z.boolean(),
+    useAmbientSound: z.boolean(),
+  }),
+  output_bucket: z.literal(STORAGE_BUCKETS.videoRenders),
+  output_path: z.string().min(1),
+});
+
+const ASSEMBLE_CLIENT_ERROR_CODES = new Set([
+  "project_id_invalid",
+  "combined_run_id_invalid",
+  "output_bucket_mismatch",
+  "output_path_mismatch",
+  "source_path_mismatch",
+  "source_bucket_mismatch",
+  "mix_not_allowed",
+  "target_duration_mismatch",
+  "voiceover_too_long_for_scene",
+  "source_output_missing",
+  "voiceover_duration_unknown",
+]);
+
+async function handleAssembleBenchmarkCombinedScene(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  if (!isAuthorized(req)) {
+    sendJson(res, 401, { ok: false, error: "unauthorized" });
+    return;
+  }
+  let raw: string;
+  try {
+    raw = await readBody(req);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "read_error" });
+    return;
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    sendJson(res, 400, { ok: false, error: "invalid_json" });
+    return;
+  }
+  const result = assembleCombinedSchema.safeParse(parsed);
+  if (!result.success) {
+    sendJson(res, 400, {
+      ok: false,
+      error: "invalid_payload",
+      issues: result.error.issues,
+    });
+    return;
+  }
+  const body = result.data;
+  try {
+    const assembled = await assembleBenchmarkCombinedScene({
+      combinedRunId: body.combined_run_id,
+      projectId: body.project_id,
+      video: body.video,
+      voice: body.voice,
+      sound: body.sound ?? null,
+      mix: body.mix,
+      outputBucket: body.output_bucket,
+      outputPath: body.output_path,
+    });
+    sendJson(res, 200, {
+      ok: true,
+      output_bucket: assembled.outputBucket,
+      output_path: assembled.outputPath,
+      duration_seconds: assembled.durationSeconds,
+      voiceover_duration_seconds: assembled.voiceoverDurationSeconds,
+      reused_existing_output: assembled.reusedExistingOutput,
+      used_scene_audio: assembled.usedSceneAudio,
+      used_ambient_sound: assembled.usedAmbientSound,
+    });
+  } catch (err) {
+    const code =
+      err instanceof CombinedAssembleError
+        ? err.code
+        : err instanceof Error
+          ? err.message
+          : "assemble_failed";
+    console.error(
+      "[video-worker] assemble-benchmark-combined-scene failed",
+      JSON.stringify({ error: code }),
+    );
+    sendJson(res, ASSEMBLE_CLIENT_ERROR_CODES.has(code) ? 400 : 500, {
+      ok: false,
+      error: code,
+    });
+  }
+}
+
 const server = createServer((req, res) => {
   void route(req, res);
 });
@@ -429,6 +551,15 @@ async function route(
       return;
     }
     await handleInsertSceneAsset(req, res);
+    return;
+  }
+
+  if (req.url === "/assemble-benchmark-combined-scene") {
+    if (req.method !== "POST") {
+      sendJson(res, 405, { ok: false, error: "method_not_allowed" });
+      return;
+    }
+    await handleAssembleBenchmarkCombinedScene(req, res);
     return;
   }
 

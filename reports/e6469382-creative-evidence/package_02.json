@@ -1,0 +1,1729 @@
+{
+  "package_index": 2,
+  "run_item_id": "9838c487-926b-44f6-b8c2-0c246964e36f",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "b4cb33df-1915-463b-8520-270bb9c72c4e",
+  "package_title": "Nine Weeks Ago",
+  "package_status": "draft",
+  "strategy_item_id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "POV: a potential customer discovers a brand through a Google search, clicks their Instagram link, and sees a feed that stopped nine weeks ago. The video walks through exactly what that stranger is thinking — and what decision they make next.",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "source": "production_run",
+      "pain_point": "Social accounts are inactive or inconsistent",
+      "package_index": 2,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Awareness",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "angle": "POV: a potential customer discovers a brand through a Google search, clicks their Instagram link, and sees a feed that stopped nine weeks ago. The video walks through exactly what that stranger is thinking — and what decision they make next.",
+      "seed": "Awareness|What your business looks like to a stranger who finds your social profile first|POV: a potential customer discovers a brand through a Google search, clicks their Instagram link, and sees a feed that stopped nine weeks ago. The video walks through exactly what that stranger is thinking — and what decision they make next.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "micro_case",
+        "name": "Micro Case",
+        "description": "A compact before/after style mini case study.",
+        "structure": "Before (starting situation) -> what changed -> after (outcome) -> CTA.",
+        "avoid": "Use only outcomes supported by real proof; never fabricate metrics or results.",
+        "narrativeBeats": [
+          "before",
+          "change",
+          "after",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "myth",
+        "instruction": "Open by stating a popular myth you are about to break.",
+        "exampleForm": "\"More cleaning product means cleaner. It does not.\"",
+        "forbidGeneric": "Do not open with \"Let's talk about a common myth.\""
+      },
+      "persona": {
+        "id": "reporter",
+        "name": "Reporter",
+        "vocabulary": "factual, observational, neutral",
+        "rhythm": "crisp, headline-then-detail",
+        "energy": "matter-of-fact",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "Nine Weeks Ago",
+    "core_idea": "A micro case told entirely from a stranger's point of view. A potential customer Googles a local SaaS tool, finds their Instagram link in the bio, taps it — and lands on a feed where the last post is nine weeks old. The video walks through the exact mental checklist that stranger runs in the next thirty seconds, and the quiet decision they make before closing the app. The before is the feed as it exists. The change is the stranger's internal logic. The after is the business they choose instead.",
+    "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so the signal stays on. The proof point used is that the first content package is free and requires only a website URL, which removes the barrier that caused the silence in the first place.",
+    "why_it_works": "The Micro Case structure works here because the before and after are separated by nothing more than a stranger's thirty-second attention span — which makes the stakes feel immediate rather than abstract. The Reporter voice keeps it from feeling preachy. The POV shift to the potential customer is fresh against recent fingerprints, which stayed inside the founder's or team's perspective. The myth hook opens by stating that a quiet feed is just a cosmetic problem — then the case dismantles that assumption through observable customer behavior rather than opinion.",
+    "narrative_arc": "BEFORE: A stranger discovers a brand through a Google search result. Everything looks credible — clean website, decent reviews, professional bio. They tap the Instagram link. The feed loads. Last post: nine weeks ago. CHANGE: The video narrates the stranger's thought process in real time, framed as a series of brief, factual observations — 'Still operating? Hard to tell.' / 'Competitor has posted eleven times this month.' / 'Going with the other one.' No drama. No accusation. Just the logic. AFTER: The brand with the active feed gets the inquiry. The brand with the quiet one does not. The video closes with a single factual statement: a feed that stopped is a signal, whether the business meant to send it or not. Then the CTA frames fenrik Studio as the thing that keeps the signal on.",
+    "emotional_tone": "Quiet and unsettling — not alarming, just factual. The discomfort comes from recognition, not exaggeration. The stranger is not hostile; they are simply making a reasonable decision with the information available. That neutrality is what makes it land.",
+    "audience_insight": "Founders and small teams rarely think about what their inactive feed communicates to a stranger — they think about the content they haven't made yet, not the impression the silence is already making. Flipping to the customer's POV makes the cost of inactivity concrete without lecturing.",
+    "visual_direction": {
+      "palette": "Muted warm neutrals for the background and UI chrome — off-white, light sand, soft grey. The inactive feed thumbnails are slightly desaturated to visually reinforce staleness. One accent color (a clean teal or slate blue) used only for the annotation text to keep it readable.",
+      "lighting": "Bright, ambient daylight — the kind of light that reads as a casual midday scroll, not a late-night crisis. Neutral and unhurried.",
+      "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand holding the phone at the bottom edge. Keeps the viewer inside the stranger's experience rather than observing it from outside.",
+      "camera_style": "Static frame with subtle zoom-in on specific UI elements as the narration references them — the date stamp on the last post, the competitor's active grid visible in a side-by-side cut. No handheld movement. Cuts are deliberate and slow, matching the pace of someone scrolling and deciding.",
+      "art_direction": "Screen-native aesthetic — the video is framed as if the viewer is watching someone else's phone screen in real time. Clean UI overlays simulate an Instagram profile page loading. Text annotations appear as brief, handwritten-style captions floating near relevant screen elements, mimicking the stranger's internal monologue. No talking head. No voiceover actor visible. The product never appears as a logo until the final frame.",
+      "character_style": "none"
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, mirroring the slow scroll of a stranger assessing the profile.",
+    "emotion": "Quietly unsettling, evoking a sense of urgency and concern.",
+    "first_image": "A phone screen displays an Instagram profile grid. The last post shows a date stamp reading '9 weeks ago.' The thumbnails are slightly desaturated, emphasizing the staleness of the feed. A faint hand is visible at the bottom edge, holding the phone.",
+    "attention_pattern": "The stark contrast between the clean website and the inactive social feed creates immediate curiosity about the implications of inactivity.",
+    "first_spoken_sentence": "Nine weeks of silence — what does that say about your business?"
+  },
+  "visual_identity": {
+    "palette": "Muted warm neutrals for the background and UI chrome — off-white, light sand, soft grey. The inactive feed thumbnails are slightly desaturated to visually reinforce staleness. One accent color (a clean teal or slate blue) used only for the annotation text to keep it readable.",
+    "lighting": "Bright, ambient daylight — the kind of light that reads as a casual midday scroll, not a late-night crisis. Neutral and unhurried.",
+    "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand holding the phone at the bottom edge. Keeps the viewer inside the stranger's experience rather than observing it from outside.",
+    "camera_style": "Static frame with subtle zoom-in on specific UI elements as the narration references them — the date stamp on the last post, the competitor's active grid visible in a side-by-side cut. No handheld movement. Cuts are deliberate and slow, matching the pace of someone scrolling and deciding.",
+    "art_direction": "Screen-native aesthetic — the video is framed as if the viewer is watching someone else's phone screen in real time. Clean UI overlays simulate an Instagram profile page loading. Text annotations appear as brief, handwritten-style captions floating near relevant screen elements, mimicking the stranger's internal monologue. No talking head. No voiceover actor visible. The product never appears as a logo until the final frame.",
+    "character_style": "none",
+    "opening_emotion": "Quietly unsettling, evoking a sense of urgency and concern.",
+    "opening_first_image": "A phone screen displays an Instagram profile grid. The last post shows a date stamp reading '9 weeks ago.' The thumbnails are slightly desaturated, emphasizing the staleness of the feed. A faint hand is visible at the bottom edge, holding the phone."
+  },
+  "package": {
+    "title": "Nine Weeks Ago",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "Nine weeks of silence — what does that say about your business?",
+    "scenario": "A solo SaaS founder checks their own Instagram profile while reviewing their website analytics and realizes the last post went up the day before a product launch — nine weeks ago. The website looks professional. The social feed looks abandoned. They had not considered that a potential customer would see both in the same session.",
+    "video": {
+      "script": "[SCENE 1 — Phone screen fills frame. Instagram profile grid loads. Thumbnails slightly desaturated. Date stamp visible: '9 weeks ago.']\nVO: Nine weeks of silence — what does that say about your business?\n\n[SCENE 2 — Subtle zoom onto the profile bio and grid. Annotation text floats near the date stamp in teal: 'Still operating?']\nVO: A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago.\n\n[SCENE 3 — Side-by-side cut: left panel shows the quiet desaturated grid; right panel shows a competitor's active grid, recent thumbnails in full color, multiple recent posts visible.]\nVO: Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one.\n\n[SCENE 4 — Return to single phone screen. Annotation text appears: 'A quiet feed is a signal.' Slow zoom out to reveal the faint hand holding the phone.]\nVO: A quiet feed is a signal. You may not have meant to send it — but they already read it.\n\n[SCENE 5 — Final frame. Fenrik Studio logo appears centered on a clean off-white background. Single line below: 'Keep the signal on.']\nVO: [no spoken line — logo hold]",
+      "concept": "A micro case told entirely from a stranger's point of view. A potential customer Googles a SaaS tool, finds the Instagram link, taps it — and lands on a feed where the last post is nine weeks old. The video narrates the stranger's thirty-second mental checklist in real time: brief, factual, unhurried. No drama. Just the logic that leads them to choose the competitor instead. The resolution reframes the quiet feed as an unintended signal — and positions fenrik Studio as the practical fix that keeps the signal on.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#socialmedia",
+      "#contentmarketing",
+      "#smallbusiness",
+      "#saas",
+      "#brandawareness"
+    ],
+    "subtitles_planned": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+  "voice_prompts": {
+    "voiceover_text": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: concrete, calm before/after clarity. Delivery: confident, concis",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp.",
+    "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette.",
+    "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible.",
+    "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition.",
+    "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+      "type": "comment"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Comment 'signal' if your feed has gone quiet.",
+        "format": "reel",
+        "caption": "A stranger found your Instagram. Last post: 9 weeks ago. They went with your competitor in under 30 seconds. 👀 Comment 'signal' if this has happened to you.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentcreator",
+          "#smallbusiness",
+          "#saas",
+          "#growthhacks"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "A stranger found your Instagram — last post was 9 weeks ago. Here's the exact decision they made next.",
+        "hashtags": [
+          "#shorts",
+          "#socialmedia",
+          "#contentmarketing"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Here's something worth thinking about 👇 A potential customer finds your business online, likes what they see — then taps your social link and finds a feed that stopped nine weeks ago. In that moment, they're not thinking about your product. They're wondering if you're still around. An active feed isn't just about content — it's a trust signal. When was the last time yours moved?",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmedia"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A potential buyer finds your business through a Google search. Website looks credible. Reviews are solid. They click your Instagram link — and the last post is nine weeks old.\n\nIn the next thirty seconds, they've moved on to a competitor whose feed has been active all month.\n\nA quiet social profile isn't a cosmetic issue. To a stranger with no prior relationship to your brand, it's a data point — and they use it.\n\nThe feed you're not maintaining is already communicating something. Worth deciding if that's the message you want to send.",
+        "hashtags": [
+          "#contentmarketing",
+          "#b2bmarketing",
+          "#socialmedia"
+        ]
+      },
+      "instagram": {
+        "cta": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+        "format": "reel",
+        "caption": "A stranger finds your brand. Website looks great. Reviews check out.\n\nThey tap your Instagram link.\n\nLast post: nine weeks ago.\n\nThirty seconds later, they've chosen someone else.\n\nA quiet feed doesn't just look inactive — it reads as a reason not to trust you.",
+        "hashtags": [
+          "#instagrammarketing",
+          "#contentmarketing",
+          "#smallbusiness",
+          "#socialmediatips",
+          "#brandawareness",
+          "#saas",
+          "#founderlife"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "b64e0b8f-0cd7-4245-a462-b69e54dbe630",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "Nine Weeks Ago",
+        "body": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+        "caption": "Here's something worth thinking about 👇 A potential customer finds your business online, likes what they see — then taps your social link and finds a feed that stopped nine weeks ago. In that moment, they're not thinking about your product. They're wondering if you're still around. An active feed isn't just about content — it's a trust signal. When was the last time yours moved?",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmedia"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "e9c4741b-46ce-4975-99a5-88fb311499b6",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "Nine Weeks Ago",
+        "body": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+        "caption": "A stranger found your Instagram. Last post: 9 weeks ago. They went with your competitor in under 30 seconds. 👀 Comment 'signal' if this has happened to you.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentcreator",
+          "#smallbusiness",
+          "#saas",
+          "#growthhacks"
+        ],
+        "cta": "Comment 'signal' if your feed has gone quiet.",
+        "language": null
+      },
+      {
+        "id": "8dbee607-13d2-4283-8b43-ebdd2558872d",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "Nine Weeks Ago",
+        "body": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+        "caption": "A stranger finds your brand. Website looks great. Reviews check out.\n\nThey tap your Instagram link.\n\nLast post: nine weeks ago.\n\nThirty seconds later, they've chosen someone else.\n\nA quiet feed doesn't just look inactive — it reads as a reason not to trust you.",
+        "hashtags": [
+          "#instagrammarketing",
+          "#contentmarketing",
+          "#smallbusiness",
+          "#socialmediatips",
+          "#brandawareness",
+          "#saas",
+          "#founderlife"
+        ],
+        "cta": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+        "language": null
+      },
+      {
+        "id": "f269c056-927d-4934-8364-67ff6779af96",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "Nine Weeks Ago",
+        "body": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+        "caption": "A stranger found your Instagram — last post was 9 weeks ago. Here's the exact decision they made next.",
+        "hashtags": [
+          "#shorts",
+          "#socialmedia",
+          "#contentmarketing"
+        ],
+        "cta": "Subscribe for more.",
+        "language": null
+      },
+      {
+        "id": "07d49b1d-218a-4fbd-8854-2bdf7dc808d7",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "Nine Weeks Ago",
+        "body": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+        "caption": "A potential buyer finds your business through a Google search. Website looks credible. Reviews are solid. They click your Instagram link — and the last post is nine weeks old.\n\nIn the next thirty seconds, they've moved on to a competitor whose feed has been active all month.\n\nA quiet social profile isn't a cosmetic issue. To a stranger with no prior relationship to your brand, it's a data point — and they use it.\n\nThe feed you're not maintaining is already communicating something. Worth deciding if that's the message you want to send.",
+        "hashtags": [
+          "#contentmarketing",
+          "#b2bmarketing",
+          "#socialmedia"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "b4cb33df-1915-463b-8520-270bb9c72c4e",
+    "title": "Nine Weeks Ago",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+    "package_brief": {
+      "cta": {
+        "text": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+        "type": "comment"
+      },
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "video": {
+        "script": "[SCENE 1 — Phone screen fills frame. Instagram profile grid loads. Thumbnails slightly desaturated. Date stamp visible: '9 weeks ago.']\nVO: Nine weeks of silence — what does that say about your business?\n\n[SCENE 2 — Subtle zoom onto the profile bio and grid. Annotation text floats near the date stamp in teal: 'Still operating?']\nVO: A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago.\n\n[SCENE 3 — Side-by-side cut: left panel shows the quiet desaturated grid; right panel shows a competitor's active grid, recent thumbnails in full color, multiple recent posts visible.]\nVO: Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one.\n\n[SCENE 4 — Return to single phone screen. Annotation text appears: 'A quiet feed is a signal.' Slow zoom out to reveal the faint hand holding the phone.]\nVO: A quiet feed is a signal. You may not have meant to send it — but they already read it.\n\n[SCENE 5 — Final frame. Fenrik Studio logo appears centered on a clean off-white background. Single line below: 'Keep the signal on.']\nVO: [no spoken line — logo hold]",
+        "concept": "A micro case told entirely from a stranger's point of view. A potential customer Googles a SaaS tool, finds the Instagram link, taps it — and lands on a feed where the last post is nine weeks old. The video narrates the stranger's thirty-second mental checklist in real time: brief, factual, unhurried. No drama. Just the logic that leads them to choose the competitor instead. The resolution reframes the quiet feed as an unintended signal — and positions fenrik Studio as the practical fix that keeps the signal on.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#socialmedia",
+        "#contentmarketing",
+        "#smallbusiness",
+        "#saas",
+        "#brandawareness"
+      ],
+      "scenario": "A solo SaaS founder checks their own Instagram profile while reviewing their website analytics and realizes the last post went up the day before a product launch — nine weeks ago. The website looks professional. The social feed looks abandoned. They had not considered that a potential customer would see both in the same session.",
+      "subtitles": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp.",
+        "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette.",
+        "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible.",
+        "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition.",
+        "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Comment 'signal' if your feed has gone quiet.",
+          "format": "reel",
+          "caption": "A stranger found your Instagram. Last post: 9 weeks ago. They went with your competitor in under 30 seconds. 👀 Comment 'signal' if this has happened to you.",
+          "hashtags": [
+            "#socialmedia",
+            "#contentcreator",
+            "#smallbusiness",
+            "#saas",
+            "#growthhacks"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "short",
+          "caption": "A stranger found your Instagram — last post was 9 weeks ago. Here's the exact decision they made next.",
+          "hashtags": [
+            "#shorts",
+            "#socialmedia",
+            "#contentmarketing"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Here's something worth thinking about 👇 A potential customer finds your business online, likes what they see — then taps your social link and finds a feed that stopped nine weeks ago. In that moment, they're not thinking about your product. They're wondering if you're still around. An active feed isn't just about content — it's a trust signal. When was the last time yours moved?",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmedia"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "A potential buyer finds your business through a Google search. Website looks credible. Reviews are solid. They click your Instagram link — and the last post is nine weeks old.\n\nIn the next thirty seconds, they've moved on to a competitor whose feed has been active all month.\n\nA quiet social profile isn't a cosmetic issue. To a stranger with no prior relationship to your brand, it's a data point — and they use it.\n\nThe feed you're not maintaining is already communicating something. Worth deciding if that's the message you want to send.",
+          "hashtags": [
+            "#contentmarketing",
+            "#b2bmarketing",
+            "#socialmedia"
+          ]
+        },
+        "instagram": {
+          "cta": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+          "format": "reel",
+          "caption": "A stranger finds your brand. Website looks great. Reviews check out.\n\nThey tap your Instagram link.\n\nLast post: nine weeks ago.\n\nThirty seconds later, they've chosen someone else.\n\nA quiet feed doesn't just look inactive — it reads as a reason not to trust you.",
+          "hashtags": [
+            "#instagrammarketing",
+            "#contentmarketing",
+            "#smallbusiness",
+            "#socialmediatips",
+            "#brandawareness",
+            "#saas",
+            "#founderlife"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "b4cb33df-1915-463b-8520-270bb9c72c4e",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 44,
+          "secondary": 43
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "micro_case",
+        "video_concept": {
+          "title": "Nine Weeks Ago",
+          "core_idea": "A micro case told entirely from a stranger's point of view. A potential customer Googles a local SaaS tool, finds their Instagram link in the bio, taps it — and lands on a feed where the last post is nine weeks old. The video walks through the exact mental checklist that stranger runs in the next thirty seconds, and the quiet decision they make before closing the app. The before is the feed as it exists. The change is the stranger's internal logic. The after is the business they choose instead.",
+          "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so the signal stays on. The proof point used is that the first content package is free and requires only a website URL, which removes the barrier that caused the silence in the first place.",
+          "why_it_works": "The Micro Case structure works here because the before and after are separated by nothing more than a stranger's thirty-second attention span — which makes the stakes feel immediate rather than abstract. The Reporter voice keeps it from feeling preachy. The POV shift to the potential customer is fresh against recent fingerprints, which stayed inside the founder's or team's perspective. The myth hook opens by stating that a quiet feed is just a cosmetic problem — then the case dismantles that assumption through observable customer behavior rather than opinion.",
+          "narrative_arc": "BEFORE: A stranger discovers a brand through a Google search result. Everything looks credible — clean website, decent reviews, professional bio. They tap the Instagram link. The feed loads. Last post: nine weeks ago. CHANGE: The video narrates the stranger's thought process in real time, framed as a series of brief, factual observations — 'Still operating? Hard to tell.' / 'Competitor has posted eleven times this month.' / 'Going with the other one.' No drama. No accusation. Just the logic. AFTER: The brand with the active feed gets the inquiry. The brand with the quiet one does not. The video closes with a single factual statement: a feed that stopped is a signal, whether the business meant to send it or not. Then the CTA frames fenrik Studio as the thing that keeps the signal on.",
+          "emotional_tone": "Quiet and unsettling — not alarming, just factual. The discomfort comes from recognition, not exaggeration. The stranger is not hostile; they are simply making a reasonable decision with the information available. That neutrality is what makes it land.",
+          "audience_insight": "Founders and small teams rarely think about what their inactive feed communicates to a stranger — they think about the content they haven't made yet, not the impression the silence is already making. Flipping to the customer's POV makes the cost of inactivity concrete without lecturing.",
+          "visual_direction": {
+            "palette": "Muted warm neutrals for the background and UI chrome — off-white, light sand, soft grey. The inactive feed thumbnails are slightly desaturated to visually reinforce staleness. One accent color (a clean teal or slate blue) used only for the annotation text to keep it readable.",
+            "lighting": "Bright, ambient daylight — the kind of light that reads as a casual midday scroll, not a late-night crisis. Neutral and unhurried.",
+            "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand holding the phone at the bottom edge. Keeps the viewer inside the stranger's experience rather than observing it from outside.",
+            "camera_style": "Static frame with subtle zoom-in on specific UI elements as the narration references them — the date stamp on the last post, the competitor's active grid visible in a side-by-side cut. No handheld movement. Cuts are deliberate and slow, matching the pace of someone scrolling and deciding.",
+            "art_direction": "Screen-native aesthetic — the video is framed as if the viewer is watching someone else's phone screen in real time. Clean UI overlays simulate an Instagram profile page loading. Text annotations appear as brief, handwritten-style captions floating near relevant screen elements, mimicking the stranger's internal monologue. No talking head. No voiceover actor visible. The product never appears as a logo until the final frame.",
+            "character_style": "none"
+          }
+        },
+        "voice_reasons": [
+          "funnel_awareness→warmth/energy(+1)",
+          "mode_micro_case→steady/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+44)",
+          "fit_secondary(+43)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and deliberate, mirroring the slow scroll of a stranger assessing the profile.",
+          "emotion": "Quietly unsettling, evoking a sense of urgency and concern.",
+          "first_image": "A phone screen displays an Instagram profile grid. The last post shows a date stamp reading '9 weeks ago.' The thumbnails are slightly desaturated, emphasizing the staleness of the feed. A faint hand is visible at the bottom edge, holding the phone.",
+          "attention_pattern": "The stark contrast between the clean website and the inactive social feed creates immediate curiosity about the implications of inactivity.",
+          "first_spoken_sentence": "Nine weeks of silence — what does that say about your business?"
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: natural, curious, conversational. Delivery: concrete, calm before/after clarity. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted warm neutrals for the background and UI chrome — off-white, light sand, soft grey. The inactive feed thumbnails are slightly desaturated to visually reinforce staleness. One accent color (a clean teal or slate blue) used only for the annotation text to keep it readable.",
+          "lighting": "Bright, ambient daylight — the kind of light that reads as a casual midday scroll, not a late-night crisis. Neutral and unhurried.",
+          "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand holding the phone at the bottom edge. Keeps the viewer inside the stranger's experience rather than observing it from outside.",
+          "camera_style": "Static frame with subtle zoom-in on specific UI elements as the narration references them — the date stamp on the last post, the competitor's active grid visible in a side-by-side cut. No handheld movement. Cuts are deliberate and slow, matching the pace of someone scrolling and deciding.",
+          "art_direction": "Screen-native aesthetic — the video is framed as if the viewer is watching someone else's phone screen in real time. Clean UI overlays simulate an Instagram profile page loading. Text annotations appear as brief, handwritten-style captions floating near relevant screen elements, mimicking the stranger's internal monologue. No talking head. No voiceover actor visible. The product never appears as a logo until the final frame.",
+          "character_style": "none",
+          "opening_emotion": "Quietly unsettling, evoking a sense of urgency and concern.",
+          "opening_first_image": "A phone screen displays an Instagram profile grid. The last post shows a date stamp reading '9 weeks ago.' The thumbnails are slightly desaturated, emphasizing the staleness of the feed. A faint hand is visible at the bottom edge, holding the phone."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: concrete, calm before/after clarity. Delivery: confident, concis",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Social accounts are inactive or inconsistent",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4672,
+                "completion_tokens": 1016
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:20:49.826Z",
+              "duration_ms": 25530,
+              "finished_at": "2026-07-25T10:21:15.356Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 4672,
+              "estimated_cost": 0.029256,
+              "output_summary": "Concept: Nine Weeks Ago",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 20386,
+              "completion_tokens": 1016,
+              "output_size_bytes": 4523,
+              "prompt_characters": 20248,
+              "provider_request_id": null,
+              "completion_characters": 4497
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4330,
+                "completion_tokens": 148
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:21:15.356Z",
+              "duration_ms": 1948,
+              "finished_at": "2026-07-25T10:21:17.304Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4330,
+              "estimated_cost": 0.000662,
+              "output_summary": "Opening: Nine weeks of silence — what does that say about your business?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 21233,
+              "completion_tokens": 148,
+              "output_size_bytes": 713,
+              "prompt_characters": 21107,
+              "provider_request_id": null,
+              "completion_characters": 711
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:21:17.305Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:21:17.305Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Screen-native aesthetic — the video is framed as if the view",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1880,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1870
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9286,
+                "completion_tokens": 2483
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:21:17.306Z",
+              "duration_ms": 45770,
+              "finished_at": "2026-07-25T10:22:03.076Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9286,
+              "estimated_cost": 0.065103,
+              "output_summary": "Package: Nine Weeks Ago",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 38087,
+              "completion_tokens": 2483,
+              "output_size_bytes": 9613,
+              "prompt_characters": 37833,
+              "provider_request_id": null,
+              "completion_characters": 9561
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:03.076Z",
+              "duration_ms": 1,
+              "finished_at": "2026-07-25T10:22:03.076Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2250,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2234
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:22:03.077Z",
+              "duration_ms": 2114,
+              "finished_at": "2026-07-25T10:22:05.191Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=b4cb33df-1915-463b-8520-270bb9c72c4e; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A micro case told entirely from a stranger's point of view. A potential customer Googles a local SaaS tool, finds their Instagram link in the bio, taps it — and lands on a feed where the last post is…",
+          "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the …",
+          "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so th…",
+          "visual_world": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand…",
+          "attention_pattern": "The stark contrast between the clean website and the inactive social feed creates immediate curiosity about the implica…",
+          "narrative_mechanism": "micro_case: BEFORE: A stranger discovers a brand through a Google search result. Everything…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+            "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+            "motifs": [],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "process",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're not failing at content. You're failing at deciding.",
+            "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+            "motifs": [
+              "laptop",
+              "close_up",
+              "product_asset",
+              "cafe"
+            ],
+            "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "place",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+            "topic": "How one website URL becomes a full month of platform-ready social content",
+            "motifs": [
+              "desk",
+              "office",
+              "group",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:22:03.163249+00:00",
+    "updated_at": "2026-07-25T10:22:05.526202+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 44,
+      "secondary": 43
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_micro_case→steady/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+44)",
+      "fit_secondary(+43)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: concrete, calm before/after clarity. Delivery: confident, concis"
+  },
+  "creative_mode": "micro_case",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Social accounts are inactive or inconsistent",
+    "strategy_pain_point": "Social accounts are inactive or inconsistent"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so the signal stays on. The proof point used is that the first content package is free and requires only a website URL, which removes the barrier that caused the silence in the first place.",
+  "narrative_arc": "BEFORE: A stranger discovers a brand through a Google search result. Everything looks credible — clean website, decent reviews, professional bio. They tap the Instagram link. The feed loads. Last post: nine weeks ago. CHANGE: The video narrates the stranger's thought process in real time, framed as a series of brief, factual observations — 'Still operating? Hard to tell.' / 'Competitor has posted eleven times this month.' / 'Going with the other one.' No drama. No accusation. Just the logic. AFTER: The brand with the active feed gets the inquiry. The brand with the quiet one does not. The video closes with a single factual statement: a feed that stopped is a signal, whether the business meant to send it or not. Then the CTA frames fenrik Studio as the thing that keeps the signal on.",
+  "emotional_tone": "Quiet and unsettling — not alarming, just factual. The discomfort comes from recognition, not exaggeration. The stranger is not hostile; they are simply making a reasonable decision with the information available. That neutrality is what makes it land.",
+  "audience_insight": "Founders and small teams rarely think about what their inactive feed communicates to a stranger — they think about the content they haven't made yet, not the impression the silence is already making. Flipping to the customer's POV makes the cost of inactivity concrete without lecturing.",
+  "visual_direction": {
+    "palette": "Muted warm neutrals for the background and UI chrome — off-white, light sand, soft grey. The inactive feed thumbnails are slightly desaturated to visually reinforce staleness. One accent color (a clean teal or slate blue) used only for the annotation text to keep it readable.",
+    "lighting": "Bright, ambient daylight — the kind of light that reads as a casual midday scroll, not a late-night crisis. Neutral and unhurried.",
+    "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand holding the phone at the bottom edge. Keeps the viewer inside the stranger's experience rather than observing it from outside.",
+    "camera_style": "Static frame with subtle zoom-in on specific UI elements as the narration references them — the date stamp on the last post, the competitor's active grid visible in a side-by-side cut. No handheld movement. Cuts are deliberate and slow, matching the pace of someone scrolling and deciding.",
+    "art_direction": "Screen-native aesthetic — the video is framed as if the viewer is watching someone else's phone screen in real time. Clean UI overlays simulate an Instagram profile page loading. Text annotations appear as brief, handwritten-style captions floating near relevant screen elements, mimicking the stranger's internal monologue. No talking head. No voiceover actor visible. The product never appears as a logo until the final frame.",
+    "character_style": "none"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it."
+  },
+  "render_metadata": {
+    "id": "1a9b3ed0-adb5-47b5-abc7-835460f5e7e4",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:22:05.027134+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A phone screen fills the entire frame displaying a simulated Instagram profile grid. The post thumbnails are slightly desaturated and muted, conveying staleness. A date stamp on the most recent post reads '9 weeks ago.' A faint hand is visible at the bottom edge holding the phone. Bright ambient daylight. Off-white and light sand background tones. No text other than the UI date stamp."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up zoom on the Instagram profile bio area and grid top row. A handwritten-style teal annotation floats near the date stamp reading 'Still operating?' The UI chrome is soft grey. Thumbnails remain desaturated. Static frame, no motion blur. Muted warm neutral palette."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Side-by-side split screen on a phone display. Left panel: a desaturated Instagram grid with sparse, old posts. Right panel: a competitor's Instagram grid with recent, fully saturated thumbnails showing multiple recent posts. Bright ambient daylight. Clean teal accent on the right panel border to indicate recency. No logos or brand names visible."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A phone screen showing a single Instagram grid view. A teal handwritten-style annotation reads 'A quiet feed is a signal.' The frame slowly zooms out to reveal a faint hand holding the phone against a plain off-white background. Soft shadow under the phone. Calm, unhurried composition."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white background as the resolution card.. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Nine weeks of silence — what does that say about your business?",
+    "cta": "Comment 'signal' if your feed has gone quiet without you realizing it.",
+    "voiceover_text": "Nine weeks of silence — what does that say about your business? A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago. Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one. A quiet feed is a signal. You may not have meant to send it — but they already read it.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: concrete, calm before/after clarity. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A micro case told entirely from a stranger's point of view. A potential customer Googles a local SaaS tool, finds their Instagram link in the bio, taps it — and lands on a feed where the last post is…",
+      "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the …",
+      "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so th…",
+      "visual_world": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand…",
+      "attention_pattern": "The stark contrast between the clean website and the inactive social feed creates immediate curiosity about the implica…",
+      "narrative_mechanism": "micro_case: BEFORE: A stranger discovers a brand through a Google search result. Everything…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#socialmedia",
+    "#contentmarketing",
+    "#smallbusiness",
+    "#saas",
+    "#brandawareness"
+  ],
+  "hook": "Nine weeks of silence — what does that say about your business?",
+  "scenario": "A solo SaaS founder checks their own Instagram profile while reviewing their website analytics and realizes the last post went up the day before a product launch — nine weeks ago. The website looks professional. The social feed looks abandoned. They had not considered that a potential customer would see both in the same session.",
+  "video": {
+    "script": "[SCENE 1 — Phone screen fills frame. Instagram profile grid loads. Thumbnails slightly desaturated. Date stamp visible: '9 weeks ago.']\nVO: Nine weeks of silence — what does that say about your business?\n\n[SCENE 2 — Subtle zoom onto the profile bio and grid. Annotation text floats near the date stamp in teal: 'Still operating?']\nVO: A stranger Googles your product. Clean website. Good reviews. They tap your Instagram link. Last post: nine weeks ago.\n\n[SCENE 3 — Side-by-side cut: left panel shows the quiet desaturated grid; right panel shows a competitor's active grid, recent thumbnails in full color, multiple recent posts visible.]\nVO: Their thought process takes about thirty seconds. Still operating? Hard to tell. Competitor posted eleven times this month. Going with the other one.\n\n[SCENE 4 — Return to single phone screen. Annotation text appears: 'A quiet feed is a signal.' Slow zoom out to reveal the faint hand holding the phone.]\nVO: A quiet feed is a signal. You may not have meant to send it — but they already read it.\n\n[SCENE 5 — Final frame. Fenrik Studio logo appears centered on a clean off-white background. Single line below: 'Keep the signal on.']\nVO: [no spoken line — logo hold]",
+    "concept": "A micro case told entirely from a stranger's point of view. A potential customer Googles a SaaS tool, finds the Instagram link, taps it — and lands on a feed where the last post is nine weeks old. The video narrates the stranger's thirty-second mental checklist in real time: brief, factual, unhurried. No drama. Just the logic that leads them to choose the competitor instead. The resolution reframes the quiet feed as an unintended signal — and positions fenrik Studio as the practical fix that keeps the signal on.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+      "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+      "motifs": [],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "process",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're not failing at content. You're failing at deciding.",
+      "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+      "motifs": [
+        "laptop",
+        "close_up",
+        "product_asset",
+        "cafe"
+      ],
+      "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "PHOTOGRAPHIC",
+      "meaning_carrier": "place",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+      "topic": "How one website URL becomes a full month of platform-ready social content",
+      "motifs": [
+        "desk",
+        "office",
+        "group",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "SOFT_3D",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 4672,
+          "completion_tokens": 1016
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:20:49.826Z",
+        "duration_ms": 25530,
+        "finished_at": "2026-07-25T10:21:15.356Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 4672,
+        "estimated_cost": 0.029256,
+        "output_summary": "Concept: Nine Weeks Ago",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 20386,
+        "completion_tokens": 1016,
+        "output_size_bytes": 4523,
+        "prompt_characters": 20248,
+        "provider_request_id": null,
+        "completion_characters": 4497
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4330,
+          "completion_tokens": 148
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:21:15.356Z",
+        "duration_ms": 1948,
+        "finished_at": "2026-07-25T10:21:17.304Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4330,
+        "estimated_cost": 0.000662,
+        "output_summary": "Opening: Nine weeks of silence — what does that say about your business?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 21233,
+        "completion_tokens": 148,
+        "output_size_bytes": 713,
+        "prompt_characters": 21107,
+        "provider_request_id": null,
+        "completion_characters": 711
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:21:17.305Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:21:17.305Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Screen-native aesthetic — the video is framed as if the view",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1880,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1870
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9286,
+          "completion_tokens": 2483
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:21:17.306Z",
+        "duration_ms": 45770,
+        "finished_at": "2026-07-25T10:22:03.076Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9286,
+        "estimated_cost": 0.065103,
+        "output_summary": "Package: Nine Weeks Ago",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 38087,
+        "completion_tokens": 2483,
+        "output_size_bytes": 9613,
+        "prompt_characters": 37833,
+        "provider_request_id": null,
+        "completion_characters": 9561
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:03.076Z",
+        "duration_ms": 1,
+        "finished_at": "2026-07-25T10:22:03.076Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2250,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2234
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:22:03.077Z",
+        "duration_ms": 2114,
+        "finished_at": "2026-07-25T10:22:05.191Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=b4cb33df-1915-463b-8520-270bb9c72c4e; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "c51a95ec-461e-411d-8082-e2db5b5391b0",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

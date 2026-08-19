@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "diagnostics": [
+    {
+      "rule": "opening_situation_visible_in_scene1",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+      "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its se",
+      "matchedAliases": []
+    },
+    {
+      "rule": "hook_preserved_in_first_spoken",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "Your clock stopped. Theirs didn't.",
+      "generatedValue": "Your clock stopped.",
+      "matchedAliases": []
+    },
+    {
+      "rule": "core_idea_recognizable",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the",
+      "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast \u2014 during business hours. But the prospect doing serious research at midnight? They're not ",
+      "matchedAliases": []
+    },
+    {
+      "rule": "product_or_topic_implied",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The ",
+      "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast \u2014 during business hours. But the prospect doing se",
+      "matchedAliases": [
+        "saas",
+        "website",
+        "website",
+        "visitor",
+        "chatbot",
+        "unanswered"
+      ]
+    },
+    {
+      "rule": "storyboard_collapsed_to_generic_office",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied throu",
+      "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institutional. One white-faced analog clock with bl",
+      "matchedAliases": []
+    },
+    {
+      "rule": "opening_event_preserved_in_scene1",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "(no_action_axis)",
+      "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background \u2014 warm, flat, institution",
+      "matchedAliases": []
+    },
+    {
+      "rule": "stop_scroll_idea_preserved",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "Your clock stopped. Theirs didn't.",
+      "generatedValue": "Your clock stopped. | Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the ent",
+      "matchedAliases": []
+    },
+    {
+      "rule": "sales_pitch_opening",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "Your clock stopped. Theirs didn't.",
+      "generatedValue": "Your clock stopped.",
+      "matchedAliases": []
+    },
+    {
+      "rule": "voiceover_essay_or_generic_opener",
+      "passed": true,
+      "reason": null,
+      "candidateValue": "Your clock stopped. Theirs didn't.",
+      "generatedValue": "Your clock stopped.",
+      "matchedAliases": []
+    }
+  ],
+  "failureReasons": [],
+  "salesPitchOpening": false,
+  "coreIdeaRecognizable": true,
+  "productOrTopicImplied": true,
+  "voiceoverEssayCadence": false,
+  "stopScrollIdeaPreserved": true,
+  "collapsedToGenericOffice": false,
+  "hookPreservedInFirstSpoken": true,
+  "openingEventPreservedInScene1": true,
+  "openingSituationVisibleInScene1": true
+}

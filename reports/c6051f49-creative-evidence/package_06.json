@@ -1,0 +1,1069 @@
+{
+  "package_index": 6,
+  "run_item_id": "07e416a4-7007-4c1f-8d82-18a896e8e3a2",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+  "package_title": "The Chatbot Project That Never Shipped",
+  "package_status": "draft",
+  "strategy_item_id": "e152c37f-4b0c-42e0-bfa6-098c8f34e6a5",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "e152c37f-4b0c-42e0-bfa6-098c8f34e6a5",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "Walk through the real timeline and resource drain of traditional chatbot projects: developer hours, training data, ongoing maintenance. Then contrast it with the reality that most small businesses abandon the project entirely and go without.",
+        "topic": "What it actually costs to build a custom chatbot — and why most businesses never finish",
+        "source": "production_run",
+        "pain_point": "Complexity and cost of traditional chatbot integrations",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Chatbot Project That Never Shipped",
+    "core_idea": "A small business owner confidently starts a custom chatbot project — budgets for a developer, collects training data, attends three kickoff calls — and then, six months later, still has no chatbot. The video walks through the honest, familiar comedy of a traditional chatbot build: the scope creep, the maintenance overhead, the developer who goes quiet, the spreadsheet of FAQs nobody finishes filling in. The punchline is that most businesses don't end up with a bad chatbot — they end up with no chatbot at all. Fenrik.chat enters not as a feature comparison but as the project that actually finishes.",
+    "product_role": "Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the existing website content automatically and creates a working AI assistant in about one minute. It is introduced as the contrast to the abandoned project — not as a feature list, but as the thing that is already done.",
+    "why_it_works": "The confession hook earns immediate attention because it opens with vulnerability rather than a brand claim — viewers who have lived a version of this story recognize it instantly. The visual gags make the pain point specific and funny without exaggerating or inventing. The punchline reframes the dominant pain point — complexity and cost of traditional chatbot integrations — with a single honest line that lands the contrast cleanly. The product enters at exactly the right moment: after the problem has been felt, not before. The calm advisor close keeps the CTA credible rather than salesy.",
+    "narrative_arc": "CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directly to camera with the calm, slightly embarrassed energy of someone telling a story on themselves. 'I started building a chatbot for my website about eight months ago.' CUT TO: a series of quick visual gags — a shared doc titled 'FAQ Training Data v4 FINAL (2).xlsx', a calendar with a recurring 'chatbot sync' meeting that keeps getting pushed, a Slack message that just says 'still scoping'. UNEXPECTED TURN: The owner checks their website. The chat widget is still not there. Eight months, a developer retainer, and a spreadsheet nobody finished — and visitors are still landing on a static page with no way to ask a question. PUNCHLINE: 'Turns out the hardest part of building a chatbot is finishing it.' Brief pause. 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.' CTA delivered calm and direct to camera.",
+    "emotional_tone": "Warm, self-deprecating humor with a calm, trustworthy close. The comedy comes from the situation — not from mocking the viewer. The resolution lands as genuine relief rather than a sales pitch.",
+    "audience_insight": "Small business owners and consultants have often mentally priced themselves out of chatbot solutions before they start — assuming the path runs through developers, training data, and months of setup. Many have either started and abandoned a project exactly like this, or decided not to start at all. The video validates that instinct while reframing the assumption: the complexity was never necessary.",
+    "visual_direction": {
+      "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+      "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+      "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+      "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+      "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+      "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters."
+    }
+  },
+  "opening": {
+    "pacing": "Calm and steady, with a slight build-up as the visuals transition to the chaotic project details.",
+    "emotion": "Self-deprecating humor mixed with relatable frustration.",
+    "first_image": "A cluttered desk with a laptop open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL', surrounded by crumpled notes and a coffee mug with a cold cup of coffee, while a calendar on the wall shows a recurring 'Chatbot Sync' meeting that has been pushed back multiple times.",
+    "attention_pattern": "The viewer is drawn in by the relatable confession, intrigued by the unexpected complexity of a seemingly simple task, and left wanting to know how it all went wrong.",
+    "first_spoken_sentence": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses."
+  },
+  "visual_identity": {
+    "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+    "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+    "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+    "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+    "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+    "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters.",
+    "opening_emotion": "Self-deprecating humor mixed with relatable frustration.",
+    "opening_first_image": "A cluttered desk with a laptop open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL', surrounded by crumpled notes and a coffee mug with a cold cup of coffee, while a calendar on the wall shows a recurring 'Chatbot Sync' meeting that has been pushed back multiple times."
+  },
+  "package": {
+    "title": "The Chatbot Project That Never Shipped",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.",
+    "scenario": "A small business owner starts a custom chatbot project with genuine optimism — budgets for a developer, opens a shared FAQ spreadsheet, attends three kickoff calls. Eight months later, the developer has gone quiet, the spreadsheet has been renamed four times and is still half-empty, and the website still has no chat widget. Visitors arrive, find a static page, and leave without a word. The owner discovers the gap only when reviewing analytics — and realizes the project never failed dramatically. It just quietly stopped.",
+    "video": {
+      "script": "[SCENE 1 — MEDIUM SHOT, OWNER AT DESK, DIRECT TO CAMERA]\nOwner speaks calmly, slight smile: 'I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.'\n\n[SCENE 2 — QUICK CUT: LAPTOP SCREEN]\nClose-up on a spreadsheet filename: 'FAQ Training Data v4 FINAL (2).xlsx'. Rows half-filled. Scroll reveals blank cells below.\n\n[SCENE 3 — QUICK CUT: CALENDAR VIEW]\nA recurring calendar event labeled 'Chatbot Sync' — rescheduled four times in a row, the latest pushed another two weeks out.\n\n[SCENE 4 — QUICK CUT: SLACK OR MESSAGING APP]\nA single message visible: 'still scoping — will update EOW'. Sent six weeks ago. No reply.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, unhurried: 'A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget.'\n\n[BEAT — slight pause, calm delivery]\n'Turns out the hardest part of building a chatbot is finishing it.'\n\n[SCENE 5 — CLOSE-UP: LAPTOP SCREEN]\nFenrik.chat interface appears — clean, immediate, visually distinct from the muted surroundings. A chat bubble is live on a website.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, direct and warm: 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.'\n\n[SOFT CLOSE — OWNER GLANCES AT COFFEE MUG, BACK TO CAMERA]\nSmall smile. No hard sell.",
+      "concept": "A small business owner sits at a cluttered desk and opens with a calm, self-deprecating confession directly to camera. The video walks through the honest, specific comedy of a traditional chatbot build — the renamed spreadsheets, the rescheduled sync meetings, the developer who went quiet — before landing on the punchline: most businesses don't end up with a bad chatbot, they end up with no chatbot at all. Fenrik.chat enters as the project that actually finishes, introduced through a clean close-up of the interface appearing on the laptop screen.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#chatbot",
+      "#aitools",
+      "#websitetips",
+      "#smb",
+      "#AI",
+      "#productivity"
+    ],
+    "subtitles_planned": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee."
+  },
+  "voiceover": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A cluttered home office desk in soft natural side light. A laptop is open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL' with half-filled rows and blank cells below. Crumpled notes are scattered around the keyboard. A coffee mug sits to the side, the coffee clearly cold. On the wall behind, a paper calendar shows a recurring 'Chatbot Sync' meeting block crossed out and rewritten four times, the latest pushed two weeks forward. Muted palette of warm off-whites, soft greys, and wood desk tones. Deadpan realism, no dramatic shadows."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Extreme close-up on a laptop screen showing a file manager. A spreadsheet file is visible with the filename 'FAQ Training Data v4 FINAL (2).xlsx' — long and slightly absurd. Surrounding desktop cluttered with similarly renamed files. Soft natural light reflects off the screen. Muted realistic tones, no stylization."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A digital calendar view on a monitor screen photographed in soft daylight. A recurring weekly event titled 'Chatbot Sync' is visible across multiple weeks — each instance has a strikethrough or rescheduled indicator, the latest moved another two weeks out. The calendar grid feels mundane and familiar. Warm off-white and grey tones. Static shot."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A business owner in their late thirties in everyday professional clothing — simple shirt, no suit — sits at a compact home office desk looking directly into camera. Expression warm and slightly self-aware, as if telling a story on themselves. Laptop open beside them, notepad with crossed-out items nearby. Soft natural daylight from a window to the left. Static medium shot. Muted realistic palette."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product UI shown as laptop screen insert during the Fenrik.chat reveal moment — clean interface contrasting with the cluttered desk environment",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ],
+  "image_prompts": [
+    "A cluttered home office desk in soft natural side light. A laptop is open to a spreadsheet titled 'Chatbot Project Plan v3 FINAL' with half-filled rows and blank cells below. Crumpled notes are scattered around the keyboard. A coffee mug sits to the side, the coffee clearly cold. On the wall behind, a paper calendar shows a recurring 'Chatbot Sync' meeting block crossed out and rewritten four times, the latest pushed two weeks forward. Muted palette of warm off-whites, soft greys, and wood desk tones. Deadpan realism, no dramatic shadows.",
+    "Extreme close-up on a laptop screen showing a file manager. A spreadsheet file is visible with the filename 'FAQ Training Data v4 FINAL (2).xlsx' — long and slightly absurd. Surrounding desktop cluttered with similarly renamed files. Soft natural light reflects off the screen. Muted realistic tones, no stylization.",
+    "A digital calendar view on a monitor screen photographed in soft daylight. A recurring weekly event titled 'Chatbot Sync' is visible across multiple weeks — each instance has a strikethrough or rescheduled indicator, the latest moved another two weeks out. The calendar grid feels mundane and familiar. Warm off-white and grey tones. Static shot.",
+    "A business owner in their late thirties in everyday professional clothing — simple shirt, no suit — sits at a compact home office desk looking directly into camera. Expression warm and slightly self-aware, as if telling a story on themselves. Laptop open beside them, notepad with crossed-out items nearby. Soft natural daylight from a window to the left. Static medium shot. Muted realistic palette."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if you've ever started a chatbot project and quietly let it die.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "title_variants": [
+          "The Chatbot Project That Never Shipped",
+          "Why Most Chatbot Builds Quietly Die",
+          "FAQ Training Data v4 FINAL (2).xlsx",
+          "The Hardest Part of Building a Chatbot Is Finishing It",
+          "Eight Months. No Chat Widget."
+        ],
+        "caption_variants": [
+          "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+          "Most businesses don't end up with a bad chatbot. They end up with no chatbot. Traditional builds are expensive, slow, and very easy to quietly abandon. #AI",
+          "FAQ Training Data v4 FINAL (2).xlsx is the most honest summary of how custom chatbot projects actually go. #smallbusiness #chatbot",
+          "The chatbot project isn't failing. It's just permanently 'almost scoped.' Meanwhile, visitors are landing on a static page with no way to ask a question.",
+          "Scope creep. Developer goes quiet. Spreadsheet nobody finishes. Six months of recurring meetings that get pushed. This is what traditional chatbot integration actually costs."
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "8 months. A developer. A spreadsheet nobody finished. Still no chatbot. 💀 The hardest part of building one is actually finishing it.",
+        "hashtags": [
+          "#smallbusiness",
+          "#chatbot",
+          "#aitools",
+          "#websitetips"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "Eight months, a developer retainer, and a spreadsheet nobody finished — still no chatbot. The hardest part of the project is finishing it.",
+        "hashtags": [
+          "#chatbot",
+          "#smallbusiness",
+          "#aitools"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Honest question: have you ever started a chatbot project and quietly let it die? 😅 Developer quotes, FAQ spreadsheets, kickoff calls — and somehow, months later, still nothing live on the website. You're not alone. The complexity of traditional chatbot builds is exactly why most small businesses just go without. Save this one — it might reframe how you think about the whole thing.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AITools"
+        ]
+      },
+      "linkedin": {
+        "cta": "Save this if you've watched a similar project lose momentum.",
+        "format": "reel",
+        "caption": "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AI",
+          "#CustomerExperience"
+        ],
+        "caption_variants": [
+          "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+          "The honest version of most chatbot projects: a developer quote, a kickoff call, a spreadsheet of FAQs that nobody finishes filling in — and then, gradually, nothing.\n\nNot a bad chatbot. No chatbot.\n\nTraditional integrations are expensive and slow to build. For small businesses without a dedicated technical team, the real cost isn't the retainer — it's the months of website visitors who arrived with questions and left without answers.\n\nSave this if the project on your list has been 'almost ready' for longer than it should be."
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if that story sounds familiar.",
+        "format": "reel",
+        "caption": "Eight months. A retainer. A spreadsheet renamed four times.\n\nStill no chatbot on the website.\n\nTurns out most businesses don't end up with a bad chatbot — they end up with no chatbot at all.\n\nSave this if that story sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#chatbot",
+          "#businesstools",
+          "#smb",
+          "#productivity"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "8cf9f85d-23c8-4c68-8d2d-2bd7df4eb84e",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AI",
+          "#CustomerExperience"
+        ],
+        "cta": "Save this if you've watched a similar project lose momentum.",
+        "language": null
+      },
+      {
+        "id": "8195878c-31f7-4a05-b90b-762ae2d8601c",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "8 months. A developer. A spreadsheet nobody finished. Still no chatbot. 💀 The hardest part of building one is actually finishing it.",
+        "hashtags": [
+          "#smallbusiness",
+          "#chatbot",
+          "#aitools",
+          "#websitetips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "7f36a838-e68c-4215-994e-0c13d44e2553",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Eight months. A retainer. A spreadsheet renamed four times.\n\nStill no chatbot on the website.\n\nTurns out most businesses don't end up with a bad chatbot — they end up with no chatbot at all.\n\nSave this if that story sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#aiassistant",
+          "#websitetips",
+          "#chatbot",
+          "#businesstools",
+          "#smb",
+          "#productivity"
+        ],
+        "cta": "Save this if that story sounds familiar.",
+        "language": null
+      },
+      {
+        "id": "58b642ef-c60f-4324-aab4-305b924d781b",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Eight months, a developer retainer, and a spreadsheet nobody finished — still no chatbot. The hardest part of the project is finishing it.",
+        "hashtags": [
+          "#chatbot",
+          "#smallbusiness",
+          "#aitools"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "19be99a7-ce85-4cc6-98a1-282355efa825",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Honest question: have you ever started a chatbot project and quietly let it die? 😅 Developer quotes, FAQ spreadsheets, kickoff calls — and somehow, months later, still nothing live on the website. You're not alone. The complexity of traditional chatbot builds is exactly why most small businesses just go without. Save this one — it might reframe how you think about the whole thing.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AITools"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "f54d1d80-f0b2-439b-9f27-c30ea5df05a1",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "The honest version of most chatbot projects: a developer quote, a kickoff call, a spreadsheet of FAQs that nobody finishes filling in — and then, gradually, nothing.\n\nNot a bad chatbot. No chatbot.\n\nTraditional integrations are expensive and slow to build. For small businesses without a dedicated technical team, the real cost isn't the retainer — it's the months of website visitors who arrived with questions and left without answers.\n\nSave this if the project on your list has been 'almost ready' for longer than it should be.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AI",
+          "#CustomerExperience"
+        ],
+        "cta": "Save this if you've watched a similar project lose momentum.",
+        "language": null
+      },
+      {
+        "id": "1045a670-547f-4ec7-bbda-3835a4ee2753",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Chatbot Project That Never Shipped",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "19a4bda4-442f-4f5d-bf69-190c452eb8cd",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Why Most Chatbot Builds Quietly Die",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Most businesses don't end up with a bad chatbot. They end up with no chatbot. Traditional builds are expensive, slow, and very easy to quietly abandon. #AI",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "3f1ccfdc-6924-4b8e-80cf-9e259361c819",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "FAQ Training Data v4 FINAL (2).xlsx",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "FAQ Training Data v4 FINAL (2).xlsx is the most honest summary of how custom chatbot projects actually go. #smallbusiness #chatbot. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "d2018edd-7fa9-4171-b643-b88a93832d94",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Hardest Part of Building a Chatbot Is Finishing It",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "The chatbot project isn't failing. It's just permanently 'almost scoped.' Meanwhile, visitors are landing on a static page with no way to ask a question.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "1cf0ebb7-75fb-4d7d-ab26-0a21e0253d87",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Eight Months. No Chat Widget.",
+        "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+        "caption": "Scope creep. Developer goes quiet. Spreadsheet nobody finishes. Six months of recurring meetings that get pushed. This is what traditional chatbot integration actually costs.",
+        "hashtags": [
+          "#smallbusiness",
+          "#AI"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 40,
+      "secondary": 48
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+40)",
+      "fit_secondary(+48)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Complexity and cost of traditional chatbot integrations",
+    "strategy_pain_point": "Complexity and cost of traditional chatbot integrations"
+  },
+  "product_role": "Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the existing website content automatically and creates a working AI assistant in about one minute. It is introduced as the contrast to the abandoned project — not as a feature list, but as the thing that is already done.",
+  "narrative_arc": "CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directly to camera with the calm, slightly embarrassed energy of someone telling a story on themselves. 'I started building a chatbot for my website about eight months ago.' CUT TO: a series of quick visual gags — a shared doc titled 'FAQ Training Data v4 FINAL (2).xlsx', a calendar with a recurring 'chatbot sync' meeting that keeps getting pushed, a Slack message that just says 'still scoping'. UNEXPECTED TURN: The owner checks their website. The chat widget is still not there. Eight months, a developer retainer, and a spreadsheet nobody finished — and visitors are still landing on a static page with no way to ask a question. PUNCHLINE: 'Turns out the hardest part of building a chatbot is finishing it.' Brief pause. 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.' CTA delivered calm and direct to camera.",
+  "emotional_tone": "Warm, self-deprecating humor with a calm, trustworthy close. The comedy comes from the situation — not from mocking the viewer. The resolution lands as genuine relief rather than a sales pitch.",
+  "audience_insight": "Small business owners and consultants have often mentally priced themselves out of chatbot solutions before they start — assuming the path runs through developers, training data, and months of setup. Many have either started and abandoned a project exactly like this, or decided not to start at all. The video validates that instinct while reframing the assumption: the complexity was never necessary.",
+  "visual_direction": {
+    "palette": "Muted and neutral — warm off-whites, soft greys, a hint of wood tones from the desk surface. The only saturated color is the Fenrik.chat interface when it appears on screen, which should feel clean and immediate by contrast.",
+    "lighting": "Soft, natural daylight from a window to the side — the kind of light that makes a home office feel ordinary and lived-in. No dramatic shadows. The overall feel is mid-morning, unhurried.",
+    "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out. The space feels familiar and slightly imperfect — not staged.",
+    "camera_style": "Mostly static medium shots for the confession sequences — the owner speaks directly to camera, unhurried. Quick cuts for the visual gags, each held just long enough to read the specific detail. One clean close-up on the laptop screen when the Fenrik.chat interface appears. No handheld movement; the camera stays calm throughout.",
+    "art_direction": "Deadpan realism. Every prop is specific and recognizable — an overstuffed browser with too many open tabs, a shared spreadsheet with a filename that has been renamed four times, a calendar view where the same meeting has been rescheduled repeatedly. Nothing is stylized or exaggerated; the humor comes entirely from the specificity of the details.",
+    "character_style": "A single on-camera presenter — a business owner in their thirties or forties, dressed in everyday professional clothing (not a suit, not a hoodie). The performance is warm and slightly self-aware, as if telling a story at a dinner table rather than delivering a pitch. No additional characters."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee."
+  },
+  "render_metadata": {
+    "id": "4c7e823d-3ed9-4f87-90fb-ae86a8e2d728",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:31:18.624154+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "8cf9f85d-23c8-4c68-8d2d-2bd7df4eb84e",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Most chatbot projects don't fail loudly. They just quietly stop.\n\nA developer retainer that stalls. A shared FAQ spreadsheet that never gets finished. A recurring sync meeting that keeps getting pushed. Eight months later, the website still has no chat widget — and visitors still have no way to ask a question.\n\nThe complexity and cost of traditional chatbot integrations isn't just a budget problem. For most small businesses, it's the reason the project never ships at all.\n\nSave this if you've watched a similar project lose momentum.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AI",
+        "#CustomerExperience"
+      ],
+      "cta": "Save this if you've watched a similar project lose momentum.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "8195878c-31f7-4a05-b90b-762ae2d8601c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "8 months. A developer. A spreadsheet nobody finished. Still no chatbot. 💀 The hardest part of building one is actually finishing it.",
+      "hashtags": [
+        "#smallbusiness",
+        "#chatbot",
+        "#aitools",
+        "#websitetips"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "7f36a838-e68c-4215-994e-0c13d44e2553",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Eight months. A retainer. A spreadsheet renamed four times.\n\nStill no chatbot on the website.\n\nTurns out most businesses don't end up with a bad chatbot — they end up with no chatbot at all.\n\nSave this if that story sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#aiassistant",
+        "#websitetips",
+        "#chatbot",
+        "#businesstools",
+        "#smb",
+        "#productivity"
+      ],
+      "cta": "Save this if that story sounds familiar.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "58b642ef-c60f-4324-aab4-305b924d781b",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Eight months, a developer retainer, and a spreadsheet nobody finished — still no chatbot. The hardest part of the project is finishing it.",
+      "hashtags": [
+        "#chatbot",
+        "#smallbusiness",
+        "#aitools"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "19be99a7-ce85-4cc6-98a1-282355efa825",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Honest question: have you ever started a chatbot project and quietly let it die? 😅 Developer quotes, FAQ spreadsheets, kickoff calls — and somehow, months later, still nothing live on the website. You're not alone. The complexity of traditional chatbot builds is exactly why most small businesses just go without. Save this one — it might reframe how you think about the whole thing.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AITools"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "f54d1d80-f0b2-439b-9f27-c30ea5df05a1",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "The honest version of most chatbot projects: a developer quote, a kickoff call, a spreadsheet of FAQs that nobody finishes filling in — and then, gradually, nothing.\n\nNot a bad chatbot. No chatbot.\n\nTraditional integrations are expensive and slow to build. For small businesses without a dedicated technical team, the real cost isn't the retainer — it's the months of website visitors who arrived with questions and left without answers.\n\nSave this if the project on your list has been 'almost ready' for longer than it should be.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AI",
+        "#CustomerExperience"
+      ],
+      "cta": "Save this if you've watched a similar project lose momentum.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "1045a670-547f-4ec7-bbda-3835a4ee2753",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Chatbot Project That Never Shipped",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Started a chatbot project 8 months ago. Developer retainer. FAQ spreadsheet. Three kickoff calls. Website still has no chat widget. The hardest part of building a chatbot is finishing it. #smallbusiness #AI",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "19a4bda4-442f-4f5d-bf69-190c452eb8cd",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Why Most Chatbot Builds Quietly Die",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Most businesses don't end up with a bad chatbot. They end up with no chatbot. Traditional builds are expensive, slow, and very easy to quietly abandon. #AI",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "3f1ccfdc-6924-4b8e-80cf-9e259361c819",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "FAQ Training Data v4 FINAL (2).xlsx",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "FAQ Training Data v4 FINAL (2).xlsx is the most honest summary of how custom chatbot projects actually go. #smallbusiness #chatbot. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "d2018edd-7fa9-4171-b643-b88a93832d94",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Hardest Part of Building a Chatbot Is Finishing It",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "The chatbot project isn't failing. It's just permanently 'almost scoped.' Meanwhile, visitors are landing on a static page with no way to ask a question.",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    },
+    {
+      "id": "1cf0ebb7-75fb-4d7d-ab26-0a21e0253d87",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "fb57a914-975e-4683-8316-274ab9046700",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Eight Months. No Chat Widget.",
+      "body": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses. A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget. Turns out the hardest part of building a chatbot is finishing it. Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.",
+      "caption": "Scope creep. Developer goes quiet. Spreadsheet nobody finishes. Six months of recurring meetings that get pushed. This is what traditional chatbot integration actually costs.",
+      "hashtags": [
+        "#smallbusiness",
+        "#AI"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 6,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:31:16.709837+00:00",
+      "updated_at": "2026-07-25T07:31:16.709837+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A small business owner confidently starts a custom chatbot project — budgets for a developer, collects training data, attends three kickoff calls — and then, six months later, still has no chatbot. T…",
+      "environment": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long…",
+      "product_role": "Fenrik.chat is the version of the project that actually ships. It does not require a developer, a training spreadsheet, or a six-month timeline. It reads the e…",
+      "visual_world": "A compact home office or small business back office. Desk with a laptop open, a coffee mug that has been there too long, a notepad with a few items crossed out…",
+      "attention_pattern": "The viewer is drawn in by the relatable confession, intrigued by the unexpected complexity of a seemingly simple task, …",
+      "narrative_mechanism": "humor: CONFESSION HOOK: Open on a business owner at a cluttered desk, speaking directl…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#chatbot",
+    "#aitools",
+    "#websitetips",
+    "#smb",
+    "#AI",
+    "#productivity"
+  ],
+  "hook": "I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.",
+  "scenario": "A small business owner starts a custom chatbot project with genuine optimism — budgets for a developer, opens a shared FAQ spreadsheet, attends three kickoff calls. Eight months later, the developer has gone quiet, the spreadsheet has been renamed four times and is still half-empty, and the website still has no chat widget. Visitors arrive, find a static page, and leave without a word. The owner discovers the gap only when reviewing analytics — and realizes the project never failed dramatically. It just quietly stopped.",
+  "video": {
+    "script": "[SCENE 1 — MEDIUM SHOT, OWNER AT DESK, DIRECT TO CAMERA]\nOwner speaks calmly, slight smile: 'I thought building a chatbot would be straightforward — until I realized I was just collecting excuses.'\n\n[SCENE 2 — QUICK CUT: LAPTOP SCREEN]\nClose-up on a spreadsheet filename: 'FAQ Training Data v4 FINAL (2).xlsx'. Rows half-filled. Scroll reveals blank cells below.\n\n[SCENE 3 — QUICK CUT: CALENDAR VIEW]\nA recurring calendar event labeled 'Chatbot Sync' — rescheduled four times in a row, the latest pushed another two weeks out.\n\n[SCENE 4 — QUICK CUT: SLACK OR MESSAGING APP]\nA single message visible: 'still scoping — will update EOW'. Sent six weeks ago. No reply.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, unhurried: 'A developer retainer. A spreadsheet of FAQs nobody finished. Three kickoff calls. Eight months later, my website still had no chat widget.'\n\n[BEAT — slight pause, calm delivery]\n'Turns out the hardest part of building a chatbot is finishing it.'\n\n[SCENE 5 — CLOSE-UP: LAPTOP SCREEN]\nFenrik.chat interface appears — clean, immediate, visually distinct from the muted surroundings. A chat bubble is live on a website.\n\n[BACK TO OWNER — MEDIUM SHOT]\nOwner, direct and warm: 'Fenrik.chat reads your website and builds the assistant for you. I had it live before I finished my coffee.'\n\n[SOFT CLOSE — OWNER GLANCES AT COFFEE MUG, BACK TO CAMERA]\nSmall smile. No hard sell.",
+    "concept": "A small business owner sits at a cluttered desk and opens with a calm, self-deprecating confession directly to camera. The video walks through the honest, specific comedy of a traditional chatbot build — the renamed spreadsheets, the rescheduled sync meetings, the developer who went quiet — before landing on the punchline: most businesses don't end up with a bad chatbot, they end up with no chatbot at all. Fenrik.chat enters as the project that actually finishes, introduced through a clean close-up of the interface appearing on the laptop screen.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product UI shown as laptop screen insert during the Fenrik.chat reveal moment — clean interface contrasting with the cluttered desk environment",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "source": "deterministic_fallback",
+  "ranking": [
+    "c4"
+  ],
+  "version": "creative-evaluation@1",
+  "winner_id": "c4",
+  "evaluations": [
+    {
+      "scores": {
+        "funnel_fit": 7,
+        "originality": 7,
+        "stop_scroll": 7,
+        "memorability": 7,
+        "strategy_fit": 7,
+        "anti_repetition": 7,
+        "product_relevance": 7,
+        "emotional_strength": 7,
+        "narrative_coherence": 7,
+        "visual_distinctness": 7,
+        "atmosphere_freshness": 7,
+        "production_feasibility": 7,
+        "natural_product_integration": 7
+      },
+      "vetoes": [],
+      "concept_id": "c4",
+      "critic_notes": "sole survivor after vetoes"
+    }
+  ],
+  "winner_reason": "Only surviving concept after deterministic vetoes."
+}

@@ -1,0 +1,126 @@
+{
+  "source": "critic",
+  "ranking": [
+    "d5",
+    "d2",
+    "d3",
+    "d1",
+    "d7",
+    "d4",
+    "d6"
+  ],
+  "version": "creative-direction-eval@1",
+  "evaluations": [
+    {
+      "scores": {
+        "funnel_fit": 8,
+        "originality": 8,
+        "strategy_fit": 8,
+        "anti_repetition": 9,
+        "emotional_range": 8,
+        "concept_potential": 8,
+        "diversity_vs_peers": 8,
+        "production_feasibility": 9
+      },
+      "vetoes": [],
+      "critic_notes": "Credential decay is a genuinely distinct mechanism \u2014 it targets the emotional investment a business has made in its reputation and shows that investment becoming inert at the exact moment it would have mattered. The sting of 'I earned this and it couldn't reach the person who needed to see it' is specific and resonant for service firms and SaaS companies who lead with response-time metrics. The time-locked depreciation angle is clean and has not appeared in recent directions. Slight risk: the mechanism is somewhat abstract and may require careful execution to feel visceral rather than conceptual. Strong candidate.",
+      "direction_id": "d1"
+    },
+    {
+      "scores": {
+        "funnel_fit": 9,
+        "originality": 8,
+        "strategy_fit": 9,
+        "anti_repetition": 9,
+        "emotional_range": 8,
+        "concept_potential": 9,
+        "diversity_vs_peers": 8,
+        "production_feasibility": 9
+      },
+      "vetoes": [],
+      "critic_notes": "The dual-clock mechanism is exceptionally well-fitted to the strategy's core insight. Two timelines running simultaneously and never intersecting is a structural, visual, and emotionally legible concept \u2014 it can be rendered in almost any format and lands immediately. The distinction from decision-site displacement is real: this is not about where decisions happen but about the temporal mismatch between two coexisting systems. High production feasibility, strong emotional clarity, and genuinely novel relative to the recent direction set. Top-tier candidate.",
+      "direction_id": "d2"
+    },
+    {
+      "scores": {
+        "funnel_fit": 8,
+        "originality": 8,
+        "strategy_fit": 9,
+        "anti_repetition": 8,
+        "emotional_range": 9,
+        "concept_potential": 8,
+        "diversity_vs_peers": 7,
+        "production_feasibility": 8
+      },
+      "vetoes": [],
+      "critic_notes": "Finality logic is emotionally powerful \u2014 the idea that one unanswered question does not pause an evaluation but terminates it is a sharp reframe that will land hard for SaaS and professional services audiences who understand high-stakes shortlisting. The irreversibility angle is distinct from invisible-loss (no signal) and competitive-transfer (where the lead went). However, it sits somewhat close in emotional register to the invisible-loss mechanism from recent directions, even if the mechanism itself is different. Strong, but slightly lower diversity score relative to d2 and d5. Still a strong candidate for emotional punch.",
+      "direction_id": "d3"
+    },
+    {
+      "scores": {
+        "funnel_fit": 8,
+        "originality": 7,
+        "strategy_fit": 8,
+        "anti_repetition": 8,
+        "emotional_range": 7,
+        "concept_potential": 7,
+        "diversity_vs_peers": 7,
+        "production_feasibility": 8
+      },
+      "vetoes": [],
+      "critic_notes": "Selective presence is a solid mechanism and the 'self-imposed temporal constraint' framing is a useful reframe \u2014 it makes the gap feel like a policy choice rather than an accident. However, it sits uncomfortably close in concept-space to both the staffing-gap mechanism (recent) and the decision-site displacement mechanism (recent), even if the framing differs. The presence-boundary logic is real but may not feel sufficiently distinct to a viewer who has seen adjacent ideas. Mid-tier candidate \u2014 useful if diversity across the shortlist demands it, but not the strongest standalone.",
+      "direction_id": "d4"
+    },
+    {
+      "scores": {
+        "funnel_fit": 9,
+        "originality": 9,
+        "strategy_fit": 9,
+        "anti_repetition": 10,
+        "emotional_range": 8,
+        "concept_potential": 9,
+        "diversity_vs_peers": 9,
+        "production_feasibility": 8
+      },
+      "vetoes": [],
+      "critic_notes": "Audit logic is the most original mechanism in this set. The reframe \u2014 that the prospect is not just browsing but conducting a structured, private, unannounced evaluation the business cannot participate in \u2014 is genuinely fresh and has strong resonance with professional services, agencies, and consulting firms who understand formal evaluation processes. The distinction from invisible-loss is real and meaningful: this is not about what cannot be measured after the fact, it is about an active process happening right now that the business is excluded from. High anti-repetition score because audit logic has no analog in recent directions. Top-tier candidate.",
+      "direction_id": "d5"
+    },
+    {
+      "scores": {
+        "funnel_fit": 8,
+        "originality": 7,
+        "strategy_fit": 8,
+        "anti_repetition": 7,
+        "emotional_range": 7,
+        "concept_potential": 7,
+        "diversity_vs_peers": 7,
+        "production_feasibility": 9
+      },
+      "vetoes": [],
+      "critic_notes": "Last-mile economics is a clean and legible mechanism, and the disproportionate-smallness angle is genuinely useful for small business audiences who have invested heavily in traffic acquisition. However, it sits too close in concept-space to the pipe/investment-halted mechanism from recent directions \u2014 both trace investment that traveled most of the distance and stopped before producing return. The claimed distinction (economic proportion vs. investment trajectory) is real but thin in execution. The mechanism risks feeling like a restatement of a recent direction rather than a genuinely new one. Lower priority for shortlist.",
+      "direction_id": "d6"
+    },
+    {
+      "scores": {
+        "funnel_fit": 8,
+        "originality": 8,
+        "strategy_fit": 8,
+        "anti_repetition": 9,
+        "emotional_range": 8,
+        "concept_potential": 8,
+        "diversity_vs_peers": 8,
+        "production_feasibility": 8
+      },
+      "vetoes": [],
+      "critic_notes": "Witness-dependency logic is a genuinely distinct mechanism and the distinction from credential-decay (d1) is meaningful: d1 is about a reputation becoming unreachable, d7 is about the structural dependency of all quality claims on real-time presence to activate them. The claim does not degrade \u2014 it simply has no delivery mechanism. This is philosophically interesting and emotionally resonant for reputation-driven service firms. However, it is slightly more abstract than d2 or d5 and may require more executional care to land viscerally. Strong candidate, particularly if d1 is not selected \u2014 they should not both appear in the shortlist as they occupy adjacent emotional territory.",
+      "direction_id": "d7"
+    }
+  ],
+  "selection_reason": "d5 (The Audit That Runs Without You) is the strongest and most original direction in the set \u2014 audit logic is entirely fresh relative to all recent directions, fits the strategy's core insight precisely, and resonates deeply with the professional services and agency audience. d2 (The Overlooked Clock) is the second-strongest: the dual-clock mechanism is visually and emotionally legible, directly serves the strategy's midnight-research angle, and is structurally distinct from d5 (time-gap vs. active-exclusion). d3 (The Question That Ended the Evaluation) adds a third distinct mechanism \u2014 finality logic \u2014 that differs from both audit logic and temporal-gap logic by centering on irreversibility rather than process or structure. Together, the three cover three genuinely different communication registers: active exclusion from an ongoing process (d5), structural temporal mismatch (d2), and the irreversible terminal event (d3). d1 and d7 were considered but not selected because they occupy adjacent emotional territory to each other and to d5; d4 sits too close to recent directions; d6 risks repeating the pipe/investment mechanism.",
+  "selected_direction_ids": [
+    "d5",
+    "d2",
+    "d3"
+  ]
+}

@@ -1,0 +1,1727 @@
+{
+  "package_index": 20,
+  "run_item_id": "cb16de84-adc7-4cbb-b41e-faa396fd7b64",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "4f1a226c-c1e2-4aab-85f9-bd07eb1f0df9",
+  "package_title": "The Only Thing fenrik Studio Needs From You",
+  "package_status": "draft",
+  "strategy_item_id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "conversion",
+    "priority": 1,
+    "brief": {
+      "angle": "A direct, low-pressure close: the video explains that the barrier most people imagine (the brief, the creative direction, the platform strategy) doesn't exist here. The only input is a URL. The first package costs nothing. The CTA is the whole point.",
+      "topic": "You already have a website — that's the only thing fenrik Studio needs from you",
+      "source": "production_run",
+      "pain_point": "Struggling to produce consistent, platform-ready social media content",
+      "package_index": 20,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Conversion",
+      "topic": "You already have a website — that's the only thing fenrik Studio needs from you",
+      "angle": "A direct, low-pressure close: the video explains that the barrier most people imagine (the brief, the creative direction, the platform strategy) doesn't exist here. The only input is a URL. The first package costs nothing. The CTA is the whole point.",
+      "seed": "Conversion|You already have a website — that's the only thing fenrik Studio needs from you|A direct, low-pressure close: the video explains that the barrier most people imagine (the brief, the creative direction, the platform strategy) doesn't exist here. The only input is a URL. The first package costs nothing. The CTA is the whole point.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "faq",
+        "name": "FAQ",
+        "description": "Answers one concrete question the audience is already asking.",
+        "structure": "The question (as the audience would ask it) -> honest answer -> why it matters -> CTA.",
+        "avoid": "Do not invent a fake FAQ; use a real audience question grounded in Product Brain.",
+        "narrativeBeats": [
+          "question",
+          "answer",
+          "why_it_matters",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "contrast",
+        "instruction": "Open on a sharp before/after or this-vs-that contrast.",
+        "exampleForm": "\"Two hours of scrubbing vs fifteen minutes done right.\"",
+        "forbidGeneric": "Do not open with \"There are many ways to do this.\""
+      },
+      "persona": {
+        "id": "reporter",
+        "name": "Reporter",
+        "vocabulary": "factual, observational, neutral",
+        "rhythm": "crisp, headline-then-detail",
+        "energy": "matter-of-fact",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Only Thing fenrik Studio Needs From You",
+    "core_idea": "Most people stall before they ever submit anything because they assume a content service requires a creative brief, platform strategy, tone guidelines, and a kickoff call. This video answers the one question silently blocking conversion: 'What do I actually have to give you?' The answer is a URL. Nothing else. The first package is free. The barrier people imagined does not exist.",
+    "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has what it needs the moment a website URL exists. The free first package is the CTA mechanism: it removes cost as a secondary barrier once the input barrier is already gone.",
+    "why_it_works": "The FAQ mode is used honestly — this is a real question blocking real conversions. The contrast hook (imagined input vs actual input) is visually and cognitively immediate. The reporter voice keeps it credible: no hype, just a plain answer to a plain question. The concept is distinct from all recent fingerprints: no team workspace, no analytics dashboard, no late-night founder scene, no agency meeting room. The visual world is a clean split-screen or side-by-side graphic treatment — entirely typographic and interface-native — which has not appeared in the recent production run.",
+    "narrative_arc": "QUESTION (contrast hook): Open on a sharp before-after contrast — one side is the imagined input (a brief, a brand doc, a call, a strategy deck), the other side is the actual input (a website URL, typed in ten seconds). The contrast is stated plainly, no drama. ANSWER: The video explains directly that fenrik Studio reads the website, builds the content, and delivers a complete package — video, captions, hashtags, platform-ready for every channel — from that single input. No direction required from the client. WHY IT MATTERS: Most people never start because they are waiting until they have time to write the brief. That moment never arrives. The brief was always the invisible barrier. Here it does not exist. CTA: Submit the URL. The first package is free. There is nothing left to prepare.",
+    "emotional_tone": "Matter-of-fact and quietly reassuring — no pressure, no urgency theater. The tone is a reporter stating a fact the audience did not know but immediately believes. Relief, not excitement.",
+    "audience_insight": "The audience has mentally queued fenrik Studio under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and deciding on a content strategy. That queue never clears. The video removes the queue entirely by showing that the setup they imagined was never required.",
+    "visual_direction": {
+      "palette": "White or very light grey background. The 'imagined input' list in muted mid-grey. The URL line and fenrik Studio branding in a single strong accent color — deep navy or near-black. One accent highlight color (e.g. a clean amber or teal) used only on the word 'free' in the CTA card.",
+      "lighting": "Flat, even digital light — no shadows, no warmth, no atmosphere. This is a screen-native visual, not a location shoot.",
+      "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a clean explainer slide, not a filmed location.",
+      "camera_style": "No camera. Motion is handled through card transitions — a clean slide or fade from the 'imagined input' card to the 'actual input' card. Text appears with minimal, purposeful timing. No zoom, no parallax, no cinematic movement.",
+      "art_direction": "Clean split-screen or sequential card treatment. Left card (or first card): a stacked list of imagined inputs — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — rendered in a slightly faded, greyed-out typeface as if crossed off or irrelevant. Right card (or second card): a single line — 'Your website URL.' — in clean, confident type at full opacity. No illustration, no stock photography. Pure typographic contrast.",
+      "character_style": "none"
+    }
+  },
+  "opening": {
+    "pacing": "Quick and direct, with a smooth transition from the imagined barriers to the simple solution.",
+    "emotion": "Reassuring and enlightening, creating a sense of relief.",
+    "first_image": "A split-screen graphic: on the left, a faded list reads 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' crossed out; on the right, bold text states 'Your website URL.' in a strong accent color.",
+    "attention_pattern": "The contrast between the complex imagined inputs and the simplicity of the URL creates immediate curiosity and a desire to learn more.",
+    "first_spoken_sentence": "What if the only thing you needed to start was just a URL?"
+  },
+  "visual_identity": {
+    "palette": "White or very light grey background. The 'imagined input' list in muted mid-grey. The URL line and fenrik Studio branding in a single strong accent color — deep navy or near-black. One accent highlight color (e.g. a clean amber or teal) used only on the word 'free' in the CTA card.",
+    "lighting": "Flat, even digital light — no shadows, no warmth, no atmosphere. This is a screen-native visual, not a location shoot.",
+    "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a clean explainer slide, not a filmed location.",
+    "camera_style": "No camera. Motion is handled through card transitions — a clean slide or fade from the 'imagined input' card to the 'actual input' card. Text appears with minimal, purposeful timing. No zoom, no parallax, no cinematic movement.",
+    "art_direction": "Clean split-screen or sequential card treatment. Left card (or first card): a stacked list of imagined inputs — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — rendered in a slightly faded, greyed-out typeface as if crossed off or irrelevant. Right card (or second card): a single line — 'Your website URL.' — in clean, confident type at full opacity. No illustration, no stock photography. Pure typographic contrast.",
+    "character_style": "none",
+    "opening_emotion": "Reassuring and enlightening, creating a sense of relief.",
+    "opening_first_image": "A split-screen graphic: on the left, a faded list reads 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' crossed out; on the right, bold text states 'Your website URL.' in a strong accent color."
+  },
+  "package": {
+    "title": "The Only Thing fenrik Studio Needs From You",
+    "status": "draft",
+    "funnel_stage": "conversion",
+    "hook": "What if the only thing you needed to start was just a URL?",
+    "scenario": "A solo SaaS founder opens a new browser tab intending to finally submit their website to a content service. They get as far as the homepage before the familiar hesitation arrives — 'I should write up our tone of voice first. And figure out which platforms to prioritise. And probably get on a call to explain the product properly.' They close the tab. The account stays quiet for another two weeks. The setup they imagined was never required. The URL was always enough.",
+    "video": {
+      "script": "[SCENE 1 — Split-screen card]\nLeft side fades in: stacked greyed-out list — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line crossed out.\nRight side: bold, full-opacity text — 'Your website URL.'\nVO: 'What if the only thing you needed to start was just a URL?'\n\n[SCENE 2 — Single card, left-aligned]\nText appears line by line: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\nVO: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\n\n[SCENE 3 — Bold statement card]\nLarge centred text: 'fenrik Studio needs none of that.'\nVO: 'fenrik Studio needs none of that.'\n\n[SCENE 4 — Process card]\nSequential lines appear: 'You paste your website URL.' → 'We build the video, the captions, the hashtags.' → 'Ready to post across every channel.'\nVO: 'You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel.'\n\n[SCENE 5 — CTA card]\nText: 'The first package is free.' — the word 'free' in amber accent. Below: 'fenrik.studio'\nVO: 'The first package is free. That's it.'",
+      "concept": "A clean typographic split-screen video that directly answers the question blocking most conversions: what do I actually have to give you? The contrast between the imagined input (brief, strategy, call) and the actual input (a URL) is the entire argument. No drama, no hype — just a plain, reassuring answer delivered in a reporter's matter-of-fact tone. The first package is free. There is nothing left to prepare.",
+      "duration_seconds": "35"
+    },
+    "hashtags": [
+      "#contentcreation",
+      "#socialmediamarketing",
+      "#saasmarketing",
+      "#shortformvideo",
+      "#contentmarketing"
+    ],
+    "subtitles_planned": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people."
+    }
+  ],
+  "voiceover": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+  "voice_prompts": {
+    "voiceover_text": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: clear, helpful, answer-first. Language: en.",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people.",
+    "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people.",
+    "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography.",
+    "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+    "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Submit your website URL — your first content package is free, no brief required.",
+      "type": "lead"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "First package is free — link in bio.",
+        "format": "reel",
+        "caption": "You don't need a brief. You don't need a strategy doc. Just a URL. 🔗 First package is free — link in bio.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#saas",
+          "#marketingtips",
+          "#contentmarketing"
+        ]
+      },
+      "youtube": {
+        "cta": "Submit your URL at fenrik.studio — first package is free.",
+        "format": "short",
+        "caption": "No brief. No strategy call. Just paste your URL — fenrik Studio handles the rest. First package is free.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#youtubeshorts"
+        ]
+      },
+      "facebook": {
+        "cta": "Visit fenrik.studio — your first content package is free.",
+        "format": "reel",
+        "caption": "Been putting off starting with a content service because you don't have time to write a brief or sit through a discovery call? fenrik Studio skips all of that. You share your website URL — that's the entire input. We deliver a complete video with captions and hashtags for every platform. And the first package? Completely free. Visit fenrik.studio to submit your URL and see what comes back.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": "Submit your URL at fenrik.studio — first package is free.",
+        "format": "reel",
+        "caption": "Most people mentally file a content service under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and finalising a platform strategy.\n\nThat queue never clears.\n\nfenrik Studio's only input is a website URL. No brief. No call. No direction required. The service reads the site and delivers a complete package: video, captions, and hashtags ready to post across every channel.\n\nThe first package is free. Submit your URL at fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#saas"
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio to submit your URL — first package is free.",
+        "format": "reel",
+        "caption": "The brief you've been putting off writing?\n\nYou don't need it.\n\nfenrik Studio takes your website URL and delivers a complete content package — video, captions, hashtags, platform-ready.\n\nThe first one is free. Link in bio to submit your URL.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmedia",
+          "#marketingstrategy",
+          "#smallbusiness",
+          "#saasmarketing",
+          "#shortformvideo",
+          "#contentmarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "1678e8df-e79b-4c3b-b758-5743072dc8da",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Only Thing fenrik Studio Needs From You",
+        "body": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+        "caption": "You don't need a brief. You don't need a strategy doc. Just a URL. 🔗 First package is free — link in bio.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#saas",
+          "#marketingtips",
+          "#contentmarketing"
+        ],
+        "cta": "First package is free — link in bio.",
+        "language": null
+      },
+      {
+        "id": "759a9622-cc0b-4db3-8e37-30650d4044e7",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Only Thing fenrik Studio Needs From You",
+        "body": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+        "caption": "The brief you've been putting off writing?\n\nYou don't need it.\n\nfenrik Studio takes your website URL and delivers a complete content package — video, captions, hashtags, platform-ready.\n\nThe first one is free. Link in bio to submit your URL.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmedia",
+          "#marketingstrategy",
+          "#smallbusiness",
+          "#saasmarketing",
+          "#shortformvideo",
+          "#contentmarketing"
+        ],
+        "cta": "Link in bio to submit your URL — first package is free.",
+        "language": null
+      },
+      {
+        "id": "74da3554-bd64-4c1d-812b-0e69b9d8cd3a",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Only Thing fenrik Studio Needs From You",
+        "body": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+        "caption": "No brief. No strategy call. Just paste your URL — fenrik Studio handles the rest. First package is free.",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#youtubeshorts"
+        ],
+        "cta": "Submit your URL at fenrik.studio — first package is free. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "d5b1e554-90ce-41b3-8d58-0feca747db9e",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Only Thing fenrik Studio Needs From You",
+        "body": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+        "caption": "Been putting off starting with a content service because you don't have time to write a brief or sit through a discovery call? fenrik Studio skips all of that. You share your website URL — that's the entire input. We deliver a complete video with captions and hashtags for every platform. And the first package? Completely free. Visit fenrik.studio to submit your URL and see what comes back.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ],
+        "cta": "Visit fenrik.studio — your first content package is free. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "ee4f3bed-9ad0-4121-aa07-6214faaddd28",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Only Thing fenrik Studio Needs From You",
+        "body": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+        "caption": "Most people mentally file a content service under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and finalising a platform strategy.\n\nThat queue never clears.\n\nfenrik Studio's only input is a website URL. No brief. No call. No direction required. The service reads the site and delivers a complete package: video, captions, and hashtags ready to post across every channel.\n\nThe first package is free. Submit your URL at fenrik.studio",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#saas"
+        ],
+        "cta": "Submit your URL at fenrik.studio — first package is free. https://fenrik.studio",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "4f1a226c-c1e2-4aab-85f9-bd07eb1f0df9",
+    "title": "The Only Thing fenrik Studio Needs From You",
+    "status": "draft",
+    "funnel_stage": "conversion",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+    "package_brief": {
+      "cta": {
+        "text": "Submit your website URL — your first content package is free, no brief required.",
+        "type": "lead"
+      },
+      "hook": "What if the only thing you needed to start was just a URL?",
+      "video": {
+        "script": "[SCENE 1 — Split-screen card]\nLeft side fades in: stacked greyed-out list — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line crossed out.\nRight side: bold, full-opacity text — 'Your website URL.'\nVO: 'What if the only thing you needed to start was just a URL?'\n\n[SCENE 2 — Single card, left-aligned]\nText appears line by line: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\nVO: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\n\n[SCENE 3 — Bold statement card]\nLarge centred text: 'fenrik Studio needs none of that.'\nVO: 'fenrik Studio needs none of that.'\n\n[SCENE 4 — Process card]\nSequential lines appear: 'You paste your website URL.' → 'We build the video, the captions, the hashtags.' → 'Ready to post across every channel.'\nVO: 'You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel.'\n\n[SCENE 5 — CTA card]\nText: 'The first package is free.' — the word 'free' in amber accent. Below: 'fenrik.studio'\nVO: 'The first package is free. That's it.'",
+        "concept": "A clean typographic split-screen video that directly answers the question blocking most conversions: what do I actually have to give you? The contrast between the imagined input (brief, strategy, call) and the actual input (a URL) is the entire argument. No drama, no hype — just a plain, reassuring answer delivered in a reporter's matter-of-fact tone. The first package is free. There is nothing left to prepare.",
+        "duration_seconds": "35"
+      },
+      "hashtags": [
+        "#contentcreation",
+        "#socialmediamarketing",
+        "#saasmarketing",
+        "#shortformvideo",
+        "#contentmarketing"
+      ],
+      "scenario": "A solo SaaS founder opens a new browser tab intending to finally submit their website to a content service. They get as far as the homepage before the familiar hesitation arrives — 'I should write up our tone of voice first. And figure out which platforms to prioritise. And probably get on a call to explain the product properly.' They close the tab. The account stays quiet for another two weeks. The setup they imagined was never required. The URL was always enough.",
+      "subtitles": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people.",
+        "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people.",
+        "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography.",
+        "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people."
+        }
+      ],
+      "voiceover_text": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "First package is free — link in bio.",
+          "format": "reel",
+          "caption": "You don't need a brief. You don't need a strategy doc. Just a URL. 🔗 First package is free — link in bio.",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmediamarketing",
+            "#saas",
+            "#marketingtips",
+            "#contentmarketing"
+          ]
+        },
+        "youtube": {
+          "cta": "Submit your URL at fenrik.studio — first package is free.",
+          "format": "short",
+          "caption": "No brief. No strategy call. Just paste your URL — fenrik Studio handles the rest. First package is free.",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmediamarketing",
+            "#youtubeshorts"
+          ]
+        },
+        "facebook": {
+          "cta": "Visit fenrik.studio — your first content package is free.",
+          "format": "reel",
+          "caption": "Been putting off starting with a content service because you don't have time to write a brief or sit through a discovery call? fenrik Studio skips all of that. You share your website URL — that's the entire input. We deliver a complete video with captions and hashtags for every platform. And the first package? Completely free. Visit fenrik.studio to submit your URL and see what comes back.",
+          "hashtags": [
+            "#socialmedia",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": "Submit your URL at fenrik.studio — first package is free.",
+          "format": "reel",
+          "caption": "Most people mentally file a content service under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and finalising a platform strategy.\n\nThat queue never clears.\n\nfenrik Studio's only input is a website URL. No brief. No call. No direction required. The service reads the site and delivers a complete package: video, captions, and hashtags ready to post across every channel.\n\nThe first package is free. Submit your URL at fenrik.studio",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmedia",
+            "#saas"
+          ]
+        },
+        "instagram": {
+          "cta": "Link in bio to submit your URL — first package is free.",
+          "format": "reel",
+          "caption": "The brief you've been putting off writing?\n\nYou don't need it.\n\nfenrik Studio takes your website URL and delivers a complete content package — video, captions, hashtags, platform-ready.\n\nThe first one is free. Link in bio to submit your URL.",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmedia",
+            "#marketingstrategy",
+            "#smallbusiness",
+            "#saasmarketing",
+            "#shortformvideo",
+            "#contentmarketing"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "4f1a226c-c1e2-4aab-85f9-bd07eb1f0df9",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 30,
+          "secondary": 48
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "faq",
+        "video_concept": {
+          "title": "The Only Thing fenrik Studio Needs From You",
+          "core_idea": "Most people stall before they ever submit anything because they assume a content service requires a creative brief, platform strategy, tone guidelines, and a kickoff call. This video answers the one question silently blocking conversion: 'What do I actually have to give you?' The answer is a URL. Nothing else. The first package is free. The barrier people imagined does not exist.",
+          "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has what it needs the moment a website URL exists. The free first package is the CTA mechanism: it removes cost as a secondary barrier once the input barrier is already gone.",
+          "why_it_works": "The FAQ mode is used honestly — this is a real question blocking real conversions. The contrast hook (imagined input vs actual input) is visually and cognitively immediate. The reporter voice keeps it credible: no hype, just a plain answer to a plain question. The concept is distinct from all recent fingerprints: no team workspace, no analytics dashboard, no late-night founder scene, no agency meeting room. The visual world is a clean split-screen or side-by-side graphic treatment — entirely typographic and interface-native — which has not appeared in the recent production run.",
+          "narrative_arc": "QUESTION (contrast hook): Open on a sharp before-after contrast — one side is the imagined input (a brief, a brand doc, a call, a strategy deck), the other side is the actual input (a website URL, typed in ten seconds). The contrast is stated plainly, no drama. ANSWER: The video explains directly that fenrik Studio reads the website, builds the content, and delivers a complete package — video, captions, hashtags, platform-ready for every channel — from that single input. No direction required from the client. WHY IT MATTERS: Most people never start because they are waiting until they have time to write the brief. That moment never arrives. The brief was always the invisible barrier. Here it does not exist. CTA: Submit the URL. The first package is free. There is nothing left to prepare.",
+          "emotional_tone": "Matter-of-fact and quietly reassuring — no pressure, no urgency theater. The tone is a reporter stating a fact the audience did not know but immediately believes. Relief, not excitement.",
+          "audience_insight": "The audience has mentally queued fenrik Studio under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and deciding on a content strategy. That queue never clears. The video removes the queue entirely by showing that the setup they imagined was never required.",
+          "visual_direction": {
+            "palette": "White or very light grey background. The 'imagined input' list in muted mid-grey. The URL line and fenrik Studio branding in a single strong accent color — deep navy or near-black. One accent highlight color (e.g. a clean amber or teal) used only on the word 'free' in the CTA card.",
+            "lighting": "Flat, even digital light — no shadows, no warmth, no atmosphere. This is a screen-native visual, not a location shoot.",
+            "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a clean explainer slide, not a filmed location.",
+            "camera_style": "No camera. Motion is handled through card transitions — a clean slide or fade from the 'imagined input' card to the 'actual input' card. Text appears with minimal, purposeful timing. No zoom, no parallax, no cinematic movement.",
+            "art_direction": "Clean split-screen or sequential card treatment. Left card (or first card): a stacked list of imagined inputs — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — rendered in a slightly faded, greyed-out typeface as if crossed off or irrelevant. Right card (or second card): a single line — 'Your website URL.' — in clean, confident type at full opacity. No illustration, no stock photography. Pure typographic contrast.",
+            "character_style": "none"
+          }
+        },
+        "voice_reasons": [
+          "funnel_conversion→steadiness(+2)",
+          "mode_faq→steadiness(+2)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+30)",
+          "fit_secondary(+48)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and direct, with a smooth transition from the imagined barriers to the simple solution.",
+          "emotion": "Reassuring and enlightening, creating a sense of relief.",
+          "first_image": "A split-screen graphic: on the left, a faded list reads 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' crossed out; on the right, bold text states 'Your website URL.' in a strong accent color.",
+          "attention_pattern": "The contrast between the complex imagined inputs and the simplicity of the URL creates immediate curiosity and a desire to learn more.",
+          "first_spoken_sentence": "What if the only thing you needed to start was just a URL?"
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: clear, helpful, answer-first. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "White or very light grey background. The 'imagined input' list in muted mid-grey. The URL line and fenrik Studio branding in a single strong accent color — deep navy or near-black. One accent highlight color (e.g. a clean amber or teal) used only on the word 'free' in the CTA card.",
+          "lighting": "Flat, even digital light — no shadows, no warmth, no atmosphere. This is a screen-native visual, not a location shoot.",
+          "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a clean explainer slide, not a filmed location.",
+          "camera_style": "No camera. Motion is handled through card transitions — a clean slide or fade from the 'imagined input' card to the 'actual input' card. Text appears with minimal, purposeful timing. No zoom, no parallax, no cinematic movement.",
+          "art_direction": "Clean split-screen or sequential card treatment. Left card (or first card): a stacked list of imagined inputs — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — rendered in a slightly faded, greyed-out typeface as if crossed off or irrelevant. Right card (or second card): a single line — 'Your website URL.' — in clean, confident type at full opacity. No illustration, no stock photography. Pure typographic contrast.",
+          "character_style": "none",
+          "opening_emotion": "Reassuring and enlightening, creating a sense of relief.",
+          "opening_first_image": "A split-screen graphic: on the left, a faded list reads 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' crossed out; on the right, bold text states 'Your website URL.' in a strong accent color."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: clear, helpful, answer-first. Language: en.",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 7244,
+                "completion_tokens": 995
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:48:00.683Z",
+              "duration_ms": 26723,
+              "finished_at": "2026-07-25T10:48:27.406Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 7244,
+              "estimated_cost": 0.036657,
+              "output_summary": "Concept: The Only Thing fenrik Studio Needs From You",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 31357,
+              "completion_tokens": 995,
+              "output_size_bytes": 4278,
+              "prompt_characters": 31077,
+              "provider_request_id": null,
+              "completion_characters": 4244
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5848,
+                "completion_tokens": 147
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:48:27.406Z",
+              "duration_ms": 1820,
+              "finished_at": "2026-07-25T10:48:29.226Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5848,
+              "estimated_cost": 0.000889,
+              "output_summary": "Opening: What if the only thing you needed to start was just a URL?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 28081,
+              "completion_tokens": 147,
+              "output_size_bytes": 665,
+              "prompt_characters": 27925,
+              "provider_request_id": null,
+              "completion_characters": 665
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:48:29.226Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:48:29.226Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean split-screen or sequential card treatment. Left card (",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1702,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1686
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10906,
+                "completion_tokens": 2452
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:48:29.227Z",
+              "duration_ms": 41803,
+              "finished_at": "2026-07-25T10:49:11.030Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10906,
+              "estimated_cost": 0.069498,
+              "output_summary": "Package: The Only Thing fenrik Studio Needs From You",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 44812,
+              "completion_tokens": 2452,
+              "output_size_bytes": 9051,
+              "prompt_characters": 44522,
+              "provider_request_id": null,
+              "completion_characters": 8991
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:49:11.032Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:49:11.032Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2312,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2290
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:49:11.032Z",
+              "duration_ms": 2065,
+              "finished_at": "2026-07-25T10:49:13.097Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=4f1a226c-c1e2-4aab-85f9-bd07eb1f0df9; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 7,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "Most people stall before they ever submit anything because they assume a content service requires a creative brief, platform strategy, tone guidelines, and a kickoff call. This video answers the one …",
+          "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designe…",
+          "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has wha…",
+          "visual_world": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a …",
+          "attention_pattern": "The contrast between the complex imagined inputs and the simplicity of the URL creates immediate curiosity and a desire…",
+          "narrative_mechanism": "faq: QUESTION (contrast hook): Open on a sharp before-after contrast — one side is t…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+            "topic": "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "office",
+              "close_up",
+              "overhead",
+              "home_office"
+            ],
+            "closing": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "I opened our task board this morning and realized something was missing.",
+            "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "close_up",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "How did a whole week of 'Content Week' only produce three posts?",
+            "topic": "The content sprint that burned out the whole team and produced three posts",
+            "motifs": [
+              "laptop",
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "group"
+            ],
+            "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+            "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+            "motifs": [],
+            "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+            "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+            "motifs": [
+              "meeting",
+              "group",
+              "monitor"
+            ],
+            "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "meeting",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:49:11.134919+00:00",
+    "updated_at": "2026-07-25T10:49:13.270379+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 30,
+      "secondary": 48
+    },
+    "voice_reasons": [
+      "funnel_conversion→steadiness(+2)",
+      "mode_faq→steadiness(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+30)",
+      "fit_secondary(+48)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: clear, helpful, answer-first. Language: en."
+  },
+  "creative_mode": "faq",
+  "funnel_stage": "conversion",
+  "pain_point": {
+    "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+    "strategy_pain_point": "Struggling to produce consistent, platform-ready social media content"
+  },
+  "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has what it needs the moment a website URL exists. The free first package is the CTA mechanism: it removes cost as a secondary barrier once the input barrier is already gone.",
+  "narrative_arc": "QUESTION (contrast hook): Open on a sharp before-after contrast — one side is the imagined input (a brief, a brand doc, a call, a strategy deck), the other side is the actual input (a website URL, typed in ten seconds). The contrast is stated plainly, no drama. ANSWER: The video explains directly that fenrik Studio reads the website, builds the content, and delivers a complete package — video, captions, hashtags, platform-ready for every channel — from that single input. No direction required from the client. WHY IT MATTERS: Most people never start because they are waiting until they have time to write the brief. That moment never arrives. The brief was always the invisible barrier. Here it does not exist. CTA: Submit the URL. The first package is free. There is nothing left to prepare.",
+  "emotional_tone": "Matter-of-fact and quietly reassuring — no pressure, no urgency theater. The tone is a reporter stating a fact the audience did not know but immediately believes. Relief, not excitement.",
+  "audience_insight": "The audience has mentally queued fenrik Studio under 'things I need to set up properly before I start' — alongside writing a brand brief, scheduling a discovery call, and deciding on a content strategy. That queue never clears. The video removes the queue entirely by showing that the setup they imagined was never required.",
+  "visual_direction": {
+    "palette": "White or very light grey background. The 'imagined input' list in muted mid-grey. The URL line and fenrik Studio branding in a single strong accent color — deep navy or near-black. One accent highlight color (e.g. a clean amber or teal) used only on the word 'free' in the CTA card.",
+    "lighting": "Flat, even digital light — no shadows, no warmth, no atmosphere. This is a screen-native visual, not a location shoot.",
+    "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a clean explainer slide, not a filmed location.",
+    "camera_style": "No camera. Motion is handled through card transitions — a clean slide or fade from the 'imagined input' card to the 'actual input' card. Text appears with minimal, purposeful timing. No zoom, no parallax, no cinematic movement.",
+    "art_direction": "Clean split-screen or sequential card treatment. Left card (or first card): a stacked list of imagined inputs — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — rendered in a slightly faded, greyed-out typeface as if crossed off or irrelevant. Right card (or second card): a single line — 'Your website URL.' — in clean, confident type at full opacity. No illustration, no stock photography. Pure typographic contrast.",
+    "character_style": "none"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it."
+  },
+  "render_metadata": {
+    "id": "92506e54-ce5a-454f-9976-4972b4cc14f2",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:49:12.928219+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A clean split-screen typographic graphic on a white background. Left half: a vertically stacked list in muted mid-grey text reading 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line has a thin strikethrough. Right half: a single bold line in deep navy reading 'Your website URL.' at full opacity. Flat, even digital light. No photography, no illustration, no people."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A single centred typographic card on a light grey background. Large deep-navy text reads 'fenrik Studio needs none of that.' Clean sans-serif typeface. Generous whitespace above and below. No decoration, no imagery, no people."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A sequential typographic card on a white background. Three lines stacked with generous line spacing in deep navy: 'You paste your website URL.' then 'We build the video, the captions, the hashtags.' then 'Ready to post across every channel.' Clean confident sans-serif. Flat even digital light. No illustration, no photography."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. fenrik Studio logo displayed on the CTA card as brand identifier. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A CTA typographic card on a white background. Centred deep-navy text reads 'The first package is' on one line, then the word 'free.' on the next line rendered in a clean amber accent colour. Below in smaller deep-navy type: 'fenrik.studio'. Flat screen-native aesthetic. No photography, no illustration, no people."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "What if the only thing you needed to start was just a URL?",
+    "cta": "Submit your website URL — your first content package is free, no brief required.",
+    "voiceover_text": "What if the only thing you needed to start was just a URL? Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call. fenrik Studio needs none of that. You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel. The first package is free. That's it.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: clear, helpful, answer-first. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 7,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "Most people stall before they ever submit anything because they assume a content service requires a creative brief, platform strategy, tone guidelines, and a kickoff call. This video answers the one …",
+      "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designe…",
+      "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has wha…",
+      "visual_world": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a …",
+      "attention_pattern": "The contrast between the complex imagined inputs and the simplicity of the URL creates immediate curiosity and a desire…",
+      "narrative_mechanism": "faq: QUESTION (contrast hook): Open on a sharp before-after contrast — one side is t…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentcreation",
+    "#socialmediamarketing",
+    "#saasmarketing",
+    "#shortformvideo",
+    "#contentmarketing"
+  ],
+  "hook": "What if the only thing you needed to start was just a URL?",
+  "scenario": "A solo SaaS founder opens a new browser tab intending to finally submit their website to a content service. They get as far as the homepage before the familiar hesitation arrives — 'I should write up our tone of voice first. And figure out which platforms to prioritise. And probably get on a call to explain the product properly.' They close the tab. The account stays quiet for another two weeks. The setup they imagined was never required. The URL was always enough.",
+  "video": {
+    "script": "[SCENE 1 — Split-screen card]\nLeft side fades in: stacked greyed-out list — 'Brand brief. Tone guidelines. Platform strategy. Kickoff call.' — each line crossed out.\nRight side: bold, full-opacity text — 'Your website URL.'\nVO: 'What if the only thing you needed to start was just a URL?'\n\n[SCENE 2 — Single card, left-aligned]\nText appears line by line: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\nVO: 'Most people assume a content service needs a brand brief, tone guidelines, a platform strategy, a kickoff call.'\n\n[SCENE 3 — Bold statement card]\nLarge centred text: 'fenrik Studio needs none of that.'\nVO: 'fenrik Studio needs none of that.'\n\n[SCENE 4 — Process card]\nSequential lines appear: 'You paste your website URL.' → 'We build the video, the captions, the hashtags.' → 'Ready to post across every channel.'\nVO: 'You paste your website URL. We build the video, the captions, the hashtags — ready to post across every channel.'\n\n[SCENE 5 — CTA card]\nText: 'The first package is free.' — the word 'free' in amber accent. Below: 'fenrik.studio'\nVO: 'The first package is free. That's it.'",
+    "concept": "A clean typographic split-screen video that directly answers the question blocking most conversions: what do I actually have to give you? The contrast between the imagined input (brief, strategy, call) and the actual input (a URL) is the entire argument. No drama, no hype — just a plain, reassuring answer delivered in a reporter's matter-of-fact tone. The first package is free. There is nothing left to prepare.",
+    "duration_seconds": "35"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+      "topic": "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "office",
+        "close_up",
+        "overhead",
+        "home_office"
+      ],
+      "closing": "Logo card end frame — fenrik Studio branding shown as the closing visual with on-screen text overlay: 'Your website is t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "I opened our task board this morning and realized something was missing.",
+      "topic": "What 20 ready-to-post videos actually does to a team's weekly workload",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "close_up",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Portrait 9:16 vertical composition. End-frame logo placement — fenrik Studio logo shown as a quiet closing card against ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "How did a whole week of 'Content Week' only produce three posts?",
+      "topic": "The content sprint that burned out the whole team and produced three posts",
+      "motifs": [
+        "laptop",
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "group"
+      ],
+      "closing": "A slow pull-back perspective revealing the whiteboard still reading 'Content Week' in the same unchanged black marker. T",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "motifs": [],
+      "closing": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the bran",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "motifs": [
+        "meeting",
+        "group",
+        "monitor"
+      ],
+      "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "meeting",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 7244,
+          "completion_tokens": 995
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:48:00.683Z",
+        "duration_ms": 26723,
+        "finished_at": "2026-07-25T10:48:27.406Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 7244,
+        "estimated_cost": 0.036657,
+        "output_summary": "Concept: The Only Thing fenrik Studio Needs From You",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 31357,
+        "completion_tokens": 995,
+        "output_size_bytes": 4278,
+        "prompt_characters": 31077,
+        "provider_request_id": null,
+        "completion_characters": 4244
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5848,
+          "completion_tokens": 147
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:48:27.406Z",
+        "duration_ms": 1820,
+        "finished_at": "2026-07-25T10:48:29.226Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5848,
+        "estimated_cost": 0.000889,
+        "output_summary": "Opening: What if the only thing you needed to start was just a URL?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 28081,
+        "completion_tokens": 147,
+        "output_size_bytes": 665,
+        "prompt_characters": 27925,
+        "provider_request_id": null,
+        "completion_characters": 665
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:48:29.226Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:48:29.226Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean split-screen or sequential card treatment. Left card (",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1702,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1686
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10906,
+          "completion_tokens": 2452
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:48:29.227Z",
+        "duration_ms": 41803,
+        "finished_at": "2026-07-25T10:49:11.030Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10906,
+        "estimated_cost": 0.069498,
+        "output_summary": "Package: The Only Thing fenrik Studio Needs From You",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 44812,
+        "completion_tokens": 2452,
+        "output_size_bytes": 9051,
+        "prompt_characters": 44522,
+        "provider_request_id": null,
+        "completion_characters": 8991
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:49:11.032Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:49:11.032Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2312,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2290
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:49:11.032Z",
+        "duration_ms": 2065,
+        "finished_at": "2026-07-25T10:49:13.097Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=4f1a226c-c1e2-4aab-85f9-bd07eb1f0df9; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "54bfd0e0-5b22-4479-90d1-3d3132cc29b8",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

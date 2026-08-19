@@ -7,13 +7,29 @@ import {
 import type {
   ImageSceneMedia,
   ImageScenePayload,
+  SceneTransitionIn,
   VisualScene,
 } from "@/lib/scene-types/visualScene";
 import { isImageScenePayload } from "@/lib/scene-types/imageScenePayload";
+import { isSceneTransitionIn } from "@/lib/video-engine/clipTransition";
+import { RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16 } from "@/lib/ai/runway";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
+}
+
+function optionalMotionPrompt(raw: unknown): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed.length > RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16) {
+    return undefined;
+  }
+  return trimmed;
+}
+
+function optionalTransitionIn(raw: unknown): SceneTransitionIn | undefined {
+  return isSceneTransitionIn(raw) ? raw : undefined;
 }
 
 function parseImageMedia(raw: unknown): ImageSceneMedia | null {
@@ -24,13 +40,19 @@ function parseImageMedia(raw: unknown): ImageSceneMedia | null {
     const image_prompt =
       typeof media.image_prompt === "string" ? media.image_prompt.trim() : "";
     if (!image_prompt) return null;
-    return { source: "ai", image_prompt };
+    const motion_prompt = optionalMotionPrompt(media.motion_prompt);
+    return {
+      source: "ai",
+      image_prompt,
+      ...(motion_prompt ? { motion_prompt } : {}),
+    };
   }
   if (source === "asset") {
     const asset_id =
       typeof media.asset_id === "string" ? media.asset_id.trim() : "";
     const used_as = typeof media.used_as === "string" ? media.used_as.trim() : "";
     if (!asset_id || !used_as) return null;
+    const motion_prompt = optionalMotionPrompt(media.motion_prompt);
     return {
       source: "asset",
       asset_id,
@@ -39,6 +61,7 @@ function parseImageMedia(raw: unknown): ImageSceneMedia | null {
         ? { video_usage: media.video_usage.trim() }
         : {}),
       ...(typeof media.modify === "string" ? { modify: media.modify } : {}),
+      ...(motion_prompt ? { motion_prompt } : {}),
     };
   }
   return null;
@@ -51,18 +74,24 @@ function legacyPlanItemToVisualScene(
 ): VisualScene {
   const media: ImageSceneMedia =
     item.source === "ai"
-      ? { source: "ai", image_prompt: item.image_prompt }
+      ? {
+          source: "ai",
+          image_prompt: item.image_prompt,
+          ...(item.motion_prompt ? { motion_prompt: item.motion_prompt } : {}),
+        }
       : {
           source: "asset",
           asset_id: item.asset_id,
           used_as: item.used_as,
           ...(item.video_usage ? { video_usage: item.video_usage } : {}),
           ...(item.modify ? { modify: item.modify } : {}),
+          ...(item.motion_prompt ? { motion_prompt: item.motion_prompt } : {}),
         };
   return {
     id: id ?? `scene-${index + 1}`,
     type: DEFAULT_SCENE_TYPE,
     payload: { media },
+    ...(item.transition_in ? { transition_in: item.transition_in } : {}),
   };
 }
 
@@ -125,8 +154,15 @@ export function normalizeVisualSceneEntry(
       const prompt =
         typeof record.image_prompt === "string" ? record.image_prompt.trim() : "";
       if (!prompt) return null;
+      const motion_prompt = optionalMotionPrompt(record.motion_prompt);
+      const transition_in = optionalTransitionIn(record.transition_in);
       return legacyPlanItemToVisualScene(
-        { source: "ai", image_prompt: prompt },
+        {
+          source: "ai",
+          image_prompt: prompt,
+          ...(motion_prompt ? { motion_prompt } : {}),
+          ...(transition_in ? { transition_in } : {}),
+        },
         index,
         typeof record.id === "string" ? record.id.trim() : undefined,
       );
@@ -135,6 +171,8 @@ export function normalizeVisualSceneEntry(
       typeof record.asset_id === "string" ? record.asset_id.trim() : "";
     const used_as = typeof record.used_as === "string" ? record.used_as.trim() : "";
     if (!asset_id || !used_as) return null;
+    const motion_prompt = optionalMotionPrompt(record.motion_prompt);
+    const transition_in = optionalTransitionIn(record.transition_in);
     return legacyPlanItemToVisualScene(
       {
         source: "asset",
@@ -144,6 +182,8 @@ export function normalizeVisualSceneEntry(
           ? { video_usage: record.video_usage.trim() }
           : {}),
         ...(typeof record.modify === "string" ? { modify: record.modify } : {}),
+        ...(motion_prompt ? { motion_prompt } : {}),
+        ...(transition_in ? { transition_in } : {}),
       },
       index,
       typeof record.id === "string" ? record.id.trim() : undefined,
@@ -183,7 +223,12 @@ export function visualSceneToPlanItem(
   if (!isImageScenePayload(scene.payload)) return null;
   const media = scene.payload.media;
   if (media.source === "ai") {
-    return { source: "ai", image_prompt: media.image_prompt };
+    return {
+      source: "ai",
+      image_prompt: media.image_prompt,
+      ...(media.motion_prompt ? { motion_prompt: media.motion_prompt } : {}),
+      ...(scene.transition_in ? { transition_in: scene.transition_in } : {}),
+    };
   }
   return {
     source: "asset",
@@ -191,6 +236,8 @@ export function visualSceneToPlanItem(
     used_as: media.used_as,
     ...(media.video_usage ? { video_usage: media.video_usage } : {}),
     ...(media.modify ? { modify: media.modify } : {}),
+    ...(media.motion_prompt ? { motion_prompt: media.motion_prompt } : {}),
+    ...(scene.transition_in ? { transition_in: scene.transition_in } : {}),
   };
 }
 

@@ -17,6 +17,9 @@ export default async function SettingsPage() {
         title="Settings"
         description="Configuration status (read-only values) and admin preferences."
       />
+      <p className={styles.back}>
+        <a href="/settings/ai-media-benchmark">AI Media Benchmark Lab →</a>
+      </p>
       <div className={styles.groups}>
         <EditorLanguageSettings initialLanguage={preferences.editorLanguage} />
         {groups.map((group) => (

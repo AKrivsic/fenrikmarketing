@@ -1,0 +1,19 @@
+{
+  "id": "e6482540-9365-4ec5-9dd8-4899a9295e33",
+  "strategy_id": "3e6867dc-9b8e-4a75-91ef-8951b2314883",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "platform": "tiktok",
+  "format": "reel",
+  "topic_id": null,
+  "trend_id": null,
+  "brief": {
+    "angle": "Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts.",
+    "topic": "The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+    "source": "production_run",
+    "package_index": 0,
+    "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603"
+  },
+  "priority": 1,
+  "created_at": "2026-07-24T00:31:38.163053+00:00",
+  "funnel_stage": "problem_aware"
+}

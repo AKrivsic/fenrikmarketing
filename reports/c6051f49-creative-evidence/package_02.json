@@ -1,0 +1,1408 @@
+{
+  "package_index": 2,
+  "run_item_id": "83f3d479-3a99-4f56-a0d6-b715afcc5643",
+  "run_item_status": "completed",
+  "run_item_error": null,
+  "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+  "package_title": "The Heatwave That Exposed the Website",
+  "package_status": "draft",
+  "strategy_item_id": "c544c8b0-51ee-431e-8476-29d1acd2b0ba",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": true,
+    "finalSubtitles": true,
+    "renderMetadata": true
+  },
+  "last_completed_step": "Render",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video",
+  "strategy": {
+    "strategy_item": {
+      "id": "c544c8b0-51ee-431e-8476-29d1acd2b0ba",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 3,
+      "brief": {
+        "angle": "Calls are flooding in, the front desk is overwhelmed, and the website is getting traffic too — but it can only show a phone number that nobody is picking up. Every online visitor during peak demand is quietly lost.",
+        "topic": "The HVAC company that got 80 website visitors during a heatwave and booked nothing",
+        "source": "production_run",
+        "pain_point": "Losing leads due to lack of instant website support",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Heatwave That Exposed the Website",
+    "core_idea": "During a summer heatwave, an HVAC company's phone lines are completely overwhelmed — but their website is quietly getting traffic too. The site can only display a phone number nobody is answering. Every online visitor who could have been a booked job slips away unnoticed while the owner assumes the chaos means business is booming. The confession: the busiest day of the year was also the day they lost the most leads they never knew about.",
+    "product_role": "Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the existing website content automatically, requires no setup beyond a single embed script, and captures lead information from visitors who would otherwise leave the moment they see an unanswered phone number. It does not replace the front desk; it covers the channel the front desk cannot reach.",
+    "why_it_works": "The confession structure disarms skepticism immediately — the owner is not bragging, he is admitting a specific failure, which is more credible and more watchable than a product pitch. The heatwave scenario is concrete and seasonal, making the pain point visceral and relatable for any local service business owner who has experienced a demand spike. The visual of a ringing phone next to a silent website widget creates a split-screen logic that makes the problem undeniable. The product reveal is proportionate — it does not promise to fix the phones, only to cover the channel that was completely unattended. The CTA is a fresh angle: framing the AI assistant as the capture layer for what the phones physically cannot reach.",
+    "narrative_arc": "CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his forehead in a cluttered dispatch office. He speaks directly to camera: 'We had our best traffic day ever during the heatwave. We also had our worst lead capture day ever. We just didn't know it until after.' CUT TO: quick montage — phones ringing off the hook, a front-desk worker waving her hands overwhelmed, a browser tab showing the company website with nothing but a static phone number and a 'Call Us' button. IMPLICATION BEAT — Text overlay or VO: 'While the phones were full, 80 people visited the website. Every one of them saw a number no one was picking up. Every one of them left.' PROOF BEAT — Show the analytics screen: sessions, zero form fills, zero chat interactions, zero leads captured. The owner's face registers the quiet cost — not anger, just the specific exhaustion of understanding something too late. PRODUCT REVEAL — The same website now has a chat widget active. A visitor types: 'Do you service my area?' The AI responds instantly with a service zone answer and a prompt to leave contact details. A lead notification pings on the owner's phone — while the front desk is still fielding calls. CLOSE — Owner back on camera, calm: 'The phones were always going to get overwhelmed. The website didn't have to go silent at the same time.' CTA card: 'Create your AI assistant — let your website capture what the phones can't reach.'",
+    "emotional_tone": "Calm authority with a quiet gut-punch. The confession earns credibility; the implication lands without drama. No panic, no hyperbole — just the measured recognition of a real and specific cost that most business owners have never thought to measure.",
+    "audience_insight": "Local service business owners in high-demand trades assume that a flood of inbound calls means they are capturing all available demand. They have never separated 'phone traffic' from 'website traffic' in their mental model of a busy day. The idea that their website was simultaneously losing leads while the phones were ringing is genuinely new information — and it reframes what 'a great day' actually looked like.",
+    "visual_direction": {
+      "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+      "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+      "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+      "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+      "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+      "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and urgent, with the ringing phones creating a sense of chaos that contrasts with the owner's calm demeanor.",
+    "emotion": "Frustration mixed with realization, as the owner grapples with the unexpected loss of leads.",
+    "first_image": "A cluttered dispatch office of an HVAC company, with a tired owner sitting at a desk, wiping sweat from their forehead as phones ring incessantly in the background.",
+    "attention_pattern": "The immediate visual chaos of the ringing phones draws viewers in, while the owner's confession creates curiosity about the unseen consequences of their busy day.",
+    "first_spoken_sentence": "We thought we were busy during the heatwave — until we saw the numbers."
+  },
+  "visual_identity": {
+    "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+    "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+    "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+    "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+    "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+    "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice.",
+    "opening_emotion": "Frustration mixed with realization, as the owner grapples with the unexpected loss of leads.",
+    "opening_first_image": "A cluttered dispatch office of an HVAC company, with a tired owner sitting at a desk, wiping sweat from their forehead as phones ring incessantly in the background."
+  },
+  "package": {
+    "title": "The Heatwave That Exposed the Website",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "We thought we were busy during the heatwave — until we saw the numbers.",
+    "scenario": "During a summer heatwave, a local HVAC company's front desk is overwhelmed with inbound calls. At the same time, 80 people visit the company website looking for help — service area questions, availability, pricing. The website shows only a phone number. Nobody answers it. Every visitor leaves without a name, an email, or any record of their visit. The owner discovers this only when reviewing analytics after the rush, realizing that the busiest day of the year was also the day the website silently turned away the most potential customers.",
+    "video": {
+      "script": "SCENE 1 — COLD OPEN: Cluttered HVAC dispatch office. Owner, mid-40s, company polo, visibly exhausted, wipes forehead at desk. Phones ringing in background. Looks directly into camera. SPOKEN: 'We thought we were busy during the heatwave — until we saw the numbers.' SCENE 2 — MONTAGE: Quick cuts — phones ringing, front-desk worker waving hands overwhelmed, whiteboard job slots filling up. CUT TO: laptop screen showing company website. Static page. Phone number. 'Call Us' button. Nothing else. SPOKEN: 'Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up.' SCENE 3 — ANALYTICS SCREEN: Over-the-shoulder shot of analytics dashboard. Sessions visible. Form fills: zero. Chat interactions: zero. Leads: zero. Owner stares at screen. SPOKEN: 'Every one of them left.' SCENE 4 — REALIZATION: Owner back on camera, calm, measured. SPOKEN: 'The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.' SCENE 5 — CLOSE: Static card on screen. Text: 'Your website is open right now. Is it answering anyone?' Soft fade.",
+      "concept": "During a summer heatwave, an HVAC company's phones are overwhelmed — but the website is quietly getting traffic too. The site displays only a phone number that nobody can answer. Eighty online visitors arrive, find nothing interactive, and leave without a trace. The owner discovers this only after the fact, when the analytics tell a story the ringing phones had completely drowned out. The confession earns credibility; the implication reframes what a 'great day' actually cost.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#hvac",
+      "#leadgeneration",
+      "#localservices",
+      "#websitetips",
+      "#businessgrowth"
+    ],
+    "subtitles_planned": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything."
+  },
+  "voiceover": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen"
+    },
+    {
+      "source": "asset",
+      "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+    }
+  ],
+  "image_prompts": [
+    "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones",
+    "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup",
+    "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen",
+    "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if your busiest day might also be your biggest missed opportunity.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "title_variants": [
+          "The heatwave that exposed the website",
+          "80 visitors. Zero leads. One very quiet analytics dashboard.",
+          "When the phones are full, who's watching the website?",
+          "The busiest day was also the worst lead capture day",
+          "Peak demand, invisible loss"
+        ],
+        "caption_variants": [
+          "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+          "The phones ringing felt like success. The analytics said something different. 80 people visited the site. None of them could get a response. None of them stayed.",
+          "Peak demand exposed the gap. Calls: overwhelmed. Website: silent. 80 visitors, zero leads captured. Two channels. Only one anyone was watching.",
+          "Your busiest day might also be your worst lead capture day. You just won't know until you check the website data after the chaos clears.",
+          "Ringing phones don't mean you're capturing all the demand. 80 website visitors during a heatwave. Every one left without a name. The front desk never knew they existed."
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "80 website visitors during the heatwave. Zero leads captured. The phones were full — the website was just silent. 🥵",
+        "hashtags": [
+          "#hvac",
+          "#smallbusiness",
+          "#leadgeneration",
+          "#businesstips"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "80 website visitors during a heatwave. Zero leads. The phones were overwhelmed — but the website problem was invisible until the damage was done.",
+        "hashtags": [
+          "#hvac",
+          "#smallbusiness",
+          "#websitetips"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this for the next time demand spikes.",
+        "format": "reel",
+        "caption": "Here's something most service business owners never think to check after a busy day: what was the website doing while the phones were full? 🌡️ During a summer heatwave, one HVAC company had 80 people visit their site — and every single one left without leaving a name or number, because the only thing on the page was a phone nobody could answer. The phones felt like success. The analytics told a different story. If your business gets traffic spikes, it's worth asking whether your website is ready to handle them.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+        "hashtags": [
+          "#smallbusiness",
+          "#leadgeneration",
+          "#localservices"
+        ],
+        "caption_variants": [
+          "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+          "Most service businesses measure a busy day by how many calls came in. They rarely measure how many website visitors arrived at the same time — and left because nobody could respond. During a heatwave, one HVAC company had 80 people visit their site while the phones were overwhelmed. Every visitor saw a phone number. Nobody answered it. The calls felt like a great day. The website data told a quieter story. Two channels. Only one was being watched. #smallbusiness #localservices #leadgeneration"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this.",
+        "format": "reel",
+        "caption": "The busiest day of the year was also the day they lost the most leads.\n\nPhones overwhelmed. Website getting traffic. But the site could only show a phone number nobody was picking up.\n\nEighty visitors. Zero leads captured. They didn't even know until they checked the analytics.\n\nSave this if your website goes quiet exactly when demand goes loud.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac",
+          "#leadgeneration",
+          "#websitetips",
+          "#businessgrowth",
+          "#localservices",
+          "#customerservice"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "050f19af-d14f-4a12-a984-2a49502d5bb6",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "80 website visitors during the heatwave. Zero leads captured. The phones were full — the website was just silent. 🥵",
+        "hashtags": [
+          "#hvac",
+          "#smallbusiness",
+          "#leadgeneration",
+          "#businesstips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "dd04740d-b006-4ec6-8965-c30f7be20edc",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The busiest day was also the worst lead capture day",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "Your busiest day might also be your worst lead capture day. You just won't know until you check the website data after the chaos clears.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "9ae2036b-76f5-4393-ba17-1705c93ceab5",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "The busiest day of the year was also the day they lost the most leads.\n\nPhones overwhelmed. Website getting traffic. But the site could only show a phone number nobody was picking up.\n\nEighty visitors. Zero leads captured. They didn't even know until they checked the analytics.\n\nSave this if your website goes quiet exactly when demand goes loud.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac",
+          "#leadgeneration",
+          "#websitetips",
+          "#businessgrowth",
+          "#localservices",
+          "#customerservice"
+        ],
+        "cta": "Save this.",
+        "language": null
+      },
+      {
+        "id": "4961fe83-8c07-456a-b0d6-a12129333545",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "80 website visitors during a heatwave. Zero leads. The phones were overwhelmed — but the website problem was invisible until the damage was done.",
+        "hashtags": [
+          "#hvac",
+          "#smallbusiness",
+          "#websitetips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "000307d1-72bb-413b-9ca4-e2a6c992107d",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "Here's something most service business owners never think to check after a busy day: what was the website doing while the phones were full? 🌡️ During a summer heatwave, one HVAC company had 80 people visit their site — and every single one left without leaving a name or number, because the only thing on the page was a phone nobody could answer. The phones felt like success. The analytics told a different story. If your business gets traffic spikes, it's worth asking whether your website is ready to handle them.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": "Save this for the next time demand spikes.",
+        "language": null
+      },
+      {
+        "id": "e664375c-66e0-4914-b0f6-707c85f35ecc",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+        "hashtags": [
+          "#smallbusiness",
+          "#leadgeneration",
+          "#localservices"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "a2ef05e0-c06b-4e4b-8bc8-d5815db53845",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Heatwave That Exposed the Website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "Most service businesses measure a busy day by how many calls came in. They rarely measure how many website visitors arrived at the same time — and left because nobody could respond. During a heatwave, one HVAC company had 80 people visit their site while the phones were overwhelmed. Every visitor saw a phone number. Nobody answered it. The calls felt like a great day. The website data told a quieter story. Two channels. Only one was being watched. #smallbusiness #localservices #leadgeneration",
+        "hashtags": [
+          "#smallbusiness",
+          "#leadgeneration",
+          "#localservices"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "a8359bdb-ae4a-4de0-94e3-67c42fec743e",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The heatwave that exposed the website",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "763decb4-8940-405d-8262-7976df4f154a",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "80 visitors. Zero leads. One very quiet analytics dashboard.",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "The phones ringing felt like success. The analytics said something different. 80 people visited the site. None of them could get a response. None of them stayed.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "4366287e-b499-44e6-889d-ad4c08e20111",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "When the phones are full, who's watching the website?",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "Peak demand exposed the gap. Calls: overwhelmed. Website: silent. 80 visitors, zero leads captured. Two channels. Only one anyone was watching. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "e41e23fc-7308-44f4-a7e5-22c9887ca420",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Peak demand, invisible loss",
+        "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+        "caption": "Ringing phones don't mean you're capturing all the demand. 80 website visitors during a heatwave. Every one left without a name. The front desk never knew they existed.",
+        "hashtags": [
+          "#smallbusiness",
+          "#hvac"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 41,
+      "secondary": 46
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_shock→energy(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+41)",
+      "fit_secondary(+46)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en."
+  },
+  "creative_mode": "shock",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Losing leads due to lack of instant website support",
+    "strategy_pain_point": "Losing leads due to lack of instant website support"
+  },
+  "product_role": "Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the existing website content automatically, requires no setup beyond a single embed script, and captures lead information from visitors who would otherwise leave the moment they see an unanswered phone number. It does not replace the front desk; it covers the channel the front desk cannot reach.",
+  "narrative_arc": "CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his forehead in a cluttered dispatch office. He speaks directly to camera: 'We had our best traffic day ever during the heatwave. We also had our worst lead capture day ever. We just didn't know it until after.' CUT TO: quick montage — phones ringing off the hook, a front-desk worker waving her hands overwhelmed, a browser tab showing the company website with nothing but a static phone number and a 'Call Us' button. IMPLICATION BEAT — Text overlay or VO: 'While the phones were full, 80 people visited the website. Every one of them saw a number no one was picking up. Every one of them left.' PROOF BEAT — Show the analytics screen: sessions, zero form fills, zero chat interactions, zero leads captured. The owner's face registers the quiet cost — not anger, just the specific exhaustion of understanding something too late. PRODUCT REVEAL — The same website now has a chat widget active. A visitor types: 'Do you service my area?' The AI responds instantly with a service zone answer and a prompt to leave contact details. A lead notification pings on the owner's phone — while the front desk is still fielding calls. CLOSE — Owner back on camera, calm: 'The phones were always going to get overwhelmed. The website didn't have to go silent at the same time.' CTA card: 'Create your AI assistant — let your website capture what the phones can't reach.'",
+  "emotional_tone": "Calm authority with a quiet gut-punch. The confession earns credibility; the implication lands without drama. No panic, no hyperbole — just the measured recognition of a real and specific cost that most business owners have never thought to measure.",
+  "audience_insight": "Local service business owners in high-demand trades assume that a flood of inbound calls means they are capturing all available demand. They have never separated 'phone traffic' from 'website traffic' in their mental model of a busy day. The idea that their website was simultaneously losing leads while the phones were ringing is genuinely new information — and it reframes what 'a great day' actually looked like.",
+  "visual_direction": {
+    "palette": "Muted warm tones — beige walls, worn blue workwear, faded yellow sticky notes. The website and analytics screens introduce a neutral digital blue as the only clean color. The contrast between the analog warmth of the office and the cool clarity of the screen is intentional.",
+    "lighting": "Warm and slightly harsh — overhead fluorescents in the office, natural daylight blasting through a window suggesting heat outside. The screen glow is the only cool light source. Nothing cinematic; everything functional.",
+    "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running. Outside the window or implied by dialogue, it is clearly summer and hot.",
+    "camera_style": "Handheld and close — slightly documentary. The owner speaks directly to camera with no teleprompter energy; it feels like someone pressed record on their phone. Quick cuts during the montage are tight and slightly rough. The analytics screen is shown as a clean over-the-shoulder shot, not a screen recording with cursor movement.",
+    "art_direction": "Practical, unglamorous, and immediately recognizable as a real working service business. No polish. The dispatch office looks like it is actually used — sticky notes, a whiteboard with job slots, a radio in the background. The website screen is shown on a standard monitor or laptop, not a stylized mockup. The analytics dashboard is plain and readable. The lead notification on the phone is a simple ping — no animation flourish.",
+    "character_style": "One central character: a male or female HVAC business owner in their 40s, wearing a company polo or work shirt, visibly tired but composed. No actors who look like models. The front-desk worker in the montage is glimpsed briefly — not a speaking role. No voiceover artist; the owner narrates in their own voice."
+  },
+  "generated_images": {
+    "local_files": [
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-5.png",
+      "reports/c6051f49-creative-evidence/images/package_02/thumbnail.png"
+    ],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-5.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "signed_urls": [],
+    "thumbnail_url": "[SIGNED_URL]"
+  },
+  "final_subtitles": {
+    "subtitle_url": "[SIGNED_URL]",
+    "local_file": "reports/c6051f49-creative-evidence/images/package_02/subtitles.srt",
+    "planned": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything."
+  },
+  "render_metadata": {
+    "id": "f9fb81d9-4e43-4d8e-823b-086d6d939df3",
+    "status": "completed",
+    "error_message": null,
+    "created_at": "2026-07-25T07:24:54.533165+00:00",
+    "completed_at": "2026-07-25T07:35:26.016+00:00",
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": "[SIGNED_URL]",
+    "subtitle_url": "[SIGNED_URL]",
+    "thumbnail_url": "[SIGNED_URL]",
+    "artifacts_persisted_at": "2026-07-25T07:35:25.324Z",
+    "render_spec": {
+      "scenes": [
+        {
+          "id": "scene-1",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-1.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "A cluttered HVAC dispatch office, tired owner in their 40s wearing a company polo sitting at a desk wiping sweat from their forehead, multiple phones ringing on the desk, sticky notes covering the walls, a whiteboard job board visible in background, warm harsh overhead fluorescent lighting, natural summer daylight blazing through a window, handheld documentary-style close framing, muted beige walls and worn blue workwear tones"
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-2",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-2.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Close over-the-shoulder shot of a standard laptop showing a plain HVAC company website — a static phone number and a 'Call Us' button, nothing interactive, screen glow the only cool light in a warm cluttered office, practical unglamorous setting, no stylized mockup"
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-3",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-3.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Plain analytics dashboard on a standard monitor: session count visible, form fills column showing zero, leads column showing zero, HVAC owner staring at the screen with quiet exhaustion, over-the-shoulder framing, analog warm office tones contrasted with neutral digital blue of the screen"
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-4",
+          "type": "IMAGE",
+          "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/b1b0d00c-0bfc-4095-954f-4b38a813747f/component-capture.png",
+          "video_usage": "framed_screen",
+          "image_bucket": "project-assets",
+          "image_prompt": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "asset",
+              "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+              "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-5",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/f9fb81d9-4e43-4d8e-823b-086d6d939df3/scene-scene-5.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "HVAC business owner in their 40s, company polo, sitting calmly and directly facing the camera in the same cluttered dispatch office, composed but visibly tired, warm fluorescent overhead light, sticky notes and a radio visible in background, handheld close framing with slight natural movement, no teleprompter energy"
+            }
+          },
+          "renderer_version": "image@1"
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "rendered_at": "2026-07-25T07:35:25.223Z",
+        "semantic_motion": {
+          "beats": [
+            {
+              "beat_id": "beat-1",
+              "scene_id": "scene-1",
+              "motion_intent": "ATTENTION",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "zoom_in"
+            },
+            {
+              "beat_id": "beat-2",
+              "scene_id": "scene-2",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-3",
+              "scene_id": "scene-3",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_down"
+            },
+            {
+              "beat_id": "beat-4",
+              "scene_id": "scene-4",
+              "motion_intent": "HOLD",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-5",
+              "scene_id": "scene-5",
+              "motion_intent": "CLOSE",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            }
+          ],
+          "version": "semantic-motion@2"
+        }
+      }
+    },
+    "image_urls": [],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-5.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "downloaded_images": [
+      "reports/c6051f49-creative-evidence/images/package_02/output.mp4",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_02/scene-scene-5.png",
+      "reports/c6051f49-creative-evidence/images/package_02/subtitles.srt",
+      "reports/c6051f49-creative-evidence/images/package_02/thumbnail.png"
+    ],
+    "debug": {
+      "match_ratio": 0.9375,
+      "audio_duration": 24.756,
+      "video_duration": 24.766667,
+      "speech_duration": 23.256,
+      "subtitle_source": "whisper",
+      "language_detected": "english",
+      "render_warning": false,
+      "render_warnings": [],
+      "tts_tail_validation_passed": true,
+      "whisper_word_count": 63,
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-tts",
+            "repair": false,
+            "success": true,
+            "provider": "tts",
+            "warnings": [],
+            "raw_usage": {
+              "character_count": 363,
+              "duration_seconds": 23.256,
+              "usd_per_1k_chars": 0.015
+            },
+            "step_name": "TTS",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:30:54.610Z",
+            "duration_ms": 4196,
+            "finished_at": "2026-07-25T07:30:58.806Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+            "prompt_tokens": null,
+            "estimated_cost": 0.005445,
+            "output_summary": "audio duration=23.256s",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": 367,
+            "completion_tokens": null,
+            "output_size_bytes": 114,
+            "prompt_characters": 363,
+            "provider_request_id": null,
+            "completion_characters": 114
+          },
+          {
+            "model": "whisper-1",
+            "repair": false,
+            "success": true,
+            "provider": "whisper",
+            "warnings": [],
+            "raw_usage": {
+              "word_count": 63,
+              "usd_per_min": 0.006,
+              "fallback_used": false,
+              "duration_seconds": 23.256
+            },
+            "step_name": "Whisper",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:30:58.806Z",
+            "duration_ms": 1952,
+            "finished_at": "2026-07-25T07:31:00.757Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+            "prompt_tokens": null,
+            "estimated_cost": 0.002326,
+            "output_summary": "63 words (english)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 37,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 37
+          },
+          {
+            "model": "gpt-image-1",
+            "repair": false,
+            "success": true,
+            "provider": "image",
+            "warnings": [],
+            "raw_usage": {
+              "usd_per_still": 0.042,
+              "reused_still_count": 1,
+              "generated_still_count": 4
+            },
+            "step_name": "Image generation",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:31:00.881Z",
+            "duration_ms": 121904,
+            "finished_at": "2026-07-25T07:33:02.785Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+            "prompt_tokens": null,
+            "estimated_cost": 0.168,
+            "output_summary": "generated=4; reused=1",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 67,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 67
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "video",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Video rendering",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:33:02.919Z",
+            "duration_ms": 137889,
+            "finished_at": "2026-07-25T07:35:20.807Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "video_duration=24.766667",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 50,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 50
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23"
+      }
+    },
+    "debug_keys": [
+      "sfx_mixed",
+      "sfx_reason",
+      "match_ratio",
+      "fallback_used",
+      "language_hint",
+      "audio_duration",
+      "duration_delta",
+      "render_warning",
+      "video_duration",
+      "render_warnings",
+      "speech_duration",
+      "subtitle_source",
+      "target_duration",
+      "srt_last_cue_end",
+      "subtitle_warning",
+      "language_detected",
+      "post_mux_duration",
+      "tts_tail_expected",
+      "tts_validation_log",
+      "whisper_word_count",
+      "tail_buffer_seconds",
+      "tts_tail_retry_used",
+      "tts_tail_transcript",
+      "generation_telemetry",
+      "post_subtitle_duration",
+      "tts_validation_attempts",
+      "subtitle_timeline_duration",
+      "tts_tail_validation_passed",
+      "intermediate_video_duration"
+    ],
+    "output_keys": [
+      "debug",
+      "mp4_url",
+      "render_spec",
+      "subtitle_url",
+      "thumbnail_url",
+      "artifacts_persisted_at"
+    ],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "050f19af-d14f-4a12-a984-2a49502d5bb6",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during the heatwave. Zero leads captured. The phones were full — the website was just silent. 🥵",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#leadgeneration",
+        "#businesstips"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "dd04740d-b006-4ec6-8965-c30f7be20edc",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The busiest day was also the worst lead capture day",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Your busiest day might also be your worst lead capture day. You just won't know until you check the website data after the chaos clears.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "9ae2036b-76f5-4393-ba17-1705c93ceab5",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "The busiest day of the year was also the day they lost the most leads.\n\nPhones overwhelmed. Website getting traffic. But the site could only show a phone number nobody was picking up.\n\nEighty visitors. Zero leads captured. They didn't even know until they checked the analytics.\n\nSave this if your website goes quiet exactly when demand goes loud.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac",
+        "#leadgeneration",
+        "#websitetips",
+        "#businessgrowth",
+        "#localservices",
+        "#customerservice"
+      ],
+      "cta": "Save this.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "4961fe83-8c07-456a-b0d6-a12129333545",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during a heatwave. Zero leads. The phones were overwhelmed — but the website problem was invisible until the damage was done.",
+      "hashtags": [
+        "#hvac",
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "000307d1-72bb-413b-9ca4-e2a6c992107d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Here's something most service business owners never think to check after a busy day: what was the website doing while the phones were full? 🌡️ During a summer heatwave, one HVAC company had 80 people visit their site — and every single one left without leaving a name or number, because the only thing on the page was a phone nobody could answer. The phones felt like success. The analytics told a different story. If your business gets traffic spikes, it's worth asking whether your website is ready to handle them.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": "Save this for the next time demand spikes.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "e664375c-66e0-4914-b0f6-707c85f35ecc",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "During a peak demand day, an HVAC company's phones were completely overwhelmed — and their website was getting traffic at the same time. The site showed one thing: a phone number nobody could answer. Eighty sessions. Zero leads captured. The front desk couldn't have done more. But the website was a second channel that went entirely unattended, and nobody thought to look at it until the day was over. Peak demand doesn't just stress your team — it exposes every gap in how you capture interest. #smallbusiness #leadgeneration #localservices",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#localservices"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "a2ef05e0-c06b-4e4b-8bc8-d5815db53845",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Heatwave That Exposed the Website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Most service businesses measure a busy day by how many calls came in. They rarely measure how many website visitors arrived at the same time — and left because nobody could respond. During a heatwave, one HVAC company had 80 people visit their site while the phones were overwhelmed. Every visitor saw a phone number. Nobody answered it. The calls felt like a great day. The website data told a quieter story. Two channels. Only one was being watched. #smallbusiness #localservices #leadgeneration",
+      "hashtags": [
+        "#smallbusiness",
+        "#leadgeneration",
+        "#localservices"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "a8359bdb-ae4a-4de0-94e3-67c42fec743e",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The heatwave that exposed the website",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "80 website visitors during the heatwave. Phones overwhelmed. Website showing a number nobody answered. Zero leads. The busy day hid the loss entirely.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "763decb4-8940-405d-8262-7976df4f154a",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "80 visitors. Zero leads. One very quiet analytics dashboard.",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "The phones ringing felt like success. The analytics said something different. 80 people visited the site. None of them could get a response. None of them stayed.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "4366287e-b499-44e6-889d-ad4c08e20111",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "When the phones are full, who's watching the website?",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Peak demand exposed the gap. Calls: overwhelmed. Website: silent. 80 visitors, zero leads captured. Two channels. Only one anyone was watching. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    },
+    {
+      "id": "e41e23fc-7308-44f4-a7e5-22c9887ca420",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "d67a67ab-f94b-4db5-ad7a-f6a8bb70a2f4",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Peak demand, invisible loss",
+      "body": "We thought we were busy during the heatwave — until we saw the numbers. Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up. Every one of them left. The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.",
+      "caption": "Ringing phones don't mean you're capturing all the demand. 80 website visitors during a heatwave. Every one left without a name. The front desk never knew they existed.",
+      "hashtags": [
+        "#smallbusiness",
+        "#hvac"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 2,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:24:52.352801+00:00",
+      "updated_at": "2026-07-25T07:24:52.352801+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "During a summer heatwave, an HVAC company's phone lines are completely overwhelmed — but their website is quietly getting traffic too. The site can only display a phone number nobody is answering. Ev…",
+      "environment": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job boar…",
+      "product_role": "Fenrik.chat is the presence the website was missing during peak demand — the thing that answers instantly when every human is already occupied. It uses the exi…",
+      "visual_world": "A small HVAC company dispatch office or back-room workspace. Visible signs of a busy operation: a wall-mounted job board, a landline phone, a desk fan running.…",
+      "attention_pattern": "The immediate visual chaos of the ringing phones draws viewers in, while the owner's confession creates curiosity about…",
+      "narrative_mechanism": "shock: CONFESSION HOOK — Open on an HVAC business owner, visibly exhausted, wiping his…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#hvac",
+    "#leadgeneration",
+    "#localservices",
+    "#websitetips",
+    "#businessgrowth"
+  ],
+  "hook": "We thought we were busy during the heatwave — until we saw the numbers.",
+  "scenario": "During a summer heatwave, a local HVAC company's front desk is overwhelmed with inbound calls. At the same time, 80 people visit the company website looking for help — service area questions, availability, pricing. The website shows only a phone number. Nobody answers it. Every visitor leaves without a name, an email, or any record of their visit. The owner discovers this only when reviewing analytics after the rush, realizing that the busiest day of the year was also the day the website silently turned away the most potential customers.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN: Cluttered HVAC dispatch office. Owner, mid-40s, company polo, visibly exhausted, wipes forehead at desk. Phones ringing in background. Looks directly into camera. SPOKEN: 'We thought we were busy during the heatwave — until we saw the numbers.' SCENE 2 — MONTAGE: Quick cuts — phones ringing, front-desk worker waving hands overwhelmed, whiteboard job slots filling up. CUT TO: laptop screen showing company website. Static page. Phone number. 'Call Us' button. Nothing else. SPOKEN: 'Eighty people visited the website while the phones were ringing off the hook. Every one of them saw a phone number nobody was picking up.' SCENE 3 — ANALYTICS SCREEN: Over-the-shoulder shot of analytics dashboard. Sessions visible. Form fills: zero. Chat interactions: zero. Leads: zero. Owner stares at screen. SPOKEN: 'Every one of them left.' SCENE 4 — REALIZATION: Owner back on camera, calm, measured. SPOKEN: 'The front desk was overwhelmed. The website was just sitting there — open, silent, and completely useless for capturing anything.' SCENE 5 — CLOSE: Static card on screen. Text: 'Your website is open right now. Is it answering anyone?' Soft fade.",
+    "concept": "During a summer heatwave, an HVAC company's phones are overwhelmed — but the website is quietly getting traffic too. The site displays only a phone number that nobody can answer. Eighty online visitors arrive, find nothing interactive, and leave without a trace. The owner discovers this only after the fact, when the analytics tell a story the ringing phones had completely drowned out. The confession earns credibility; the implication reframes what a 'great day' actually cost.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product UI reference shown as a framed screen insert illustrating what an active AI assistant looks like on a website — contrasted against the static site shown earlier in the video",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

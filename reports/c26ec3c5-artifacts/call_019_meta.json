@@ -1,0 +1,51 @@
+{
+  "model": "gpt-4o-mini-2024-07-18",
+  "repair": true,
+  "success": true,
+  "provider": "openai",
+  "warnings": [
+    "$.video.duration_seconds: expected string",
+    "$.platform_outputs.x.cta: expected non-empty string (min 1)"
+  ],
+  "raw_usage": {
+    "model": "gpt-4o-mini-2024-07-18",
+    "cached_tokens": 0,
+    "prompt_tokens": 3540,
+    "repair_reason": "json_or_schema_repair",
+    "completion_tokens": 3672,
+    "validation_issues": [
+      {
+        "path": "$.video.duration_seconds",
+        "message": "expected string"
+      },
+      {
+        "path": "$.platform_outputs.x.cta",
+        "message": "expected non-empty string (min 1)"
+      }
+    ]
+  },
+  "step_name": "JSON Repair",
+  "max_tokens": null,
+  "started_at": "2026-07-24T00:45:00.410Z",
+  "duration_ms": 38043,
+  "finished_at": "2026-07-24T00:45:38.453Z",
+  "retry_count": 0,
+  "temperature": 0,
+  "cached_tokens": 0,
+  "error_message": null,
+  "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+  "prompt_tokens": 3540,
+  "estimated_cost": 0.002734,
+  "output_summary": "repaired JSON",
+  "pricing_source": "list_price_estimate",
+  "pricing_version": "list-price@2026-07-23",
+  "response_format": "json",
+  "input_size_bytes": 17071,
+  "completion_tokens": 3672,
+  "output_size_bytes": 17870,
+  "prompt_characters": 16945,
+  "provider_request_id": null,
+  "completion_characters": 17744,
+  "_source": "failure_telemetry",
+  "_path": "failure_telemetry.steps[15]"
+}

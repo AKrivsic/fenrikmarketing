@@ -1,0 +1,98 @@
+{
+  "id": "c26ec3c5-da27-4a8e-a80c-f5e527510603",
+  "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+  "status": "completed",
+  "requested_config": {
+    "plan": {
+      "videoCount": 1,
+      "packageCount": 1,
+      "totalOutputs": 11,
+      "platformOutputs": [
+        {
+          "kind": "video",
+          "label": "TikTok",
+          "outputs": 1,
+          "platform": "tiktok",
+          "multiplier": 1
+        },
+        {
+          "kind": "video",
+          "label": "Instagram",
+          "outputs": 1,
+          "platform": "instagram",
+          "multiplier": 1
+        },
+        {
+          "kind": "text",
+          "label": "Facebook",
+          "outputs": 1,
+          "platform": "facebook",
+          "multiplier": 1
+        },
+        {
+          "kind": "video",
+          "label": "YouTube",
+          "outputs": 1,
+          "platform": "youtube",
+          "multiplier": 1
+        },
+        {
+          "kind": "text",
+          "label": "LinkedIn",
+          "outputs": 2,
+          "platform": "linkedin",
+          "multiplier": 1.5
+        },
+        {
+          "kind": "text",
+          "label": "X",
+          "outputs": 5,
+          "platform": "x",
+          "multiplier": 5
+        }
+      ],
+      "textOutputsTotal": 8,
+      "videoOutputsTotal": 3,
+      "activeVideoPlatforms": [
+        "tiktok",
+        "instagram",
+        "youtube"
+      ]
+    },
+    "config": {
+      "platforms": [
+        "tiktok",
+        "instagram",
+        "facebook",
+        "youtube",
+        "linkedin",
+        "x"
+      ],
+      "multipliers": {
+        "x": 5,
+        "tiktok": 1,
+        "youtube": 1,
+        "facebook": 1,
+        "linkedin": 1.5,
+        "instagram": 1
+      },
+      "packageCount": 1,
+      "platformContentTypes": {
+        "x": "text_only",
+        "tiktok": "video",
+        "youtube": "video",
+        "facebook": "text_only",
+        "linkedin": "text_only",
+        "instagram": "video",
+        "google_business": "text_only"
+      }
+    }
+  },
+  "package_count": 1,
+  "requested_total": 1,
+  "generated_total": 1,
+  "failed_total": 0,
+  "error_message": null,
+  "created_at": "2026-07-24T00:31:29.360136+00:00",
+  "updated_at": "2026-07-24T05:43:22.320869+00:00"
+}

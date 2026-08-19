@@ -41,6 +41,8 @@ import {
 } from "@/lib/assets/preferredVideoUsage";
 import type { Scene } from "@/lib/video-engine/schemas/sceneSchema";
 import { MAX_VIDEO_SCENE_STILLS } from "@/lib/video-engine/storyboard";
+import { RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16 } from "@/lib/ai/runway";
+import { isSceneTransitionIn } from "@/lib/video-engine/clipTransition";
 
 export const VISUAL_SCENE_SOURCES = ["ai", "asset"] as const;
 export type VisualSceneSource = (typeof VISUAL_SCENE_SOURCES)[number];
@@ -48,6 +50,10 @@ export type VisualSceneSource = (typeof VISUAL_SCENE_SOURCES)[number];
 export interface VisualSceneAi {
   source: "ai";
   image_prompt: string;
+  /** Optional Runway-style motion prompt for future clip generation. */
+  motion_prompt?: string;
+  /** Optional incoming xfade for clip-reel assembly. */
+  transition_in?: "fade" | "slide" | "push" | "none";
 }
 
 export interface VisualSceneAsset {
@@ -56,13 +62,56 @@ export interface VisualSceneAsset {
   used_as: string;
   video_usage?: string;
   modify?: string;
+  motion_prompt?: string;
+  transition_in?: "fade" | "slide" | "push" | "none";
 }
 
 export type VisualScenePlanItem = VisualSceneAi | VisualSceneAsset;
 
+const optionalMotionPromptValidator: Validator<string | undefined> = (
+  value,
+  path = "$",
+) => {
+  if (value === undefined || value === null || value === "") return [];
+  if (typeof value !== "string") {
+    return [{ path, message: "expected string motion_prompt" }];
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return [{ path, message: "motion_prompt must be non-empty when present" }];
+  }
+  if (trimmed.length > RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16) {
+    return [
+      {
+        path,
+        message: `motion_prompt exceeds ${RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16} UTF-16 code units`,
+      },
+    ];
+  }
+  return [];
+};
+
+const optionalTransitionInValidator: Validator<string | undefined> = (
+  value,
+  path = "$",
+) => {
+  if (value === undefined || value === null || value === "") return [];
+  if (!isSceneTransitionIn(value)) {
+    return [
+      {
+        path,
+        message: 'transition_in must be one of "fade"|"slide"|"push"|"none"',
+      },
+    ];
+  }
+  return [];
+};
+
 const visualSceneAiValidator: Validator<VisualSceneAi> = vObject({
   source: vEnum(["ai"]),
   image_prompt: vNonEmptyString(),
+  motion_prompt: optionalMotionPromptValidator,
+  transition_in: optionalTransitionInValidator,
 }) as Validator<VisualSceneAi>;
 
 const visualSceneAssetValidator: Validator<VisualSceneAsset> = vObject({
@@ -71,6 +120,8 @@ const visualSceneAssetValidator: Validator<VisualSceneAsset> = vObject({
   used_as: vNonEmptyString(),
   video_usage: vOptional(vString()),
   modify: vOptional(vString()),
+  motion_prompt: optionalMotionPromptValidator,
+  transition_in: optionalTransitionInValidator,
 }) as Validator<VisualSceneAsset>;
 
 export const visualScenePlanItemValidator: Validator<VisualScenePlanItem> = (
@@ -256,7 +307,23 @@ export function normalizeVisualScenePlan(
           ? legacy.image_prompt.trim()
           : "";
       if (!prompt) continue;
-      cleaned.push({ source: "ai", image_prompt: prompt });
+      const motion =
+        typeof legacy.motion_prompt === "string"
+          ? legacy.motion_prompt.trim()
+          : "";
+      const transition =
+        typeof legacy.transition_in === "string" &&
+        isSceneTransitionIn(legacy.transition_in)
+          ? legacy.transition_in
+          : undefined;
+      cleaned.push({
+        source: "ai",
+        image_prompt: prompt,
+        ...(motion && motion.length <= RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16
+          ? { motion_prompt: motion }
+          : {}),
+        ...(transition ? { transition_in: transition } : {}),
+      });
       continue;
     }
     if (legacy.source === "asset") {
@@ -265,6 +332,15 @@ export function normalizeVisualScenePlan(
       const used_as =
         typeof legacy.used_as === "string" ? legacy.used_as.trim() : "";
       if (!asset_id || !used_as) continue;
+      const motion =
+        typeof legacy.motion_prompt === "string"
+          ? legacy.motion_prompt.trim()
+          : "";
+      const transition =
+        typeof legacy.transition_in === "string" &&
+        isSceneTransitionIn(legacy.transition_in)
+          ? legacy.transition_in
+          : undefined;
       cleaned.push({
         source: "asset",
         asset_id,
@@ -273,6 +349,10 @@ export function normalizeVisualScenePlan(
           ? { video_usage: legacy.video_usage.trim() }
           : {}),
         ...(typeof legacy.modify === "string" ? { modify: legacy.modify } : {}),
+        ...(motion && motion.length <= RUNWAY_GEN4_MOTION_PROMPT_MAX_UTF16
+          ? { motion_prompt: motion }
+          : {}),
+        ...(transition ? { transition_in: transition } : {}),
       });
     }
   }
@@ -513,6 +593,8 @@ export async function resolveVisualPlanToRenderScenes(
         id,
         image_prompt: item.image_prompt,
         duration_seconds: DEFAULT_SCENE_DURATION_SECONDS,
+        ...(item.motion_prompt ? { motion_prompt: item.motion_prompt } : {}),
+        ...(item.transition_in ? { transition_in: item.transition_in } : {}),
       });
       continue;
     }
@@ -545,6 +627,8 @@ export async function resolveVisualPlanToRenderScenes(
       image_path: asset.path,
       video_usage: videoUsage,
       asset_id: item.asset_id,
+      ...(item.motion_prompt ? { motion_prompt: item.motion_prompt } : {}),
+      ...(item.transition_in ? { transition_in: item.transition_in } : {}),
     });
   }
   return scenes;

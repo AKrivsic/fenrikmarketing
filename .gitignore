@@ -70,3 +70,4 @@ scripts/output/**/*
 **/.video-worker-tmp/
 **/test-results/
 **/playwright-report/
+docs/audits*.zip

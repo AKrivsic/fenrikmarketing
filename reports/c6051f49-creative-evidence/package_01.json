@@ -1,0 +1,1345 @@
+{
+  "package_index": 1,
+  "run_item_id": "6cc2ab7d-e7a9-46cc-a62c-ecb51c613b75",
+  "run_item_status": "completed",
+  "run_item_error": null,
+  "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+  "package_title": "The Storefront That Never Closes — But Also Never Speaks",
+  "package_status": "draft",
+  "strategy_item_id": "d1b3109c-659f-41ea-bdda-4cd8b6cbc7c9",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": true,
+    "finalSubtitles": true,
+    "renderMetadata": true
+  },
+  "last_completed_step": "Render",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video",
+  "strategy": {
+    "strategy_item": {
+      "id": "d1b3109c-659f-41ea-bdda-4cd8b6cbc7c9",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 2,
+      "brief": {
+        "angle": "Most business owners think of their website as a brochure. This reframe shows it as a storefront with no staff — visitors arriving, looking around, and walking out because no one is there to help them.",
+        "topic": "What your website is actually doing at 2 AM when you are not watching",
+        "source": "production_run",
+        "pain_point": "Unable to answer customer questions when offline",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Storefront That Never Closes — But Also Never Speaks",
+    "core_idea": "A local service business owner discovers, through a single night's worth of anonymous analytics data, that her website had six visitors between midnight and 3 AM — all of whom arrived with intent, found nothing to respond to them, and left. The video reframes the website not as a passive brochure but as an unstaffed storefront: the lights are on, the door is unlocked, customers are walking in — and there is nobody there to say a word.",
+    "product_role": "Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing website content automatically and becomes the voice that was never there. The product's ability to go live in about a minute from an existing URL makes the resolution feel genuinely achievable, not aspirational.",
+    "why_it_works": "The scenario is specific enough to feel true — a real business type, a real time window, a real sequence of pages visited — without naming or inventing any individual. The reframe from 'brochure' to 'unstaffed storefront' is the unexpected truth the hook archetype calls for: it is accurate, slightly uncomfortable, and impossible to unsee once stated. The narrative stays anchored to the dominant pain point throughout: the business was offline when visitors were not. The visual world — a kitchen table at dawn, a laptop, a coffee — is entirely distinct from the late-night law firm and the back-room desk of recent packages.",
+    "narrative_arc": "SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior design consultancy, sits at her kitchen table early in the morning with a coffee and her laptop. She pulls up her website analytics the way someone checks the weather. Routine. Comfortable. Then something catches her eye. CONFLICT: Six sessions. Last night. Between midnight and 2 AM. She leans in. Average time on page: 47 seconds. Pages visited: Services, Pricing, Contact. Bounced. All six. No form fills. No names. Nothing. She realizes these were not bots — these were people, deliberate enough to navigate three pages, curious enough to look at pricing, and then gone. TWIST: The camera holds on her face as the realization lands. Her website was open all night. It just could not say anything back. She had spent months refining the copy, the portfolio, the color palette — and the whole time, it was a beautifully decorated room with no one inside it. RESOLUTION: Text on screen: 'Fenrik.chat reads your website and builds an AI assistant that answers visitors the moment they arrive — day or night.' We see a brief, clean phone-screen mockup of a visitor typing a question at 1:47 AM and getting an instant, accurate answer pulled from the site's own content. The owner sets down her coffee. The next morning's analytics will look different. CTA: 'Create your AI assistant — your website is already doing the hard part. Let it finish the job.'",
+    "emotional_tone": "Quietly unsettling at first — the specific, mundane detail of six anonymous sessions makes the loss feel real rather than hypothetical. Shifts to calm recognition and then quiet relief. Never alarmist; the mood is insider and grounded, like a trusted colleague pointing out something you should have noticed sooner.",
+    "audience_insight": "Small business owners in professional services have poured real effort into their websites — copy, design, portfolio work — and they associate that effort with readiness. The idea that the website is 'done' and 'working' feels earned. This video exploits that assumption gently: the website looks ready, but readiness without responsiveness is just decoration. The pain is not dramatic; it is the slow, invisible leak of leads that never announce themselves.",
+    "visual_direction": {
+      "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+      "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+      "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+      "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+      "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+      "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot."
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and calm, allowing the weight of the moment to resonate.",
+    "emotion": "Quietly unsettling as the realization of lost opportunities sinks in.",
+    "first_image": "A woman in her early 40s sits at a cluttered kitchen table, early morning light streaming through the window, her laptop open to an analytics dashboard showing six sessions from the previous night.",
+    "attention_pattern": "The viewer is drawn in by the specificity of the six visitors, creating curiosity about their intent and the conflict of unanswered questions.",
+    "first_spoken_sentence": "Six visitors arrived at your website last night — and left without a word."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+    "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+    "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+    "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+    "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+    "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot.",
+    "opening_emotion": "Quietly unsettling as the realization of lost opportunities sinks in.",
+    "opening_first_image": "A woman in her early 40s sits at a cluttered kitchen table, early morning light streaming through the window, her laptop open to an analytics dashboard showing six sessions from the previous night."
+  },
+  "package": {
+    "title": "The Storefront That Never Closes — But Also Never Speaks",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "Six visitors arrived at your website last night — and left without a word.",
+    "scenario": "An interior design consultancy owner opens her analytics dashboard at dawn out of habit. She sees six sessions from the previous night — midnight to 2 AM — all navigating deliberately through her services, pricing, and contact pages. Every single one bounced. No form fills, no names, no way to follow up. She had spent months refining her website's copy and portfolio. She had assumed it was ready. What she had not considered was that readiness without responsiveness is just decoration: her website was open all night, and it could not say a single word to any of them.",
+    "video": {
+      "script": "SCENE 1 — KITCHEN TABLE, EARLY MORNING\nHandheld, intimate. A woman in her early 40s sits at a slightly cluttered kitchen table. Morning light through the window. A half-drunk coffee. She opens her laptop — routine, comfortable.\n\nVO: 'Six visitors arrived at your website last night — and left without a word.'\n\nSCENE 2 — LAPTOP SCREEN CLOSE-UP\nPush in on the analytics dashboard. Six sessions. Time range: 12:03 AM – 2:11 AM. Pages: Services, Pricing, Contact. Bounce rate: 100%. Zero form submissions.\n\nVO: 'They found your services page. Your pricing. Your contact form. And then they left.'\n\nSCENE 3 — OWNER'S FACE, SLOW PUSH-IN\nThe realization lands. She leans in slightly. Not panicked — quietly unsettled.\n\nVO: 'No name. No question. No trace. Your website was open all night. It just couldn't say anything back.'\n\nSCENE 4 — OVERHEAD TABLE SHOT\nCut to overhead. The table: notebook, coffee, laptop. A phone screen enters frame — clean UI mockup. A visitor types: 'Do you work with residential projects?' A response appears instantly, drawn from the site's own content. Timestamp: 1:47 AM.\n\nVO: 'That's not a traffic problem. That's a storefront with the lights on and nobody inside.'\n\nSCENE 5 — OWNER SETS DOWN COFFEE\nShe closes the laptop gently. Not defeated — decided. Text on screen: 'Fenrik.chat — your website already has the answers. Let it give them.'\n\nSOFT CTA ON SCREEN: 'Create your AI assistant'\n",
+      "concept": "A woman in her early 40s — owner of a small interior design consultancy — sits at her kitchen table at dawn with a coffee and her laptop. She opens her analytics dashboard out of habit. Six sessions. Last night. Midnight to 2 AM. Services page, Pricing page, Contact page. All bounced. No form fills. No names. The camera holds on her face as the realization lands: her website was open all night. It just could not say anything back. The video reframes the website from a brochure into an unstaffed storefront — lights on, door unlocked, customers walking in, nobody there to help. Resolution: a clean phone mockup shows a visitor typing a question at 1:47 AM and receiving an instant answer drawn from the site's own content. The owner sets down her coffee. Tomorrow's analytics will look different.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#websitetips",
+      "#businessowner",
+      "#digitalmarketing",
+      "#leadgeneration"
+    ],
+    "subtitles_planned": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside."
+  },
+  "voiceover": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+    },
+    {
+      "source": "asset",
+      "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ],
+  "image_prompts": [
+    "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow.",
+    "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it.",
+    "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing.",
+    "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if your website has ever been open while you were asleep.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "title_variants": [
+          "Your website is open. But is anyone home?",
+          "Six visitors. Zero leads. One quiet problem.",
+          "The storefront that never closes — but also never speaks.",
+          "What your website is actually doing at 2 AM.",
+          "The leads that leave without a word."
+        ],
+        "caption_variants": [
+          "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+          "A storefront with the lights on and nobody inside. That's what most websites are after 6 PM.",
+          "Six sessions. Midnight to 2 AM. Services, pricing, contact. All bounced. No names. Your website was open — it just couldn't speak.",
+          "The leads you never knew you lost are the most expensive ones. They don't bounce loudly. They just leave.",
+          "Readiness without responsiveness is just decoration. Your website is open 24/7. Is it actually answering anyone?"
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "6 people visited her website at 1 AM. All 6 left without a word. 👀 Your website is open 24/7. Is anyone actually home?",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#businessowner",
+          "#leadgeneration"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "Six visitors. Three pages. Zero leads. Your website was open all night — it just couldn't answer anyone.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this if your website has ever been open while you were asleep.",
+        "format": "reel",
+        "caption": "Ever opened your analytics on a Monday morning and seen sessions from the middle of the night — with zero leads to show for it? 😔 Those weren't bots. Those were real people, looking at your services, your pricing, your contact page — and leaving because no one was there to help them. Your website is open 24/7. But is it actually answering anyone? Save this one for later — it might change how you think about your site.",
+        "hashtags": [
+          "#smallbusiness",
+          "#businesstips"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Most business owners treat their website as a finished product. Design done. Copy done. Ready.\n\nBut readiness without responsiveness is just decoration.\n\nSix sessions between midnight and 2 AM. Services page, pricing page, contact page. All bounced. No names. No questions. No way to follow up.\n\nThe website was open. It simply could not say anything back.\n\nThat's the part most of us never think to audit.",
+        "hashtags": [
+          "#smallbusiness",
+          "#businessgrowth",
+          "#websitestrategy"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if your website has ever been open while you were asleep.",
+        "format": "reel",
+        "caption": "Six people visited her website between midnight and 2 AM.\n\nThey checked her services. Her pricing. Her contact page.\n\nThen left. No name. No message. Nothing.\n\nHer website was open all night — it just couldn't say a word back.\n\nSave this if that hits a little too close.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#businessowner",
+          "#digitalmarketing",
+          "#leadgeneration",
+          "#entrepreneurlife",
+          "#onlinebusiness"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "d22d4e96-c99f-4b68-84fb-704fc3f0ad74",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Six visitors. Zero leads. One quiet problem.",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "A storefront with the lights on and nobody inside. That's what most websites are after 6 PM.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "99d589a6-e17f-4b1b-9e8e-c34df5597db9",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "What your website is actually doing at 2 AM.",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "The leads you never knew you lost are the most expensive ones. They don't bounce loudly. They just leave.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "05d8a6eb-e79a-4b13-8c14-6a44a8fb6779",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The leads that leave without a word.",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Readiness without responsiveness is just decoration. Your website is open 24/7. Is it actually answering anyone?",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "cf7cd155-ec59-4925-a800-ea0e1bf5c056",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Storefront That Never Closes — But Also Never Speaks",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "6 people visited her website at 1 AM. All 6 left without a word. 👀 Your website is open 24/7. Is anyone actually home?",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#businessowner",
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "51c82314-311a-4679-adf0-fa079ac57ed2",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Storefront That Never Closes — But Also Never Speaks",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Six people visited her website between midnight and 2 AM.\n\nThey checked her services. Her pricing. Her contact page.\n\nThen left. No name. No message. Nothing.\n\nHer website was open all night — it just couldn't say a word back.\n\nSave this if that hits a little too close.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#businessowner",
+          "#digitalmarketing",
+          "#leadgeneration",
+          "#entrepreneurlife",
+          "#onlinebusiness"
+        ],
+        "cta": "Save this if your website has ever been open while you were asleep.",
+        "language": null
+      },
+      {
+        "id": "ae05a861-00de-4ce4-b168-6ba0b243f33d",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Storefront That Never Closes — But Also Never Speaks",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Six visitors. Three pages. Zero leads. Your website was open all night — it just couldn't answer anyone.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "55f00a3a-e680-4eeb-8942-a77fa0073dfe",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Storefront That Never Closes — But Also Never Speaks",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Ever opened your analytics on a Monday morning and seen sessions from the middle of the night — with zero leads to show for it? 😔 Those weren't bots. Those were real people, looking at your services, your pricing, your contact page — and leaving because no one was there to help them. Your website is open 24/7. But is it actually answering anyone? Save this one for later — it might change how you think about your site.",
+        "hashtags": [
+          "#smallbusiness",
+          "#businesstips"
+        ],
+        "cta": "Save this if your website has ever been open while you were asleep.",
+        "language": null
+      },
+      {
+        "id": "4f40d1ed-c1fc-4db9-a86b-900bd3a930f4",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Storefront That Never Closes — But Also Never Speaks",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Most business owners treat their website as a finished product. Design done. Copy done. Ready.\n\nBut readiness without responsiveness is just decoration.\n\nSix sessions between midnight and 2 AM. Services page, pricing page, contact page. All bounced. No names. No questions. No way to follow up.\n\nThe website was open. It simply could not say anything back.\n\nThat's the part most of us never think to audit.",
+        "hashtags": [
+          "#smallbusiness",
+          "#businessgrowth",
+          "#websitestrategy"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "185c156b-1e54-4ce4-a38b-905f88e3739d",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your website is open. But is anyone home?",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "dc19e412-e5d8-4ee9-9131-535c13471edc",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The storefront that never closes — but also never speaks.",
+        "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+        "caption": "Six sessions. Midnight to 2 AM. Services, pricing, contact. All bounced. No names. Your website was open — it just couldn't speak. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 39,
+      "secondary": 50
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_story→warmth(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+39)",
+      "fit_secondary(+50)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "story",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Unable to answer customer questions when offline",
+    "strategy_pain_point": "Unable to answer customer questions when offline"
+  },
+  "product_role": "Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing website content automatically and becomes the voice that was never there. The product's ability to go live in about a minute from an existing URL makes the resolution feel genuinely achievable, not aspirational.",
+  "narrative_arc": "SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior design consultancy, sits at her kitchen table early in the morning with a coffee and her laptop. She pulls up her website analytics the way someone checks the weather. Routine. Comfortable. Then something catches her eye. CONFLICT: Six sessions. Last night. Between midnight and 2 AM. She leans in. Average time on page: 47 seconds. Pages visited: Services, Pricing, Contact. Bounced. All six. No form fills. No names. Nothing. She realizes these were not bots — these were people, deliberate enough to navigate three pages, curious enough to look at pricing, and then gone. TWIST: The camera holds on her face as the realization lands. Her website was open all night. It just could not say anything back. She had spent months refining the copy, the portfolio, the color palette — and the whole time, it was a beautifully decorated room with no one inside it. RESOLUTION: Text on screen: 'Fenrik.chat reads your website and builds an AI assistant that answers visitors the moment they arrive — day or night.' We see a brief, clean phone-screen mockup of a visitor typing a question at 1:47 AM and getting an instant, accurate answer pulled from the site's own content. The owner sets down her coffee. The next morning's analytics will look different. CTA: 'Create your AI assistant — your website is already doing the hard part. Let it finish the job.'",
+  "emotional_tone": "Quietly unsettling at first — the specific, mundane detail of six anonymous sessions makes the loss feel real rather than hypothetical. Shifts to calm recognition and then quiet relief. Never alarmist; the mood is insider and grounded, like a trusted colleague pointing out something you should have noticed sooner.",
+  "audience_insight": "Small business owners in professional services have poured real effort into their websites — copy, design, portfolio work — and they associate that effort with readiness. The idea that the website is 'done' and 'working' feels earned. This video exploits that assumption gently: the website looks ready, but readiness without responsiveness is just decoration. The pain is not dramatic; it is the slow, invisible leak of leads that never announce themselves.",
+  "visual_direction": {
+    "palette": "Warm neutrals — linen, warm white, aged wood — with the cool blue-white of the laptop screen as the only contrasting accent. The Fenrik.chat product mockup uses clean white with a single brand-consistent accent color.",
+    "lighting": "Early morning natural light coming through a kitchen window — soft, slightly cool, with warm tones from a pendant light still on overhead. The laptop screen provides a secondary blue-white glow on the owner's face in the analytics moment.",
+    "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes nearby. Feels like a real person's real morning, not a staged set.",
+    "camera_style": "Handheld with very subtle movement — intimate and observational, like a documentary. Close-up on the laptop screen to show the analytics data; a slow push-in on the owner's face during the realization beat. Cut to overhead shot of the table for the phone mockup reveal. No jump cuts or fast edits; the pacing is deliberate and quiet.",
+    "art_direction": "Warm domestic realism. Every detail is specific and ordinary — a half-drunk coffee, a slightly cluttered kitchen table, a laptop screen with a real-looking analytics dashboard. No stock-photo polish. The phone mockup showing the chatbot interaction should feel like a genuine product screenshot, clean and functional, not a glossy render.",
+    "character_style": "One central character: a woman in her early-to-mid 40s, professional but casual in morning clothes. Relatable and competent — not frazzled, not a caricature of a struggling small business owner. She is someone who has her act together and is simply discovering a blind spot."
+  },
+  "generated_images": {
+    "local_files": [
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-4.png",
+      "reports/c6051f49-creative-evidence/images/package_01/thumbnail.png"
+    ],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-4.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "signed_urls": [],
+    "thumbnail_url": "[SIGNED_URL]"
+  },
+  "final_subtitles": {
+    "subtitle_url": "[SIGNED_URL]",
+    "local_file": "reports/c6051f49-creative-evidence/images/package_01/subtitles.srt",
+    "planned": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside."
+  },
+  "render_metadata": {
+    "id": "7cce1550-6208-450b-b0f5-3b9dbaa3cca3",
+    "status": "completed",
+    "error_message": null,
+    "created_at": "2026-07-25T07:23:11.951072+00:00",
+    "completed_at": "2026-07-25T07:30:52.604+00:00",
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": "[SIGNED_URL]",
+    "subtitle_url": "[SIGNED_URL]",
+    "thumbnail_url": "[SIGNED_URL]",
+    "artifacts_persisted_at": "2026-07-25T07:30:51.895Z",
+    "render_spec": {
+      "scenes": [
+        {
+          "id": "scene-1",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-1.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "A woman in her early 40s sits at a slightly cluttered kitchen table in early morning light, a half-drunk coffee beside her, her laptop open to an analytics dashboard showing six sessions from the previous night — warm natural light through a kitchen window, a pendant light still on overhead, plants on the sill, a notebook with handwritten notes nearby, documentary-style handheld framing, warm neutrals with cool blue-white laptop screen glow."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-2",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-2.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Extreme close-up of a laptop screen showing a simple website analytics dashboard — six sessions listed, time range 12:03 AM to 2:11 AM, pages visited: Services, Pricing, Contact, bounce rate high, zero form submissions — the screen's blue-white light is the dominant light source, warm kitchen background softly out of focus behind it."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-3",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-3.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Slow push-in on the woman's face as she leans slightly toward the laptop screen — quiet realization, not panic, a still and grounded expression — early morning window light on one side of her face, blue-white laptop glow on the other, intimate and observational framing."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-4",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/7cce1550-6208-450b-b0f5-3b9dbaa3cca3/scene-scene-4.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Overhead shot of the kitchen table — laptop, half-drunk coffee, open notebook with handwritten notes, and a smartphone entering frame showing a clean white chat UI with a visitor message reading 'Do you work with residential projects?' and an instant reply below it, timestamp 1:47 AM — warm aged-wood table surface, functional and real-feeling, no glossy render."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-5",
+          "type": "IMAGE",
+          "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/b1b0d00c-0bfc-4095-954f-4b38a813747f/component-capture.png",
+          "video_usage": "framed_screen",
+          "image_bucket": "project-assets",
+          "image_prompt": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "asset",
+              "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+              "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+            }
+          },
+          "renderer_version": "image@1"
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "rendered_at": "2026-07-25T07:30:51.796Z",
+        "semantic_motion": {
+          "beats": [
+            {
+              "beat_id": "beat-1",
+              "scene_id": "scene-1",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-2",
+              "scene_id": "scene-2",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "pan_left"
+            },
+            {
+              "beat_id": "beat-3",
+              "scene_id": "scene-3",
+              "motion_intent": "REVEAL",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_up"
+            },
+            {
+              "beat_id": "beat-4",
+              "scene_id": "scene-4",
+              "motion_intent": "CLOSE",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-5",
+              "scene_id": "scene-5",
+              "motion_intent": "HOLD",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            }
+          ],
+          "version": "semantic-motion@2"
+        }
+      }
+    },
+    "image_urls": [],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-4.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "downloaded_images": [
+      "reports/c6051f49-creative-evidence/images/package_01/output.mp4",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_01/scene-scene-4.png",
+      "reports/c6051f49-creative-evidence/images/package_01/subtitles.srt",
+      "reports/c6051f49-creative-evidence/images/package_01/thumbnail.png"
+    ],
+    "debug": {
+      "match_ratio": 0.9836065573770492,
+      "audio_duration": 24.06,
+      "video_duration": 24.066667,
+      "speech_duration": 22.56,
+      "subtitle_source": "whisper",
+      "language_detected": "english",
+      "render_warning": false,
+      "render_warnings": [],
+      "tts_tail_validation_passed": true,
+      "whisper_word_count": 60,
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-tts",
+            "repair": false,
+            "success": true,
+            "provider": "tts",
+            "warnings": [],
+            "raw_usage": {
+              "character_count": 347,
+              "duration_seconds": 22.56,
+              "usd_per_1k_chars": 0.015
+            },
+            "step_name": "TTS",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:26:29.420Z",
+            "duration_ms": 3604,
+            "finished_at": "2026-07-25T07:26:33.024Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+            "prompt_tokens": null,
+            "estimated_cost": 0.005205,
+            "output_summary": "audio duration=22.56s",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": 349,
+            "completion_tokens": null,
+            "output_size_bytes": 113,
+            "prompt_characters": 347,
+            "provider_request_id": null,
+            "completion_characters": 113
+          },
+          {
+            "model": "whisper-1",
+            "repair": false,
+            "success": true,
+            "provider": "whisper",
+            "warnings": [],
+            "raw_usage": {
+              "word_count": 60,
+              "usd_per_min": 0.006,
+              "fallback_used": false,
+              "duration_seconds": 22.56
+            },
+            "step_name": "Whisper",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:26:33.024Z",
+            "duration_ms": 1579,
+            "finished_at": "2026-07-25T07:26:34.602Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+            "prompt_tokens": null,
+            "estimated_cost": 0.002256,
+            "output_summary": "60 words (english)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 37,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 37
+          },
+          {
+            "model": "gpt-image-1",
+            "repair": false,
+            "success": true,
+            "provider": "image",
+            "warnings": [],
+            "raw_usage": {
+              "usd_per_still": 0.042,
+              "reused_still_count": 1,
+              "generated_still_count": 4
+            },
+            "step_name": "Image generation",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:26:34.725Z",
+            "duration_ms": 117160,
+            "finished_at": "2026-07-25T07:28:31.884Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+            "prompt_tokens": null,
+            "estimated_cost": 0.168,
+            "output_summary": "generated=4; reused=1",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 67,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 67
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "video",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Video rendering",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:28:32.164Z",
+            "duration_ms": 133755,
+            "finished_at": "2026-07-25T07:30:45.918Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "video_duration=24.066667",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 49,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 49
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23"
+      }
+    },
+    "debug_keys": [
+      "sfx_mixed",
+      "sfx_reason",
+      "match_ratio",
+      "fallback_used",
+      "language_hint",
+      "audio_duration",
+      "duration_delta",
+      "render_warning",
+      "video_duration",
+      "render_warnings",
+      "speech_duration",
+      "subtitle_source",
+      "target_duration",
+      "srt_last_cue_end",
+      "subtitle_warning",
+      "language_detected",
+      "post_mux_duration",
+      "tts_tail_expected",
+      "tts_validation_log",
+      "whisper_word_count",
+      "tail_buffer_seconds",
+      "tts_tail_retry_used",
+      "tts_tail_transcript",
+      "generation_telemetry",
+      "post_subtitle_duration",
+      "tts_validation_attempts",
+      "subtitle_timeline_duration",
+      "tts_tail_validation_passed",
+      "intermediate_video_duration"
+    ],
+    "output_keys": [
+      "debug",
+      "mp4_url",
+      "render_spec",
+      "subtitle_url",
+      "thumbnail_url",
+      "artifacts_persisted_at"
+    ],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "d22d4e96-c99f-4b68-84fb-704fc3f0ad74",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Six visitors. Zero leads. One quiet problem.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "A storefront with the lights on and nobody inside. That's what most websites are after 6 PM.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "99d589a6-e17f-4b1b-9e8e-c34df5597db9",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What your website is actually doing at 2 AM.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "The leads you never knew you lost are the most expensive ones. They don't bounce loudly. They just leave.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "05d8a6eb-e79a-4b13-8c14-6a44a8fb6779",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The leads that leave without a word.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Readiness without responsiveness is just decoration. Your website is open 24/7. Is it actually answering anyone?",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "cf7cd155-ec59-4925-a800-ea0e1bf5c056",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "6 people visited her website at 1 AM. All 6 left without a word. 👀 Your website is open 24/7. Is anyone actually home?",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "51c82314-311a-4679-adf0-fa079ac57ed2",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six people visited her website between midnight and 2 AM.\n\nThey checked her services. Her pricing. Her contact page.\n\nThen left. No name. No message. Nothing.\n\nHer website was open all night — it just couldn't say a word back.\n\nSave this if that hits a little too close.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#businessowner",
+        "#digitalmarketing",
+        "#leadgeneration",
+        "#entrepreneurlife",
+        "#onlinebusiness"
+      ],
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "ae05a861-00de-4ce4-b168-6ba0b243f33d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six visitors. Three pages. Zero leads. Your website was open all night — it just couldn't answer anyone.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "55f00a3a-e680-4eeb-8942-a77fa0073dfe",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Ever opened your analytics on a Monday morning and seen sessions from the middle of the night — with zero leads to show for it? 😔 Those weren't bots. Those were real people, looking at your services, your pricing, your contact page — and leaving because no one was there to help them. Your website is open 24/7. But is it actually answering anyone? Save this one for later — it might change how you think about your site.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businesstips"
+      ],
+      "cta": "Save this if your website has ever been open while you were asleep.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "4f40d1ed-c1fc-4db9-a86b-900bd3a930f4",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Storefront That Never Closes — But Also Never Speaks",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Most business owners treat their website as a finished product. Design done. Copy done. Ready.\n\nBut readiness without responsiveness is just decoration.\n\nSix sessions between midnight and 2 AM. Services page, pricing page, contact page. All bounced. No names. No questions. No way to follow up.\n\nThe website was open. It simply could not say anything back.\n\nThat's the part most of us never think to audit.",
+      "hashtags": [
+        "#smallbusiness",
+        "#businessgrowth",
+        "#websitestrategy"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "185c156b-1e54-4ce4-a38b-905f88e3739d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website is open. But is anyone home?",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Your website had visitors at 1 AM last night. They checked your pricing and left without a word. That's not a traffic problem. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    },
+    {
+      "id": "dc19e412-e5d8-4ee9-9131-535c13471edc",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "b497f5f2-3634-4370-876b-62291c8ca9c3",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The storefront that never closes — but also never speaks.",
+      "body": "Six visitors arrived at your website last night — and left without a word. They found your services page. Your pricing. Your contact form. And then they left. No name. No question. No trace. Your website was open all night. It just couldn't say anything back. That's not a traffic problem. That's a storefront with the lights on and nobody inside.",
+      "caption": "Six sessions. Midnight to 2 AM. Services, pricing, contact. All bounced. No names. Your website was open — it just couldn't speak. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 1,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:23:10.036922+00:00",
+      "updated_at": "2026-07-25T07:23:10.036922+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A local service business owner discovers, through a single night's worth of anonymous analytics data, that her website had six visitors between midnight and 3 AM — all of whom arrived with intent, fo…",
+      "environment": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windo…",
+      "product_role": "Fenrik.chat is introduced as the presence the website was always missing — not a redesign, not a new hire, not a complex integration. It reads the existing web…",
+      "visual_world": "A lived-in kitchen or small home office that doubles as a kitchen table workspace. Morning setting. Plants on the windowsill. A notebook with handwritten notes…",
+      "attention_pattern": "The viewer is drawn in by the specificity of the six visitors, creating curiosity about their intent and the conflict o…",
+      "narrative_mechanism": "story: SETUP: Open mid-scene — a woman in her early 40s, owner of a small interior des…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#websitetips",
+    "#businessowner",
+    "#digitalmarketing",
+    "#leadgeneration"
+  ],
+  "hook": "Six visitors arrived at your website last night — and left without a word.",
+  "scenario": "An interior design consultancy owner opens her analytics dashboard at dawn out of habit. She sees six sessions from the previous night — midnight to 2 AM — all navigating deliberately through her services, pricing, and contact pages. Every single one bounced. No form fills, no names, no way to follow up. She had spent months refining her website's copy and portfolio. She had assumed it was ready. What she had not considered was that readiness without responsiveness is just decoration: her website was open all night, and it could not say a single word to any of them.",
+  "video": {
+    "script": "SCENE 1 — KITCHEN TABLE, EARLY MORNING\nHandheld, intimate. A woman in her early 40s sits at a slightly cluttered kitchen table. Morning light through the window. A half-drunk coffee. She opens her laptop — routine, comfortable.\n\nVO: 'Six visitors arrived at your website last night — and left without a word.'\n\nSCENE 2 — LAPTOP SCREEN CLOSE-UP\nPush in on the analytics dashboard. Six sessions. Time range: 12:03 AM – 2:11 AM. Pages: Services, Pricing, Contact. Bounce rate: 100%. Zero form submissions.\n\nVO: 'They found your services page. Your pricing. Your contact form. And then they left.'\n\nSCENE 3 — OWNER'S FACE, SLOW PUSH-IN\nThe realization lands. She leans in slightly. Not panicked — quietly unsettled.\n\nVO: 'No name. No question. No trace. Your website was open all night. It just couldn't say anything back.'\n\nSCENE 4 — OVERHEAD TABLE SHOT\nCut to overhead. The table: notebook, coffee, laptop. A phone screen enters frame — clean UI mockup. A visitor types: 'Do you work with residential projects?' A response appears instantly, drawn from the site's own content. Timestamp: 1:47 AM.\n\nVO: 'That's not a traffic problem. That's a storefront with the lights on and nobody inside.'\n\nSCENE 5 — OWNER SETS DOWN COFFEE\nShe closes the laptop gently. Not defeated — decided. Text on screen: 'Fenrik.chat — your website already has the answers. Let it give them.'\n\nSOFT CTA ON SCREEN: 'Create your AI assistant'\n",
+    "concept": "A woman in her early 40s — owner of a small interior design consultancy — sits at her kitchen table at dawn with a coffee and her laptop. She opens her analytics dashboard out of habit. Six sessions. Last night. Midnight to 2 AM. Services page, Pricing page, Contact page. All bounced. No form fills. No names. The camera holds on her face as the realization lands: her website was open all night. It just could not say anything back. The video reframes the website from a brochure into an unstaffed storefront — lights on, door unlocked, customers walking in, nobody there to help. Resolution: a clean phone mockup shows a visitor typing a question at 1:47 AM and receiving an instant answer drawn from the site's own content. The owner sets down her coffee. Tomorrow's analytics will look different.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "product feature reference shown as a framed screen insert during the resolution beat, illustrating 24/7 AI assistant availability",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

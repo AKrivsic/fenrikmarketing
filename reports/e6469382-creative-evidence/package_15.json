@@ -1,0 +1,1739 @@
+{
+  "package_index": 15,
+  "run_item_id": "68a10ba0-45d1-4fdb-a691-c7fd5f456764",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "6f25ff2d-314f-45ea-a3a4-f1bb3622d21e",
+  "package_title": "The Decision That Never Gets Made",
+  "package_status": "draft",
+  "strategy_item_id": "60d28510-fd98-4008-a1a8-a3724514266a",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "60d28510-fd98-4008-a1a8-a3724514266a",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "Reframes the value of a defined deliverable: it's not just about the videos — it's that a fixed package eliminates the open-ended decisions (what to make, how many, for which platforms) that cause teams to stall indefinitely.",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "source": "production_run",
+      "pain_point": "No time to create content regularly",
+      "package_index": 15,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Solution Aware",
+      "topic": "Why a fixed video package removes the part of content that actually stalls most teams",
+      "angle": "Reframes the value of a defined deliverable: it's not just about the videos — it's that a fixed package eliminates the open-ended decisions (what to make, how many, for which platforms) that cause teams to stall indefinitely.",
+      "seed": "Solution Aware|Why a fixed video package removes the part of content that actually stalls most teams|Reframes the value of a defined deliverable: it's not just about the videos — it's that a fixed package eliminates the open-ended decisions (what to make, how many, for which platforms) that cause teams to stall indefinitely.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "standard",
+        "name": "Standard",
+        "description": "Clean, direct value delivery with a strong hook.",
+        "structure": "Hook on a concrete moment -> the one insight that matters -> show it in action -> proof -> CTA.",
+        "avoid": "Do not be bland, list-like or templated; still open on a concrete moment.",
+        "narrativeBeats": [
+          "hook",
+          "insight",
+          "in_action",
+          "proof",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "unexpected_truth",
+        "instruction": "Open with a true but counter-intuitive statement that reframes the topic.",
+        "exampleForm": "\"The cleanest flats are usually the dirtiest where it counts.\"",
+        "forbidGeneric": "Do not open with \"Did you know...\" or a topic label."
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Decision That Never Gets Made",
+    "core_idea": "Most teams do not stall on content because they lack ideas or time alone — they stall because every content cycle restarts the same open-ended decisions: what to make, how many pieces, which platforms, what format. A fixed package removes all of those decisions permanently, which is the real reason content finally gets done.",
+    "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered before the week starts. The team's only remaining job is to post. The product is not positioned as a creative service here — it is positioned as a decision architecture that removes the friction point that was always stalling the team.",
+    "why_it_works": "It reframes the value proposition from 'we make videos for you' to 'we remove the decisions that were stopping you' — which is a more accurate and more resonant description of what actually unblocks a stalled team. It fits the Solution Aware funnel stage because the viewer already knows content services exist; this gives them a new reason to act that they had not considered. The unexpected-truth hook lands because it names something real that teams experience but rarely articulate. The Standard mode keeps it clean and direct without being listy or generic.",
+    "narrative_arc": "HOOK (unexpected truth): Open on a blunt reframe — the reason content never ships is not the making; it is the deciding. Every week, before a single word gets written, a team silently re-litigates the same four questions: what do we post, how many, where, and in what format. That invisible decision loop is where most content dies. INSIGHT: The open-ended nature of content is not a creative problem — it is a structural one. When nothing is fixed, every cycle is a fresh negotiation. A fixed package collapses all four questions into zero. The deliverable is already defined: a set number of videos, every platform, every asset included. The decision has already been made — once, at the start. IN ACTION: A two-person marketing team wraps a sprint on a Friday afternoon. In a previous world, someone would open a shared doc and start the familiar loop — 'so what are we doing this week, how many pieces, do we do LinkedIn or skip it again?' That conversation alone has eaten a combined three hours across the last four Fridays. This time, the package is already in motion. The number is fixed. The platforms are covered. The only task left is to hit publish. PROOF: The first package is free — no payment, no brief, no call. Just a website URL. The structure is already there before the team has to make a single content decision. CTA: Invite the viewer to submit their URL and let the structure do the deciding.",
+    "emotional_tone": "Quietly revelatory — the kind of insider reframe that makes a viewer pause and think 'that is exactly what has been happening.' Not dramatic. Not urgent. Conspiratorial and precise, like someone finally naming the thing everyone felt but never articulated.",
+    "audience_insight": "Small teams and solo operators believe their content problem is a time problem or an ideas problem. It is neither. It is a decision-fatigue problem that restarts on a loop. They will recognize this immediately once it is named — because they have lived it every week without ever identifying it as the actual blocker.",
+    "visual_direction": {
+      "palette": "Off-white background with one strong accent color (deep slate blue or near-black) for text and graphic elements. A single highlight color (warm amber or electric teal) used only on the key reframe words to draw the eye exactly where the argument turns.",
+      "lighting": "Even, neutral digital light throughout — no shadows, no atmosphere. The flatness is intentional: this is a clear-headed observation, not a mood piece.",
+      "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared task board or a calendar grid dissolving into a clean, resolved package summary. The environment reinforces the idea that this problem lives in systems, not spaces.",
+      "camera_style": "Static frames with deliberate, minimal kinetic text. Words appear and lock into place rather than animating continuously. Cuts are clean and purposeful — no transitions for style, only for emphasis. Pacing is measured: slower than a typical TikTok to signal that this is worth reading, not just watching.",
+      "art_direction": "Flat, graphic-forward digital environment. Text overlays carry the weight of the argument — no performative emotion, no dramatic lighting shifts. Clean motion graphics punctuate the key reframe moments. The visual language feels like a sharp internal memo, not a polished ad.",
+      "character_style": "none"
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, allowing viewers to absorb the weight of the statement.",
+    "emotion": "Quietly revelatory, as viewers recognize their own struggles in the shared experience.",
+    "first_image": "A digital task board with a prominent red 'Content Due' label, surrounded by empty boxes and a calendar showing multiple missed deadlines.",
+    "attention_pattern": "The stark visual of the empty task board contrasts sharply with the urgency of the spoken words, creating a sense of conflict that compels viewers to consider their own content challenges.",
+    "first_spoken_sentence": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?"
+  },
+  "visual_identity": {
+    "palette": "Off-white background with one strong accent color (deep slate blue or near-black) for text and graphic elements. A single highlight color (warm amber or electric teal) used only on the key reframe words to draw the eye exactly where the argument turns.",
+    "lighting": "Even, neutral digital light throughout — no shadows, no atmosphere. The flatness is intentional: this is a clear-headed observation, not a mood piece.",
+    "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared task board or a calendar grid dissolving into a clean, resolved package summary. The environment reinforces the idea that this problem lives in systems, not spaces.",
+    "camera_style": "Static frames with deliberate, minimal kinetic text. Words appear and lock into place rather than animating continuously. Cuts are clean and purposeful — no transitions for style, only for emphasis. Pacing is measured: slower than a typical TikTok to signal that this is worth reading, not just watching.",
+    "art_direction": "Flat, graphic-forward digital environment. Text overlays carry the weight of the argument — no performative emotion, no dramatic lighting shifts. Clean motion graphics punctuate the key reframe moments. The visual language feels like a sharp internal memo, not a polished ad.",
+    "character_style": "none",
+    "opening_emotion": "Quietly revelatory, as viewers recognize their own struggles in the shared experience.",
+    "opening_first_image": "A digital task board with a prominent red 'Content Due' label, surrounded by empty boxes and a calendar showing multiple missed deadlines."
+  },
+  "package": {
+    "title": "The Decision That Never Gets Made",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+    "scenario": "A two-person marketing team wraps a sprint on a Friday afternoon. One of them opens a shared doc and types 'Week 14 Content' at the top. Then comes the familiar pause — 'So what are we doing this week? How many pieces? Do we bother with LinkedIn again?' That conversation alone has consumed a combined three hours across the last four Fridays. Nothing decided, nothing posted. The problem was never the making. It was that the deciding never ended.",
+    "video": {
+      "script": "[SCENE 1 — Digital task board, red 'Content Due' label, empty boxes, calendar with missed deadlines]\nVO: Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?\n\n[SCENE 2 — Abstract looping arrows over a blank shared document, words cycling: 'LinkedIn? TikTok? How many? What format?']\nVO: That loop is not a time problem. It is a decision problem. And it restarts every single cycle.\n\n[SCENE 3 — Calendar grid dissolving into a clean, resolved package summary — fixed number, platforms listed, assets labeled]\nVO: A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered.\n\n[SCENE 4 — Single task remaining: 'Publish' — clean, minimal, one item]\nVO: The only thing left to do is post.\n\n[SCENE 5 — fenrik Studio logo on off-white background with amber accent text: 'Submit your URL. First package free.']\nText overlay: Submit your website URL. First package is free.",
+      "concept": "Most teams believe their content problem is about time or ideas. This video reframes it: the real blocker is the open-ended decision loop that restarts every week before a single word gets written. A fixed package eliminates that loop entirely — the what, how many, and where are already answered. The team's only remaining job is to post. fenrik Studio is positioned not as a creative service but as a structural fix that removes the friction point that was always stalling the team.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediamarketing",
+      "#contentcreation",
+      "#marketingstrategy",
+      "#smallbusiness",
+      "#saas",
+      "#socialmediatips",
+      "#entrepreneurlife"
+    ],
+    "subtitles_planned": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+  "voice_prompts": {
+    "voiceover_text": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows",
+    "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment",
+    "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout",
+    "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters",
+    "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Submit your website URL — your first content package is free, no decisions required.",
+      "type": "lead"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "link in bio",
+        "format": "reel",
+        "caption": "Your content isn't stalling because of time. It's stalling because the same four decisions restart every week 👀 link in bio",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#marketingtips",
+          "#contentstrategy"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "shorts",
+        "caption": "Your content isn't stalling because you're busy — it's stalling because the same four decisions restart every single week. Here's the fix.",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SocialMediaStrategy",
+          "#YouTubeShorts"
+        ]
+      },
+      "facebook": {
+        "cta": "Submit your website URL at fenrik.studio — first package is free.",
+        "format": "reel",
+        "caption": "Here's something most teams don't realize: content doesn't stall because of time — it stalls because the same open-ended decisions restart every single week. 😅 What do we post? How many? Which platforms? What format? A fixed content package answers all of that before the week even starts. fenrik Studio builds it from your website URL, and your first package is completely free. https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SmallBusiness",
+          "#SocialMediaTips"
+        ]
+      },
+      "linkedin": {
+        "cta": "Submit your website URL — first content package is free.",
+        "format": "reel",
+        "caption": "Most teams think their content problem is a time problem. It isn't.\n\nEvery week, before a single word gets written, the same four questions restart: what do we post, how many pieces, which platforms, what format? That decision loop is where content dies — not in the making, but in the deciding.\n\nA fixed package collapses all four questions into zero. The deliverable is defined. The platforms are covered. The team's only job is to publish.\n\nfenrik Studio builds the package from your website URL. First one is free. https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#MarketingStrategy",
+          "#SocialMedia"
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio to get your first package free.",
+        "format": "reel",
+        "caption": "The reason content never ships isn't the making.\n\nIt's the deciding.\n\nEvery week: what do we post, how many, which platforms, what format? That invisible loop is where most content dies — before a single word gets written.\n\nA fixed package answers all of it before the week starts. Submit your URL — first package is free. Link in bio.",
+        "hashtags": [
+          "#socialmediamarketing",
+          "#contentcreation",
+          "#marketingstrategy",
+          "#smallbusiness",
+          "#contentmarketing",
+          "#socialmediatips",
+          "#entrepreneurlife",
+          "#saas"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "d8b3ebad-9f6f-4227-b246-0f70b2fed14a",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Decision That Never Gets Made",
+        "body": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+        "caption": "Most teams think their content problem is a time problem. It isn't.\n\nEvery week, before a single word gets written, the same four questions restart: what do we post, how many pieces, which platforms, what format? That decision loop is where content dies — not in the making, but in the deciding.\n\nA fixed package collapses all four questions into zero. The deliverable is defined. The platforms are covered. The team's only job is to publish.\n\nfenrik Studio builds the package from your website URL. First one is free. https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#MarketingStrategy",
+          "#SocialMedia"
+        ],
+        "cta": "Submit your website URL — first content package is free. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "6cd3f198-f38b-4da6-b1fc-b2b296a4ff6c",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Decision That Never Gets Made",
+        "body": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+        "caption": "Your content isn't stalling because of time. It's stalling because the same four decisions restart every week 👀 link in bio",
+        "hashtags": [
+          "#contentcreation",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#marketingtips",
+          "#contentstrategy"
+        ],
+        "cta": "link in bio",
+        "language": null
+      },
+      {
+        "id": "8d666dd5-dbab-4fe4-89e4-edad28a9b037",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Decision That Never Gets Made",
+        "body": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+        "caption": "The reason content never ships isn't the making.\n\nIt's the deciding.\n\nEvery week: what do we post, how many, which platforms, what format? That invisible loop is where most content dies — before a single word gets written.\n\nA fixed package answers all of it before the week starts. Submit your URL — first package is free. Link in bio.",
+        "hashtags": [
+          "#socialmediamarketing",
+          "#contentcreation",
+          "#marketingstrategy",
+          "#smallbusiness",
+          "#contentmarketing",
+          "#socialmediatips",
+          "#entrepreneurlife",
+          "#saas"
+        ],
+        "cta": "Link in bio to get your first package free.",
+        "language": null
+      },
+      {
+        "id": "ded24f71-32e2-4945-9e4f-5aeabebf6cb0",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Decision That Never Gets Made",
+        "body": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+        "caption": "Your content isn't stalling because you're busy — it's stalling because the same four decisions restart every single week. Here's the fix.",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SocialMediaStrategy",
+          "#YouTubeShorts"
+        ],
+        "cta": "Subscribe for more. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "a8a8f527-51a6-40ff-9603-81a214ae0e84",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Decision That Never Gets Made",
+        "body": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+        "caption": "Here's something most teams don't realize: content doesn't stall because of time — it stalls because the same open-ended decisions restart every single week. 😅 What do we post? How many? Which platforms? What format? A fixed content package answers all of that before the week even starts. fenrik Studio builds it from your website URL, and your first package is completely free. https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SmallBusiness",
+          "#SocialMediaTips"
+        ],
+        "cta": "Submit your website URL at fenrik.studio — first package is free. https://fenrik.studio",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "6f25ff2d-314f-45ea-a3a4-f1bb3622d21e",
+    "title": "The Decision That Never Gets Made",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "60d28510-fd98-4008-a1a8-a3724514266a",
+    "package_brief": {
+      "cta": {
+        "text": "Submit your website URL — your first content package is free, no decisions required.",
+        "type": "lead"
+      },
+      "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "video": {
+        "script": "[SCENE 1 — Digital task board, red 'Content Due' label, empty boxes, calendar with missed deadlines]\nVO: Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?\n\n[SCENE 2 — Abstract looping arrows over a blank shared document, words cycling: 'LinkedIn? TikTok? How many? What format?']\nVO: That loop is not a time problem. It is a decision problem. And it restarts every single cycle.\n\n[SCENE 3 — Calendar grid dissolving into a clean, resolved package summary — fixed number, platforms listed, assets labeled]\nVO: A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered.\n\n[SCENE 4 — Single task remaining: 'Publish' — clean, minimal, one item]\nVO: The only thing left to do is post.\n\n[SCENE 5 — fenrik Studio logo on off-white background with amber accent text: 'Submit your URL. First package free.']\nText overlay: Submit your website URL. First package is free.",
+        "concept": "Most teams believe their content problem is about time or ideas. This video reframes it: the real blocker is the open-ended decision loop that restarts every week before a single word gets written. A fixed package eliminates that loop entirely — the what, how many, and where are already answered. The team's only remaining job is to post. fenrik Studio is positioned not as a creative service but as a structural fix that removes the friction point that was always stalling the team.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediamarketing",
+        "#contentcreation",
+        "#marketingstrategy",
+        "#smallbusiness",
+        "#saas",
+        "#socialmediatips",
+        "#entrepreneurlife"
+      ],
+      "scenario": "A two-person marketing team wraps a sprint on a Friday afternoon. One of them opens a shared doc and types 'Week 14 Content' at the top. Then comes the familiar pause — 'So what are we doing this week? How many pieces? Do we bother with LinkedIn again?' That conversation alone has consumed a combined three hours across the last four Fridays. Nothing decided, nothing posted. The problem was never the making. It was that the deciding never ended.",
+      "subtitles": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows",
+        "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment",
+        "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout",
+        "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters",
+        "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "link in bio",
+          "format": "reel",
+          "caption": "Your content isn't stalling because of time. It's stalling because the same four decisions restart every week 👀 link in bio",
+          "hashtags": [
+            "#contentcreation",
+            "#socialmediamarketing",
+            "#smallbusiness",
+            "#marketingtips",
+            "#contentstrategy"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "shorts",
+          "caption": "Your content isn't stalling because you're busy — it's stalling because the same four decisions restart every single week. Here's the fix.",
+          "hashtags": [
+            "#ContentMarketing",
+            "#SocialMediaStrategy",
+            "#YouTubeShorts"
+          ]
+        },
+        "facebook": {
+          "cta": "Submit your website URL at fenrik.studio — first package is free.",
+          "format": "reel",
+          "caption": "Here's something most teams don't realize: content doesn't stall because of time — it stalls because the same open-ended decisions restart every single week. 😅 What do we post? How many? Which platforms? What format? A fixed content package answers all of that before the week even starts. fenrik Studio builds it from your website URL, and your first package is completely free. https://fenrik.studio",
+          "hashtags": [
+            "#ContentMarketing",
+            "#SmallBusiness",
+            "#SocialMediaTips"
+          ]
+        },
+        "linkedin": {
+          "cta": "Submit your website URL — first content package is free.",
+          "format": "reel",
+          "caption": "Most teams think their content problem is a time problem. It isn't.\n\nEvery week, before a single word gets written, the same four questions restart: what do we post, how many pieces, which platforms, what format? That decision loop is where content dies — not in the making, but in the deciding.\n\nA fixed package collapses all four questions into zero. The deliverable is defined. The platforms are covered. The team's only job is to publish.\n\nfenrik Studio builds the package from your website URL. First one is free. https://fenrik.studio",
+          "hashtags": [
+            "#ContentMarketing",
+            "#MarketingStrategy",
+            "#SocialMedia"
+          ]
+        },
+        "instagram": {
+          "cta": "Link in bio to get your first package free.",
+          "format": "reel",
+          "caption": "The reason content never ships isn't the making.\n\nIt's the deciding.\n\nEvery week: what do we post, how many, which platforms, what format? That invisible loop is where most content dies — before a single word gets written.\n\nA fixed package answers all of it before the week starts. Submit your URL — first package is free. Link in bio.",
+          "hashtags": [
+            "#socialmediamarketing",
+            "#contentcreation",
+            "#marketingstrategy",
+            "#smallbusiness",
+            "#contentmarketing",
+            "#socialmediatips",
+            "#entrepreneurlife",
+            "#saas"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "6f25ff2d-314f-45ea-a3a4-f1bb3622d21e",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 32,
+          "secondary": 45
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "standard",
+        "video_concept": {
+          "title": "The Decision That Never Gets Made",
+          "core_idea": "Most teams do not stall on content because they lack ideas or time alone — they stall because every content cycle restarts the same open-ended decisions: what to make, how many pieces, which platforms, what format. A fixed package removes all of those decisions permanently, which is the real reason content finally gets done.",
+          "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered before the week starts. The team's only remaining job is to post. The product is not positioned as a creative service here — it is positioned as a decision architecture that removes the friction point that was always stalling the team.",
+          "why_it_works": "It reframes the value proposition from 'we make videos for you' to 'we remove the decisions that were stopping you' — which is a more accurate and more resonant description of what actually unblocks a stalled team. It fits the Solution Aware funnel stage because the viewer already knows content services exist; this gives them a new reason to act that they had not considered. The unexpected-truth hook lands because it names something real that teams experience but rarely articulate. The Standard mode keeps it clean and direct without being listy or generic.",
+          "narrative_arc": "HOOK (unexpected truth): Open on a blunt reframe — the reason content never ships is not the making; it is the deciding. Every week, before a single word gets written, a team silently re-litigates the same four questions: what do we post, how many, where, and in what format. That invisible decision loop is where most content dies. INSIGHT: The open-ended nature of content is not a creative problem — it is a structural one. When nothing is fixed, every cycle is a fresh negotiation. A fixed package collapses all four questions into zero. The deliverable is already defined: a set number of videos, every platform, every asset included. The decision has already been made — once, at the start. IN ACTION: A two-person marketing team wraps a sprint on a Friday afternoon. In a previous world, someone would open a shared doc and start the familiar loop — 'so what are we doing this week, how many pieces, do we do LinkedIn or skip it again?' That conversation alone has eaten a combined three hours across the last four Fridays. This time, the package is already in motion. The number is fixed. The platforms are covered. The only task left is to hit publish. PROOF: The first package is free — no payment, no brief, no call. Just a website URL. The structure is already there before the team has to make a single content decision. CTA: Invite the viewer to submit their URL and let the structure do the deciding.",
+          "emotional_tone": "Quietly revelatory — the kind of insider reframe that makes a viewer pause and think 'that is exactly what has been happening.' Not dramatic. Not urgent. Conspiratorial and precise, like someone finally naming the thing everyone felt but never articulated.",
+          "audience_insight": "Small teams and solo operators believe their content problem is a time problem or an ideas problem. It is neither. It is a decision-fatigue problem that restarts on a loop. They will recognize this immediately once it is named — because they have lived it every week without ever identifying it as the actual blocker.",
+          "visual_direction": {
+            "palette": "Off-white background with one strong accent color (deep slate blue or near-black) for text and graphic elements. A single highlight color (warm amber or electric teal) used only on the key reframe words to draw the eye exactly where the argument turns.",
+            "lighting": "Even, neutral digital light throughout — no shadows, no atmosphere. The flatness is intentional: this is a clear-headed observation, not a mood piece.",
+            "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared task board or a calendar grid dissolving into a clean, resolved package summary. The environment reinforces the idea that this problem lives in systems, not spaces.",
+            "camera_style": "Static frames with deliberate, minimal kinetic text. Words appear and lock into place rather than animating continuously. Cuts are clean and purposeful — no transitions for style, only for emphasis. Pacing is measured: slower than a typical TikTok to signal that this is worth reading, not just watching.",
+            "art_direction": "Flat, graphic-forward digital environment. Text overlays carry the weight of the argument — no performative emotion, no dramatic lighting shifts. Clean motion graphics punctuate the key reframe moments. The visual language feels like a sharp internal memo, not a polished ad.",
+            "character_style": "none"
+          }
+        },
+        "voice_reasons": [
+          "funnel_solution→steady/energy(+1)",
+          "mode_standard→steadiness(+2)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+32)",
+          "fit_secondary(+45)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and deliberate, allowing viewers to absorb the weight of the statement.",
+          "emotion": "Quietly revelatory, as viewers recognize their own struggles in the shared experience.",
+          "first_image": "A digital task board with a prominent red 'Content Due' label, surrounded by empty boxes and a calendar showing multiple missed deadlines.",
+          "attention_pattern": "The stark visual of the empty task board contrasts sharply with the urgency of the spoken words, creating a sense of conflict that compels viewers to consider their own content challenges.",
+          "first_spoken_sentence": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?"
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: clear, confident, practical. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Off-white background with one strong accent color (deep slate blue or near-black) for text and graphic elements. A single highlight color (warm amber or electric teal) used only on the key reframe words to draw the eye exactly where the argument turns.",
+          "lighting": "Even, neutral digital light throughout — no shadows, no atmosphere. The flatness is intentional: this is a clear-headed observation, not a mood piece.",
+          "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared task board or a calendar grid dissolving into a clean, resolved package summary. The environment reinforces the idea that this problem lives in systems, not spaces.",
+          "camera_style": "Static frames with deliberate, minimal kinetic text. Words appear and lock into place rather than animating continuously. Cuts are clean and purposeful — no transitions for style, only for emphasis. Pacing is measured: slower than a typical TikTok to signal that this is worth reading, not just watching.",
+          "art_direction": "Flat, graphic-forward digital environment. Text overlays carry the weight of the argument — no performative emotion, no dramatic lighting shifts. Clean motion graphics punctuate the key reframe moments. The visual language feels like a sharp internal memo, not a polished ad.",
+          "character_style": "none",
+          "opening_emotion": "Quietly revelatory, as viewers recognize their own struggles in the shared experience.",
+          "opening_first_image": "A digital task board with a prominent red 'Content Due' label, surrounded by empty boxes and a calendar showing multiple missed deadlines."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "No time to create content regularly",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6889,
+                "completion_tokens": 1098
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:39:34.710Z",
+              "duration_ms": 29563,
+              "finished_at": "2026-07-25T10:40:04.273Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6889,
+              "estimated_cost": 0.037137,
+              "output_summary": "Concept: The Decision That Never Gets Made",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 29820,
+              "completion_tokens": 1098,
+              "output_size_bytes": 4965,
+              "prompt_characters": 29550,
+              "provider_request_id": null,
+              "completion_characters": 4937
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5617,
+                "completion_tokens": 149
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:40:04.274Z",
+              "duration_ms": 2406,
+              "finished_at": "2026-07-25T10:40:06.680Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5617,
+              "estimated_cost": 0.000855,
+              "output_summary": "Opening: Every week, the same four questions eat up hours: what do we post, how many, whe",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 27220,
+              "completion_tokens": 149,
+              "output_size_bytes": 709,
+              "prompt_characters": 27074,
+              "provider_request_id": null,
+              "completion_characters": 709
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:40:06.680Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:40:06.680Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Flat, graphic-forward digital environment. Text overlays car",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1686,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1678
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10632,
+                "completion_tokens": 2479
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:40:06.681Z",
+              "duration_ms": 45302,
+              "finished_at": "2026-07-25T10:40:51.983Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10632,
+              "estimated_cost": 0.069081,
+              "output_summary": "Package: The Decision That Never Gets Made",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 44129,
+              "completion_tokens": 2479,
+              "output_size_bytes": 9694,
+              "prompt_characters": 43861,
+              "provider_request_id": null,
+              "completion_characters": 9634
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:40:51.983Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:40:51.983Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2500,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2482
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:40:51.983Z",
+              "duration_ms": 2046,
+              "finished_at": "2026-07-25T10:40:54.029Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=6f25ff2d-314f-45ea-a3a4-f1bb3622d21e; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "60d28510-fd98-4008-a1a8-a3724514266a",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "Most teams do not stall on content because they lack ideas or time alone — they stall because every content cycle restarts the same open-ended decisions: what to make, how many pieces, which platform…",
+          "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional …",
+          "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered be…",
+          "visual_world": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared tas…",
+          "attention_pattern": "The stark visual of the empty task board contrasts sharply with the urgency of the spoken words, creating a sense of co…",
+          "narrative_mechanism": "standard: HOOK (unexpected truth): Open on a blunt reframe — the reason content never shi…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+            "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+            "motifs": [
+              "meeting",
+              "group",
+              "monitor"
+            ],
+            "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "meeting",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:40:52.086613+00:00",
+    "updated_at": "2026-07-25T10:40:54.200684+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 32,
+      "secondary": 45
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_standard→steadiness(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+32)",
+      "fit_secondary(+45)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en."
+  },
+  "creative_mode": "standard",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "No time to create content regularly",
+    "strategy_pain_point": "No time to create content regularly"
+  },
+  "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered before the week starts. The team's only remaining job is to post. The product is not positioned as a creative service here — it is positioned as a decision architecture that removes the friction point that was always stalling the team.",
+  "narrative_arc": "HOOK (unexpected truth): Open on a blunt reframe — the reason content never ships is not the making; it is the deciding. Every week, before a single word gets written, a team silently re-litigates the same four questions: what do we post, how many, where, and in what format. That invisible decision loop is where most content dies. INSIGHT: The open-ended nature of content is not a creative problem — it is a structural one. When nothing is fixed, every cycle is a fresh negotiation. A fixed package collapses all four questions into zero. The deliverable is already defined: a set number of videos, every platform, every asset included. The decision has already been made — once, at the start. IN ACTION: A two-person marketing team wraps a sprint on a Friday afternoon. In a previous world, someone would open a shared doc and start the familiar loop — 'so what are we doing this week, how many pieces, do we do LinkedIn or skip it again?' That conversation alone has eaten a combined three hours across the last four Fridays. This time, the package is already in motion. The number is fixed. The platforms are covered. The only task left is to hit publish. PROOF: The first package is free — no payment, no brief, no call. Just a website URL. The structure is already there before the team has to make a single content decision. CTA: Invite the viewer to submit their URL and let the structure do the deciding.",
+  "emotional_tone": "Quietly revelatory — the kind of insider reframe that makes a viewer pause and think 'that is exactly what has been happening.' Not dramatic. Not urgent. Conspiratorial and precise, like someone finally naming the thing everyone felt but never articulated.",
+  "audience_insight": "Small teams and solo operators believe their content problem is a time problem or an ideas problem. It is neither. It is a decision-fatigue problem that restarts on a loop. They will recognize this immediately once it is named — because they have lived it every week without ever identifying it as the actual blocker.",
+  "visual_direction": {
+    "palette": "Off-white background with one strong accent color (deep slate blue or near-black) for text and graphic elements. A single highlight color (warm amber or electric teal) used only on the key reframe words to draw the eye exactly where the argument turns.",
+    "lighting": "Even, neutral digital light throughout — no shadows, no atmosphere. The flatness is intentional: this is a clear-headed observation, not a mood piece.",
+    "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared task board or a calendar grid dissolving into a clean, resolved package summary. The environment reinforces the idea that this problem lives in systems, not spaces.",
+    "camera_style": "Static frames with deliberate, minimal kinetic text. Words appear and lock into place rather than animating continuously. Cuts are clean and purposeful — no transitions for style, only for emphasis. Pacing is measured: slower than a typical TikTok to signal that this is worth reading, not just watching.",
+    "art_direction": "Flat, graphic-forward digital environment. Text overlays carry the weight of the argument — no performative emotion, no dramatic lighting shifts. Clean motion graphics punctuate the key reframe moments. The visual language feels like a sharp internal memo, not a polished ad.",
+    "character_style": "none"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post."
+  },
+  "render_metadata": {
+    "id": "eeb3349b-a4fb-4eb7-b925-94ef29ff5eec",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:40:53.864214+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat digital task board on an off-white background, a prominent red label reading 'Content Due' at the top, surrounded by empty checkbox rows and a minimal calendar grid showing multiple dates marked with faint red X marks — deep slate blue typography, no physical room, entirely screen-native, even neutral lighting, no shadows"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Abstract looping arrow graphic in deep slate blue on an off-white background, cycling through four floating text labels — 'What do we post?', 'How many?', 'Which platforms?', 'What format?' — each label rendered in near-black with a single word highlighted in warm amber, flat graphic style, static and clean, no characters or physical environment"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A minimal calendar grid dissolving on the left side into a clean resolved package summary on the right — the summary shows a fixed number, a list of platform icons, and labeled asset rows, all in deep slate blue on off-white, the transition rendered as a crisp graphic wipe, flat and screen-native, even digital light throughout"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Single line on an off-white background in deep slate blue: one checkbox row labeled 'Publish' with a clean checkmark rendered in warm amber — all other rows above it are empty and faded, emphasizing that only one task remains, flat graphic style, no physical environment, no characters"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. closing logo lockup on the final frame, centered on off-white background as the brand identifier for the CTA screen. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+    "cta": "Submit your website URL — your first content package is free, no decisions required.",
+    "voiceover_text": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format? That loop is not a time problem. It is a decision problem. And it restarts every single cycle. A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered. The only thing left to do is post.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "Most teams do not stall on content because they lack ideas or time alone — they stall because every content cycle restarts the same open-ended decisions: what to make, how many pieces, which platform…",
+      "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional …",
+      "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered be…",
+      "visual_world": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared tas…",
+      "attention_pattern": "The stark visual of the empty task board contrasts sharply with the urgency of the spoken words, creating a sense of co…",
+      "narrative_mechanism": "standard: HOOK (unexpected truth): Open on a blunt reframe — the reason content never shi…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediamarketing",
+    "#contentcreation",
+    "#marketingstrategy",
+    "#smallbusiness",
+    "#saas",
+    "#socialmediatips",
+    "#entrepreneurlife"
+  ],
+  "hook": "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+  "scenario": "A two-person marketing team wraps a sprint on a Friday afternoon. One of them opens a shared doc and types 'Week 14 Content' at the top. Then comes the familiar pause — 'So what are we doing this week? How many pieces? Do we bother with LinkedIn again?' That conversation alone has consumed a combined three hours across the last four Fridays. Nothing decided, nothing posted. The problem was never the making. It was that the deciding never ended.",
+  "video": {
+    "script": "[SCENE 1 — Digital task board, red 'Content Due' label, empty boxes, calendar with missed deadlines]\nVO: Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?\n\n[SCENE 2 — Abstract looping arrows over a blank shared document, words cycling: 'LinkedIn? TikTok? How many? What format?']\nVO: That loop is not a time problem. It is a decision problem. And it restarts every single cycle.\n\n[SCENE 3 — Calendar grid dissolving into a clean, resolved package summary — fixed number, platforms listed, assets labeled]\nVO: A fixed content package collapses all four questions into zero. The deliverable is already defined. The platforms are covered.\n\n[SCENE 4 — Single task remaining: 'Publish' — clean, minimal, one item]\nVO: The only thing left to do is post.\n\n[SCENE 5 — fenrik Studio logo on off-white background with amber accent text: 'Submit your URL. First package free.']\nText overlay: Submit your website URL. First package is free.",
+    "concept": "Most teams believe their content problem is about time or ideas. This video reframes it: the real blocker is the open-ended decision loop that restarts every week before a single word gets written. A fixed package eliminates that loop entirely — the what, how many, and where are already answered. The team's only remaining job is to post. fenrik Studio is positioned not as a creative service but as a structural fix that removes the friction point that was always stalling the team.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "motifs": [
+        "meeting",
+        "group",
+        "monitor"
+      ],
+      "closing": "End card logo lockup over plain neutral background, closing frame of the video",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "meeting",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6889,
+          "completion_tokens": 1098
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:39:34.710Z",
+        "duration_ms": 29563,
+        "finished_at": "2026-07-25T10:40:04.273Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6889,
+        "estimated_cost": 0.037137,
+        "output_summary": "Concept: The Decision That Never Gets Made",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 29820,
+        "completion_tokens": 1098,
+        "output_size_bytes": 4965,
+        "prompt_characters": 29550,
+        "provider_request_id": null,
+        "completion_characters": 4937
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5617,
+          "completion_tokens": 149
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:40:04.274Z",
+        "duration_ms": 2406,
+        "finished_at": "2026-07-25T10:40:06.680Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5617,
+        "estimated_cost": 0.000855,
+        "output_summary": "Opening: Every week, the same four questions eat up hours: what do we post, how many, whe",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 27220,
+        "completion_tokens": 149,
+        "output_size_bytes": 709,
+        "prompt_characters": 27074,
+        "provider_request_id": null,
+        "completion_characters": 709
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:40:06.680Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:40:06.680Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Flat, graphic-forward digital environment. Text overlays car",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1686,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1678
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10632,
+          "completion_tokens": 2479
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:40:06.681Z",
+        "duration_ms": 45302,
+        "finished_at": "2026-07-25T10:40:51.983Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10632,
+        "estimated_cost": 0.069081,
+        "output_summary": "Package: The Decision That Never Gets Made",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 44129,
+        "completion_tokens": 2479,
+        "output_size_bytes": 9694,
+        "prompt_characters": 43861,
+        "provider_request_id": null,
+        "completion_characters": 9634
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:40:51.983Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:40:51.983Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2500,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2482
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:40:51.983Z",
+        "duration_ms": 2046,
+        "finished_at": "2026-07-25T10:40:54.029Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=6f25ff2d-314f-45ea-a3a4-f1bb3622d21e; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "60d28510-fd98-4008-a1a8-a3724514266a",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

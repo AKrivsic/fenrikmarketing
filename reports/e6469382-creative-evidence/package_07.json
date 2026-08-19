@@ -1,0 +1,1735 @@
+{
+  "package_index": 7,
+  "run_item_id": "e517a0eb-1286-43d0-899b-7d7e618154ce",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "971e7aa2-8cf8-4775-a83d-ccf74cd02545",
+  "package_title": "The Myth of the Missing Brief",
+  "package_status": "draft",
+  "strategy_item_id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "solution_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A straightforward walkthrough of the fenrik Studio intake process: one URL submitted, no brief written, no creative direction given — and what comes back on the other side. Focuses on what the customer does not have to do.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "source": "production_run",
+      "pain_point": "Struggling to produce consistent, platform-ready social media content",
+      "package_index": 7,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Solution Aware",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "angle": "A straightforward walkthrough of the fenrik Studio intake process: one URL submitted, no brief written, no creative direction given — and what comes back on the other side. Focuses on what the customer does not have to do.",
+      "seed": "Solution Aware|What happens when your content input is just a URL — nothing else|A straightforward walkthrough of the fenrik Studio intake process: one URL submitted, no brief written, no creative direction given — and what comes back on the other side. Focuses on what the customer does not have to do.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "myth_buster",
+        "name": "Myth Buster",
+        "description": "Names a widespread myth and corrects it.",
+        "structure": "Myth -> why people believe it -> the reality -> CTA.",
+        "avoid": "Do not invent the myth; correct it with real, supportable facts only.",
+        "narrativeBeats": [
+          "myth",
+          "why_believed",
+          "reality",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "unexpected_truth",
+        "instruction": "Open with a true but counter-intuitive statement that reframes the topic.",
+        "exampleForm": "\"The cleanest flats are usually the dirtiest where it counts.\"",
+        "forbidGeneric": "Do not open with \"Did you know...\" or a topic label."
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Myth of the Missing Brief",
+    "core_idea": "Most people assume a content service needs a creative brief, brand guidelines, a call, and a list of talking points before it can produce anything useful. This piece corrects that assumption directly: fenrik Studio takes a URL and nothing else — no brief, no onboarding form, no back-and-forth — and returns platform-ready videos and posts. The myth is that input complexity equals output quality. The reality is that the website already contains everything needed.",
+    "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-platform content package — no brief, no call, no reformatting. The free first package is introduced at the CTA as the zero-risk way to verify the claim personally.",
+    "why_it_works": "The myth-buster structure works here because the real objection is not price or trust in AI — it is the assumption that submitting a URL cannot possibly be enough. By naming that assumption, validating why smart people hold it, and then correcting it with the specific mechanics of what fenrik Studio actually does, the video removes the barrier without overselling. The insider voice makes the correction feel like a trade secret rather than a marketing claim. The free package CTA converts the intellectual correction into an immediate, zero-cost action.",
+    "narrative_arc": "MYTH: Open on a counter-intuitive statement delivered with quiet confidence — the more you explain your business before a content service starts, the less it actually needed from you. PAUSE. That sounds wrong. But here is why people believe the opposite. WHY BELIEVED: Everyone has been through an agency onboarding: the intake form, the brand voice document, the 45-minute discovery call, the mood board request. That process trains people to assume content production requires a long runway of human input. So when a service says 'just give us your URL,' the instinct is to distrust it — to assume corners are being cut or the output will be generic. REALITY: The website is not a starting point. It is the brief. It already holds the product, the positioning, the tone, the use cases, the audience signals — everything a content team would extract from a briefing call, already published and structured. fenrik Studio reads that and produces short-form AI videos plus platform-ready captions, posts, and hashtags for TikTok, Instagram, LinkedIn, Facebook, and YouTube Shorts. The customer submits a URL. What comes back is a complete, publishable content package. No call scheduled. No document written. No decisions made. CTA: The first package is free — no brief required, no payment needed. Submit your URL and see what comes back.",
+    "emotional_tone": "Calm and slightly conspiratorial — the tone of someone letting you in on something the industry quietly gets wrong. Confident without being combative. The correction feels like a revelation, not a lecture.",
+    "audience_insight": "Solution-aware founders and small marketing teams have been conditioned by agency culture to equate effort-in with quality-out. They do not distrust done-for-you content because they doubt the concept — they distrust it because every service they have encountered has front-loaded the work back onto them. Correcting that assumption directly, with specifics about what the intake actually looks like, removes the hidden friction that stops them from trying.",
+    "visual_direction": {
+      "palette": "Off-white background, single accent color (a muted teal or slate blue) used only for UI highlights and text callouts. No gradients. High contrast between text and background for readability at small sizes.",
+      "lighting": "Flat, even natural light — no dramatic shadows. The mood is matter-of-fact, not cinematic. Think bright co-working space window light, slightly overexposed to feel open and effortless.",
+      "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual 'busy workspace' signals that the usual amount of effort is not required here.",
+      "camera_style": "Static wide shot for the talking-head beats; tight crop on the screen for the URL and asset reveal moments. No handheld shake. Cuts are clean and unhurried — the pacing mirrors the simplicity of the process being described.",
+      "art_direction": "Clean, minimal screen-recording aesthetic mixed with sparse talking-head framing. The dominant visual is a browser address bar with a single URL typed into it — nothing else on screen. Cut to a split visual: left side blank (the empty brief document that was never opened), right side a stack of finished social assets fanning out like cards. Every frame is stripped of clutter to reinforce the 'less input, more output' message.",
+      "character_style": "Single on-camera presenter — casual but put-together, no brand uniform. Direct eye contact with the lens throughout. Minimal gesture; the stillness reinforces the 'nothing extra required' theme."
+    }
+  },
+  "opening": {
+    "pacing": "Measured and deliberate, allowing the viewer to absorb the unexpected truth.",
+    "emotion": "Calm and slightly conspiratorial, inviting the viewer to reconsider their assumptions.",
+    "first_image": "A close-up of a browser address bar with a single URL typed in, next to an empty brief document on the left and a stack of finished social media assets fanned out on the right.",
+    "attention_pattern": "Starts with a counter-intuitive statement that challenges common beliefs, creating curiosity about the process that follows.",
+    "first_spoken_sentence": "The more you explain your business, the less you actually need to produce great content."
+  },
+  "visual_identity": {
+    "palette": "Off-white background, single accent color (a muted teal or slate blue) used only for UI highlights and text callouts. No gradients. High contrast between text and background for readability at small sizes.",
+    "lighting": "Flat, even natural light — no dramatic shadows. The mood is matter-of-fact, not cinematic. Think bright co-working space window light, slightly overexposed to feel open and effortless.",
+    "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual 'busy workspace' signals that the usual amount of effort is not required here.",
+    "camera_style": "Static wide shot for the talking-head beats; tight crop on the screen for the URL and asset reveal moments. No handheld shake. Cuts are clean and unhurried — the pacing mirrors the simplicity of the process being described.",
+    "art_direction": "Clean, minimal screen-recording aesthetic mixed with sparse talking-head framing. The dominant visual is a browser address bar with a single URL typed into it — nothing else on screen. Cut to a split visual: left side blank (the empty brief document that was never opened), right side a stack of finished social assets fanning out like cards. Every frame is stripped of clutter to reinforce the 'less input, more output' message.",
+    "character_style": "Single on-camera presenter — casual but put-together, no brand uniform. Direct eye contact with the lens throughout. Minimal gesture; the stillness reinforces the 'nothing extra required' theme.",
+    "opening_emotion": "Calm and slightly conspiratorial, inviting the viewer to reconsider their assumptions.",
+    "opening_first_image": "A close-up of a browser address bar with a single URL typed in, next to an empty brief document on the left and a stack of finished social media assets fanned out on the right."
+  },
+  "package": {
+    "title": "The Myth of the Missing Brief",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "hook": "The more you explain your business, the less you actually need to produce great content.",
+    "scenario": "A solo SaaS founder sits down to try a new content service and immediately opens a blank Google Doc to start writing a brief — product overview, tone of voice, target audience, key messages. Twenty minutes in, they realize they have been doing the content service's job for them before it has started. They close the doc. The brief never gets finished. The account stays quiet. The assumption that a service needs all of that input before it can produce anything is the exact thing that stops them from submitting anything at all.",
+    "video": {
+      "script": "[SCENE 1 — tight crop on browser address bar, single URL typed in, clean off-white background]\nVO: The more you explain your business, the less you actually need to produce great content.\n\n[SCENE 2 — split screen: left side shows a blank, unopened brief document; right side shows a stack of social media asset cards fanning out]\nVO: Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc.\n\n[SCENE 3 — static wide shot of presenter, direct eye contact, minimal gesture, plain wall behind]\nVO: That assumption comes from agency culture — where front-loading work onto the client is the norm.\n\n[SCENE 4 — tight crop back to browser bar, cursor blinking after a URL, nothing else on screen]\nVO: But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts.\n\n[SCENE 5 — finished social asset cards spread across a clean flat surface, teal accent highlights on card edges]\nVO: One URL. Nothing else.\n[TEXT CALLOUT on screen: 'First package free. No brief. No call. No payment.']\n",
+      "concept": "A myth-buster short that opens on a counter-intuitive statement about content briefs, validates why smart people assume more input equals better output, then corrects it with the specific mechanics of how fenrik Studio works — one URL in, a complete multi-platform content package out. The visual language is stripped back: a browser address bar, a blank brief document that never gets opened, and a stack of finished social assets. The tone is calm and conspiratorial — like an insider correcting a quiet industry assumption.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentstrategy",
+      "#socialmediamarketing",
+      "#contentcreation",
+      "#saasmarketing",
+      "#smallbusiness",
+      "#founderlife",
+      "#marketingtips",
+      "#shortformvideo"
+    ],
+    "subtitles_planned": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'"
+    }
+  ],
+  "voiceover": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+  "voice_prompts": {
+    "voiceover_text": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clear, authoritative correction without arrogance. Delivery: confiden",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible.",
+    "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows.",
+    "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame.",
+    "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications.",
+    "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'"
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Submit your website URL — your first content package is free, no brief needed.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Link in bio to get your first package free.",
+        "format": "reel",
+        "caption": "You don't need a brief. You need a URL. 👀 That's actually the whole intake process. Link in bio.",
+        "hashtags": [
+          "#contentstrategy",
+          "#socialmediamarketing",
+          "#contentcreator",
+          "#smallbusiness",
+          "#saas"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "You've been writing briefs for services that never needed them. One URL is the entire intake. First package free.",
+        "hashtags": [
+          "#Shorts",
+          "#ContentMarketing",
+          "#SocialMedia"
+        ]
+      },
+      "facebook": {
+        "cta": "Submit your website URL — first content package is free.",
+        "format": "reel",
+        "caption": "Quick question — how long does it take you to brief a content service before they start? 🤔\n\nMost people spend more time on the intake form than the content itself. fenrik Studio skips all of that. Submit your website URL and get back platform-ready videos and posts — no call, no brief, no document to fill out.\n\nThe first package is completely free. See what comes back: https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SmallBusiness"
+        ]
+      },
+      "linkedin": {
+        "cta": "Submit your URL — first content package is free, no brief required.",
+        "format": "reel",
+        "caption": "Most content services train you to expect a long onboarding: intake form, brand voice doc, discovery call, mood board. That process conditions you to assume more input equals better output.\n\nIt doesn't. Your website already contains your product, positioning, tone, and audience signals — everything a briefing call would extract.\n\nfenrik Studio takes a URL and returns platform-ready short-form videos, captions, and hashtags for every major channel. No brief. No call. No reformatting.\n\nThe first package is free — no payment required. Submit your URL at https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SocialMedia",
+          "#SaaS"
+        ]
+      },
+      "instagram": {
+        "cta": "Link in bio — first content package is free, no brief needed.",
+        "format": "reel",
+        "caption": "The brief you've been putting off writing? You don't need it.\n\nYour website already holds your product, your tone, your positioning — everything a content team would pull from a 45-minute discovery call.\n\nfenrik Studio takes your URL and returns platform-ready videos and posts. No call. No document. No back-and-forth.\n\nFirst package is free. Link in bio.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamanagement",
+          "#smallbusinessowner",
+          "#marketingtips",
+          "#contentcreation",
+          "#founderlife",
+          "#saasmarketing",
+          "#reels"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "616851f5-10f4-4d2b-add2-acc9e79cadf3",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Myth of the Missing Brief",
+        "body": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+        "caption": "The brief you've been putting off writing? You don't need it.\n\nYour website already holds your product, your tone, your positioning — everything a content team would pull from a 45-minute discovery call.\n\nfenrik Studio takes your URL and returns platform-ready videos and posts. No call. No document. No back-and-forth.\n\nFirst package is free. Link in bio.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamanagement",
+          "#smallbusinessowner",
+          "#marketingtips",
+          "#contentcreation",
+          "#founderlife",
+          "#saasmarketing",
+          "#reels"
+        ],
+        "cta": "Link in bio — first content package is free, no brief needed.",
+        "language": null
+      },
+      {
+        "id": "00e8dfdf-f938-486d-978d-d0dce08f327b",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Myth of the Missing Brief",
+        "body": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+        "caption": "You've been writing briefs for services that never needed them. One URL is the entire intake. First package free.",
+        "hashtags": [
+          "#Shorts",
+          "#ContentMarketing",
+          "#SocialMedia"
+        ],
+        "cta": "Subscribe for more. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "15cd6161-397d-4656-a18c-ca6eeac88627",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Myth of the Missing Brief",
+        "body": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+        "caption": "Quick question — how long does it take you to brief a content service before they start? 🤔\n\nMost people spend more time on the intake form than the content itself. fenrik Studio skips all of that. Submit your website URL and get back platform-ready videos and posts — no call, no brief, no document to fill out.\n\nThe first package is completely free. See what comes back: https://fenrik.studio",
+        "hashtags": [
+          "#ContentMarketing",
+          "#SmallBusiness"
+        ],
+        "cta": "Submit your website URL — first content package is free. https://fenrik.studio",
+        "language": null
+      },
+      {
+        "id": "425038be-d4ca-46ae-ae2c-10cbb08dc90d",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Myth of the Missing Brief",
+        "body": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+        "caption": "You don't need a brief. You need a URL. 👀 That's actually the whole intake process. Link in bio.",
+        "hashtags": [
+          "#contentstrategy",
+          "#socialmediamarketing",
+          "#contentcreator",
+          "#smallbusiness",
+          "#saas"
+        ],
+        "cta": "Link in bio to get your first package free.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "971e7aa2-8cf8-4775-a83d-ccf74cd02545",
+    "title": "The Myth of the Missing Brief",
+    "status": "draft",
+    "funnel_stage": "solution_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+    "package_brief": {
+      "cta": {
+        "text": "Submit your website URL — your first content package is free, no brief needed.",
+        "type": "sign_up"
+      },
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "video": {
+        "script": "[SCENE 1 — tight crop on browser address bar, single URL typed in, clean off-white background]\nVO: The more you explain your business, the less you actually need to produce great content.\n\n[SCENE 2 — split screen: left side shows a blank, unopened brief document; right side shows a stack of social media asset cards fanning out]\nVO: Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc.\n\n[SCENE 3 — static wide shot of presenter, direct eye contact, minimal gesture, plain wall behind]\nVO: That assumption comes from agency culture — where front-loading work onto the client is the norm.\n\n[SCENE 4 — tight crop back to browser bar, cursor blinking after a URL, nothing else on screen]\nVO: But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts.\n\n[SCENE 5 — finished social asset cards spread across a clean flat surface, teal accent highlights on card edges]\nVO: One URL. Nothing else.\n[TEXT CALLOUT on screen: 'First package free. No brief. No call. No payment.']\n",
+        "concept": "A myth-buster short that opens on a counter-intuitive statement about content briefs, validates why smart people assume more input equals better output, then corrects it with the specific mechanics of how fenrik Studio works — one URL in, a complete multi-platform content package out. The visual language is stripped back: a browser address bar, a blank brief document that never gets opened, and a stack of finished social assets. The tone is calm and conspiratorial — like an insider correcting a quiet industry assumption.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentstrategy",
+        "#socialmediamarketing",
+        "#contentcreation",
+        "#saasmarketing",
+        "#smallbusiness",
+        "#founderlife",
+        "#marketingtips",
+        "#shortformvideo"
+      ],
+      "scenario": "A solo SaaS founder sits down to try a new content service and immediately opens a blank Google Doc to start writing a brief — product overview, tone of voice, target audience, key messages. Twenty minutes in, they realize they have been doing the content service's job for them before it has started. They close the doc. The brief never gets finished. The account stays quiet. The assumption that a service needs all of that input before it can produce anything is the exact thing that stops them from submitting anything at all.",
+      "subtitles": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible.",
+        "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows.",
+        "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame.",
+        "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications.",
+        "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'"
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'"
+        }
+      ],
+      "voiceover_text": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Link in bio to get your first package free.",
+          "format": "reel",
+          "caption": "You don't need a brief. You need a URL. 👀 That's actually the whole intake process. Link in bio.",
+          "hashtags": [
+            "#contentstrategy",
+            "#socialmediamarketing",
+            "#contentcreator",
+            "#smallbusiness",
+            "#saas"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "short",
+          "caption": "You've been writing briefs for services that never needed them. One URL is the entire intake. First package free.",
+          "hashtags": [
+            "#Shorts",
+            "#ContentMarketing",
+            "#SocialMedia"
+          ]
+        },
+        "facebook": {
+          "cta": "Submit your website URL — first content package is free.",
+          "format": "reel",
+          "caption": "Quick question — how long does it take you to brief a content service before they start? 🤔\n\nMost people spend more time on the intake form than the content itself. fenrik Studio skips all of that. Submit your website URL and get back platform-ready videos and posts — no call, no brief, no document to fill out.\n\nThe first package is completely free. See what comes back: https://fenrik.studio",
+          "hashtags": [
+            "#ContentMarketing",
+            "#SmallBusiness"
+          ]
+        },
+        "linkedin": {
+          "cta": "Submit your URL — first content package is free, no brief required.",
+          "format": "reel",
+          "caption": "Most content services train you to expect a long onboarding: intake form, brand voice doc, discovery call, mood board. That process conditions you to assume more input equals better output.\n\nIt doesn't. Your website already contains your product, positioning, tone, and audience signals — everything a briefing call would extract.\n\nfenrik Studio takes a URL and returns platform-ready short-form videos, captions, and hashtags for every major channel. No brief. No call. No reformatting.\n\nThe first package is free — no payment required. Submit your URL at https://fenrik.studio",
+          "hashtags": [
+            "#ContentMarketing",
+            "#SocialMedia",
+            "#SaaS"
+          ]
+        },
+        "instagram": {
+          "cta": "Link in bio — first content package is free, no brief needed.",
+          "format": "reel",
+          "caption": "The brief you've been putting off writing? You don't need it.\n\nYour website already holds your product, your tone, your positioning — everything a content team would pull from a 45-minute discovery call.\n\nfenrik Studio takes your URL and returns platform-ready videos and posts. No call. No document. No back-and-forth.\n\nFirst package is free. Link in bio.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediamanagement",
+            "#smallbusinessowner",
+            "#marketingtips",
+            "#contentcreation",
+            "#founderlife",
+            "#saasmarketing",
+            "#reels"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "971e7aa2-8cf8-4775-a83d-ccf74cd02545",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 38,
+          "secondary": 50
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "myth_buster",
+        "video_concept": {
+          "title": "The Myth of the Missing Brief",
+          "core_idea": "Most people assume a content service needs a creative brief, brand guidelines, a call, and a list of talking points before it can produce anything useful. This piece corrects that assumption directly: fenrik Studio takes a URL and nothing else — no brief, no onboarding form, no back-and-forth — and returns platform-ready videos and posts. The myth is that input complexity equals output quality. The reality is that the website already contains everything needed.",
+          "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-platform content package — no brief, no call, no reformatting. The free first package is introduced at the CTA as the zero-risk way to verify the claim personally.",
+          "why_it_works": "The myth-buster structure works here because the real objection is not price or trust in AI — it is the assumption that submitting a URL cannot possibly be enough. By naming that assumption, validating why smart people hold it, and then correcting it with the specific mechanics of what fenrik Studio actually does, the video removes the barrier without overselling. The insider voice makes the correction feel like a trade secret rather than a marketing claim. The free package CTA converts the intellectual correction into an immediate, zero-cost action.",
+          "narrative_arc": "MYTH: Open on a counter-intuitive statement delivered with quiet confidence — the more you explain your business before a content service starts, the less it actually needed from you. PAUSE. That sounds wrong. But here is why people believe the opposite. WHY BELIEVED: Everyone has been through an agency onboarding: the intake form, the brand voice document, the 45-minute discovery call, the mood board request. That process trains people to assume content production requires a long runway of human input. So when a service says 'just give us your URL,' the instinct is to distrust it — to assume corners are being cut or the output will be generic. REALITY: The website is not a starting point. It is the brief. It already holds the product, the positioning, the tone, the use cases, the audience signals — everything a content team would extract from a briefing call, already published and structured. fenrik Studio reads that and produces short-form AI videos plus platform-ready captions, posts, and hashtags for TikTok, Instagram, LinkedIn, Facebook, and YouTube Shorts. The customer submits a URL. What comes back is a complete, publishable content package. No call scheduled. No document written. No decisions made. CTA: The first package is free — no brief required, no payment needed. Submit your URL and see what comes back.",
+          "emotional_tone": "Calm and slightly conspiratorial — the tone of someone letting you in on something the industry quietly gets wrong. Confident without being combative. The correction feels like a revelation, not a lecture.",
+          "audience_insight": "Solution-aware founders and small marketing teams have been conditioned by agency culture to equate effort-in with quality-out. They do not distrust done-for-you content because they doubt the concept — they distrust it because every service they have encountered has front-loaded the work back onto them. Correcting that assumption directly, with specifics about what the intake actually looks like, removes the hidden friction that stops them from trying.",
+          "visual_direction": {
+            "palette": "Off-white background, single accent color (a muted teal or slate blue) used only for UI highlights and text callouts. No gradients. High contrast between text and background for readability at small sizes.",
+            "lighting": "Flat, even natural light — no dramatic shadows. The mood is matter-of-fact, not cinematic. Think bright co-working space window light, slightly overexposed to feel open and effortless.",
+            "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual 'busy workspace' signals that the usual amount of effort is not required here.",
+            "camera_style": "Static wide shot for the talking-head beats; tight crop on the screen for the URL and asset reveal moments. No handheld shake. Cuts are clean and unhurried — the pacing mirrors the simplicity of the process being described.",
+            "art_direction": "Clean, minimal screen-recording aesthetic mixed with sparse talking-head framing. The dominant visual is a browser address bar with a single URL typed into it — nothing else on screen. Cut to a split visual: left side blank (the empty brief document that was never opened), right side a stack of finished social assets fanning out like cards. Every frame is stripped of clutter to reinforce the 'less input, more output' message.",
+            "character_style": "Single on-camera presenter — casual but put-together, no brand uniform. Direct eye contact with the lens throughout. Minimal gesture; the stillness reinforces the 'nothing extra required' theme."
+          }
+        },
+        "voice_reasons": [
+          "funnel_solution→steady/energy(+1)",
+          "mode_myth_buster→steady/energy",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+38)",
+          "fit_secondary(+50)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and deliberate, allowing the viewer to absorb the unexpected truth.",
+          "emotion": "Calm and slightly conspiratorial, inviting the viewer to reconsider their assumptions.",
+          "first_image": "A close-up of a browser address bar with a single URL typed in, next to an empty brief document on the left and a stack of finished social media assets fanned out on the right.",
+          "attention_pattern": "Starts with a counter-intuitive statement that challenges common beliefs, creating curiosity about the process that follows.",
+          "first_spoken_sentence": "The more you explain your business, the less you actually need to produce great content."
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: clear, confident, practical. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Off-white background, single accent color (a muted teal or slate blue) used only for UI highlights and text callouts. No gradients. High contrast between text and background for readability at small sizes.",
+          "lighting": "Flat, even natural light — no dramatic shadows. The mood is matter-of-fact, not cinematic. Think bright co-working space window light, slightly overexposed to feel open and effortless.",
+          "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual 'busy workspace' signals that the usual amount of effort is not required here.",
+          "camera_style": "Static wide shot for the talking-head beats; tight crop on the screen for the URL and asset reveal moments. No handheld shake. Cuts are clean and unhurried — the pacing mirrors the simplicity of the process being described.",
+          "art_direction": "Clean, minimal screen-recording aesthetic mixed with sparse talking-head framing. The dominant visual is a browser address bar with a single URL typed into it — nothing else on screen. Cut to a split visual: left side blank (the empty brief document that was never opened), right side a stack of finished social assets fanning out like cards. Every frame is stripped of clutter to reinforce the 'less input, more output' message.",
+          "character_style": "Single on-camera presenter — casual but put-together, no brand uniform. Direct eye contact with the lens throughout. Minimal gesture; the stillness reinforces the 'nothing extra required' theme.",
+          "opening_emotion": "Calm and slightly conspiratorial, inviting the viewer to reconsider their assumptions.",
+          "opening_first_image": "A close-up of a browser address bar with a single URL typed in, next to an empty brief document on the left and a stack of finished social media assets fanned out on the right."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clear, authoritative correction without arrogance. Delivery: confiden",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 5637,
+                "completion_tokens": 1151
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:27:54.475Z",
+              "duration_ms": 28807,
+              "finished_at": "2026-07-25T10:28:23.281Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 5637,
+              "estimated_cost": 0.034176,
+              "output_summary": "Concept: The Myth of the Missing Brief",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 24456,
+              "completion_tokens": 1151,
+              "output_size_bytes": 5202,
+              "prompt_characters": 24254,
+              "provider_request_id": null,
+              "completion_characters": 5172
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4920,
+                "completion_tokens": 137
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:28:23.282Z",
+              "duration_ms": 2096,
+              "finished_at": "2026-07-25T10:28:25.378Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4920,
+              "estimated_cost": 0.000743,
+              "output_summary": "Opening: The more you explain your business, the less you actually need to produce great ",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 24067,
+              "completion_tokens": 137,
+              "output_size_bytes": 664,
+              "prompt_characters": 23929,
+              "provider_request_id": null,
+              "completion_characters": 664
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:28:25.378Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:28:25.378Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, minimal screen-recording aesthetic mixed with sparse ",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1893,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1883
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9961,
+                "completion_tokens": 2541
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:28:25.379Z",
+              "duration_ms": 50985,
+              "finished_at": "2026-07-25T10:29:16.364Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9961,
+              "estimated_cost": 0.067998,
+              "output_summary": "Package: The Myth of the Missing Brief",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 41071,
+              "completion_tokens": 2541,
+              "output_size_bytes": 9980,
+              "prompt_characters": 40809,
+              "provider_request_id": null,
+              "completion_characters": 9920
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:16.364Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:29:16.364Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2495,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2475
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:16.364Z",
+              "duration_ms": 1633,
+              "finished_at": "2026-07-25T10:29:17.997Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=971e7aa2-8cf8-4775-a83d-ccf74cd02545; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "Most people assume a content service needs a creative brief, brand guidelines, a call, and a list of talking points before it can produce anything useful. This piece corrects that assumption directly…",
+          "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or…",
+          "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-pl…",
+          "visual_world": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual …",
+          "attention_pattern": "Starts with a counter-intuitive statement that challenges common beliefs, creating curiosity about the process that fol…",
+          "narrative_mechanism": "myth_buster: MYTH: Open on a counter-intuitive statement delivered with quiet confidence — t…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:29:16.468148+00:00",
+    "updated_at": "2026-07-25T10:29:18.164594+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 38,
+      "secondary": 50
+    },
+    "voice_reasons": [
+      "funnel_solution→steady/energy(+1)",
+      "mode_myth_buster→steady/energy",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+38)",
+      "fit_secondary(+50)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: clear, confident, practical. Delivery: clear, authoritative correction without arrogance. Delivery: confiden"
+  },
+  "creative_mode": "myth_buster",
+  "funnel_stage": "solution_aware",
+  "pain_point": {
+    "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+    "strategy_pain_point": "Struggling to produce consistent, platform-ready social media content"
+  },
+  "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-platform content package — no brief, no call, no reformatting. The free first package is introduced at the CTA as the zero-risk way to verify the claim personally.",
+  "narrative_arc": "MYTH: Open on a counter-intuitive statement delivered with quiet confidence — the more you explain your business before a content service starts, the less it actually needed from you. PAUSE. That sounds wrong. But here is why people believe the opposite. WHY BELIEVED: Everyone has been through an agency onboarding: the intake form, the brand voice document, the 45-minute discovery call, the mood board request. That process trains people to assume content production requires a long runway of human input. So when a service says 'just give us your URL,' the instinct is to distrust it — to assume corners are being cut or the output will be generic. REALITY: The website is not a starting point. It is the brief. It already holds the product, the positioning, the tone, the use cases, the audience signals — everything a content team would extract from a briefing call, already published and structured. fenrik Studio reads that and produces short-form AI videos plus platform-ready captions, posts, and hashtags for TikTok, Instagram, LinkedIn, Facebook, and YouTube Shorts. The customer submits a URL. What comes back is a complete, publishable content package. No call scheduled. No document written. No decisions made. CTA: The first package is free — no brief required, no payment needed. Submit your URL and see what comes back.",
+  "emotional_tone": "Calm and slightly conspiratorial — the tone of someone letting you in on something the industry quietly gets wrong. Confident without being combative. The correction feels like a revelation, not a lecture.",
+  "audience_insight": "Solution-aware founders and small marketing teams have been conditioned by agency culture to equate effort-in with quality-out. They do not distrust done-for-you content because they doubt the concept — they distrust it because every service they have encountered has front-loaded the work back onto them. Correcting that assumption directly, with specifics about what the intake actually looks like, removes the hidden friction that stops them from trying.",
+  "visual_direction": {
+    "palette": "Off-white background, single accent color (a muted teal or slate blue) used only for UI highlights and text callouts. No gradients. High contrast between text and background for readability at small sizes.",
+    "lighting": "Flat, even natural light — no dramatic shadows. The mood is matter-of-fact, not cinematic. Think bright co-working space window light, slightly overexposed to feel open and effortless.",
+    "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual 'busy workspace' signals that the usual amount of effort is not required here.",
+    "camera_style": "Static wide shot for the talking-head beats; tight crop on the screen for the URL and asset reveal moments. No handheld shake. Cuts are clean and unhurried — the pacing mirrors the simplicity of the process being described.",
+    "art_direction": "Clean, minimal screen-recording aesthetic mixed with sparse talking-head framing. The dominant visual is a browser address bar with a single URL typed into it — nothing else on screen. Cut to a split visual: left side blank (the empty brief document that was never opened), right side a stack of finished social assets fanning out like cards. Every frame is stripped of clutter to reinforce the 'less input, more output' message.",
+    "character_style": "Single on-camera presenter — casual but put-together, no brand uniform. Direct eye contact with the lens throughout. Minimal gesture; the stillness reinforces the 'nothing extra required' theme."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else."
+  },
+  "render_metadata": {
+    "id": "5431736e-9680-4d66-a1d9-e9e6bf9bea46",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:29:17.805141+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a browser address bar on an off-white background with a single URL typed in and a blinking cursor — nothing else on screen. Flat, even natural light. Muted teal accent on the address bar highlight. No clutter, no other tabs or windows visible."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Split-screen composition on a clean off-white background: left side shows a blank, unopened brief document with an empty text field and a greyed-out cursor; right side shows a neat stack of finished social media asset cards fanning out like a deck of cards with subtle teal edge highlights. Flat natural light, no dramatic shadows."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Single on-camera presenter in a casual but put-together outfit standing against a plain off-white wall. Direct eye contact with the lens. Minimal hand gesture. Bright, slightly overexposed co-working window light from the side. No desk clutter, no coffee cup, no personal props in frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Tight crop of a laptop screen showing only a browser address bar with a URL — clean desktop, off-white background, muted teal UI highlight on the address bar. Static, unhurried composition. No other windows, no notifications."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — spread across a clean white surface. Teal accent lines on card edges. No coffee cups, no personal props. Bright, even overhead light. Text callout in muted teal reads: 'First package free. No brief. No call. No payment.'"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "The more you explain your business, the less you actually need to produce great content.",
+    "cta": "Submit your website URL — your first content package is free, no brief needed.",
+    "voiceover_text": "The more you explain your business, the less you actually need to produce great content. Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc. That assumption comes from agency culture — where front-loading work onto the client is the norm. But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts. One URL. Nothing else.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: clear, confident, practical. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "Most people assume a content service needs a creative brief, brand guidelines, a call, and a list of talking points before it can produce anything useful. This piece corrects that assumption directly…",
+      "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or…",
+      "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-pl…",
+      "visual_world": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual …",
+      "attention_pattern": "Starts with a counter-intuitive statement that challenges common beliefs, creating curiosity about the process that fol…",
+      "narrative_mechanism": "myth_buster: MYTH: Open on a counter-intuitive statement delivered with quiet confidence — t…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentstrategy",
+    "#socialmediamarketing",
+    "#contentcreation",
+    "#saasmarketing",
+    "#smallbusiness",
+    "#founderlife",
+    "#marketingtips",
+    "#shortformvideo"
+  ],
+  "hook": "The more you explain your business, the less you actually need to produce great content.",
+  "scenario": "A solo SaaS founder sits down to try a new content service and immediately opens a blank Google Doc to start writing a brief — product overview, tone of voice, target audience, key messages. Twenty minutes in, they realize they have been doing the content service's job for them before it has started. They close the doc. The brief never gets finished. The account stays quiet. The assumption that a service needs all of that input before it can produce anything is the exact thing that stops them from submitting anything at all.",
+  "video": {
+    "script": "[SCENE 1 — tight crop on browser address bar, single URL typed in, clean off-white background]\nVO: The more you explain your business, the less you actually need to produce great content.\n\n[SCENE 2 — split screen: left side shows a blank, unopened brief document; right side shows a stack of social media asset cards fanning out]\nVO: Here's the thing most people get wrong: they assume a content service needs a brief, a discovery call, a brand doc.\n\n[SCENE 3 — static wide shot of presenter, direct eye contact, minimal gesture, plain wall behind]\nVO: That assumption comes from agency culture — where front-loading work onto the client is the norm.\n\n[SCENE 4 — tight crop back to browser bar, cursor blinking after a URL, nothing else on screen]\nVO: But your website already holds everything. The product, the positioning, the tone. fenrik Studio reads that and returns platform-ready videos and posts.\n\n[SCENE 5 — finished social asset cards spread across a clean flat surface, teal accent highlights on card edges]\nVO: One URL. Nothing else.\n[TEXT CALLOUT on screen: 'First package free. No brief. No call. No payment.']\n",
+    "concept": "A myth-buster short that opens on a counter-intuitive statement about content briefs, validates why smart people assume more input equals better output, then corrects it with the specific mechanics of how fenrik Studio works — one URL in, a complete multi-platform content package out. The visual language is stripped back: a browser address bar, a blank brief document that never gets opened, and a stack of finished social assets. The tone is calm and conspiratorial — like an insider correcting a quiet industry assumption.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 5637,
+          "completion_tokens": 1151
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:27:54.475Z",
+        "duration_ms": 28807,
+        "finished_at": "2026-07-25T10:28:23.281Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 5637,
+        "estimated_cost": 0.034176,
+        "output_summary": "Concept: The Myth of the Missing Brief",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 24456,
+        "completion_tokens": 1151,
+        "output_size_bytes": 5202,
+        "prompt_characters": 24254,
+        "provider_request_id": null,
+        "completion_characters": 5172
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4920,
+          "completion_tokens": 137
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:28:23.282Z",
+        "duration_ms": 2096,
+        "finished_at": "2026-07-25T10:28:25.378Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4920,
+        "estimated_cost": 0.000743,
+        "output_summary": "Opening: The more you explain your business, the less you actually need to produce great ",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 24067,
+        "completion_tokens": 137,
+        "output_size_bytes": 664,
+        "prompt_characters": 23929,
+        "provider_request_id": null,
+        "completion_characters": 664
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:28:25.378Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:28:25.378Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, minimal screen-recording aesthetic mixed with sparse ",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1893,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1883
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9961,
+          "completion_tokens": 2541
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:28:25.379Z",
+        "duration_ms": 50985,
+        "finished_at": "2026-07-25T10:29:16.364Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9961,
+        "estimated_cost": 0.067998,
+        "output_summary": "Package: The Myth of the Missing Brief",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 41071,
+        "completion_tokens": 2541,
+        "output_size_bytes": 9980,
+        "prompt_characters": 40809,
+        "provider_request_id": null,
+        "completion_characters": 9920
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:16.364Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:29:16.364Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2495,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2475
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:16.364Z",
+        "duration_ms": 1633,
+        "finished_at": "2026-07-25T10:29:17.997Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=971e7aa2-8cf8-4775-a83d-ccf74cd02545; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "7a00c29e-1f2e-42a7-881c-a98aee185944",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

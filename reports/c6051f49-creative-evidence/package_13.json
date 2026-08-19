@@ -1,0 +1,1008 @@
+{
+  "package_index": 13,
+  "run_item_id": "fd9dce51-fffa-4f76-8289-6237efc71250",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+  "package_title": "The Monday Morning Math",
+  "package_status": "draft",
+  "strategy_item_id": "cd20cb06-6b1d-4fd3-a6d1-a0b1047ba91c",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "cd20cb06-6b1d-4fd3-a6d1-a0b1047ba91c",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "conversion",
+      "priority": 5,
+      "brief": {
+        "angle": "Close with urgency grounded in the cost of inaction. Every night without an AI assistant is another set of visitors arriving, finding silence, and leaving. The fix is available, the preview requires no registration, and setup takes about a minute.",
+        "topic": "The one thing most business owners do after realizing how many leads their website has been losing",
+        "source": "production_run",
+        "pain_point": "Losing leads due to lack of instant website support",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Monday Morning Math",
+    "core_idea": "A law firm partner sits down Monday morning with a fresh coffee, opens her analytics dashboard expecting the usual quiet weekend numbers — and instead sees 14 sessions from Sunday night alone. She does the math out loud: 14 visitors, zero form fills, zero names, zero emails. Then she does the harder math: how many Sundays has this been happening? The observation reframes from 'quiet weekend' to 'weekly recurring loss.' The fix — Fenrik.chat — is already available, requires no registration to preview, and takes about a minute to set up. The cost of another Sunday without it is now visible and specific.",
+    "product_role": "Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already written — and answers questions automatically, around the clock, without any staff present. The preview requires no registration. Setup is a single embed script that takes about a minute. It is not a project to start; it is a gap to close tonight.",
+    "why_it_works": "The hook is a fear archetype grounded in a concrete, specific moment: not 'you might be losing leads' but 'fourteen people showed up last Sunday and none of them left a name.' The observation-to-meaning structure lets the viewer arrive at the conclusion themselves before it is stated, which makes it land harder. The narrative stays calm and wry — no melodrama — which makes the math feel more credible, not less urgent. The CTA closes with genuine urgency: another Sunday is coming, the preview is free, and setup takes about a minute. Every element of the product pitch is honest and grounded in product truth.",
+    "narrative_arc": "OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relaxed, coffee in hand, pulling up analytics as a routine check. She sees 14 weekend sessions. She tilts her head. Zero leads. She says out loud, almost to herself: 'Huh. Fourteen people.' MEANING: She starts doing the math — not panicking, just calculating. If 14 people showed up Sunday night with legal questions and found a contact form promising a reply in one business day, none of them waited. She says: 'They didn't leave. They just... went somewhere that answered.' REVEAL: She realizes this isn't a one-time anomaly. She scrolls back — last Sunday, the Sunday before. The pattern is there every week. The website has been open every night. It has never said a word to anyone. She exhales. 'So it's not a quiet weekend problem. It's a every-weekend problem.' CTA: Cut to clean screen. 'Your website is already open tonight. Fenrik.chat — preview it free, no signup. Setup takes about a minute.'",
+    "emotional_tone": "Calm realization shading into mild urgency — not panic, not drama. The wit comes from the understatement: she is not devastated, she is just doing math, and the math is quietly devastating on its own. Warm, grounded, a little wry.",
+    "audience_insight": "Service business owners — lawyers, consultants, accountants — check analytics occasionally but rarely filter by time of day or day of week. They interpret silence as absence of demand rather than absence of response. The real insight is that 'quiet weekend' is a story they told themselves because the data never surfaced the visitors who came and left without a trace. When the data becomes specific and visible, the cost of inaction stops being abstract.",
+    "visual_direction": {
+      "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+      "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+      "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+      "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+      "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+      "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson."
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and measured, allowing the weight of the numbers to sink in before she continues her thoughts.",
+    "emotion": "Calm realization tinged with mild urgency as she processes the implications of the data.",
+    "first_image": "A law firm partner sits at her tidy home office desk, warm morning light streaming in. She has a coffee cup in hand, looking at her laptop screen displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible.",
+    "attention_pattern": "The viewer is drawn in by the specific numbers and the implication of lost opportunities, creating a need to understand the consequences and the solution.",
+    "first_spoken_sentence": "Fourteen visitors last night, and not a single one left their name."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+    "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+    "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+    "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+    "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+    "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson.",
+    "opening_emotion": "Calm realization tinged with mild urgency as she processes the implications of the data.",
+    "opening_first_image": "A law firm partner sits at her tidy home office desk, warm morning light streaming in. She has a coffee cup in hand, looking at her laptop screen displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible."
+  },
+  "package": {
+    "title": "The Monday Morning Math",
+    "status": "draft",
+    "funnel_stage": "conversion",
+    "hook": "Fourteen visitors last night, and not a single one left their name.",
+    "scenario": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting the usual quiet weekend summary. She sees 14 sessions from Sunday night — and zero leads. She starts doing the math: 14 visitors, no names, no emails, no way to follow up. Then, almost on a whim, she scrolls back through the previous Sundays. The same pattern is there every week. The website had been open every single night. It had never said a word to anyone who arrived. The realization is quiet and wry — not a crisis, just math. And the math had been running silently for months.",
+    "video": {
+      "script": "SCENE 1 — COLD OPEN: Law firm partner at her tidy home office desk. Warm morning light. Coffee in hand. She opens her laptop, pulls up analytics as a Monday routine. Her expression is relaxed, almost distracted. She leans in slightly. SPOKEN: 'Fourteen visitors last night, and not a single one left their name.' TEXT OVERLAY: '14 sessions. 0 leads.' SCENE 2 — THE MATH: She sets down her coffee. Not panicked — calculating. She speaks almost to herself. SPOKEN: 'She scrolled back — last Sunday, the Sunday before. Same pattern, every week.' INSERT SHOT: Her finger scrolling back through weekly analytics rows. Each row: sessions, zero leads. SCENE 3 — THE REVEAL: She exhales slowly. A quiet, wry expression. SPOKEN: 'The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss.' TEXT OVERLAY: 'Every Sunday. Same result.' SCENE 4 — PRODUCT MOMENT: Cut to clean, minimal screen showing Fenrik.chat interface — chat bubble appearing on a website, answering a visitor question automatically. SPOKEN: 'Fenrik.chat reads your existing website and answers visitors automatically, around the clock.' SCENE 5 — CTA: Clean frame. Minimal. Warm neutral background. SPOKEN: 'Preview it free — no signup. Setup takes about a minute.'",
+      "concept": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting a quiet weekend summary. She sees 14 sessions from Sunday night. Zero leads. She starts doing the math out loud — not panicking, just calculating. Then she scrolls back through previous Sundays and realizes the pattern has been there every week. The website was open every night. It never answered anyone. The realization reframes 'quiet weekend' as 'weekly recurring loss.' The fix — Fenrik.chat — is already available, requires no registration to preview, and takes about a minute to set up.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#SmallBusiness",
+      "#LeadGeneration",
+      "#AIAssistant",
+      "#WebsiteMarketing",
+      "#ServiceBusiness",
+      "#BusinessGrowth",
+      "#DigitalMarketing"
+    ],
+    "subtitles_planned": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute."
+  },
+  "voiceover": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A woman in her late 30s to early 40s in smart-casual professional attire sits at a tidy home office desk in warm morning light. She holds a coffee cup and looks at her open laptop displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible. Bookshelves with book spines visible in the background, a framed credential on the wall. Warm cream and wood-tone palette, soft golden light from a side window, cool blue-white glow from the laptop screen on her face. Handheld, composed framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close insert shot of a laptop analytics dashboard screen showing a weekly sessions table — rows for each day of the week, each row showing session counts with a zero in the leads column. A woman's finger scrolls slowly down the list, revealing the same pattern week after week. Warm office light reflected on the screen. Shallow depth of field, screen in sharp focus."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same woman sets her coffee cup down on the desk and leans back slightly, exhaling with a calm, wry expression — not distressed, just calculating. The laptop screen glows softly in the foreground. Warm morning light, lived-in professional office corner. Close enough to read her expression clearly."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product UI screen insert showing the AI assistant being created from a website URL — reinforces the 'about a minute' setup claim during the product moment.",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A clean, minimal final frame with a warm neutral background — cream or soft white. Simple centered text reads 'Preview free. No signup. About a minute to set up.' No clutter, no decorative elements. Calm, direct, and unambiguous — a clear next-step signal to close the video."
+    }
+  ],
+  "image_prompts": [
+    "A woman in her late 30s to early 40s in smart-casual professional attire sits at a tidy home office desk in warm morning light. She holds a coffee cup and looks at her open laptop displaying an analytics dashboard with the numbers '14 sessions' and '0 leads' clearly visible. Bookshelves with book spines visible in the background, a framed credential on the wall. Warm cream and wood-tone palette, soft golden light from a side window, cool blue-white glow from the laptop screen on her face. Handheld, composed framing.",
+    "Close insert shot of a laptop analytics dashboard screen showing a weekly sessions table — rows for each day of the week, each row showing session counts with a zero in the leads column. A woman's finger scrolls slowly down the list, revealing the same pattern week after week. Warm office light reflected on the screen. Shallow depth of field, screen in sharp focus.",
+    "The same woman sets her coffee cup down on the desk and leans back slightly, exhaling with a calm, wry expression — not distressed, just calculating. The laptop screen glows softly in the foreground. Warm morning light, lived-in professional office corner. Close enough to read her expression clearly.",
+    "A clean, minimal final frame with a warm neutral background — cream or soft white. Simple centered text reads 'Preview free. No signup. About a minute to set up.' No clutter, no decorative elements. Calm, direct, and unambiguous — a clear next-step signal to close the video."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Preview your AI assistant free — no signup needed. Setup takes about a minute.",
+      "type": "sign_up"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "format": "reel",
+        "caption": "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "title_variants": [
+          "14 Visitors. 0 Leads. Every Sunday.",
+          "Your Website Is Open. Is It Answering?",
+          "The Quiet Loss in Your Weekend Analytics",
+          "Not a Quiet Weekend — A Recurring Loss",
+          "The Pattern She Found by Scrolling Back"
+        ],
+        "caption_variants": [
+          "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+          "The website wasn't down. It wasn't broken. It just couldn't answer a single question — every night, for months. That's the quiet loss most analytics never surface. fenrik.chat",
+          "Not a quiet weekend. A recurring loss. There's a difference — and most business owners only see it when they filter analytics by day of week. #LeadGeneration fenrik.chat",
+          "Every Sunday: visitors arrive, find silence, leave. No names, no emails, no record. Your website is open 24/7. Is it actually answering anyone? fenrik.chat",
+          "She thought nobody was looking on weekends. 14 sessions said otherwise. Zero of them left a name. That's not an anomaly — that's a pattern. fenrik.chat"
+        ]
+      },
+      "tiktok": {
+        "cta": "Preview free at the link in bio — no signup needed.",
+        "format": "reel",
+        "caption": "14 people visited her website Sunday night. Zero left a name. Turns out that was every Sunday. 👀",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#WebsiteTips",
+          "#AIAssistant"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "She checked her analytics Monday morning and found 14 weekend visitors — zero leads, zero names. It had been happening every Sunday. Here's what changed.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ]
+      },
+      "facebook": {
+        "cta": "Try the free preview at fenrik.chat.",
+        "format": "reel",
+        "caption": "Ever open your analytics on a Monday and realize the weekend wasn't actually quiet — it was just unanswered? 😔 One business owner found 14 Sunday-night visitors in her law firm's analytics. Zero leads. She scrolled back. Same story, every week. Fenrik.chat reads your existing website and answers visitor questions automatically — day or night, no extra staff needed. Preview it free at fenrik.chat — no signup required, setup takes about a minute.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ]
+      },
+      "linkedin": {
+        "cta": "Preview your AI assistant free at fenrik.chat.",
+        "format": "reel",
+        "caption": "Most service business owners interpret a quiet weekend as low demand. The analytics tell a different story.\n\nFourteen sessions on a Sunday night. Zero form submissions. She scrolled back — the same pattern appeared every week. The website had been open every night. It had never responded to a single visitor.\n\nThe gap wasn't traffic. It was response.\n\nFenrik.chat reads your existing website and answers visitor questions automatically, around the clock — no rebuild, no coding required. Preview is free, no registration needed, and setup takes about a minute.\n\nfenrik.chat",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#AIAssistant"
+        ]
+      },
+      "instagram": {
+        "cta": "Try the free preview — link in bio.",
+        "format": "reel",
+        "caption": "14 visitors. 0 leads. And it wasn't just last Sunday.\n\nShe scrolled back through her analytics and saw the same pattern — every single week. The website was open. It just couldn't answer anyone.\n\nThat's not a quiet weekend. That's a recurring loss.\n\nFenrik.chat turns your existing website into a 24/7 assistant — no rebuild, no coding. Preview it free from the link in bio.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#AIAssistant",
+          "#WebsiteMarketing",
+          "#BusinessGrowth",
+          "#ServiceBusiness",
+          "#DigitalMarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "5c585d5a-957f-439c-bb20-66ecd6c767ea",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Monday Morning Math",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "Ever open your analytics on a Monday and realize the weekend wasn't actually quiet — it was just unanswered? 😔 One business owner found 14 Sunday-night visitors in her law firm's analytics. Zero leads. She scrolled back. Same story, every week. Fenrik.chat reads your existing website and answers visitor questions automatically — day or night, no extra staff needed. Preview it free at fenrik.chat — no signup required, setup takes about a minute.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Try the free preview at fenrik.chat. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "7c77a278-7ffa-4903-b897-937e91335a70",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Monday Morning Math",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "Most service business owners interpret a quiet weekend as low demand. The analytics tell a different story.\n\nFourteen sessions on a Sunday night. Zero form submissions. She scrolled back — the same pattern appeared every week. The website had been open every night. It had never responded to a single visitor.\n\nThe gap wasn't traffic. It was response.\n\nFenrik.chat reads your existing website and answers visitor questions automatically, around the clock — no rebuild, no coding required. Preview is free, no registration needed, and setup takes about a minute.\n\nfenrik.chat",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#AIAssistant"
+        ],
+        "cta": "Preview your AI assistant free at fenrik.chat. https://fenrik.chat",
+        "language": null
+      },
+      {
+        "id": "6fec39a8-957c-47ce-a22c-ad6d84db7acb",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Pattern She Found by Scrolling Back",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "She thought nobody was looking on weekends. 14 sessions said otherwise. Zero of them left a name. That's not an anomaly — that's a pattern. fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "language": null
+      },
+      {
+        "id": "6811a0de-6c59-4f70-9962-5ce5f6378c68",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Monday Morning Math",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "14 people visited her website Sunday night. Zero left a name. Turns out that was every Sunday. 👀",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#WebsiteTips",
+          "#AIAssistant"
+        ],
+        "cta": "Preview free at the link in bio — no signup needed.",
+        "language": null
+      },
+      {
+        "id": "d9b13dd8-a8ae-4268-ae18-0e635daa263d",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Not a Quiet Weekend — A Recurring Loss",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "Every Sunday: visitors arrive, find silence, leave. No names, no emails, no record. Your website is open 24/7. Is it actually answering anyone? fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "language": null
+      },
+      {
+        "id": "16df8346-4c20-4a6a-a457-7b0f551aaf61",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Quiet Loss in Your Weekend Analytics",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "Not a quiet weekend. A recurring loss. There's a difference — and most business owners only see it when they filter analytics by day of week. #LeadGeneration fenrik.chat. https://fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "language": null
+      },
+      {
+        "id": "6b13911a-863d-4e69-b9cd-c3dc5e806988",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Website Is Open. Is It Answering?",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "The website wasn't down. It wasn't broken. It just couldn't answer a single question — every night, for months. That's the quiet loss most analytics never surface. fenrik.chat",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "language": null
+      },
+      {
+        "id": "dea29b8a-818f-468c-b878-4a3888bd3e20",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "14 Visitors. 0 Leads. Every Sunday.",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+        "hashtags": [
+          "#SmallBusiness"
+        ],
+        "cta": "Preview free at fenrik.chat — no signup.",
+        "language": null
+      },
+      {
+        "id": "6cdc3946-8595-4faa-ae8b-1507cd3854c7",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Monday Morning Math",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "14 visitors. 0 leads. And it wasn't just last Sunday.\n\nShe scrolled back through her analytics and saw the same pattern — every single week. The website was open. It just couldn't answer anyone.\n\nThat's not a quiet weekend. That's a recurring loss.\n\nFenrik.chat turns your existing website into a 24/7 assistant — no rebuild, no coding. Preview it free from the link in bio.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#LeadGeneration",
+          "#AIAssistant",
+          "#WebsiteMarketing",
+          "#BusinessGrowth",
+          "#ServiceBusiness",
+          "#DigitalMarketing"
+        ],
+        "cta": "Try the free preview — link in bio.",
+        "language": null
+      },
+      {
+        "id": "6533f918-259b-47cd-ac57-83cbead323da",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Monday Morning Math",
+        "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+        "caption": "She checked her analytics Monday morning and found 14 weekend visitors — zero leads, zero names. It had been happening every Sunday. Here's what changed.",
+        "hashtags": [
+          "#SmallBusiness",
+          "#AIAssistant"
+        ],
+        "cta": "Subscribe for more. https://fenrik.chat",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "cedar",
+    "tts_voice": "cedar",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 46,
+      "secondary": 32
+    },
+    "voice_reasons": [
+      "funnel_conversion→steadiness(+2)",
+      "mode_observation→steady/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+46)",
+      "fit_secondary(+32)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en."
+  },
+  "creative_mode": "observation",
+  "funnel_stage": "conversion",
+  "pain_point": {
+    "selected_pain_point": "Losing leads due to lack of instant website support",
+    "strategy_pain_point": "Losing leads due to lack of instant website support"
+  },
+  "product_role": "Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already written — and answers questions automatically, around the clock, without any staff present. The preview requires no registration. Setup is a single embed script that takes about a minute. It is not a project to start; it is a gap to close tonight.",
+  "narrative_arc": "OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relaxed, coffee in hand, pulling up analytics as a routine check. She sees 14 weekend sessions. She tilts her head. Zero leads. She says out loud, almost to herself: 'Huh. Fourteen people.' MEANING: She starts doing the math — not panicking, just calculating. If 14 people showed up Sunday night with legal questions and found a contact form promising a reply in one business day, none of them waited. She says: 'They didn't leave. They just... went somewhere that answered.' REVEAL: She realizes this isn't a one-time anomaly. She scrolls back — last Sunday, the Sunday before. The pattern is there every week. The website has been open every night. It has never said a word to anyone. She exhales. 'So it's not a quiet weekend problem. It's a every-weekend problem.' CTA: Cut to clean screen. 'Your website is already open tonight. Fenrik.chat — preview it free, no signup. Setup takes about a minute.'",
+  "emotional_tone": "Calm realization shading into mild urgency — not panic, not drama. The wit comes from the understatement: she is not devastated, she is just doing math, and the math is quietly devastating on its own. Warm, grounded, a little wry.",
+  "audience_insight": "Service business owners — lawyers, consultants, accountants — check analytics occasionally but rarely filter by time of day or day of week. They interpret silence as absence of demand rather than absence of response. The real insight is that 'quiet weekend' is a story they told themselves because the data never surfaced the visitors who came and left without a trace. When the data becomes specific and visible, the cost of inaction stops being abstract.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, warm white, soft wood tones — with the cool blue-white of the laptop screen as contrast. Muted and grounded. No bright brand colors until the final product CTA frame.",
+    "lighting": "Warm morning natural light from a window to one side — soft, directional, slightly golden. No harsh studio lighting. The screen glow adds a secondary cool light source on her face when she leans in to look at the data.",
+    "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothing cluttered. One desk, one monitor or laptop, one coffee cup. The space signals competence without being sterile.",
+    "camera_style": "Handheld but composed — slight natural movement, close enough to read her expression. Cut between her face and the laptop screen. One or two tight insert shots: the session count on the analytics dashboard, her finger scrolling back through previous Sundays. No jump cuts or rapid edits; the pacing is deliberate and calm, matching her tone.",
+    "art_direction": "Clean, professional but lived-in law office or home office corner. Warm morning light. A real coffee cup on the desk. The laptop screen is visible and readable — analytics dashboard showing session counts. No stock-photo polish; this should feel like an actual Monday morning. Text overlays appear on screen as she speaks the numbers aloud, reinforcing the math visually: '14 sessions. 0 leads.' The final product screen is clean, minimal, uncluttered.",
+    "character_style": "A woman in her late 30s to mid-40s, dressed in smart-casual professional attire — blazer or neat top, nothing formal. She is not performing distress; she is thinking out loud, doing math, arriving at a conclusion. Relatable and grounded, not a polished spokesperson."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute."
+  },
+  "render_metadata": {
+    "id": "ddecd0f7-c9e4-4a93-a5f7-26cf5c0c094b",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:42:48.184348+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "cedar",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "5c585d5a-957f-439c-bb20-66ecd6c767ea",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Ever open your analytics on a Monday and realize the weekend wasn't actually quiet — it was just unanswered? 😔 One business owner found 14 Sunday-night visitors in her law firm's analytics. Zero leads. She scrolled back. Same story, every week. Fenrik.chat reads your existing website and answers visitor questions automatically — day or night, no extra staff needed. Preview it free at fenrik.chat — no signup required, setup takes about a minute.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Try the free preview at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "7c77a278-7ffa-4903-b897-937e91335a70",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Most service business owners interpret a quiet weekend as low demand. The analytics tell a different story.\n\nFourteen sessions on a Sunday night. Zero form submissions. She scrolled back — the same pattern appeared every week. The website had been open every night. It had never responded to a single visitor.\n\nThe gap wasn't traffic. It was response.\n\nFenrik.chat reads your existing website and answers visitor questions automatically, around the clock — no rebuild, no coding required. Preview is free, no registration needed, and setup takes about a minute.\n\nfenrik.chat",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant"
+      ],
+      "cta": "Preview your AI assistant free at fenrik.chat. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "6fec39a8-957c-47ce-a22c-ad6d84db7acb",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Pattern She Found by Scrolling Back",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "She thought nobody was looking on weekends. 14 sessions said otherwise. Zero of them left a name. That's not an anomaly — that's a pattern. fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "6811a0de-6c59-4f70-9962-5ce5f6378c68",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 people visited her website Sunday night. Zero left a name. Turns out that was every Sunday. 👀",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#WebsiteTips",
+        "#AIAssistant"
+      ],
+      "cta": "Preview free at the link in bio — no signup needed.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "d9b13dd8-a8ae-4268-ae18-0e635daa263d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Not a Quiet Weekend — A Recurring Loss",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Every Sunday: visitors arrive, find silence, leave. No names, no emails, no record. Your website is open 24/7. Is it actually answering anyone? fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "16df8346-4c20-4a6a-a457-7b0f551aaf61",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Quiet Loss in Your Weekend Analytics",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "Not a quiet weekend. A recurring loss. There's a difference — and most business owners only see it when they filter analytics by day of week. #LeadGeneration fenrik.chat. https://fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "6b13911a-863d-4e69-b9cd-c3dc5e806988",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Is Open. Is It Answering?",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "The website wasn't down. It wasn't broken. It just couldn't answer a single question — every night, for months. That's the quiet loss most analytics never surface. fenrik.chat",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "dea29b8a-818f-468c-b878-4a3888bd3e20",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "14 Visitors. 0 Leads. Every Sunday.",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 visitors last Sunday night. 0 leads. She scrolled back — same result every week. The website was open. It just never answered. fenrik.chat fixes that in about a minute. #SmallBusiness",
+      "hashtags": [
+        "#SmallBusiness"
+      ],
+      "cta": "Preview free at fenrik.chat — no signup.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "6cdc3946-8595-4faa-ae8b-1507cd3854c7",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "14 visitors. 0 leads. And it wasn't just last Sunday.\n\nShe scrolled back through her analytics and saw the same pattern — every single week. The website was open. It just couldn't answer anyone.\n\nThat's not a quiet weekend. That's a recurring loss.\n\nFenrik.chat turns your existing website into a 24/7 assistant — no rebuild, no coding. Preview it free from the link in bio.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#LeadGeneration",
+        "#AIAssistant",
+        "#WebsiteMarketing",
+        "#BusinessGrowth",
+        "#ServiceBusiness",
+        "#DigitalMarketing"
+      ],
+      "cta": "Try the free preview — link in bio.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    },
+    {
+      "id": "6533f918-259b-47cd-ac57-83cbead323da",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "129dd1a5-11b0-47de-92df-e3409329af5f",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Monday Morning Math",
+      "body": "Fourteen visitors last night, and not a single one left their name. She scrolled back — last Sunday, the Sunday before. Same pattern, every week. The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss. Fenrik.chat reads your existing website and answers visitors automatically, around the clock. Preview it free — no signup. Setup takes about a minute.",
+      "caption": "She checked her analytics Monday morning and found 14 weekend visitors — zero leads, zero names. It had been happening every Sunday. Here's what changed.",
+      "hashtags": [
+        "#SmallBusiness",
+        "#AIAssistant"
+      ],
+      "cta": "Subscribe for more. https://fenrik.chat",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "conversion",
+        "package_index": 13,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:42:46.316831+00:00",
+      "updated_at": "2026-07-25T07:42:46.316831+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: confident, concise, not aggressive. Delivery: thoughtful, reflective, steady pacing. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A law firm partner sits down Monday morning with a fresh coffee, opens her analytics dashboard expecting the usual quiet weekend numbers — and instead sees 14 sessions from Sunday night alone. She do…",
+      "environment": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a fram…",
+      "product_role": "Fenrik.chat is the answer the 14 Sunday-night visitors never got. It reads the existing website — the service pages, the FAQs, the practice areas already writt…",
+      "visual_world": "A compact, tidy law office corner or a home office that reads as professional — bookshelves with spines visible, a framed credential or two on the wall, nothin…",
+      "attention_pattern": "The viewer is drawn in by the specific numbers and the implication of lost opportunities, creating a need to understand…",
+      "narrative_mechanism": "observation: OBSERVATION: Open on a law firm partner at her desk on a Monday morning — relax…"
+    }
+  },
+  "hashtags": [
+    "#SmallBusiness",
+    "#LeadGeneration",
+    "#AIAssistant",
+    "#WebsiteMarketing",
+    "#ServiceBusiness",
+    "#BusinessGrowth",
+    "#DigitalMarketing"
+  ],
+  "hook": "Fourteen visitors last night, and not a single one left their name.",
+  "scenario": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting the usual quiet weekend summary. She sees 14 sessions from Sunday night — and zero leads. She starts doing the math: 14 visitors, no names, no emails, no way to follow up. Then, almost on a whim, she scrolls back through the previous Sundays. The same pattern is there every week. The website had been open every single night. It had never said a word to anyone who arrived. The realization is quiet and wry — not a crisis, just math. And the math had been running silently for months.",
+  "video": {
+    "script": "SCENE 1 — COLD OPEN: Law firm partner at her tidy home office desk. Warm morning light. Coffee in hand. She opens her laptop, pulls up analytics as a Monday routine. Her expression is relaxed, almost distracted. She leans in slightly. SPOKEN: 'Fourteen visitors last night, and not a single one left their name.' TEXT OVERLAY: '14 sessions. 0 leads.' SCENE 2 — THE MATH: She sets down her coffee. Not panicked — calculating. She speaks almost to herself. SPOKEN: 'She scrolled back — last Sunday, the Sunday before. Same pattern, every week.' INSERT SHOT: Her finger scrolling back through weekly analytics rows. Each row: sessions, zero leads. SCENE 3 — THE REVEAL: She exhales slowly. A quiet, wry expression. SPOKEN: 'The website was open. It just never said a word. That's not a quiet weekend. That's a recurring loss.' TEXT OVERLAY: 'Every Sunday. Same result.' SCENE 4 — PRODUCT MOMENT: Cut to clean, minimal screen showing Fenrik.chat interface — chat bubble appearing on a website, answering a visitor question automatically. SPOKEN: 'Fenrik.chat reads your existing website and answers visitors automatically, around the clock.' SCENE 5 — CTA: Clean frame. Minimal. Warm neutral background. SPOKEN: 'Preview it free — no signup. Setup takes about a minute.'",
+    "concept": "A law firm partner opens her analytics dashboard on a Monday morning, coffee in hand, expecting a quiet weekend summary. She sees 14 sessions from Sunday night. Zero leads. She starts doing the math out loud — not panicking, just calculating. Then she scrolls back through previous Sundays and realizes the pattern has been there every week. The website was open every night. It never answered anyone. The realization reframes 'quiet weekend' as 'weekly recurring loss.' The fix — Fenrik.chat — is already available, requires no registration to preview, and takes about a minute to set up.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product UI screen insert showing the AI assistant being created from a website URL — reinforces the 'about a minute' setup claim during the product moment.",
+      "asset_id": "7e250d64-ddcf-4649-921f-783d294a2b5b"
+    }
+  ]
+}

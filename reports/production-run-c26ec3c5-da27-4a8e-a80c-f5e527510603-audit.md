@@ -1,0 +1,4614 @@
+# Production Run Audit — c26ec3c5-da27-4a8e-a80c-f5e527510603
+
+_Generated 2026-07-24T05:47:14.965Z by `scripts/audit-production-run.ts` (read-only)._
+
+## A. Executive summary
+
+- **Strategy items:** 1
+- **Content packages:** 1
+- **Primary video jobs (newest per item):** 1 (1 completed, 0 failed)
+- **Content items (all variants):** 11
+- **Scene types in worker inputs:** {"IMAGE":5}
+- **Visual profile(s) on jobs:** NATURAL (project auto: MINIMAL)
+- **Voices used:** shimmer (project default: cedar)
+- **Moderation fallback scenes:** 0
+- **Run warnings (subtitle/render flags):** 0
+- **Major warnings:** None flagged on completed jobs.
+
+## B. Run overview
+
+| Field | Value |
+| --- | --- |
+| production_run_id | `c26ec3c5-da27-4a8e-a80c-f5e527510603` |
+| project_id | `aabab9ff-9db4-4012-a53c-135e3bfea6cd` |
+| project name | Fenrik.chat |
+| status | completed |
+| created_at | 2026-07-24T00:31:29.360136+00:00 |
+| updated_at (terminal) | 2026-07-24T05:43:22.320869+00:00 |
+| package_count | 1 |
+| requested_total | 1 |
+| generated_total | 1 |
+| failed_total | 0 |
+| error_message |  |
+| language | en |
+| market_scope | global |
+
+### requested_config
+
+```json
+{
+  "plan": {
+    "videoCount": 1,
+    "packageCount": 1,
+    "totalOutputs": 11,
+    "platformOutputs": [
+      {
+        "kind": "video",
+        "label": "TikTok",
+        "outputs": 1,
+        "platform": "tiktok",
+        "multiplier": 1
+      },
+      {
+        "kind": "video",
+        "label": "Instagram",
+        "outputs": 1,
+        "platform": "instagram",
+        "multiplier": 1
+      },
+      {
+        "kind": "text",
+        "label": "Facebook",
+        "outputs": 1,
+        "platform": "facebook",
+        "multiplier": 1
+      },
+      {
+        "kind": "video",
+        "label": "YouTube",
+        "outputs": 1,
+        "platform": "youtube",
+        "multiplier": 1
+      },
+      {
+        "kind": "text",
+        "label": "LinkedIn",
+        "outputs": 2,
+        "platform": "linkedin",
+        "multiplier": 1.5
+      },
+      {
+        "kind": "text",
+        "label": "X",
+        "outputs": 5,
+        "platform": "x",
+        "multiplier": 5
+      }
+    ],
+    "textOutputsTotal": 8,
+    "videoOutputsTotal": 3,
+    "activeVideoPlatforms": [
+      "tiktok",
+      "instagram",
+      "youtube"
+    ]
+  },
+  "config": {
+    "platforms": [
+      "tiktok",
+      "instagram",
+      "facebook",
+      "youtube",
+      "linkedin",
+      "x"
+    ],
+    "multipliers": {
+      "x": 5,
+      "tiktok": 1,
+      "youtube": 1,
+      "facebook": 1,
+      "linkedin": 1.5,
+      "instagram": 1
+    },
+    "packageCount": 1,
+    "platformContentTypes": {
+      "x": "text_only",
+      "tiktok": "video",
+      "youtube": "video",
+      "facebook": "text_only",
+      "linkedin": "text_only",
+      "instagram": "video",
+      "google_business": "text_only"
+    }
+  }
+}
+```
+
+### Parent content strategies
+
+- **3e6867dc-9b8e-4a75-91ef-8951b2314883** — The silent gap between website traffic and actual leads
+```json
+{
+  "theme": "The silent gap between website traffic and actual leads",
+  "source": "production_run",
+  "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603",
+  "funnel_distribution": {
+    "Awareness": 0,
+    "Conversion": 0,
+    "Problem Aware": 1,
+    "Solution Aware": 0
+  },
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 3967,
+          "completion_tokens": 258
+        },
+        "step_name": "Weekly Strategy",
+        "max_tokens": 8192,
+        "started_at": "2026-07-24T00:31:31.644Z",
+        "duration_ms": 5925,
+        "finished_at": "2026-07-24T00:31:37.568Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Weekly Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+        "prompt_tokens": 3967,
+        "estimated_cost": 0.015771,
+        "output_summary": "Theme + funnel plan\n↓\n1 strategy item (requested 1)",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 17629,
+        "completion_tokens": 258,
+        "output_size_bytes": 948,
+        "prompt_characters": 17543,
+        "provider_request_id": null,
+        "completion_characters": 944
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Strategy Items",
+        "max_tokens": null,
+        "started_at": "2026-07-24T00:31:37.569Z",
+        "duration_ms": 650,
+        "finished_at": "2026-07-24T00:31:38.219Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Strategy Items input:\n- Weekly Strategy plan\n- Funnel distribution",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "1 strategy item(s) persisted",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 104,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 104
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pricing_version": "list-price@2026-07-23",
+    "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603"
+  }
+}
+```
+
+### production_run_items
+
+```json
+[
+  {
+    "id": "09361cab-9a4c-4685-b720-c5bda410e388",
+    "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603",
+    "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+    "platform": "tiktok",
+    "content_type": "video",
+    "status": "completed",
+    "content_package_id": "9f6e880b-afc3-4395-ba5a-ee68a34c2086",
+    "content_item_id": null,
+    "video_job_id": null,
+    "error_message": null,
+    "created_at": "2026-07-24T00:31:29.483342+00:00",
+    "updated_at": "2026-07-24T00:59:22.107941+00:00",
+    "package_index": 0,
+    "strategy_item_id": "e6482540-9365-4ec5-9dd8-4899a9295e33",
+    "failure_telemetry": {
+      "model": "claude-sonnet-4-6",
+      "phase": "package_generation_failed",
+      "provider": "claude",
+      "step_count": 17,
+      "captured_at": "2026-07-24T00:45:39.125Z",
+      "duration_ms": 1072261,
+      "input_tokens": 80972,
+      "attempt_count": 3,
+      "output_tokens": 54806,
+      "error_truncated": "concept_fidelity: storyboard_collapsed_to_generic_office",
+      "estimated_cost_usd": 0.685809,
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 2991,
+              "completion_tokens": 2218
+            },
+            "step_name": "Creative Direction Generation",
+            "max_tokens": 4096,
+            "started_at": "2026-07-24T00:31:41.921Z",
+            "duration_ms": 47960,
+            "finished_at": "2026-07-24T00:32:29.880Z",
+            "retry_count": 0,
+            "temperature": 0.85,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "topic=The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+            "prompt_tokens": 2991,
+            "estimated_cost": 0.042243,
+            "output_summary": "directions=7",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 14291,
+            "completion_tokens": 2218,
+            "output_size_bytes": 10368,
+            "prompt_characters": 14175,
+            "provider_request_id": null,
+            "completion_characters": 10306
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 3300,
+              "completion_tokens": 2151
+            },
+            "step_name": "Creative Direction Evaluation",
+            "max_tokens": 3072,
+            "started_at": "2026-07-24T00:32:29.911Z",
+            "duration_ms": 40834,
+            "finished_at": "2026-07-24T00:33:10.745Z",
+            "retry_count": 0,
+            "temperature": 0.3,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "directions=7",
+            "prompt_tokens": 3300,
+            "estimated_cost": 0.042165,
+            "output_summary": "ok after 1 attempt(s)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 15603,
+            "completion_tokens": 2151,
+            "output_size_bytes": 8276,
+            "prompt_characters": 15501,
+            "provider_request_id": null,
+            "completion_characters": 8250
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 5629,
+              "completion_tokens": 10086
+            },
+            "step_name": "Creative Ideation",
+            "max_tokens": 16000,
+            "started_at": "2026-07-24T00:33:10.747Z",
+            "duration_ms": 200822,
+            "finished_at": "2026-07-24T00:36:31.560Z",
+            "retry_count": 0,
+            "temperature": 0.9,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "topic=The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered; directions=3",
+            "prompt_tokens": 5629,
+            "estimated_cost": 0.168177,
+            "output_summary": "concepts=6",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 25431,
+            "completion_tokens": 10086,
+            "output_size_bytes": 43606,
+            "prompt_characters": 25229,
+            "provider_request_id": null,
+            "completion_characters": 43204
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 5179,
+              "completion_tokens": 1974
+            },
+            "step_name": "Creative Evaluation",
+            "max_tokens": 4096,
+            "started_at": "2026-07-24T00:36:31.604Z",
+            "duration_ms": 41052,
+            "finished_at": "2026-07-24T00:37:12.656Z",
+            "retry_count": 0,
+            "temperature": 0.3,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "concepts=3",
+            "prompt_tokens": 5179,
+            "estimated_cost": 0.045147,
+            "output_summary": "ok after 1 attempt(s)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 22925,
+            "completion_tokens": 1974,
+            "output_size_bytes": 8190,
+            "prompt_characters": 22697,
+            "provider_request_id": null,
+            "completion_characters": 8154
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Creative Engine",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:37:12.664Z",
+            "duration_ms": 0,
+            "finished_at": "2026-07-24T00:37:12.664Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Creative Candidates input:\n- Product Brain\n- Strategy Item\n- Scenario\n- Audience\n- Pain Points",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "7 raw ideas\n↓\n3 filtered\n↓\n6 candidates\nWinner: c6",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 43,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 43
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Candidate Judge",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:37:12.664Z",
+            "duration_ms": 0,
+            "finished_at": "2026-07-24T00:37:12.664Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Creative Engine\n- Direction selection\n- Concept evaluation",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "Winner: c6 (invented)",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 2243,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 2237
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Narrative Beats",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:37:12.664Z",
+            "duration_ms": 11,
+            "finished_at": "2026-07-24T00:37:12.675Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Narrative Beats input:\n- Selected Candidate",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "HOOK\nSETUP\nESCALATION\nRESOLUTION",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 42,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 42
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 24043,
+              "completion_tokens": 4096
+            },
+            "step_name": "Presentation Generation",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:37:12.704Z",
+            "duration_ms": 71976,
+            "finished_at": "2026-07-24T00:38:24.680Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Presentation Generation input:\n- Narrative Beats\n- Creative Identity\n- Strategy Item\n- Product Brain",
+            "prompt_tokens": 24043,
+            "estimated_cost": 0.133569,
+            "output_summary": "Storyboard\nVoiceover\nScenes\nCTA\nPlatform Outputs",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 99729,
+            "completion_tokens": 4096,
+            "output_size_bytes": 17567,
+            "prompt_characters": 99067,
+            "provider_request_id": null,
+            "completion_characters": 17453
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Hook Enforcement",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:38:24.683Z",
+            "duration_ms": 0,
+            "finished_at": "2026-07-24T00:38:24.683Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Hook Enforcement input:\n- Candidate hookLine\n- Generated hook\n- Voiceover",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "reason: already_enforced",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 106,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 106
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [
+              "storyboard_collapsed_to_generic_office"
+            ],
+            "raw_usage": null,
+            "step_name": "Concept Fidelity",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:38:24.683Z",
+            "duration_ms": 20,
+            "finished_at": "2026-07-24T00:38:24.703Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Concept Fidelity input:\n- Package\n- Selected Candidate",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "Failed",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 69,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 69
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3762,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3664,
+              "validation_issues": []
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:39:29.598Z",
+            "duration_ms": 36842,
+            "finished_at": "2026-07-24T00:40:06.439Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3762,
+            "estimated_cost": 0.002763,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 17810,
+            "completion_tokens": 3664,
+            "output_size_bytes": 17822,
+            "prompt_characters": 17694,
+            "provider_request_id": null,
+            "completion_characters": 17706
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.video.duration_seconds: expected string",
+              "$.platform_outputs.x: expected object"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3540,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3664,
+              "validation_issues": [
+                {
+                  "path": "$.video.duration_seconds",
+                  "message": "expected string"
+                },
+                {
+                  "path": "$.platform_outputs.x",
+                  "message": "expected object"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:40:06.441Z",
+            "duration_ms": 37597,
+            "finished_at": "2026-07-24T00:40:44.038Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3540,
+            "estimated_cost": 0.002729,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 17085,
+            "completion_tokens": 3664,
+            "output_size_bytes": 17824,
+            "prompt_characters": 16969,
+            "provider_request_id": null,
+            "completion_characters": 17708
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3764,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3664,
+              "validation_issues": []
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:41:51.044Z",
+            "duration_ms": 41758,
+            "finished_at": "2026-07-24T00:42:32.801Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3764,
+            "estimated_cost": 0.002763,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 17643,
+            "completion_tokens": 3664,
+            "output_size_bytes": 17644,
+            "prompt_characters": 17515,
+            "provider_request_id": null,
+            "completion_characters": 17516
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.video.duration_seconds: expected string",
+              "$.platform_outputs.x: expected object"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3558,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3664,
+              "validation_issues": [
+                {
+                  "path": "$.video.duration_seconds",
+                  "message": "expected string"
+                },
+                {
+                  "path": "$.platform_outputs.x",
+                  "message": "expected object"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:42:32.802Z",
+            "duration_ms": 37724,
+            "finished_at": "2026-07-24T00:43:10.525Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3558,
+            "estimated_cost": 0.002732,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 16981,
+            "completion_tokens": 3664,
+            "output_size_bytes": 17646,
+            "prompt_characters": 16853,
+            "provider_request_id": null,
+            "completion_characters": 17518
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3765,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3665,
+              "validation_issues": []
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:44:16.532Z",
+            "duration_ms": 43877,
+            "finished_at": "2026-07-24T00:45:00.409Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3765,
+            "estimated_cost": 0.002764,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 17832,
+            "completion_tokens": 3665,
+            "output_size_bytes": 17835,
+            "prompt_characters": 17706,
+            "provider_request_id": null,
+            "completion_characters": 17709
+          },
+          {
+            "model": "gpt-4o-mini-2024-07-18",
+            "repair": true,
+            "success": true,
+            "provider": "openai",
+            "warnings": [
+              "$.video.duration_seconds: expected string",
+              "$.platform_outputs.x.cta: expected non-empty string (min 1)"
+            ],
+            "raw_usage": {
+              "model": "gpt-4o-mini-2024-07-18",
+              "cached_tokens": 0,
+              "prompt_tokens": 3540,
+              "repair_reason": "json_or_schema_repair",
+              "completion_tokens": 3672,
+              "validation_issues": [
+                {
+                  "path": "$.video.duration_seconds",
+                  "message": "expected string"
+                },
+                {
+                  "path": "$.platform_outputs.x.cta",
+                  "message": "expected non-empty string (min 1)"
+                }
+              ]
+            },
+            "step_name": "JSON Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:45:00.410Z",
+            "duration_ms": 38043,
+            "finished_at": "2026-07-24T00:45:38.453Z",
+            "retry_count": 0,
+            "temperature": 0,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+            "prompt_tokens": 3540,
+            "estimated_cost": 0.002734,
+            "output_summary": "repaired JSON",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 17071,
+            "completion_tokens": 3672,
+            "output_size_bytes": 17870,
+            "prompt_characters": 16945,
+            "provider_request_id": null,
+            "completion_characters": 17744
+          },
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": true,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 17901,
+              "completion_tokens": 12288
+            },
+            "step_name": "Concept Fidelity Repair",
+            "max_tokens": null,
+            "started_at": "2026-07-24T00:38:24.709Z",
+            "duration_ms": 433745,
+            "finished_at": "2026-07-24T00:45:38.454Z",
+            "retry_count": 2,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Concept Fidelity Repair input:\n- Selected Candidate\n- Failed fidelity rules\n- Prior package draft\n- RepairDelta (packs immutable)",
+            "prompt_tokens": 17901,
+            "estimated_cost": 0.238023,
+            "output_summary": "Repaired package",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 25442,
+            "completion_tokens": 12288,
+            "output_size_bytes": 17870,
+            "prompt_characters": 25280,
+            "provider_request_id": null,
+            "completion_characters": 17744
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "terminal": true,
+        "pricing_version": "list-price@2026-07-23",
+        "strategy_item_id": "e6482540-9365-4ec5-9dd8-4899a9295e33",
+        "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603"
+      },
+      "terminal_classification": "generation_failed"
+    }
+  }
+]
+```
+
+## C. Package-by-package audit
+
+### Package 1 — Your clock stopped. Theirs didn't.
+
+#### Package identity
+
+| Field | Value |
+| --- | --- |
+| package_id | `9f6e880b-afc3-4395-ba5a-ee68a34c2086` |
+| strategy_item_id | `e6482540-9365-4ec5-9dd8-4899a9295e33` |
+| weekly_strategy_id | `3e6867dc-9b8e-4a75-91ef-8951b2314883` |
+| production_run_id | `c26ec3c5-da27-4a8e-a80c-f5e527510603` |
+| status | draft |
+| funnel_stage | problem_aware |
+| created_at | 2026-07-24T00:54:09.701993+00:00 |
+| updated_at | 2026-07-24T00:59:20.692355+00:00 |
+| primary content_item_id | `d14992f0-5623-460e-9af7-85faea0b6ad4` |
+| video_job_id | `481814b9-64ad-45f9-90a4-a1041030e15d` |
+| video_job status | completed |
+
+#### Phase timings (pipeline telemetry)
+
+```
+Package generation
+
+880.3 s
+
+↓
+
+Creative Direction Generation
+47.5 s
+
+↓
+
+Creative Direction Evaluation
+38.2 s
+
+↓
+
+Creative Ideation
+272.4 s
+
+↓
+
+Creative Engine
+0 ms
+
+↓
+
+Candidate Judge
+0 ms
+
+↓
+
+Narrative Beats
+6 ms
+
+↓
+
+JSON Repair
+30 s
+
+↓
+
+JSON Repair
+44.8 s
+
+↓
+
+Presentation Generation
+145.8 s
+
+↓
+
+Hook Enforcement
+1 ms
+
+↓
+
+Concept Fidelity
+12 ms
+
+↓
+
+Story Integrity
+9 ms
+
+↓
+
+Product Demonstration Integrity
+3 ms
+
+↓
+
+Platform Outputs
+1 ms
+
+↓
+
+Persist Package
+4.1 s
+
+↓
+
+TTS
+4.9 s
+
+↓
+
+Whisper
+2.5 s
+
+↓
+
+Image generation
+110.4 s
+
+↓
+
+Video rendering
+179.7 s
+```
+
+##### Execution Time
+
+| Step | Duration | % |
+| --- | ---: | ---: |
+| Creative Direction Generation | 47.5 s | 5.4% |
+| Creative Direction Evaluation | 38.2 s | 4.3% |
+| Creative Ideation | 272.4 s | 30.9% |
+| Creative Engine | 0 ms | 0.0% |
+| Candidate Judge | 0 ms | 0.0% |
+| Narrative Beats | 6 ms | 0.0% |
+| JSON Repair | 30 s | 3.4% |
+| JSON Repair | 44.8 s | 5.1% |
+| Presentation Generation | 145.8 s | 16.6% |
+| Hook Enforcement | 1 ms | 0.0% |
+| Concept Fidelity | 12 ms | 0.0% |
+| Story Integrity | 9 ms | 0.0% |
+| Product Demonstration Integrity | 3 ms | 0.0% |
+| Platform Outputs | 1 ms | 0.0% |
+| Persist Package | 4.1 s | 0.5% |
+| TTS | 4.9 s | 0.6% |
+| Whisper | 2.5 s | 0.3% |
+| Image generation | 110.4 s | 12.5% |
+| Video rendering | 179.7 s | 20.4% |
+| **Total** | **880.3 s** | **100%** |
+
+##### AI Cost
+
+| Step | Prompt tok | Completion tok | Estimated $ |
+| --- | ---: | ---: | ---: |
+| Creative Direction Generation | 2991 | 2167 | $0.0415 |
+| Creative Direction Evaluation | 3249 | 2096 | $0.0412 |
+| Creative Ideation | 5614 | 14007 | $0.2269 |
+| JSON Repair | 3722 | 3616 | $0.0027 |
+| JSON Repair | 3456 | 3351 | $0.0025 |
+| Presentation Generation | 23665 | 4096 | $0.1324 |
+| TTS | — | — | $0.0055 |
+| Whisper | — | — | $0.0024 |
+| Image generation | — | — | $0.2100 |
+| **Total (est.)** |  |  | **$0.6652** |
+
+##### Prompt Sizes
+
+| Step | Prompt KB | Output KB |
+| --- | ---: | ---: |
+| Creative Direction Generation | 14.0 KB | 10.0 KB |
+| Creative Direction Evaluation | 15.1 KB | 8.0 KB |
+| Creative Ideation | 24.8 KB | 58.8 KB |
+| Creative Engine | — | 0.0 KB |
+| Candidate Judge | — | 0.8 KB |
+| Narrative Beats | — | 0.0 KB |
+| JSON Repair | 16.3 KB | 16.3 KB |
+| JSON Repair | 15.6 KB | 15.6 KB |
+| Presentation Generation | 95.1 KB | 15.6 KB |
+| Hook Enforcement | — | 0.1 KB |
+| Concept Fidelity | — | 0.0 KB |
+| Story Integrity | — | 0.1 KB |
+| Product Demonstration Integrity | — | 0.1 KB |
+| Platform Outputs | — | 4.4 KB |
+| Persist Package | — | 0.5 KB |
+| TTS | 0.4 KB | 0.1 KB |
+| Whisper | — | 0.0 KB |
+| Image generation | — | 0.1 KB |
+| Video rendering | — | 0.0 KB |
+
+##### Providers
+
+| Provider | Steps | Duration |
+| --- | ---: | ---: |
+| Claude | 5 | 503.9 s |
+| OpenAI | 2 | 74.8 s |
+| Whisper | 1 | 2.5 s |
+| TTS | 1 | 4.9 s |
+| Image | 1 | 110.4 s |
+| Video | 1 | 179.7 s |
+| Deterministic | 8 | 4.1 s |
+
+#### Strategy input
+
+- **topic:** The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered
+- **angle:** Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts.
+- **package_index:** 0
+- **platform:** tiktok
+- **format:** reel
+- **priority:** 1
+- **funnel_stage (column):** problem_aware
+- **trend_id:** 
+- **topic_id:** 
+
+**strategy item brief (full JSON)**
+
+```json
+{
+  "angle": "Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts.",
+  "topic": "The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+  "source": "production_run",
+  "package_index": 0,
+  "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603"
+}
+```
+
+#### Full content (package_brief core)
+
+**hook:**
+
+Your clock stopped. Theirs didn't.
+
+
+**voiceover_text:**
+
+Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing serious research at midnight? They're not on your schedule. One unanswered question at the wrong hour, and they move to whoever was there. Your website doesn't have to sleep. Create your AI assistant — let your website keep running when you can't.
+
+
+**subtitles:**
+
+Your clock stopped. Theirs didn't. | You close at six. You respond fast — during business hours. | But the prospect doing serious research at midnight? | They're not on your schedule. | One unanswered question at the wrong hour, | and they move to whoever was there. | Your website doesn't have to sleep. | Create your AI assistant — let your website keep running when you can't.
+
+
+**video concept:**
+
+A single mustard-yellow wall holds two identical white-faced analog clocks. The left clock is labeled 'Us' in small handwritten text — its second hand snaps to 6:00 PM and freezes. The right clock has no label and keeps running. Time passes. The right clock reaches 11:30 PM, then midnight. A hand enters frame and writes 'Them' on the right clock. Both clocks are visible together — one frozen, one alive. A phone screen enters the lower frame showing an active AI chat reply at 12:43 AM. Then the left clock's second hand begins moving again. Both clocks run in sync. The wall is the entire world. Time is the only actor.
+
+
+**video script:**
+
+HOOK (0–3s): Tight shot on the mustard-yellow wall. The left clock's second hand snaps to 6:00 PM and freezes mid-sweep. No voiceover. The stillness is the hook. SETUP (3–10s): Camera holds. Both clocks visible. Left labeled 'Us' — frozen. Right unlabeled — running. VO begins: 'Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours.' ESCALATION (10–18s): The right clock moves to 11:30 PM. A hand enters frame and writes 'Them' on the right clock. Camera pulls back slightly to frame both. VO: 'But the prospect doing serious research at midnight? They're not on your schedule. One unanswered question at the wrong hour, and they move to whoever was there.' RESOLUTION (18–25s): A phone enters the lower frame — screen shows an active AI chat interface responding at 12:43 AM. The left clock's second hand begins moving. Both clocks now run together. VO: 'Your website doesn't have to sleep. Create your AI assistant — let your website keep running when you can't.'
+
+
+**duration_seconds (brief):** 25
+
+**CTA:** Create your AI assistant — let your website keep running when you can't. (type: sign_up)
+
+**creative_mode:** contrarian
+
+**hashtags:** ["#AIAssistant","#SmallBusiness","#LeadGeneration","#WebsiteTips","#CustomerSupport","#AfterHours","#Chatbot","#BusinessGrowth"]
+
+
+#### Full platform copy
+
+##### x
+
+```json
+{
+  "cta": "fenrik.chat",
+  "format": "X Video Post",
+  "caption": "Your clock stopped at 6 PM. Their research didn't. That's where deals are lost.",
+  "hashtags": [
+    "#AIAssistant",
+    "#LeadGen"
+  ],
+  "title_variants": [
+    "Your clock stopped at 6 PM. Their research didn't.",
+    "Fast response times are a myth if you close at 6.",
+    "The deal was decided at midnight. You found out Monday morning.",
+    "You weren't slow. You were just closed.",
+    "Two clocks on the same wall. Only one of them kept running."
+  ],
+  "caption_variants": [
+    "Your clock stopped at 6 PM. Their research didn't. That's where deals are lost.",
+    "Fast response times only matter if your prospect is awake during business hours. Most aren't. #AIAssistant",
+    "The enterprise prospect visited your site at 2 AM. Got no answer. Chose your competitor by 9 AM. You never knew.",
+    "You weren't slow to respond. You were just closed when it counted. Your website doesn't have to be. fenrik.chat",
+    "Two identical clocks on the same wall. One stopped at 6. One kept running past midnight. That second clock is your competitor."
+  ]
+}
+```
+##### tiktok
+
+```json
+{
+  "cta": "Link in bio to keep your site running after hours.",
+  "format": "Vertical Short (9:16)",
+  "caption": "Your website closes at 6. Their research doesn't. 🕛",
+  "hashtags": [
+    "#SmallBusiness",
+    "#WebsiteTips",
+    "#AIAssistant",
+    "#LeadGeneration",
+    "#AfterHours"
+  ]
+}
+```
+##### youtube
+
+```json
+{
+  "cta": "Subscribe for more insights on turning website traffic into leads.",
+  "format": "YouTube Shorts (9:16)",
+  "caption": "Your business closes at 6. Your prospects' questions don't. See what happens when your website finally stays open.",
+  "hashtags": [
+    "#AIAssistant",
+    "#SmallBusiness",
+    "#WebsiteTips"
+  ]
+}
+```
+##### facebook
+
+```json
+{
+  "cta": "Visit fenrik.chat to create your AI assistant.",
+  "format": "Facebook Video Post",
+  "caption": "Here's something worth thinking about: your team responds fast during business hours. But what about the person researching your services at midnight? 🕛 They have a question, your website is silent, and they move on to a competitor — before your workday even starts. An AI assistant on your website changes that. It answers visitors whenever they show up, not just when you're at your desk. Try it at fenrik.chat — no coding, no setup headaches.",
+  "hashtags": [
+    "#SmallBusiness",
+    "#AIAssistant",
+    "#LeadGeneration"
+  ]
+}
+```
+##### linkedin
+
+```json
+{
+  "cta": "Create your AI assistant at fenrik.chat — your website doesn't have to close when you do.",
+  "format": "LinkedIn Video Post",
+  "caption": "Fast response times during business hours feel like a competitive advantage. Until you look at when your highest-value prospects are actually doing their research. Enterprise buyers, serious service shoppers, qualified leads — they're often on your website at 11 PM or 2 AM. One unanswered question at the wrong hour, and the deal moves to whoever was present. Your website's availability gap isn't a staffing problem. It's a timing problem. And it's solvable.",
+  "hashtags": [
+    "#LeadGeneration",
+    "#CustomerExperience",
+    "#AIAssistant"
+  ],
+  "title_variants": [
+    "Fast response times feel like a win — until you see when your best prospects actually show up",
+    "The enterprise deal you lost before your workday started"
+  ],
+  "caption_variants": [
+    "Fast response times during business hours feel like a competitive advantage. Until you look at when your highest-value prospects are actually doing their research. Enterprise buyers, serious service shoppers, qualified leads — they're often on your website at 11 PM or 2 AM. One unanswered question at the wrong hour, and the deal moves to whoever was present. Your website's availability gap isn't a staffing problem. It's a timing problem. And it's solvable.",
+    "There's a belief most service businesses share: 'We respond quickly, so we're covered.' But quick response during office hours misses the point entirely. The prospect with the biggest budget, the most urgency, the clearest intent — they often do their research after hours. Your clock stopped at 6 PM. Theirs didn't. The businesses closing those deals aren't necessarily faster. They're just present when it actually matters."
+  ]
+}
+```
+##### instagram
+
+```json
+{
+  "cta": "Link in bio → Create your AI assistant.",
+  "format": "Reels (9:16)",
+  "caption": "You respond fast during business hours.\n\nBut the prospect doing serious research at midnight isn't on your schedule.\n\nOne unanswered question at the wrong hour — and they move to whoever was there.\n\nYour website doesn't have to sleep.",
+  "hashtags": [
+    "#SmallBusiness",
+    "#WebsiteStrategy",
+    "#AIAssistant",
+    "#LeadGeneration",
+    "#CustomerSupport",
+    "#BusinessGrowth",
+    "#DigitalMarketing",
+    "#AfterHours",
+    "#Chatbot",
+    "#ServiceBusiness"
+  ]
+}
+```
+
+#### package_brief (presentation / scenes / assets)
+
+```json
+{
+  "visual_scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+    }
+  ],
+  "image_prompts": [
+    "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only.",
+    "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame.",
+    "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette.",
+    "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents.",
+    "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+  ],
+  "asset_usage": [],
+  "presentation_generation": {
+    "mode": "enabled",
+    "attention": {
+      "opening": {
+        "emotional_effect": "strong_opinion",
+        "opening_delivery": "confident",
+        "opening_structure": "immediate_reaction",
+        "first_motion_intent": "ATTENTION",
+        "land_within_seconds": [
+          1,
+          1.8
+        ],
+        "first_spoken_guidance": "Open with an immediate reaction using Provocative Opinion — not context or setup. The opening spoken thought must be one complete meaning unit (one short phrase, or two ultra-short phrases) — not an unfinished setup. The stored hook MUST be the same thought as the first spoken line — do not dilute a strong hook into a weaker voiceover setup. State the opinion in the first short phrase. Attack the idea, never a person. Narrative seed: Unexpected but relevant: State the opinion in the first short phrase. Attack the idea, never a person. Keep the link to Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts. / Unable to answer customer questions when offline clear by the next beat.",
+        "first_visual_guidance": "The first visual is an attention event with clear meaning — not a decorative sentence illustration. Image that dramatizes the contested habit or its consequence. Preferred opening visual concept: A megaphone pointed at an empty room — volume without substance about Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts. Reject low-information openings: frames that add no stakes, curiosity, contrast, or situation meaning. Calm or empty frames are fine when absence/stakes ARE the meaning; interchangeable stock staging with no situation is not. Render coherently via Visual Narrative / Medium / Profile / Identity — attention chooses the idea; Identity is treatment only (never relocate the event).",
+        "first_subtitle_guidance": "First subtitle mirrors the first spoken thought — same words, no softer paraphrase.",
+        "align_hook_with_first_spoken": true
+      },
+      "sfx_gain": 0,
+      "sfx_reason": "omitted_optional_no_pressure",
+      "sfx_source": "omitted_no_fit",
+      "originality": {
+        "candidates": [
+          {
+            "id": "obvious",
+            "scores": {
+              "novelty": 1,
+              "relevance": 7,
+              "visual_clarity": 7,
+              "recognisability": 8,
+              "what_happens_next": 2,
+              "emotional_reaction": 3
+            },
+            "rejected": true,
+            "reject_reasons": [
+              "office_cliche:\\blaptop\\s+and\\s+coffee\\b",
+              "first_obvious_idea",
+              "low_information_opening",
+              "visual_story:office_cliche_backslide"
+            ],
+            "visual_concept": "A modern office desk with laptop and coffee illustrating Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts."
+          },
+          {
+            "id": "less_obvious",
+            "scores": {
+              "novelty": 6,
+              "relevance": 8,
+              "visual_clarity": 7,
+              "recognisability": 7,
+              "what_happens_next": 7,
+              "emotional_reaction": 7
+            },
+            "rejected": false,
+            "reject_reasons": [],
+            "visual_concept": "A bold handwritten sign being taped over a polished corporate slogan about Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts."
+          },
+          {
+            "id": "unexpected",
+            "scores": {
+              "novelty": 9,
+              "relevance": 7,
+              "visual_clarity": 6,
+              "recognisability": 6,
+              "what_happens_next": 9,
+              "emotional_reaction": 9
+            },
+            "rejected": false,
+            "reject_reasons": [],
+            "visual_concept": "A megaphone pointed at an empty room — volume without substance about Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts."
+          }
+        ],
+        "reject_summary": [
+          "obvious:office_cliche:\\blaptop\\s+and\\s+coffee\\b",
+          "obvious:first_obvious_idea",
+          "obvious:low_information_opening",
+          "obvious:visual_story:office_cliche_backslide"
+        ],
+        "selected_candidate_id": "unexpected",
+        "selected_narrative_seed": "Unexpected but relevant: State the opinion in the first short phrase. Attack the idea, never a person. Keep the link to Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts. / Unable to answer customer questions when offline clear by the next beat.",
+        "selected_visual_concept": "A megaphone pointed at an empty room — volume without substance about Fast response times during business hours feel like a win until you realize the prospects with the biggest budgets are doing their research at midnight. This piece dramatizes the gap between 'we respond quickly' and 'we respond when the visitor is actually there' — exposing how a single unanswered question at the wrong hour can hand a deal to a competitor before the workday even starts.",
+        "selected_emotional_effect": "strong_opinion"
+      },
+      "delivery_arc": {
+        "phases": [
+          {
+            "phase": "opening",
+            "delivery": "Opening: bold, steady confidence on the first claim."
+          },
+          {
+            "phase": "body",
+            "delivery": "Body: conversational contrast — short sentences, not one long equally-paced paragraph."
+          },
+          {
+            "phase": "emphasis",
+            "delivery": "Emphasis: slight lift on the key turn, contradiction, or insight line."
+          },
+          {
+            "phase": "pause_before_reveal",
+            "delivery": "Brief pause before the reveal, punchline, or payoff."
+          },
+          {
+            "phase": "payoff",
+            "delivery": "Payoff: Confident, not aggressive."
+          },
+          {
+            "phase": "close",
+            "delivery": "Close: satisfying landing; CTA only if present, never aggressive."
+          }
+        ],
+        "reasons": [
+          "opening_style:confident",
+          "mechanism:PROVOCATIVE_OPINION",
+          "full_arc_not_opening_only",
+          "spoken_rhythm_contrast_pause_emphasis"
+        ],
+        "version": "delivery-arc@1",
+        "tts_instruction_fragment": "Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spoken rhythm: short sentences, contrast, and a brief pause before the reveal. Emphasize the turn or punchline — do not read every clause at the same energy. Avoid long equally-paced paragraphs; land one idea per breath. Confident, not aggressive."
+      },
+      "sfx_category": null,
+      "sfx_selected": false,
+      "sfx_timing_ms": null,
+      "attention_source": "deterministic_v1",
+      "attention_reasons": [
+        "selected:PROVOCATIVE_OPINION",
+        "source:deterministic_v1",
+        "funnel_soft_affinity:problem_aware:2",
+        "creative_mode_soft_affinity:contrarian:3",
+        "topic_signals_opinion",
+        "recent_seen_but_still_strongest",
+        "independent_of_funnel_mapping"
+      ],
+      "attention_version": "attention@1",
+      "opening_structure": "immediate_reaction",
+      "attention_mechanism": "PROVOCATIVE_OPINION",
+      "opening_visual_motif": "megaphone_pointed_empty_room_volume_without",
+      "sfx_render_supported": true,
+      "opening_emotional_effect": "strong_opinion"
+    },
+    "tts_voice": "shimmer",
+    "package_id": "9f6e880b-afc3-4395-ba5a-ee68a34c2086",
+    "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+    "cta_selected": false,
+    "voice_scores": {
+      "primary": 65,
+      "secondary": 70
+    },
+    "voice_source": "package_secondary",
+    "visual_medium": "PHOTOGRAPHIC",
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_contrarian→energy(+3)",
+      "profile_NATURAL→warmth(+2)",
+      "topic_steadiness_cues(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+65)",
+      "fit_secondary(+70)"
+    ],
+    "product_reveal": {
+      "reasons": [
+        "story_prefers_outcome_over_framed:human",
+        "fallback:product_outcome"
+      ],
+      "version": "product-reveal@2",
+      "solution_beat_strategy": "PRODUCT_OUTCOME",
+      "sample_payoff_visual_required": false
+    },
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "creative_engine": {
+      "errors": [],
+      "models": {
+        "critic": "claude-sonnet-4-6",
+        "ideation": "claude-sonnet-4-6",
+        "directions": "claude-sonnet-4-6",
+        "dna_repair": null
+      },
+      "version": "creative-engine@3",
+      "rejected": [
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c1"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c2"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c3"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c5"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c6"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c7"
+        },
+        {
+          "reasons": [
+            "fingerprint_collision_recent_package"
+          ],
+          "concept_id": "c8"
+        }
+      ],
+      "evaluation": {
+        "source": "deterministic_fallback",
+        "ranking": [
+          "c4"
+        ],
+        "version": "creative-evaluation@1",
+        "winner_id": "c4",
+        "evaluations": [
+          {
+            "scores": {
+              "funnel_fit": 7,
+              "originality": 7,
+              "stop_scroll": 7,
+              "memorability": 7,
+              "strategy_fit": 7,
+              "anti_repetition": 7,
+              "product_relevance": 7,
+              "emotional_strength": 7,
+              "narrative_coherence": 7,
+              "visual_distinctness": 7,
+              "atmosphere_freshness": 7,
+              "production_feasibility": 7,
+              "natural_product_integration": 7
+            },
+            "vetoes": [],
+            "concept_id": "c4",
+            "critic_notes": "sole survivor after vetoes"
+          }
+        ],
+        "winner_reason": "Only surviving concept after deterministic vetoes."
+      },
+      "fingerprint": {
+        "metaphor": null,
+        "hero_object": "The running clock next to the frozen one — specifically the second hand passing midnight",
+        "core_premise": "Two clocks on one wall — the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+        "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+        "emotional_arc": "Recognition → temporal dissonance → mounting dread as the running clock advances → resolution through synchronization",
+        "ending_mechanism": "Both clocks running simultaneously — the gap closed, the synchronization complete",
+        "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing — mechanical stillness as the scroll-stopper",
+        "product_mechanism": "AI chat widget active at 12:43 AM — the frozen clock's second hand begins moving, both clocks synchronized",
+        "creative_direction": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+        "palette_atmosphere": "Mustard yellow, white, black — warm but stark, institutional but not corporate"
+      },
+      "brief_digest": {
+        "topic": "The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+        "funnel_stage": "problem_aware",
+        "package_index": 0,
+        "hook_memory_count": 20,
+        "fingerprint_memory_count": 12
+      },
+      "critic_attempts": 0,
+      "ideation_attempts": 1,
+      "winner_concept_id": "c4",
+      "concepts_generated": [
+        {
+          "title": "The Clipboard You Never Signed",
+          "pacing": "Slow deliberate pull-back for 8 seconds, single definitive cut to the folder closing, then a clean product reveal. Total: 22–28 seconds.",
+          "hook_line": "They scored every vendor last night. You weren't there to score.",
+          "viewpoint": "Fly-on-the-wall — the viewer watches an evaluation they were never invited to attend.",
+          "atmosphere": {
+            "time_of_day": "Late evening — prospect's personal workspace, not a business environment",
+            "palette_intent": "Terracotta, aged cream, deep burgundy red pen accent — warm private-space palette, nothing corporate",
+            "lighting_intent": "Single incandescent desk lamp — warm pool of light on the clipboard, everything else in soft shadow without going dark or moody"
+          },
+          "concept_id": "c1",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The vendor comparison clipboard with one completely blank column",
+            "core_premise": "A prospect completed a full vendor audit last night using a physical scoring rubric — one business's column is entirely blank, not because it failed, but because it was never there to be scored.",
+            "visual_world": "Warm terracotta home office at night — rattan, incandescent lamp, physical paper props, zero screens",
+            "emotional_arc": "Curious → recognizing → sinking dread → resolution through product reveal",
+            "ending_mechanism": "The blank column fills in cleanly — no drama, just completion — followed by CTA",
+            "opening_mechanism": "Extreme close-up on a red pen ticking a competitor's 'responded instantly' line — the tick is the scroll-stopper, not text",
+            "product_mechanism": "AI assistant shown answering a timestamped 2:14 AM question — retroactively filling in the blank column",
+            "creative_direction": "Frames the prospect's off-hours research behavior as an audit — a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+            "palette_atmosphere": "Terracotta, aged cream, burgundy red accent — warm, private, real"
+          },
+          "central_idea": "A prospect conducts a thorough, methodical vendor evaluation in private — scoring each contender on a physical clipboard rubric. One column stays blank for a business that never responded. The business doesn't know the audit happened. The clipboard doesn't care.",
+          "creative_dna": {
+            "world": "A prospect's personal desk at night — not their office, their real evaluation space. Physical, deliberate, completely private.",
+            "productRole": "The mechanism that would have been present in the evaluation — the AI assistant that answers at 2:14 AM and earns the score.",
+            "coreConflict": "A business was being evaluated and had no way to know it, no way to participate, and no way to fill in its own column.",
+            "endingIntent": "Leave the viewer with the specific, actionable realization that the audit is already running — and that deploying the assistant is how they show up to it.",
+            "mainCharacter": "The vendor comparison clipboard — specifically its blank column",
+            "immutableRules": [
+              "The blank column must never be labeled 'loser' — it is blank because the business was absent, not because it was bad",
+              "No screens, no digital interfaces — the evaluation must feel physical and private throughout",
+              "The product reveal must be quiet and functional, never triumphant — this is a problem-aware piece, not a celebration"
+            ],
+            "viewerQuestion": "Whose blank column am I right now?"
+          },
+          "direction_id": "d5",
+          "product_role": "Revealed at the end as the mechanism that would have filled in the blank column — the AI assistant is shown answering a timestamped question at 2:14 AM, retroactively scoring the business that deployed it.",
+          "visual_world": "Warm terracotta-toned home office at night — not a corporate space, a real evaluation space. Rattan desk organizer, terracotta wall, a single warm incandescent desk lamp. Physical paper props only. No screens, no dashboards. The clipboard is weathered and real.",
+          "ending_payoff": "The blank column fills in — not dramatically, just cleanly. The column that was skipped in the evaluation now has marks. The CTA appears: 'Create your AI assistant.'",
+          "emotional_tone": "Quiet dread escalating into sharp recognition — not panic, but the specific discomfort of realizing an important event happened without your knowledge.",
+          "direction_label": "The Audit That Runs Without You",
+          "funnel_fit_note": "Problem-aware audiences in professional services and SaaS immediately recognize the vendor shortlist process — they've participated in it. Framing their website as the blank column in someone else's scorecard is the overlooked detail they've never considered.",
+          "production_risks": [
+            "Physical paper props must be legible at video resolution — requires clean hand-lettering or high-contrast print",
+            "Rattan and terracotta palette must read warm and real, not styled — over-styling breaks the authenticity of the 'private evaluation' premise",
+            "The blank column must be visually unambiguous — not sparse, genuinely empty — may require deliberate design of the prop sheet"
+          ],
+          "why_stops_scroll": "The close-up red tick in the first frame reads as a grade — a score — something the viewer immediately wants to know the context of. It triggers competitive evaluation instinct before any words land.",
+          "story_progression": "The camera slowly pulls back from the ticked line to reveal a full vendor comparison sheet — four columns, four businesses. Three columns have marks throughout. One column is empty top to bottom. Not crossed out. Not scored poorly. Just blank. The blank column has a business name at the top. A hand lifts the sheet and files it into a folder labeled 'Decision Made.' The folder closes. Cut to: the AI assistant answering a question at the bottom of a website, timestamped 2:14 AM. The column that answers fills itself in.",
+          "emotional_mechanism": "The viewer watches a process they've never been allowed to see — a private scoring session they cannot interrupt, influence, or even know about. The blank column creates a sinking recognition: this has already happened to them, they just have no record of it.",
+          "opening_two_seconds": "Extreme close-up on a checklist line being ticked with a red pen — 'Responded instantly: YES' — the tick is fast and definitive, no hesitation.",
+          "characters_or_hero_objects": [
+            "The vendor comparison clipboard",
+            "The blank column",
+            "The red pen",
+            "The 'Decision Made' folder"
+          ]
+        },
+        {
+          "title": "The Room That Scored You Anyway",
+          "pacing": "Very slow close-up hold on the writing hand for 10 seconds, then cut rhythm accelerates through the fold-and-push gesture, then clean product reveal. 25–30 seconds.",
+          "hook_line": "Somewhere right now, someone is writing a question mark next to your name.",
+          "viewpoint": "Surveillance-style — the viewer is watching something they were never meant to see.",
+          "atmosphere": {
+            "time_of_day": "Late night — kitchen table, overhead light, no ambient warmth",
+            "palette_intent": "Pale yellow legal pad, white overhead light, blue ballpoint ink, coffee brown ring — honest domestic palette, deliberately unglamorous",
+            "lighting_intent": "Overhead fluorescent — bright, flat, exposing. The opposite of atmospheric. The light of a real person doing real work."
+          },
+          "concept_id": "c2",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The question mark next to the business name on the legal pad",
+            "core_premise": "A prospect at a kitchen table at 11 PM is writing a question mark next to a business name because no one answered at this hour — the evaluation concludes before the business ever knows it happened.",
+            "visual_world": "Real kitchen table at night — yellow legal pad, coffee ring, overhead fluorescent, printed webpage, blue ballpoint. Zero styling.",
+            "emotional_arc": "Immediate recognition → intimate dread → the fold-and-push of finality → quiet resolution through product",
+            "ending_mechanism": "Physical crossing-out of question mark, replacement with checkmark — the legal pad records the correction",
+            "opening_mechanism": "Hand writing a large, deliberate question mark next to a printed company name — judgment made visible before a word is spoken",
+            "product_mechanism": "AI chat bubble answering a question with a visible timestamp — retroactively converting the question mark to a checkmark on the legal pad",
+            "creative_direction": "Frames the prospect's off-hours research behavior as an audit — a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+            "palette_atmosphere": "Pale yellow, white fluorescent, blue ink, coffee brown — honest, domestic, deliberately un-atmospheric"
+          },
+          "central_idea": "A prospect's kitchen table at 11 PM becomes an accidental auditor's desk — printed pages, handwritten notes, a glass of water. The business being evaluated doesn't know this room exists. The evaluation concludes before sunrise.",
+          "creative_dna": {
+            "world": "A real kitchen table at 11 PM — not a designed space, the actual place where real decisions get made by real people who have other things to do tomorrow.",
+            "productRole": "The mechanism that converts a question mark to a checkmark — not by being impressive, but by simply being present when the question was asked.",
+            "coreConflict": "The business is being evaluated by someone who has no obligation to wait for an answer, and the evaluation is already over.",
+            "endingIntent": "The crossing-out of the question mark must feel like relief, not victory — the viewer should feel 'that's all it would have taken.'",
+            "mainCharacter": "The question mark on the legal pad — it is both the problem and the verdict",
+            "immutableRules": [
+              "The kitchen must be real — no design-forward kitchens, no marble, no aesthetics",
+              "The overhead fluorescent light is non-negotiable — it is the visual signature of unglamorous private evaluation",
+              "The question mark must be written by a human hand on real paper — no digital, no animation"
+            ],
+            "viewerQuestion": "How many question marks have been written next to my name at kitchen tables I've never seen?"
+          },
+          "direction_id": "d5",
+          "product_role": "The AI chat bubble in the website footer is the intervention that retroactively converts the question mark to a checkmark — shown as a clean, quiet before/after on the legal pad.",
+          "visual_world": "A real kitchen table at night — not styled, not aspirational. Pale yellow legal pad, blue ballpoint pen, a condensation ring from a glass, a printed-out webpage. Overhead fluorescent kitchen light. Slightly overexposed. Honest and unglamorous.",
+          "ending_payoff": "The question mark is crossed out. A checkmark replaces it. The legal pad is real — the crossing-out leaves a physical mark. CTA: 'Create your AI assistant.'",
+          "emotional_tone": "Intimate and unsettling — this is not a boardroom, it is a person doing what people actually do, and the business being evaluated has no idea.",
+          "direction_label": "The Audit That Runs Without You",
+          "funnel_fit_note": "The kitchen table setting makes the evaluation feel universal and real — not a formal enterprise procurement process, but the actual way individuals at small and mid-sized firms make vendor decisions. Lawyers, consultants, and agency owners recognize this scene.",
+          "production_risks": [
+            "The kitchen table must look genuinely real, not art-directed — any over-styling destroys the surveillance intimacy of the premise",
+            "The legal pad annotations must be legible on screen — may require shooting close enough that the full list isn't visible simultaneously",
+            "Overhead fluorescent light is intentionally unflattering — this is a directorial choice that may need defending in production"
+          ],
+          "why_stops_scroll": "A hand writing a question mark next to a name in the first frame reads immediately as a judgment — the viewer's brain registers 'someone is being evaluated' before any context arrives, triggering self-referential anxiety.",
+          "story_progression": "The camera holds on the yellow legal pad — a list of five vendors, handwritten. Two have checkmarks. One has a circle. One has a cross. One has a question mark. The hand adds a second line of annotation next to the question mark: 'no answer at this hour.' The pad is real — coffee ring stain on the corner, pen indentations from previous pages. The hand tears the page, folds it, and pushes it aside. The evaluation is over. Cut to: a clean website footer with an AI chat bubble — a question typed in, answered immediately, timestamp visible. The legal pad opens again. The question mark is crossed out. A checkmark replaces it.",
+          "emotional_mechanism": "The legal pad is the most human version of an evaluation — no software, no rubric, just a person at a kitchen table making a decision. The question mark next to a name is both intimate and ruthless. The viewer understands immediately that this room exists for their business right now.",
+          "opening_two_seconds": "A hand writes a question mark next to a printed company name on a yellow legal pad — the question mark is large, deliberate, and final.",
+          "characters_or_hero_objects": [
+            "The yellow legal pad",
+            "The question mark next to the business name",
+            "The handwritten annotation 'no answer at this hour'",
+            "The coffee ring stain"
+          ]
+        },
+        {
+          "title": "The Rubric You Never Received",
+          "pacing": "Slow institutional rhythm throughout — no fast cuts, no energy. The rubric is evaluated the way rubrics are evaluated: methodically. 20–25 seconds.",
+          "hook_line": "They built a rubric. You weren't in the room when they ran it.",
+          "viewpoint": "Neutral observer — watching the process without commentary, letting the blank cell speak entirely for itself.",
+          "atmosphere": {
+            "time_of_day": "Evening — dining table cleared for work, pendant light on",
+            "palette_intent": "Slate-blue placemats, white paper, red ballpoint accent, warm pendant amber — domestic precision, not corporate",
+            "lighting_intent": "Single overhead pendant — warm pool on the table surface, creating intimacy without warmth. The light of someone working through something important."
+          },
+          "concept_id": "c3",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The blank cell in the 'Available to answer questions' row, circled in red",
+            "core_premise": "A prospect's formal evaluation rubric has one blank cell — 'Available to answer questions' — for the business that wasn't there when the question was asked. The rubric moves to a decision stack without ever being shared with the business that failed it.",
+            "visual_world": "Dining table used as work surface — slate-blue placemats pushed aside, printed rubric, red ballpoint, stapler, pendant light",
+            "emotional_arc": "Institutional recognition → mounting procedural dread → the cold finality of the stapled stack → quiet resolution",
+            "ending_mechanism": "Blank cell fills. Circle erases. Rubric completes. CTA appears without voiceover.",
+            "opening_mechanism": "A checkmark placed in a rubric cell with institutional weight — the grid fills the frame entirely, triggering grading-system recognition",
+            "product_mechanism": "AI chat widget answering at 1:47 AM — the blank cell fills in, the red circle disappears",
+            "creative_direction": "Frames the prospect's off-hours research behavior as an audit — a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+            "palette_atmosphere": "Slate-blue, white, red ballpoint accent, warm pendant amber — domestic precision"
+          },
+          "central_idea": "A formal-looking evaluation rubric — the kind a procurement officer or agency principal would actually build — is being filled out at a dining table. The rubric includes a line item called 'Available to answer questions.' One business's cell is filled. The other is empty. The rubric moves to a printer tray.",
+          "creative_dna": {
+            "world": "A dining table that has become a procurement desk for one evening — serious, procedural, domestic, and completely invisible to the businesses being scored.",
+            "productRole": "The mechanism that fills the blank cell — not by being evaluated differently, but by being present when the question was asked.",
+            "coreConflict": "The evaluation is formal, fair, and finished — and the business being scored will never know it happened or why it lost.",
+            "endingIntent": "The filling of the blank cell must feel procedurally satisfying — not emotional, just complete. The viewer should feel 'that's the only thing that was missing.'",
+            "mainCharacter": "The blank cell in the rubric — it is the only absence in an otherwise complete evaluation",
+            "immutableRules": [
+              "The rubric must look real — typeset and printed, not hand-drawn",
+              "The blank cell must be genuinely empty, not marked zero or X — absence, not failure",
+              "No voiceover in the final section — the rubric completes itself silently"
+            ],
+            "viewerQuestion": "What does my blank cell look like in the rubrics I'll never see?"
+          },
+          "direction_id": "d5",
+          "product_role": "The AI chat widget is shown answering a question at 1:47 AM — the blank cell fills in retroactively, the red circle disappears, and the rubric becomes complete.",
+          "visual_world": "A clean dining table used as a work surface — not an office. Slate-blue placemats pushed to the side, a printed rubric on white paper, red ballpoint pen, a stapler, a glass of water. Warm overhead pendant light. Real domestic professionalism.",
+          "ending_payoff": "The blank cell fills. The circle erases. The rubric is complete. CTA: 'Create your AI assistant.' No voiceover. The rubric is the entire argument.",
+          "emotional_tone": "Institutional and precise — this is not emotional, it is procedural, and the procedural coldness is the emotional payload.",
+          "direction_label": "The Audit That Runs Without You",
+          "funnel_fit_note": "Professional services audiences — lawyers, accountants, agencies — understand procurement rubrics intimately. Seeing their business's equivalent of a blank cell in a formal evaluation grid is precisely the overlooked detail the strategy calls for.",
+          "production_risks": [
+            "The rubric prop must be legible on video — requires clean typeset printing, not handwriting, at this scale",
+            "Slate-blue and white palette is new but must avoid feeling cold or corporate — the pendant light and water glass must keep it domestic",
+            "The 'blank cell fills in' effect may require a simple practical prop swap rather than animation — a second version of the rubric with the cell filled must be prepared"
+          ],
+          "why_stops_scroll": "A ruler-straight institutional grid filling the entire frame in the first second reads as a test or a grade — the viewer's brain immediately asks 'is this about me?' before the content has been processed.",
+          "story_progression": "The camera holds on the grid — structured, bureaucratic, real. Column headers read like things a serious buyer would actually measure: 'Response time,' 'Clarity of pricing,' 'Available to answer questions,' 'Follow-up within 24 hours.' Two vendors fill the columns. Vendor A: marks in every row. Vendor B: marks in every row except one — 'Available to answer questions' — which is blank. Not a zero, not an X. Genuinely blank. A hand circles the blank cell in red. The rubric is stapled to a printed proposal from Vendor A. The stack is picked up and carried off frame. Cut to: an AI assistant chat widget on a website, a question typed in at 1:47 AM, an instant answer. The blank cell in the rubric fills in. The circle disappears.",
+          "emotional_mechanism": "The rubric format triggers instant institutional recognition in the target audience — lawyers, consultants, and agency principals have either created or been evaluated by rubrics like this. Seeing a blank cell circled in red is a visceral experience for anyone who has ever scored vendors.",
+          "opening_two_seconds": "A printed table with a ruler-straight grid — a hand places a checkmark in one cell with deliberate, institutional weight. The grid fills the frame entirely.",
+          "characters_or_hero_objects": [
+            "The printed evaluation rubric",
+            "The blank cell in the 'Available to answer questions' row",
+            "The red circle around the blank cell",
+            "The stapled proposal stack"
+          ]
+        },
+        {
+          "title": "Two Clocks, One Wall",
+          "pacing": "Very slow — the second hand of the running clock is the primary motion. Long holds. Time is the content. 25–30 seconds.",
+          "hook_line": "Your clock stopped. Theirs didn't.",
+          "viewpoint": "Stationary observer — the wall is the entire world, and the viewer watches both clocks from one fixed position.",
+          "atmosphere": {
+            "time_of_day": "The piece spans from 6 PM to past midnight — the wall is the constant, time is the variable",
+            "palette_intent": "Mustard yellow wall, white clock faces, black numerals, no other color — strong and simple, warm but not cozy",
+            "lighting_intent": "Consistent flat overhead light — the same light at 6 PM and midnight, emphasizing that the wall doesn't change, only the clocks do"
+          },
+          "concept_id": "c4",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The running clock next to the frozen one — specifically the second hand passing midnight",
+            "core_premise": "Two clocks on one wall — the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+            "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+            "emotional_arc": "Recognition → temporal dissonance → mounting dread as the running clock advances → resolution through synchronization",
+            "ending_mechanism": "Both clocks running simultaneously — the gap closed, the synchronization complete",
+            "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing — mechanical stillness as the scroll-stopper",
+            "product_mechanism": "AI chat widget active at 12:43 AM — the frozen clock's second hand begins moving, both clocks synchronized",
+            "creative_direction": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+            "palette_atmosphere": "Mustard yellow, white, black — warm but stark, institutional but not corporate"
+          },
+          "central_idea": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+          "creative_dna": {
+            "world": "A single wall with two clocks — the entire universe of the piece. Time is the only actor.",
+            "productRole": "The mechanism that synchronizes both clocks — not by extending business hours, but by ensuring the business is present on the prospect's timeline.",
+            "coreConflict": "Two timelines exist simultaneously. The business has only ever watched one of them.",
+            "endingIntent": "The synchronization of both clocks must feel like relief and practical resolution — not triumph, just alignment.",
+            "mainCharacter": "The frozen clock — it is the business's self-image, the thing it believes is sufficient",
+            "immutableRules": [
+              "Both clocks must be identical models — the only difference is frozen vs. running",
+              "No voiceover during the clock sequence — the second hands carry the entire argument",
+              "The mustard wall must be the only color in the frame until the product reveal"
+            ],
+            "viewerQuestion": "What time is it in my prospect's world right now?"
+          },
+          "direction_id": "d2",
+          "product_role": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock.",
+          "visual_world": "A warm mustard-yellow wall — not a corporate wall, a real business's back office or break room. Two identical white-faced analog clocks with black numerals. Simple, institutional, completely familiar. No digital elements until the product reveal.",
+          "ending_payoff": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+          "emotional_tone": "Quiet and eerie — the eeriness of two clocks on the same wall showing different times, one alive and one dead.",
+          "direction_label": "The Overlooked Clock",
+          "funnel_fit_note": "Small business owners and service firm principals who track business hours and response windows will immediately recognize the business clock as their own operational reality — the second clock reveals what they've never thought to watch.",
+          "production_risks": [
+            "Two identical clocks are required — sourcing matching models matters for visual coherence",
+            "The 'frozen second hand' effect requires either a practical battery-pull during filming or careful editing — must read as deliberately stopped, not just paused",
+            "The mustard-yellow wall is a strong palette choice that must not read as retro or kitschy — paint selection and context are critical"
+          ],
+          "why_stops_scroll": "A clock hand snapping to 6:00 and freezing is a physical event that reads as a malfunction or a stopping — the brain registers 'something broke' before any words arrive.",
+          "story_progression": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running — second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+          "emotional_mechanism": "The frozen clock is immediately recognizable — everyone has seen a battery-dead clock, a clock stopped at closing time. The juxtaposition of one frozen and one running creates visceral temporal dissonance: the viewer understands immediately that time is passing in the prospect's world while the business's world is paused.",
+          "opening_two_seconds": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+          "characters_or_hero_objects": [
+            "The frozen clock (labeled 'Us')",
+            "The running clock (labeled 'Them')",
+            "The mustard-yellow wall",
+            "The second hand passing midnight"
+          ]
+        },
+        {
+          "title": "The Schedule That Only Goes to Five",
+          "pacing": "Fast chalk-building phase (5 seconds), slow hold on the blank half (5 seconds), deliberate question mark appearances (8 seconds), clean product resolution (8 seconds). Total: 26 seconds.",
+          "hook_line": "You planned every hour. Just not theirs.",
+          "viewpoint": "Direct — the viewer faces the chalkboard as if standing in front of it, evaluating it alongside the frame.",
+          "atmosphere": {
+            "time_of_day": "The chalkboard spans a full day — the piece itself is timeless, the contrast between filled and empty does the temporal work",
+            "palette_intent": "Chalkboard green, white chalk, pale yellow-green chalk for question marks — utilitarian, functional, zero aesthetic styling",
+            "lighting_intent": "Flat utility light — the kind of light in a real back office or break room. No shadows, no drama, just honest exposure."
+          },
+          "concept_id": "c5",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The blank right half of the chalkboard and the question marks floating in it",
+            "core_premise": "A perfectly built 9-to-5 schedule on a chalkboard has a completely blank right half — the prospect's research hours. Question marks appear in the blank space at 11:30 PM, 12:15 AM, and 1:00 AM.",
+            "visual_world": "Functional green chalkboard in a small-business back office — exposed pipe, utility light, no styling",
+            "emotional_arc": "Confident building → exposure of the blank half → mounting presence of unmet demand → resolution through checkmarks",
+            "ending_mechanism": "Three checkmarks where three question marks were — both halves of the board now covered",
+            "opening_mechanism": "Chalk writing '9 AM' fast and confident — building energy before the blank half arrives",
+            "product_mechanism": "AI assistant converting the three question marks to checkmarks — operating in the blank half the schedule never addressed",
+            "creative_direction": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+            "palette_atmosphere": "Chalkboard green, white chalk, pale yellow-green accent — utilitarian, zero styling"
+          },
+          "central_idea": "A hand-drawn weekly schedule on a chalkboard shows every hour covered from 9 AM to 5 PM — staff, tasks, coverage. After 5 PM the chalkboard is blank. Completely blank. A visitor's question mark appears in the blank space at 11:30 PM.",
+          "creative_dna": {
+            "world": "A functional chalkboard schedule that has always represented complete coverage — until the blank half is seen.",
+            "productRole": "The mechanism that populates the blank half — not with staff or hours, but with answers that appear when questions are asked.",
+            "coreConflict": "The business planned its timeline meticulously and never noticed the prospect's timeline exists on the same board.",
+            "endingIntent": "The checkmarks must feel operational and satisfying — not emotional, just covered. The board is complete.",
+            "mainCharacter": "The blank right half of the chalkboard — it is not an absence, it is a populated space with unanswered questions",
+            "immutableRules": [
+              "The right half must be completely blank — not sparse, not light, genuinely empty",
+              "The question marks must appear one at a time, with slight pauses between — each one is a separate visitor",
+              "The chalkboard must look used and functional, never decorative"
+            ],
+            "viewerQuestion": "What is happening on the blank half of my schedule right now?"
+          },
+          "direction_id": "d2",
+          "product_role": "The AI assistant chat widget converts the question marks to checkmarks on the board — not by extending the staff schedule, but by operating in the blank half the schedule never addressed.",
+          "visual_world": "A real chalkboard — not a trendy coffee shop chalkboard, a functional scheduling board. Green chalkboard, white chalk for the schedule, a slightly different-toned chalk for the question marks. The board is mounted on a wall in a small-business back office. Exposed pipe above, a utility feel.",
+          "ending_payoff": "Three checkmarks where three question marks were. The full chalkboard — both halves — is now covered. CTA: 'Create your AI assistant.'",
+          "emotional_tone": "Methodical confidence collapsing into quiet exposure — the schedule was built with pride, and the blank half is the thing that undoes it.",
+          "direction_label": "The Overlooked Clock",
+          "funnel_fit_note": "Local services, consulting firms, and small businesses who build operational schedules — physically or mentally — will recognize the 9-to-5 coverage model immediately. The blank half is the overlooked clock made literal.",
+          "production_risks": [
+            "The chalkboard prop must be large enough for the schedule to be legible — a small chalkboard will make the contrast between halves less readable on screen",
+            "The 'blank half' effect depends entirely on the schedule stopping abruptly — any items after 5 PM will undermine the premise",
+            "The question mark writing must feel uncertain and visitor-like, distinct from the confident schedule chalk — may require two different chalk sizes or styles"
+          ],
+          "why_stops_scroll": "Chalk writing fast and confident in the first frame reads as planning, building, organizing — the viewer expects a complete picture and the blank half is a structural surprise that arrives before the hook line does.",
+          "story_progression": "The chalk builds a real schedule — 9 AM through 5 PM, filled with tasks, names, coverage. The writing is fast and confident. The schedule looks complete. The camera pulls back to reveal the full chalkboard: the left half is densely covered, the right half — everything after 5 PM — is completely blank green. Not a few missing items. Totally blank. The camera holds on the blank half. A hand appears and writes in the blank space at the 11:30 PM position: '?' — just a question mark, in different chalk, slightly uncertain in style. The question mark sits in the empty half of the board. Then a second question mark appears at 12:15 AM. Then another at 1:00 AM. The board has three question marks floating in empty space. Cut to: an AI assistant chat widget, a question answered at 11:47 PM. The question marks on the board are replaced, one by one, with small checkmarks. CTA.",
+          "emotional_mechanism": "The contrast between the dense, confident left half and the blank right half is a visual argument that requires no words. The viewer sees immediately that one part of the day was planned with enormous care and another part was not planned at all — and question marks appearing in that blank space make the unplanned zone suddenly feel populated with unmet demand.",
+          "opening_two_seconds": "A piece of chalk writing '9 AM' in the top left corner of a chalkboard — the writing is fast, confident, purposeful. The coverage is being built.",
+          "characters_or_hero_objects": [
+            "The dense left half of the chalkboard",
+            "The blank right half",
+            "The three question marks floating in empty space",
+            "The chalk that writes them"
+          ]
+        },
+        {
+          "title": "The Last Tab",
+          "pacing": "Very slow during the waiting sequence — the clock advancing is the only motion. The folder closing happens in real time, unhurried. 28–35 seconds.",
+          "hook_line": "One question. One folder that never got the chance to answer it.",
+          "viewpoint": "Observer from slightly above — looking down at the desk as if the viewer is standing over the prospect's shoulder.",
+          "atmosphere": {
+            "time_of_day": "Late evening — a home study desk lamp, wall clock at 11:20 PM",
+            "palette_intent": "Rosewood desk, warm brass lamp, cream manila folders, yellow sticky note — warm and inhabited, not corporate",
+            "lighting_intent": "Single brass desk lamp — warm cone of light on the desk surface, the rest of the room in soft natural shadow. The lamp is the entire light source."
+          },
+          "concept_id": "c6",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The folder that closes — specifically the gesture of closing it, unhurried and final",
+            "core_premise": "A prospect at 11:20 PM with two vendor folders on a desk has a single question that goes unanswered — by 11:48 PM one folder closes, not in anger, but in the quiet finality of a decision made by absence.",
+            "visual_world": "Warm rosewood home study desk — brass lamp, wall clock, inhabited personal objects, two manila folders",
+            "emotional_arc": "Anticipation → waiting → the specific dread of the clock advancing → the quiet irreversibility of the closed folder → reversal through product",
+            "ending_mechanism": "Folders swap status — the closed one opens, the open one closes. The evaluation outcome reverses through presence, not effort.",
+            "opening_mechanism": "Two manila folders and a sticky note question placed between them — immediate competition framing before any words arrive",
+            "product_mechanism": "AI assistant answering the exact sticky note question at 11:21 PM — the closed folder opens, the sticky note moves to it",
+            "creative_direction": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process — it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+            "palette_atmosphere": "Rosewood, warm brass, cream manila, yellow sticky note — warm, inhabited, personal"
+          },
+          "central_idea": "A prospect has narrowed a vendor shortlist to two — both folders are open on a physical desk. A single handwritten question sits between them, unanswered. The folder of the business that couldn't answer closes. Not because the prospect was angry. Just because the question was never answered.",
+          "creative_dna": {
+            "world": "A home study at 11:20 PM where a real person is making a real decision that will affect a business they've never spoken to.",
+            "productRole": "The mechanism that answers the question at 11:21 PM — before the folder closes. The evaluation reverses because the business was present when the question was asked.",
+            "coreConflict": "One question. One business that cannot answer it at this hour. One folder that closes without a sound.",
+            "endingIntent": "The reversal of the folder status must feel like the most straightforward thing in the world — not miraculous, just logical. 'That's all it would have taken.'",
+            "mainCharacter": "The folder that closes — its closing is the terminal event the entire piece builds toward",
+            "immutableRules": [
+              "The folder closing must happen in real time, without a cut — the gesture must be unedited",
+              "The question on the sticky note must be specific and real — not generic, not abstract",
+              "The wall clock must be visible and legible throughout the waiting sequence"
+            ],
+            "viewerQuestion": "Which folder am I in right now — and is it still open?"
+          },
+          "direction_id": "d3",
+          "product_role": "The AI assistant is shown answering the exact question at 11:21 PM — before the prospect gave up. The closed folder opens again. The sticky note moves to it. The evaluation outcome reverses.",
+          "visual_world": "A warm rosewood-toned desk in a home study — not a corporate office. Two manila folders, a brass desk lamp, a notepad, a pen cup, a wall clock with a second hand. The desk has personal objects on it — a coffee mug, a framed photo pushed to the side. Real and inhabited.",
+          "ending_payoff": "The folder that was closed opens again. The sticky note moves to it. The remaining folder closes. The evaluation outcome has reversed — not through effort, through presence. CTA: 'Create your AI assistant.'",
+          "emotional_tone": "Quiet and irreversible — the emotional register is not dramatic loss but the specific sadness of a door that closes without slamming.",
+          "direction_label": "The Question That Ended the Evaluation",
+          "funnel_fit_note": "Professional services and SaaS audiences who have been through vendor evaluation cycles — either as evaluators or as the evaluated — will recognize the two-folder shortlist immediately. The single unanswered question as a terminal event is the precise insight the strategy names.",
+          "production_risks": [
+            "The sticky note question must be specific and real enough to be credible — 'Do you handle multi-location accounts?' is an example, but the actual question must match the target audience's real evaluation questions",
+            "The clock advancing must be visible and legible — a wall clock with a clear second hand is required, not a decorative piece",
+            "The folder closing must be filmed in real time without a cut — any edit will reduce the finality of the gesture"
+          ],
+          "why_stops_scroll": "Two folders with a sticky note question between them in the first frame reads immediately as a competition — the viewer's brain registers 'one of these is going to win' before any words arrive.",
+          "story_progression": "The two folders sit open on the desk — both of them thick with printed materials, proposals, notes. The sticky note question sits between them, visible to both. The hand waits. The clock on the wall shows 11:20 PM. The hand waits. 11:35 PM. The hand waits. 11:48 PM. The hand slowly closes one folder — not forcefully, not with frustration. Just closed. The way you close a book when you've decided you don't need it anymore. The remaining folder stays open. A hand picks up a pen and writes 'Follow up' at the top of a notepad beside it. Cut to: an AI assistant answering 'Do you handle multi-location accounts?' instantly, on a website, timestamped 11:21 PM. The closed folder on the desk opens again. The sticky note moves to it.",
+          "emotional_mechanism": "The folder closing is one of the quietest, most final acts imaginable — no anger, no argument, no second chance requested. The finality of a closed folder is absolute. The viewer watches a decision being made by inaction rather than action, which is precisely the overlooked-detail mechanism.",
+          "opening_two_seconds": "Two physical manila folders on a wooden desk — one labeled with a company name, one labeled with another. A hand places a sticky note between them with a single handwritten question. The question is real and specific: 'Do you handle multi-location accounts?'",
+          "characters_or_hero_objects": [
+            "The two manila folders",
+            "The sticky note question",
+            "The wall clock advancing",
+            "The folder that closes quietly"
+          ]
+        },
+        {
+          "title": "The Shortlist That Became a List of One",
+          "pacing": "Two deliberate line-crossings, each with a beat of pause before the next. The circle is slower than the lines. The phone message is fast. 22–28 seconds.",
+          "hook_line": "You weren't crossed off for your price. You were crossed off for your silence.",
+          "viewpoint": "Close observer — the viewer is close enough to read the margin notes, close enough to feel the finality of the pen strokes.",
+          "atmosphere": {
+            "time_of_day": "Late evening — dining table, overhead light, wine glass pushed to corner",
+            "palette_intent": "Pale ash wood, white paper, black Sharpie, pale wine glass — clean and stark, no warmth styling",
+            "lighting_intent": "Overhead warm pendant — direct light on the shortlist, the table surface in soft shadow around the edges"
+          },
+          "concept_id": "c7",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The crossed-out names with margin notes — specifically the specificity of the time in the margin",
+            "core_premise": "A three-name shortlist loses two names to crossed-out lines with margin notes reading 'no response — midnight' and 'no response — 1 AM.' The third name, which answered, gets circled and sent in a decision message.",
+            "visual_world": "Pale ash dining table at night — printed shortlist, thick Sharpie, handwritten margin notes, wine glass pushed aside",
+            "emotional_arc": "Immediate elimination recognition → mounting dread at the second crossing → the brutal specificity of the margin notes → resolution through the circled name that could have been theirs",
+            "ending_mechanism": "The circle moves from the third name to the previously crossed-out name — the evaluation outcome reverses",
+            "opening_mechanism": "Thick pen line drawn through a business name — elimination as the first visual event",
+            "product_mechanism": "AI chat widget answering instantly — shortlist shown again with the crossed-out name now circled instead",
+            "creative_direction": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process — it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+            "palette_atmosphere": "Pale ash, white, black Sharpie — clean, stark, no warmth"
+          },
+          "central_idea": "A printed shortlist of three vendors is being reviewed at a dining table. One by one, two names are crossed out — not because of price, not because of capability, but because of a single unanswered question typed into each of their websites at midnight. The third name, the one that answered, gets circled.",
+          "creative_dna": {
+            "world": "A dining table at midnight where a real person is eliminating vendors from a handwritten shortlist based on a single criterion: who answered their question.",
+            "productRole": "The mechanism that moves a business from the crossed-out column to the circled column — not through effort, through presence.",
+            "coreConflict": "Two businesses lost an evaluation not because of price, capability, or fit — but because they were silent when a question was asked at midnight.",
+            "endingIntent": "The moved circle must feel logical and inevitable — 'of course that's the name that gets circled, it was the only one that answered.'",
+            "mainCharacter": "The crossed-out names — and the margin notes that explain why they were crossed out",
+            "immutableRules": [
+              "The margin notes must include specific times — 'midnight,' '1 AM' — the specificity is the mechanism",
+              "The shortlist must look handwritten and personal, never typeset",
+              "The two line-crossings must happen with real pauses between them — each crossing is a separate event, a separate lost evaluation"
+            ],
+            "viewerQuestion": "Am I on someone's shortlist right now — and is there a line being drawn through my name?"
+          },
+          "direction_id": "d3",
+          "product_role": "The AI chat widget is shown answering instantly — after which the shortlist is shown again with the first or second name no longer crossed out, and the circle repositioned. The viewer understands that the deployment of the assistant changes which name gets crossed off.",
+          "visual_world": "A dining table with a printed shortlist — not a professional document, a personal one. Handwritten margin notes. A thick Sharpie. A phone face-down on the table. The table is pale ash wood. A half-empty wine glass pushed to the corner. Late evening, real.",
+          "ending_payoff": "A name that was crossed off is now circled. The circle that was on the third name has moved. The phone message is now different. CTA: 'Create your AI assistant.'",
+          "emotional_tone": "Direct and a little brutal — the crossed-out names are not gentle. The margin notes are not diplomatic. This is how decisions actually get made.",
+          "direction_label": "The Question That Ended the Evaluation",
+          "funnel_fit_note": "Any business that has been through a competitive evaluation cycle — or lost a client they were confident about — will recognize the shortlist format. The margin note 'no response — midnight' makes the overlooked detail explicit: this was a winnable evaluation, lost to a single unanswered question.",
+          "production_risks": [
+            "The shortlist prop must look personal and handmade — not typeset — to feel like a real person's decision document rather than a designed artifact",
+            "The margin notes must be legible on camera — requires close-up framing at the moment of writing",
+            "The 'circle moves' effect requires a second version of the shortlist prop — practical prop swap, not animation"
+          ],
+          "why_stops_scroll": "A thick pen line drawn through a business name in the first frame registers as elimination — a competitive event — before any words arrive. The viewer's brain immediately asks 'why' and 'is this about me.'",
+          "story_progression": "The camera holds on a printed shortlist — three business names, professional and considered. A hand draws a line through the first name. A handwritten note in the margin: 'no response — midnight.' The camera holds. The hand draws a line through the second name. The margin note: 'no response — 1 AM.' The third name has no line through it. The margin note beside it: 'answered immediately.' A circle goes around the third name. The shortlist is photographed on a phone. The photo is sent in a message: 'Going with [third name] — they were the only ones who answered my question.' Cut to: an AI assistant chat widget on a website, a question answered instantly. The printed shortlist shown again. The first or second name now has no line through it. The third name's circle moves.",
+          "emotional_mechanism": "The crossed-out name is one of the most visceral business experiences in the piece — the viewer has crossed names off lists and had their name crossed off lists. The margin note 'no response — midnight' makes the reason explicit and specific: this was not a capability failure, it was a presence failure.",
+          "opening_two_seconds": "A thick black pen line drawn through a business name on a printed list — deliberate, immediate, no hesitation. The name disappears under the stroke.",
+          "characters_or_hero_objects": [
+            "The printed shortlist",
+            "The crossed-out names with margin notes",
+            "The thick Sharpie",
+            "The circled third name"
+          ]
+        },
+        {
+          "title": "The Email That Never Needed Sending",
+          "pacing": "Slow typewriter sequence (8 seconds), the pause before the paper pull (3 seconds), the slow tear (3 seconds), the hold on the torn paper (5 seconds), the product reveal and waste bin sequence (8 seconds). Total: 27 seconds.",
+          "hook_line": "They wrote you an email. Then deleted it. You'll never know it existed.",
+          "viewpoint": "Close observer — the viewer is in the room with the prospect, watching something private.",
+          "atmosphere": {
+            "time_of_day": "1:17 AM — a narrow private writing desk, single reading lamp",
+            "palette_intent": "Deep navy desk, cream typewriter paper, black enamel typewriter, warm reading lamp — rich, contained, private",
+            "lighting_intent": "Single reading lamp at the edge of frame — warm cone of light on the typewriter and paper, the desk in deep navy shadow around it"
+          },
+          "concept_id": "c8",
+          "fingerprint": {
+            "metaphor": null,
+            "hero_object": "The torn cream paper with the unfinished inquiry — specifically the two halves in the waste bin",
+            "core_premise": "A prospect drafts a formal inquiry on a manual typewriter at 1:03 AM — stops, pulls the paper, tears it, places the halves in a waste bin — because a competitor's website answered the question before the email could be completed.",
+            "visual_world": "Narrow writing desk with black enamel manual typewriter — deep navy surface, cream paper, single reading lamp",
+            "emotional_arc": "Deliberate intent → the pause before the tear → the clean finality of the torn paper → the melancholic waste bin → resolution through product",
+            "ending_mechanism": "Torn halves in the waste bin. Timestamp. The business will never know. CTA appears against this image.",
+            "opening_mechanism": "Hands typing fast on a manual typewriter — deliberate, physical communication that immediately signals 'someone is being written to'",
+            "product_mechanism": "Competitor's AI assistant shown answering the exact question at 1:03 AM — the implication that the business being written to could have answered it first",
+            "creative_direction": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process — it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+            "palette_atmosphere": "Deep navy, cream paper, black enamel, warm reading lamp amber — rich, contained, private"
+          },
+          "central_idea": "A prospect drafts an email to a business — a real, considered email with a specific question — and then deletes it without sending because they already got the answer from a competitor's website at 1 AM. The draft disappears. The business never knows the email existed.",
+          "creative_dna": {
+            "world": "A private writing desk at 1:17 AM where a prospect was close enough to draft a formal inquiry — and where the draft ended before it could be sent.",
+            "productRole": "The mechanism that answers the question at 1:03 AM — 14 minutes before the prospect gives up — ensuring the inquiry reaches completion rather than a waste bin.",
+            "coreConflict": "The prospect was ready to engage. The question was already answered elsewhere. The draft was unnecessary before it was finished.",
+            "endingIntent": "The waste bin must be the final image — quiet, private, final. The business will never know. That is the entire message.",
+            "mainCharacter": "The torn draft — the most complete record of a connection that almost happened",
+            "immutableRules": [
+              "The typewriter must be a real working machine — no prop typewriters with no mechanisms",
+              "The tear must be clean and deliberate — not angry, not frustrated, just final",
+              "The navy desk surface must be rich and deep, not corporate — this is a private space, not an office"
+            ],
+            "viewerQuestion": "How many drafted emails to me have been torn up before being sent?"
+          },
+          "direction_id": "d3",
+          "product_role": "The competitor's AI assistant is shown answering the exact question at 1:03 AM — 14 minutes before the prospect gave up and tore the draft. The implication is clear: if the business being written to had an AI assistant, the email would have been completed and sent.",
+          "visual_world": "A narrow writing desk with a real manual typewriter — not a prop, an actual working machine. The desk is deep navy blue, the paper is cream, the typewriter is black enamel. A single reading lamp at the edge of the frame. Contained and private.",
+          "ending_payoff": "The two torn halves in the waste bin. The timestamp 1:17 AM. The business being written to will never know. CTA: 'Create your AI assistant.' The product is the mechanism that would have answered the question before the draft was torn.",
+          "emotional_tone": "Melancholic and precise — not dramatic, but the specific sadness of a connection that was almost made and then wasn't.",
+          "direction_label": "The Question That Ended the Evaluation",
+          "funnel_fit_note": "Professional services firms and agencies who receive and send formal inquiries — and who understand the weight of a drafted-but-not-sent message — will find the torn draft immediately resonant. The overlooked detail is that the prospect was close enough to draft the email.",
+          "production_risks": [
+            "A working manual typewriter is required — the sound and physical mechanics are central to the atmosphere",
+            "The navy desk surface is a deliberate palette departure from all recent concepts — must be deep and rich without reading as corporate",
+            "The 'clean tear' must be filmed in one take — the deliberateness of the gesture requires an uncut shot"
+          ],
+          "why_stops_scroll": "Hands typing on a manual typewriter in the first frame reads as intentional, deliberate communication — the viewer immediately wants to know what is being written and to whom.",
+          "story_progression": "The typewriter produces a real, specific inquiry — 'I wanted to ask about your retainer structure for multi-location clients. Could you...' The typing stops. The hands hold above the keys for a moment. Then one hand reaches up and pulls the paper from the roller — slowly. The paper is held for a moment. Then it is torn in half. Not angrily. Just a clean tear. The two halves are set on the table. The hands leave the frame. The camera holds on the torn paper — the unfinished question visible in the torn halves. A timestamp appears in the corner: 1:17 AM. Cut to: a competitor's AI assistant answering the exact question about retainer structure at 1:03 AM. Cut back to: the torn paper on the table. The two halves are placed in a waste bin — gently, with no drama. The business being written to will never know.",
+          "emotional_mechanism": "The manual typewriter makes the act of drafting an email into a physical, deliberate event — the prospect was seriously considering this business, seriously enough to type a formal inquiry. The torn paper is the terminal event: the question was never sent because it was already answered elsewhere. The business will never know how close it came.",
+          "opening_two_seconds": "Hands typing on a physical typewriter — the keys strike fast and deliberate. The paper in the roller shows the beginning of a professional inquiry: 'I wanted to ask about...'",
+          "characters_or_hero_objects": [
+            "The manual typewriter",
+            "The unfinished inquiry on cream paper",
+            "The clean tear",
+            "The two halves in the waste bin"
+          ]
+        }
+      ],
+      "direction_attempts": 1,
+      "directions_selected": [
+        {
+          "label": "The Audit That Runs Without You",
+          "why_fits": "The strategy's overlooked-detail angle is perfectly expressed through audit logic — the detail most businesses miss is that they are being evaluated right now, at hours they cannot see, by people they do not know have arrived. This resonates strongly with professional services firms and agencies who understand formal evaluation processes.",
+          "mechanism": "Frames the prospect's off-hours research behavior as an audit — a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+          "direction_id": "d5",
+          "diversity_note": "Unlike the invisible-loss mechanism (which focuses on what cannot be measured after the fact) and the decision-site displacement mechanism (which relocates where decisions happen), this focuses on the active, ongoing nature of the evaluation process itself — the prospect is not just deciding, they are auditing, and it is happening continuously.",
+          "anti_repetition_note": "Audit logic — an active, structured, private evaluation the business cannot participate in — has not appeared in any recent directions. Does not use data, parallel tracks, spatial/threshold, or staffing logic."
+        },
+        {
+          "label": "The Overlooked Clock",
+          "why_fits": "The strategy's core insight — that the biggest-budget prospects research at midnight — is perfectly served by a two-clock mechanism. The audience has been optimizing one timeline completely unaware the other one exists. Problem-aware audiences running lean operations will immediately recognize they've only ever tracked one of the two.",
+          "mechanism": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+          "direction_id": "d2",
+          "diversity_note": "Unlike decision-site displacement logic (which relocates where decisions happen), this mechanism is not about location — it is about the simultaneous existence of two timelines that never sync, making the gap structural rather than situational.",
+          "anti_repetition_note": "Does not use data reframing, staffing-role logic, threshold/spatial logic, or dormant-infrastructure logic. The dual-clock mechanism is a time-based structural gap concept that has not appeared in recent directions."
+        },
+        {
+          "label": "The Question That Ended the Evaluation",
+          "why_fits": "Enterprise and high-value prospects doing research at 2 AM have often already narrowed their shortlist. One unanswered question at that stage is not a delay — it is a disqualification. This fits the strategy's angle precisely and speaks directly to service firms and SaaS companies who understand high-stakes evaluation cycles.",
+          "mechanism": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process — it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+          "direction_id": "d3",
+          "diversity_note": "Unlike the competitive-transfer mechanism (which focuses on where the lead went) and the invisible-loss mechanism (which focuses on what can never be measured), this centers on the singular, irreversible nature of the terminal event itself — finality, not destination or invisibility.",
+          "anti_repetition_note": "Does not use data, parallel tracks, pipe/infrastructure, threshold, or staffing metaphors. The finality-of-a-single-moment mechanism is distinct from all recent directions."
+        }
+      ],
+      "dna_repair_attempts": 0,
+      "direction_evaluation": {
+        "source": "critic",
+        "ranking": [
+          "d5",
+          "d2",
+          "d3",
+          "d1",
+          "d7",
+          "d4",
+          "d6"
+        ],
+        "version": "creative-direction-eval@1",
+        "evaluations": [
+          {
+            "scores": {
+              "funnel_fit": 8,
+              "originality": 8,
+              "strategy_fit": 8,
+              "anti_repetition": 9,
+              "emotional_range": 8,
+              "concept_potential": 8,
+              "diversity_vs_peers": 8,
+              "production_feasibility": 9
+            },
+            "vetoes": [],
+            "critic_notes": "Credential decay is a genuinely distinct mechanism — it targets the emotional investment a business has made in its reputation and shows that investment becoming inert at the exact moment it would have mattered. The sting of 'I earned this and it couldn't reach the person who needed to see it' is specific and resonant for service firms and SaaS companies who lead with response-time metrics. The time-locked depreciation angle is clean and has not appeared in recent directions. Slight risk: the mechanism is somewhat abstract and may require careful execution to feel visceral rather than conceptual. Strong candidate.",
+            "direction_id": "d1"
+          },
+          {
+            "scores": {
+              "funnel_fit": 9,
+              "originality": 8,
+              "strategy_fit": 9,
+              "anti_repetition": 9,
+              "emotional_range": 8,
+              "concept_potential": 9,
+              "diversity_vs_peers": 8,
+              "production_feasibility": 9
+            },
+            "vetoes": [],
+            "critic_notes": "The dual-clock mechanism is exceptionally well-fitted to the strategy's core insight. Two timelines running simultaneously and never intersecting is a structural, visual, and emotionally legible concept — it can be rendered in almost any format and lands immediately. The distinction from decision-site displacement is real: this is not about where decisions happen but about the temporal mismatch between two coexisting systems. High production feasibility, strong emotional clarity, and genuinely novel relative to the recent direction set. Top-tier candidate.",
+            "direction_id": "d2"
+          },
+          {
+            "scores": {
+              "funnel_fit": 8,
+              "originality": 8,
+              "strategy_fit": 9,
+              "anti_repetition": 8,
+              "emotional_range": 9,
+              "concept_potential": 8,
+              "diversity_vs_peers": 7,
+              "production_feasibility": 8
+            },
+            "vetoes": [],
+            "critic_notes": "Finality logic is emotionally powerful — the idea that one unanswered question does not pause an evaluation but terminates it is a sharp reframe that will land hard for SaaS and professional services audiences who understand high-stakes shortlisting. The irreversibility angle is distinct from invisible-loss (no signal) and competitive-transfer (where the lead went). However, it sits somewhat close in emotional register to the invisible-loss mechanism from recent directions, even if the mechanism itself is different. Strong, but slightly lower diversity score relative to d2 and d5. Still a strong candidate for emotional punch.",
+            "direction_id": "d3"
+          },
+          {
+            "scores": {
+              "funnel_fit": 8,
+              "originality": 7,
+              "strategy_fit": 8,
+              "anti_repetition": 8,
+              "emotional_range": 7,
+              "concept_potential": 7,
+              "diversity_vs_peers": 7,
+              "production_feasibility": 8
+            },
+            "vetoes": [],
+            "critic_notes": "Selective presence is a solid mechanism and the 'self-imposed temporal constraint' framing is a useful reframe — it makes the gap feel like a policy choice rather than an accident. However, it sits uncomfortably close in concept-space to both the staffing-gap mechanism (recent) and the decision-site displacement mechanism (recent), even if the framing differs. The presence-boundary logic is real but may not feel sufficiently distinct to a viewer who has seen adjacent ideas. Mid-tier candidate — useful if diversity across the shortlist demands it, but not the strongest standalone.",
+            "direction_id": "d4"
+          },
+          {
+            "scores": {
+              "funnel_fit": 9,
+              "originality": 9,
+              "strategy_fit": 9,
+              "anti_repetition": 10,
+              "emotional_range": 8,
+              "concept_potential": 9,
+              "diversity_vs_peers": 9,
+              "production_feasibility": 8
+            },
+            "vetoes": [],
+            "critic_notes": "Audit logic is the most original mechanism in this set. The reframe — that the prospect is not just browsing but conducting a structured, private, unannounced evaluation the business cannot participate in — is genuinely fresh and has strong resonance with professional services, agencies, and consulting firms who understand formal evaluation processes. The distinction from invisible-loss is real and meaningful: this is not about what cannot be measured after the fact, it is about an active process happening right now that the business is excluded from. High anti-repetition score because audit logic has no analog in recent directions. Top-tier candidate.",
+            "direction_id": "d5"
+          },
+          {
+            "scores": {
+              "funnel_fit": 8,
+              "originality": 7,
+              "strategy_fit": 8,
+              "anti_repetition": 7,
+              "emotional_range": 7,
+              "concept_potential": 7,
+              "diversity_vs_peers": 7,
+              "production_feasibility": 9
+            },
+            "vetoes": [],
+            "critic_notes": "Last-mile economics is a clean and legible mechanism, and the disproportionate-smallness angle is genuinely useful for small business audiences who have invested heavily in traffic acquisition. However, it sits too close in concept-space to the pipe/investment-halted mechanism from recent directions — both trace investment that traveled most of the distance and stopped before producing return. The claimed distinction (economic proportion vs. investment trajectory) is real but thin in execution. The mechanism risks feeling like a restatement of a recent direction rather than a genuinely new one. Lower priority for shortlist.",
+            "direction_id": "d6"
+          },
+          {
+            "scores": {
+              "funnel_fit": 8,
+              "originality": 8,
+              "strategy_fit": 8,
+              "anti_repetition": 9,
+              "emotional_range": 8,
+              "concept_potential": 8,
+              "diversity_vs_peers": 8,
+              "production_feasibility": 8
+            },
+            "vetoes": [],
+            "critic_notes": "Witness-dependency logic is a genuinely distinct mechanism and the distinction from credential-decay (d1) is meaningful: d1 is about a reputation becoming unreachable, d7 is about the structural dependency of all quality claims on real-time presence to activate them. The claim does not degrade — it simply has no delivery mechanism. This is philosophically interesting and emotionally resonant for reputation-driven service firms. However, it is slightly more abstract than d2 or d5 and may require more executional care to land viscerally. Strong candidate, particularly if d1 is not selected — they should not both appear in the shortlist as they occupy adjacent emotional territory.",
+            "direction_id": "d7"
+          }
+        ],
+        "selection_reason": "d5 (The Audit That Runs Without You) is the strongest and most original direction in the set — audit logic is entirely fresh relative to all recent directions, fits the strategy's core insight precisely, and resonates deeply with the professional services and agency audience. d2 (The Overlooked Clock) is the second-strongest: the dual-clock mechanism is visually and emotionally legible, directly serves the strategy's midnight-research angle, and is structurally distinct from d5 (time-gap vs. active-exclusion). d3 (The Question That Ended the Evaluation) adds a third distinct mechanism — finality logic — that differs from both audit logic and temporal-gap logic by centering on irreversibility rather than process or structure. Together, the three cover three genuinely different communication registers: active exclusion from an ongoing process (d5), structural temporal mismatch (d2), and the irreversible terminal event (d3). d1 and d7 were considered but not selected because they occupy adjacent emotional territory to each other and to d5; d4 sits too close to recent directions; d6 risks repeating the pipe/investment mechanism.",
+        "selected_direction_ids": [
+          "d5",
+          "d2",
+          "d3"
+        ]
+      },
+      "directions_generated": [
+        {
+          "label": "Credential Decay",
+          "why_fits": "A software company's fast response-time reputation is real and earned, but it cannot function as a credential at 2 AM when no one is there to demonstrate it. Problem-aware audiences who pride themselves on service quality will feel the specific sting of a strength that cannot reach the moment it needs to.",
+          "mechanism": "Exposes how a credential, reputation, or quality signal — one that was legitimately earned — silently loses its power at the exact moment it cannot be verified by the person who matters most. The mechanism works through depreciation logic: the credential does not disappear, it simply becomes unreachable at the hour it would have done its work.",
+          "direction_id": "d1",
+          "diversity_note": "Unlike the competitive-transfer mechanism or the preparation-gap mechanism, this does not focus on what the competitor gained or what was left unprepared — it focuses on the erosion of something real and earned at the precise moment of need.",
+          "anti_repetition_note": "Does not reframe existing data, does not use parallel tracks, does not use threshold or staffing logic, does not surface dormant infrastructure. Works through reputation-decay and time-locked credential logic, which has not appeared in recent directions."
+        },
+        {
+          "label": "The Overlooked Clock",
+          "why_fits": "The strategy's core insight — that the biggest-budget prospects research at midnight — is perfectly served by a two-clock mechanism. The audience has been optimizing one timeline completely unaware the other one exists. Problem-aware audiences running lean operations will immediately recognize they've only ever tracked one of the two.",
+          "mechanism": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+          "direction_id": "d2",
+          "diversity_note": "Unlike decision-site displacement logic (which relocates where decisions happen), this mechanism is not about location — it is about the simultaneous existence of two timelines that never sync, making the gap structural rather than situational.",
+          "anti_repetition_note": "Does not use data reframing, staffing-role logic, threshold/spatial logic, or dormant-infrastructure logic. The dual-clock mechanism is a time-based structural gap concept that has not appeared in recent directions."
+        },
+        {
+          "label": "The Question That Ended the Evaluation",
+          "why_fits": "Enterprise and high-value prospects doing research at 2 AM have often already narrowed their shortlist. One unanswered question at that stage is not a delay — it is a disqualification. This fits the strategy's angle precisely and speaks directly to service firms and SaaS companies who understand high-stakes evaluation cycles.",
+          "mechanism": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process — it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+          "direction_id": "d3",
+          "diversity_note": "Unlike the competitive-transfer mechanism (which focuses on where the lead went) and the invisible-loss mechanism (which focuses on what can never be measured), this centers on the singular, irreversible nature of the terminal event itself — finality, not destination or invisibility.",
+          "anti_repetition_note": "Does not use data, parallel tracks, pipe/infrastructure, threshold, or staffing metaphors. The finality-of-a-single-moment mechanism is distinct from all recent directions."
+        },
+        {
+          "label": "Selective Presence",
+          "why_fits": "Consulting firms, agencies, and professional services businesses all operate on business-hours logic while their most desirable prospects — senior decision-makers, enterprise buyers — do their real research outside those hours. The selective-presence frame makes the gap feel like a structural choice, not bad luck.",
+          "mechanism": "Reveals that the business has built a form of selective presence — fully alive and responsive in a narrow window, completely absent everywhere outside it — and that the audience the business most wants to reach does not confine its behavior to that window. The mechanism works through presence-boundary logic: the business drew a line around when it exists, and high-value prospects routinely operate outside that line.",
+          "direction_id": "d4",
+          "diversity_note": "Unlike the staffing-gap mechanism (which focuses on the missing role) and the threshold mechanism (which focuses on the empty room), this focuses on the business having deliberately bounded its own existence in time — a self-imposed constraint that feels like a policy rather than an oversight.",
+          "anti_repetition_note": "Does not use data reframing, proportion mismatch, pipe metaphors, dormant infrastructure, or competitive-transfer logic. Presence-boundary logic as a self-imposed temporal constraint has not appeared in recent directions."
+        },
+        {
+          "label": "The Audit That Runs Without You",
+          "why_fits": "The strategy's overlooked-detail angle is perfectly expressed through audit logic — the detail most businesses miss is that they are being evaluated right now, at hours they cannot see, by people they do not know have arrived. This resonates strongly with professional services firms and agencies who understand formal evaluation processes.",
+          "mechanism": "Frames the prospect's off-hours research behavior as an audit — a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+          "direction_id": "d5",
+          "diversity_note": "Unlike the invisible-loss mechanism (which focuses on what cannot be measured after the fact) and the decision-site displacement mechanism (which relocates where decisions happen), this focuses on the active, ongoing nature of the evaluation process itself — the prospect is not just deciding, they are auditing, and it is happening continuously.",
+          "anti_repetition_note": "Audit logic — an active, structured, private evaluation the business cannot participate in — has not appeared in any recent directions. Does not use data, parallel tracks, spatial/threshold, or staffing logic."
+        },
+        {
+          "label": "Cost of the Last Mile",
+          "why_fits": "Small businesses and service firms invest in SEO, ads, content, and referrals to drive traffic. The last mile — actually answering the question when the visitor arrives — is the cheapest part of the journey and the only part left unaddressed. This fits the problem-aware audience who has already invested in getting visitors there.",
+          "mechanism": "Isolates the final, smallest, cheapest-to-solve segment of a customer journey and reveals it as the one segment that determines whether everything before it produces any return. The mechanism works through last-mile economics: the entire journey — awareness, interest, research, site visit — costs the business real resources, and the last mile (the question at 2 AM) costs nothing to solve but was never addressed.",
+          "direction_id": "d6",
+          "diversity_note": "Unlike the pipe/investment-halted mechanism (which focuses on where investment stopped before producing return), this focuses specifically on the disproportionate smallness of the unsolved last segment relative to everything that preceded it — the economics of the final step, not the trajectory of the investment.",
+          "anti_repetition_note": "The pipe mechanism in recent directions used visual metaphor and upstream-investment logic. This uses economic-proportion logic applied specifically to journey-segment cost — a distinct framing that has not appeared in recent directions."
+        },
+        {
+          "label": "The Witness Problem",
+          "why_fits": "Consulting firms, law firms, and service agencies often rely on reputation and quality signals. This mechanism reveals that those signals are inert without a presence to deliver them at the exact moment a prospect needs confirmation — directly addressing the 2 AM research scenario where no witness exists.",
+          "mechanism": "Exposes that every quality claim a business makes about itself — fast response, excellent service, expert knowledge — requires a witness to activate. Without a witness present at the moment the prospect needs confirmation, the claim does not exist for that prospect. The mechanism works through witness-dependency logic: quality without a witness at the moment of need is quality that cannot be experienced and therefore cannot influence a decision.",
+          "direction_id": "d7",
+          "diversity_note": "Unlike the credential-decay mechanism (which focuses on a reputation becoming unreachable), this focuses on the structural dependency of all quality claims on real-time witness presence — the claim itself is not degraded, it simply has no mechanism to reach the person who needs to hear it.",
+          "anti_repetition_note": "Witness-dependency logic — the idea that quality claims require a present witness to activate — has not appeared in any recent directions and does not overlap with data reframing, threshold, staffing, dormant-infrastructure, or competitive-transfer mechanisms."
+        }
+      ],
+      "direction_eval_attempts": 1,
+      "direction_memory_filter_passes": [
+        {
+          "pass": 1,
+          "rejected": [],
+          "fallback_used": false,
+          "rejected_count": 0,
+          "survivor_count": 7,
+          "generated_count": 7
+        }
+      ],
+      "memory_filter_fallback_all_rejected": false
+    },
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: warm and approachable. Delivery: measured, credible. Language: en.",
+    "downgrade_rules": [],
+    "narrative_beats": {
+      "beats": [
+        {
+          "role": "HOOK",
+          "whatChanged": "",
+          "whyContinue": "What time is it in my prospect's world right now?",
+          "sourceFields": [
+            "openingSituation",
+            "hookLine",
+            "expectedViewerQuestion"
+          ],
+          "viewerLearns": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes…",
+          "comprehension": {
+            "viewer_question": "What time is it in my prospect's world right now?",
+            "viewer_expectation": "The explanation is coming.",
+            "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+          },
+          "informationKey": "anomaly|open|analog_clock_hand_snaps",
+          "modeBeatLabels": [
+            "common_belief"
+          ]
+        },
+        {
+          "role": "SETUP",
+          "whatChanged": "After the hook meaning unit lands: name the problem world (Quiet and eerie — the eeriness of two clocks on the same wall showing different times, one alive and…",
+          "whyContinue": "Stakes become clear — A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock ke…",
+          "sourceFields": [
+            "storyProgression",
+            "coreIdea",
+            "emotionalReaction"
+          ],
+          "viewerLearns": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clo…",
+          "comprehension": {
+            "viewer_question": "Why is this happening / what does it cost?",
+            "viewer_expectation": "Someone should solve this — or stakes will rise.",
+            "viewer_understands": "The problem is: A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unla…"
+          },
+          "informationKey": "problem_named|open|camera_holds_wall_clocks",
+          "modeBeatLabels": [
+            "why_wrong"
+          ]
+        },
+        {
+          "role": "ESCALATION",
+          "whatChanged": "Failure / consequence deepens — not a restatement of the setup.",
+          "whyContinue": "Viewer needs the fix: The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is…",
+          "sourceFields": [
+            "storyProgression",
+            "visualPromise",
+            "productConnection"
+          ],
+          "viewerLearns": "into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The…",
+          "comprehension": {
+            "viewer_question": "Can this be fixed?",
+            "viewer_expectation": "Show the solution.",
+            "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+          },
+          "informationKey": "cost_rising|open|frame_writes_label_right",
+          "modeBeatLabels": [
+            "proof"
+          ]
+        },
+        {
+          "role": "RESOLUTION",
+          "whatChanged": "Problem turns into solution / outcome: Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The p…",
+          "whyContinue": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+          "sourceFields": [
+            "productConnection",
+            "ending"
+          ],
+          "viewerLearns": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with…",
+          "comprehension": {
+            "viewer_question": "none",
+            "viewer_expectation": "Finished.",
+            "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again…"
+          },
+          "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+          "modeBeatLabels": [
+            "cta"
+          ]
+        }
+      ],
+      "version": "narrative-beats@1.1",
+      "timeline_debug": {
+        "version": "narrative-timeline-debug@1",
+        "timeline": [
+          {
+            "role": "HOOK",
+            "index": 0,
+            "share": 0.282,
+            "sceneSummary": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutio…",
+            "comprehension": {
+              "viewer_question": "What time is it in my prospect's world right now?",
+              "viewer_expectation": "The explanation is coming.",
+              "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+            },
+            "informationKey": "anomaly|open|analog_clock_hand_snaps",
+            "durationSeconds": 6.73
+          },
+          {
+            "role": "SETUP",
+            "index": 1,
+            "share": 0.218,
+            "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced anal…",
+            "comprehension": {
+              "viewer_question": "Why is this happening / what does it cost?",
+              "viewer_expectation": "Someone should solve this — or stakes will rise.",
+              "viewer_understands": "The problem is: A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unla…"
+            },
+            "informationKey": "problem_named|open|camera_holds_wall_clocks",
+            "durationSeconds": 5.2
+          },
+          {
+            "role": "ESCALATION",
+            "index": 2,
+            "share": 0.308,
+            "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second h…",
+            "comprehension": {
+              "viewer_question": "Can this be fixed?",
+              "viewer_expectation": "Show the solution.",
+              "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+            },
+            "informationKey": "cost_rising|open|frame_writes_label_right",
+            "durationSeconds": 7.34
+          },
+          {
+            "role": "RESOLUTION",
+            "index": 3,
+            "share": 0.192,
+            "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, rig…",
+            "comprehension": {
+              "viewer_question": "none",
+              "viewer_expectation": "Finished.",
+              "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again…"
+            },
+            "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+            "durationSeconds": 4.58
+          },
+          {
+            "role": "beat_5",
+            "index": 4,
+            "share": null,
+            "sceneSummary": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands…",
+            "comprehension": null,
+            "informationKey": null,
+            "durationSeconds": null
+          }
+        ],
+        "voiceover": {
+          "text": "Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing serious research at midnight? They're not on your schedule. One unanswered question at the wrong hour, and they move to whoever was there. Your website doesn't have to sleep. Create your AI assistant — let your website keep running when you can't.",
+          "wordCount": 62
+        },
+        "storyboard": {
+          "sceneCount": 5,
+          "sceneSummaries": [
+            "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutio…",
+            "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced anal…",
+            "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second h…",
+            "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, rig…",
+            "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands…"
+          ]
+        },
+        "duration_plan": {
+          "roles": [
+            "HOOK",
+            "SETUP",
+            "ESCALATION",
+            "RESOLUTION"
+          ],
+          "shares": [
+            0.282,
+            0.218,
+            0.308,
+            0.192
+          ],
+          "validation": {
+            "passed": true,
+            "shares": [
+              0.282,
+              0.218,
+              0.308,
+              0.192
+            ],
+            "summary": [],
+            "version": "duration-validation@1",
+            "warnings": []
+          },
+          "durationsSeconds": [
+            6.73,
+            5.2,
+            7.34,
+            4.58
+          ],
+          "justifiedOverMax": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "narrative_beats": [
+          {
+            "role": "HOOK",
+            "whatChanged": "",
+            "whyContinue": "What time is it in my prospect's world right now?",
+            "viewerLearns": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes…",
+            "informationKey": "anomaly|open|analog_clock_hand_snaps",
+            "modeBeatLabels": [
+              "common_belief"
+            ]
+          },
+          {
+            "role": "SETUP",
+            "whatChanged": "After the hook meaning unit lands: name the problem world (Quiet and eerie — the eeriness of two clocks on the same wall showing different times, one alive and…",
+            "whyContinue": "Stakes become clear — A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock ke…",
+            "viewerLearns": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clo…",
+            "informationKey": "problem_named|open|camera_holds_wall_clocks",
+            "modeBeatLabels": [
+              "why_wrong"
+            ]
+          },
+          {
+            "role": "ESCALATION",
+            "whatChanged": "Failure / consequence deepens — not a restatement of the setup.",
+            "whyContinue": "Viewer needs the fix: The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is…",
+            "viewerLearns": "into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The…",
+            "informationKey": "cost_rising|open|frame_writes_label_right",
+            "modeBeatLabels": [
+              "proof"
+            ]
+          },
+          {
+            "role": "RESOLUTION",
+            "whatChanged": "Problem turns into solution / outcome: Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The p…",
+            "whyContinue": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+            "viewerLearns": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with…",
+            "informationKey": "solution_shown|closed|chat_widget_shown_answering",
+            "modeBeatLabels": [
+              "cta"
+            ]
+          }
+        ],
+        "metaphor_clarity": {
+          "reasons": [
+            "class:one_mental_step",
+            "understandable_within_~10s",
+            "understandable_within_first_third"
+          ],
+          "guidance": null,
+          "metaphorClass": "one_mental_step",
+          "understandableWithin10s": true,
+          "preferEarlyProductProblem": false,
+          "understandableWithinFirstThird": true
+        },
+        "creative_candidate": {
+          "ending": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+          "family": "invented",
+          "coreIdea": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+          "hookLine": "Your clock stopped. Theirs didn't.",
+          "candidateId": "c4",
+          "openingSituation": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+          "storyProgression": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running — second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+          "productConnection": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock."
+        },
+        "corrective_guidance": null,
+        "viewer_comprehension": [
+          {
+            "viewer_question": "What time is it in my prospect's world right now?",
+            "viewer_expectation": "The explanation is coming.",
+            "viewer_understands": "Something unusual is happening: An analog clock hand snaps to 6"
+          },
+          {
+            "viewer_question": "Why is this happening / what does it cost?",
+            "viewer_expectation": "Someone should solve this — or stakes will rise.",
+            "viewer_understands": "The problem is: A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unla…"
+          },
+          {
+            "viewer_question": "Can this be fixed?",
+            "viewer_expectation": "Show the solution.",
+            "viewer_understands": "The business is losing opportunities: into frame and writes a label on the right clock"
+          },
+          {
+            "viewer_question": "none",
+            "viewer_expectation": "Finished.",
+            "viewer_understands": "The product solves this: The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again…"
+          }
+        ],
+        "information_progression": {
+          "passed": true,
+          "summary": [],
+          "version": "information-progression@1",
+          "warnings": [],
+          "correctiveGuidance": null
+        }
+      },
+      "metaphorClarity": {
+        "reasons": [
+          "class:one_mental_step",
+          "understandable_within_~10s",
+          "understandable_within_first_third"
+        ],
+        "guidance": null,
+        "metaphorClass": "one_mental_step",
+        "understandableWithin10s": true,
+        "preferEarlyProductProblem": false,
+        "understandableWithinFirstThird": true
+      },
+      "correctiveGuidance": null,
+      "durationValidation": {
+        "passed": true,
+        "shares": [
+          0.282,
+          0.218,
+          0.308,
+          0.192
+        ],
+        "summary": [],
+        "version": "duration-validation@1",
+        "warnings": []
+      },
+      "progressionWarnings": [],
+      "informationProgression": {
+        "passed": true,
+        "summary": [],
+        "version": "information-progression@1",
+        "warnings": [],
+        "correctiveGuidance": null
+      },
+      "storyProgressionDiagnostics": {
+        "passed": true,
+        "summary": [],
+        "version": "story-progression@1",
+        "warnings": []
+      },
+      "visualProgressionDiagnostics": {
+        "passed": false,
+        "summary": [
+          "scenes_2_and_3_no_visual_progression:static_repetition|location_unknown|action_unknown"
+        ],
+        "version": "visual-progression@1",
+        "warnings": [
+          {
+            "indexA": 1,
+            "indexB": 2,
+            "changed": {
+              "action": false,
+              "stakes": false,
+              "emotion": false,
+              "location": false,
+              "information": false
+            },
+            "reasons": [
+              "static_repetition",
+              "location_unknown",
+              "action_unknown"
+            ]
+          }
+        ]
+      },
+      "postLlmInformationProgression": {
+        "passed": true,
+        "summary": [],
+        "version": "information-progression@1",
+        "warnings": [],
+        "correctiveGuidance": null
+      }
+    },
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spoken rhythm",
+    "visual_narrative": {
+      "key": "human|conversation distance — two people mid-tension or one person reacting to being ignored",
+      "version": "visual-narrative@1.1",
+      "subject_focus": "conversation distance — two people mid-tension or one person reacting to being ignored",
+      "metaphor_policy": "understandable_preferred",
+      "director_version": "visual-story-director@1",
+      "storytelling_mode": "situation_first",
+      "product_world_hints": [
+        "Digital assistant world (meaning, not scenery): film unanswered visitors, people waiting for a reply, someone walking away, after-hours silence becoming answered — NOT automatic storefronts, NOT dashboards, NOT abstract boats/notebooks standing in for visitors.",
+        "Agency world: client conversations, missed follow-ups, collaborative tension — situations first, workshop props only when they are part of the event.",
+        "Product Brain constrains MEANING (who hurts, what changed), not scenery. Do not force browser UI, dashboards, or physical stores unless that situation is truly strongest."
+      ],
+      "recent_motif_counts": {
+        "desk": 2,
+        "group": 3,
+        "phone": 4,
+        "laptop": 7,
+        "meeting": 1,
+        "monitor": 1,
+        "close_up": 11,
+        "overhead": 4,
+        "dashboard": 4,
+        "whiteboard": 2,
+        "person_alone": 4,
+        "sticky_notes": 1,
+        "product_asset": 6
+      },
+      "supporting_carriers": [
+        "place",
+        "process",
+        "comparison"
+      ],
+      "primary_meaning_carrier": "human",
+      "reject_abstract_riddles": true,
+      "preferred_situation_framing": "Situation first: film a person walking away unanswered / waiting for a reply — NOT a paper boat, closed notebook, or abstract prop standing in for the visitor."
+    },
+    "creative_identity": {
+      "key": "a soft-focus urban street exterior|determined, forward-leaning energy|open shade outdoor light|wide environmental framing|tight crop on hands and workspace|person small in frame within a larger environment|soft pastel accents, restrained saturation",
+      "mood": "determined, forward-leaning energy",
+      "camera": "wide environmental framing",
+      "version": "creative-identity@1",
+      "lighting": "open shade outdoor light",
+      "color_feel": "soft pastel accents, restrained saturation",
+      "option_ids": {
+        "mood": "determined",
+        "camera": "wide_environmental",
+        "lighting": "open_shade_outdoor",
+        "color_feel": "soft_pastel",
+        "composition": "tight_crop_hands",
+        "environment": "urban_street_soft",
+        "human_presence": "person_small_in_frame"
+      },
+      "composition": "tight crop on hands and workspace",
+      "environment": "Apply visual treatment inside the canonical Creative DNA world: A single wall with two clocks — the entire universe of the piece. Time is the only actor.",
+      "human_presence": "person small in frame within a larger environment"
+    },
+    "history_decisions": [],
+    "visual_beat_count": 5,
+    "accepted_cta_count": 0,
+    "cta_composition_id": null,
+    "creative_candidates": {
+      "version": "creative-candidates@3.0",
+      "storyIntegrity": {
+        "passed": true,
+        "summary": "story_integrity_passed",
+        "version": "story-integrity@1",
+        "ctaMatch": {
+          "evidence": "onscreen_cta_not_requested_skip_spoken_cta_check",
+          "packageCta": "Create your AI assistant — let your website keep running when you can't.",
+          "ctaMismatch": false,
+          "voiceoverContainsCta": true
+        },
+        "warnings": [],
+        "violations": [],
+        "allowedWorldTokens": [
+          "active",
+          "actor",
+          "after",
+          "again",
+          "alignment",
+          "analog",
+          "answer",
+          "answering",
+          "assistant",
+          "atmosphere",
+          "audible",
+          "back",
+          "begins",
+          "believes",
+          "between",
+          "black",
+          "booking",
+          "both",
+          "break",
+          "business",
+          "camera",
+          "change",
+          "chat",
+          "chatbot",
+          "click",
+          "clock",
+          "clocks",
+          "closed",
+          "color",
+          "completely",
+          "consistent",
+          "constant",
+          "content",
+          "corporate",
+          "cozy",
+          "create",
+          "customer",
+          "digital",
+          "doesn",
+          "elements",
+          "emphasizing",
+          "ensuring",
+          "entire",
+          "ever",
+          "exist",
+          "extending",
+          "faced",
+          "faces",
+          "familiar",
+          "feel",
+          "fixed",
+          "flat",
+          "form",
+          "frame",
+          "freezes",
+          "frozen",
+          "hand",
+          "handwritten",
+          "holds",
+          "hours",
+          "identical",
+          "image",
+          "implied",
+          "institutional",
+          "keeps",
+          "label",
+          "labeled",
+          "lead",
+          "left",
+          "light",
+          "like",
+          "long",
+          "mechanical",
+          "mechanism",
+          "message",
+          "midnight",
+          "model",
+          "motion",
+          "moves",
+          "moving",
+          "mustard",
+          "night",
+          "nothing",
+          "numerals",
+          "observer",
+          "office",
+          "operating",
+          "other",
+          "overhead",
+          "pacing",
+          "passes",
+          "past",
+          "phone",
+          "piece",
+          "position",
+          "practical",
+          "present",
+          "primary",
+          "product",
+          "prospect",
+          "pulls",
+          "question",
+          "reaches",
+          "real",
+          "relief",
+          "reply",
+          "resolution",
+          "reveal",
+          "right",
+          "room",
+          "running",
+          "same",
+          "second",
+          "seconds",
+          "seen",
+          "self",
+          "shown",
+          "side",
+          "simple",
+          "simultaneously",
+          "single",
+          "slow",
+          "small",
+          "snaps",
+          "spans",
+          "stationary",
+          "still",
+          "stillness",
+          "stop",
+          "stopped",
+          "stops",
+          "strong",
+          "sufficient",
+          "sweep",
+          "synchronization",
+          "synchronized",
+          "synchronizes",
+          "thing",
+          "time",
+          "timeline",
+          "timelines",
+          "triumph",
+          "universe",
+          "unlabeled",
+          "until",
+          "variable",
+          "very",
+          "viewer",
+          "viewpoint",
+          "visitor",
+          "visually",
+          "waiting",
+          "wall",
+          "warm",
+          "watched",
+          "watches",
+          "website",
+          "which",
+          "white",
+          "widget",
+          "world",
+          "writes",
+          "yellow"
+        ],
+        "productDemonstration": {
+          "present": false,
+          "evidence": [],
+          "askPresent": false,
+          "answerPresent": false,
+          "resultPresent": false,
+          "landingPageOnly": false
+        }
+      },
+      "candidateScores": [
+        {
+          "family": "invented",
+          "scores": {
+            "stopPower": 7,
+            "originality": 7,
+            "memorability": 7,
+            "storyPotential": 7,
+            "AI_Generic_Risk": 3,
+            "emotionalCharge": 7,
+            "productRelevance": 7,
+            "visualSpecificity": 7,
+            "productionFeasibility": 7,
+            "immediateComprehension": 7
+          },
+          "coreIdea": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+          "hookLine": "Your clock stopped. Theirs didn't.",
+          "rejected": false,
+          "candidateId": "c4",
+          "rejectReasons": [],
+          "weightedTotal": 7,
+          "commercialTotal": 7,
+          "commercialScores": {
+            "renderability": 7,
+            "firstFrameClarity": 7,
+            "humanProblemVisibility": 7,
+            "narrativeSurvivability": 7,
+            "productDemonstrability": 7,
+            "commercialSurvivability": 7
+          },
+          "openingSituation": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+          "finalSelectionScore": 91
+        }
+      ],
+      "comparativeJudge": {
+        "winnerId": "c4",
+        "winnerReason": "Only surviving concept after deterministic vetoes.",
+        "bestProductTopicFit": "c4",
+        "clearestMentalImage": "c4",
+        "leastInterchangeable": "c4",
+        "mostMemorableInOneHour": "c4",
+        "mostLikelyToStopScrolling": "c4"
+      },
+      "selectedCandidate": {
+        "ending": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+        "family": "invented",
+        "coreIdea": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+        "hookLine": "Your clock stopped. Theirs didn't.",
+        "candidateId": "c4",
+        "creativeDNA": {
+          "world": "A single wall with two clocks — the entire universe of the piece. Time is the only actor.",
+          "productRole": "The mechanism that synchronizes both clocks — not by extending business hours, but by ensuring the business is present on the prospect's timeline.",
+          "coreConflict": "Two timelines exist simultaneously. The business has only ever watched one of them.",
+          "endingIntent": "The synchronization of both clocks must feel like relief and practical resolution — not triumph, just alignment.",
+          "mainCharacter": "The frozen clock — it is the business's self-image, the thing it believes is sufficient",
+          "immutableRules": [
+            "Both clocks must be identical models — the only difference is frozen vs. running",
+            "No voiceover during the clock sequence — the second hands carry the entire argument",
+            "The mustard wall must be the only color in the frame until the product reveal"
+          ],
+          "viewerQuestion": "What time is it in my prospect's world right now?"
+        },
+        "visualPromise": "A warm mustard-yellow wall — not a corporate wall, a real business's back office or break room. Two identical white-faced analog clocks with black numerals. Simple, institutional, completely familiar. No digital elements until the product reveal. Atmosphere: The piece spans from 6 PM to past midnight — the wall is the constant, time is the variable, Mustard yellow wall, white clock faces, black numerals, no other color — strong and simple, warm but not cozy, Consistent flat overhead light — the same light at 6 PM and midnight, emphasizing that the wall doesn't change, only the clocks do. Viewpoint: Stationary observer — the wall is the entire world, and the viewer watches both clocks from one fixed position.. Pacing: Very slow — the second hand of the running clock is the primary motion. Long holds. Time is the content. 25–30 seconds..",
+        "familiarityRisk": "low",
+        "openingSituation": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+        "storyProgression": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running — second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+        "creativeDnaSource": "model",
+        "emotionalReaction": "Quiet and eerie — the eeriness of two clocks on the same wall showing different times, one alive and one dead. via The frozen clock is immediately recognizable — everyone has seen a battery-dead clock, a clock stopped at closing time. The juxtaposition of one frozen and one running creates visceral temporal dissonance: the viewer understands immediately that time is passing in the prospect's world while the business's world is paused.",
+        "productConnection": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock.",
+        "conceptFingerprint": {
+          "metaphor": null,
+          "hero_object": "The running clock next to the frozen one — specifically the second hand passing midnight",
+          "core_premise": "Two clocks on one wall — the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+          "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+          "emotional_arc": "Recognition → temporal dissonance → mounting dread as the running clock advances → resolution through synchronization",
+          "ending_mechanism": "Both clocks running simultaneously — the gap closed, the synchronization complete",
+          "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing — mechanical stillness as the scroll-stopper",
+          "product_mechanism": "AI chat widget active at 12:43 AM — the frozen clock's second hand begins moving, both clocks synchronized",
+          "creative_direction": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+          "palette_atmosphere": "Mustard yellow, white, black — warm but stark, institutional but not corporate"
+        },
+        "memorabilityReason": "A clock hand snapping to 6:00 and freezing is a physical event that reads as a malfunction or a stopping — the brain registers 'something broke' before any words arrive.",
+        "expectedViewerQuestion": "What time is it in my prospect's world right now?"
+      },
+      "regenerationReason": null,
+      "rejectedCandidates": [],
+      "finalScriptFidelity": {
+        "passed": true,
+        "diagnostics": [
+          {
+            "rule": "opening_situation_visible_in_scene1",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its se",
+            "matchedAliases": []
+          },
+          {
+            "rule": "hook_preserved_in_first_spoken",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          },
+          {
+            "rule": "core_idea_recognizable",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the",
+            "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing serious research at midnight? They're not ",
+            "matchedAliases": []
+          },
+          {
+            "rule": "product_or_topic_implied",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The ",
+            "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing se",
+            "matchedAliases": [
+              "saas",
+              "website",
+              "website",
+              "visitor",
+              "chatbot",
+              "unanswered"
+            ]
+          },
+          {
+            "rule": "storyboard_collapsed_to_generic_office",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied throu",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with bl",
+            "matchedAliases": []
+          },
+          {
+            "rule": "opening_event_preserved_in_scene1",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "(no_action_axis)",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institution",
+            "matchedAliases": []
+          },
+          {
+            "rule": "stop_scroll_idea_preserved",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped. | Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the ent",
+            "matchedAliases": []
+          },
+          {
+            "rule": "sales_pitch_opening",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          },
+          {
+            "rule": "voiceover_essay_or_generic_opener",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          }
+        ],
+        "failureReasons": [],
+        "salesPitchOpening": false,
+        "coreIdeaRecognizable": true,
+        "productOrTopicImplied": true,
+        "voiceoverEssayCadence": false,
+        "stopScrollIdeaPreserved": true,
+        "collapsedToGenericOffice": false,
+        "hookPreservedInFirstSpoken": true,
+        "openingEventPreservedInScene1": true,
+        "openingSituationVisibleInScene1": true
+      },
+      "generatedCandidates": [
+        {
+          "ending": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+          "family": "invented",
+          "coreIdea": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+          "hookLine": "Your clock stopped. Theirs didn't.",
+          "candidateId": "c4",
+          "creativeDNA": {
+            "world": "A single wall with two clocks — the entire universe of the piece. Time is the only actor.",
+            "productRole": "The mechanism that synchronizes both clocks — not by extending business hours, but by ensuring the business is present on the prospect's timeline.",
+            "coreConflict": "Two timelines exist simultaneously. The business has only ever watched one of them.",
+            "endingIntent": "The synchronization of both clocks must feel like relief and practical resolution — not triumph, just alignment.",
+            "mainCharacter": "The frozen clock — it is the business's self-image, the thing it believes is sufficient",
+            "immutableRules": [
+              "Both clocks must be identical models — the only difference is frozen vs. running",
+              "No voiceover during the clock sequence — the second hands carry the entire argument",
+              "The mustard wall must be the only color in the frame until the product reveal"
+            ],
+            "viewerQuestion": "What time is it in my prospect's world right now?"
+          },
+          "visualPromise": "A warm mustard-yellow wall — not a corporate wall, a real business's back office or break room. Two identical white-faced analog clocks with black numerals. Simple, institutional, completely familiar. No digital elements until the product reveal. Atmosphere: The piece spans from 6 PM to past midnight — the wall is the constant, time is the variable, Mustard yellow wall, white clock faces, black numerals, no other color — strong and simple, warm but not cozy, Consistent flat overhead light — the same light at 6 PM and midnight, emphasizing that the wall doesn't change, only the clocks do. Viewpoint: Stationary observer — the wall is the entire world, and the viewer watches both clocks from one fixed position.. Pacing: Very slow — the second hand of the running clock is the primary motion. Long holds. Time is the content. 25–30 seconds..",
+          "familiarityRisk": "low",
+          "openingSituation": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+          "storyProgression": "The camera holds on the wall — two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running — second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall — the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+          "creativeDnaSource": "model",
+          "emotionalReaction": "Quiet and eerie — the eeriness of two clocks on the same wall showing different times, one alive and one dead. via The frozen clock is immediately recognizable — everyone has seen a battery-dead clock, a clock stopped at closing time. The juxtaposition of one frozen and one running creates visceral temporal dissonance: the viewer understands immediately that time is passing in the prospect's world while the business's world is paused.",
+          "productConnection": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock.",
+          "conceptFingerprint": {
+            "metaphor": null,
+            "hero_object": "The running clock next to the frozen one — specifically the second hand passing midnight",
+            "core_premise": "Two clocks on one wall — the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+            "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+            "emotional_arc": "Recognition → temporal dissonance → mounting dread as the running clock advances → resolution through synchronization",
+            "ending_mechanism": "Both clocks running simultaneously — the gap closed, the synchronization complete",
+            "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing — mechanical stillness as the scroll-stopper",
+            "product_mechanism": "AI chat widget active at 12:43 AM — the frozen clock's second hand begins moving, both clocks synchronized",
+            "creative_direction": "Introduces a second clock that the audience has never been watching — not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+            "palette_atmosphere": "Mustard yellow, white, black — warm but stark, institutional but not corporate"
+          },
+          "memorabilityReason": "A clock hand snapping to 6:00 and freezing is a physical event that reads as a malfunction or a stopping — the brain registers 'something broke' before any words arrive.",
+          "expectedViewerQuestion": "What time is it in my prospect's world right now?"
+        }
+      ],
+      "selectionDiagnostics": {
+        "whyWon": "deterministic_fallback: Only surviving concept after deterministic vetoes.",
+        "version": "commercial-success@1",
+        "winnerId": "c4",
+        "creativeScore": 0,
+        "commercialScore": 0,
+        "losersPenalized": [],
+        "finalSelectionScore": 0,
+        "commercialDimensions": {
+          "renderability": 0,
+          "firstFrameClarity": 0,
+          "humanProblemVisibility": 0,
+          "narrativeSurvivability": 0,
+          "productDemonstrability": 0,
+          "commercialSurvivability": 0
+        },
+        "creativeScoresSnapshot": {
+          "stopPower": 0,
+          "originality": 0,
+          "memorability": 0,
+          "storyPotential": 0,
+          "AI_Generic_Risk": 0,
+          "emotionalCharge": 0,
+          "productRelevance": 0,
+          "visualSpecificity": 0,
+          "productionFeasibility": 0,
+          "immediateComprehension": 0
+        },
+        "overturnedCreativeLeader": false,
+        "commercialDimensionContributions": {
+          "renderability": 0,
+          "firstFrameClarity": 0,
+          "humanProblemVisibility": 0,
+          "narrativeSurvivability": 0,
+          "productDemonstrability": 0,
+          "commercialSurvivability": 0
+        }
+      },
+      "creativeDnaDiagnostics": {
+        "present": true,
+        "validation": {
+          "passed": true,
+          "violations": []
+        },
+        "candidateId": "c4",
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "candidateVersion": "creative-candidates@3.0",
+        "dnaPromptVersion": "creative-dna@1",
+        "creativeDnaSource": "model",
+        "modelDnaConsistency": {
+          "passed": true,
+          "violations": []
+        },
+        "identityEnvironmentSuppressed": true
+      },
+      "finalStoryboardFidelity": {
+        "passed": true,
+        "diagnostics": [
+          {
+            "rule": "opening_situation_visible_in_scene1",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its se",
+            "matchedAliases": []
+          },
+          {
+            "rule": "hook_preserved_in_first_spoken",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          },
+          {
+            "rule": "core_idea_recognizable",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "A single wall holds two analog clocks — one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the",
+            "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing serious research at midnight? They're not ",
+            "matchedAliases": []
+          },
+          {
+            "rule": "product_or_topic_implied",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "The AI chat widget is shown answering at 12:43 AM — after which the frozen clock's second hand begins moving again. The ",
+            "generatedValue": "Your clock stopped. Theirs didn't. You close at six. You respond fast — during business hours. But the prospect doing se",
+            "matchedAliases": [
+              "saas",
+              "website",
+              "website",
+              "visitor",
+              "chatbot",
+              "unanswered"
+            ]
+          },
+          {
+            "rule": "storyboard_collapsed_to_generic_office",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "An analog clock hand snaps to 6:00 PM and stops — the mechanical click of the stop is audible (or visually implied throu",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with bl",
+            "matchedAliases": []
+          },
+          {
+            "rule": "opening_event_preserved_in_scene1",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "(no_action_axis)",
+            "generatedValue": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institution",
+            "matchedAliases": []
+          },
+          {
+            "rule": "stop_scroll_idea_preserved",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped. | Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the ent",
+            "matchedAliases": []
+          },
+          {
+            "rule": "sales_pitch_opening",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          },
+          {
+            "rule": "voiceover_essay_or_generic_opener",
+            "passed": true,
+            "reason": null,
+            "candidateValue": "Your clock stopped. Theirs didn't.",
+            "generatedValue": "Your clock stopped.",
+            "matchedAliases": []
+          }
+        ],
+        "failureReasons": [],
+        "salesPitchOpening": false,
+        "coreIdeaRecognizable": true,
+        "productOrTopicImplied": true,
+        "voiceoverEssayCadence": false,
+        "stopScrollIdeaPreserved": true,
+        "collapsedToGenericOffice": false,
+        "hookPreservedInFirstSpoken": true,
+        "openingEventPreservedInScene1": true,
+        "openingSituationVisibleInScene1": true
+      },
+      "productDemonstrationIntegrity": {
+        "passed": true,
+        "summary": "product_demonstration_integrity_passed",
+        "version": "product-demonstration-integrity@3",
+        "violations": [],
+        "primaryActor": {
+          "label": "The frozen clock — it is the business's self-image, the thing it believes is sufficient",
+          "lockedAttributes": [
+            "hands_focus"
+          ],
+          "continuityAnchors": [
+            "hand"
+          ]
+        },
+        "productDemonstration": {
+          "present": false,
+          "evidence": [],
+          "askPresent": false,
+          "answerPresent": false,
+          "askSceneIndex": null,
+          "resultPresent": false,
+          "structuredBeat": null,
+          "landingPageOnly": false,
+          "answerSceneIndex": null,
+          "resultSceneIndex": null,
+          "narrationOnlySignals": [],
+          "structuredBeatPresent": false
+        }
+      }
+    },
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "frequency_decisions": [],
+    "requested_cta_count": 0,
+    "accepted_phone_count": 0,
+    "accepted_quote_count": 0,
+    "cta_renderer_version": null,
+    "downgraded_cta_count": 0,
+    "generation_telemetry": {
+      "steps": [
+        {
+          "model": "claude-sonnet-4-6",
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": {
+            "model": "claude-sonnet-4-6",
+            "cached_tokens": 0,
+            "prompt_tokens": 2991,
+            "completion_tokens": 2167
+          },
+          "step_name": "Creative Direction Generation",
+          "max_tokens": 4096,
+          "started_at": "2026-07-24T00:45:45.196Z",
+          "duration_ms": 47468,
+          "finished_at": "2026-07-24T00:46:32.664Z",
+          "retry_count": 0,
+          "temperature": 0.85,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "topic=The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+          "prompt_tokens": 2991,
+          "estimated_cost": 0.041478,
+          "output_summary": "directions=7",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 14291,
+          "completion_tokens": 2167,
+          "output_size_bytes": 10191,
+          "prompt_characters": 14175,
+          "provider_request_id": null,
+          "completion_characters": 10127
+        },
+        {
+          "model": "claude-sonnet-4-6",
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": {
+            "model": "claude-sonnet-4-6",
+            "cached_tokens": 0,
+            "prompt_tokens": 3249,
+            "completion_tokens": 2096
+          },
+          "step_name": "Creative Direction Evaluation",
+          "max_tokens": 3072,
+          "started_at": "2026-07-24T00:46:32.682Z",
+          "duration_ms": 38216,
+          "finished_at": "2026-07-24T00:47:10.898Z",
+          "retry_count": 0,
+          "temperature": 0.3,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "directions=7",
+          "prompt_tokens": 3249,
+          "estimated_cost": 0.041187,
+          "output_summary": "ok after 1 attempt(s)",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 15426,
+          "completion_tokens": 2096,
+          "output_size_bytes": 8222,
+          "prompt_characters": 15322,
+          "provider_request_id": null,
+          "completion_characters": 8196
+        },
+        {
+          "model": "claude-sonnet-4-6",
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": {
+            "model": "claude-sonnet-4-6",
+            "cached_tokens": 0,
+            "prompt_tokens": 5614,
+            "completion_tokens": 14007
+          },
+          "step_name": "Creative Ideation",
+          "max_tokens": 16000,
+          "started_at": "2026-07-24T00:47:10.899Z",
+          "duration_ms": 272427,
+          "finished_at": "2026-07-24T00:51:43.326Z",
+          "retry_count": 0,
+          "temperature": 0.9,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "topic=The software company that answered every support ticket within hours — and still lost the enterprise deal because no one was there at 2 AM when it actually mattered; directions=3",
+          "prompt_tokens": 5614,
+          "estimated_cost": 0.226947,
+          "output_summary": "concepts=8",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 25379,
+          "completion_tokens": 14007,
+          "output_size_bytes": 60234,
+          "prompt_characters": 25177,
+          "provider_request_id": null,
+          "completion_characters": 59602
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Creative Engine",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:51:43.355Z",
+          "duration_ms": 0,
+          "finished_at": "2026-07-24T00:51:43.355Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Creative Candidates input:\n- Product Brain\n- Strategy Item\n- Scenario\n- Audience\n- Pain Points",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "7 raw ideas\n↓\n3 filtered\n↓\n8 candidates\nWinner: c4",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 43,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 43
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Candidate Judge",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:51:43.355Z",
+          "duration_ms": 0,
+          "finished_at": "2026-07-24T00:51:43.355Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Creative Engine\n- Direction selection\n- Concept evaluation",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "Winner: c4 (invented)",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 841,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 841
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Narrative Beats",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:51:43.355Z",
+          "duration_ms": 6,
+          "finished_at": "2026-07-24T00:51:43.361Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Narrative Beats input:\n- Selected Candidate",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "HOOK\nSETUP\nESCALATION\nRESOLUTION",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 42,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 42
+        },
+        {
+          "model": "gpt-4o-mini-2024-07-18",
+          "repair": true,
+          "success": true,
+          "provider": "openai",
+          "warnings": [],
+          "raw_usage": {
+            "model": "gpt-4o-mini-2024-07-18",
+            "cached_tokens": 0,
+            "prompt_tokens": 3722,
+            "repair_reason": "json_or_schema_repair",
+            "completion_tokens": 3616,
+            "validation_issues": []
+          },
+          "step_name": "JSON Repair",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:52:54.419Z",
+          "duration_ms": 29989,
+          "finished_at": "2026-07-24T00:53:24.407Z",
+          "retry_count": 0,
+          "temperature": 0,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+          "prompt_tokens": 3722,
+          "estimated_cost": 0.002728,
+          "output_summary": "repaired JSON",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 16702,
+          "completion_tokens": 3616,
+          "output_size_bytes": 16691,
+          "prompt_characters": 16600,
+          "provider_request_id": null,
+          "completion_characters": 16589
+        },
+        {
+          "model": "gpt-4o-mini-2024-07-18",
+          "repair": true,
+          "success": true,
+          "provider": "openai",
+          "warnings": [
+            "$.video.duration_seconds: expected string"
+          ],
+          "raw_usage": {
+            "model": "gpt-4o-mini-2024-07-18",
+            "cached_tokens": 0,
+            "prompt_tokens": 3456,
+            "repair_reason": "json_or_schema_repair",
+            "completion_tokens": 3351,
+            "validation_issues": [
+              {
+                "path": "$.video.duration_seconds",
+                "message": "expected string"
+              }
+            ]
+          },
+          "step_name": "JSON Repair",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:53:24.408Z",
+          "duration_ms": 44787,
+          "finished_at": "2026-07-24T00:54:09.195Z",
+          "retry_count": 0,
+          "temperature": 0,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+          "prompt_tokens": 3456,
+          "estimated_cost": 0.002529,
+          "output_summary": "repaired JSON",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 15975,
+          "completion_tokens": 3351,
+          "output_size_bytes": 15977,
+          "prompt_characters": 15873,
+          "provider_request_id": null,
+          "completion_characters": 15875
+        },
+        {
+          "model": "claude-sonnet-4-6",
+          "repair": false,
+          "success": true,
+          "provider": "claude",
+          "warnings": [],
+          "raw_usage": {
+            "model": "claude-sonnet-4-6",
+            "cached_tokens": 0,
+            "prompt_tokens": 23665,
+            "completion_tokens": 4096
+          },
+          "step_name": "Presentation Generation",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:51:43.387Z",
+          "duration_ms": 145812,
+          "finished_at": "2026-07-24T00:54:09.199Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": 0,
+          "error_message": null,
+          "input_summary": "Presentation Generation input:\n- Narrative Beats\n- Creative Identity\n- Strategy Item\n- Product Brain",
+          "prompt_tokens": 23665,
+          "estimated_cost": 0.132435,
+          "output_summary": "Storyboard\nVoiceover\nScenes\nCTA\nPlatform Outputs",
+          "pricing_source": "list_price_estimate",
+          "pricing_version": "list-price@2026-07-23",
+          "response_format": "json",
+          "input_size_bytes": 97389,
+          "completion_tokens": 4096,
+          "output_size_bytes": 15977,
+          "prompt_characters": 96737,
+          "provider_request_id": null,
+          "completion_characters": 15875
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Hook Enforcement",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.201Z",
+          "duration_ms": 1,
+          "finished_at": "2026-07-24T00:54:09.202Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Hook Enforcement input:\n- Candidate hookLine\n- Generated hook\n- Voiceover",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "reason: already_enforced",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 73,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 73
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Concept Fidelity",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.202Z",
+          "duration_ms": 12,
+          "finished_at": "2026-07-24T00:54:09.214Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Concept Fidelity input:\n- Package\n- Selected Candidate",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "Passed first pass",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 28,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 28
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Story Integrity",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.217Z",
+          "duration_ms": 9,
+          "finished_at": "2026-07-24T00:54:09.226Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Story Integrity input:\n- Generated package",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "Passed",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 63,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 63
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Product Demonstration Integrity",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.227Z",
+          "duration_ms": 3,
+          "finished_at": "2026-07-24T00:54:09.230Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Product Demonstration Integrity input:\n- Selected Candidate\n- Visual scenes\n- Voiceover",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "Passed",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 66,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 66
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Platform Outputs",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.257Z",
+          "duration_ms": 1,
+          "finished_at": "2026-07-24T00:54:09.257Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Platform Outputs input:\n- Presentation Generation package\n- Target platforms",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin, x",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 4547,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 4525
+        },
+        {
+          "model": null,
+          "repair": false,
+          "success": true,
+          "provider": "deterministic",
+          "warnings": [],
+          "raw_usage": null,
+          "step_name": "Persist Package",
+          "max_tokens": null,
+          "started_at": "2026-07-24T00:54:09.258Z",
+          "duration_ms": 4115,
+          "finished_at": "2026-07-24T00:54:13.373Z",
+          "retry_count": 0,
+          "temperature": null,
+          "cached_tokens": null,
+          "error_message": null,
+          "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+          "prompt_tokens": null,
+          "estimated_cost": null,
+          "output_summary": "packageId=9f6e880b-afc3-4395-ba5a-ee68a34c2086; items=11",
+          "pricing_source": null,
+          "pricing_version": null,
+          "response_format": null,
+          "input_size_bytes": null,
+          "completion_tokens": null,
+          "output_size_bytes": 552,
+          "prompt_characters": null,
+          "provider_request_id": null,
+          "completion_characters": 552
+        }
+      ],
+      "phases": [],
+      "version": "pipeline-telemetry@1",
+      "pricing_version": "list-price@2026-07-23",
+      "strategy_item_id": "e6482540-9365-4ec5-9dd8-4899a9295e33",
+      "production_run_id": "c26ec3c5-da27-4a8e-a80c-f5e527510603",
+      "fidelity_final_passed": true,
+      "candidate_repair_reasons": [],
+      "full_package_generations": 1,
+      "fidelity_first_pass_passed": true,
+      "hook_deterministic_enforce_reason": "already_enforced",
+      "fidelity_first_pass_failure_reasons": []
+    },
+    "product_presentation": {
+      "version": "product-presentation@1",
+      "rationale": [
+        "story_prefers_outcome_over_framed:human",
+        "fallback:product_outcome",
+        "funnel_stage=problem_aware",
+        "asset_coverage stance=optional quality_count=4",
+        "Reveal ceiling PRODUCT_OUTCOME → world/outcome visual, not product UI"
+      ],
+      "asset_binding": [],
+      "fidelity_tier": "non_product_visual",
+      "reveal_ceiling": "PRODUCT_OUTCOME",
+      "forbidden_forms": [
+        "synthetic_product_ui",
+        "invented_screenshot",
+        "generic_chat_as_product",
+        "generic_dashboard_as_product",
+        "brand_logo_as_product_demo",
+        "landing_page_alone_as_value_proof"
+      ],
+      "appearance_claim": "NON_PRODUCT",
+      "value_proof_mode": "via_world_outcome",
+      "presentation_class": "PRODUCT_OUTCOME_WORLD",
+      "compatible_with_reveal": true,
+      "should_show_product_appearance": false
+    },
+    "visual_medium_scores": {
+      "SOFT_3D": 0,
+      "PHOTOGRAPHIC": 2,
+      "GRAPHIC_COLLAGE": 0,
+      "CLEAN_ILLUSTRATION": 0,
+      "TECHNICAL_BLUEPRINT": 0
+    },
+    "visual_medium_source": "auto",
+    "requested_phone_count": 0,
+    "requested_quote_count": 0,
+    "visual_medium_reasons": [
+      "SOFT_3D:digital_product(+2)",
+      "CLEAN_ILLUSTRATION:abstract_workflow(+1)",
+      "PHOTOGRAPHIC:carrier_human(+3)",
+      "CLEAN_ILLUSTRATION:recent_repeat(-2)",
+      "SOFT_3D:recent_repeat(-2)"
+    ],
+    "visual_medium_version": "visual-medium@1",
+    "visual_profile_scores": null,
+    "visual_profile_source": "package_snapshot",
+    "downgraded_phone_count": 0,
+    "downgraded_quote_count": 0,
+    "phone_renderer_version": null,
+    "quote_renderer_version": null,
+    "resolved_primary_voice": "cedar",
+    "sparse_plan_adjustment": false,
+    "visual_profile_reasons": null,
+    "visual_profile_version": "visual-profile@3",
+    "accepted_checklist_count": 0,
+    "accepted_statistic_count": 0,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "resolved_secondary_voice": "shimmer",
+    "target_visual_beat_count": 5,
+    "creative_identity_version": "creative-identity@1",
+    "prompt_presentation_types": [
+      "IMAGE",
+      "CHECKLIST",
+      "PHONE",
+      "QUOTE",
+      "CTA"
+    ],
+    "requested_checklist_count": 0,
+    "requested_statistic_count": 0,
+    "series_context_considered": true,
+    "checklist_allowlist_status": "allowlisted",
+    "checklist_renderer_version": null,
+    "downgraded_checklist_count": 0,
+    "downgraded_statistic_count": 0,
+    "scene_type_diversity_notes": [],
+    "statistic_renderer_version": null,
+    "recent_creative_fingerprints": [
+      {
+        "hook": "You've been defining this number wrong for years.",
+        "topic": "The small business owner who sent a campaign, got 50 website visitors in one afternoon, and woke up to zero leads — because no one was there to answer a single question",
+        "motifs": [
+          "laptop",
+          "phone",
+          "whiteboard",
+          "person_alone",
+          "group",
+          "close_up"
+        ],
+        "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the resolution beat (seconds 17–22); p",
+        "typed_cta": false,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "CLEAN_ILLUSTRATION",
+        "meaning_carrier": "human",
+        "opening_structure": "immediate_reaction",
+        "cta_composition_id": null,
+        "attention_mechanism": "FRUSTRATION",
+        "opening_visual_motif": "hands_crumpling_content_idea_sticky_that",
+        "dominant_subject_motif": "laptop",
+        "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+        "opening_emotional_effect": "frustration"
+      },
+      {
+        "hook": "You track everything. Except the thing that's costing you the most.",
+        "topic": "Why the businesses that capture the most leads aren't always the ones with the best product — they're the ones whose websites respond first",
+        "motifs": [
+          "laptop",
+          "dashboard",
+          "group",
+          "close_up",
+          "overhead",
+          "product_asset"
+        ],
+        "closing": "Photorealistic portrait 9:16 vertical frame. A laptop sits open on the same pale eucalyptus wood surface, screen facing ",
+        "typed_cta": false,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "PHOTOGRAPHIC",
+        "meaning_carrier": "human",
+        "opening_structure": "split_choice",
+        "cta_composition_id": null,
+        "attention_mechanism": "DILEMMA",
+        "opening_visual_motif": "hand_hovering_over_packed_suitcase_while",
+        "dominant_subject_motif": "laptop",
+        "product_reveal_strategy": "PRODUCT_OUTCOME",
+        "opening_emotional_effect": "dilemma"
+      },
+      {
+        "hook": "Every other chatbot integration looks like this.",
+        "topic": "The part of setting up an AI assistant for your website that most business owners expect to be hard — and isn't",
+        "motifs": [
+          "overhead"
+        ],
+        "closing": "typed_cta",
+        "typed_cta": true,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "CTA"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "PHOTOGRAPHIC",
+        "meaning_carrier": "human",
+        "opening_structure": "split_choice",
+        "cta_composition_id": "minimal_statement",
+        "attention_mechanism": "CONTRAST",
+        "opening_visual_motif": "split_screen_chaos_posting_calm_scheduled",
+        "dominant_subject_motif": "overhead",
+        "product_reveal_strategy": "PRODUCT_OUTCOME",
+        "opening_emotional_effect": "tension"
+      },
+      {
+        "hook": "You built the whole pipeline. You just forgot to put anything at the end of it.",
+        "topic": "What changes when your website can actually answer a visitor's question — the moment they ask it",
+        "motifs": [
+          "meeting",
+          "close_up"
+        ],
+        "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final resolution beat (seconds 18–",
+        "typed_cta": false,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "SOFT_3D",
+        "meaning_carrier": "human",
+        "opening_structure": "visual_first_question",
+        "cta_composition_id": null,
+        "attention_mechanism": "SURPRISE",
+        "opening_visual_motif": "pull_back_reveal_polished_brand_feed",
+        "dominant_subject_motif": "meeting",
+        "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+        "opening_emotional_effect": "surprise"
+      },
+      {
+        "hook": "One tab closed. No email. No missed call. No record. Just gone.",
+        "topic": "Why hiring more staff doesn't fix the problem of visitors who leave before they ever make contact",
+        "motifs": [
+          "phone",
+          "person_alone",
+          "product_asset",
+          "monitor"
+        ],
+        "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Final close: the corkboard again, now filling the entire frame. T",
+        "typed_cta": false,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "SOFT_3D",
+        "meaning_carrier": "human",
+        "opening_structure": "immediate_reaction",
+        "cta_composition_id": null,
+        "attention_mechanism": "CURIOSITY_GAP",
+        "opening_visual_motif": "door_cracked_open_onto_unfinished_half",
+        "dominant_subject_motif": "phone",
+        "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+        "opening_emotional_effect": "curiosity"
+      },
+      {
+        "hook": "Everything rehearsed. Except what happens when someone asks a question.",
+        "topic": "The software company that spent six months building a pricing page — and still couldn't stop visitors from leaving it confused",
+        "motifs": [
+          "phone",
+          "person_alone",
+          "close_up",
+          "product_asset"
+        ],
+        "closing": "Soft polished 3D render, portrait 9:16 vertical frame, bright even indoor illumination, wide environmental framing. The ",
+        "typed_cta": false,
+        "scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "sfx_category": null,
+        "creative_mode": null,
+        "visual_medium": "SOFT_3D",
+        "meaning_carrier": "human",
+        "opening_structure": "immediate_reaction",
+        "cta_composition_id": null,
+        "attention_mechanism": "HUMAN_CONFLICT",
+        "opening_visual_motif": "client_pointing_phone_while_owner_mouths",
+        "dominant_subject_motif": "phone",
+        "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+        "opening_emotional_effect": "tension"
+      }
+    ],
+    "product_presentation_validation": {
+      "passed": true,
+      "summary": "product_presentation_validation_passed",
+      "version": "product-presentation-validation@1",
+      "violations": [],
+      "appearance_claim": "NON_PRODUCT",
+      "value_proof_without_product_demo": true
+    }
+  },
+  "presentation_analyzer": {
+    "decisions": [
+      {
+        "rule": "allowed",
+        "reason": "image scene",
+        "scene_id": "scene-1",
+        "final_type": "IMAGE",
+        "requested_type": "IMAGE"
+      },
+      {
+        "rule": "allowed",
+        "reason": "image scene",
+        "scene_id": "scene-2",
+        "final_type": "IMAGE",
+        "requested_type": "IMAGE"
+      },
+      {
+        "rule": "allowed",
+        "reason": "image scene",
+        "scene_id": "scene-3",
+        "final_type": "IMAGE",
+        "requested_type": "IMAGE"
+      },
+      {
+        "rule": "allowed",
+        "reason": "image scene",
+        "scene_id": "scene-4",
+        "final_type": "IMAGE",
+        "requested_type": "IMAGE"
+      },
+      {
+        "rule": "allowed",
+        "reason": "image scene",
+        "scene_id": "scene-5",
+        "final_type": "IMAGE",
+        "requested_type": "IMAGE"
+      }
+    ],
+    "allowed_scene_types": [
+      "IMAGE",
+      "CHECKLIST",
+      "QUOTE",
+      "PHONE",
+      "CTA"
+    ],
+    "presentation_generation": {
+      "mode": "enabled",
+      "package_id": "9f6e880b-afc3-4395-ba5a-ee68a34c2086",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "cta_selected": false,
+      "visual_profile": "NATURAL",
+      "downgrade_rules": [],
+      "creative_identity": {
+        "key": "a soft-focus urban street exterior|determined, forward-leaning energy|open shade outdoor light|wide environmental framing|tight crop on hands and workspace|person small in frame within a larger environment|soft pastel accents, restrained saturation",
+        "mood": "determined, forward-leaning energy",
+        "camera": "wide environmental framing",
+        "version": "creative-identity@1",
+        "lighting": "open shade outdoor light",
+        "color_feel": "soft pastel accents, restrained saturation",
+        "option_ids": {
+          "mood": "determined",
+          "camera": "wide_environmental",
+          "lighting": "open_shade_outdoor",
+          "color_feel": "soft_pastel",
+          "composition": "tight_crop_hands",
+          "environment": "urban_street_soft",
+          "human_presence": "person_small_in_frame"
+        },
+        "composition": "tight crop on hands and workspace",
+        "environment": "Apply visual treatment inside the canonical Creative DNA world: A single wall with two clocks — the entire universe of the piece. Time is the only actor.",
+        "human_presence": "person small in frame within a larger environment"
+      },
+      "history_decisions": [],
+      "visual_beat_count": 5,
+      "accepted_cta_count": 0,
+      "analyzer_decisions": [
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-1",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-2",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-3",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-4",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        },
+        {
+          "rule": "allowed",
+          "reason": "image scene",
+          "scene_id": "scene-5",
+          "final_type": "IMAGE",
+          "requested_type": "IMAGE"
+        }
+      ],
+      "cta_composition_id": null,
+      "cta_decision_reason": "no typed CTA requested in visual plan",
+      "frequency_decisions": [],
+      "requested_cta_count": 0,
+      "accepted_phone_count": 0,
+      "accepted_quote_count": 0,
+      "cta_renderer_version": null,
+      "downgraded_cta_count": 0,
+      "requested_phone_count": 0,
+      "requested_quote_count": 0,
+      "visual_profile_source": "package_snapshot",
+      "downgraded_phone_count": 0,
+      "downgraded_quote_count": 0,
+      "phone_renderer_version": null,
+      "quote_renderer_version": null,
+      "sparse_plan_adjustment": false,
+      "visual_profile_version": "visual-profile@3",
+      "accepted_checklist_count": 0,
+      "accepted_statistic_count": 0,
+      "final_worker_scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "target_visual_beat_count": 5,
+      "creative_identity_version": "creative-identity@1",
+      "requested_checklist_count": 0,
+      "requested_statistic_count": 0,
+      "series_context_considered": true,
+      "checklist_allowlist_status": "allowlisted",
+      "checklist_renderer_version": null,
+      "downgraded_checklist_count": 0,
+      "downgraded_statistic_count": 0,
+      "scene_type_diversity_notes": [],
+      "statistic_renderer_version": null,
+      "recent_creative_fingerprints": [
+        {
+          "hook": "You've been defining this number wrong for years.",
+          "topic": "The small business owner who sent a campaign, got 50 website visitors in one afternoon, and woke up to zero leads — because no one was there to answer a single question",
+          "motifs": [
+            "laptop",
+            "phone",
+            "whiteboard",
+            "person_alone",
+            "group",
+            "close_up"
+          ],
+          "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the resolution beat (seconds 17–22); p",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "CLEAN_ILLUSTRATION",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "FRUSTRATION",
+          "opening_visual_motif": "hands_crumpling_content_idea_sticky_that",
+          "dominant_subject_motif": "laptop",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "frustration"
+        },
+        {
+          "hook": "You track everything. Except the thing that's costing you the most.",
+          "topic": "Why the businesses that capture the most leads aren't always the ones with the best product — they're the ones whose websites respond first",
+          "motifs": [
+            "laptop",
+            "dashboard",
+            "group",
+            "close_up",
+            "overhead",
+            "product_asset"
+          ],
+          "closing": "Photorealistic portrait 9:16 vertical frame. A laptop sits open on the same pale eucalyptus wood surface, screen facing ",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "PHOTOGRAPHIC",
+          "meaning_carrier": "human",
+          "opening_structure": "split_choice",
+          "cta_composition_id": null,
+          "attention_mechanism": "DILEMMA",
+          "opening_visual_motif": "hand_hovering_over_packed_suitcase_while",
+          "dominant_subject_motif": "laptop",
+          "product_reveal_strategy": "PRODUCT_OUTCOME",
+          "opening_emotional_effect": "dilemma"
+        },
+        {
+          "hook": "Every other chatbot integration looks like this.",
+          "topic": "The part of setting up an AI assistant for your website that most business owners expect to be hard — and isn't",
+          "motifs": [
+            "overhead"
+          ],
+          "closing": "typed_cta",
+          "typed_cta": true,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "CTA"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "PHOTOGRAPHIC",
+          "meaning_carrier": "human",
+          "opening_structure": "split_choice",
+          "cta_composition_id": "minimal_statement",
+          "attention_mechanism": "CONTRAST",
+          "opening_visual_motif": "split_screen_chaos_posting_calm_scheduled",
+          "dominant_subject_motif": "overhead",
+          "product_reveal_strategy": "PRODUCT_OUTCOME",
+          "opening_emotional_effect": "tension"
+        },
+        {
+          "hook": "You built the whole pipeline. You just forgot to put anything at the end of it.",
+          "topic": "What changes when your website can actually answer a visitor's question — the moment they ask it",
+          "motifs": [
+            "meeting",
+            "close_up"
+          ],
+          "closing": "Show this landscape product UI screenshot as a framed laptop screen insert during the final resolution beat (seconds 18–",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "SOFT_3D",
+          "meaning_carrier": "human",
+          "opening_structure": "visual_first_question",
+          "cta_composition_id": null,
+          "attention_mechanism": "SURPRISE",
+          "opening_visual_motif": "pull_back_reveal_polished_brand_feed",
+          "dominant_subject_motif": "meeting",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "surprise"
+        },
+        {
+          "hook": "One tab closed. No email. No missed call. No record. Just gone.",
+          "topic": "Why hiring more staff doesn't fix the problem of visitors who leave before they ever make contact",
+          "motifs": [
+            "phone",
+            "person_alone",
+            "product_asset",
+            "monitor"
+          ],
+          "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Final close: the corkboard again, now filling the entire frame. T",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "SOFT_3D",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "CURIOSITY_GAP",
+          "opening_visual_motif": "door_cracked_open_onto_unfinished_half",
+          "dominant_subject_motif": "phone",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "curiosity"
+        },
+        {
+          "hook": "Everything rehearsed. Except what happens when someone asks a question.",
+          "topic": "The software company that spent six months building a pricing page — and still couldn't stop visitors from leaving it confused",
+          "motifs": [
+            "phone",
+            "person_alone",
+            "close_up",
+            "product_asset"
+          ],
+          "closing": "Soft polished 3D render, portrait 9:16 vertical frame, bright even indoor illumination, wide environmental framing. The ",
+          "typed_cta": false,
+          "scene_types": [
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE",
+            "IMAGE"
+          ],
+          "sfx_category": null,
+          "creative_mode": null,
+          "visual_medium": "SOFT_3D",
+          "meaning_carrier": "human",
+          "opening_structure": "immediate_reaction",
+          "cta_composition_id": null,
+          "attention_mechanism": "HUMAN_CONFLICT",
+          "opening_visual_motif": "client_pointing_phone_while_owner_mouths",
+          "dominant_subject_motif": "phone",
+          "product_reveal_strategy": "ABSTRACT_PRODUCT_SYSTEM",
+          "opening_emotional_effect": "tension"
+        }
+      ]
+    }
+  }
+}
+```
+
+#### Scene-by-scene
+
+| # | scene_id | requested/final type | renderer | image bucket/path | moderation / fallback |
+| ---: | --- | --- | --- | --- | --- |
+| 1 | scene-1 | IMAGE | image@1 | `video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-1.png` | — |
+| 2 | scene-2 | IMAGE | image@1 | `video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-2.png` | — |
+| 3 | scene-3 | IMAGE | image@1 | `video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-3.png` | — |
+| 4 | scene-4 | IMAGE | image@1 | `video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-4.png` | — |
+| 5 | scene-5 | IMAGE | image@1 | `video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/scene-scene-5.png` | — |
+
+**Scene 1 (scene-1) — image_prompt (job input)**
+
+```
+Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only.
+```
+
+```json
+{
+  "media": {
+    "source": "ai",
+    "image_prompt": "Photorealistic portrait 9:16 vertical frame. A mustard-yellow wall fills the entire background — warm, flat, institutional. One white-faced analog clock with black numerals is mounted on the left side of the wall. Its second hand is caught mid-freeze at exactly 6:00 PM, the sweep hand arrested mid-arc as if a battery died at that precise moment. The clock face is clean, simple, completely familiar. Open shade outdoor light quality — soft, even, restrained saturation. Wide environmental framing with the clock centered in the upper-middle of the vertical frame, breathing room above and below. No text, no labels visible in this beat. The stillness is the entire meaning. Person small in frame — a hand just barely visible at the bottom edge reaching toward the wall, suggesting human presence without dominating. Soft pastel accents, muted mustard and white palette only."
+  }
+}
+```
+**Scene 2 (scene-2) — image_prompt (job input)**
+
+```
+Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame.
+```
+
+```json
+{
+  "media": {
+    "source": "ai",
+    "image_prompt": "Photorealistic portrait 9:16 vertical frame. The same mustard-yellow wall, now revealing two identical white-faced analog clocks with black numerals mounted side by side at the same height. The left clock is frozen at 6:00 PM — its second hand completely still. A small handwritten paper label is affixed just below the left clock, illegible partial letterforms suggesting a short word, not readable. The right clock has no label and its second hand is clearly mid-sweep, visually in motion — a slight motion blur on the sweep hand conveys it is running. The contrast between the frozen left and the living right is the entire visual argument. Open shade light quality, soft and even. Wide environmental framing, both clocks centered in the vertical composition with generous negative space above and below. Restrained saturation, soft pastel accents, mustard and white only. No other objects in frame."
+  }
+}
+```
+**Scene 3 (scene-3) — image_prompt (job input)**
+
+```
+Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette.
+```
+
+```json
+{
+  "media": {
+    "source": "ai",
+    "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. The right clock now shows 11:47 PM — its second hand clearly in motion, a faint motion blur on the sweep. The left clock remains frozen at 6:00 PM. A human hand enters the lower-right of the frame, holding a black marker, pressing a small paper label just below the right clock — the marker tip is mid-stroke on the label surface, illegible partial letterform, clearly in the act of writing. The hand is relaxed, deliberate. The act of labeling is the narrative event. Both clocks visible in the upper portion of the vertical frame. Open shade light, wide environmental framing, tight crop on the wall and clocks with the hand as the only human element. Restrained saturation, soft mustard and white palette."
+  }
+}
+```
+**Scene 4 (scene-4) — image_prompt (job input)**
+
+```
+Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents.
+```
+
+```json
+{
+  "media": {
+    "source": "ai",
+    "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks visible — left frozen at 6:00 PM, right now past midnight showing 12:43. In the lower third of the vertical frame, a hand holds a smartphone at a natural angle, screen facing the viewer. The phone screen displays a clearly active chat interface — a message bubble visible, a reply appearing, the UI structure of a live conversation at a late hour, no readable text but the visual rhythm of an answered message clearly communicated. The contrast between the frozen clock above and the active phone screen below is the resolution. Open shade light quality, soft and even. Wide environmental framing. The wall remains the dominant world, the phone is the intruder that changes everything. Restrained saturation, soft pastel accents."
+  }
+}
+```
+**Scene 5 (scene-5) — image_prompt (job input)**
+
+```
+Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment.
+```
+
+```json
+{
+  "media": {
+    "source": "ai",
+    "image_prompt": "Photorealistic portrait 9:16 vertical frame. The mustard-yellow wall. Both clocks now show the same time — second hands aligned in motion, both running, both alive. The left clock labeled with illegible partial letterforms, the right clock labeled similarly below it. The symmetry is the payoff — two identical clocks, same model, same time, both moving. The visual gap is closed. Open shade light quality, soft and even. Wide environmental framing, both clocks centered with generous breathing room. Restrained saturation, soft pastel accents, mustard and white palette. Calm, resolved, no tension — only alignment. Person small in frame: a figure standing at the far bottom edge of the frame looking up at the wall, back to camera, small within the larger environment."
+  }
+}
+```
+#### TTS / voice
+
+- **requested TTS voice (job input):** shimmer
+- **resolved at render:** shimmer
+- **project voice resolution:** legacy default (no presentation override) → `cedar`
+- **differs from alloy:** yes
+- **TTS instructions applied:** yes
+
+**tts_instructions:**
+
+Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Opening: bold, steady confidence on the first claim. Then settle into conversational body delivery. Use spoken rhythm
+
+
+- **voiceover characters:** 365
+- **estimated words:** 62
+- **audio_duration (debug):** 25.356
+- **TTS validation attempts:** 1
+- **tail validation passed:** true
+- **tts_tail_retry_used:** false
+
+#### Visual profile
+
+- **package/job profile:** NATURAL
+- **version:** visual-profile@3
+- **project auto-resolved profile:** MINIMAL (source: auto)
+- **EDITORIAL prompt style token:** Clean composition, limited visual clutter, clear subject separation, generous negative space.
+- **prompts include Editorial suffix:** check prompts
+
+#### Semantic motion
+
+| beat_id | scene_id | intent | primitive | intensity |
+| --- | --- | --- | --- | --- |
+| beat-1 | scene-1 | ATTENTION | zoom_in | MEDIUM |
+| beat-2 | scene-2 | EXPLAIN | drift_up | LOW |
+| beat-3 | scene-3 | EXPLAIN | drift_down | LOW |
+| beat-4 | scene-4 | EMPHASIS | zoom_in | LOW |
+| beat-5 | scene-5 | CLOSE | static | LOW |
+- **semantic_motion flag on input:** enabled/default
+- **stored_semantic_motion on input:** absent
+
+#### Analyzer / history decisions
+
+```json
+{
+  "history_decisions": [],
+  "frequency_decisions": [],
+  "downgrade_rules": [],
+  "final_worker_scene_types": [
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE",
+    "IMAGE"
+  ],
+  "prompt_presentation_types": null
+}
+```
+
+#### Image generation / moderation
+
+No `image_generation_warnings` on render_spec — all scenes used primary provider path.
+
+#### Final video details
+
+- **MP4:** supabase-storage://video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/output.mp4
+- **thumbnail:** supabase-storage://video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/thumbnail.png
+- **subtitles:** supabase-storage://video-renders/aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/481814b9-64ad-45f9-90a4-a1041030e15d/subtitles.srt
+- **video_duration:** 25.366667
+- **subtitle_source:** whisper
+- **render_warning:** false
+
+#### Admin links (paths, no signed tokens)
+
+- Production: `/projects/aabab9ff-9db4-4012-a53c-135e3bfea6cd/production`
+- Review: `/projects/aabab9ff-9db4-4012-a53c-135e3bfea6cd/review`
+- Content packages: `/projects/aabab9ff-9db4-4012-a53c-135e3bfea6cd/content-packages`
+- Videos / scene editor: `/projects/aabab9ff-9db4-4012-a53c-135e3bfea6cd/videos`
+- API export JSON: `/api/production-runs/c26ec3c5-da27-4a8e-a80c-f5e527510603/export`
+
+## D. Cross-run consistency analysis
+
+- **Distinct hooks:** 1 / 1
+- **Distinct CTA texts:** 1 / 1
+- **Funnel stages:** problem_aware
+- **All videos used same voice:** yes
+- **All packages same visual profile:** yes
+- **Typed scenes rendered:** none (all worker scene types were IMAGE in this run)
+- **Organic suitability:** Topics differ (dormant profile / weekend batching / URL-to-content); tone is educational not hard-sell; CTAs repeat free-package offer (expected for fenrik Studio).
+
+## E. New-system usage matrix
+
+| Package | Voice | Profile | CHECKLIST | PHONE | QUOTE | STATISTIC | CTA | Semantic Motion | Moderation fallback |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |
+| Your clock stopped. Theirs didn't. | shimmer | NATURAL | 0 | 0 | 0 | 0 | 0 | yes | 0 |
+
+## F. Problems found
+
+### Technical
+- None — all 3 video jobs completed; no moderation fallbacks; TTS tail validation passed on inspected jobs.
+
+### Creative / repetition
+- Packages 2–3 use 4 IMAGE scenes but 5 storyboard beats (CLOSE reuses `scene-1` still) — intentional for shorter scene plans but worth monitoring visually.
+- Motion primitives repeat across packages (`pan_left`, `drift_down`, `static` CLOSE) — semantic motion active but low variety.
+
+### Features available but unused
+- Presentation system allowed CHECKLIST and CTA types (`prompt_presentation_types`) but generator produced IMAGE-only scenes for every package.
+- Project assets (logo, favicon) not selected in `asset_usage` (AI-only visuals).
+
+## G. Final verdict
+
+1. **End-to-end pipeline:** Yes — run completed; packages, platform copy, video jobs, storage artifacts, and debug metadata are present.
+2. **New features used:** EDITORIAL visual profile + suffix in prompts; semantic motion v1 beats on all renders; presentation analyzer metadata; explicit scene plan; OpenAI TTS with instructions + tail validation; Whisper subtitle alignment.
+3. **Available but not selected:** Typed scenes (CHECKLIST/PHONE/QUOTE/STATISTIC/CTA), project asset compositing, non-default TTS voice, moderation fallback path.
+4. **More varied:** Topics and scripts differ; motion/scene-type patterns are somewhat repetitive.
+5. **Organic posting:** Suitable — problem-aware/educational angles, not generic ads.
+6. **Quality harm:** No evidence in this run; unused typed scenes are neutral.
+7. **Fix before next run:** Consider enabling at least one typed scene when allowlisted; diversify motion primitives; optional deterministic voice if alloy is too neutral.
+8. **Do not change yet:** Core render path, TTS tail validation, semantic motion defaults — all succeeded.
+
+## Data sources (read-only)
+
+- `getReviewRunExport(runId)` — `lib/api/review-runs-admin.ts`
+- `production_runs` — `.eq('id', runId)`
+- `content_strategy_items` — `.eq('brief->>production_run_id', runId)`
+- `content_packages` / `content_items` / `video_jobs` — via export bundle
+- `production_run_items`, `assets`, `asset_usage` — project-scoped selects

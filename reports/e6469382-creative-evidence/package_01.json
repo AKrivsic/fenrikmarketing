@@ -1,0 +1,1716 @@
+{
+  "package_index": 1,
+  "run_item_id": "60ca918e-4d09-4820-8615-b26e17ddd475",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "9b396778-d1c4-4bb7-b00b-2ace215ee081",
+  "package_title": "The Ideas Were Never the Problem",
+  "package_status": "draft",
+  "strategy_item_id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A product manager at a two-person SaaS team documents the gap between their content brainstorm on Monday and the reality that nothing was posted by Friday — the ideas existed, the time did not.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "source": "production_run",
+      "pain_point": "Running out of content ideas",
+      "package_index": 1,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "angle": "A product manager at a two-person SaaS team documents the gap between their content brainstorm on Monday and the reality that nothing was posted by Friday — the ideas existed, the time did not.",
+      "seed": "Problem Aware|Why your content ideas never survive contact with your actual schedule|A product manager at a two-person SaaS team documents the gap between their content brainstorm on Monday and the reality that nothing was posted by Friday — the ideas existed, the time did not.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "myth_buster",
+        "name": "Myth Buster",
+        "description": "Names a widespread myth and corrects it.",
+        "structure": "Myth -> why people believe it -> the reality -> CTA.",
+        "avoid": "Do not invent the myth; correct it with real, supportable facts only.",
+        "narrativeBeats": [
+          "myth",
+          "why_believed",
+          "reality",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "myth",
+        "instruction": "Open by stating a popular myth you are about to break.",
+        "exampleForm": "\"More cleaning product means cleaner. It does not.\"",
+        "forbidGeneric": "Do not open with \"Let's talk about a common myth.\""
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Ideas Were Never the Problem",
+    "core_idea": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: ideas survive just fine; it's your schedule that murders them. The video follows a product manager at a two-person SaaS team who leaves Monday's brainstorm with a full Notion doc and zero posts by Friday. fenrik Studio is framed as the fix for the execution gap, not the ideation gap.",
+    "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irrelevant to the production step. The URL is the only input. The content ships. The Notion doc can stay full; it no longer has to become anything.",
+    "why_it_works": "The myth-buster structure works here because the myth ('we need better ideas') is genuinely widespread and genuinely wrong — which makes the correction feel like an insider reveal rather than a sales pitch. The sticky note visual is immediately recognizable to anyone who has run a Monday brainstorm. The Friday payoff is specific enough to sting without mocking the viewer. The product enters as a systems fix, not a creativity crutch, which respects the audience's intelligence and reframes the value proposition cleanly.",
+    "narrative_arc": "MYTH: 'We just need better content ideas.' The video opens on a confident statement — a sticky note on a monitor that reads 'CONTENT IDEAS ✅' — implying the hard part is done. BEAT 1 (why believed): People assume the bottleneck is creativity. The brainstorm felt productive. The Notion doc is full. The ideas are genuinely good. Everyone leaves Monday's standup feeling like the problem is solved. BEAT 2 (reality): Cut to Friday. Same desk. Same monitor. The sticky note is still there. The Notion doc is still full — and untouched. Three Slack messages asking 'did anyone post this week?' go unanswered. The ideas didn't disappear. Tuesday had a bug to fix. Wednesday had a demo. Thursday had a board update. The ideas never had a slot. The myth is that you need more ideas. The reality is that ideas without execution infrastructure are just a list. BEAT 3 (resolution): fenrik Studio doesn't ask for ideas. It asks for a URL. Your website already holds everything it needs to build a full content package — videos, captions, posts, hashtags — ready to publish before Friday even arrives. CTA lands clean.",
+    "emotional_tone": "Wry and conspiratorial — the video treats the viewer as someone smart enough to have already suspected this truth but never said it out loud. No shame, no lecture. The energy is a colleague leaning over and saying 'yeah, we both know what's actually happening here.'",
+    "audience_insight": "Two-person and small SaaS teams are disproportionately likely to conflate planning with doing. A good brainstorm session produces real psychological relief — it feels like progress. That feeling is exactly what lets the week fill up with everything else. By Friday, the ideas are intact and the feed is empty. This audience knows it happens; they just haven't named the mechanism clearly.",
+    "visual_direction": {
+      "palette": "Muted warm neutrals for the desk environment — off-white, light oak, soft grey. Accent color is a single sticky-note yellow that appears in the opening frame and reappears unchanged in the Friday frame, making the visual callback land without narration.",
+      "lighting": "Neutral daylight through a window on Monday scenes; slightly cooler, dimmer ambient light on Friday scenes — same room, different energy, no dramatic shift. The difference is subtle enough to feel real rather than cinematic.",
+      "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not chaotic. Recognizable to anyone who has worked at or run a small startup.",
+      "camera_style": "Handheld with minimal movement — slightly documentary, as if someone on the team grabbed their phone to document the week. Quick cuts between Monday and Friday. No transitions, no effects. The edit is the punchline.",
+      "art_direction": "Flat, functional SaaS workspace aesthetic — the kind of desk that belongs to someone who thinks in sprints. Physical sticky notes coexist with a second monitor showing a Notion doc. The contrast between the tidy brainstorm artifacts and the untouched content queue is the visual story. Text overlays are minimal, dry, and timed to land like a punchline.",
+      "character_style": "One visible character — a product manager in their late 20s or early 30s, dressed casually (hoodie, no branding). Seen briefly from behind or in partial profile during Monday's brainstorm, then shown at the same desk on Friday, visibly occupied with something unrelated to content. No dialogue required; body language and environment carry the story."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and punchy, with a focus on the contrast between the productive brainstorm and the empty social feed.",
+    "emotion": "Wry and conspiratorial, as if sharing a well-known secret.",
+    "first_image": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor, while a Notion doc filled with ideas is open on the second screen, all under neutral daylight streaming through a window.",
+    "attention_pattern": "Starts with a confident assertion that challenges a common belief, immediately creating curiosity about the real issue.",
+    "first_spoken_sentence": "You think better ideas will fix your content problem? Think again."
+  },
+  "visual_identity": {
+    "palette": "Muted warm neutrals for the desk environment — off-white, light oak, soft grey. Accent color is a single sticky-note yellow that appears in the opening frame and reappears unchanged in the Friday frame, making the visual callback land without narration.",
+    "lighting": "Neutral daylight through a window on Monday scenes; slightly cooler, dimmer ambient light on Friday scenes — same room, different energy, no dramatic shift. The difference is subtle enough to feel real rather than cinematic.",
+    "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not chaotic. Recognizable to anyone who has worked at or run a small startup.",
+    "camera_style": "Handheld with minimal movement — slightly documentary, as if someone on the team grabbed their phone to document the week. Quick cuts between Monday and Friday. No transitions, no effects. The edit is the punchline.",
+    "art_direction": "Flat, functional SaaS workspace aesthetic — the kind of desk that belongs to someone who thinks in sprints. Physical sticky notes coexist with a second monitor showing a Notion doc. The contrast between the tidy brainstorm artifacts and the untouched content queue is the visual story. Text overlays are minimal, dry, and timed to land like a punchline.",
+    "character_style": "One visible character — a product manager in their late 20s or early 30s, dressed casually (hoodie, no branding). Seen briefly from behind or in partial profile during Monday's brainstorm, then shown at the same desk on Friday, visibly occupied with something unrelated to content. No dialogue required; body language and environment carry the story.",
+    "opening_emotion": "Wry and conspiratorial, as if sharing a well-known secret.",
+    "opening_first_image": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor, while a Notion doc filled with ideas is open on the second screen, all under neutral daylight streaming through a window."
+  },
+  "package": {
+    "title": "The Ideas Were Never the Problem",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "You think better ideas will fix your content problem? Think again.",
+    "scenario": "A product manager at a two-person SaaS team runs Monday's brainstorm, fills a Notion doc with genuinely good content ideas, and feels the hard part is done. By Friday, nothing has been posted — Tuesday had a production bug, Wednesday had a customer demo, Thursday had a board update. The ideas are intact. The week is gone.",
+    "video": {
+      "script": "[SCENE 1 — Monday, neutral daylight]\nHANDHELD SHOT: Desk in a compact SaaS workspace. A sticky note reading 'CONTENT IDEAS ✅' is fixed to the monitor bezel. A Notion doc filled with bullet-pointed ideas is open on the second screen. A product manager (late 20s, hoodie) is seen from behind, nodding.\nVO: 'You think better ideas will fix your content problem? Think again.'\n\n[SCENE 2 — Monday brainstorm, tight on Notion doc]\nSHOT: Screen-level view of the Notion doc — rows of content ideas, some highlighted, a few tagged with platform names. Looks thorough. Looks done.\nVO: 'Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done.'\n\n[SCENE 3 — Tuesday through Thursday, quick cuts]\nCUT SEQUENCE: Same desk, same room. Tuesday — a terminal window open, someone typing fast. Wednesday — a video call on screen, the product manager mid-sentence. Thursday — a slide deck open, a calendar notification visible. Each cut is fast. No content tools are open.\nVO: 'Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update.'\n\n[SCENE 4 — Friday, same desk, cooler ambient light]\nHANDHELD SHOT: Same desk. Same monitor. The sticky note — 'CONTENT IDEAS ✅' — is still there, unchanged. The Notion doc is still open, untouched. Three Slack notifications visible on screen. The product manager is leaning back, visibly occupied with something unrelated to content.\nVO: 'Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't.'\n\n[SCENE 5 — Closing frame, fenrik Studio logo]\nSTATIC SHOT: Clean desk surface. The sticky note is the only object in frame. Text overlay appears: 'Your ideas were never the bottleneck.'\nVO: 'Your ideas were never the bottleneck.'\nLOGO FADE IN: fenrik Studio mark, bottom center.",
+      "concept": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: the execution gap. A product manager at a two-person SaaS team leaves Monday's brainstorm with a full Notion doc and zero posts by Friday. The video follows the week, beat by beat, showing how every day consumed the slot that content was supposed to fill. fenrik Studio is introduced as the execution layer — not a creativity tool — that closes the gap between 'great idea' and 'actually posted.'",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#saasfounder",
+      "#socialmediatips",
+      "#contentstrategy",
+      "#smallbusiness",
+      "#founderlife",
+      "#marketingstrategy"
+    ],
+    "subtitles_planned": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+  "voice_prompts": {
+    "voiceover_text": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, authoritative correction without arrogance. Delive",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel",
+    "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame",
+    "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background",
+    "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals",
+    "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+      "type": "comment"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "format": "reel",
+        "caption": "Your Notion doc is full. Your feed is empty. Those two facts are connected — just not the way you think. 👀\n\nComment 'Friday' if this is you.",
+        "hashtags": [
+          "#contentcreator",
+          "#saasfounder",
+          "#socialmediatips",
+          "#contentstrategy",
+          "#smallbusiness"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "shorts",
+        "caption": "Your content ideas aren't the problem — your schedule is. Here's what actually kills your social feed every week.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saasfounder",
+          "#youtubeshorts"
+        ]
+      },
+      "facebook": {
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "format": "reel",
+        "caption": "Raise your hand if Monday's brainstorm felt productive — and Friday came around with nothing posted. 🙋\n\nThe ideas were there. They always are. But Tuesday had a bug, Wednesday had a call, and Thursday had a deadline. The content slot just never survived the week.\n\nIf this sounds familiar, you're not alone. The problem isn't your ideas — it's that ideas without execution infrastructure are just a list. What's been getting in the way for your team?",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness"
+        ]
+      },
+      "linkedin": {
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "format": "reel",
+        "caption": "There's a myth that runs through almost every small team's content conversation: 'We just need better ideas.'\n\nIt's not true. Monday's brainstorm is usually fine. The Notion doc fills up. The ideas are solid. And by Friday, nothing is posted — because Tuesday had a bug, Wednesday had a demo, and Thursday had a board update.\n\nThe ideas survived the week. The execution slot didn't. That's the actual problem.\n\nBetter ideas won't fix a scheduling gap. A different system will.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saas",
+          "#marketingstrategy"
+        ]
+      },
+      "instagram": {
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "format": "reel",
+        "caption": "The brainstorm felt productive.\nThe Notion doc is full.\nThe ideas are genuinely good.\n\nAnd yet — Friday comes around and nothing was posted. Again.\n\nThe ideas didn't disappear. Tuesday had a bug. Wednesday had a demo. Thursday had a board update. The ideas just never had a slot.\n\nBetter ideas won't fix this. A different system will.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saas",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#marketingstrategy",
+          "#contentstrategy",
+          "#founderlife",
+          "#solofounder"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "daae8506-172f-4a8a-9878-bca6c4b56ea4",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Ideas Were Never the Problem",
+        "body": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+        "caption": "Your Notion doc is full. Your feed is empty. Those two facts are connected — just not the way you think. 👀\n\nComment 'Friday' if this is you.",
+        "hashtags": [
+          "#contentcreator",
+          "#saasfounder",
+          "#socialmediatips",
+          "#contentstrategy",
+          "#smallbusiness"
+        ],
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "language": null
+      },
+      {
+        "id": "19746b44-b495-4cd8-8598-394ba5bfc4d4",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Ideas Were Never the Problem",
+        "body": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+        "caption": "The brainstorm felt productive.\nThe Notion doc is full.\nThe ideas are genuinely good.\n\nAnd yet — Friday comes around and nothing was posted. Again.\n\nThe ideas didn't disappear. Tuesday had a bug. Wednesday had a demo. Thursday had a board update. The ideas just never had a slot.\n\nBetter ideas won't fix this. A different system will.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saas",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#marketingstrategy",
+          "#contentstrategy",
+          "#founderlife",
+          "#solofounder"
+        ],
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "language": null
+      },
+      {
+        "id": "99ffdeb3-eb92-4227-ad84-9a570b83e339",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Ideas Were Never the Problem",
+        "body": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+        "caption": "Your content ideas aren't the problem — your schedule is. Here's what actually kills your social feed every week.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saasfounder",
+          "#youtubeshorts"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "277271e4-42a2-4707-874c-4a1be3ea5ac2",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Ideas Were Never the Problem",
+        "body": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+        "caption": "Raise your hand if Monday's brainstorm felt productive — and Friday came around with nothing posted. 🙋\n\nThe ideas were there. They always are. But Tuesday had a bug, Wednesday had a call, and Thursday had a deadline. The content slot just never survived the week.\n\nIf this sounds familiar, you're not alone. The problem isn't your ideas — it's that ideas without execution infrastructure are just a list. What's been getting in the way for your team?",
+        "hashtags": [
+          "#contentmarketing",
+          "#smallbusiness"
+        ],
+        "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "9b396778-d1c4-4bb7-b00b-2ace215ee081",
+    "title": "The Ideas Were Never the Problem",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+    "package_brief": {
+      "cta": {
+        "text": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+        "type": "comment"
+      },
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "video": {
+        "script": "[SCENE 1 — Monday, neutral daylight]\nHANDHELD SHOT: Desk in a compact SaaS workspace. A sticky note reading 'CONTENT IDEAS ✅' is fixed to the monitor bezel. A Notion doc filled with bullet-pointed ideas is open on the second screen. A product manager (late 20s, hoodie) is seen from behind, nodding.\nVO: 'You think better ideas will fix your content problem? Think again.'\n\n[SCENE 2 — Monday brainstorm, tight on Notion doc]\nSHOT: Screen-level view of the Notion doc — rows of content ideas, some highlighted, a few tagged with platform names. Looks thorough. Looks done.\nVO: 'Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done.'\n\n[SCENE 3 — Tuesday through Thursday, quick cuts]\nCUT SEQUENCE: Same desk, same room. Tuesday — a terminal window open, someone typing fast. Wednesday — a video call on screen, the product manager mid-sentence. Thursday — a slide deck open, a calendar notification visible. Each cut is fast. No content tools are open.\nVO: 'Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update.'\n\n[SCENE 4 — Friday, same desk, cooler ambient light]\nHANDHELD SHOT: Same desk. Same monitor. The sticky note — 'CONTENT IDEAS ✅' — is still there, unchanged. The Notion doc is still open, untouched. Three Slack notifications visible on screen. The product manager is leaning back, visibly occupied with something unrelated to content.\nVO: 'Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't.'\n\n[SCENE 5 — Closing frame, fenrik Studio logo]\nSTATIC SHOT: Clean desk surface. The sticky note is the only object in frame. Text overlay appears: 'Your ideas were never the bottleneck.'\nVO: 'Your ideas were never the bottleneck.'\nLOGO FADE IN: fenrik Studio mark, bottom center.",
+        "concept": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: the execution gap. A product manager at a two-person SaaS team leaves Monday's brainstorm with a full Notion doc and zero posts by Friday. The video follows the week, beat by beat, showing how every day consumed the slot that content was supposed to fill. fenrik Studio is introduced as the execution layer — not a creativity tool — that closes the gap between 'great idea' and 'actually posted.'",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#saasfounder",
+        "#socialmediatips",
+        "#contentstrategy",
+        "#smallbusiness",
+        "#founderlife",
+        "#marketingstrategy"
+      ],
+      "scenario": "A product manager at a two-person SaaS team runs Monday's brainstorm, fills a Notion doc with genuinely good content ideas, and feels the hard part is done. By Friday, nothing has been posted — Tuesday had a production bug, Wednesday had a customer demo, Thursday had a board update. The ideas are intact. The week is gone.",
+      "subtitles": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel",
+        "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame",
+        "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background",
+        "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals",
+        "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+          "format": "reel",
+          "caption": "Your Notion doc is full. Your feed is empty. Those two facts are connected — just not the way you think. 👀\n\nComment 'Friday' if this is you.",
+          "hashtags": [
+            "#contentcreator",
+            "#saasfounder",
+            "#socialmediatips",
+            "#contentstrategy",
+            "#smallbusiness"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "shorts",
+          "caption": "Your content ideas aren't the problem — your schedule is. Here's what actually kills your social feed every week.",
+          "hashtags": [
+            "#contentmarketing",
+            "#saasfounder",
+            "#youtubeshorts"
+          ]
+        },
+        "facebook": {
+          "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+          "format": "reel",
+          "caption": "Raise your hand if Monday's brainstorm felt productive — and Friday came around with nothing posted. 🙋\n\nThe ideas were there. They always are. But Tuesday had a bug, Wednesday had a call, and Thursday had a deadline. The content slot just never survived the week.\n\nIf this sounds familiar, you're not alone. The problem isn't your ideas — it's that ideas without execution infrastructure are just a list. What's been getting in the way for your team?",
+          "hashtags": [
+            "#contentmarketing",
+            "#smallbusiness"
+          ]
+        },
+        "linkedin": {
+          "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+          "format": "reel",
+          "caption": "There's a myth that runs through almost every small team's content conversation: 'We just need better ideas.'\n\nIt's not true. Monday's brainstorm is usually fine. The Notion doc fills up. The ideas are solid. And by Friday, nothing is posted — because Tuesday had a bug, Wednesday had a demo, and Thursday had a board update.\n\nThe ideas survived the week. The execution slot didn't. That's the actual problem.\n\nBetter ideas won't fix a scheduling gap. A different system will.",
+          "hashtags": [
+            "#contentmarketing",
+            "#saas",
+            "#marketingstrategy"
+          ]
+        },
+        "instagram": {
+          "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+          "format": "reel",
+          "caption": "The brainstorm felt productive.\nThe Notion doc is full.\nThe ideas are genuinely good.\n\nAnd yet — Friday comes around and nothing was posted. Again.\n\nThe ideas didn't disappear. Tuesday had a bug. Wednesday had a demo. Thursday had a board update. The ideas just never had a slot.\n\nBetter ideas won't fix this. A different system will.",
+          "hashtags": [
+            "#contentmarketing",
+            "#saas",
+            "#socialmediatips",
+            "#smallbusinessowner",
+            "#marketingstrategy",
+            "#contentstrategy",
+            "#founderlife",
+            "#solofounder"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "9b396778-d1c4-4bb7-b00b-2ace215ee081",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 44,
+          "secondary": 43
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "myth_buster",
+        "video_concept": {
+          "title": "The Ideas Were Never the Problem",
+          "core_idea": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: ideas survive just fine; it's your schedule that murders them. The video follows a product manager at a two-person SaaS team who leaves Monday's brainstorm with a full Notion doc and zero posts by Friday. fenrik Studio is framed as the fix for the execution gap, not the ideation gap.",
+          "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irrelevant to the production step. The URL is the only input. The content ships. The Notion doc can stay full; it no longer has to become anything.",
+          "why_it_works": "The myth-buster structure works here because the myth ('we need better ideas') is genuinely widespread and genuinely wrong — which makes the correction feel like an insider reveal rather than a sales pitch. The sticky note visual is immediately recognizable to anyone who has run a Monday brainstorm. The Friday payoff is specific enough to sting without mocking the viewer. The product enters as a systems fix, not a creativity crutch, which respects the audience's intelligence and reframes the value proposition cleanly.",
+          "narrative_arc": "MYTH: 'We just need better content ideas.' The video opens on a confident statement — a sticky note on a monitor that reads 'CONTENT IDEAS ✅' — implying the hard part is done. BEAT 1 (why believed): People assume the bottleneck is creativity. The brainstorm felt productive. The Notion doc is full. The ideas are genuinely good. Everyone leaves Monday's standup feeling like the problem is solved. BEAT 2 (reality): Cut to Friday. Same desk. Same monitor. The sticky note is still there. The Notion doc is still full — and untouched. Three Slack messages asking 'did anyone post this week?' go unanswered. The ideas didn't disappear. Tuesday had a bug to fix. Wednesday had a demo. Thursday had a board update. The ideas never had a slot. The myth is that you need more ideas. The reality is that ideas without execution infrastructure are just a list. BEAT 3 (resolution): fenrik Studio doesn't ask for ideas. It asks for a URL. Your website already holds everything it needs to build a full content package — videos, captions, posts, hashtags — ready to publish before Friday even arrives. CTA lands clean.",
+          "emotional_tone": "Wry and conspiratorial — the video treats the viewer as someone smart enough to have already suspected this truth but never said it out loud. No shame, no lecture. The energy is a colleague leaning over and saying 'yeah, we both know what's actually happening here.'",
+          "audience_insight": "Two-person and small SaaS teams are disproportionately likely to conflate planning with doing. A good brainstorm session produces real psychological relief — it feels like progress. That feeling is exactly what lets the week fill up with everything else. By Friday, the ideas are intact and the feed is empty. This audience knows it happens; they just haven't named the mechanism clearly.",
+          "visual_direction": {
+            "palette": "Muted warm neutrals for the desk environment — off-white, light oak, soft grey. Accent color is a single sticky-note yellow that appears in the opening frame and reappears unchanged in the Friday frame, making the visual callback land without narration.",
+            "lighting": "Neutral daylight through a window on Monday scenes; slightly cooler, dimmer ambient light on Friday scenes — same room, different energy, no dramatic shift. The difference is subtle enough to feel real rather than cinematic.",
+            "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not chaotic. Recognizable to anyone who has worked at or run a small startup.",
+            "camera_style": "Handheld with minimal movement — slightly documentary, as if someone on the team grabbed their phone to document the week. Quick cuts between Monday and Friday. No transitions, no effects. The edit is the punchline.",
+            "art_direction": "Flat, functional SaaS workspace aesthetic — the kind of desk that belongs to someone who thinks in sprints. Physical sticky notes coexist with a second monitor showing a Notion doc. The contrast between the tidy brainstorm artifacts and the untouched content queue is the visual story. Text overlays are minimal, dry, and timed to land like a punchline.",
+            "character_style": "One visible character — a product manager in their late 20s or early 30s, dressed casually (hoodie, no branding). Seen briefly from behind or in partial profile during Monday's brainstorm, then shown at the same desk on Friday, visibly occupied with something unrelated to content. No dialogue required; body language and environment carry the story."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_myth_buster→steady/energy",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+44)",
+          "fit_secondary(+43)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and punchy, with a focus on the contrast between the productive brainstorm and the empty social feed.",
+          "emotion": "Wry and conspiratorial, as if sharing a well-known secret.",
+          "first_image": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor, while a Notion doc filled with ideas is open on the second screen, all under neutral daylight streaming through a window.",
+          "attention_pattern": "Starts with a confident assertion that challenges a common belief, immediately creating curiosity about the real issue.",
+          "first_spoken_sentence": "You think better ideas will fix your content problem? Think again."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted warm neutrals for the desk environment — off-white, light oak, soft grey. Accent color is a single sticky-note yellow that appears in the opening frame and reappears unchanged in the Friday frame, making the visual callback land without narration.",
+          "lighting": "Neutral daylight through a window on Monday scenes; slightly cooler, dimmer ambient light on Friday scenes — same room, different energy, no dramatic shift. The difference is subtle enough to feel real rather than cinematic.",
+          "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not chaotic. Recognizable to anyone who has worked at or run a small startup.",
+          "camera_style": "Handheld with minimal movement — slightly documentary, as if someone on the team grabbed their phone to document the week. Quick cuts between Monday and Friday. No transitions, no effects. The edit is the punchline.",
+          "art_direction": "Flat, functional SaaS workspace aesthetic — the kind of desk that belongs to someone who thinks in sprints. Physical sticky notes coexist with a second monitor showing a Notion doc. The contrast between the tidy brainstorm artifacts and the untouched content queue is the visual story. Text overlays are minimal, dry, and timed to land like a punchline.",
+          "character_style": "One visible character — a product manager in their late 20s or early 30s, dressed casually (hoodie, no branding). Seen briefly from behind or in partial profile during Monday's brainstorm, then shown at the same desk on Friday, visibly occupied with something unrelated to content. No dialogue required; body language and environment carry the story.",
+          "opening_emotion": "Wry and conspiratorial, as if sharing a well-known secret.",
+          "opening_first_image": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor, while a Notion doc filled with ideas is open on the second screen, all under neutral daylight streaming through a window."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, authoritative correction without arrogance. Delive",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Running out of content ideas",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4508,
+                "completion_tokens": 1171
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:12.888Z",
+              "duration_ms": 33288,
+              "finished_at": "2026-07-25T10:19:46.176Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 4508,
+              "estimated_cost": 0.031089,
+              "output_summary": "Concept: The Ideas Were Never the Problem",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 19664,
+              "completion_tokens": 1171,
+              "output_size_bytes": 5038,
+              "prompt_characters": 19538,
+              "provider_request_id": null,
+              "completion_characters": 5004
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4387,
+                "completion_tokens": 145
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:46.177Z",
+              "duration_ms": 1895,
+              "finished_at": "2026-07-25T10:19:48.072Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4387,
+              "estimated_cost": 0.000668,
+              "output_summary": "Opening: You think better ideas will fix your content problem? Think again.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 21429,
+              "completion_tokens": 145,
+              "output_size_bytes": 685,
+              "prompt_characters": 21293,
+              "provider_request_id": null,
+              "completion_characters": 683
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:48.072Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:19:48.072Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Flat, functional SaaS workspace aesthetic — the kind of desk",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2064,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2050
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9391,
+                "completion_tokens": 2772
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:19:48.073Z",
+              "duration_ms": 56431,
+              "finished_at": "2026-07-25T10:20:44.504Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9391,
+              "estimated_cost": 0.069753,
+              "output_summary": "Package: The Ideas Were Never the Problem",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 38343,
+              "completion_tokens": 2772,
+              "output_size_bytes": 10582,
+              "prompt_characters": 38077,
+              "provider_request_id": null,
+              "completion_characters": 10492
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:20:44.506Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:20:44.506Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2507,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2491
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:20:44.506Z",
+              "duration_ms": 2477,
+              "finished_at": "2026-07-25T10:20:46.983Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=9b396778-d1c4-4bb7-b00b-2ace215ee081; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: ideas survive just fine; it's your schedule that murd…",
+          "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background…",
+          "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irre…",
+          "visual_world": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not cha…",
+          "attention_pattern": "Starts with a confident assertion that challenges a common belief, immediately creating curiosity about the real issue.",
+          "narrative_mechanism": "myth_buster: MYTH: 'We just need better content ideas.' The video opens on a confident state…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+            "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+            "motifs": [],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "process",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're not failing at content. You're failing at deciding.",
+            "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+            "motifs": [
+              "laptop",
+              "close_up",
+              "product_asset",
+              "cafe"
+            ],
+            "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "PHOTOGRAPHIC",
+            "meaning_carrier": "place",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+            "topic": "How one website URL becomes a full month of platform-ready social content",
+            "motifs": [
+              "desk",
+              "office",
+              "group",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You're treating 'done-for-you' like it still means you do half the work.",
+            "topic": "What a done-for-you content service actually delivers — and what it doesn't ask you to do",
+            "motifs": [
+              "desk",
+              "close_up"
+            ],
+            "closing": "typed_cta",
+            "typed_cta": true,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "CTA"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "SOFT_3D",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": "headline_action_line",
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:20:44.807086+00:00",
+    "updated_at": "2026-07-25T10:20:47.160607+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 44,
+      "secondary": 43
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_myth_buster→steady/energy",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+44)",
+      "fit_secondary(+43)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, authoritative correction without arrogance. Delive"
+  },
+  "creative_mode": "myth_buster",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Running out of content ideas",
+    "strategy_pain_point": "Running out of content ideas"
+  },
+  "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irrelevant to the production step. The URL is the only input. The content ships. The Notion doc can stay full; it no longer has to become anything.",
+  "narrative_arc": "MYTH: 'We just need better content ideas.' The video opens on a confident statement — a sticky note on a monitor that reads 'CONTENT IDEAS ✅' — implying the hard part is done. BEAT 1 (why believed): People assume the bottleneck is creativity. The brainstorm felt productive. The Notion doc is full. The ideas are genuinely good. Everyone leaves Monday's standup feeling like the problem is solved. BEAT 2 (reality): Cut to Friday. Same desk. Same monitor. The sticky note is still there. The Notion doc is still full — and untouched. Three Slack messages asking 'did anyone post this week?' go unanswered. The ideas didn't disappear. Tuesday had a bug to fix. Wednesday had a demo. Thursday had a board update. The ideas never had a slot. The myth is that you need more ideas. The reality is that ideas without execution infrastructure are just a list. BEAT 3 (resolution): fenrik Studio doesn't ask for ideas. It asks for a URL. Your website already holds everything it needs to build a full content package — videos, captions, posts, hashtags — ready to publish before Friday even arrives. CTA lands clean.",
+  "emotional_tone": "Wry and conspiratorial — the video treats the viewer as someone smart enough to have already suspected this truth but never said it out loud. No shame, no lecture. The energy is a colleague leaning over and saying 'yeah, we both know what's actually happening here.'",
+  "audience_insight": "Two-person and small SaaS teams are disproportionately likely to conflate planning with doing. A good brainstorm session produces real psychological relief — it feels like progress. That feeling is exactly what lets the week fill up with everything else. By Friday, the ideas are intact and the feed is empty. This audience knows it happens; they just haven't named the mechanism clearly.",
+  "visual_direction": {
+    "palette": "Muted warm neutrals for the desk environment — off-white, light oak, soft grey. Accent color is a single sticky-note yellow that appears in the opening frame and reappears unchanged in the Friday frame, making the visual callback land without narration.",
+    "lighting": "Neutral daylight through a window on Monday scenes; slightly cooler, dimmer ambient light on Friday scenes — same room, different energy, no dramatic shift. The difference is subtle enough to feel real rather than cinematic.",
+    "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not chaotic. Recognizable to anyone who has worked at or run a small startup.",
+    "camera_style": "Handheld with minimal movement — slightly documentary, as if someone on the team grabbed their phone to document the week. Quick cuts between Monday and Friday. No transitions, no effects. The edit is the punchline.",
+    "art_direction": "Flat, functional SaaS workspace aesthetic — the kind of desk that belongs to someone who thinks in sprints. Physical sticky notes coexist with a second monitor showing a Notion doc. The contrast between the tidy brainstorm artifacts and the untouched content queue is the visual story. Text overlays are minimal, dry, and timed to land like a punchline.",
+    "character_style": "One visible character — a product manager in their late 20s or early 30s, dressed casually (hoodie, no branding). Seen briefly from behind or in partial profile during Monday's brainstorm, then shown at the same desk on Friday, visibly occupied with something unrelated to content. No dialogue required; body language and environment carry the story."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck."
+  },
+  "render_metadata": {
+    "id": "eddf15b9-781b-4c4f-898b-d6c01fa4856f",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:20:46.822176+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A cluttered desk with a sticky note reading 'CONTENT IDEAS ✅' prominently displayed on a monitor bezel, while a Notion doc filled with bullet-pointed ideas is open on the second screen, all under neutral daylight streaming through a window — flat, functional SaaS workspace aesthetic, muted warm neutrals, off-white and light oak surfaces, handheld documentary feel"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up screen-level view of a Notion document filled with rows of content ideas, some highlighted in yellow, platform labels visible beside entries — warm neutral ambient light, soft focus on the surrounding desk, sticky note yellow accent visible at the edge of frame"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A rapid-cut composite of the same compact SaaS desk across three days: a terminal window open on Tuesday, a video call screen on Wednesday, a slide deck with a calendar notification on Thursday — slightly cooler ambient light, no content tools visible, handheld minimal movement, lived-in workspace with a whiteboard showing sprint notes in the background"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "The same desk on Friday under cooler dimmer ambient light — the sticky note 'CONTENT IDEAS ✅' still fixed to the monitor unchanged, the Notion doc still open and untouched, three Slack notification banners visible on screen, a product manager in a hoodie leaning back visibly occupied with something unrelated to content — documentary handheld shot, muted warm neutrals"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the final clean desk scene. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You think better ideas will fix your content problem? Think again.",
+    "cta": "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+    "voiceover_text": "You think better ideas will fix your content problem? Think again. Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done. Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update. Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't. Your ideas were never the bottleneck.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clear, authoritative correction without arrogance. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: ideas survive just fine; it's your schedule that murd…",
+      "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background…",
+      "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irre…",
+      "visual_world": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not cha…",
+      "attention_pattern": "Starts with a confident assertion that challenges a common belief, immediately creating curiosity about the real issue.",
+      "narrative_mechanism": "myth_buster: MYTH: 'We just need better content ideas.' The video opens on a confident state…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#saasfounder",
+    "#socialmediatips",
+    "#contentstrategy",
+    "#smallbusiness",
+    "#founderlife",
+    "#marketingstrategy"
+  ],
+  "hook": "You think better ideas will fix your content problem? Think again.",
+  "scenario": "A product manager at a two-person SaaS team runs Monday's brainstorm, fills a Notion doc with genuinely good content ideas, and feels the hard part is done. By Friday, nothing has been posted — Tuesday had a production bug, Wednesday had a customer demo, Thursday had a board update. The ideas are intact. The week is gone.",
+  "video": {
+    "script": "[SCENE 1 — Monday, neutral daylight]\nHANDHELD SHOT: Desk in a compact SaaS workspace. A sticky note reading 'CONTENT IDEAS ✅' is fixed to the monitor bezel. A Notion doc filled with bullet-pointed ideas is open on the second screen. A product manager (late 20s, hoodie) is seen from behind, nodding.\nVO: 'You think better ideas will fix your content problem? Think again.'\n\n[SCENE 2 — Monday brainstorm, tight on Notion doc]\nSHOT: Screen-level view of the Notion doc — rows of content ideas, some highlighted, a few tagged with platform names. Looks thorough. Looks done.\nVO: 'Monday's brainstorm fills a whole Notion doc. The ideas are good. Everyone leaves feeling like the hard part is done.'\n\n[SCENE 3 — Tuesday through Thursday, quick cuts]\nCUT SEQUENCE: Same desk, same room. Tuesday — a terminal window open, someone typing fast. Wednesday — a video call on screen, the product manager mid-sentence. Thursday — a slide deck open, a calendar notification visible. Each cut is fast. No content tools are open.\nVO: 'Then Tuesday has a bug. Wednesday has a demo. Thursday has a board update.'\n\n[SCENE 4 — Friday, same desk, cooler ambient light]\nHANDHELD SHOT: Same desk. Same monitor. The sticky note — 'CONTENT IDEAS ✅' — is still there, unchanged. The Notion doc is still open, untouched. Three Slack notifications visible on screen. The product manager is leaning back, visibly occupied with something unrelated to content.\nVO: 'Friday arrives — same desk, same sticky note, zero posts. The ideas survived. The schedule didn't.'\n\n[SCENE 5 — Closing frame, fenrik Studio logo]\nSTATIC SHOT: Clean desk surface. The sticky note is the only object in frame. Text overlay appears: 'Your ideas were never the bottleneck.'\nVO: 'Your ideas were never the bottleneck.'\nLOGO FADE IN: fenrik Studio mark, bottom center.",
+    "concept": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: the execution gap. A product manager at a two-person SaaS team leaves Monday's brainstorm with a full Notion doc and zero posts by Friday. The video follows the week, beat by beat, showing how every day consumed the slot that content was supposed to fill. fenrik Studio is introduced as the execution layer — not a creativity tool — that closes the gap between 'great idea' and 'actually posted.'",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+      "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+      "motifs": [],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "process",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're not failing at content. You're failing at deciding.",
+      "topic": "Why a fixed content package removes the decision fatigue that stalls most social strategies",
+      "motifs": [
+        "laptop",
+        "close_up",
+        "product_asset",
+        "cafe"
+      ],
+      "closing": "Portrait 9:16 vertical frame. Final beat at the café corner. The person's hand holds a single content card or folder — a",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "PHOTOGRAPHIC",
+      "meaning_carrier": "place",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Most businesses don't have a content problem. They have a last-minute problem.",
+      "topic": "How one website URL becomes a full month of platform-ready social content",
+      "motifs": [
+        "desk",
+        "office",
+        "group",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Soft polished 3D render, portrait 9:16 vertical frame. Small home office nook, soft natural window daylight, warm amber ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "SOFT_3D",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You're treating 'done-for-you' like it still means you do half the work.",
+      "topic": "What a done-for-you content service actually delivers — and what it doesn't ask you to do",
+      "motifs": [
+        "desk",
+        "close_up"
+      ],
+      "closing": "typed_cta",
+      "typed_cta": true,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "CTA"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "SOFT_3D",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": "headline_action_line",
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 4508,
+          "completion_tokens": 1171
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:12.888Z",
+        "duration_ms": 33288,
+        "finished_at": "2026-07-25T10:19:46.176Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 4508,
+        "estimated_cost": 0.031089,
+        "output_summary": "Concept: The Ideas Were Never the Problem",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 19664,
+        "completion_tokens": 1171,
+        "output_size_bytes": 5038,
+        "prompt_characters": 19538,
+        "provider_request_id": null,
+        "completion_characters": 5004
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4387,
+          "completion_tokens": 145
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:46.177Z",
+        "duration_ms": 1895,
+        "finished_at": "2026-07-25T10:19:48.072Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4387,
+        "estimated_cost": 0.000668,
+        "output_summary": "Opening: You think better ideas will fix your content problem? Think again.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 21429,
+        "completion_tokens": 145,
+        "output_size_bytes": 685,
+        "prompt_characters": 21293,
+        "provider_request_id": null,
+        "completion_characters": 683
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:48.072Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:19:48.072Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Flat, functional SaaS workspace aesthetic — the kind of desk",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2064,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2050
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9391,
+          "completion_tokens": 2772
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:19:48.073Z",
+        "duration_ms": 56431,
+        "finished_at": "2026-07-25T10:20:44.504Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9391,
+        "estimated_cost": 0.069753,
+        "output_summary": "Package: The Ideas Were Never the Problem",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 38343,
+        "completion_tokens": 2772,
+        "output_size_bytes": 10582,
+        "prompt_characters": 38077,
+        "provider_request_id": null,
+        "completion_characters": 10492
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:20:44.506Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:20:44.506Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2507,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2491
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:20:44.506Z",
+        "duration_ms": 2477,
+        "finished_at": "2026-07-25T10:20:46.983Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=9b396778-d1c4-4bb7-b00b-2ace215ee081; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "76baee9e-e1cc-4052-accd-06c0ce971a22",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

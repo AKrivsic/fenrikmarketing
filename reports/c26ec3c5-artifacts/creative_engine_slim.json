@@ -1,0 +1,331 @@
+{
+  "errors": [],
+  "models": {
+    "critic": "claude-sonnet-4-6",
+    "ideation": "claude-sonnet-4-6",
+    "directions": "claude-sonnet-4-6",
+    "dna_repair": null
+  },
+  "version": "creative-engine@3",
+  "rejected": [
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c1"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c2"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c3"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c5"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c6"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c7"
+    },
+    {
+      "reasons": [
+        "fingerprint_collision_recent_package"
+      ],
+      "concept_id": "c8"
+    }
+  ],
+  "evaluation": {
+    "source": "deterministic_fallback",
+    "ranking": [
+      "c4"
+    ],
+    "version": "creative-evaluation@1",
+    "winner_id": "c4",
+    "evaluations": [
+      {
+        "scores": {
+          "funnel_fit": 7,
+          "originality": 7,
+          "stop_scroll": 7,
+          "memorability": 7,
+          "strategy_fit": 7,
+          "anti_repetition": 7,
+          "product_relevance": 7,
+          "emotional_strength": 7,
+          "narrative_coherence": 7,
+          "visual_distinctness": 7,
+          "atmosphere_freshness": 7,
+          "production_feasibility": 7,
+          "natural_product_integration": 7
+        },
+        "vetoes": [],
+        "concept_id": "c4",
+        "critic_notes": "sole survivor after vetoes"
+      }
+    ],
+    "winner_reason": "Only surviving concept after deterministic vetoes."
+  },
+  "fingerprint": {
+    "metaphor": null,
+    "hero_object": "The running clock next to the frozen one \u2014 specifically the second hand passing midnight",
+    "core_premise": "Two clocks on one wall \u2014 the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+    "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+    "emotional_arc": "Recognition \u2192 temporal dissonance \u2192 mounting dread as the running clock advances \u2192 resolution through synchronization",
+    "ending_mechanism": "Both clocks running simultaneously \u2014 the gap closed, the synchronization complete",
+    "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing \u2014 mechanical stillness as the scroll-stopper",
+    "product_mechanism": "AI chat widget active at 12:43 AM \u2014 the frozen clock's second hand begins moving, both clocks synchronized",
+    "creative_direction": "Introduces a second clock that the audience has never been watching \u2014 not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+    "palette_atmosphere": "Mustard yellow, white, black \u2014 warm but stark, institutional but not corporate"
+  },
+  "brief_digest": {
+    "topic": "The software company that answered every support ticket within hours \u2014 and still lost the enterprise deal because no one was there at 2 AM when it actually mattered",
+    "funnel_stage": "problem_aware",
+    "package_index": 0,
+    "hook_memory_count": 20,
+    "fingerprint_memory_count": 12
+  },
+  "critic_attempts": 0,
+  "ideation_attempts": 1,
+  "winner_concept_id": "c4",
+  "direction_attempts": 1,
+  "directions_selected": [
+    {
+      "label": "The Audit That Runs Without You",
+      "why_fits": "The strategy's overlooked-detail angle is perfectly expressed through audit logic \u2014 the detail most businesses miss is that they are being evaluated right now, at hours they cannot see, by people they do not know have arrived. This resonates strongly with professional services firms and agencies who understand formal evaluation processes.",
+      "mechanism": "Frames the prospect's off-hours research behavior as an audit \u2014 a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+      "direction_id": "d5",
+      "diversity_note": "Unlike the invisible-loss mechanism (which focuses on what cannot be measured after the fact) and the decision-site displacement mechanism (which relocates where decisions happen), this focuses on the active, ongoing nature of the evaluation process itself \u2014 the prospect is not just deciding, they are auditing, and it is happening continuously.",
+      "anti_repetition_note": "Audit logic \u2014 an active, structured, private evaluation the business cannot participate in \u2014 has not appeared in any recent directions. Does not use data, parallel tracks, spatial/threshold, or staffing logic."
+    },
+    {
+      "label": "The Overlooked Clock",
+      "why_fits": "The strategy's core insight \u2014 that the biggest-budget prospects research at midnight \u2014 is perfectly served by a two-clock mechanism. The audience has been optimizing one timeline completely unaware the other one exists. Problem-aware audiences running lean operations will immediately recognize they've only ever tracked one of the two.",
+      "mechanism": "Introduces a second clock that the audience has never been watching \u2014 not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+      "direction_id": "d2",
+      "diversity_note": "Unlike decision-site displacement logic (which relocates where decisions happen), this mechanism is not about location \u2014 it is about the simultaneous existence of two timelines that never sync, making the gap structural rather than situational.",
+      "anti_repetition_note": "Does not use data reframing, staffing-role logic, threshold/spatial logic, or dormant-infrastructure logic. The dual-clock mechanism is a time-based structural gap concept that has not appeared in recent directions."
+    },
+    {
+      "label": "The Question That Ended the Evaluation",
+      "why_fits": "Enterprise and high-value prospects doing research at 2 AM have often already narrowed their shortlist. One unanswered question at that stage is not a delay \u2014 it is a disqualification. This fits the strategy's angle precisely and speaks directly to service firms and SaaS companies who understand high-stakes evaluation cycles.",
+      "mechanism": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process \u2014 it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+      "direction_id": "d3",
+      "diversity_note": "Unlike the competitive-transfer mechanism (which focuses on where the lead went) and the invisible-loss mechanism (which focuses on what can never be measured), this centers on the singular, irreversible nature of the terminal event itself \u2014 finality, not destination or invisibility.",
+      "anti_repetition_note": "Does not use data, parallel tracks, pipe/infrastructure, threshold, or staffing metaphors. The finality-of-a-single-moment mechanism is distinct from all recent directions."
+    }
+  ],
+  "dna_repair_attempts": 0,
+  "direction_evaluation": {
+    "source": "critic",
+    "ranking": [
+      "d5",
+      "d2",
+      "d3",
+      "d1",
+      "d7",
+      "d4",
+      "d6"
+    ],
+    "version": "creative-direction-eval@1",
+    "evaluations": [
+      {
+        "scores": {
+          "funnel_fit": 8,
+          "originality": 8,
+          "strategy_fit": 8,
+          "anti_repetition": 9,
+          "emotional_range": 8,
+          "concept_potential": 8,
+          "diversity_vs_peers": 8,
+          "production_feasibility": 9
+        },
+        "vetoes": [],
+        "critic_notes": "Credential decay is a genuinely distinct mechanism \u2014 it targets the emotional investment a business has made in its reputation and shows that investment becoming inert at the exact moment it would have mattered. The sting of 'I earned this and it couldn't reach the person who needed to see it' is specific and resonant for service firms and SaaS companies who lead with response-time metrics. The time-locked depreciation angle is clean and has not appeared in recent directions. Slight risk: the mechanism is somewhat abstract and may require careful execution to feel visceral rather than conceptual. Strong candidate.",
+        "direction_id": "d1"
+      },
+      {
+        "scores": {
+          "funnel_fit": 9,
+          "originality": 8,
+          "strategy_fit": 9,
+          "anti_repetition": 9,
+          "emotional_range": 8,
+          "concept_potential": 9,
+          "diversity_vs_peers": 8,
+          "production_feasibility": 9
+        },
+        "vetoes": [],
+        "critic_notes": "The dual-clock mechanism is exceptionally well-fitted to the strategy's core insight. Two timelines running simultaneously and never intersecting is a structural, visual, and emotionally legible concept \u2014 it can be rendered in almost any format and lands immediately. The distinction from decision-site displacement is real: this is not about where decisions happen but about the temporal mismatch between two coexisting systems. High production feasibility, strong emotional clarity, and genuinely novel relative to the recent direction set. Top-tier candidate.",
+        "direction_id": "d2"
+      },
+      {
+        "scores": {
+          "funnel_fit": 8,
+          "originality": 8,
+          "strategy_fit": 9,
+          "anti_repetition": 8,
+          "emotional_range": 9,
+          "concept_potential": 8,
+          "diversity_vs_peers": 7,
+          "production_feasibility": 8
+        },
+        "vetoes": [],
+        "critic_notes": "Finality logic is emotionally powerful \u2014 the idea that one unanswered question does not pause an evaluation but terminates it is a sharp reframe that will land hard for SaaS and professional services audiences who understand high-stakes shortlisting. The irreversibility angle is distinct from invisible-loss (no signal) and competitive-transfer (where the lead went). However, it sits somewhat close in emotional register to the invisible-loss mechanism from recent directions, even if the mechanism itself is different. Strong, but slightly lower diversity score relative to d2 and d5. Still a strong candidate for emotional punch.",
+        "direction_id": "d3"
+      },
+      {
+        "scores": {
+          "funnel_fit": 8,
+          "originality": 7,
+          "strategy_fit": 8,
+          "anti_repetition": 8,
+          "emotional_range": 7,
+          "concept_potential": 7,
+          "diversity_vs_peers": 7,
+          "production_feasibility": 8
+        },
+        "vetoes": [],
+        "critic_notes": "Selective presence is a solid mechanism and the 'self-imposed temporal constraint' framing is a useful reframe \u2014 it makes the gap feel like a policy choice rather than an accident. However, it sits uncomfortably close in concept-space to both the staffing-gap mechanism (recent) and the decision-site displacement mechanism (recent), even if the framing differs. The presence-boundary logic is real but may not feel sufficiently distinct to a viewer who has seen adjacent ideas. Mid-tier candidate \u2014 useful if diversity across the shortlist demands it, but not the strongest standalone.",
+        "direction_id": "d4"
+      },
+      {
+        "scores": {
+          "funnel_fit": 9,
+          "originality": 9,
+          "strategy_fit": 9,
+          "anti_repetition": 10,
+          "emotional_range": 8,
+          "concept_potential": 9,
+          "diversity_vs_peers": 9,
+          "production_feasibility": 8
+        },
+        "vetoes": [],
+        "critic_notes": "Audit logic is the most original mechanism in this set. The reframe \u2014 that the prospect is not just browsing but conducting a structured, private, unannounced evaluation the business cannot participate in \u2014 is genuinely fresh and has strong resonance with professional services, agencies, and consulting firms who understand formal evaluation processes. The distinction from invisible-loss is real and meaningful: this is not about what cannot be measured after the fact, it is about an active process happening right now that the business is excluded from. High anti-repetition score because audit logic has no analog in recent directions. Top-tier candidate.",
+        "direction_id": "d5"
+      },
+      {
+        "scores": {
+          "funnel_fit": 8,
+          "originality": 7,
+          "strategy_fit": 8,
+          "anti_repetition": 7,
+          "emotional_range": 7,
+          "concept_potential": 7,
+          "diversity_vs_peers": 7,
+          "production_feasibility": 9
+        },
+        "vetoes": [],
+        "critic_notes": "Last-mile economics is a clean and legible mechanism, and the disproportionate-smallness angle is genuinely useful for small business audiences who have invested heavily in traffic acquisition. However, it sits too close in concept-space to the pipe/investment-halted mechanism from recent directions \u2014 both trace investment that traveled most of the distance and stopped before producing return. The claimed distinction (economic proportion vs. investment trajectory) is real but thin in execution. The mechanism risks feeling like a restatement of a recent direction rather than a genuinely new one. Lower priority for shortlist.",
+        "direction_id": "d6"
+      },
+      {
+        "scores": {
+          "funnel_fit": 8,
+          "originality": 8,
+          "strategy_fit": 8,
+          "anti_repetition": 9,
+          "emotional_range": 8,
+          "concept_potential": 8,
+          "diversity_vs_peers": 8,
+          "production_feasibility": 8
+        },
+        "vetoes": [],
+        "critic_notes": "Witness-dependency logic is a genuinely distinct mechanism and the distinction from credential-decay (d1) is meaningful: d1 is about a reputation becoming unreachable, d7 is about the structural dependency of all quality claims on real-time presence to activate them. The claim does not degrade \u2014 it simply has no delivery mechanism. This is philosophically interesting and emotionally resonant for reputation-driven service firms. However, it is slightly more abstract than d2 or d5 and may require more executional care to land viscerally. Strong candidate, particularly if d1 is not selected \u2014 they should not both appear in the shortlist as they occupy adjacent emotional territory.",
+        "direction_id": "d7"
+      }
+    ],
+    "selection_reason": "d5 (The Audit That Runs Without You) is the strongest and most original direction in the set \u2014 audit logic is entirely fresh relative to all recent directions, fits the strategy's core insight precisely, and resonates deeply with the professional services and agency audience. d2 (The Overlooked Clock) is the second-strongest: the dual-clock mechanism is visually and emotionally legible, directly serves the strategy's midnight-research angle, and is structurally distinct from d5 (time-gap vs. active-exclusion). d3 (The Question That Ended the Evaluation) adds a third distinct mechanism \u2014 finality logic \u2014 that differs from both audit logic and temporal-gap logic by centering on irreversibility rather than process or structure. Together, the three cover three genuinely different communication registers: active exclusion from an ongoing process (d5), structural temporal mismatch (d2), and the irreversible terminal event (d3). d1 and d7 were considered but not selected because they occupy adjacent emotional territory to each other and to d5; d4 sits too close to recent directions; d6 risks repeating the pipe/investment mechanism.",
+    "selected_direction_ids": [
+      "d5",
+      "d2",
+      "d3"
+    ]
+  },
+  "directions_generated": [
+    {
+      "label": "Credential Decay",
+      "why_fits": "A software company's fast response-time reputation is real and earned, but it cannot function as a credential at 2 AM when no one is there to demonstrate it. Problem-aware audiences who pride themselves on service quality will feel the specific sting of a strength that cannot reach the moment it needs to.",
+      "mechanism": "Exposes how a credential, reputation, or quality signal \u2014 one that was legitimately earned \u2014 silently loses its power at the exact moment it cannot be verified by the person who matters most. The mechanism works through depreciation logic: the credential does not disappear, it simply becomes unreachable at the hour it would have done its work.",
+      "direction_id": "d1",
+      "diversity_note": "Unlike the competitive-transfer mechanism or the preparation-gap mechanism, this does not focus on what the competitor gained or what was left unprepared \u2014 it focuses on the erosion of something real and earned at the precise moment of need.",
+      "anti_repetition_note": "Does not reframe existing data, does not use parallel tracks, does not use threshold or staffing logic, does not surface dormant infrastructure. Works through reputation-decay and time-locked credential logic, which has not appeared in recent directions."
+    },
+    {
+      "label": "The Overlooked Clock",
+      "why_fits": "The strategy's core insight \u2014 that the biggest-budget prospects research at midnight \u2014 is perfectly served by a two-clock mechanism. The audience has been optimizing one timeline completely unaware the other one exists. Problem-aware audiences running lean operations will immediately recognize they've only ever tracked one of the two.",
+      "mechanism": "Introduces a second clock that the audience has never been watching \u2014 not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+      "direction_id": "d2",
+      "diversity_note": "Unlike decision-site displacement logic (which relocates where decisions happen), this mechanism is not about location \u2014 it is about the simultaneous existence of two timelines that never sync, making the gap structural rather than situational.",
+      "anti_repetition_note": "Does not use data reframing, staffing-role logic, threshold/spatial logic, or dormant-infrastructure logic. The dual-clock mechanism is a time-based structural gap concept that has not appeared in recent directions."
+    },
+    {
+      "label": "The Question That Ended the Evaluation",
+      "why_fits": "Enterprise and high-value prospects doing research at 2 AM have often already narrowed their shortlist. One unanswered question at that stage is not a delay \u2014 it is a disqualification. This fits the strategy's angle precisely and speaks directly to service firms and SaaS companies who understand high-stakes evaluation cycles.",
+      "mechanism": "Focuses on a single unanswered question as a terminal event rather than a minor friction point. The mechanism works through finality logic: in a prospect's evaluation process, one unanswered question at the wrong moment does not pause the process \u2014 it ends it. The communication centers entirely on the irreversibility of that single moment, not on the pattern of many missed interactions.",
+      "direction_id": "d3",
+      "diversity_note": "Unlike the competitive-transfer mechanism (which focuses on where the lead went) and the invisible-loss mechanism (which focuses on what can never be measured), this centers on the singular, irreversible nature of the terminal event itself \u2014 finality, not destination or invisibility.",
+      "anti_repetition_note": "Does not use data, parallel tracks, pipe/infrastructure, threshold, or staffing metaphors. The finality-of-a-single-moment mechanism is distinct from all recent directions."
+    },
+    {
+      "label": "Selective Presence",
+      "why_fits": "Consulting firms, agencies, and professional services businesses all operate on business-hours logic while their most desirable prospects \u2014 senior decision-makers, enterprise buyers \u2014 do their real research outside those hours. The selective-presence frame makes the gap feel like a structural choice, not bad luck.",
+      "mechanism": "Reveals that the business has built a form of selective presence \u2014 fully alive and responsive in a narrow window, completely absent everywhere outside it \u2014 and that the audience the business most wants to reach does not confine its behavior to that window. The mechanism works through presence-boundary logic: the business drew a line around when it exists, and high-value prospects routinely operate outside that line.",
+      "direction_id": "d4",
+      "diversity_note": "Unlike the staffing-gap mechanism (which focuses on the missing role) and the threshold mechanism (which focuses on the empty room), this focuses on the business having deliberately bounded its own existence in time \u2014 a self-imposed constraint that feels like a policy rather than an oversight.",
+      "anti_repetition_note": "Does not use data reframing, proportion mismatch, pipe metaphors, dormant infrastructure, or competitive-transfer logic. Presence-boundary logic as a self-imposed temporal constraint has not appeared in recent directions."
+    },
+    {
+      "label": "The Audit That Runs Without You",
+      "why_fits": "The strategy's overlooked-detail angle is perfectly expressed through audit logic \u2014 the detail most businesses miss is that they are being evaluated right now, at hours they cannot see, by people they do not know have arrived. This resonates strongly with professional services firms and agencies who understand formal evaluation processes.",
+      "mechanism": "Frames the prospect's off-hours research behavior as an audit \u2014 a systematic, private evaluation the prospect conducts without announcing it, without the business knowing it is happening, and without any opportunity for the business to participate. The mechanism works through audit logic: businesses prepare for audits they know about; they are completely unprepared for the ones they never know are happening.",
+      "direction_id": "d5",
+      "diversity_note": "Unlike the invisible-loss mechanism (which focuses on what cannot be measured after the fact) and the decision-site displacement mechanism (which relocates where decisions happen), this focuses on the active, ongoing nature of the evaluation process itself \u2014 the prospect is not just deciding, they are auditing, and it is happening continuously.",
+      "anti_repetition_note": "Audit logic \u2014 an active, structured, private evaluation the business cannot participate in \u2014 has not appeared in any recent directions. Does not use data, parallel tracks, spatial/threshold, or staffing logic."
+    },
+    {
+      "label": "Cost of the Last Mile",
+      "why_fits": "Small businesses and service firms invest in SEO, ads, content, and referrals to drive traffic. The last mile \u2014 actually answering the question when the visitor arrives \u2014 is the cheapest part of the journey and the only part left unaddressed. This fits the problem-aware audience who has already invested in getting visitors there.",
+      "mechanism": "Isolates the final, smallest, cheapest-to-solve segment of a customer journey and reveals it as the one segment that determines whether everything before it produces any return. The mechanism works through last-mile economics: the entire journey \u2014 awareness, interest, research, site visit \u2014 costs the business real resources, and the last mile (the question at 2 AM) costs nothing to solve but was never addressed.",
+      "direction_id": "d6",
+      "diversity_note": "Unlike the pipe/investment-halted mechanism (which focuses on where investment stopped before producing return), this focuses specifically on the disproportionate smallness of the unsolved last segment relative to everything that preceded it \u2014 the economics of the final step, not the trajectory of the investment.",
+      "anti_repetition_note": "The pipe mechanism in recent directions used visual metaphor and upstream-investment logic. This uses economic-proportion logic applied specifically to journey-segment cost \u2014 a distinct framing that has not appeared in recent directions."
+    },
+    {
+      "label": "The Witness Problem",
+      "why_fits": "Consulting firms, law firms, and service agencies often rely on reputation and quality signals. This mechanism reveals that those signals are inert without a presence to deliver them at the exact moment a prospect needs confirmation \u2014 directly addressing the 2 AM research scenario where no witness exists.",
+      "mechanism": "Exposes that every quality claim a business makes about itself \u2014 fast response, excellent service, expert knowledge \u2014 requires a witness to activate. Without a witness present at the moment the prospect needs confirmation, the claim does not exist for that prospect. The mechanism works through witness-dependency logic: quality without a witness at the moment of need is quality that cannot be experienced and therefore cannot influence a decision.",
+      "direction_id": "d7",
+      "diversity_note": "Unlike the credential-decay mechanism (which focuses on a reputation becoming unreachable), this focuses on the structural dependency of all quality claims on real-time witness presence \u2014 the claim itself is not degraded, it simply has no mechanism to reach the person who needs to hear it.",
+      "anti_repetition_note": "Witness-dependency logic \u2014 the idea that quality claims require a present witness to activate \u2014 has not appeared in any recent directions and does not overlap with data reframing, threshold, staffing, dormant-infrastructure, or competitive-transfer mechanisms."
+    }
+  ],
+  "direction_eval_attempts": 1,
+  "direction_memory_filter_passes": [
+    {
+      "pass": 1,
+      "rejected": [],
+      "fallback_used": false,
+      "rejected_count": 0,
+      "survivor_count": 7,
+      "generated_count": 7
+    }
+  ],
+  "memory_filter_fallback_all_rejected": false
+}

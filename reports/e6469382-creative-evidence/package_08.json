@@ -1,0 +1,1769 @@
+{
+  "package_index": 8,
+  "run_item_id": "5d9165f4-2e29-48fd-ab29-1ceecd67e752",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "8a26acbf-f38e-4033-983f-9cadc0830cea",
+  "package_title": "The Launch That Nobody Saw",
+  "package_status": "draft",
+  "strategy_item_id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A bootstrapped app founder ships a major update, sends the changelog to their email list, then realizes they posted nothing on any social channel — the moment passed, and so did the attention window.",
+      "topic": "The product launch that happened without a single post to support it",
+      "source": "production_run",
+      "pain_point": "Social accounts are inactive or inconsistent",
+      "package_index": 8,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "The product launch that happened without a single post to support it",
+      "angle": "A bootstrapped app founder ships a major update, sends the changelog to their email list, then realizes they posted nothing on any social channel — the moment passed, and so did the attention window.",
+      "seed": "Problem Aware|The product launch that happened without a single post to support it|A bootstrapped app founder ships a major update, sends the changelog to their email list, then realizes they posted nothing on any social channel — the moment passed, and so did the attention window.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "faq",
+        "name": "FAQ",
+        "description": "Answers one concrete question the audience is already asking.",
+        "structure": "The question (as the audience would ask it) -> honest answer -> why it matters -> CTA.",
+        "avoid": "Do not invent a fake FAQ; use a real audience question grounded in Product Brain.",
+        "narrativeBeats": [
+          "question",
+          "answer",
+          "why_it_matters",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "unexpected_truth",
+        "instruction": "Open with a true but counter-intuitive statement that reframes the topic.",
+        "exampleForm": "\"The cleanest flats are usually the dirtiest where it counts.\"",
+        "forbidGeneric": "Do not open with \"Did you know...\" or a topic label."
+      },
+      "persona": {
+        "id": "insider",
+        "name": "Insider",
+        "vocabulary": "behind-the-scenes, trade specifics",
+        "rhythm": "conspiratorial, lets-you-in pacing",
+        "energy": "engaged, slightly exclusive",
+        "exaggeration": "light, for intrigue only"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Launch That Nobody Saw",
+    "core_idea": "A bootstrapped app founder ships a major feature update, sends the changelog email, and then a stranger on the internet asks a question that stops them cold: 'Wait — did you actually post about this anywhere?' The FAQ piece answers the real question underneath that moment: what actually happens to the attention window when a product launch goes unposted on social?",
+    "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website URL is enough input. The launch content — short-form videos, captions, platform-ready posts for every channel — is delivered ready to publish. No brief, no camera, no reformatting. The founder ships the update; fenrik Studio covers the moment.",
+    "why_it_works": "The FAQ mode earns trust because it answers a question the audience is genuinely asking — not a hypothetical. The unexpected truth hook reframes what a product launch actually is (a dual act: shipping and announcing) and exposes the gap most founders only notice after the window closes. The scenario is specific enough to be recognizable but broad enough to apply to any founder who has ever shipped something quietly. The pain point (inactive or inconsistent social accounts) is dramatized through the highest-stakes version of the problem: the launch that passed without a single post. The product enters as a practical resolution, not a sales pitch.",
+    "narrative_arc": "QUESTION (as the audience would genuinely ask it): 'We just shipped something big — does it actually matter if we posted about it on social?' ANSWER (unexpected truth, insider framing): Yes — and the window is shorter than you think. The changelog email reached the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the launch exists only inside your existing list. The attention window — the 48 to 72 hours when a new thing is genuinely shareable — closes quietly, and it does not reopen. WHY IT MATTERS: A product launch is the highest-leverage moment to post. It is the one time you have something concrete, timely, and genuinely worth sharing. Missing it is not a minor gap in the feed — it is the gap that costs the most. The founder in this scenario did not run out of ideas. They ran out of bandwidth. The update was real. The moment was real. The posts simply never existed. CTA: The question is not whether to post. The question is who produces it when you are too busy shipping to write a caption.",
+    "emotional_tone": "Quiet urgency — not panic, not guilt. The feeling of realizing something slipped through your hands while you were doing the right thing. Insider and conspiratorial in delivery, as if sharing something the audience already half-knows but has not said out loud.",
+    "audience_insight": "Bootstrapped founders and small product teams conflate 'shipping the thing' with 'telling the world about the thing.' The changelog email feels like an announcement. It is not. Social content for a launch is a separate act of production — and it is the one that reaches people outside the existing list. When bandwidth is tight, it is the act that gets dropped first, silently, with no obvious consequence until the moment has passed.",
+    "visual_direction": {
+      "palette": "Two-phase palette. Phase one (shipping): crisp whites, electric blue, clean UI greens — active, alive. Phase two (empty feed): desaturated greys and off-whites — the visual equivalent of silence. Brand accent color enters only at the resolution when fenrik Studio is named.",
+      "lighting": "No physical lighting — the entire piece is screen-glow and UI contrast. The product dashboard and email client feel bright and active. The social profile grid feels flat and cold — low contrast, muted, still.",
+      "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final screen showing a full content package ready to publish. The contrast between the full changelog and the empty grid is the central visual tension.",
+      "camera_style": "Screen-capture style with precise, deliberate transitions. No handheld movement. Cuts are sharp and purposeful — the pacing mirrors the script's rhythm. Text overlays appear and disappear cleanly. The empty social grid holds on screen one beat longer than comfortable, letting the silence register before the resolution.",
+      "art_direction": "Flat, graphic, screen-native aesthetic. The visual language is entirely digital — no physical desk, no room, no props. The world is the founder's screen: a product dashboard showing a freshly shipped update, a sent-items email with the changelog, and then a jarring cut to a completely empty social profile grid. Text overlays are minimal, clean, and timed to the script beats. No clutter. High contrast between the 'shipped' moment and the 'nothing posted' silence.",
+      "character_style": "none"
+    }
+  },
+  "opening": {
+    "pacing": "Sharp and deliberate, with a brief pause on the empty social grid to let the silence resonate.",
+    "emotion": "Quiet urgency — the realization that a significant moment has slipped away unnoticed.",
+    "first_image": "A bright product dashboard showing a freshly shipped update, followed by a sent email with the changelog, then a stark cut to a completely empty social profile grid, muted and cold.",
+    "attention_pattern": "The contrast between the excitement of the product launch and the stark emptiness of the social feed creates immediate tension, compelling the viewer to question the consequences.",
+    "first_spoken_sentence": "You just shipped a major update — but did you tell anyone about it?"
+  },
+  "visual_identity": {
+    "palette": "Two-phase palette. Phase one (shipping): crisp whites, electric blue, clean UI greens — active, alive. Phase two (empty feed): desaturated greys and off-whites — the visual equivalent of silence. Brand accent color enters only at the resolution when fenrik Studio is named.",
+    "lighting": "No physical lighting — the entire piece is screen-glow and UI contrast. The product dashboard and email client feel bright and active. The social profile grid feels flat and cold — low contrast, muted, still.",
+    "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final screen showing a full content package ready to publish. The contrast between the full changelog and the empty grid is the central visual tension.",
+    "camera_style": "Screen-capture style with precise, deliberate transitions. No handheld movement. Cuts are sharp and purposeful — the pacing mirrors the script's rhythm. Text overlays appear and disappear cleanly. The empty social grid holds on screen one beat longer than comfortable, letting the silence register before the resolution.",
+    "art_direction": "Flat, graphic, screen-native aesthetic. The visual language is entirely digital — no physical desk, no room, no props. The world is the founder's screen: a product dashboard showing a freshly shipped update, a sent-items email with the changelog, and then a jarring cut to a completely empty social profile grid. Text overlays are minimal, clean, and timed to the script beats. No clutter. High contrast between the 'shipped' moment and the 'nothing posted' silence.",
+    "character_style": "none",
+    "opening_emotion": "Quiet urgency — the realization that a significant moment has slipped away unnoticed.",
+    "opening_first_image": "A bright product dashboard showing a freshly shipped update, followed by a sent email with the changelog, then a stark cut to a completely empty social profile grid, muted and cold."
+  },
+  "package": {
+    "title": "The Launch That Nobody Saw",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "You just shipped a major update — but did you tell anyone about it?",
+    "scenario": "A bootstrapped app founder ships a significant feature update on a Tuesday afternoon. The changelog email goes out to the list within the hour. It feels like an announcement. By Thursday, a reply arrives from someone in the community: 'Wait — did you post about this anywhere? I almost missed it.' The founder opens Instagram. Then LinkedIn. Then TikTok. Nothing. The update shipped two days ago. The 48-hour window is already closing. The launch was real. The social content never existed.",
+    "video": {
+      "script": "[SCENE 1 — bright product dashboard, update shipped, UI greens and electric blue]\nVO: 'You just shipped a major update — but did you tell anyone about it?'\n\n[SCENE 2 — sent-items email, changelog visible, active and warm]\nVO: 'The changelog went out to your email list. That's the people who already know you.'\n\n[SCENE 3 — cut to empty social profile grid, muted grey, cold, holds one beat longer than comfortable]\nVO: 'Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly.'\n\n[SCENE 4 — text overlay: 'The launch was real. The posts simply never existed.']\nVO: 'The launch was real. The posts simply never existed.'\n\n[SCENE 5 — full content package screen, brand accent color enters, fenrik Studio logo visible]\nVO: [soft close — no spoken CTA; text overlay only: 'fenrik Studio — your website URL is enough.']",
+      "concept": "A bootstrapped app founder ships a major feature update, fires off the changelog email, and feels done. Then a single question from someone online stops them cold: 'Did you post about this anywhere?' The FAQ piece answers the real question beneath that moment — what actually happens to the attention window when a product launch goes unposted on social? The visual world is entirely digital: a bright product dashboard, a sent-items email, then a jarring cut to a cold, empty social profile grid. The contrast between the full changelog and the silent feed is the central tension. fenrik Studio enters at the resolution as the practical answer to a question the audience already half-knows.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#ProductLaunch",
+      "#FounderLife",
+      "#SocialMediaMarketing",
+      "#ContentStrategy",
+      "#StartupLife",
+      "#BuildInPublic",
+      "#ContentCreation",
+      "#MarketingTips"
+    ],
+    "subtitles_planned": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration."
+    },
+    {
+      "source": "asset",
+      "used_as": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "voiceover": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+  "voice_prompts": {
+    "voiceover_text": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, helpful, answer-first. Delivery: confident, concis",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic.",
+    "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment.",
+    "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person.",
+    "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next launch, the posts go up before the changelog does.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "You shipped the update. You sent the email. Nobody outside your list saw a thing. 👀 The attention window doesn't wait. #ProductLaunch #FounderLife #SocialMedia #ContentCreation #StartupTips",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#SocialMedia",
+          "#ContentCreation",
+          "#StartupTips"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe so you catch the next one.",
+        "format": "short",
+        "caption": "You shipped the update — but the attention window closed before a single post went up. Here's what that actually costs you.",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#ContentStrategy"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Here's something most founders only realize after it's too late 👇\n\nYou ship a big update, send the changelog email, and feel like the announcement is done. But the email only reaches people who already know you. Social is where new people would have found out — and if nothing goes up, that window closes in 48 to 72 hours and doesn't reopen.\n\nThe launch was real. The posts just never existed. Sound familiar? Drop a comment below — we'd love to hear how you handle launch content when the team is heads-down shipping. 🚀",
+        "hashtags": [
+          "#ProductLaunch",
+          "#SmallBusiness",
+          "#ContentTips"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Most founders treat the changelog email as the announcement. It isn't.\n\nThe email reaches your existing list — the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the attention window closes in 48 to 72 hours. Quietly. Without warning.\n\nShipping a product and announcing a product are two separate acts of work. When bandwidth is tight, the social content is the one that gets dropped first — and it's the one that costs the most.\n\nThe launch was real. The posts simply never existed.",
+        "hashtags": [
+          "#ProductLaunch",
+          "#ContentStrategy",
+          "#FounderLife"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this for your next launch.",
+        "format": "reel",
+        "caption": "The changelog email went out. ✅\nThe product update shipped. ✅\nThe social posts? Never existed.\n\nThe attention window for a new launch is 48–72 hours. After that, the moment is gone — and the people who don't already follow you never find out.\n\nShipping and announcing are two separate acts. Most of us only do one.\n\nSave this for your next launch. 👇",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#SocialMediaMarketing",
+          "#ContentStrategy",
+          "#SmallBusiness",
+          "#StartupLife",
+          "#MarketingTips",
+          "#BuildInPublic"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "5d1eca81-de8a-4170-8eff-250ca129eef9",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Launch That Nobody Saw",
+        "body": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+        "caption": "You shipped the update. You sent the email. Nobody outside your list saw a thing. 👀 The attention window doesn't wait. #ProductLaunch #FounderLife #SocialMedia #ContentCreation #StartupTips",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#SocialMedia",
+          "#ContentCreation",
+          "#StartupTips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "4339e9aa-f8eb-4d71-ba48-4e42c19dcf19",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Launch That Nobody Saw",
+        "body": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+        "caption": "The changelog email went out. ✅\nThe product update shipped. ✅\nThe social posts? Never existed.\n\nThe attention window for a new launch is 48–72 hours. After that, the moment is gone — and the people who don't already follow you never find out.\n\nShipping and announcing are two separate acts. Most of us only do one.\n\nSave this for your next launch. 👇",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#SocialMediaMarketing",
+          "#ContentStrategy",
+          "#SmallBusiness",
+          "#StartupLife",
+          "#MarketingTips",
+          "#BuildInPublic"
+        ],
+        "cta": "Save this for your next launch.",
+        "language": null
+      },
+      {
+        "id": "d48a723f-9c25-4ec9-9ef2-3d4953f63552",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Launch That Nobody Saw",
+        "body": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+        "caption": "You shipped the update — but the attention window closed before a single post went up. Here's what that actually costs you.",
+        "hashtags": [
+          "#ProductLaunch",
+          "#FounderLife",
+          "#ContentStrategy"
+        ],
+        "cta": "Subscribe so you catch the next one.",
+        "language": null
+      },
+      {
+        "id": "3db8ff72-ca1a-4bc5-b091-f8ab9ebec068",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Launch That Nobody Saw",
+        "body": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+        "caption": "Here's something most founders only realize after it's too late 👇\n\nYou ship a big update, send the changelog email, and feel like the announcement is done. But the email only reaches people who already know you. Social is where new people would have found out — and if nothing goes up, that window closes in 48 to 72 hours and doesn't reopen.\n\nThe launch was real. The posts just never existed. Sound familiar? Drop a comment below — we'd love to hear how you handle launch content when the team is heads-down shipping. 🚀",
+        "hashtags": [
+          "#ProductLaunch",
+          "#SmallBusiness",
+          "#ContentTips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c0b5a227-5d6a-46a5-95ca-5087a4009f05",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Launch That Nobody Saw",
+        "body": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+        "caption": "Most founders treat the changelog email as the announcement. It isn't.\n\nThe email reaches your existing list — the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the attention window closes in 48 to 72 hours. Quietly. Without warning.\n\nShipping a product and announcing a product are two separate acts of work. When bandwidth is tight, the social content is the one that gets dropped first — and it's the one that costs the most.\n\nThe launch was real. The posts simply never existed.",
+        "hashtags": [
+          "#ProductLaunch",
+          "#ContentStrategy",
+          "#FounderLife"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "8a26acbf-f38e-4033-983f-9cadc0830cea",
+    "title": "The Launch That Nobody Saw",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next launch, the posts go up before the changelog does.",
+        "type": "save"
+      },
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "video": {
+        "script": "[SCENE 1 — bright product dashboard, update shipped, UI greens and electric blue]\nVO: 'You just shipped a major update — but did you tell anyone about it?'\n\n[SCENE 2 — sent-items email, changelog visible, active and warm]\nVO: 'The changelog went out to your email list. That's the people who already know you.'\n\n[SCENE 3 — cut to empty social profile grid, muted grey, cold, holds one beat longer than comfortable]\nVO: 'Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly.'\n\n[SCENE 4 — text overlay: 'The launch was real. The posts simply never existed.']\nVO: 'The launch was real. The posts simply never existed.'\n\n[SCENE 5 — full content package screen, brand accent color enters, fenrik Studio logo visible]\nVO: [soft close — no spoken CTA; text overlay only: 'fenrik Studio — your website URL is enough.']",
+        "concept": "A bootstrapped app founder ships a major feature update, fires off the changelog email, and feels done. Then a single question from someone online stops them cold: 'Did you post about this anywhere?' The FAQ piece answers the real question beneath that moment — what actually happens to the attention window when a product launch goes unposted on social? The visual world is entirely digital: a bright product dashboard, a sent-items email, then a jarring cut to a cold, empty social profile grid. The contrast between the full changelog and the silent feed is the central tension. fenrik Studio enters at the resolution as the practical answer to a question the audience already half-knows.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#ProductLaunch",
+        "#FounderLife",
+        "#SocialMediaMarketing",
+        "#ContentStrategy",
+        "#StartupLife",
+        "#BuildInPublic",
+        "#ContentCreation",
+        "#MarketingTips"
+      ],
+      "scenario": "A bootstrapped app founder ships a significant feature update on a Tuesday afternoon. The changelog email goes out to the list within the hour. It feels like an announcement. By Thursday, a reply arrives from someone in the community: 'Wait — did you post about this anywhere? I almost missed it.' The founder opens Instagram. Then LinkedIn. Then TikTok. Nothing. The update shipped two days ago. The 48-hour window is already closing. The launch was real. The social content never existed.",
+      "subtitles": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+      "asset_usage": [
+        {
+          "used_as": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "image_prompts": [
+        "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic.",
+        "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment.",
+        "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person.",
+        "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration."
+        },
+        {
+          "source": "asset",
+          "used_as": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "voiceover_text": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "You shipped the update. You sent the email. Nobody outside your list saw a thing. 👀 The attention window doesn't wait. #ProductLaunch #FounderLife #SocialMedia #ContentCreation #StartupTips",
+          "hashtags": [
+            "#ProductLaunch",
+            "#FounderLife",
+            "#SocialMedia",
+            "#ContentCreation",
+            "#StartupTips"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe so you catch the next one.",
+          "format": "short",
+          "caption": "You shipped the update — but the attention window closed before a single post went up. Here's what that actually costs you.",
+          "hashtags": [
+            "#ProductLaunch",
+            "#FounderLife",
+            "#ContentStrategy"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Here's something most founders only realize after it's too late 👇\n\nYou ship a big update, send the changelog email, and feel like the announcement is done. But the email only reaches people who already know you. Social is where new people would have found out — and if nothing goes up, that window closes in 48 to 72 hours and doesn't reopen.\n\nThe launch was real. The posts just never existed. Sound familiar? Drop a comment below — we'd love to hear how you handle launch content when the team is heads-down shipping. 🚀",
+          "hashtags": [
+            "#ProductLaunch",
+            "#SmallBusiness",
+            "#ContentTips"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Most founders treat the changelog email as the announcement. It isn't.\n\nThe email reaches your existing list — the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the attention window closes in 48 to 72 hours. Quietly. Without warning.\n\nShipping a product and announcing a product are two separate acts of work. When bandwidth is tight, the social content is the one that gets dropped first — and it's the one that costs the most.\n\nThe launch was real. The posts simply never existed.",
+          "hashtags": [
+            "#ProductLaunch",
+            "#ContentStrategy",
+            "#FounderLife"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this for your next launch.",
+          "format": "reel",
+          "caption": "The changelog email went out. ✅\nThe product update shipped. ✅\nThe social posts? Never existed.\n\nThe attention window for a new launch is 48–72 hours. After that, the moment is gone — and the people who don't already follow you never find out.\n\nShipping and announcing are two separate acts. Most of us only do one.\n\nSave this for your next launch. 👇",
+          "hashtags": [
+            "#ProductLaunch",
+            "#FounderLife",
+            "#SocialMediaMarketing",
+            "#ContentStrategy",
+            "#SmallBusiness",
+            "#StartupLife",
+            "#MarketingTips",
+            "#BuildInPublic"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "8a26acbf-f38e-4033-983f-9cadc0830cea",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 38,
+          "secondary": 41
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "faq",
+        "video_concept": {
+          "title": "The Launch That Nobody Saw",
+          "core_idea": "A bootstrapped app founder ships a major feature update, sends the changelog email, and then a stranger on the internet asks a question that stops them cold: 'Wait — did you actually post about this anywhere?' The FAQ piece answers the real question underneath that moment: what actually happens to the attention window when a product launch goes unposted on social?",
+          "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website URL is enough input. The launch content — short-form videos, captions, platform-ready posts for every channel — is delivered ready to publish. No brief, no camera, no reformatting. The founder ships the update; fenrik Studio covers the moment.",
+          "why_it_works": "The FAQ mode earns trust because it answers a question the audience is genuinely asking — not a hypothetical. The unexpected truth hook reframes what a product launch actually is (a dual act: shipping and announcing) and exposes the gap most founders only notice after the window closes. The scenario is specific enough to be recognizable but broad enough to apply to any founder who has ever shipped something quietly. The pain point (inactive or inconsistent social accounts) is dramatized through the highest-stakes version of the problem: the launch that passed without a single post. The product enters as a practical resolution, not a sales pitch.",
+          "narrative_arc": "QUESTION (as the audience would genuinely ask it): 'We just shipped something big — does it actually matter if we posted about it on social?' ANSWER (unexpected truth, insider framing): Yes — and the window is shorter than you think. The changelog email reached the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the launch exists only inside your existing list. The attention window — the 48 to 72 hours when a new thing is genuinely shareable — closes quietly, and it does not reopen. WHY IT MATTERS: A product launch is the highest-leverage moment to post. It is the one time you have something concrete, timely, and genuinely worth sharing. Missing it is not a minor gap in the feed — it is the gap that costs the most. The founder in this scenario did not run out of ideas. They ran out of bandwidth. The update was real. The moment was real. The posts simply never existed. CTA: The question is not whether to post. The question is who produces it when you are too busy shipping to write a caption.",
+          "emotional_tone": "Quiet urgency — not panic, not guilt. The feeling of realizing something slipped through your hands while you were doing the right thing. Insider and conspiratorial in delivery, as if sharing something the audience already half-knows but has not said out loud.",
+          "audience_insight": "Bootstrapped founders and small product teams conflate 'shipping the thing' with 'telling the world about the thing.' The changelog email feels like an announcement. It is not. Social content for a launch is a separate act of production — and it is the one that reaches people outside the existing list. When bandwidth is tight, it is the act that gets dropped first, silently, with no obvious consequence until the moment has passed.",
+          "visual_direction": {
+            "palette": "Two-phase palette. Phase one (shipping): crisp whites, electric blue, clean UI greens — active, alive. Phase two (empty feed): desaturated greys and off-whites — the visual equivalent of silence. Brand accent color enters only at the resolution when fenrik Studio is named.",
+            "lighting": "No physical lighting — the entire piece is screen-glow and UI contrast. The product dashboard and email client feel bright and active. The social profile grid feels flat and cold — low contrast, muted, still.",
+            "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final screen showing a full content package ready to publish. The contrast between the full changelog and the empty grid is the central visual tension.",
+            "camera_style": "Screen-capture style with precise, deliberate transitions. No handheld movement. Cuts are sharp and purposeful — the pacing mirrors the script's rhythm. Text overlays appear and disappear cleanly. The empty social grid holds on screen one beat longer than comfortable, letting the silence register before the resolution.",
+            "art_direction": "Flat, graphic, screen-native aesthetic. The visual language is entirely digital — no physical desk, no room, no props. The world is the founder's screen: a product dashboard showing a freshly shipped update, a sent-items email with the changelog, and then a jarring cut to a completely empty social profile grid. Text overlays are minimal, clean, and timed to the script beats. No clutter. High contrast between the 'shipped' moment and the 'nothing posted' silence.",
+            "character_style": "none"
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_faq→steadiness(+2)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+38)",
+          "fit_secondary(+38)",
+          "soft_tie_recent_primary(5)→secondary(+3)"
+        ],
+        "opening_impact": {
+          "pacing": "Sharp and deliberate, with a brief pause on the empty social grid to let the silence resonate.",
+          "emotion": "Quiet urgency — the realization that a significant moment has slipped away unnoticed.",
+          "first_image": "A bright product dashboard showing a freshly shipped update, followed by a sent email with the changelog, then a stark cut to a completely empty social profile grid, muted and cold.",
+          "attention_pattern": "The contrast between the excitement of the product launch and the stark emptiness of the social feed creates immediate tension, compelling the viewer to question the consequences.",
+          "first_spoken_sentence": "You just shipped a major update — but did you tell anyone about it?"
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clear, helpful, answer-first. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Two-phase palette. Phase one (shipping): crisp whites, electric blue, clean UI greens — active, alive. Phase two (empty feed): desaturated greys and off-whites — the visual equivalent of silence. Brand accent color enters only at the resolution when fenrik Studio is named.",
+          "lighting": "No physical lighting — the entire piece is screen-glow and UI contrast. The product dashboard and email client feel bright and active. The social profile grid feels flat and cold — low contrast, muted, still.",
+          "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final screen showing a full content package ready to publish. The contrast between the full changelog and the empty grid is the central visual tension.",
+          "camera_style": "Screen-capture style with precise, deliberate transitions. No handheld movement. Cuts are sharp and purposeful — the pacing mirrors the script's rhythm. Text overlays appear and disappear cleanly. The empty social grid holds on screen one beat longer than comfortable, letting the silence register before the resolution.",
+          "art_direction": "Flat, graphic, screen-native aesthetic. The visual language is entirely digital — no physical desk, no room, no props. The world is the founder's screen: a product dashboard showing a freshly shipped update, a sent-items email with the changelog, and then a jarring cut to a completely empty social profile grid. Text overlays are minimal, clean, and timed to the script beats. No clutter. High contrast between the 'shipped' moment and the 'nothing posted' silence.",
+          "character_style": "none",
+          "opening_emotion": "Quiet urgency — the realization that a significant moment has slipped away unnoticed.",
+          "opening_first_image": "A bright product dashboard showing a freshly shipped update, followed by a sent email with the changelog, then a stark cut to a completely empty social profile grid, muted and cold."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, helpful, answer-first. Delivery: confident, concis",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Social accounts are inactive or inconsistent",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 5831,
+                "completion_tokens": 1145
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:20.694Z",
+              "duration_ms": 30979,
+              "finished_at": "2026-07-25T10:29:51.673Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 5831,
+              "estimated_cost": 0.034668,
+              "output_summary": "Concept: The Launch That Nobody Saw",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 25334,
+              "completion_tokens": 1145,
+              "output_size_bytes": 5159,
+              "prompt_characters": 25122,
+              "provider_request_id": null,
+              "completion_characters": 5125
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5003,
+                "completion_tokens": 147
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:51.674Z",
+              "duration_ms": 1729,
+              "finished_at": "2026-07-25T10:29:53.403Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5003,
+              "estimated_cost": 0.000762,
+              "output_summary": "Opening: You just shipped a major update — but did you tell anyone about it?",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 24359,
+              "completion_tokens": 147,
+              "output_size_bytes": 724,
+              "prompt_characters": 24217,
+              "provider_request_id": null,
+              "completion_characters": 720
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:53.403Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:29:53.403Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Flat, graphic, screen-native aesthetic. The visual language ",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2004,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1990
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10004,
+                "completion_tokens": 2397
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:29:53.404Z",
+              "duration_ms": 46289,
+              "finished_at": "2026-07-25T10:30:39.693Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10004,
+              "estimated_cost": 0.065967,
+              "output_summary": "Package: The Launch That Nobody Saw",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 41450,
+              "completion_tokens": 2397,
+              "output_size_bytes": 9177,
+              "prompt_characters": 41176,
+              "provider_request_id": null,
+              "completion_characters": 9089
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:30:39.695Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:30:39.695Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2555,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2529
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:30:39.695Z",
+              "duration_ms": 2209,
+              "finished_at": "2026-07-25T10:30:41.904Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=8a26acbf-f38e-4033-983f-9cadc0830cea; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A bootstrapped app founder ships a major feature update, sends the changelog email, and then a stranger on the internet asks a question that stops them cold: 'Wait — did you actually post about this …",
+          "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty soc…",
+          "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website UR…",
+          "visual_world": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final …",
+          "attention_pattern": "The contrast between the excitement of the product launch and the stark emptiness of the social feed creates immediate …",
+          "narrative_mechanism": "faq: QUESTION (as the audience would genuinely ask it): 'We just shipped something b…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+            "topic": "The meeting that replaced your content hour — every single week",
+            "motifs": [
+              "desk",
+              "office",
+              "meeting",
+              "sticky_notes",
+              "person_alone",
+              "group",
+              "close_up",
+              "product_asset",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:30:39.775274+00:00",
+    "updated_at": "2026-07-25T10:30:42.234588+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 38,
+      "secondary": 41
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_faq→steadiness(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+38)",
+      "fit_secondary(+38)",
+      "soft_tie_recent_primary(5)→secondary(+3)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clear, helpful, answer-first. Delivery: confident, concis"
+  },
+  "creative_mode": "faq",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Social accounts are inactive or inconsistent",
+    "strategy_pain_point": "Social accounts are inactive or inconsistent"
+  },
+  "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website URL is enough input. The launch content — short-form videos, captions, platform-ready posts for every channel — is delivered ready to publish. No brief, no camera, no reformatting. The founder ships the update; fenrik Studio covers the moment.",
+  "narrative_arc": "QUESTION (as the audience would genuinely ask it): 'We just shipped something big — does it actually matter if we posted about it on social?' ANSWER (unexpected truth, insider framing): Yes — and the window is shorter than you think. The changelog email reached the people who already know you. Social is where the people who don't know you yet would have found out. When nothing goes up, the launch exists only inside your existing list. The attention window — the 48 to 72 hours when a new thing is genuinely shareable — closes quietly, and it does not reopen. WHY IT MATTERS: A product launch is the highest-leverage moment to post. It is the one time you have something concrete, timely, and genuinely worth sharing. Missing it is not a minor gap in the feed — it is the gap that costs the most. The founder in this scenario did not run out of ideas. They ran out of bandwidth. The update was real. The moment was real. The posts simply never existed. CTA: The question is not whether to post. The question is who produces it when you are too busy shipping to write a caption.",
+  "emotional_tone": "Quiet urgency — not panic, not guilt. The feeling of realizing something slipped through your hands while you were doing the right thing. Insider and conspiratorial in delivery, as if sharing something the audience already half-knows but has not said out loud.",
+  "audience_insight": "Bootstrapped founders and small product teams conflate 'shipping the thing' with 'telling the world about the thing.' The changelog email feels like an announcement. It is not. Social content for a launch is a separate act of production — and it is the one that reaches people outside the existing list. When bandwidth is tight, it is the act that gets dropped first, silently, with no obvious consequence until the moment has passed.",
+  "visual_direction": {
+    "palette": "Two-phase palette. Phase one (shipping): crisp whites, electric blue, clean UI greens — active, alive. Phase two (empty feed): desaturated greys and off-whites — the visual equivalent of silence. Brand accent color enters only at the resolution when fenrik Studio is named.",
+    "lighting": "No physical lighting — the entire piece is screen-glow and UI contrast. The product dashboard and email client feel bright and active. The social profile grid feels flat and cold — low contrast, muted, still.",
+    "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final screen showing a full content package ready to publish. The contrast between the full changelog and the empty grid is the central visual tension.",
+    "camera_style": "Screen-capture style with precise, deliberate transitions. No handheld movement. Cuts are sharp and purposeful — the pacing mirrors the script's rhythm. Text overlays appear and disappear cleanly. The empty social grid holds on screen one beat longer than comfortable, letting the silence register before the resolution.",
+    "art_direction": "Flat, graphic, screen-native aesthetic. The visual language is entirely digital — no physical desk, no room, no props. The world is the founder's screen: a product dashboard showing a freshly shipped update, a sent-items email with the changelog, and then a jarring cut to a completely empty social profile grid. Text overlays are minimal, clean, and timed to the script beats. No clutter. High contrast between the 'shipped' moment and the 'nothing posted' silence.",
+    "character_style": "none"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed."
+  },
+  "render_metadata": {
+    "id": "10b07731-ce27-4af5-8e65-56b0a4eaa94e",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:30:41.462699+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat, screen-native UI mockup of a product dashboard showing a freshly shipped update — crisp whites, electric blue, clean UI greens. Changelog entries listed in a bright, active interface. No physical room, no desk, no person. Pure digital screen aesthetic."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat digital mockup of a sent-items email client showing a changelog announcement — subject line visible, warm and active UI, electric blue accents. The email looks complete and confident. No physical environment."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat mobile UI mockup of a social media profile grid — completely empty, no posts, no images. Desaturated greys and off-whites. Cold, still, and silent. The grid holds the frame with deliberate emptiness. No physical room, no person."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Flat digital text overlay screen — minimal, high contrast. Bold clean typography reads: 'The launch was real. The posts simply never existed.' Background is deep muted grey. No clutter, no decoration."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742",
+        "image_path": "163c1822-ad30-4cee-8826-dfacd9c188b9/source/e895c555-e0b4-4628-9ee8-1fd5a65dc742/web-img.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+            "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You just shipped a major update — but did you tell anyone about it?",
+    "cta": "Save this — next launch, the posts go up before the changelog does.",
+    "voiceover_text": "You just shipped a major update — but did you tell anyone about it? The changelog went out to your email list. That's the people who already know you. Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly. The launch was real. The posts simply never existed.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clear, helpful, answer-first. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A bootstrapped app founder ships a major feature update, sends the changelog email, and then a stranger on the internet asks a question that stops them cold: 'Wait — did you actually post about this …",
+      "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty soc…",
+      "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website UR…",
+      "visual_world": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final …",
+      "attention_pattern": "The contrast between the excitement of the product launch and the stark emptiness of the social feed creates immediate …",
+      "narrative_mechanism": "faq: QUESTION (as the audience would genuinely ask it): 'We just shipped something b…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#ProductLaunch",
+    "#FounderLife",
+    "#SocialMediaMarketing",
+    "#ContentStrategy",
+    "#StartupLife",
+    "#BuildInPublic",
+    "#ContentCreation",
+    "#MarketingTips"
+  ],
+  "hook": "You just shipped a major update — but did you tell anyone about it?",
+  "scenario": "A bootstrapped app founder ships a significant feature update on a Tuesday afternoon. The changelog email goes out to the list within the hour. It feels like an announcement. By Thursday, a reply arrives from someone in the community: 'Wait — did you post about this anywhere? I almost missed it.' The founder opens Instagram. Then LinkedIn. Then TikTok. Nothing. The update shipped two days ago. The 48-hour window is already closing. The launch was real. The social content never existed.",
+  "video": {
+    "script": "[SCENE 1 — bright product dashboard, update shipped, UI greens and electric blue]\nVO: 'You just shipped a major update — but did you tell anyone about it?'\n\n[SCENE 2 — sent-items email, changelog visible, active and warm]\nVO: 'The changelog went out to your email list. That's the people who already know you.'\n\n[SCENE 3 — cut to empty social profile grid, muted grey, cold, holds one beat longer than comfortable]\nVO: 'Social is where everyone else would have found out. And when nothing goes up, the attention window — 48 to 72 hours — closes quietly.'\n\n[SCENE 4 — text overlay: 'The launch was real. The posts simply never existed.']\nVO: 'The launch was real. The posts simply never existed.'\n\n[SCENE 5 — full content package screen, brand accent color enters, fenrik Studio logo visible]\nVO: [soft close — no spoken CTA; text overlay only: 'fenrik Studio — your website URL is enough.']",
+    "concept": "A bootstrapped app founder ships a major feature update, fires off the changelog email, and feels done. Then a single question from someone online stops them cold: 'Did you post about this anywhere?' The FAQ piece answers the real question beneath that moment — what actually happens to the attention window when a product launch goes unposted on social? The visual world is entirely digital: a bright product dashboard, a sent-items email, then a jarring cut to a cold, empty social profile grid. The contrast between the full changelog and the silent feed is the central tension. fenrik Studio enters at the resolution as the practical answer to a question the audience already half-knows.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full content package UI mockup to signal the practical answer.",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "motifs": [
+        "desk",
+        "office",
+        "meeting",
+        "sticky_notes",
+        "person_alone",
+        "group",
+        "close_up",
+        "product_asset",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 5831,
+          "completion_tokens": 1145
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:20.694Z",
+        "duration_ms": 30979,
+        "finished_at": "2026-07-25T10:29:51.673Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 5831,
+        "estimated_cost": 0.034668,
+        "output_summary": "Concept: The Launch That Nobody Saw",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 25334,
+        "completion_tokens": 1145,
+        "output_size_bytes": 5159,
+        "prompt_characters": 25122,
+        "provider_request_id": null,
+        "completion_characters": 5125
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5003,
+          "completion_tokens": 147
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:51.674Z",
+        "duration_ms": 1729,
+        "finished_at": "2026-07-25T10:29:53.403Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5003,
+        "estimated_cost": 0.000762,
+        "output_summary": "Opening: You just shipped a major update — but did you tell anyone about it?",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 24359,
+        "completion_tokens": 147,
+        "output_size_bytes": 724,
+        "prompt_characters": 24217,
+        "provider_request_id": null,
+        "completion_characters": 720
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:53.403Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:29:53.403Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Flat, graphic, screen-native aesthetic. The visual language ",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2004,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1990
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10004,
+          "completion_tokens": 2397
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:29:53.404Z",
+        "duration_ms": 46289,
+        "finished_at": "2026-07-25T10:30:39.693Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10004,
+        "estimated_cost": 0.065967,
+        "output_summary": "Package: The Launch That Nobody Saw",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 41450,
+        "completion_tokens": 2397,
+        "output_size_bytes": 9177,
+        "prompt_characters": 41176,
+        "provider_request_id": null,
+        "completion_characters": 9089
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:30:39.695Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:30:39.695Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2555,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2529
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:30:39.695Z",
+        "duration_ms": 2209,
+        "finished_at": "2026-07-25T10:30:41.904Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=8a26acbf-f38e-4033-983f-9cadc0830cea; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "3b1d4f2f-18b1-4b96-b414-6f7ea0d14dbe",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

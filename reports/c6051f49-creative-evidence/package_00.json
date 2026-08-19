@@ -1,0 +1,1391 @@
+{
+  "package_index": 0,
+  "run_item_id": "5c803d09-9fe6-4a33-943f-07429b2e1f08",
+  "run_item_status": "completed",
+  "run_item_error": null,
+  "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+  "package_title": "The Sunday Night Visitor",
+  "package_status": "draft",
+  "strategy_item_id": "7e74fde1-1e31-4cb3-b472-f7f63d85bdfa",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": true,
+    "finalSubtitles": true,
+    "renderMetadata": true
+  },
+  "last_completed_step": "Render",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction, Generated images, Final subtitles, Render metadata / video",
+  "strategy": {
+    "strategy_item": {
+      "id": "7e74fde1-1e31-4cb3-b472-f7f63d85bdfa",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "awareness",
+      "priority": 1,
+      "brief": {
+        "angle": "A potential client visits a law firm's website late at night with an urgent question. The page is polished, the credentials are impressive — but there is no way to ask anything. They move on. This happens every weekend. The firm has no idea.",
+        "topic": "The lawyer who got 12 website visitors on a Sunday night and none of them left a name",
+        "source": "production_run",
+        "pain_point": "Visitors leave before contacting you",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Sunday Night Visitor",
+    "core_idea": "A law firm's website looks flawless on a Sunday night — polished bio page, case results, contact form. A potential client with an urgent question lands on it, reads everything, finds nothing to interact with, and quietly moves on. The firm won't know until Monday, when the analytics show twelve sessions and zero leads. The question that could have become a client is already someone else's.",
+    "product_role": "Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing website content automatically, builds a knowledge base from it, and answers visitor questions the moment they're asked, any hour of the day. It also captures the visitor's contact information before they leave. The firm's Sunday night problem is solved without touching a line of code or training anything manually.",
+    "why_it_works": "The scenario is hyper-specific to a segment (law firms, professional services) that takes website credibility seriously but has a blind spot around responsiveness. Dropping into the scene mid-moment — a real person, a real question, a real late-night decision — makes the pain point visceral rather than abstract. The twist (the partner's Monday morning dashboard) reframes the problem from 'missed chat' to 'invisible lost lead,' which is more accurate and more alarming. The product resolution is shown, not just described, and it requires no leap of imagination from the viewer.",
+    "narrative_arc": "SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrolling a professional-looking law firm website late at night. The copy on screen reads something like 'Trusted. Experienced. Results-Driven.' The visitor looks like someone with a real problem and a real deadline. CONFLICT: They have one specific question — the kind that determines whether they call on Monday. They look for a way to ask it. There is no chat, no instant response, nothing interactive. Just a static contact form that says 'We'll get back to you within one business day.' They stare at it. They don't fill it out. TWIST: Cut to the law firm partner — Monday morning, coffee in hand, opening the analytics dashboard. Twelve visitors. Sunday night. Zero form submissions. He has no idea what any of them wanted, who any of them were, or where they went. He closes the laptop and moves on with his day. The data is invisible to him because there is no data — just sessions that ended in silence. RESOLUTION: A brief, unhurried demonstration of Fenrik.chat appearing on a website like the one shown — a visitor types a question, the AI answers immediately using the firm's own content, and the visitor's name and contact detail are captured before they leave. The partner's Monday morning looks different now. CTA: Direct address to camera or text overlay — the close.",
+    "emotional_tone": "Quiet and slightly unsettling — not dramatic, but the kind of slow realization that makes a professional feel something has been slipping through their fingers for a long time without their knowledge. Insider pacing: deliberate, close, like someone letting you in on something the firm's own partners haven't figured out yet.",
+    "audience_insight": "Professional service firms — lawyers, accountants, consultants — invest heavily in their website's credibility signals (credentials, case studies, testimonials) but almost never think about what happens when a visitor arrives outside business hours with an actual question. They assume a polished site is a working site. It isn't. The gap between 'impressive' and 'responsive' is where leads disappear, and most firms only discover this when they look at session data and feel a vague unease they can't quite name.",
+    "visual_direction": {
+      "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+      "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+      "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+      "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+      "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+      "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text."
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and unhurried, drawing the viewer into the moment as the visitor's frustration builds.",
+    "emotion": "Quiet tension, as the viewer senses the urgency of the visitor's need against the backdrop of a static website.",
+    "first_image": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question.",
+    "attention_pattern": "The viewer is immediately drawn in by the contrast between the visitor's anxious search for answers and the cold, unresponsive website, creating a need to understand the consequences of this disconnect.",
+    "first_spoken_sentence": "What happens when your website looks perfect, but can't answer a single question?"
+  },
+  "visual_identity": {
+    "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+    "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+    "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+    "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+    "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+    "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text.",
+    "opening_emotion": "Quiet tension, as the viewer senses the urgency of the visitor's need against the backdrop of a static website.",
+    "opening_first_image": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question."
+  },
+  "package": {
+    "title": "The Sunday Night Visitor",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "What happens when your website looks perfect, but can't answer a single question?",
+    "scenario": "A potential client sits in their living room on a Sunday night with an urgent legal question. They find a law firm's website — polished, credentialed, authoritative. They look for a way to ask their question. There is no chat, no interactive element, only a contact form promising a reply within one business day. They don't fill it out. Monday morning, the firm's partner opens the analytics dashboard and sees twelve sessions from the night before. Zero form submissions. No names, no questions, no way to follow up. The visitors are gone, and the firm has no idea they were ever there.",
+    "video": {
+      "script": "SCENE 1 — [Warm lamplight. A late-30s professional sits on a couch, phone in hand, scrolling a law firm website. Screen text: 'Trusted. Experienced. Results-Driven.' Their expression is focused, slightly tense.]\n\nVO: 'What happens when your website looks perfect, but can't answer a single question?'\n\nSCENE 2 — [Close on phone screen. The visitor taps through pages — bio, case results, a static contact form. Text overlay: 'We'll reply within one business day.' The visitor pauses. Does not fill it out. Puts the phone down.]\n\nVO: 'Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says we'll reply within one business day. They don't fill it out.'\n\nSCENE 3 — [Cut to: a law firm office, Monday morning. Cool flat light. A mid-40s professional in business casual sits at a desk, coffee in hand, laptop open. Analytics dashboard visible on screen: 12 sessions. 0 conversions.]\n\nVO: 'Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.'\n\nSCENE 4 — [Same desk. Now the laptop shows a law firm website with a small chat widget in the corner. A visitor types a question. The AI responds instantly. A simple lead card appears: name, email, question captured.]\n\n[Text overlay: 'Fenrik.chat — your website, answering questions. Any hour.']\n\nSCENE 5 — [Gentle push-in on the lead card on screen. The partner's expression is calm, unhurried. The Monday morning looks different.]\n\n[Text overlay CTA: 'Create your AI assistant — fenrik.chat']",
+      "concept": "A late-night visitor with a pressing legal question lands on a flawless law firm website — polished, credentialed, completely unresponsive. They leave without a trace. Monday morning, the firm's partner opens the analytics dashboard: twelve sessions, zero leads. The story reframes the problem from 'missed chat' to 'invisible lost lead.' The resolution shows Fenrik.chat quietly answering a visitor's question in real time and capturing their contact before they leave — no redesign, no new hire, no code.",
+      "duration_seconds": "45"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#lawfirm",
+      "#websitetips",
+      "#leadgeneration",
+      "#aiforbusiness",
+      "#professionalservices"
+    ],
+    "subtitles_planned": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went."
+  },
+  "voiceover": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+      "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+    }
+  ],
+  "image_prompts": [
+    "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish.",
+    "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel.",
+    "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot.",
+    "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if your website has ever looked impressive and said nothing.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "title_variants": [
+          "12 visitors. Zero names. Sunday night.",
+          "Your website looks perfect. It can't say a word.",
+          "The Monday morning analytics problem no one talks about.",
+          "Impressive site. Zero response. Gone.",
+          "The question your website couldn't answer."
+        ],
+        "caption_variants": [
+          "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+          "A polished website isn't a responsive one. Most firms find out the hard way — Monday morning, analytics open, zero leads from 12 weekend sessions.",
+          "The visitor had a real question. The firm had a beautiful contact form. Nobody wins that story.",
+          "Professional services firms obsess over website credibility. Almost none think about what happens at 10 PM when a visitor can't find a way to ask anything.",
+          "Sessions don't equal leads. The gap between the two is a question your website couldn't answer. #smallbusiness"
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "12 visitors on a Sunday night. Zero left a name. The website looked perfect — it just couldn't say a word. 👀",
+        "hashtags": [
+          "#lawfirm",
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "A law firm's website looked perfect. Twelve people visited Sunday night. None left a name. Here's why that keeps happening.",
+        "hashtags": [
+          "#websitetips",
+          "#aiforbusiness"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "format": "reel",
+        "caption": "Here's something a lot of professional service businesses don't realize until they check their analytics: visitors come to your website after hours with real questions — and leave without a trace because there's no one there to respond. 😔 A polished site isn't the same as a responsive one. If this sounds familiar, save this post — it's worth a second look.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ]
+      },
+      "linkedin": {
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "format": "reel",
+        "caption": "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+        "hashtags": [
+          "#professionalsservices",
+          "#leadgeneration",
+          "#businessgrowth"
+        ],
+        "caption_variants": [
+          "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+          "Most professional service firms spend years building website credibility — the right credentials, the right case studies, the right layout.\n\nAlmost none of them think about what happens when a qualified visitor arrives at 10 PM on a Sunday with a specific question and no way to ask it.\n\nThey leave. The analytics record a session. The firm records nothing.\n\nThe gap between 'impressive' and 'responsive' is where leads disappear quietly."
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "format": "reel",
+        "caption": "Twelve people visited a law firm's website on a Sunday night.\n\nAll twelve left without leaving a name, an email, or a single message.\n\nThe site looked flawless. It just had no way to answer the one question that mattered.\n\nSave this if that sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#lawfirm",
+          "#leadgen",
+          "#aiforbusiness",
+          "#clientacquisition"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "285fa7ca-46e1-4491-b39a-a5512b1ea257",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Monday morning analytics problem no one talks about.",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "The visitor had a real question. The firm had a beautiful contact form. Nobody wins that story. https://fenrik.chat",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "e0fa6028-5038-4e78-b5ed-ecbd8dd05621",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Impressive site. Zero response. Gone.",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "Professional services firms obsess over website credibility. Almost none think about what happens at 10 PM when a visitor can't find a way to ask anything.",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "91853438-c67a-4314-bbf5-e22b36150cae",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The question your website couldn't answer.",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "Sessions don't equal leads. The gap between the two is a question your website couldn't answer. #smallbusiness",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "cefec090-ab89-476a-b7bf-a03e5a368882",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "12 visitors on a Sunday night. Zero left a name. The website looked perfect — it just couldn't say a word. 👀",
+        "hashtags": [
+          "#lawfirm",
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "3aa01e67-e0d4-4d59-831b-90cd08179430",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "Twelve people visited a law firm's website on a Sunday night.\n\nAll twelve left without leaving a name, an email, or a single message.\n\nThe site looked flawless. It just had no way to answer the one question that mattered.\n\nSave this if that sounds familiar.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips",
+          "#lawfirm",
+          "#leadgen",
+          "#aiforbusiness",
+          "#clientacquisition"
+        ],
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "language": null
+      },
+      {
+        "id": "5992a5c1-df22-43bf-9822-76f589236dec",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "A law firm's website looked perfect. Twelve people visited Sunday night. None left a name. Here's why that keeps happening.",
+        "hashtags": [
+          "#websitetips",
+          "#aiforbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "469aae42-ad08-439b-a9b5-7500a0ab1507",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "Here's something a lot of professional service businesses don't realize until they check their analytics: visitors come to your website after hours with real questions — and leave without a trace because there's no one there to respond. 😔 A polished site isn't the same as a responsive one. If this sounds familiar, save this post — it's worth a second look.",
+        "hashtags": [
+          "#smallbusiness",
+          "#websitetips"
+        ],
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "language": null
+      },
+      {
+        "id": "c3f928e9-c106-4091-9454-62d58dd1592f",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+        "hashtags": [
+          "#professionalsservices",
+          "#leadgeneration",
+          "#businessgrowth"
+        ],
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "language": null
+      },
+      {
+        "id": "ff259590-1b0c-4ab3-a366-3eb71f63d115",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Sunday Night Visitor",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "Most professional service firms spend years building website credibility — the right credentials, the right case studies, the right layout.\n\nAlmost none of them think about what happens when a qualified visitor arrives at 10 PM on a Sunday with a specific question and no way to ask it.\n\nThey leave. The analytics record a session. The firm records nothing.\n\nThe gap between 'impressive' and 'responsive' is where leads disappear quietly.",
+        "hashtags": [
+          "#professionalsservices",
+          "#leadgeneration",
+          "#businessgrowth"
+        ],
+        "cta": "Save this if your website has ever looked impressive and said nothing.",
+        "language": null
+      },
+      {
+        "id": "f0faec15-971b-43d7-8d65-3f17389728ed",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "12 visitors. Zero names. Sunday night.",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "314fb517-745d-4b46-bf2a-d515cfd4934c",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your website looks perfect. It can't say a word.",
+        "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+        "caption": "A polished website isn't a responsive one. Most firms find out the hard way — Monday morning, analytics open, zero leads from 12 weekend sessions.",
+        "hashtags": [
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 39,
+      "secondary": 50
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_story→warmth(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+39)",
+      "fit_secondary(+50)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "story",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Visitors leave before contacting you",
+    "strategy_pain_point": "Visitors leave before contacting you"
+  },
+  "product_role": "Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing website content automatically, builds a knowledge base from it, and answers visitor questions the moment they're asked, any hour of the day. It also captures the visitor's contact information before they leave. The firm's Sunday night problem is solved without touching a line of code or training anything manually.",
+  "narrative_arc": "SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrolling a professional-looking law firm website late at night. The copy on screen reads something like 'Trusted. Experienced. Results-Driven.' The visitor looks like someone with a real problem and a real deadline. CONFLICT: They have one specific question — the kind that determines whether they call on Monday. They look for a way to ask it. There is no chat, no instant response, nothing interactive. Just a static contact form that says 'We'll get back to you within one business day.' They stare at it. They don't fill it out. TWIST: Cut to the law firm partner — Monday morning, coffee in hand, opening the analytics dashboard. Twelve visitors. Sunday night. Zero form submissions. He has no idea what any of them wanted, who any of them were, or where they went. He closes the laptop and moves on with his day. The data is invisible to him because there is no data — just sessions that ended in silence. RESOLUTION: A brief, unhurried demonstration of Fenrik.chat appearing on a website like the one shown — a visitor types a question, the AI answers immediately using the firm's own content, and the visitor's name and contact detail are captured before they leave. The partner's Monday morning looks different now. CTA: Direct address to camera or text overlay — the close.",
+  "emotional_tone": "Quiet and slightly unsettling — not dramatic, but the kind of slow realization that makes a professional feel something has been slipping through their fingers for a long time without their knowledge. Insider pacing: deliberate, close, like someone letting you in on something the firm's own partners haven't figured out yet.",
+  "audience_insight": "Professional service firms — lawyers, accountants, consultants — invest heavily in their website's credibility signals (credentials, case studies, testimonials) but almost never think about what happens when a visitor arrives outside business hours with an actual question. They assume a polished site is a working site. It isn't. The gap between 'impressive' and 'responsive' is where leads disappear, and most firms only discover this when they look at session data and feel a vague unease they can't quite name.",
+  "visual_direction": {
+    "palette": "Deep navy, warm amber, off-white, and slate grey. The website on screen should feel authoritative and slightly cold. The human scenes should feel warmer but not bright — Sunday night is not cheerful.",
+    "lighting": "Two distinct lighting worlds: the visitor's scene uses warm, low lamplight — intimate, slightly anxious. The law firm partner's Monday morning scene uses cool, flat office light — fluorescent or large window, clinical. The Fenrik.chat resolution scene returns to a warmer, slightly more open tone to signal relief without overselling.",
+    "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a law firm office, Monday morning — desk, coffee cup, laptop open, nothing dramatic. Scene three: same or similar desk, now with a chat widget visible on the website screen, a name and email captured in a simple lead card.",
+    "camera_style": "Handheld but controlled — slight natural movement, close framing on screens and hands. Quick cuts between the visitor's face and the phone screen. The dashboard scene is a single unhurried shot. The resolution scene uses a gentle push-in toward the screen to land the product moment without fanfare.",
+    "art_direction": "Clean, restrained, documentary-adjacent. No stock-photo polish. Real-feeling interiors. On-screen website text should be legible and look like an actual professional services site — serif fonts, muted navy or charcoal palette, authoritative layout. The contrast between the visitor's dim, human environment and the cold, static perfection of the website is the visual argument.",
+    "character_style": "Two non-actor types: a late-30s professional (gender-neutral presentation) as the Sunday night visitor — dressed casually, clearly not in crisis but clearly with something on their mind. A mid-40s professional as the law firm partner — business casual, unremarkable Monday morning energy. No names, no dialogue required — the story is told through action and on-screen text."
+  },
+  "generated_images": {
+    "local_files": [
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-5.png",
+      "reports/c6051f49-creative-evidence/images/package_00/thumbnail.png"
+    ],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-5.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "signed_urls": [],
+    "thumbnail_url": "[SIGNED_URL]"
+  },
+  "final_subtitles": {
+    "subtitle_url": "[SIGNED_URL]",
+    "local_file": "reports/c6051f49-creative-evidence/images/package_00/subtitles.srt",
+    "planned": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went."
+  },
+  "render_metadata": {
+    "id": "2a1abf5e-f36d-4659-ae14-1f5959c47b2a",
+    "status": "completed",
+    "error_message": null,
+    "created_at": "2026-07-25T07:21:33.451676+00:00",
+    "completed_at": "2026-07-25T07:26:26.521762+00:00",
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": "[SIGNED_URL]",
+    "subtitle_url": "[SIGNED_URL]",
+    "thumbnail_url": "[SIGNED_URL]",
+    "artifacts_persisted_at": "2026-07-25T07:26:26.138Z",
+    "render_spec": {
+      "scenes": [
+        {
+          "id": "scene-1",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-1.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "A dimly lit living room, where a late-30s professional sits on a couch, phone in hand, scrolling through a polished law firm website that displays 'Trusted. Experienced. Results-Driven.' The glow from the screen highlights their concerned expression as they search for a way to ask a pressing question. Warm amber lamplight, deep navy website palette, documentary-adjacent realism, no stock-photo polish."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-2",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-2.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Close-up of a smartphone screen showing a static law firm contact form with the line 'We'll reply within one business day.' The visitor's thumb hovers but does not tap submit. Warm low ambient light, slightly anxious atmosphere, off-white and slate grey tones, handheld camera feel."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-3",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-3.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "A mid-40s professional in business casual sits at a law firm desk on a Monday morning, an open laptop in front of them and a coffee cup to the side. The laptop screen displays a minimal analytics dashboard showing 12 sessions and 0 conversions. Cool flat office light, clinical and unhurried, single wide shot."
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-4",
+          "type": "IMAGE",
+          "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/source/5c11b59c-f6fa-4652-9c4b-ead145418898/component-capture.png",
+          "video_usage": "floating_card",
+          "image_bucket": "project-assets",
+          "image_prompt": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "asset",
+              "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+              "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+            }
+          },
+          "renderer_version": "image@1"
+        },
+        {
+          "id": "scene-5",
+          "type": "IMAGE",
+          "image_path": "aabab9ff-9db4-4012-a53c-135e3bfea6cd/video/2a1abf5e-f36d-4659-ae14-1f5959c47b2a/scene-scene-5.png",
+          "image_bucket": "video-renders",
+          "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare.",
+          "duration_seconds": 4,
+          "payload_snapshot": {
+            "media": {
+              "source": "ai",
+              "image_prompt": "Gentle push-in on a laptop screen at a tidy office desk in soft morning light. The screen shows a professional services website with a small chat widget; a visitor's question is answered and a simple lead card with a name and email is visible. Warmer tone than previous scenes, quiet and unhurried, no fanfare."
+            }
+          },
+          "renderer_version": "image@1"
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "rendered_at": "2026-07-25T07:26:25.867Z",
+        "semantic_motion": {
+          "beats": [
+            {
+              "beat_id": "beat-1",
+              "scene_id": "scene-1",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-2",
+              "scene_id": "scene-2",
+              "motion_intent": "EXPLAIN",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "pan_left"
+            },
+            {
+              "beat_id": "beat-3",
+              "scene_id": "scene-3",
+              "motion_intent": "REVEAL",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "drift_up"
+            },
+            {
+              "beat_id": "beat-4",
+              "scene_id": "scene-4",
+              "motion_intent": "HOLD",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            },
+            {
+              "beat_id": "beat-5",
+              "scene_id": "scene-5",
+              "motion_intent": "CLOSE",
+              "motion_version": "semantic-motion@2",
+              "motion_intensity": "LOW",
+              "motion_primitive": "static"
+            }
+          ],
+          "version": "semantic-motion@2"
+        }
+      }
+    },
+    "image_urls": [],
+    "storage_files": [
+      "output.mp4",
+      "scene-scene-1.png",
+      "scene-scene-2.png",
+      "scene-scene-3.png",
+      "scene-scene-5.png",
+      "subtitles.srt",
+      "thumbnail.png"
+    ],
+    "downloaded_images": [
+      "reports/c6051f49-creative-evidence/images/package_00/output.mp4",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-1.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-2.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-3.png",
+      "reports/c6051f49-creative-evidence/images/package_00/scene-scene-5.png",
+      "reports/c6051f49-creative-evidence/images/package_00/subtitles.srt",
+      "reports/c6051f49-creative-evidence/images/package_00/thumbnail.png"
+    ],
+    "debug": {
+      "match_ratio": 0.9848484848484849,
+      "audio_duration": 26.964,
+      "video_duration": 26.966667,
+      "speech_duration": 25.464,
+      "subtitle_source": "whisper",
+      "language_detected": "english",
+      "render_warning": false,
+      "render_warnings": [],
+      "tts_tail_validation_passed": true,
+      "whisper_word_count": 66,
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "gpt-4o-mini-tts",
+            "repair": false,
+            "success": true,
+            "provider": "tts",
+            "warnings": [],
+            "raw_usage": {
+              "character_count": 392,
+              "duration_seconds": 25.464,
+              "usd_per_1k_chars": 0.015
+            },
+            "step_name": "TTS",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:21:35.452Z",
+            "duration_ms": 5390,
+            "finished_at": "2026-07-25T07:21:40.841Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "TTS input:\n- Voiceover text\n- Voice / instructions",
+            "prompt_tokens": null,
+            "estimated_cost": 0.00588,
+            "output_summary": "audio duration=25.464s",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": 392,
+            "completion_tokens": null,
+            "output_size_bytes": 114,
+            "prompt_characters": 392,
+            "provider_request_id": null,
+            "completion_characters": 114
+          },
+          {
+            "model": "whisper-1",
+            "repair": false,
+            "success": true,
+            "provider": "whisper",
+            "warnings": [],
+            "raw_usage": {
+              "word_count": 66,
+              "usd_per_min": 0.006,
+              "fallback_used": false,
+              "duration_seconds": 25.464
+            },
+            "step_name": "Whisper",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:21:40.842Z",
+            "duration_ms": 3993,
+            "finished_at": "2026-07-25T07:21:44.835Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Whisper input:\n- Voiceover audio\n- Language hint",
+            "prompt_tokens": null,
+            "estimated_cost": 0.002546,
+            "output_summary": "66 words (english)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 37,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 37
+          },
+          {
+            "model": "gpt-image-1",
+            "repair": false,
+            "success": true,
+            "provider": "image",
+            "warnings": [],
+            "raw_usage": {
+              "usd_per_still": 0.042,
+              "reused_still_count": 1,
+              "generated_still_count": 4
+            },
+            "step_name": "Image generation",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:21:44.969Z",
+            "duration_ms": 121774,
+            "finished_at": "2026-07-25T07:23:46.742Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Image generation input:\n- 5 scene(s)\n- Visual profile / medium",
+            "prompt_tokens": null,
+            "estimated_cost": 0.168,
+            "output_summary": "generated=4; reused=1",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 67,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 67
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "video",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Video rendering",
+            "max_tokens": null,
+            "started_at": "2026-07-25T07:23:46.891Z",
+            "duration_ms": 153592,
+            "finished_at": "2026-07-25T07:26:20.482Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Video rendering input:\n- Scene stills\n- Voiceover\n- Subtitles\n- Motion beats",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "video_duration=26.966667",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 50,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 50
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23"
+      }
+    },
+    "debug_keys": [
+      "sfx_mixed",
+      "sfx_reason",
+      "match_ratio",
+      "fallback_used",
+      "language_hint",
+      "audio_duration",
+      "duration_delta",
+      "render_warning",
+      "video_duration",
+      "render_warnings",
+      "speech_duration",
+      "subtitle_source",
+      "target_duration",
+      "srt_last_cue_end",
+      "subtitle_warning",
+      "language_detected",
+      "post_mux_duration",
+      "tts_tail_expected",
+      "tts_validation_log",
+      "whisper_word_count",
+      "tail_buffer_seconds",
+      "tts_tail_retry_used",
+      "tts_tail_transcript",
+      "generation_telemetry",
+      "post_subtitle_duration",
+      "tts_validation_attempts",
+      "subtitle_timeline_duration",
+      "tts_tail_validation_passed",
+      "intermediate_video_duration"
+    ],
+    "output_keys": [
+      "debug",
+      "mp4_url",
+      "render_spec",
+      "subtitle_url",
+      "thumbnail_url",
+      "artifacts_persisted_at"
+    ],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "285fa7ca-46e1-4491-b39a-a5512b1ea257",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Monday morning analytics problem no one talks about.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "The visitor had a real question. The firm had a beautiful contact form. Nobody wins that story. https://fenrik.chat",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "e0fa6028-5038-4e78-b5ed-ecbd8dd05621",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Impressive site. Zero response. Gone.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Professional services firms obsess over website credibility. Almost none think about what happens at 10 PM when a visitor can't find a way to ask anything.",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "91853438-c67a-4314-bbf5-e22b36150cae",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The question your website couldn't answer.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Sessions don't equal leads. The gap between the two is a question your website couldn't answer. #smallbusiness",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "cefec090-ab89-476a-b7bf-a03e5a368882",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "12 visitors on a Sunday night. Zero left a name. The website looked perfect — it just couldn't say a word. 👀",
+      "hashtags": [
+        "#lawfirm",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "3aa01e67-e0d4-4d59-831b-90cd08179430",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Twelve people visited a law firm's website on a Sunday night.\n\nAll twelve left without leaving a name, an email, or a single message.\n\nThe site looked flawless. It just had no way to answer the one question that mattered.\n\nSave this if that sounds familiar.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips",
+        "#lawfirm",
+        "#leadgen",
+        "#aiforbusiness",
+        "#clientacquisition"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "5992a5c1-df22-43bf-9822-76f589236dec",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A law firm's website looked perfect. Twelve people visited Sunday night. None left a name. Here's why that keeps happening.",
+      "hashtags": [
+        "#websitetips",
+        "#aiforbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "469aae42-ad08-439b-a9b5-7500a0ab1507",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Here's something a lot of professional service businesses don't realize until they check their analytics: visitors come to your website after hours with real questions — and leave without a trace because there's no one there to respond. 😔 A polished site isn't the same as a responsive one. If this sounds familiar, save this post — it's worth a second look.",
+      "hashtags": [
+        "#smallbusiness",
+        "#websitetips"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "c3f928e9-c106-4091-9454-62d58dd1592f",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A law firm's website had everything: credentials, case results, a professional layout. On a Sunday night, twelve potential clients visited. None of them filled out the contact form. By Monday morning, the partner had no idea any of them had been there.\n\nA polished website and a responsive website are not the same thing. Most professional service firms only discover the gap when they look at session data and feel a quiet unease they can't quite name.\n\nThe visitors don't announce themselves when they leave.",
+      "hashtags": [
+        "#professionalsservices",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "ff259590-1b0c-4ab3-a366-3eb71f63d115",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Sunday Night Visitor",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "Most professional service firms spend years building website credibility — the right credentials, the right case studies, the right layout.\n\nAlmost none of them think about what happens when a qualified visitor arrives at 10 PM on a Sunday with a specific question and no way to ask it.\n\nThey leave. The analytics record a session. The firm records nothing.\n\nThe gap between 'impressive' and 'responsive' is where leads disappear quietly.",
+      "hashtags": [
+        "#professionalsservices",
+        "#leadgeneration",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked impressive and said nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "f0faec15-971b-43d7-8d65-3f17389728ed",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "12 visitors. Zero names. Sunday night.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "12 people visited a law firm's website Sunday night. Zero left a name. The site looked flawless. It just couldn't answer a single question. #leadgeneration",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    },
+    {
+      "id": "314fb517-745d-4b46-bf2a-d515cfd4934c",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "614272a8-b4be-4c04-a583-8acb19b8e1f1",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your website looks perfect. It can't say a word.",
+      "body": "What happens when your website looks perfect, but can't answer a single question? Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says 'we'll reply within one business day.' They don't fill it out. Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.",
+      "caption": "A polished website isn't a responsive one. Most firms find out the hard way — Monday morning, analytics open, zero leads from 12 weekend sessions.",
+      "hashtags": [
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "awareness",
+        "package_index": 0,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:21:30.608051+00:00",
+      "updated_at": "2026-07-25T07:21:30.608051+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A law firm's website looks flawless on a Sunday night — polished bio page, case results, contact form. A potential client with an urgent question lands on it, reads everything, finds nothing to inter…",
+      "environment": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen …",
+      "product_role": "Fenrik.chat is the presence the polished website was always missing — not a redesign, not a new hire, not a complex integration. It reads the firm's existing w…",
+      "visual_world": "Scene one: a home living room or home office, late at night — a couch or desk visible, lamp on, phone or laptop screen the primary light source. Scene two: a l…",
+      "attention_pattern": "The viewer is immediately drawn in by the contrast between the visitor's anxious search for answers and the cold, unres…",
+      "narrative_mechanism": "story: SETUP: Open mid-scene — a person sitting in dim lamplight, phone in hand, scrol…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#lawfirm",
+    "#websitetips",
+    "#leadgeneration",
+    "#aiforbusiness",
+    "#professionalservices"
+  ],
+  "hook": "What happens when your website looks perfect, but can't answer a single question?",
+  "scenario": "A potential client sits in their living room on a Sunday night with an urgent legal question. They find a law firm's website — polished, credentialed, authoritative. They look for a way to ask their question. There is no chat, no interactive element, only a contact form promising a reply within one business day. They don't fill it out. Monday morning, the firm's partner opens the analytics dashboard and sees twelve sessions from the night before. Zero form submissions. No names, no questions, no way to follow up. The visitors are gone, and the firm has no idea they were ever there.",
+  "video": {
+    "script": "SCENE 1 — [Warm lamplight. A late-30s professional sits on a couch, phone in hand, scrolling a law firm website. Screen text: 'Trusted. Experienced. Results-Driven.' Their expression is focused, slightly tense.]\n\nVO: 'What happens when your website looks perfect, but can't answer a single question?'\n\nSCENE 2 — [Close on phone screen. The visitor taps through pages — bio, case results, a static contact form. Text overlay: 'We'll reply within one business day.' The visitor pauses. Does not fill it out. Puts the phone down.]\n\nVO: 'Sunday night. Someone with a real legal problem lands on a polished firm website. Credentials. Case results. A contact form that says we'll reply within one business day. They don't fill it out.'\n\nSCENE 3 — [Cut to: a law firm office, Monday morning. Cool flat light. A mid-40s professional in business casual sits at a desk, coffee in hand, laptop open. Analytics dashboard visible on screen: 12 sessions. 0 conversions.]\n\nVO: 'Monday morning: twelve sessions. Zero leads. The firm has no idea who came, what they needed, or where they went.'\n\nSCENE 4 — [Same desk. Now the laptop shows a law firm website with a small chat widget in the corner. A visitor types a question. The AI responds instantly. A simple lead card appears: name, email, question captured.]\n\n[Text overlay: 'Fenrik.chat — your website, answering questions. Any hour.']\n\nSCENE 5 — [Gentle push-in on the lead card on screen. The partner's expression is calm, unhurried. The Monday morning looks different.]\n\n[Text overlay CTA: 'Create your AI assistant — fenrik.chat']",
+    "concept": "A late-night visitor with a pressing legal question lands on a flawless law firm website — polished, credentialed, completely unresponsive. They leave without a trace. Monday morning, the firm's partner opens the analytics dashboard: twelve sessions, zero leads. The story reframes the problem from 'missed chat' to 'invisible lost lead.' The resolution shows Fenrik.chat quietly answering a visitor's question in real time and capturing their contact before they leave — no redesign, no new hire, no code.",
+    "duration_seconds": "45"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product UI reference shown as screen insert on the law firm website — illustrating the AI assistant answering a visitor question and capturing a lead in real time.",
+      "asset_id": "5c11b59c-f6fa-4652-9c4b-ead145418898"
+    }
+  ]
+}

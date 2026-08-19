@@ -1,0 +1,46 @@
+start,end,step,duration_ms,waiting_or_compute,accepted_or_discarded,estimated_cost,provider,model,source
+2026-07-24T00:31:31.644Z,2026-07-24T00:31:37.568Z,Weekly Strategy,5925,provider,accepted,0.015771,claude,claude-sonnet-4-6,strategy
+2026-07-24T00:31:37.569Z,2026-07-24T00:31:38.219Z,Strategy Items,650,compute,accepted,,deterministic,,strategy
+2026-07-24T00:31:38.219Z,2026-07-24T00:31:41.921Z,GAP,3702,waiting,n/a,,,,derived
+2026-07-24T00:31:41.921Z,2026-07-24T00:32:29.880Z,Creative Direction Generation,47960,provider,discarded,0.042243,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:32:29.911Z,2026-07-24T00:33:10.745Z,Creative Direction Evaluation,40834,provider,discarded,0.042165,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:33:10.747Z,2026-07-24T00:36:31.560Z,Creative Ideation,200822,provider,discarded,0.168177,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:36:31.604Z,2026-07-24T00:37:12.656Z,Creative Evaluation,41052,provider,discarded,0.045147,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:37:12.664Z,2026-07-24T00:37:12.664Z,Creative Engine,0,provider,discarded,,claude,,failure_telemetry
+2026-07-24T00:37:12.664Z,2026-07-24T00:37:12.664Z,Candidate Judge,0,compute,discarded,,deterministic,,failure_telemetry
+2026-07-24T00:37:12.664Z,2026-07-24T00:37:12.675Z,Narrative Beats,11,compute,discarded,,deterministic,,failure_telemetry
+2026-07-24T00:37:12.704Z,2026-07-24T00:38:24.680Z,Presentation Generation,71976,provider,discarded,0.133569,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:38:24.683Z,2026-07-24T00:38:24.683Z,Hook Enforcement,0,compute,discarded,,deterministic,,failure_telemetry
+2026-07-24T00:38:24.683Z,2026-07-24T00:38:24.703Z,Concept Fidelity,20,compute,discarded,,deterministic,,failure_telemetry
+2026-07-24T00:38:24.709Z,2026-07-24T00:45:38.454Z,Concept Fidelity Repair,433745,provider,discarded,0.238023,claude,claude-sonnet-4-6,failure_telemetry
+2026-07-24T00:39:29.598Z,2026-07-24T00:40:06.439Z,JSON Repair,36842,provider,discarded,0.002763,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:40:06.441Z,2026-07-24T00:40:44.038Z,JSON Repair,37597,provider,discarded,0.002729,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:40:44.038Z,2026-07-24T00:41:51.044Z,GAP,67006,waiting,n/a,,,,derived
+2026-07-24T00:41:51.044Z,2026-07-24T00:42:32.801Z,JSON Repair,41758,provider,discarded,0.002763,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:42:32.802Z,2026-07-24T00:43:10.525Z,JSON Repair,37724,provider,discarded,0.002732,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:43:10.525Z,2026-07-24T00:44:16.532Z,GAP,66007,waiting,n/a,,,,derived
+2026-07-24T00:44:16.532Z,2026-07-24T00:45:00.409Z,JSON Repair,43877,provider,discarded,0.002764,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:45:00.410Z,2026-07-24T00:45:38.453Z,JSON Repair,38043,provider,discarded,0.002734,openai,gpt-4o-mini-2024-07-18,failure_telemetry
+2026-07-24T00:45:38.453Z,2026-07-24T00:45:45.196Z,GAP,6743,waiting,n/a,,,,derived
+2026-07-24T00:45:45.196Z,2026-07-24T00:46:32.664Z,Creative Direction Generation,47468,provider,accepted,0.041478,claude,claude-sonnet-4-6,package_success
+2026-07-24T00:46:32.682Z,2026-07-24T00:47:10.898Z,Creative Direction Evaluation,38216,provider,accepted,0.041187,claude,claude-sonnet-4-6,package_success
+2026-07-24T00:47:10.899Z,2026-07-24T00:51:43.326Z,Creative Ideation,272427,provider,accepted,0.226947,claude,claude-sonnet-4-6,package_success
+2026-07-24T00:51:43.355Z,2026-07-24T00:51:43.355Z,Creative Engine,0,provider,accepted,,claude,,package_success
+2026-07-24T00:51:43.355Z,2026-07-24T00:51:43.355Z,Candidate Judge,0,compute,accepted,,deterministic,,package_success
+2026-07-24T00:51:43.355Z,2026-07-24T00:51:43.361Z,Narrative Beats,6,compute,accepted,,deterministic,,package_success
+2026-07-24T00:51:43.387Z,2026-07-24T00:54:09.199Z,Presentation Generation,145812,provider,accepted,0.132435,claude,claude-sonnet-4-6,package_success
+2026-07-24T00:52:54.419Z,2026-07-24T00:53:24.407Z,JSON Repair,29989,provider,accepted,0.002728,openai,gpt-4o-mini-2024-07-18,package_success
+2026-07-24T00:53:24.408Z,2026-07-24T00:54:09.195Z,JSON Repair,44787,provider,accepted,0.002529,openai,gpt-4o-mini-2024-07-18,package_success
+2026-07-24T00:54:09.201Z,2026-07-24T00:54:09.202Z,Hook Enforcement,1,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:09.202Z,2026-07-24T00:54:09.214Z,Concept Fidelity,12,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:09.217Z,2026-07-24T00:54:09.226Z,Story Integrity,9,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:09.227Z,2026-07-24T00:54:09.230Z,Product Demonstration Integrity,3,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:09.257Z,2026-07-24T00:54:09.257Z,Platform Outputs,1,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:09.258Z,2026-07-24T00:54:13.373Z,Persist Package,4115,compute,accepted,,deterministic,,package_success
+2026-07-24T00:54:13.373Z,2026-07-24T00:54:15.482Z,GAP,2109,waiting,n/a,,,,derived
+2026-07-24T00:54:15.482Z,2026-07-24T00:54:20.340Z,TTS,4859,provider,accepted,0.005475,tts,gpt-4o-mini-tts,video_job
+2026-07-24T00:54:20.341Z,2026-07-24T00:54:22.819Z,Whisper,2478,provider,accepted,0.002386,whisper,whisper-1,video_job
+2026-07-24T00:54:22.819Z,2026-07-24T00:54:22.964Z,GAP,145,waiting,n/a,,,,derived
+2026-07-24T00:54:22.964Z,2026-07-24T00:56:13.368Z,Image generation,110405,provider,accepted,0.21,image,gpt-image-1,video_job
+2026-07-24T00:56:13.368Z,2026-07-24T00:56:13.576Z,GAP,208,waiting,n/a,,,,derived
+2026-07-24T00:56:13.576Z,2026-07-24T00:59:13.317Z,Video rendering,179742,provider,accepted,,video,,video_job

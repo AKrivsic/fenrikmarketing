@@ -179,6 +179,24 @@ function validateLegacyImageEntry(
     if (!prompt) {
       return [{ path: `${path}.image_prompt`, message: "required for ai scene" }];
     }
+    const motion =
+      typeof record.motion_prompt === "string" ? record.motion_prompt.trim() : "";
+    if (record.motion_prompt != null && record.motion_prompt !== "" && !motion) {
+      return [
+        {
+          path: `${path}.motion_prompt`,
+          message: "motion_prompt must be non-empty when present",
+        },
+      ];
+    }
+    if (motion.length > 1000) {
+      return [
+        {
+          path: `${path}.motion_prompt`,
+          message: "motion_prompt exceeds 1000 UTF-16 code units",
+        },
+      ];
+    }
     return [];
   }
   if (source === "asset") {
@@ -191,6 +209,24 @@ function validateLegacyImageEntry(
     }
     if (!used_as) {
       return [{ path: `${path}.used_as`, message: "required for asset scene" }];
+    }
+    const motion =
+      typeof record.motion_prompt === "string" ? record.motion_prompt.trim() : "";
+    if (record.motion_prompt != null && record.motion_prompt !== "" && !motion) {
+      return [
+        {
+          path: `${path}.motion_prompt`,
+          message: "motion_prompt must be non-empty when present",
+        },
+      ];
+    }
+    if (motion.length > 1000) {
+      return [
+        {
+          path: `${path}.motion_prompt`,
+          message: "motion_prompt exceeds 1000 UTF-16 code units",
+        },
+      ];
     }
     return [];
   }

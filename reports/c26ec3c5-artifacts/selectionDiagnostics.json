@@ -1,0 +1,38 @@
+{
+  "whyWon": "deterministic_fallback: Only surviving concept after deterministic vetoes.",
+  "version": "commercial-success@1",
+  "winnerId": "c4",
+  "creativeScore": 0,
+  "commercialScore": 0,
+  "losersPenalized": [],
+  "finalSelectionScore": 0,
+  "commercialDimensions": {
+    "renderability": 0,
+    "firstFrameClarity": 0,
+    "humanProblemVisibility": 0,
+    "narrativeSurvivability": 0,
+    "productDemonstrability": 0,
+    "commercialSurvivability": 0
+  },
+  "creativeScoresSnapshot": {
+    "stopPower": 0,
+    "originality": 0,
+    "memorability": 0,
+    "storyPotential": 0,
+    "AI_Generic_Risk": 0,
+    "emotionalCharge": 0,
+    "productRelevance": 0,
+    "visualSpecificity": 0,
+    "productionFeasibility": 0,
+    "immediateComprehension": 0
+  },
+  "overturnedCreativeLeader": false,
+  "commercialDimensionContributions": {
+    "renderability": 0,
+    "firstFrameClarity": 0,
+    "humanProblemVisibility": 0,
+    "narrativeSurvivability": 0,
+    "productDemonstrability": 0,
+    "commercialSurvivability": 0
+  }
+}

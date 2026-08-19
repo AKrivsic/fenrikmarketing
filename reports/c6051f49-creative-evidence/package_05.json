@@ -1,0 +1,998 @@
+{
+  "package_index": 5,
+  "run_item_id": "4ce4db96-0322-4e81-861b-f31066fa74b3",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+  "package_title": "The Appointment That Booked Itself Somewhere Else",
+  "package_status": "draft",
+  "strategy_item_id": "5f6628a9-0fa4-4c3c-8e12-6435e1ecd17f",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "5f6628a9-0fa4-4c3c-8e12-6435e1ecd17f",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 5,
+      "brief": {
+        "angle": "A salon owner opens her website analytics on Monday and sees weekend traffic. She checks her inbox — nothing. Those visitors had questions about availability, got no answer, and booked somewhere else. She never had a chance to respond.",
+        "topic": "The beauty salon that discovered three appointment requests it never knew existed",
+        "source": "production_run",
+        "pain_point": "Unable to answer customer questions when offline",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Appointment That Booked Itself Somewhere Else",
+    "core_idea": "A beauty salon owner believes that if nobody called and nobody emailed, nobody was interested. Monday morning analytics prove her wrong — three people visited over the weekend, spent real time on her services page, and left without a trace. The belief that silence means no demand is the trap. Silence just means the website had no way to respond.",
+    "product_role": "Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a captured name, and a booking opportunity. It reads the existing website content automatically and answers the question the visitor was about to give up on. No training, no code, no staff required.",
+    "why_it_works": "It challenges a belief the audience genuinely holds — quiet inbox equals quiet weekend — and dismantles it with a scenario that is immediately recognizable and specific. The hook is a counter-intuitive reframe delivered in the owner's own voice, which makes it land harder than a narrator stating a fact. The emotional pivot from confidence to quiet dread is relatable without being cruel. The product enters as the structural fix to a structural gap, not a feature list. The CTA lands the contrarian point directly: quiet inbox plus active analytics is not a slow weekend — it is a symptom.",
+    "narrative_arc": "HOOK — Open on a salon owner on a Monday morning, confident and calm, telling the camera: 'Quiet weekend. Nobody reached out, so nobody was looking.' Cut immediately to her phone screen showing the analytics dashboard: 3 sessions, Saturday night, average 2 minutes on the services page. The confidence drains. WHY WRONG — She didn't miss a slow weekend. She missed three people who were ready to book, sat on her page for two minutes each, had a question about availability, got a static page with a contact form, and closed the tab. They didn't disappear — they booked somewhere else. PROOF — The problem was never the traffic. It was the moment between interest and contact: a visitor with a question and a website that could only sit there. A website that can actually answer — right then, at 10 PM on a Saturday — doesn't lose that visitor to a form they'll never fill out. CTA — Direct close to camera: if your inbox is quiet but your analytics aren't, that's not a slow weekend. That's a gap. Create your AI assistant — and find out what your website has been missing.",
+    "emotional_tone": "Blunt and a little fed up — not at the salon owner, but at the gap between 'traffic happened' and 'nothing came of it.' The energy is impatient with the problem, empathetic toward the person. Ends with clarity rather than alarm.",
+    "audience_insight": "Service business owners — especially solo operators and small teams — default to measuring demand by direct contact: calls, emails, form fills. If none arrive, they assume no one was interested. They rarely connect silent analytics sessions to lost revenue because the website never surfaced those visitors as anything actionable. The pain is invisible until it's named.",
+    "visual_direction": {
+      "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+      "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+      "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+      "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+      "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+      "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and direct, with an immediate cut to the analytics screen to heighten tension.",
+    "emotion": "Blunt and slightly fed up, reflecting the owner's initial confidence that quickly shifts to concern.",
+    "first_image": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. The warm morning light filters through the window, illuminating her tidy workspace. A tablet rests on the desk, displaying her website analytics dashboard, which shows three sessions from the weekend.",
+    "attention_pattern": "The opening creates curiosity by contrasting the owner's calm confidence with the unexpected data on her screen, hinting at lost opportunities.",
+    "first_spoken_sentence": "Quiet weekend, right? Nobody reached out, so nobody was looking."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+    "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+    "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+    "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+    "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+    "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed.",
+    "opening_emotion": "Blunt and slightly fed up, reflecting the owner's initial confidence that quickly shifts to concern.",
+    "opening_first_image": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. The warm morning light filters through the window, illuminating her tidy workspace. A tablet rests on the desk, displaying her website analytics dashboard, which shows three sessions from the weekend."
+  },
+  "package": {
+    "title": "The Appointment That Booked Itself Somewhere Else",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "Quiet weekend, right? Nobody reached out, so nobody was looking.",
+    "scenario": "A beauty salon owner opens her analytics dashboard on Monday morning, relaxed and assuming it was simply a quiet weekend — no calls, no emails, nothing unusual. The data shows three sessions from Saturday night, each lasting close to two minutes on the services page, with zero form submissions. She had no idea anyone visited. Those visitors had questions about availability, found only a static contact form, and left without a trace — booking elsewhere before Monday ever arrived.",
+    "video": {
+      "script": "SCENE 1 — OPENING (warm morning light, salon reception desk): Owner faces camera, relaxed and confident. She says: 'Quiet weekend, right? Nobody reached out, so nobody was looking.' She gestures lightly toward her phone on the desk — routine Monday check.\n\nSCENE 2 — ANALYTICS REVEAL (close-up on phone screen): She taps open her website analytics. The screen shows three sessions from Saturday night. Average time on services page: 2 minutes. Form fills: zero. Her expression shifts — not panic, just that quiet, sinking recognition.\n\nSCENE 3 — CUTAWAY (slightly cooler light, implied Saturday night): A phone screen showing a beauty salon services page. A cursor hovers near a contact form. No chat, no response option. The tab closes. VO: 'Three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab.'\n\nSCENE 4 — RETURN TO OWNER (morning light again): She looks directly at camera, quieter now. VO: 'They didn't disappear — they booked somewhere else.'\n\nSCENE 5 — DIRECT CLOSE (tight on face, honest energy): 'A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.' Hold on her face for one beat. End card: Save this if your inbox has ever been quiet while your analytics weren't.",
+      "concept": "A beauty salon owner opens her analytics on Monday morning, fully confident the weekend was just slow. The data says otherwise: three sessions, Saturday night, two minutes each on the services page, zero form fills. The video dismantles the belief that silence equals no demand — and names the real gap: a website that can't answer a question at 10 PM on a Saturday.",
+      "duration_seconds": "28"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#salonowner",
+      "#beautybusiness",
+      "#websitetips",
+      "#businessgrowth"
+    ],
+    "subtitles_planned": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered."
+  },
+  "voiceover": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "A beauty salon owner stands confidently at her reception desk, smiling at the camera. Warm morning light filters through a window behind her, illuminating a tidy workspace with a tablet resting on the desk showing a website analytics dashboard with three weekend sessions visible. Vertical 9:16 framing, warm blush and neutral tones, handheld intimate feel."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a smartphone screen held in a woman's hand inside a beauty salon. The analytics dashboard displays three sessions from Saturday night with an average session duration of two minutes and zero conversions. The screen glows with a cooler blue-white contrast against the warm salon background. Vertical 9:16 framing."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A dimly lit scene with slightly cooler light suggesting late Saturday night — a phone screen displaying a beauty salon services page with a static contact form and no chat or interactive element visible. The cursor hovers near the form. Vertical 9:16 framing, muted cool tones marking the time shift."
+    },
+    {
+      "source": "asset",
+      "used_as": "Product reference insert showing 24/7 AI assistant availability — used as a brief on-screen contrast to the static website moment",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight close-up on the salon owner's face, direct eye contact with camera, honest and composed expression. The warm salon environment is softly blurred behind her. Mood is clear and grounded — not alarmed, just certain. Vertical 9:16 framing, warm diffused morning light."
+    }
+  ],
+  "image_prompts": [
+    "A beauty salon owner stands confidently at her reception desk, smiling at the camera. Warm morning light filters through a window behind her, illuminating a tidy workspace with a tablet resting on the desk showing a website analytics dashboard with three weekend sessions visible. Vertical 9:16 framing, warm blush and neutral tones, handheld intimate feel.",
+    "Close-up of a smartphone screen held in a woman's hand inside a beauty salon. The analytics dashboard displays three sessions from Saturday night with an average session duration of two minutes and zero conversions. The screen glows with a cooler blue-white contrast against the warm salon background. Vertical 9:16 framing.",
+    "A dimly lit scene with slightly cooler light suggesting late Saturday night — a phone screen displaying a beauty salon services page with a static contact form and no chat or interactive element visible. The cursor hovers near the form. Vertical 9:16 framing, muted cool tones marking the time shift.",
+    "Tight close-up on the salon owner's face, direct eye contact with camera, honest and composed expression. The warm salon environment is softly blurred behind her. Mood is clear and grounded — not alarmed, just certain. Vertical 9:16 framing, warm diffused morning light."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "format": "reel",
+        "caption": "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "title_variants": [
+          "The Appointment That Booked Itself Somewhere Else",
+          "Your Inbox Was Quiet. Your Analytics Weren't.",
+          "Three Visitors. Zero Bookings. One Unanswered Question.",
+          "Silence Isn't a Slow Weekend — It's a Gap",
+          "What the Contact Form Can't Catch at 10 PM"
+        ],
+        "caption_variants": [
+          "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+          "She assumed no messages meant no interest. Her analytics said three people visited Saturday night and left without a word. The website had no way to respond. They booked elsewhere.",
+          "The belief: quiet inbox = slow weekend. The reality: three visitors, two minutes each, one unanswered question, zero bookings. Silence isn't disinterest. It's a gap.",
+          "Traffic happened. Questions happened. Nothing got captured — because the page just sat there. A contact form at 10 PM on a Saturday isn't a response. It's a closed door.",
+          "Most service businesses measure demand by calls and emails. They miss everything that happened before someone decided not to reach out. That's where the bookings went."
+        ]
+      },
+      "tiktok": {
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "format": "reel",
+        "caption": "3 people were on her booking page Saturday night. Her inbox had zero messages Monday morning. Those aren't the same thing. 👀",
+        "hashtags": [
+          "#smallbusiness",
+          "#salonowner",
+          "#businesstips",
+          "#websitetips"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "Her inbox was empty. Her analytics weren't. Three visitors, two minutes each, zero bookings — because the website had nothing to say at 10 PM on a Saturday.",
+        "hashtags": [
+          "#salonbusiness",
+          "#smallbusiness"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "format": "reel",
+        "caption": "Ever had a quiet weekend with zero inquiries — then opened your analytics and realized people actually visited? 😬 That happened to a salon owner who found three sessions from Saturday night. Two minutes each on her services page. No messages, no bookings. They had questions, the website had no way to answer, and they moved on. A quiet inbox isn't always a slow weekend. Sometimes it's just a website that couldn't respond. Does this sound familiar to anyone else?",
+        "hashtags": [
+          "#smallbusiness",
+          "#salonowner"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A common assumption in small service businesses: if nobody called or emailed, nobody was interested. It feels logical. It is often wrong. Three website visitors on a Saturday night, two minutes each on the services page, zero form fills — not because they weren't ready to book, but because a static page with a contact form wasn't enough to hold them at 10 PM. The inbox was quiet. The demand wasn't. That gap is worth examining.",
+        "hashtags": [
+          "#smallbusiness",
+          "#clientacquisition"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "format": "reel",
+        "caption": "She thought it was a quiet weekend.\n\nThen she opened her analytics.\n\nThree visitors. Saturday night. Two minutes each on the services page. Zero messages.\n\nThey had questions. The website had nothing to offer them. So they left — and booked somewhere else.\n\nSave this if that gap sounds familiar.",
+        "hashtags": [
+          "#salonowner",
+          "#smallbusinessowner",
+          "#beautybusiness",
+          "#websitetips",
+          "#businessgrowth",
+          "#clientbooking"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "a5ea0d8a-68a3-4362-8ec0-497c4ab906f8",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "She thought it was a quiet weekend.\n\nThen she opened her analytics.\n\nThree visitors. Saturday night. Two minutes each on the services page. Zero messages.\n\nThey had questions. The website had nothing to offer them. So they left — and booked somewhere else.\n\nSave this if that gap sounds familiar.",
+        "hashtags": [
+          "#salonowner",
+          "#smallbusinessowner",
+          "#beautybusiness",
+          "#websitetips",
+          "#businessgrowth",
+          "#clientbooking"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "a8ceb9f2-b543-413e-8530-cd1ff7a784f9",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "What the Contact Form Can't Catch at 10 PM",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "Most service businesses measure demand by calls and emails. They miss everything that happened before someone decided not to reach out. That's where the bookings went.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "037046fe-f172-4c1f-a247-aa322b630cf3",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Silence Isn't a Slow Weekend — It's a Gap",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "Traffic happened. Questions happened. Nothing got captured — because the page just sat there. A contact form at 10 PM on a Saturday isn't a response. It's a closed door.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "f9c4ecd9-9166-4bb7-8239-639c5e10eea2",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Three Visitors. Zero Bookings. One Unanswered Question.",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "The belief: quiet inbox = slow weekend. The reality: three visitors, two minutes each, one unanswered question, zero bookings. Silence isn't disinterest. It's a gap. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "e7368615-cf65-419c-a19a-3ad8779abf39",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Inbox Was Quiet. Your Analytics Weren't.",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "She assumed no messages meant no interest. Her analytics said three people visited Saturday night and left without a word. The website had no way to respond. They booked elsewhere.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "ab40d793-4da9-4da7-bf3d-afdfe5d9a6d6",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "3d30f034-70bb-400d-b9a3-4a68bf0c6b90",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "A common assumption in small service businesses: if nobody called or emailed, nobody was interested. It feels logical. It is often wrong. Three website visitors on a Saturday night, two minutes each on the services page, zero form fills — not because they weren't ready to book, but because a static page with a contact form wasn't enough to hold them at 10 PM. The inbox was quiet. The demand wasn't. That gap is worth examining.",
+        "hashtags": [
+          "#smallbusiness",
+          "#clientacquisition"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "49059b4a-6c7a-4d2e-ae22-c1f0d5570cf7",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "Ever had a quiet weekend with zero inquiries — then opened your analytics and realized people actually visited? 😬 That happened to a salon owner who found three sessions from Saturday night. Two minutes each on her services page. No messages, no bookings. They had questions, the website had no way to answer, and they moved on. A quiet inbox isn't always a slow weekend. Sometimes it's just a website that couldn't respond. Does this sound familiar to anyone else?",
+        "hashtags": [
+          "#smallbusiness",
+          "#salonowner"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "0d860e75-54e8-4574-ae73-9ba8f3062efd",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "3 people were on her booking page Saturday night. Her inbox had zero messages Monday morning. Those aren't the same thing. 👀",
+        "hashtags": [
+          "#smallbusiness",
+          "#salonowner",
+          "#businesstips",
+          "#websitetips"
+        ],
+        "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+        "language": null
+      },
+      {
+        "id": "4241c8fc-42ee-4be3-8630-5388906c89ff",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Appointment That Booked Itself Somewhere Else",
+        "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+        "caption": "Her inbox was empty. Her analytics weren't. Three visitors, two minutes each, zero bookings — because the website had nothing to say at 10 PM on a Saturday.",
+        "hashtags": [
+          "#salonbusiness",
+          "#smallbusiness"
+        ],
+        "cta": "Subscribe for more.",
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 41,
+      "secondary": 46
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_contrarian→energy(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+41)",
+      "fit_secondary(+46)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Language: en."
+  },
+  "creative_mode": "contrarian",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Unable to answer customer questions when offline",
+    "strategy_pain_point": "Unable to answer customer questions when offline"
+  },
+  "product_role": "Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a captured name, and a booking opportunity. It reads the existing website content automatically and answers the question the visitor was about to give up on. No training, no code, no staff required.",
+  "narrative_arc": "HOOK — Open on a salon owner on a Monday morning, confident and calm, telling the camera: 'Quiet weekend. Nobody reached out, so nobody was looking.' Cut immediately to her phone screen showing the analytics dashboard: 3 sessions, Saturday night, average 2 minutes on the services page. The confidence drains. WHY WRONG — She didn't miss a slow weekend. She missed three people who were ready to book, sat on her page for two minutes each, had a question about availability, got a static page with a contact form, and closed the tab. They didn't disappear — they booked somewhere else. PROOF — The problem was never the traffic. It was the moment between interest and contact: a visitor with a question and a website that could only sit there. A website that can actually answer — right then, at 10 PM on a Saturday — doesn't lose that visitor to a form they'll never fill out. CTA — Direct close to camera: if your inbox is quiet but your analytics aren't, that's not a slow weekend. That's a gap. Create your AI assistant — and find out what your website has been missing.",
+  "emotional_tone": "Blunt and a little fed up — not at the salon owner, but at the gap between 'traffic happened' and 'nothing came of it.' The energy is impatient with the problem, empathetic toward the person. Ends with clarity rather than alarm.",
+  "audience_insight": "Service business owners — especially solo operators and small teams — default to measuring demand by direct contact: calls, emails, form fills. If none arrive, they assume no one was interested. They rarely connect silent analytics sessions to lost revenue because the website never surfaced those visitors as anything actionable. The pain is invisible until it's named.",
+  "visual_direction": {
+    "palette": "Warm neutrals and blush tones for the salon environment; the analytics screen introduces a cooler blue-white contrast to signal data and reality. No heavy saturation.",
+    "lighting": "Warm morning light — soft window diffusion suggesting early Monday. Slightly cooler and dimmer in any cutaway to the Saturday night visitor moment, to mark the time shift without a title card.",
+    "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo genericness; the space should feel owned and cared for.",
+    "camera_style": "Handheld, close and direct for the owner-to-camera moments — intimate, like she is talking to a peer. Quick cut to a phone screen close-up for the analytics reveal. No slow zooms; cuts are clean and purposeful. Vertical 9:16 framing throughout.",
+    "art_direction": "Clean, warm, slightly overlit salon aesthetic — the kind of small independent beauty studio that takes pride in its look. Branded touches visible but not overdone. The phone screen showing analytics is the visual pivot point and must be clearly legible on mobile.",
+    "character_style": "One central character — a woman, late 20s to early 40s, the salon owner. Dressed practically, not glamorously. Confident body language in the opening that visibly shifts when she sees the screen. No supporting cast needed."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered."
+  },
+  "render_metadata": {
+    "id": "40e204b4-c396-4a22-a700-77afc9bc5542",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:29:34.974782+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "a5ea0d8a-68a3-4362-8ec0-497c4ab906f8",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "She thought it was a quiet weekend.\n\nThen she opened her analytics.\n\nThree visitors. Saturday night. Two minutes each on the services page. Zero messages.\n\nThey had questions. The website had nothing to offer them. So they left — and booked somewhere else.\n\nSave this if that gap sounds familiar.",
+      "hashtags": [
+        "#salonowner",
+        "#smallbusinessowner",
+        "#beautybusiness",
+        "#websitetips",
+        "#businessgrowth",
+        "#clientbooking"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "a8ceb9f2-b543-413e-8530-cd1ff7a784f9",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "What the Contact Form Can't Catch at 10 PM",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Most service businesses measure demand by calls and emails. They miss everything that happened before someone decided not to reach out. That's where the bookings went.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "037046fe-f172-4c1f-a247-aa322b630cf3",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Silence Isn't a Slow Weekend — It's a Gap",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Traffic happened. Questions happened. Nothing got captured — because the page just sat there. A contact form at 10 PM on a Saturday isn't a response. It's a closed door.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "f9c4ecd9-9166-4bb7-8239-639c5e10eea2",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Three Visitors. Zero Bookings. One Unanswered Question.",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "The belief: quiet inbox = slow weekend. The reality: three visitors, two minutes each, one unanswered question, zero bookings. Silence isn't disinterest. It's a gap. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "e7368615-cf65-419c-a19a-3ad8779abf39",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Inbox Was Quiet. Your Analytics Weren't.",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "She assumed no messages meant no interest. Her analytics said three people visited Saturday night and left without a word. The website had no way to respond. They booked elsewhere.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "ab40d793-4da9-4da7-bf3d-afdfe5d9a6d6",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Quiet inbox Monday morning. Three website sessions Saturday night. Two minutes each on the services page. Zero bookings. That's not a slow weekend — that's a website that couldn't answer a question after hours.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "3d30f034-70bb-400d-b9a3-4a68bf0c6b90",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "A common assumption in small service businesses: if nobody called or emailed, nobody was interested. It feels logical. It is often wrong. Three website visitors on a Saturday night, two minutes each on the services page, zero form fills — not because they weren't ready to book, but because a static page with a contact form wasn't enough to hold them at 10 PM. The inbox was quiet. The demand wasn't. That gap is worth examining.",
+      "hashtags": [
+        "#smallbusiness",
+        "#clientacquisition"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "49059b4a-6c7a-4d2e-ae22-c1f0d5570cf7",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Ever had a quiet weekend with zero inquiries — then opened your analytics and realized people actually visited? 😬 That happened to a salon owner who found three sessions from Saturday night. Two minutes each on her services page. No messages, no bookings. They had questions, the website had no way to answer, and they moved on. A quiet inbox isn't always a slow weekend. Sometimes it's just a website that couldn't respond. Does this sound familiar to anyone else?",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "0d860e75-54e8-4574-ae73-9ba8f3062efd",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "3 people were on her booking page Saturday night. Her inbox had zero messages Monday morning. Those aren't the same thing. 👀",
+      "hashtags": [
+        "#smallbusiness",
+        "#salonowner",
+        "#businesstips",
+        "#websitetips"
+      ],
+      "cta": "Save this if your inbox has ever been quiet while your analytics weren't.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    },
+    {
+      "id": "4241c8fc-42ee-4be3-8630-5388906c89ff",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "a84a5b48-bf5b-45a1-a169-9fa722214168",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Appointment That Booked Itself Somewhere Else",
+      "body": "Quiet weekend, right? Nobody reached out, so nobody was looking. Except three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab. They didn't disappear — they booked somewhere else. A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.",
+      "caption": "Her inbox was empty. Her analytics weren't. Three visitors, two minutes each, zero bookings — because the website had nothing to say at 10 PM on a Saturday.",
+      "hashtags": [
+        "#salonbusiness",
+        "#smallbusiness"
+      ],
+      "cta": "Subscribe for more.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 5,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:29:32.684388+00:00",
+      "updated_at": "2026-07-25T07:29:32.684388+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: confident challenge, measured not combative. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 6,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A beauty salon owner believes that if nobody called and nobody emailed, nobody was interested. Monday morning analytics prove her wrong — three people visited over the weekend, spent real time on her…",
+      "environment": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone…",
+      "product_role": "Fenrik.chat is the presence the static services page was missing — the thing that turns a two-minute session at 10 PM on a Saturday into a conversation, a capt…",
+      "visual_world": "Interior of a small beauty salon — a styling station or reception desk. Tidy, personal, professional. A tablet or phone propped near a mirror. No stock-photo g…",
+      "attention_pattern": "The opening creates curiosity by contrasting the owner's calm confidence with the unexpected data on her screen, hintin…",
+      "narrative_mechanism": "contrarian: HOOK — Open on a salon owner on a Monday morning, confident and calm, telling t…"
+    }
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#salonowner",
+    "#beautybusiness",
+    "#websitetips",
+    "#businessgrowth"
+  ],
+  "hook": "Quiet weekend, right? Nobody reached out, so nobody was looking.",
+  "scenario": "A beauty salon owner opens her analytics dashboard on Monday morning, relaxed and assuming it was simply a quiet weekend — no calls, no emails, nothing unusual. The data shows three sessions from Saturday night, each lasting close to two minutes on the services page, with zero form submissions. She had no idea anyone visited. Those visitors had questions about availability, found only a static contact form, and left without a trace — booking elsewhere before Monday ever arrived.",
+  "video": {
+    "script": "SCENE 1 — OPENING (warm morning light, salon reception desk): Owner faces camera, relaxed and confident. She says: 'Quiet weekend, right? Nobody reached out, so nobody was looking.' She gestures lightly toward her phone on the desk — routine Monday check.\n\nSCENE 2 — ANALYTICS REVEAL (close-up on phone screen): She taps open her website analytics. The screen shows three sessions from Saturday night. Average time on services page: 2 minutes. Form fills: zero. Her expression shifts — not panic, just that quiet, sinking recognition.\n\nSCENE 3 — CUTAWAY (slightly cooler light, implied Saturday night): A phone screen showing a beauty salon services page. A cursor hovers near a contact form. No chat, no response option. The tab closes. VO: 'Three people visited your services page on Saturday night. Spent two minutes each. Had a question about availability. Got a static contact form. And closed the tab.'\n\nSCENE 4 — RETURN TO OWNER (morning light again): She looks directly at camera, quieter now. VO: 'They didn't disappear — they booked somewhere else.'\n\nSCENE 5 — DIRECT CLOSE (tight on face, honest energy): 'A quiet inbox isn't a slow weekend. It's a website that had nothing to say when it mattered.' Hold on her face for one beat. End card: Save this if your inbox has ever been quiet while your analytics weren't.",
+    "concept": "A beauty salon owner opens her analytics on Monday morning, fully confident the weekend was just slow. The data says otherwise: three sessions, Saturday night, two minutes each on the services page, zero form fills. The video dismantles the belief that silence equals no demand — and names the real gap: a website that can't answer a question at 10 PM on a Saturday.",
+    "duration_seconds": "28"
+  },
+  "asset_usage": [
+    {
+      "used_as": "Product reference insert showing 24/7 AI assistant availability — used as a brief on-screen contrast to the static website moment",
+      "asset_id": "b1b0d00c-0bfc-4095-954f-4b38a813747f"
+    }
+  ]
+}

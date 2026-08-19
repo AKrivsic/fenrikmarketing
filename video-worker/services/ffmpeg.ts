@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { rename, rm } from "node:fs/promises";
 import { buildZoompanExpr, xfadeTransitionName, type MotionIntensityLevel } from "@/lib/video-engine/motion";
 import { SHORT_PROFILE, type MotionType, type TransitionType, coerceMotionType } from "@/lib/video-engine/storyboard";
+import { computeXfadeTimelineLengthSeconds } from "@/lib/video-engine/xfadeTimeline";
 import {
   probeAudioDurationSeconds,
   probeMediaStreams,
@@ -105,7 +106,8 @@ function ffmpegBin(): string {
   return process.env.FFMPEG_PATH ?? "ffmpeg";
 }
 
-function runFfmpeg(
+/** Shared FFmpeg spawn used by still and video-clip render paths. */
+export function runFfmpeg(
   args: string[],
   timeoutMs = DEFAULT_TIMEOUT_MS,
   signal?: AbortSignal,
@@ -282,17 +284,12 @@ function beatVideoChain(
 }
 
 // Video Stream Extension V2 — xfade timeline length (seconds) after overlaps.
+// Delegates to shared math used by the video-clip and audio-mix layers.
 export function computeXfadeTimelineSeconds(
   beats: RenderBeat[],
   transitionSeconds: number,
 ): number {
-  if (beats.length === 0) return 0;
-  let cumulative = beats[0].durationSeconds;
-  for (let i = 1; i < beats.length; i++) {
-    const td = Math.min(transitionSeconds, beats[i].durationSeconds / 2);
-    cumulative = cumulative - td + beats[i].durationSeconds;
-  }
-  return cumulative;
+  return computeXfadeTimelineLengthSeconds(beats, transitionSeconds);
 }
 
 // Legacy tail-pad hold (no measured audio target).
@@ -645,7 +642,7 @@ export async function renderMp4(input: RenderMp4Input): Promise<RenderMp4Result>
 
 // Web playback needs the moov atom before mdat; ffmpeg's default mux puts it at
 // the end, which makes <video> appear broken until the whole file is fetched.
-async function applyFastStartMp4(
+export async function applyFastStartMp4(
   path: string,
   signal?: AbortSignal,
 ): Promise<void> {

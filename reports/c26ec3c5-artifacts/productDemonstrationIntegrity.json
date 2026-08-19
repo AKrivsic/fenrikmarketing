@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "summary": "product_demonstration_integrity_passed",
+  "version": "product-demonstration-integrity@3",
+  "violations": [],
+  "primaryActor": {
+    "label": "The frozen clock \u2014 it is the business's self-image, the thing it believes is sufficient",
+    "lockedAttributes": [
+      "hands_focus"
+    ],
+    "continuityAnchors": [
+      "hand"
+    ]
+  },
+  "productDemonstration": {
+    "present": false,
+    "evidence": [],
+    "askPresent": false,
+    "answerPresent": false,
+    "askSceneIndex": null,
+    "resultPresent": false,
+    "structuredBeat": null,
+    "landingPageOnly": false,
+    "answerSceneIndex": null,
+    "resultSceneIndex": null,
+    "narrationOnlySignals": [],
+    "structuredBeatPresent": false
+  }
+}

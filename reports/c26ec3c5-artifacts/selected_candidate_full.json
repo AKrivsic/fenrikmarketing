@@ -1,0 +1,41 @@
+{
+  "ending": "Both clocks running simultaneously on the same wall. The gap between them closed. CTA: 'Create your AI assistant.' The product is the synchronization mechanism.",
+  "family": "invented",
+  "coreIdea": "A single wall holds two analog clocks \u2014 one labeled with the business's operating hours, one labeled with nothing. The unlabeled clock keeps running through the night. The business clock stops at 6 PM.",
+  "hookLine": "Your clock stopped. Theirs didn't.",
+  "candidateId": "c4",
+  "creativeDNA": {
+    "world": "A single wall with two clocks \u2014 the entire universe of the piece. Time is the only actor.",
+    "productRole": "The mechanism that synchronizes both clocks \u2014 not by extending business hours, but by ensuring the business is present on the prospect's timeline.",
+    "coreConflict": "Two timelines exist simultaneously. The business has only ever watched one of them.",
+    "endingIntent": "The synchronization of both clocks must feel like relief and practical resolution \u2014 not triumph, just alignment.",
+    "mainCharacter": "The frozen clock \u2014 it is the business's self-image, the thing it believes is sufficient",
+    "immutableRules": [
+      "Both clocks must be identical models \u2014 the only difference is frozen vs. running",
+      "No voiceover during the clock sequence \u2014 the second hands carry the entire argument",
+      "The mustard wall must be the only color in the frame until the product reveal"
+    ],
+    "viewerQuestion": "What time is it in my prospect's world right now?"
+  },
+  "visualPromise": "A warm mustard-yellow wall \u2014 not a corporate wall, a real business's back office or break room. Two identical white-faced analog clocks with black numerals. Simple, institutional, completely familiar. No digital elements until the product reveal. Atmosphere: The piece spans from 6 PM to past midnight \u2014 the wall is the constant, time is the variable, Mustard yellow wall, white clock faces, black numerals, no other color \u2014 strong and simple, warm but not cozy, Consistent flat overhead light \u2014 the same light at 6 PM and midnight, emphasizing that the wall doesn't change, only the clocks do. Viewpoint: Stationary observer \u2014 the wall is the entire world, and the viewer watches both clocks from one fixed position.. Pacing: Very slow \u2014 the second hand of the running clock is the primary motion. Long holds. Time is the content. 25\u201330 seconds..",
+  "familiarityRisk": "low",
+  "openingSituation": "An analog clock hand snaps to 6:00 PM and stops \u2014 the mechanical click of the stop is audible (or visually implied through stillness). The second hand freezes mid-sweep.",
+  "storyProgression": "The camera holds on the wall \u2014 two clocks, side by side, same model. The left one has a small handwritten label: 'Us.' The right one has no label. The left clock has stopped at 6:00 PM. The right clock is still running \u2014 second hand moving. Time passes. The right clock moves to 11:30 PM. The left clock is still frozen at 6:00. A hand reaches into frame and writes a label on the right clock: 'Them.' The camera pulls back to show both clocks on the same wall \u2014 the frozen one and the running one. The running one passes midnight. Cut to: an AI chat widget active at 12:43 AM, answering a question. Both clocks are shown again. The left clock's second hand begins moving. Both clocks are now synchronized.",
+  "creativeDnaSource": "model",
+  "emotionalReaction": "Quiet and eerie \u2014 the eeriness of two clocks on the same wall showing different times, one alive and one dead. via The frozen clock is immediately recognizable \u2014 everyone has seen a battery-dead clock, a clock stopped at closing time. The juxtaposition of one frozen and one running creates visceral temporal dissonance: the viewer understands immediately that time is passing in the prospect's world while the business's world is paused.",
+  "productConnection": "The AI chat widget is shown answering at 12:43 AM \u2014 after which the frozen clock's second hand begins moving again. The business clock is now synchronized with the prospect's clock.",
+  "conceptFingerprint": {
+    "metaphor": null,
+    "hero_object": "The running clock next to the frozen one \u2014 specifically the second hand passing midnight",
+    "core_premise": "Two clocks on one wall \u2014 the business clock frozen at 6 PM, the prospect's clock still running. The entire message lives in the gap between them.",
+    "visual_world": "Mustard-yellow back office wall, two identical white analog clocks, flat overhead light, no other elements",
+    "emotional_arc": "Recognition \u2192 temporal dissonance \u2192 mounting dread as the running clock advances \u2192 resolution through synchronization",
+    "ending_mechanism": "Both clocks running simultaneously \u2014 the gap closed, the synchronization complete",
+    "opening_mechanism": "Clock hand snapping to 6:00 PM and freezing \u2014 mechanical stillness as the scroll-stopper",
+    "product_mechanism": "AI chat widget active at 12:43 AM \u2014 the frozen clock's second hand begins moving, both clocks synchronized",
+    "creative_direction": "Introduces a second clock that the audience has never been watching \u2014 not their business clock, but the prospect's research clock. The mechanism works by revealing that two timelines coexist: the business's operational timeline (business hours, response windows, staffed moments) and the prospect's decision timeline (late night, weekend, off-hour). The message lives entirely in the gap between those two clocks running simultaneously and never intersecting.",
+    "palette_atmosphere": "Mustard yellow, white, black \u2014 warm but stark, institutional but not corporate"
+  },
+  "memorabilityReason": "A clock hand snapping to 6:00 and freezing is a physical event that reads as a malfunction or a stopping \u2014 the brain registers 'something broke' before any words arrive.",
+  "expectedViewerQuestion": "What time is it in my prospect's world right now?"
+}

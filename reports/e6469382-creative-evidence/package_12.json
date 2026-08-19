@@ -1,0 +1,1752 @@
+{
+  "package_index": 12,
+  "run_item_id": "3a4d36dd-925c-4683-ab81-5fcd6a4dd7a2",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "bec6476e-d698-40e8-a692-b05a7cdb29d9",
+  "package_title": "The 40-Minute Video That Ate My Thursday",
+  "package_status": "draft",
+  "strategy_item_id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A content-specific frustration piece: a SaaS marketer explains that the original video took 40 minutes to record and the next three hours were spent resizing, rewriting captions, and figuring out hashtag strategy per platform.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "source": "production_run",
+      "pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+      "package_index": 12,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "angle": "A content-specific frustration piece: a SaaS marketer explains that the original video took 40 minutes to record and the next three hours were spent resizing, rewriting captions, and figuring out hashtag strategy per platform.",
+      "seed": "Problem Aware|Why reformatting one piece of content for five platforms takes longer than creating it|A content-specific frustration piece: a SaaS marketer explains that the original video took 40 minutes to record and the next three hours were spent resizing, rewriting captions, and figuring out hashtag strategy per platform.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "story",
+        "name": "Story",
+        "description": "A tiny narrative built around one real customer or operator moment.",
+        "structure": "Setup (drop mid-scene) -> conflict/stakes -> twist (turning point) -> resolution -> CTA.",
+        "avoid": "No abstract advice; keep it one situation, not a montage of tips.",
+        "narrativeBeats": [
+          "setup",
+          "conflict",
+          "twist",
+          "resolution",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "mistake",
+        "instruction": "Open by naming a specific mistake the viewer is probably making.",
+        "exampleForm": "\"You are wiping the counter — and spreading the mess.\"",
+        "forbidGeneric": "Do not open with \"Here are some tips to avoid mistakes.\""
+      },
+      "persona": {
+        "id": "expert",
+        "name": "Expert",
+        "vocabulary": "precise, domain-aware, no fluff",
+        "rhythm": "measured, confident sentences",
+        "energy": "calm authority",
+        "exaggeration": "none — let the substance carry it"
+      }
+    }
+  },
+  "concept": {
+    "title": "The 40-Minute Video That Ate My Thursday",
+    "core_idea": "A SaaS marketer records a product walkthrough video in 40 minutes, feeling productive — then spends the next three hours not creating, but translating: cropping for Reels, rewriting a caption in LinkedIn tone, researching hashtags for TikTok, trimming a YouTube Shorts version, and reformatting the Facebook post so it does not read like a tweet. The mistake is not recording the video. The mistake is believing that recording it was the hard part.",
+    "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by taking a website URL and returning platform-ready assets for every channel. It does not ask the marketer to do any of the work that ate the Thursday.",
+    "why_it_works": "The mistake hook lands because it reframes a familiar frustration — not 'I did not make content' but 'I made content and it still cost me three hours.' That specificity makes the viewer feel seen rather than lectured. The story structure earns the product mention because the resolution is a direct answer to the exact problem the narrative named, not a generic pitch. The 40-minute versus three-hour contrast is concrete and credible without requiring proof.",
+    "narrative_arc": "SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their neck, visibly satisfied. The screen shows a freshly exported video file. The timestamp in the corner reads 2:14pm. A caption appears: '40 minutes. One video. Done.' CONFLICT: Cut to 3:30pm. The same desk. Four browser tabs open — TikTok caption, LinkedIn draft, Instagram hashtag generator, YouTube Shorts export settings. The video file sits untouched in the center of the screen. A half-eaten sandwich has appeared. The marketer is not editing. They are rewriting the same sentence for the fourth time in a different tone. TWIST: A text overlay reads: 'The video was never the problem.' The camera holds on the four open tabs — each one a separate formatting job, a separate audience assumption, a separate set of rules. The original 40-minute recording now represents roughly 20% of the total time spent. RESOLUTION: The marketer closes all four tabs. Pulls up fenrik Studio. Types in a website URL. No brief. No format guide. No hashtag research. The next shot is the same desk at 4:00pm — the marketer is on a call, not a content tab in sight. A caption reads: 'One URL. Five platforms. No Thursday lost.' CTA: Submit your website URL — your first content package is free, no reformatting required.",
+    "emotional_tone": "Dry, knowing frustration that tips into quiet relief — the viewer recognizes themselves in the marketer's Thursday before they recognize the solution.",
+    "audience_insight": "SaaS marketers and small team operators already know how to record a decent video. What drains them is the invisible second job that follows: platform-specific reformatting, caption rewriting, hashtag logic, and aspect ratio gymnastics. They have been treating this as a content problem when it is actually a production infrastructure problem.",
+    "visual_direction": {
+      "palette": "Muted and cool — slate grays, off-whites, one accent of warm amber from a desk lamp in the background. The browser tabs use their natural colors to signal chaos without any artificial highlighting.",
+      "lighting": "Flat, natural daylight from a window to the left — the kind of light that exists at 2pm and starts to shift by 4pm, subtly marking the passage of time without dramatizing it.",
+      "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bottle. The environment signals 'real work' not 'content creation set.'",
+      "camera_style": "Mostly static medium shots on the marketer and their screen, with one tight cut to the four open browser tabs. No handheld shake. No dramatic zooms. Cuts are deliberate and slightly slow — the pacing mirrors the slow drain of an afternoon, not a highlight reel.",
+      "art_direction": "Realistic, slightly cluttered SaaS team desk — dual monitors, a mechanical keyboard, a half-eaten lunch, sticky notes on the monitor edge. Every shot is grounded in a recognizable Thursday afternoon at a real workplace. Text overlays are minimal, clean, sans-serif — timestamps and one-line captions only. No motion graphics. No stock footage energy.",
+      "character_style": "A single SaaS marketer in their late 20s or early 30s — gender-neutral presentation, casual work clothes, no exaggerated expressions. Reactions are understated: a slight exhale, a pause before typing, a quiet moment of closing the laptop lid. No performance."
+    }
+  },
+  "opening": {
+    "pacing": "Deliberate and slow, mirroring the draining passage of time as the marketer shifts from satisfaction to overwhelm.",
+    "emotion": "Frustration mixed with a hint of disbelief as the viewer recognizes the all-too-familiar struggle.",
+    "first_image": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible.",
+    "attention_pattern": "The initial satisfaction of completing the video quickly shifts to tension as the viewer sees the mounting tasks, creating a need to understand how to escape this cycle.",
+    "first_spoken_sentence": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours."
+  },
+  "visual_identity": {
+    "palette": "Muted and cool — slate grays, off-whites, one accent of warm amber from a desk lamp in the background. The browser tabs use their natural colors to signal chaos without any artificial highlighting.",
+    "lighting": "Flat, natural daylight from a window to the left — the kind of light that exists at 2pm and starts to shift by 4pm, subtly marking the passage of time without dramatizing it.",
+    "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bottle. The environment signals 'real work' not 'content creation set.'",
+    "camera_style": "Mostly static medium shots on the marketer and their screen, with one tight cut to the four open browser tabs. No handheld shake. No dramatic zooms. Cuts are deliberate and slightly slow — the pacing mirrors the slow drain of an afternoon, not a highlight reel.",
+    "art_direction": "Realistic, slightly cluttered SaaS team desk — dual monitors, a mechanical keyboard, a half-eaten lunch, sticky notes on the monitor edge. Every shot is grounded in a recognizable Thursday afternoon at a real workplace. Text overlays are minimal, clean, sans-serif — timestamps and one-line captions only. No motion graphics. No stock footage energy.",
+    "character_style": "A single SaaS marketer in their late 20s or early 30s — gender-neutral presentation, casual work clothes, no exaggerated expressions. Reactions are understated: a slight exhale, a pause before typing, a quiet moment of closing the laptop lid. No performance.",
+    "opening_emotion": "Frustration mixed with a hint of disbelief as the viewer recognizes the all-too-familiar struggle.",
+    "opening_first_image": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible."
+  },
+  "package": {
+    "title": "The 40-Minute Video That Ate My Thursday",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+    "scenario": "A SaaS marketer wraps a 40-minute product walkthrough recording on a Thursday afternoon feeling ahead of schedule. By 5pm, three hours have disappeared — spent rewriting the same core message four times: a punchy TikTok hook, a professional LinkedIn paragraph, an Instagram caption with relevant hashtags, and a trimmed YouTube Shorts cut. Each platform demanded a different format, a different tone, and a different set of rules. The video was never the problem. The invisible second job that followed it was.",
+    "video": {
+      "script": "SCENE 1 — 2:14pm. Medium shot. A SaaS marketer at their desk, headphones around their neck, leaning back slightly. A freshly exported video file sits on the screen. They look satisfied. TEXT OVERLAY: '40 minutes. One video. Done.'\n\nVO: 'You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.'\n\nSCENE 2 — 3:30pm. Same desk. Four browser tabs visible: TikTok caption draft, LinkedIn post editor, Instagram hashtag tool, YouTube Shorts export settings. A half-eaten sandwich has appeared. The marketer is mid-sentence in a LinkedIn draft, deletes it, starts again.\n\nVO: 'The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut.'\n\nSCENE 3 — Tight cut to the monitor. Four tabs. Each one a different platform, a different format, a different set of rules. The original video file sits untouched in the center of the screen.\n\nTEXT OVERLAY: 'The video was never the problem.'\n\nVO: 'You didn't have a content problem. You had a reformatting problem.'\n\nSCENE 4 — 4:00pm. The marketer closes all four tabs. Opens a new browser window. Types a website URL. Pushes back from the desk. The screen shows a simple input field — nothing else required.\n\nVO: 'And it quietly swallowed your Thursday.'\n\nTEXT OVERLAY: 'One URL. Five platforms. No Thursday lost.'\n\nSCENE 5 — fenrik Studio logo appears on a clean, muted background. Soft amber desk lamp glow in the corner.",
+      "concept": "A SaaS marketer finishes recording a product walkthrough in 40 minutes and feels productive — then spends the next three hours not creating, but translating: rewriting captions per platform, researching hashtags, trimming aspect ratios, adjusting tone for LinkedIn versus TikTok. The mistake is not recording the video. The mistake is believing that recording it was the hard part. The story lands on the realization that this is a production infrastructure problem, not a creativity problem — and fenrik Studio removes the reformatting layer entirely.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediatips",
+      "#saasmarketing",
+      "#smallbusiness",
+      "#digitalmarketing"
+    ],
+    "subtitles_planned": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution."
+    },
+    {
+      "source": "asset",
+      "used_as": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "voiceover": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+  "voice_prompts": {
+    "voiceover_text": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm.",
+    "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm.",
+    "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair.",
+    "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next time you record a video, remember: the recording was never the hard part.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "40 minutes to record. 3 hours to reformat. That's not a content problem 👀 #contentcreator #saasmarketing #socialmediamarketing #smallbusiness #marketingtips",
+        "hashtags": [
+          "#contentcreator",
+          "#saasmarketing",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#marketingtips"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "short",
+        "caption": "You finished the video in 40 minutes — then lost three hours to reformatting it for every platform. Sound familiar?",
+        "hashtags": [
+          "#YouTubeShorts",
+          "#contentmarketing",
+          "#saas"
+        ]
+      },
+      "facebook": {
+        "cta": "Check it out at https://fenrik.studio — your first content package is free.",
+        "format": "reel",
+        "caption": "Ever spent more time reformatting a video than actually making it? 😅 Record once for LinkedIn, and suddenly you need a different cut for TikTok, a different caption for Instagram, and a whole new approach for YouTube Shorts. The recording was the easy part. fenrik Studio takes your website URL and handles the rest — video, captions, and hashtags for every platform, ready to post. No reformatting. No lost Thursdays.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A SaaS marketer records a product walkthrough in 40 minutes and feels productive. By 5pm, three hours are gone — spent rewriting captions for LinkedIn, cutting a Shorts version, researching TikTok hashtags, adjusting tone for Instagram. The video was never the bottleneck. The reformatting was. If your content production time is dominated by platform translation rather than creation, that's a structural problem — not a discipline one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saas",
+          "#marketingoperations"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this.",
+        "format": "reel",
+        "caption": "The video took 40 minutes.\n\nThe next three hours? Rewriting the same sentence for four different platforms.\n\nThat's not a creativity problem. That's a reformatting problem — and it's the one nobody talks about.\n\nSave this if your Thursday has ever disappeared the same way.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#saasfounder",
+          "#marketinglife",
+          "#smallbusinessmarketing",
+          "#contentcreation",
+          "#reelsmarketing",
+          "#socialmedia",
+          "#digitalmarketing",
+          "#founderlife"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "d0d1a112-8083-461a-b548-0064a03eb2da",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The 40-Minute Video That Ate My Thursday",
+        "body": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+        "caption": "A SaaS marketer records a product walkthrough in 40 minutes and feels productive. By 5pm, three hours are gone — spent rewriting captions for LinkedIn, cutting a Shorts version, researching TikTok hashtags, adjusting tone for Instagram. The video was never the bottleneck. The reformatting was. If your content production time is dominated by platform translation rather than creation, that's a structural problem — not a discipline one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#saas",
+          "#marketingoperations"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "4cddb5e9-55c4-4719-a71a-677eb431d7f3",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The 40-Minute Video That Ate My Thursday",
+        "body": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+        "caption": "40 minutes to record. 3 hours to reformat. That's not a content problem 👀 #contentcreator #saasmarketing #socialmediamarketing #smallbusiness #marketingtips",
+        "hashtags": [
+          "#contentcreator",
+          "#saasmarketing",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#marketingtips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c5181073-eac7-4b14-bfd5-21b56b70de74",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The 40-Minute Video That Ate My Thursday",
+        "body": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+        "caption": "The video took 40 minutes.\n\nThe next three hours? Rewriting the same sentence for four different platforms.\n\nThat's not a creativity problem. That's a reformatting problem — and it's the one nobody talks about.\n\nSave this if your Thursday has ever disappeared the same way.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediatips",
+          "#saasfounder",
+          "#marketinglife",
+          "#smallbusinessmarketing",
+          "#contentcreation",
+          "#reelsmarketing",
+          "#socialmedia",
+          "#digitalmarketing",
+          "#founderlife"
+        ],
+        "cta": "Save this.",
+        "language": null
+      },
+      {
+        "id": "5fe3782d-486c-4422-aba2-28bfdc7f1c70",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The 40-Minute Video That Ate My Thursday",
+        "body": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+        "caption": "You finished the video in 40 minutes — then lost three hours to reformatting it for every platform. Sound familiar?",
+        "hashtags": [
+          "#YouTubeShorts",
+          "#contentmarketing",
+          "#saas"
+        ],
+        "cta": "Subscribe for more.",
+        "language": null
+      },
+      {
+        "id": "7a34c132-74ed-4ca9-890e-828fce18ba4c",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The 40-Minute Video That Ate My Thursday",
+        "body": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+        "caption": "Ever spent more time reformatting a video than actually making it? 😅 Record once for LinkedIn, and suddenly you need a different cut for TikTok, a different caption for Instagram, and a whole new approach for YouTube Shorts. The recording was the easy part. fenrik Studio takes your website URL and handles the rest — video, captions, and hashtags for every platform, ready to post. No reformatting. No lost Thursdays.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ],
+        "cta": "Check it out at https://fenrik.studio — your first content package is free.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "bec6476e-d698-40e8-a692-b05a7cdb29d9",
+    "title": "The 40-Minute Video That Ate My Thursday",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next time you record a video, remember: the recording was never the hard part.",
+        "type": "save"
+      },
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "video": {
+        "script": "SCENE 1 — 2:14pm. Medium shot. A SaaS marketer at their desk, headphones around their neck, leaning back slightly. A freshly exported video file sits on the screen. They look satisfied. TEXT OVERLAY: '40 minutes. One video. Done.'\n\nVO: 'You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.'\n\nSCENE 2 — 3:30pm. Same desk. Four browser tabs visible: TikTok caption draft, LinkedIn post editor, Instagram hashtag tool, YouTube Shorts export settings. A half-eaten sandwich has appeared. The marketer is mid-sentence in a LinkedIn draft, deletes it, starts again.\n\nVO: 'The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut.'\n\nSCENE 3 — Tight cut to the monitor. Four tabs. Each one a different platform, a different format, a different set of rules. The original video file sits untouched in the center of the screen.\n\nTEXT OVERLAY: 'The video was never the problem.'\n\nVO: 'You didn't have a content problem. You had a reformatting problem.'\n\nSCENE 4 — 4:00pm. The marketer closes all four tabs. Opens a new browser window. Types a website URL. Pushes back from the desk. The screen shows a simple input field — nothing else required.\n\nVO: 'And it quietly swallowed your Thursday.'\n\nTEXT OVERLAY: 'One URL. Five platforms. No Thursday lost.'\n\nSCENE 5 — fenrik Studio logo appears on a clean, muted background. Soft amber desk lamp glow in the corner.",
+        "concept": "A SaaS marketer finishes recording a product walkthrough in 40 minutes and feels productive — then spends the next three hours not creating, but translating: rewriting captions per platform, researching hashtags, trimming aspect ratios, adjusting tone for LinkedIn versus TikTok. The mistake is not recording the video. The mistake is believing that recording it was the hard part. The story lands on the realization that this is a production infrastructure problem, not a creativity problem — and fenrik Studio removes the reformatting layer entirely.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediatips",
+        "#saasmarketing",
+        "#smallbusiness",
+        "#digitalmarketing"
+      ],
+      "scenario": "A SaaS marketer wraps a 40-minute product walkthrough recording on a Thursday afternoon feeling ahead of schedule. By 5pm, three hours have disappeared — spent rewriting the same core message four times: a punchy TikTok hook, a professional LinkedIn paragraph, an Instagram caption with relevant hashtags, and a trimmed YouTube Shorts cut. Each platform demanded a different format, a different tone, and a different set of rules. The video was never the problem. The invisible second job that followed it was.",
+      "subtitles": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+      "asset_usage": [
+        {
+          "used_as": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "image_prompts": [
+        "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm.",
+        "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm.",
+        "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair.",
+        "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution."
+        },
+        {
+          "source": "asset",
+          "used_as": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "voiceover_text": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "40 minutes to record. 3 hours to reformat. That's not a content problem 👀 #contentcreator #saasmarketing #socialmediamarketing #smallbusiness #marketingtips",
+          "hashtags": [
+            "#contentcreator",
+            "#saasmarketing",
+            "#socialmediamarketing",
+            "#smallbusiness",
+            "#marketingtips"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "short",
+          "caption": "You finished the video in 40 minutes — then lost three hours to reformatting it for every platform. Sound familiar?",
+          "hashtags": [
+            "#YouTubeShorts",
+            "#contentmarketing",
+            "#saas"
+          ]
+        },
+        "facebook": {
+          "cta": "Check it out at https://fenrik.studio — your first content package is free.",
+          "format": "reel",
+          "caption": "Ever spent more time reformatting a video than actually making it? 😅 Record once for LinkedIn, and suddenly you need a different cut for TikTok, a different caption for Instagram, and a whole new approach for YouTube Shorts. The recording was the easy part. fenrik Studio takes your website URL and handles the rest — video, captions, and hashtags for every platform, ready to post. No reformatting. No lost Thursdays.",
+          "hashtags": [
+            "#socialmedia",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "A SaaS marketer records a product walkthrough in 40 minutes and feels productive. By 5pm, three hours are gone — spent rewriting captions for LinkedIn, cutting a Shorts version, researching TikTok hashtags, adjusting tone for Instagram. The video was never the bottleneck. The reformatting was. If your content production time is dominated by platform translation rather than creation, that's a structural problem — not a discipline one.",
+          "hashtags": [
+            "#contentmarketing",
+            "#saas",
+            "#marketingoperations"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this.",
+          "format": "reel",
+          "caption": "The video took 40 minutes.\n\nThe next three hours? Rewriting the same sentence for four different platforms.\n\nThat's not a creativity problem. That's a reformatting problem — and it's the one nobody talks about.\n\nSave this if your Thursday has ever disappeared the same way.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediatips",
+            "#saasfounder",
+            "#marketinglife",
+            "#smallbusinessmarketing",
+            "#contentcreation",
+            "#reelsmarketing",
+            "#socialmedia",
+            "#digitalmarketing",
+            "#founderlife"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "bec6476e-d698-40e8-a692-b05a7cdb29d9",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 54,
+          "secondary": 31
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "story",
+        "video_concept": {
+          "title": "The 40-Minute Video That Ate My Thursday",
+          "core_idea": "A SaaS marketer records a product walkthrough video in 40 minutes, feeling productive — then spends the next three hours not creating, but translating: cropping for Reels, rewriting a caption in LinkedIn tone, researching hashtags for TikTok, trimming a YouTube Shorts version, and reformatting the Facebook post so it does not read like a tweet. The mistake is not recording the video. The mistake is believing that recording it was the hard part.",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by taking a website URL and returning platform-ready assets for every channel. It does not ask the marketer to do any of the work that ate the Thursday.",
+          "why_it_works": "The mistake hook lands because it reframes a familiar frustration — not 'I did not make content' but 'I made content and it still cost me three hours.' That specificity makes the viewer feel seen rather than lectured. The story structure earns the product mention because the resolution is a direct answer to the exact problem the narrative named, not a generic pitch. The 40-minute versus three-hour contrast is concrete and credible without requiring proof.",
+          "narrative_arc": "SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their neck, visibly satisfied. The screen shows a freshly exported video file. The timestamp in the corner reads 2:14pm. A caption appears: '40 minutes. One video. Done.' CONFLICT: Cut to 3:30pm. The same desk. Four browser tabs open — TikTok caption, LinkedIn draft, Instagram hashtag generator, YouTube Shorts export settings. The video file sits untouched in the center of the screen. A half-eaten sandwich has appeared. The marketer is not editing. They are rewriting the same sentence for the fourth time in a different tone. TWIST: A text overlay reads: 'The video was never the problem.' The camera holds on the four open tabs — each one a separate formatting job, a separate audience assumption, a separate set of rules. The original 40-minute recording now represents roughly 20% of the total time spent. RESOLUTION: The marketer closes all four tabs. Pulls up fenrik Studio. Types in a website URL. No brief. No format guide. No hashtag research. The next shot is the same desk at 4:00pm — the marketer is on a call, not a content tab in sight. A caption reads: 'One URL. Five platforms. No Thursday lost.' CTA: Submit your website URL — your first content package is free, no reformatting required.",
+          "emotional_tone": "Dry, knowing frustration that tips into quiet relief — the viewer recognizes themselves in the marketer's Thursday before they recognize the solution.",
+          "audience_insight": "SaaS marketers and small team operators already know how to record a decent video. What drains them is the invisible second job that follows: platform-specific reformatting, caption rewriting, hashtag logic, and aspect ratio gymnastics. They have been treating this as a content problem when it is actually a production infrastructure problem.",
+          "visual_direction": {
+            "palette": "Muted and cool — slate grays, off-whites, one accent of warm amber from a desk lamp in the background. The browser tabs use their natural colors to signal chaos without any artificial highlighting.",
+            "lighting": "Flat, natural daylight from a window to the left — the kind of light that exists at 2pm and starts to shift by 4pm, subtly marking the passage of time without dramatizing it.",
+            "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bottle. The environment signals 'real work' not 'content creation set.'",
+            "camera_style": "Mostly static medium shots on the marketer and their screen, with one tight cut to the four open browser tabs. No handheld shake. No dramatic zooms. Cuts are deliberate and slightly slow — the pacing mirrors the slow drain of an afternoon, not a highlight reel.",
+            "art_direction": "Realistic, slightly cluttered SaaS team desk — dual monitors, a mechanical keyboard, a half-eaten lunch, sticky notes on the monitor edge. Every shot is grounded in a recognizable Thursday afternoon at a real workplace. Text overlays are minimal, clean, sans-serif — timestamps and one-line captions only. No motion graphics. No stock footage energy.",
+            "character_style": "A single SaaS marketer in their late 20s or early 30s — gender-neutral presentation, casual work clothes, no exaggerated expressions. Reactions are understated: a slight exhale, a pause before typing, a quiet moment of closing the laptop lid. No performance."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_story→warmth(+3)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+54)",
+          "fit_secondary(+31)"
+        ],
+        "opening_impact": {
+          "pacing": "Deliberate and slow, mirroring the draining passage of time as the marketer shifts from satisfaction to overwhelm.",
+          "emotion": "Frustration mixed with a hint of disbelief as the viewer recognizes the all-too-familiar struggle.",
+          "first_image": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible.",
+          "attention_pattern": "The initial satisfaction of completing the video quickly shifts to tension as the viewer sees the mounting tasks, creating a need to understand how to escape this cycle.",
+          "first_spoken_sentence": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted and cool — slate grays, off-whites, one accent of warm amber from a desk lamp in the background. The browser tabs use their natural colors to signal chaos without any artificial highlighting.",
+          "lighting": "Flat, natural daylight from a window to the left — the kind of light that exists at 2pm and starts to shift by 4pm, subtly marking the passage of time without dramatizing it.",
+          "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bottle. The environment signals 'real work' not 'content creation set.'",
+          "camera_style": "Mostly static medium shots on the marketer and their screen, with one tight cut to the four open browser tabs. No handheld shake. No dramatic zooms. Cuts are deliberate and slightly slow — the pacing mirrors the slow drain of an afternoon, not a highlight reel.",
+          "art_direction": "Realistic, slightly cluttered SaaS team desk — dual monitors, a mechanical keyboard, a half-eaten lunch, sticky notes on the monitor edge. Every shot is grounded in a recognizable Thursday afternoon at a real workplace. Text overlays are minimal, clean, sans-serif — timestamps and one-line captions only. No motion graphics. No stock footage energy.",
+          "character_style": "A single SaaS marketer in their late 20s or early 30s — gender-neutral presentation, casual work clothes, no exaggerated expressions. Reactions are understated: a slight exhale, a pause before typing, a quiet moment of closing the laptop lid. No performance.",
+          "opening_emotion": "Frustration mixed with a hint of disbelief as the viewer recognizes the all-too-familiar struggle.",
+          "opening_first_image": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6610,
+                "completion_tokens": 1151
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:11.684Z",
+              "duration_ms": 32253,
+              "finished_at": "2026-07-25T10:35:43.937Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6610,
+              "estimated_cost": 0.037095,
+              "output_summary": "Concept: The 40-Minute Video That Ate My Thursday",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 28766,
+              "completion_tokens": 1151,
+              "output_size_bytes": 4860,
+              "prompt_characters": 28498,
+              "provider_request_id": null,
+              "completion_characters": 4828
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5409,
+                "completion_tokens": 170
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:43.937Z",
+              "duration_ms": 2221,
+              "finished_at": "2026-07-25T10:35:46.157Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5409,
+              "estimated_cost": 0.000837,
+              "output_summary": "Opening: You recorded a video in 40 minutes — and now you're stuck rewriting captions for",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 26172,
+              "completion_tokens": 170,
+              "output_size_bytes": 819,
+              "prompt_characters": 26024,
+              "provider_request_id": null,
+              "completion_characters": 817
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:46.158Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:35:46.158Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Realistic, slightly cluttered SaaS team desk — dual monitors",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1956,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1942
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10475,
+                "completion_tokens": 2831
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:35:46.159Z",
+              "duration_ms": 51869,
+              "finished_at": "2026-07-25T10:36:38.028Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10475,
+              "estimated_cost": 0.07389,
+              "output_summary": "Package: The 40-Minute Video That Ate My Thursday",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 43104,
+              "completion_tokens": 2831,
+              "output_size_bytes": 10857,
+              "prompt_characters": 42824,
+              "provider_request_id": null,
+              "completion_characters": 10793
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:36:38.028Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:36:38.028Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2259,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2243
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:36:38.028Z",
+              "duration_ms": 2570,
+              "finished_at": "2026-07-25T10:36:40.598Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=bec6476e-d698-40e8-a692-b05a7cdb29d9; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A SaaS marketer records a product walkthrough video in 40 minutes, feeling productive — then spends the next three hours not creating, but translating: cropping for Reels, rewriting a caption in Link…",
+          "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the backgro…",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by…",
+          "visual_world": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bott…",
+          "attention_pattern": "The initial satisfaction of completing the video quickly shifts to tension as the viewer sees the mounting tasks, creat…",
+          "narrative_mechanism": "story: SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their …"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+            "topic": "What it actually costs to stay active on four platforms at once without a team",
+            "motifs": [
+              "laptop",
+              "founder",
+              "product_asset"
+            ],
+            "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:36:38.297294+00:00",
+    "updated_at": "2026-07-25T10:36:40.76542+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 54,
+      "secondary": 31
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_story→warmth(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+54)",
+      "fit_secondary(+31)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Deliver"
+  },
+  "creative_mode": "story",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously",
+    "strategy_pain_point": "Difficulty maintaining a presence across multiple social platforms simultaneously"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by taking a website URL and returning platform-ready assets for every channel. It does not ask the marketer to do any of the work that ate the Thursday.",
+  "narrative_arc": "SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their neck, visibly satisfied. The screen shows a freshly exported video file. The timestamp in the corner reads 2:14pm. A caption appears: '40 minutes. One video. Done.' CONFLICT: Cut to 3:30pm. The same desk. Four browser tabs open — TikTok caption, LinkedIn draft, Instagram hashtag generator, YouTube Shorts export settings. The video file sits untouched in the center of the screen. A half-eaten sandwich has appeared. The marketer is not editing. They are rewriting the same sentence for the fourth time in a different tone. TWIST: A text overlay reads: 'The video was never the problem.' The camera holds on the four open tabs — each one a separate formatting job, a separate audience assumption, a separate set of rules. The original 40-minute recording now represents roughly 20% of the total time spent. RESOLUTION: The marketer closes all four tabs. Pulls up fenrik Studio. Types in a website URL. No brief. No format guide. No hashtag research. The next shot is the same desk at 4:00pm — the marketer is on a call, not a content tab in sight. A caption reads: 'One URL. Five platforms. No Thursday lost.' CTA: Submit your website URL — your first content package is free, no reformatting required.",
+  "emotional_tone": "Dry, knowing frustration that tips into quiet relief — the viewer recognizes themselves in the marketer's Thursday before they recognize the solution.",
+  "audience_insight": "SaaS marketers and small team operators already know how to record a decent video. What drains them is the invisible second job that follows: platform-specific reformatting, caption rewriting, hashtag logic, and aspect ratio gymnastics. They have been treating this as a content problem when it is actually a production infrastructure problem.",
+  "visual_direction": {
+    "palette": "Muted and cool — slate grays, off-whites, one accent of warm amber from a desk lamp in the background. The browser tabs use their natural colors to signal chaos without any artificial highlighting.",
+    "lighting": "Flat, natural daylight from a window to the left — the kind of light that exists at 2pm and starts to shift by 4pm, subtly marking the passage of time without dramatizing it.",
+    "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bottle. The environment signals 'real work' not 'content creation set.'",
+    "camera_style": "Mostly static medium shots on the marketer and their screen, with one tight cut to the four open browser tabs. No handheld shake. No dramatic zooms. Cuts are deliberate and slightly slow — the pacing mirrors the slow drain of an afternoon, not a highlight reel.",
+    "art_direction": "Realistic, slightly cluttered SaaS team desk — dual monitors, a mechanical keyboard, a half-eaten lunch, sticky notes on the monitor edge. Every shot is grounded in a recognizable Thursday afternoon at a real workplace. Text overlays are minimal, clean, sans-serif — timestamps and one-line captions only. No motion graphics. No stock footage energy.",
+    "character_style": "A single SaaS marketer in their late 20s or early 30s — gender-neutral presentation, casual work clothes, no exaggerated expressions. Reactions are understated: a slight exhale, a pause before typing, a quiet moment of closing the laptop lid. No performance."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday."
+  },
+  "render_metadata": {
+    "id": "96818f84-2555-4571-b105-26fa527dacf7",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:36:40.332948+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A cluttered desk with dual monitors displaying a freshly exported video file, a half-eaten sandwich, and four open browser tabs showing TikTok, LinkedIn, Instagram, and YouTube Shorts, all with different formatting tasks visible. Flat natural daylight from the left. Muted slate grays and off-whites. Sticky notes on the monitor edge. A water bottle nearby. Realistic, grounded workplace energy — not a studio. Timestamp visible in the screen corner reading 2:14pm."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a monitor screen showing four open browser tabs: a TikTok caption draft, a LinkedIn post editor with a sentence half-deleted, an Instagram hashtag generator, and YouTube Shorts export settings. The original video file icon sits untouched in the center of the desktop. Cool, slightly dim afternoon light. No motion graphics — raw screen reality. Timestamp in corner reads 3:30pm."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A SaaS marketer in their late 20s, gender-neutral presentation, casual work clothes, sitting at a desk with headphones around their neck. They are staring at a screen with a slight exhale — understated, not dramatic. A half-eaten sandwich on the desk. Dual monitors. Slack thread visible on the background screen. Flat daylight from a left window, warm amber desk lamp glow behind them. The expression is quiet frustration, not despair."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "The same compact workspace at 4:00pm — the marketer has pushed back from the desk and is on a phone call, visibly relaxed. The monitor shows a single clean browser window with a simple URL input field. All four formatting tabs are closed. The afternoon light has shifted slightly warmer. The desk still has a sandwich wrapper but the chaos is gone. One sticky note remains on the monitor edge. The environment signals resolution."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742",
+        "image_path": "163c1822-ad30-4cee-8826-dfacd9c188b9/source/e895c555-e0b4-4628-9ee8-1fd5a65dc742/web-img.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+            "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+    "cta": "Save this — next time you record a video, remember: the recording was never the hard part.",
+    "voiceover_text": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours. The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut. You didn't have a content problem. You had a reformatting problem. And it quietly swallowed your Thursday.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: warm, intimate, conversational storytelling pace. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A SaaS marketer records a product walkthrough video in 40 minutes, feeling productive — then spends the next three hours not creating, but translating: cropping for Reels, rewriting a caption in Link…",
+      "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the backgro…",
+      "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by…",
+      "visual_world": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bott…",
+      "attention_pattern": "The initial satisfaction of completing the video quickly shifts to tension as the viewer sees the mounting tasks, creat…",
+      "narrative_mechanism": "story: SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their …"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediatips",
+    "#saasmarketing",
+    "#smallbusiness",
+    "#digitalmarketing"
+  ],
+  "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+  "scenario": "A SaaS marketer wraps a 40-minute product walkthrough recording on a Thursday afternoon feeling ahead of schedule. By 5pm, three hours have disappeared — spent rewriting the same core message four times: a punchy TikTok hook, a professional LinkedIn paragraph, an Instagram caption with relevant hashtags, and a trimmed YouTube Shorts cut. Each platform demanded a different format, a different tone, and a different set of rules. The video was never the problem. The invisible second job that followed it was.",
+  "video": {
+    "script": "SCENE 1 — 2:14pm. Medium shot. A SaaS marketer at their desk, headphones around their neck, leaning back slightly. A freshly exported video file sits on the screen. They look satisfied. TEXT OVERLAY: '40 minutes. One video. Done.'\n\nVO: 'You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.'\n\nSCENE 2 — 3:30pm. Same desk. Four browser tabs visible: TikTok caption draft, LinkedIn post editor, Instagram hashtag tool, YouTube Shorts export settings. A half-eaten sandwich has appeared. The marketer is mid-sentence in a LinkedIn draft, deletes it, starts again.\n\nVO: 'The video is done. But TikTok needs a different hook. LinkedIn needs a different tone. Instagram needs different hashtags. YouTube Shorts needs a different cut.'\n\nSCENE 3 — Tight cut to the monitor. Four tabs. Each one a different platform, a different format, a different set of rules. The original video file sits untouched in the center of the screen.\n\nTEXT OVERLAY: 'The video was never the problem.'\n\nVO: 'You didn't have a content problem. You had a reformatting problem.'\n\nSCENE 4 — 4:00pm. The marketer closes all four tabs. Opens a new browser window. Types a website URL. Pushes back from the desk. The screen shows a simple input field — nothing else required.\n\nVO: 'And it quietly swallowed your Thursday.'\n\nTEXT OVERLAY: 'One URL. Five platforms. No Thursday lost.'\n\nSCENE 5 — fenrik Studio logo appears on a clean, muted background. Soft amber desk lamp glow in the corner.",
+    "concept": "A SaaS marketer finishes recording a product walkthrough in 40 minutes and feels productive — then spends the next three hours not creating, but translating: rewriting captions per platform, researching hashtags, trimming aspect ratios, adjusting tone for LinkedIn versus TikTok. The mistake is not recording the video. The mistake is believing that recording it was the hard part. The story lands on the realization that this is a production infrastructure problem, not a creativity problem — and fenrik Studio removes the reformatting layer entirely.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and product identity.",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "topic": "What it actually costs to stay active on four platforms at once without a team",
+      "motifs": [
+        "laptop",
+        "founder",
+        "product_asset"
+      ],
+      "closing": "fenrik Studio logo displayed on laptop screen in resolution scene as product reference",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6610,
+          "completion_tokens": 1151
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:11.684Z",
+        "duration_ms": 32253,
+        "finished_at": "2026-07-25T10:35:43.937Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6610,
+        "estimated_cost": 0.037095,
+        "output_summary": "Concept: The 40-Minute Video That Ate My Thursday",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 28766,
+        "completion_tokens": 1151,
+        "output_size_bytes": 4860,
+        "prompt_characters": 28498,
+        "provider_request_id": null,
+        "completion_characters": 4828
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5409,
+          "completion_tokens": 170
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:43.937Z",
+        "duration_ms": 2221,
+        "finished_at": "2026-07-25T10:35:46.157Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5409,
+        "estimated_cost": 0.000837,
+        "output_summary": "Opening: You recorded a video in 40 minutes — and now you're stuck rewriting captions for",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 26172,
+        "completion_tokens": 170,
+        "output_size_bytes": 819,
+        "prompt_characters": 26024,
+        "provider_request_id": null,
+        "completion_characters": 817
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:46.158Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:35:46.158Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Realistic, slightly cluttered SaaS team desk — dual monitors",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1956,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1942
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10475,
+          "completion_tokens": 2831
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:35:46.159Z",
+        "duration_ms": 51869,
+        "finished_at": "2026-07-25T10:36:38.028Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10475,
+        "estimated_cost": 0.07389,
+        "output_summary": "Package: The 40-Minute Video That Ate My Thursday",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 43104,
+        "completion_tokens": 2831,
+        "output_size_bytes": 10857,
+        "prompt_characters": 42824,
+        "provider_request_id": null,
+        "completion_characters": 10793
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:36:38.028Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:36:38.028Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2259,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2243
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:36:38.028Z",
+        "duration_ms": 2570,
+        "finished_at": "2026-07-25T10:36:40.598Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=bec6476e-d698-40e8-a692-b05a7cdb29d9; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "b68fe04c-2307-497e-aa89-62956a8dd61e",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

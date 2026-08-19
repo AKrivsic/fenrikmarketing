@@ -6,18 +6,21 @@ import {
   OpenAITranscriptionProvider,
   OpenAIVisionProvider,
 } from "@/lib/ai/openai";
+import { RunwayVideoGenerationProvider } from "@/lib/ai/runway";
 import type {
   ImageProvider,
   SpeechProvider,
   TextProvider,
   TranscriptionProvider,
 } from "@/lib/ai/types";
+import type { VideoGenerationProvider } from "@/lib/ai/videoGeneration";
 
 // Single place that hard-codes the provider routing rules from the spec:
 //   - Claude  -> strategy, copywriting, scoring, evergreen generation
 //   - OpenAI  -> images, TTS, structured JSON repair / helper
 //   - AI Visual Engine never calls OpenAI directly; it uses getImageProvider().
 //   - MVP default image_provider = openai.
+//   - Image-to-video is Runway only (not wired into the production FFmpeg pipeline).
 
 let claude: TextProvider | null = null;
 let openaiText: TextProvider | null = null;
@@ -25,6 +28,7 @@ let openaiImage: ImageProvider | null = null;
 let openaiSpeech: SpeechProvider | null = null;
 let openaiTranscription: TranscriptionProvider | null = null;
 let openaiVision: OpenAIVisionProvider | null = null;
+let runwayVideo: VideoGenerationProvider | null = null;
 
 function claudeProvider(): TextProvider {
   if (!claude) claude = new ClaudeProvider();
@@ -88,4 +92,12 @@ export function getVisionProvider(): OpenAIVisionProvider {
   return openaiVision;
 }
 
+// Image-to-video only. Missing RUNWAYML_API_SECRET fails on first call;
+// there is no fallback provider.
+export function getVideoGenerationProvider(): VideoGenerationProvider {
+  if (!runwayVideo) runwayVideo = new RunwayVideoGenerationProvider();
+  return runwayVideo;
+}
+
 export * from "@/lib/ai/types";
+export * from "@/lib/ai/videoGeneration";

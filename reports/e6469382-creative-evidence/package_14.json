@@ -1,0 +1,1745 @@
+{
+  "package_index": 14,
+  "run_item_id": "857735e3-6492-492a-b7dc-bf14580aee79",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "0ba65f24-3c69-43be-a0f0-36feac1c4f38",
+  "package_title": "The In-House Plan That Never Starts",
+  "package_status": "draft",
+  "strategy_item_id": "77799098-891c-47fb-a842-35169fea8808",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "77799098-891c-47fb-a842-35169fea8808",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A candid look at the in-house content promise: the team agrees it's a priority, someone is nominally responsible, and three months later the account has two posts. The video diagnoses the structural gap — not the motivation gap.",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "source": "production_run",
+      "pain_point": "Struggling to produce consistent, platform-ready social media content",
+      "package_index": 14,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "Why 'we'll do content in-house' is the plan that never actually starts",
+      "angle": "A candid look at the in-house content promise: the team agrees it's a priority, someone is nominally responsible, and three months later the account has two posts. The video diagnoses the structural gap — not the motivation gap.",
+      "seed": "Problem Aware|Why 'we'll do content in-house' is the plan that never actually starts|A candid look at the in-house content promise: the team agrees it's a priority, someone is nominally responsible, and three months later the account has two posts. The video diagnoses the structural gap — not the motivation gap.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "standard",
+        "name": "Standard",
+        "description": "Clean, direct value delivery with a strong hook.",
+        "structure": "Hook on a concrete moment -> the one insight that matters -> show it in action -> proof -> CTA.",
+        "avoid": "Do not be bland, list-like or templated; still open on a concrete moment.",
+        "narrativeBeats": [
+          "hook",
+          "insight",
+          "in_action",
+          "proof",
+          "cta"
+        ],
+        "preferred": false
+      },
+      "hook": {
+        "id": "myth",
+        "instruction": "Open by stating a popular myth you are about to break.",
+        "exampleForm": "\"More cleaning product means cleaner. It does not.\"",
+        "forbidGeneric": "Do not open with \"Let's talk about a common myth.\""
+      },
+      "persona": {
+        "id": "annoyed_operator",
+        "name": "Annoyed Operator",
+        "vocabulary": "blunt, no-nonsense, a little fed up",
+        "rhythm": "clipped, direct hits",
+        "energy": "high, impatient (with the problem, not the viewer)",
+        "exaggeration": "moderate, for emphasis — never insulting the customer"
+      }
+    }
+  },
+  "concept": {
+    "title": "The In-House Plan That Never Starts",
+    "core_idea": "A myth-buster delivered in the voice of an annoyed operator: the idea that 'we'll handle content in-house' is a plan is wrong. It is a placeholder. The video exposes the structural reason in-house content stalls — not a people problem, not a motivation problem — and shows how a done-for-you model removes the structural gap entirely.",
+    "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap entirely by taking a URL as the only input and returning finished, platform-ready content. It is introduced at the resolution not as a product pitch but as the logical answer to the structural diagnosis the video just made.",
+    "why_it_works": "The myth format creates immediate tension by naming something the audience has said or heard recently. The structural diagnosis — rather than a motivation diagnosis — is disarming and specific; it does not blame the viewer, which keeps them watching. The dry visual sequence of recurring task-board items and bumped calendar blocks is instantly recognizable without requiring any dialogue. The proof lands cleanly because the structural gap has already been established, so the product's input-to-output model is the direct answer. The CTA is frictionless and matches the promise: no internal kickoff, no brief, no meeting.",
+    "narrative_arc": "HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house content is the plan that sounds like a decision but never actually is one.' No setup, no pleasantries. INSIGHT: The video immediately names the structural gap: someone is nominally responsible, the team agrees it's a priority, and there is no dedicated production capacity — just intention sitting on top of a full schedule. The insight is pointed: motivation was never the problem. The structure was. Every week that passes, the task competes with real work and loses. That is not a discipline failure. That is a resource architecture failure. IN ACTION: Cut to a fast, dry visual sequence — a shared task board with 'post this week' recurring for ten weeks, a calendar with a content block that keeps getting replaced by other meetings, a Slack message that says 'can we push content to next week?' answered with a thumbs-up emoji. No voiceover during this sequence — the images carry the diagnosis. PROOF: Return to the speaker. One line: 'fenrik Studio turns your website URL into a full batch of ready-to-post videos and captions — nothing else required from you.' No hyperbole. No list. Just the structural fix stated plainly. CTA: 'Submit your URL. First package is free. No internal kickoff meeting needed.'",
+    "emotional_tone": "Blunt and a little fed up — with the situation, not the viewer. The energy is that of someone who has watched this pattern repeat too many times and is done pretending the problem is motivation. Underneath the directness is genuine empathy: the viewer is not lazy, they are structurally set up to fail. The resolution lands with relief, not shame.",
+    "audience_insight": "Small marketing teams, founders, and solo operators genuinely believe 'in-house' is a real plan when they say it. They are not lying to themselves — they are underestimating the structural gap between intention and production capacity. When the content still has not happened three months later, they blame discipline. The video reframes it as an architecture problem, which removes the shame and opens the door to a structural solution.",
+    "visual_direction": {
+      "palette": "Muted greys, off-whites, and slate blues from digital UI screens. One recurring accent color — a soft amber or warm orange — used only on the task-board item that keeps reappearing, to make it visually sticky across the sequence.",
+      "lighting": "Cool, even fluorescent or monitor-glow lighting throughout. No golden hour, no dramatic shadows. The flatness of the light reinforces the flatness of the situation — nothing dramatic happened, the content just never got done.",
+      "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calendar grid with blocks being replaced, a Slack thread. The speaker appears in a minimal, neutral background — plain wall, no props — so the UI sequences carry the visual weight.",
+      "camera_style": "Speaker segments: tight medium shot, static frame, direct eye contact. No b-roll of people working. UI sequences: clean screen recordings or motion-graphic recreations of digital interfaces, cut fast and dry. No transitions — hard cuts only. Total runtime feel: under 45 seconds.",
+      "art_direction": "Flat, functional, slightly clinical — the visual language of a team workspace that is organized but permanently overloaded. Digital interfaces dominate: task boards, calendar views, Slack threads. No warmth, no lifestyle softness. The aesthetic should feel like a Monday morning, not a brand shoot.",
+      "character_style": "Single speaker — a founder or marketing lead type, early-to-mid 30s, dressed plainly (no branded clothing, no blazer). Speaks without notes, directly to camera, minimal movement. The delivery is the performance — clipped, slightly impatient, completely credible."
+    }
+  },
+  "opening": {
+    "pacing": "Fast and direct, with a sense of urgency to address the recurring issue.",
+    "emotion": "Blunt frustration mixed with empathy for the viewer's struggle.",
+    "first_image": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in.",
+    "attention_pattern": "The stark contrast between intention and reality creates immediate curiosity about the underlying problem.",
+    "first_spoken_sentence": "In-house content is the plan that sounds like a decision but never actually is one."
+  },
+  "visual_identity": {
+    "palette": "Muted greys, off-whites, and slate blues from digital UI screens. One recurring accent color — a soft amber or warm orange — used only on the task-board item that keeps reappearing, to make it visually sticky across the sequence.",
+    "lighting": "Cool, even fluorescent or monitor-glow lighting throughout. No golden hour, no dramatic shadows. The flatness of the light reinforces the flatness of the situation — nothing dramatic happened, the content just never got done.",
+    "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calendar grid with blocks being replaced, a Slack thread. The speaker appears in a minimal, neutral background — plain wall, no props — so the UI sequences carry the visual weight.",
+    "camera_style": "Speaker segments: tight medium shot, static frame, direct eye contact. No b-roll of people working. UI sequences: clean screen recordings or motion-graphic recreations of digital interfaces, cut fast and dry. No transitions — hard cuts only. Total runtime feel: under 45 seconds.",
+    "art_direction": "Flat, functional, slightly clinical — the visual language of a team workspace that is organized but permanently overloaded. Digital interfaces dominate: task boards, calendar views, Slack threads. No warmth, no lifestyle softness. The aesthetic should feel like a Monday morning, not a brand shoot.",
+    "character_style": "Single speaker — a founder or marketing lead type, early-to-mid 30s, dressed plainly (no branded clothing, no blazer). Speaks without notes, directly to camera, minimal movement. The delivery is the performance — clipped, slightly impatient, completely credible.",
+    "opening_emotion": "Blunt frustration mixed with empathy for the viewer's struggle.",
+    "opening_first_image": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in."
+  },
+  "package": {
+    "title": "The In-House Plan That Never Starts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+    "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+    "video": {
+      "script": "[SCENE 1 — SPEAKER, tight medium shot, plain wall, direct eye contact]\nSPEAKEN: 'In-house content is the plan that sounds like a decision but never actually is one.'\n\n[SCENE 2 — UI sequence: task board, 'Post this week' in amber, ten weeks of recurrence. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 3 — UI sequence: calendar grid, content block replaced by meetings, week after week. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 4 — UI sequence: Slack thread. Message reads 'can we push content to next week?' Thumbs-up reply. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 5 — SPEAKER returns]\nSPEAKEN: 'Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.'",
+      "concept": "A myth-buster in the voice of an annoyed operator. The video opens with a blunt statement delivered straight to camera, then diagnoses the structural — not motivational — reason in-house content never ships. A fast visual sequence of recurring task-board items and bumped calendar blocks carries the diagnosis without dialogue. The product is introduced as the structural fix: a URL in, finished content out, no internal production required.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#contentmarketing",
+      "#socialmediamarketing",
+      "#marketingstrategy",
+      "#founderlife",
+      "#smallbusiness"
+    ],
+    "subtitles_planned": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual."
+    },
+    {
+      "source": "asset",
+      "used_as": "End card logo lockup over plain neutral background, closing frame of the video",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "voiceover": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+  "voice_prompts": {
+    "voiceover_text": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clean, direct, practical. Delivery: measured, credible. L",
+    "selected_voice": "onyx",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item.",
+    "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible.",
+    "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment.",
+    "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — next time someone says 'we'll handle it in-house,' you'll know exactly what that actually means.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Save this before your next team standup.",
+        "format": "reel",
+        "caption": "The in-house content plan is just intention with a meeting attached. 🧵 Save this before your next team standup.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingtips",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#founderlife"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more.",
+        "format": "shorts",
+        "caption": "Why 'we'll do it in-house' always ends with two posts and a quiet feed. This is a structure problem, not a motivation one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamarketing",
+          "#youtubeshorts"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Ever heard someone say 'we'll handle social content in-house' — and then check the account three months later to find almost nothing posted? 😅 It's not laziness. It's that production takes real, dedicated capacity, and most schedules don't have any left. If that sounds familiar, you're not alone — and the fix is simpler than hiring a whole content team.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "'We'll handle content in-house' is one of the most common plans in marketing — and one of the least likely to ship.\n\nThe team agrees it's a priority. Someone is nominally responsible. Three months pass. Two posts exist.\n\nThis is not a discipline failure. It is a resource architecture failure. Production capacity cannot be borrowed from a schedule that is already at capacity.\n\nThe structural gap is the problem. Motivation was never the variable.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#b2bmarketing"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this for the next time someone says it in a meeting.",
+        "format": "reel",
+        "caption": "'We'll handle content in-house.'\n\nSaid in January. Two posts by April.\n\nIt's not discipline. It's structure.\n\nYou can't run a production schedule on top of a full one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#marketingstrategy",
+          "#founderlife",
+          "#smallbusinessowner",
+          "#contentcreator",
+          "#digitalmarketing"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "1f49b878-54ca-4458-8ec5-c31f9b305165",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The In-House Plan That Never Starts",
+        "body": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+        "caption": "Ever heard someone say 'we'll handle social content in-house' — and then check the account three months later to find almost nothing posted? 😅 It's not laziness. It's that production takes real, dedicated capacity, and most schedules don't have any left. If that sounds familiar, you're not alone — and the fix is simpler than hiring a whole content team.",
+        "hashtags": [
+          "#socialmedia",
+          "#contentmarketing"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "55402cfe-bd4e-4008-a256-5f60cf1b9a22",
+        "platform": "youtube",
+        "format": "reel",
+        "status": "draft",
+        "title": "The In-House Plan That Never Starts",
+        "body": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+        "caption": "Why 'we'll do it in-house' always ends with two posts and a quiet feed. This is a structure problem, not a motivation one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmediamarketing",
+          "#youtubeshorts"
+        ],
+        "cta": "Subscribe for more.",
+        "language": null
+      },
+      {
+        "id": "817c81ea-e7eb-4d20-a4e3-d72a8e63e777",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The In-House Plan That Never Starts",
+        "body": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+        "caption": "The in-house content plan is just intention with a meeting attached. 🧵 Save this before your next team standup.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingtips",
+          "#socialmediamarketing",
+          "#smallbusiness",
+          "#founderlife"
+        ],
+        "cta": "Save this before your next team standup.",
+        "language": null
+      },
+      {
+        "id": "2e34efc7-1a1a-48aa-a8af-2c46601b2681",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The In-House Plan That Never Starts",
+        "body": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+        "caption": "'We'll handle content in-house.'\n\nSaid in January. Two posts by April.\n\nIt's not discipline. It's structure.\n\nYou can't run a production schedule on top of a full one.",
+        "hashtags": [
+          "#contentmarketing",
+          "#socialmedia",
+          "#marketingstrategy",
+          "#founderlife",
+          "#smallbusinessowner",
+          "#contentcreator",
+          "#digitalmarketing"
+        ],
+        "cta": "Save this for the next time someone says it in a meeting.",
+        "language": null
+      },
+      {
+        "id": "68d9ff36-d454-4bd3-b2b3-ae0e5b4c04fe",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The In-House Plan That Never Starts",
+        "body": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+        "caption": "'We'll handle content in-house' is one of the most common plans in marketing — and one of the least likely to ship.\n\nThe team agrees it's a priority. Someone is nominally responsible. Three months pass. Two posts exist.\n\nThis is not a discipline failure. It is a resource architecture failure. Production capacity cannot be borrowed from a schedule that is already at capacity.\n\nThe structural gap is the problem. Motivation was never the variable.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#b2bmarketing"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "0ba65f24-3c69-43be-a0f0-36feac1c4f38",
+    "title": "The In-House Plan That Never Starts",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "77799098-891c-47fb-a842-35169fea8808",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — next time someone says 'we'll handle it in-house,' you'll know exactly what that actually means.",
+        "type": "save"
+      },
+      "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+      "video": {
+        "script": "[SCENE 1 — SPEAKER, tight medium shot, plain wall, direct eye contact]\nSPEAKEN: 'In-house content is the plan that sounds like a decision but never actually is one.'\n\n[SCENE 2 — UI sequence: task board, 'Post this week' in amber, ten weeks of recurrence. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 3 — UI sequence: calendar grid, content block replaced by meetings, week after week. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 4 — UI sequence: Slack thread. Message reads 'can we push content to next week?' Thumbs-up reply. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 5 — SPEAKER returns]\nSPEAKEN: 'Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.'",
+        "concept": "A myth-buster in the voice of an annoyed operator. The video opens with a blunt statement delivered straight to camera, then diagnoses the structural — not motivational — reason in-house content never ships. A fast visual sequence of recurring task-board items and bumped calendar blocks carries the diagnosis without dialogue. The product is introduced as the structural fix: a URL in, finished content out, no internal production required.",
+        "duration_seconds": "42"
+      },
+      "hashtags": [
+        "#contentmarketing",
+        "#socialmediamarketing",
+        "#marketingstrategy",
+        "#founderlife",
+        "#smallbusiness"
+      ],
+      "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+      "subtitles": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+      "asset_usage": [
+        {
+          "used_as": "End card logo lockup over plain neutral background, closing frame of the video",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "image_prompts": [
+        "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item.",
+        "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible.",
+        "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment.",
+        "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual."
+        },
+        {
+          "source": "asset",
+          "used_as": "End card logo lockup over plain neutral background, closing frame of the video",
+          "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+        }
+      ],
+      "voiceover_text": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Save this before your next team standup.",
+          "format": "reel",
+          "caption": "The in-house content plan is just intention with a meeting attached. 🧵 Save this before your next team standup.",
+          "hashtags": [
+            "#contentcreation",
+            "#marketingtips",
+            "#socialmediamarketing",
+            "#smallbusiness",
+            "#founderlife"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more.",
+          "format": "shorts",
+          "caption": "Why 'we'll do it in-house' always ends with two posts and a quiet feed. This is a structure problem, not a motivation one.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmediamarketing",
+            "#youtubeshorts"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Ever heard someone say 'we'll handle social content in-house' — and then check the account three months later to find almost nothing posted? 😅 It's not laziness. It's that production takes real, dedicated capacity, and most schedules don't have any left. If that sounds familiar, you're not alone — and the fix is simpler than hiring a whole content team.",
+          "hashtags": [
+            "#socialmedia",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "'We'll handle content in-house' is one of the most common plans in marketing — and one of the least likely to ship.\n\nThe team agrees it's a priority. Someone is nominally responsible. Three months pass. Two posts exist.\n\nThis is not a discipline failure. It is a resource architecture failure. Production capacity cannot be borrowed from a schedule that is already at capacity.\n\nThe structural gap is the problem. Motivation was never the variable.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingstrategy",
+            "#b2bmarketing"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this for the next time someone says it in a meeting.",
+          "format": "reel",
+          "caption": "'We'll handle content in-house.'\n\nSaid in January. Two posts by April.\n\nIt's not discipline. It's structure.\n\nYou can't run a production schedule on top of a full one.",
+          "hashtags": [
+            "#contentmarketing",
+            "#socialmedia",
+            "#marketingstrategy",
+            "#founderlife",
+            "#smallbusinessowner",
+            "#contentcreator",
+            "#digitalmarketing"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "onyx",
+        "package_id": "0ba65f24-3c69-43be-a0f0-36feac1c4f38",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 38,
+          "secondary": 41
+        },
+        "voice_source": "package_secondary",
+        "creative_mode": "standard",
+        "video_concept": {
+          "title": "The In-House Plan That Never Starts",
+          "core_idea": "A myth-buster delivered in the voice of an annoyed operator: the idea that 'we'll handle content in-house' is a plan is wrong. It is a placeholder. The video exposes the structural reason in-house content stalls — not a people problem, not a motivation problem — and shows how a done-for-you model removes the structural gap entirely.",
+          "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap entirely by taking a URL as the only input and returning finished, platform-ready content. It is introduced at the resolution not as a product pitch but as the logical answer to the structural diagnosis the video just made.",
+          "why_it_works": "The myth format creates immediate tension by naming something the audience has said or heard recently. The structural diagnosis — rather than a motivation diagnosis — is disarming and specific; it does not blame the viewer, which keeps them watching. The dry visual sequence of recurring task-board items and bumped calendar blocks is instantly recognizable without requiring any dialogue. The proof lands cleanly because the structural gap has already been established, so the product's input-to-output model is the direct answer. The CTA is frictionless and matches the promise: no internal kickoff, no brief, no meeting.",
+          "narrative_arc": "HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house content is the plan that sounds like a decision but never actually is one.' No setup, no pleasantries. INSIGHT: The video immediately names the structural gap: someone is nominally responsible, the team agrees it's a priority, and there is no dedicated production capacity — just intention sitting on top of a full schedule. The insight is pointed: motivation was never the problem. The structure was. Every week that passes, the task competes with real work and loses. That is not a discipline failure. That is a resource architecture failure. IN ACTION: Cut to a fast, dry visual sequence — a shared task board with 'post this week' recurring for ten weeks, a calendar with a content block that keeps getting replaced by other meetings, a Slack message that says 'can we push content to next week?' answered with a thumbs-up emoji. No voiceover during this sequence — the images carry the diagnosis. PROOF: Return to the speaker. One line: 'fenrik Studio turns your website URL into a full batch of ready-to-post videos and captions — nothing else required from you.' No hyperbole. No list. Just the structural fix stated plainly. CTA: 'Submit your URL. First package is free. No internal kickoff meeting needed.'",
+          "emotional_tone": "Blunt and a little fed up — with the situation, not the viewer. The energy is that of someone who has watched this pattern repeat too many times and is done pretending the problem is motivation. Underneath the directness is genuine empathy: the viewer is not lazy, they are structurally set up to fail. The resolution lands with relief, not shame.",
+          "audience_insight": "Small marketing teams, founders, and solo operators genuinely believe 'in-house' is a real plan when they say it. They are not lying to themselves — they are underestimating the structural gap between intention and production capacity. When the content still has not happened three months later, they blame discipline. The video reframes it as an architecture problem, which removes the shame and opens the door to a structural solution.",
+          "visual_direction": {
+            "palette": "Muted greys, off-whites, and slate blues from digital UI screens. One recurring accent color — a soft amber or warm orange — used only on the task-board item that keeps reappearing, to make it visually sticky across the sequence.",
+            "lighting": "Cool, even fluorescent or monitor-glow lighting throughout. No golden hour, no dramatic shadows. The flatness of the light reinforces the flatness of the situation — nothing dramatic happened, the content just never got done.",
+            "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calendar grid with blocks being replaced, a Slack thread. The speaker appears in a minimal, neutral background — plain wall, no props — so the UI sequences carry the visual weight.",
+            "camera_style": "Speaker segments: tight medium shot, static frame, direct eye contact. No b-roll of people working. UI sequences: clean screen recordings or motion-graphic recreations of digital interfaces, cut fast and dry. No transitions — hard cuts only. Total runtime feel: under 45 seconds.",
+            "art_direction": "Flat, functional, slightly clinical — the visual language of a team workspace that is organized but permanently overloaded. Digital interfaces dominate: task boards, calendar views, Slack threads. No warmth, no lifestyle softness. The aesthetic should feel like a Monday morning, not a brand shoot.",
+            "character_style": "Single speaker — a founder or marketing lead type, early-to-mid 30s, dressed plainly (no branded clothing, no blazer). Speaks without notes, directly to camera, minimal movement. The delivery is the performance — clipped, slightly impatient, completely credible."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_standard→steadiness(+2)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+38)",
+          "fit_secondary(+38)",
+          "soft_tie_recent_primary(4)→secondary(+3)"
+        ],
+        "opening_impact": {
+          "pacing": "Fast and direct, with a sense of urgency to address the recurring issue.",
+          "emotion": "Blunt frustration mixed with empathy for the viewer's struggle.",
+          "first_image": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in.",
+          "attention_pattern": "The stark contrast between intention and reality creates immediate curiosity about the underlying problem.",
+          "first_spoken_sentence": "In-house content is the plan that sounds like a decision but never actually is one."
+        },
+        "selected_voice": "onyx",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Muted greys, off-whites, and slate blues from digital UI screens. One recurring accent color — a soft amber or warm orange — used only on the task-board item that keeps reappearing, to make it visually sticky across the sequence.",
+          "lighting": "Cool, even fluorescent or monitor-glow lighting throughout. No golden hour, no dramatic shadows. The flatness of the light reinforces the flatness of the situation — nothing dramatic happened, the content just never got done.",
+          "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calendar grid with blocks being replaced, a Slack thread. The speaker appears in a minimal, neutral background — plain wall, no props — so the UI sequences carry the visual weight.",
+          "camera_style": "Speaker segments: tight medium shot, static frame, direct eye contact. No b-roll of people working. UI sequences: clean screen recordings or motion-graphic recreations of digital interfaces, cut fast and dry. No transitions — hard cuts only. Total runtime feel: under 45 seconds.",
+          "art_direction": "Flat, functional, slightly clinical — the visual language of a team workspace that is organized but permanently overloaded. Digital interfaces dominate: task boards, calendar views, Slack threads. No warmth, no lifestyle softness. The aesthetic should feel like a Monday morning, not a brand shoot.",
+          "character_style": "Single speaker — a founder or marketing lead type, early-to-mid 30s, dressed plainly (no branded clothing, no blazer). Speaks without notes, directly to camera, minimal movement. The delivery is the performance — clipped, slightly impatient, completely credible.",
+          "opening_emotion": "Blunt frustration mixed with empathy for the viewer's struggle.",
+          "opening_first_image": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clean, direct, practical. Delivery: measured, credible. L",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6885,
+                "completion_tokens": 1213
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:10.610Z",
+              "duration_ms": 32276,
+              "finished_at": "2026-07-25T10:38:42.886Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6885,
+              "estimated_cost": 0.03885,
+              "output_summary": "Concept: The In-House Plan That Never Starts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 29881,
+              "completion_tokens": 1213,
+              "output_size_bytes": 5450,
+              "prompt_characters": 29607,
+              "provider_request_id": null,
+              "completion_characters": 5410
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5701,
+                "completion_tokens": 149
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:42.887Z",
+              "duration_ms": 1737,
+              "finished_at": "2026-07-25T10:38:44.624Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5701,
+              "estimated_cost": 0.000868,
+              "output_summary": "Opening: In-house content is the plan that sounds like a decision but never actually is o",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 27654,
+              "completion_tokens": 149,
+              "output_size_bytes": 721,
+              "prompt_characters": 27496,
+              "provider_request_id": null,
+              "completion_characters": 721
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:44.624Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:38:44.624Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Flat, functional, slightly clinical — the visual language of",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2140,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2122
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10793,
+                "completion_tokens": 2349
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:44.624Z",
+              "duration_ms": 45250,
+              "finished_at": "2026-07-25T10:39:29.874Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10793,
+              "estimated_cost": 0.067614,
+              "output_summary": "Package: The In-House Plan That Never Starts",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 44893,
+              "completion_tokens": 2349,
+              "output_size_bytes": 9009,
+              "prompt_characters": 44599,
+              "provider_request_id": null,
+              "completion_characters": 8971
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:39:29.875Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:39:29.875Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2044,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2034
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:39:29.875Z",
+              "duration_ms": 1890,
+              "finished_at": "2026-07-25T10:39:31.765Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=0ba65f24-3c69-43be-a0f0-36feac1c4f38; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "77799098-891c-47fb-a842-35169fea8808",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A myth-buster delivered in the voice of an annoyed operator: the idea that 'we'll handle content in-house' is a plan is wrong. It is a placeholder. The video exposes the structural reason in-house co…",
+          "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management boa…",
+          "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap e…",
+          "visual_world": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calen…",
+          "attention_pattern": "The stark contrast between intention and reality creates immediate curiosity about the underlying problem.",
+          "narrative_mechanism": "standard: HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You know, I almost called a competitor last month.",
+            "topic": "The quiet month that made a business look like it stopped caring",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:39:29.973187+00:00",
+    "updated_at": "2026-07-25T10:39:31.934191+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "onyx",
+    "tts_voice": "onyx",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 38,
+      "secondary": 41
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_standard→steadiness(+2)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+38)",
+      "fit_secondary(+38)",
+      "soft_tie_recent_primary(4)→secondary(+3)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: clean, direct, practical. Delivery: measured, credible. L"
+  },
+  "creative_mode": "standard",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Struggling to produce consistent, platform-ready social media content",
+    "strategy_pain_point": "Struggling to produce consistent, platform-ready social media content"
+  },
+  "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap entirely by taking a URL as the only input and returning finished, platform-ready content. It is introduced at the resolution not as a product pitch but as the logical answer to the structural diagnosis the video just made.",
+  "narrative_arc": "HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house content is the plan that sounds like a decision but never actually is one.' No setup, no pleasantries. INSIGHT: The video immediately names the structural gap: someone is nominally responsible, the team agrees it's a priority, and there is no dedicated production capacity — just intention sitting on top of a full schedule. The insight is pointed: motivation was never the problem. The structure was. Every week that passes, the task competes with real work and loses. That is not a discipline failure. That is a resource architecture failure. IN ACTION: Cut to a fast, dry visual sequence — a shared task board with 'post this week' recurring for ten weeks, a calendar with a content block that keeps getting replaced by other meetings, a Slack message that says 'can we push content to next week?' answered with a thumbs-up emoji. No voiceover during this sequence — the images carry the diagnosis. PROOF: Return to the speaker. One line: 'fenrik Studio turns your website URL into a full batch of ready-to-post videos and captions — nothing else required from you.' No hyperbole. No list. Just the structural fix stated plainly. CTA: 'Submit your URL. First package is free. No internal kickoff meeting needed.'",
+  "emotional_tone": "Blunt and a little fed up — with the situation, not the viewer. The energy is that of someone who has watched this pattern repeat too many times and is done pretending the problem is motivation. Underneath the directness is genuine empathy: the viewer is not lazy, they are structurally set up to fail. The resolution lands with relief, not shame.",
+  "audience_insight": "Small marketing teams, founders, and solo operators genuinely believe 'in-house' is a real plan when they say it. They are not lying to themselves — they are underestimating the structural gap between intention and production capacity. When the content still has not happened three months later, they blame discipline. The video reframes it as an architecture problem, which removes the shame and opens the door to a structural solution.",
+  "visual_direction": {
+    "palette": "Muted greys, off-whites, and slate blues from digital UI screens. One recurring accent color — a soft amber or warm orange — used only on the task-board item that keeps reappearing, to make it visually sticky across the sequence.",
+    "lighting": "Cool, even fluorescent or monitor-glow lighting throughout. No golden hour, no dramatic shadows. The flatness of the light reinforces the flatness of the situation — nothing dramatic happened, the content just never got done.",
+    "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calendar grid with blocks being replaced, a Slack thread. The speaker appears in a minimal, neutral background — plain wall, no props — so the UI sequences carry the visual weight.",
+    "camera_style": "Speaker segments: tight medium shot, static frame, direct eye contact. No b-roll of people working. UI sequences: clean screen recordings or motion-graphic recreations of digital interfaces, cut fast and dry. No transitions — hard cuts only. Total runtime feel: under 45 seconds.",
+    "art_direction": "Flat, functional, slightly clinical — the visual language of a team workspace that is organized but permanently overloaded. Digital interfaces dominate: task boards, calendar views, Slack threads. No warmth, no lifestyle softness. The aesthetic should feel like a Monday morning, not a brand shoot.",
+    "character_style": "Single speaker — a founder or marketing lead type, early-to-mid 30s, dressed plainly (no branded clothing, no blazer). Speaks without notes, directly to camera, minimal movement. The delivery is the performance — clipped, slightly impatient, completely credible."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required."
+  },
+  "render_metadata": {
+    "id": "a2a58e84-4df2-469f-8cb4-b7c4ef50fb44",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:39:31.496404+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "onyx",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A digital task board on a screen shows 'Post this week' highlighted in soft amber, with multiple other tasks surrounding it, all marked as completed or in progress. The calendar view beside it shows a series of meetings stacked on top of each other, with no content blocks filled in. Flat, clinical, monitor-glow lighting. Muted greys, slate blues, amber accent only on that one task item."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A Notion-style project management board viewed on a monitor. The same amber-highlighted task card reading 'Post this week' appears across ten consecutive weekly columns, never moved to done. All surrounding tasks are checked off. Cool fluorescent light, no warmth, no people visible."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A calendar grid on a screen showing a recurring 'Content Block' event being overlaid and replaced by other meeting blocks — standups, client calls, reviews — week after week. The content block is faint grey beneath the other events. Flat UI aesthetic, slate blue palette, no physical environment."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A Slack thread on a monitor. One message reads 'Can we push content to next week?' A single thumbs-up emoji reply below it. No other context. Dark UI, cool light, minimal. The thread is the entire visual."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742",
+        "image_path": "163c1822-ad30-4cee-8826-dfacd9c188b9/source/e895c555-e0b4-4628-9ee8-1fd5a65dc742/web-img.png",
+        "video_usage": "floating_card",
+        "image_bucket": "project-assets",
+        "image_prompt": "End card logo lockup over plain neutral background, closing frame of the video",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "asset",
+            "used_as": "End card logo lockup over plain neutral background, closing frame of the video",
+            "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+    "cta": "Save this — next time someone says 'we'll handle it in-house,' you'll know exactly what that actually means.",
+    "voiceover_text": "In-house content is the plan that sounds like a decision but never actually is one. Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: clean, direct, practical. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A myth-buster delivered in the voice of an annoyed operator: the idea that 'we'll handle content in-house' is a plan is wrong. It is a placeholder. The video exposes the structural reason in-house co…",
+      "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management boa…",
+      "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap e…",
+      "visual_world": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calen…",
+      "attention_pattern": "The stark contrast between intention and reality creates immediate curiosity about the underlying problem.",
+      "narrative_mechanism": "standard: HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentmarketing",
+    "#socialmediamarketing",
+    "#marketingstrategy",
+    "#founderlife",
+    "#smallbusiness"
+  ],
+  "hook": "In-house content is the plan that sounds like a decision but never actually is one.",
+  "scenario": "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+  "video": {
+    "script": "[SCENE 1 — SPEAKER, tight medium shot, plain wall, direct eye contact]\nSPEAKEN: 'In-house content is the plan that sounds like a decision but never actually is one.'\n\n[SCENE 2 — UI sequence: task board, 'Post this week' in amber, ten weeks of recurrence. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 3 — UI sequence: calendar grid, content block replaced by meetings, week after week. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 4 — UI sequence: Slack thread. Message reads 'can we push content to next week?' Thumbs-up reply. Hard cut.]\n[NO VOICEOVER]\n\n[SCENE 5 — SPEAKER returns]\nSPEAKEN: 'Someone is responsible. The team agrees it matters. And three months later there are two posts. That is not a motivation problem. That is a structure problem. You cannot build a production habit on top of a schedule that is already full. fenrik Studio takes your website URL and returns ready-to-post videos and captions. Nothing else required.'",
+    "concept": "A myth-buster in the voice of an annoyed operator. The video opens with a blunt statement delivered straight to camera, then diagnoses the structural — not motivational — reason in-house content never ships. A fast visual sequence of recurring task-board items and bumped calendar blocks carries the diagnosis without dialogue. The product is introduced as the structural fix: a URL in, finished content out, no internal production required.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "End card logo lockup over plain neutral background, closing frame of the video",
+      "asset_id": "e895c555-e0b4-4628-9ee8-1fd5a65dc742"
+    }
+  ],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You know, I almost called a competitor last month.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card ov",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6885,
+          "completion_tokens": 1213
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:10.610Z",
+        "duration_ms": 32276,
+        "finished_at": "2026-07-25T10:38:42.886Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6885,
+        "estimated_cost": 0.03885,
+        "output_summary": "Concept: The In-House Plan That Never Starts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 29881,
+        "completion_tokens": 1213,
+        "output_size_bytes": 5450,
+        "prompt_characters": 29607,
+        "provider_request_id": null,
+        "completion_characters": 5410
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5701,
+          "completion_tokens": 149
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:42.887Z",
+        "duration_ms": 1737,
+        "finished_at": "2026-07-25T10:38:44.624Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5701,
+        "estimated_cost": 0.000868,
+        "output_summary": "Opening: In-house content is the plan that sounds like a decision but never actually is o",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 27654,
+        "completion_tokens": 149,
+        "output_size_bytes": 721,
+        "prompt_characters": 27496,
+        "provider_request_id": null,
+        "completion_characters": 721
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:44.624Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:38:44.624Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Flat, functional, slightly clinical — the visual language of",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2140,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2122
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10793,
+          "completion_tokens": 2349
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:44.624Z",
+        "duration_ms": 45250,
+        "finished_at": "2026-07-25T10:39:29.874Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10793,
+        "estimated_cost": 0.067614,
+        "output_summary": "Package: The In-House Plan That Never Starts",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 44893,
+        "completion_tokens": 2349,
+        "output_size_bytes": 9009,
+        "prompt_characters": 44599,
+        "provider_request_id": null,
+        "completion_characters": 8971
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:39:29.875Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:39:29.875Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2044,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2034
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:39:29.875Z",
+        "duration_ms": 1890,
+        "finished_at": "2026-07-25T10:39:31.765Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=0ba65f24-3c69-43be-a0f0-36feac1c4f38; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "77799098-891c-47fb-a842-35169fea8808",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

@@ -1,0 +1,1741 @@
+{
+  "package_index": 5,
+  "run_item_id": "4be3296f-8e18-4c74-925c-4d686c0d0459",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "94f5bd03-cdea-4853-8c54-68fdeb6dd519",
+  "package_title": "The Calendar Slot That Has Never Actually Been Used",
+  "package_status": "draft",
+  "strategy_item_id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "A small marketing team lead reflects on the recurring pattern: content production is always the first item bumped when a client call runs long or a product issue needs attention. The slot exists on the calendar; the output never does.",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "source": "production_run",
+      "pain_point": "No time to create content regularly",
+      "package_index": 5,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Awareness",
+      "topic": "The meeting that replaced your content hour — every single week",
+      "angle": "A small marketing team lead reflects on the recurring pattern: content production is always the first item bumped when a client call runs long or a product issue needs attention. The slot exists on the calendar; the output never does.",
+      "seed": "Awareness|The meeting that replaced your content hour — every single week|A small marketing team lead reflects on the recurring pattern: content production is always the first item bumped when a client call runs long or a product issue needs attention. The slot exists on the calendar; the output never does.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "humor",
+        "name": "Humor",
+        "description": "Light, self-aware tone that entertains while informing.",
+        "structure": "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
+        "avoid": "Humor must not mock the customer or devalue the product; the fix stays serious.",
+        "narrativeBeats": [
+          "situation",
+          "unexpected_turn",
+          "punchline",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "mistake",
+        "instruction": "Open by naming a specific mistake the viewer is probably making.",
+        "exampleForm": "\"You are wiping the counter — and spreading the mess.\"",
+        "forbidGeneric": "Do not open with \"Here are some tips to avoid mistakes.\""
+      },
+      "persona": {
+        "id": "witty_friend",
+        "name": "Witty Friend",
+        "vocabulary": "casual, playful, relatable",
+        "rhythm": "snappy, short beats with a punchline",
+        "energy": "warm and fun",
+        "exaggeration": "moderate, comedic — never about the facts"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Calendar Slot That Has Never Actually Been Used",
+    "core_idea": "A marketing team lead notices that 'Content Hour' has lived on the team calendar every Thursday at 2pm for four months. It has a color. It has a recurring invite. It has never once produced a single post. Every week, something more urgent wins. The humor comes from the gap between how official the slot looks and how completely fictional its output has been.",
+    "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL without requiring any protected hour, any team availability, or any cleared calendar",
+    "why_it_works": "The calendar block as a visual metaphor is immediately recognizable and requires no explanation — every viewer who has ever color-coded a recurring task that never happens will feel seen. The humor escalates naturally through the montage without mocking the team or the product. The punchline reframes the teal block as decorative rather than functional, which is both funny and exactly true. The CTA lands cleanly because it removes the one thing the whole video proved is impossible to protect: the hour itself.",
+    "narrative_arc": "SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Hour' — sits there in a cheerful teal block, looking very important. The voiceover says, warmly and a little too confidently: 'We have a dedicated content hour every week. Very professional.' UNEXPECTED TURN: Cut to a rapid-fire montage of the same Thursday slot being consumed by something else, week after week — a client call that ran long, a Slack fire drill, a product bug, a 'quick sync' that was not quick. Each week, the teal block sits untouched underneath the chaos. Voiceover, still upbeat but increasingly self-aware: 'Week one — client call. Week two — server issue. Week three — honestly, I don't remember. Week four — another call, different client, same result.' PUNCHLINE: Cut back to the calendar. The teal block is still there. Pristine. Unbothered. Voiceover, now fully amused: 'The slot is four months old. It has never been used. It is, at this point, decorative.' Beat. 'Our social feed looks exactly how you'd expect.' CTA: Voiceover, warm and direct: 'Give us your website URL — your first content package is free, no Thursday required.'",
+    "emotional_tone": "Warm, self-aware, lightly absurdist — the humor is affectionate, not critical; the audience is laughing at a situation they recognize, not being mocked for it",
+    "audience_insight": "Small marketing teams and founders protect time for content in theory — the calendar block exists, the intention is real — but the slot is perpetually the most expendable item when anything else competes for it. The pain is not laziness; it is that content production has no urgency until the feed has been silent for weeks.",
+    "visual_direction": {
+      "palette": "Clean whites and light grays for the calendar interface; the teal content block is the only saturated color — it stands out every time it appears, which is the joke; warm amber tones in the brief glimpses of the actual workspace chaos",
+      "lighting": "Bright, neutral office daylight — not dramatic, not moody; the brightness makes the organized-looking calendar feel ironic against the chaotic reality being described",
+      "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is a small team environment with the visual suggestion of busyness",
+      "camera_style": "Mix of tight screen-level shots of the calendar UI and quick handheld cuts to the desk environment during the montage; the calendar shots are static and composed; the chaos montage shots are slightly rushed and imperfect — the contrast is intentional",
+      "art_direction": "Clean digital calendar UI fills the frame — crisp, color-coded, looks organized and intentional; the teal 'Content Hour' block is the visual anchor throughout; the montage cuts are fast and slightly comedic in their repetition, like a time-lapse of the same defeat happening in different costumes",
+      "character_style": "No on-screen character; the voiceover carries the persona entirely — the visual world is the calendar and the desk environment; this keeps the focus on the universal situation rather than a specific person"
+    }
+  },
+  "opening": {
+    "pacing": "Quick and engaging, setting up the contrast between the organized calendar and the chaotic reality to follow.",
+    "emotion": "Warmly humorous, with a hint of self-awareness about the irony of the situation.",
+    "first_image": "A close-up of a digital calendar displaying a cheerful teal block labeled 'Content Hour' at 2pm on Thursday, surrounded by a clean, organized interface that looks very official.",
+    "attention_pattern": "The opening draws viewers in with a relatable scenario, creating curiosity about how the situation unfolds and what the implications are for their own content production.",
+    "first_spoken_sentence": "You have a 'Content Hour' every Thursday — and it’s never been touched."
+  },
+  "visual_identity": {
+    "palette": "Clean whites and light grays for the calendar interface; the teal content block is the only saturated color — it stands out every time it appears, which is the joke; warm amber tones in the brief glimpses of the actual workspace chaos",
+    "lighting": "Bright, neutral office daylight — not dramatic, not moody; the brightness makes the organized-looking calendar feel ironic against the chaotic reality being described",
+    "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is a small team environment with the visual suggestion of busyness",
+    "camera_style": "Mix of tight screen-level shots of the calendar UI and quick handheld cuts to the desk environment during the montage; the calendar shots are static and composed; the chaos montage shots are slightly rushed and imperfect — the contrast is intentional",
+    "art_direction": "Clean digital calendar UI fills the frame — crisp, color-coded, looks organized and intentional; the teal 'Content Hour' block is the visual anchor throughout; the montage cuts are fast and slightly comedic in their repetition, like a time-lapse of the same defeat happening in different costumes",
+    "character_style": "No on-screen character; the voiceover carries the persona entirely — the visual world is the calendar and the desk environment; this keeps the focus on the universal situation rather than a specific person",
+    "opening_emotion": "Warmly humorous, with a hint of self-awareness about the irony of the situation.",
+    "opening_first_image": "A close-up of a digital calendar displaying a cheerful teal block labeled 'Content Hour' at 2pm on Thursday, surrounded by a clean, organized interface that looks very official."
+  },
+  "package": {
+    "title": "The Calendar Slot That Has Never Actually Been Used",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+    "scenario": "A two-person marketing team at a SaaS startup has had 'Content Hour' on the shared calendar every Thursday at 2pm for four months. It has a teal color. It has a recurring invite. Week one it lost to a client call that ran forty minutes over. Week two a production bug pulled both team members into Slack for the afternoon. Week three neither of them can remember what happened. Week four another client call, different client, same result. The block is still there every Thursday. The social feed has not been updated in six weeks.",
+    "video": {
+      "script": "SCENE 1 — STATIC CALENDAR CLOSE-UP: Tight shot of a digital calendar. Thursday 2pm. A cheerful teal block reads 'Content Hour'. The interface looks crisp, organized, official. VO: 'You have a Content Hour every Thursday — and it's never been touched.'\n\nSCENE 2 — MONTAGE (fast cuts, slightly imperfect handheld): Same teal block visible under a cascade of competing calendar events. A client call overlapping it. A Slack notification. A product bug ticket on a second monitor. Each cut: same Thursday, different disaster. VO: 'Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result.'\n\nSCENE 3 — BACK TO CALENDAR: The teal block. Still there. Pristine. Unbothered. VO: 'The slot is four months old. It has never produced a single post. It is, at this point, purely decorative.'\n\nSCENE 4 — DESK ENVIRONMENT: Dual monitors, empty social media dashboard visible on one screen, coffee going cold. VO: 'Your social feed looks exactly how you'd expect.'\n\nSCENE 5 — FENRIK STUDIO LOGO / PRODUCT FRAME: Clean brand frame. VO ends. On-screen text: 'fenrik Studio — content from your website URL, no Thursday required.'",
+      "concept": "A small marketing team's recurring 'Content Hour' calendar block has lived on the Thursday schedule for four months — color-coded, recurring, completely unused. Every week something more urgent wins. The humor escalates through a rapid montage of the same teal block being quietly ignored while chaos unfolds around it, landing on the punchline that the slot is now purely decorative. The CTA removes the dependency on the hour entirely.",
+      "duration_seconds": "28"
+    },
+    "hashtags": [
+      "#contentcreation",
+      "#marketinglife",
+      "#socialmediamarketing",
+      "#smallbusiness",
+      "#contentmarketing"
+    ],
+    "subtitles_planned": "You have a 'Content Hour' every Thursday — and it's never been touched. | Week one: client call ran long. | Week two: server issue. | Week three: honestly, who knows. | Week four: another call, different client, same result. | The slot is four months old. | It has never produced a single post. | It is, at this point, purely decorative. | Your social feed looks exactly how you'd expect."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+  "voice_prompts": {
+    "voiceover_text": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible",
+    "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing",
+    "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters",
+    "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot",
+    "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Comment 'Thursday' if your content slot is more decoration than deadline.",
+      "type": "comment"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Comment 'Thursday' if this is you",
+        "format": "reel",
+        "caption": "The content hour that has lived on your calendar for four months and produced zero posts 🗓️ anyone else's Thursday is basically decorative at this point",
+        "hashtags": [
+          "#contentcreation",
+          "#marketinglife",
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#contentmarketing"
+        ]
+      },
+      "youtube": {
+        "cta": "Subscribe for more painfully relatable marketing moments.",
+        "format": "short",
+        "caption": "Your content hour has been on the calendar for months — and it's never once been used. Sound familiar?",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#marketinglife"
+        ]
+      },
+      "facebook": {
+        "cta": "Comment 'Thursday' if your content block is basically a placeholder at this point.",
+        "format": "reel",
+        "caption": "Raise your hand if you have a 'Content Hour' blocked on the calendar that has never actually produced content 🙋 Client calls, team fires, random Tuesday emergencies — something always takes the slot. Four months in and the feed is still empty. If this sounds familiar, drop a comment below — you're definitely not the only one.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Four months. A recurring Thursday block. Color-coded, named, officially on the calendar. Zero posts produced.\n\nIt is not a motivation problem. It is not a creativity problem. It is simply that content production has no urgency — until the feed has been silent long enough that someone notices.\n\nThe slot survives every week. The output never does.\n\nIf this pattern is familiar, the fix is not a better calendar block.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#b2bmarketing"
+        ]
+      },
+      "instagram": {
+        "cta": "Comment 'Thursday' if your content hour is purely decorative 👇",
+        "format": "reel",
+        "caption": "Four months. Every Thursday at 2pm. One cheerful teal block on the calendar.\n\nNever once used.\n\nClient calls, Slack fires, product bugs — something always wins. The content slot is always the one that loses.\n\nIf your feed has been quiet longer than you'd like to admit, you're not alone.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingteam",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#contentmarketing",
+          "#reels",
+          "#marketingtips"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "51274feb-c869-455e-82bd-c94c4419279a",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Calendar Slot That Has Never Actually Been Used",
+        "body": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+        "caption": "Raise your hand if you have a 'Content Hour' blocked on the calendar that has never actually produced content 🙋 Client calls, team fires, random Tuesday emergencies — something always takes the slot. Four months in and the feed is still empty. If this sounds familiar, drop a comment below — you're definitely not the only one.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ],
+        "cta": "Comment 'Thursday' if your content block is basically a placeholder at this point.",
+        "language": null
+      },
+      {
+        "id": "6b83d871-bd89-444b-913a-2490b6cc4414",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Calendar Slot That Has Never Actually Been Used",
+        "body": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+        "caption": "Four months. A recurring Thursday block. Color-coded, named, officially on the calendar. Zero posts produced.\n\nIt is not a motivation problem. It is not a creativity problem. It is simply that content production has no urgency — until the feed has been silent long enough that someone notices.\n\nThe slot survives every week. The output never does.\n\nIf this pattern is familiar, the fix is not a better calendar block.",
+        "hashtags": [
+          "#contentmarketing",
+          "#marketingstrategy",
+          "#b2bmarketing"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "c9683e57-7655-4acd-88c6-59263fb87899",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Calendar Slot That Has Never Actually Been Used",
+        "body": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+        "caption": "The content hour that has lived on your calendar for four months and produced zero posts 🗓️ anyone else's Thursday is basically decorative at this point",
+        "hashtags": [
+          "#contentcreation",
+          "#marketinglife",
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#contentmarketing"
+        ],
+        "cta": "Comment 'Thursday' if this is you",
+        "language": null
+      },
+      {
+        "id": "ba4cd998-29f7-4282-b17a-0d284b4808de",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Calendar Slot That Has Never Actually Been Used",
+        "body": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+        "caption": "Four months. Every Thursday at 2pm. One cheerful teal block on the calendar.\n\nNever once used.\n\nClient calls, Slack fires, product bugs — something always wins. The content slot is always the one that loses.\n\nIf your feed has been quiet longer than you'd like to admit, you're not alone.",
+        "hashtags": [
+          "#contentcreation",
+          "#marketingteam",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#contentmarketing",
+          "#reels",
+          "#marketingtips"
+        ],
+        "cta": "Comment 'Thursday' if your content hour is purely decorative 👇",
+        "language": null
+      },
+      {
+        "id": "bc55a7e9-4910-4c29-b9af-3d2ccaf6c220",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Calendar Slot That Has Never Actually Been Used",
+        "body": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+        "caption": "Your content hour has been on the calendar for months — and it's never once been used. Sound familiar?",
+        "hashtags": [
+          "#Shorts",
+          "#contentmarketing",
+          "#marketinglife"
+        ],
+        "cta": "Subscribe for more painfully relatable marketing moments.",
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "94f5bd03-cdea-4853-8c54-68fdeb6dd519",
+    "title": "The Calendar Slot That Has Never Actually Been Used",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+    "package_brief": {
+      "cta": {
+        "text": "Comment 'Thursday' if your content slot is more decoration than deadline.",
+        "type": "comment"
+      },
+      "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "video": {
+        "script": "SCENE 1 — STATIC CALENDAR CLOSE-UP: Tight shot of a digital calendar. Thursday 2pm. A cheerful teal block reads 'Content Hour'. The interface looks crisp, organized, official. VO: 'You have a Content Hour every Thursday — and it's never been touched.'\n\nSCENE 2 — MONTAGE (fast cuts, slightly imperfect handheld): Same teal block visible under a cascade of competing calendar events. A client call overlapping it. A Slack notification. A product bug ticket on a second monitor. Each cut: same Thursday, different disaster. VO: 'Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result.'\n\nSCENE 3 — BACK TO CALENDAR: The teal block. Still there. Pristine. Unbothered. VO: 'The slot is four months old. It has never produced a single post. It is, at this point, purely decorative.'\n\nSCENE 4 — DESK ENVIRONMENT: Dual monitors, empty social media dashboard visible on one screen, coffee going cold. VO: 'Your social feed looks exactly how you'd expect.'\n\nSCENE 5 — FENRIK STUDIO LOGO / PRODUCT FRAME: Clean brand frame. VO ends. On-screen text: 'fenrik Studio — content from your website URL, no Thursday required.'",
+        "concept": "A small marketing team's recurring 'Content Hour' calendar block has lived on the Thursday schedule for four months — color-coded, recurring, completely unused. Every week something more urgent wins. The humor escalates through a rapid montage of the same teal block being quietly ignored while chaos unfolds around it, landing on the punchline that the slot is now purely decorative. The CTA removes the dependency on the hour entirely.",
+        "duration_seconds": "28"
+      },
+      "hashtags": [
+        "#contentcreation",
+        "#marketinglife",
+        "#socialmediamarketing",
+        "#smallbusiness",
+        "#contentmarketing"
+      ],
+      "scenario": "A two-person marketing team at a SaaS startup has had 'Content Hour' on the shared calendar every Thursday at 2pm for four months. It has a teal color. It has a recurring invite. Week one it lost to a client call that ran forty minutes over. Week two a production bug pulled both team members into Slack for the afternoon. Week three neither of them can remember what happened. Week four another client call, different client, same result. The block is still there every Thursday. The social feed has not been updated in six weeks.",
+      "subtitles": "You have a 'Content Hour' every Thursday — and it's never been touched. | Week one: client call ran long. | Week two: server issue. | Week three: honestly, who knows. | Week four: another call, different client, same result. | The slot is four months old. | It has never produced a single post. | It is, at this point, purely decorative. | Your social feed looks exactly how you'd expect.",
+      "asset_usage": [],
+      "image_prompts": [
+        "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible",
+        "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing",
+        "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters",
+        "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot",
+        "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot"
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Comment 'Thursday' if this is you",
+          "format": "reel",
+          "caption": "The content hour that has lived on your calendar for four months and produced zero posts 🗓️ anyone else's Thursday is basically decorative at this point",
+          "hashtags": [
+            "#contentcreation",
+            "#marketinglife",
+            "#smallbusiness",
+            "#socialmediamarketing",
+            "#contentmarketing"
+          ]
+        },
+        "youtube": {
+          "cta": "Subscribe for more painfully relatable marketing moments.",
+          "format": "short",
+          "caption": "Your content hour has been on the calendar for months — and it's never once been used. Sound familiar?",
+          "hashtags": [
+            "#Shorts",
+            "#contentmarketing",
+            "#marketinglife"
+          ]
+        },
+        "facebook": {
+          "cta": "Comment 'Thursday' if your content block is basically a placeholder at this point.",
+          "format": "reel",
+          "caption": "Raise your hand if you have a 'Content Hour' blocked on the calendar that has never actually produced content 🙋 Client calls, team fires, random Tuesday emergencies — something always takes the slot. Four months in and the feed is still empty. If this sounds familiar, drop a comment below — you're definitely not the only one.",
+          "hashtags": [
+            "#smallbusiness",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Four months. A recurring Thursday block. Color-coded, named, officially on the calendar. Zero posts produced.\n\nIt is not a motivation problem. It is not a creativity problem. It is simply that content production has no urgency — until the feed has been silent long enough that someone notices.\n\nThe slot survives every week. The output never does.\n\nIf this pattern is familiar, the fix is not a better calendar block.",
+          "hashtags": [
+            "#contentmarketing",
+            "#marketingstrategy",
+            "#b2bmarketing"
+          ]
+        },
+        "instagram": {
+          "cta": "Comment 'Thursday' if your content hour is purely decorative 👇",
+          "format": "reel",
+          "caption": "Four months. Every Thursday at 2pm. One cheerful teal block on the calendar.\n\nNever once used.\n\nClient calls, Slack fires, product bugs — something always wins. The content slot is always the one that loses.\n\nIf your feed has been quiet longer than you'd like to admit, you're not alone.",
+          "hashtags": [
+            "#contentcreation",
+            "#marketingteam",
+            "#socialmediatips",
+            "#smallbusinessowner",
+            "#contentmarketing",
+            "#reels",
+            "#marketingtips"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "94f5bd03-cdea-4853-8c54-68fdeb6dd519",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 48,
+          "secondary": 37
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "humor",
+        "video_concept": {
+          "title": "The Calendar Slot That Has Never Actually Been Used",
+          "core_idea": "A marketing team lead notices that 'Content Hour' has lived on the team calendar every Thursday at 2pm for four months. It has a color. It has a recurring invite. It has never once produced a single post. Every week, something more urgent wins. The humor comes from the gap between how official the slot looks and how completely fictional its output has been.",
+          "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL without requiring any protected hour, any team availability, or any cleared calendar",
+          "why_it_works": "The calendar block as a visual metaphor is immediately recognizable and requires no explanation — every viewer who has ever color-coded a recurring task that never happens will feel seen. The humor escalates naturally through the montage without mocking the team or the product. The punchline reframes the teal block as decorative rather than functional, which is both funny and exactly true. The CTA lands cleanly because it removes the one thing the whole video proved is impossible to protect: the hour itself.",
+          "narrative_arc": "SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Hour' — sits there in a cheerful teal block, looking very important. The voiceover says, warmly and a little too confidently: 'We have a dedicated content hour every week. Very professional.' UNEXPECTED TURN: Cut to a rapid-fire montage of the same Thursday slot being consumed by something else, week after week — a client call that ran long, a Slack fire drill, a product bug, a 'quick sync' that was not quick. Each week, the teal block sits untouched underneath the chaos. Voiceover, still upbeat but increasingly self-aware: 'Week one — client call. Week two — server issue. Week three — honestly, I don't remember. Week four — another call, different client, same result.' PUNCHLINE: Cut back to the calendar. The teal block is still there. Pristine. Unbothered. Voiceover, now fully amused: 'The slot is four months old. It has never been used. It is, at this point, decorative.' Beat. 'Our social feed looks exactly how you'd expect.' CTA: Voiceover, warm and direct: 'Give us your website URL — your first content package is free, no Thursday required.'",
+          "emotional_tone": "Warm, self-aware, lightly absurdist — the humor is affectionate, not critical; the audience is laughing at a situation they recognize, not being mocked for it",
+          "audience_insight": "Small marketing teams and founders protect time for content in theory — the calendar block exists, the intention is real — but the slot is perpetually the most expendable item when anything else competes for it. The pain is not laziness; it is that content production has no urgency until the feed has been silent for weeks.",
+          "visual_direction": {
+            "palette": "Clean whites and light grays for the calendar interface; the teal content block is the only saturated color — it stands out every time it appears, which is the joke; warm amber tones in the brief glimpses of the actual workspace chaos",
+            "lighting": "Bright, neutral office daylight — not dramatic, not moody; the brightness makes the organized-looking calendar feel ironic against the chaotic reality being described",
+            "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is a small team environment with the visual suggestion of busyness",
+            "camera_style": "Mix of tight screen-level shots of the calendar UI and quick handheld cuts to the desk environment during the montage; the calendar shots are static and composed; the chaos montage shots are slightly rushed and imperfect — the contrast is intentional",
+            "art_direction": "Clean digital calendar UI fills the frame — crisp, color-coded, looks organized and intentional; the teal 'Content Hour' block is the visual anchor throughout; the montage cuts are fast and slightly comedic in their repetition, like a time-lapse of the same defeat happening in different costumes",
+            "character_style": "No on-screen character; the voiceover carries the persona entirely — the visual world is the calendar and the desk environment; this keeps the focus on the universal situation rather than a specific person"
+          }
+        },
+        "voice_reasons": [
+          "funnel_awareness→warmth/energy(+1)",
+          "mode_humor→energy/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+48)",
+          "fit_secondary(+37)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and engaging, setting up the contrast between the organized calendar and the chaotic reality to follow.",
+          "emotion": "Warmly humorous, with a hint of self-awareness about the irony of the situation.",
+          "first_image": "A close-up of a digital calendar displaying a cheerful teal block labeled 'Content Hour' at 2pm on Thursday, surrounded by a clean, organized interface that looks very official.",
+          "attention_pattern": "The opening draws viewers in with a relatable scenario, creating curiosity about how the situation unfolds and what the implications are for their own content production.",
+          "first_spoken_sentence": "You have a 'Content Hour' every Thursday — and it’s never been touched."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Clean whites and light grays for the calendar interface; the teal content block is the only saturated color — it stands out every time it appears, which is the joke; warm amber tones in the brief glimpses of the actual workspace chaos",
+          "lighting": "Bright, neutral office daylight — not dramatic, not moody; the brightness makes the organized-looking calendar feel ironic against the chaotic reality being described",
+          "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is a small team environment with the visual suggestion of busyness",
+          "camera_style": "Mix of tight screen-level shots of the calendar UI and quick handheld cuts to the desk environment during the montage; the calendar shots are static and composed; the chaos montage shots are slightly rushed and imperfect — the contrast is intentional",
+          "art_direction": "Clean digital calendar UI fills the frame — crisp, color-coded, looks organized and intentional; the teal 'Content Hour' block is the visual anchor throughout; the montage cuts are fast and slightly comedic in their repetition, like a time-lapse of the same defeat happening in different costumes",
+          "character_style": "No on-screen character; the voiceover carries the persona entirely — the visual world is the calendar and the desk environment; this keeps the focus on the universal situation rather than a specific person",
+          "opening_emotion": "Warmly humorous, with a hint of self-awareness about the irony of the situation.",
+          "opening_first_image": "A close-up of a digital calendar displaying a cheerful teal block labeled 'Content Hour' at 2pm on Thursday, surrounded by a clean, organized interface that looks very official."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "No time to create content regularly",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 5204,
+                "completion_tokens": 1053
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:50.601Z",
+              "duration_ms": 36253,
+              "finished_at": "2026-07-25T10:25:26.854Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 5204,
+              "estimated_cost": 0.031407,
+              "output_summary": "Concept: The Calendar Slot That Has Never Actually Been Used",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 22728,
+              "completion_tokens": 1053,
+              "output_size_bytes": 4527,
+              "prompt_characters": 22550,
+              "provider_request_id": null,
+              "completion_characters": 4489
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4580,
+                "completion_tokens": 150
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:25:26.855Z",
+              "duration_ms": 1865,
+              "finished_at": "2026-07-25T10:25:28.720Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4580,
+              "estimated_cost": 0.0007,
+              "output_summary": "Opening: You have a 'Content Hour' every Thursday — and it’s never been touched.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 22415,
+              "completion_tokens": 150,
+              "output_size_bytes": 725,
+              "prompt_characters": 22269,
+              "provider_request_id": null,
+              "completion_characters": 721
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:25:28.720Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:25:28.720Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean digital calendar UI fills the frame — crisp, color-cod",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1791,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1779
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9561,
+                "completion_tokens": 2451
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:25:28.722Z",
+              "duration_ms": 46581,
+              "finished_at": "2026-07-25T10:26:15.303Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9561,
+              "estimated_cost": 0.065448,
+              "output_summary": "Package: The Calendar Slot That Has Never Actually Been Used",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 39217,
+              "completion_tokens": 2451,
+              "output_size_bytes": 9374,
+              "prompt_characters": 38939,
+              "provider_request_id": null,
+              "completion_characters": 9314
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:15.303Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:26:15.303Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2235,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2217
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:26:15.303Z",
+              "duration_ms": 1752,
+              "finished_at": "2026-07-25T10:26:17.055Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=94f5bd03-cdea-4853-8c54-68fdeb6dd519; items=5",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 318,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 318
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 6,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A marketing team lead notices that 'Content Hour' has lived on the team calendar every Thursday at 2pm for four months. It has a color. It has a recurring invite. It has never once produced a single …",
+          "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the…",
+          "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL wi…",
+          "visual_world": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is …",
+          "attention_pattern": "The opening draws viewers in with a relatable scenario, creating curiosity about how the situation unfolds and what the…",
+          "narrative_mechanism": "humor: SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Ho…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+            "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "founder",
+              "home_office"
+            ],
+            "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:26:15.417826+00:00",
+    "updated_at": "2026-07-25T10:26:17.234468+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 48,
+      "secondary": 37
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+48)",
+      "fit_secondary(+37)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise"
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "No time to create content regularly",
+    "strategy_pain_point": "No time to create content regularly"
+  },
+  "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL without requiring any protected hour, any team availability, or any cleared calendar",
+  "narrative_arc": "SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Hour' — sits there in a cheerful teal block, looking very important. The voiceover says, warmly and a little too confidently: 'We have a dedicated content hour every week. Very professional.' UNEXPECTED TURN: Cut to a rapid-fire montage of the same Thursday slot being consumed by something else, week after week — a client call that ran long, a Slack fire drill, a product bug, a 'quick sync' that was not quick. Each week, the teal block sits untouched underneath the chaos. Voiceover, still upbeat but increasingly self-aware: 'Week one — client call. Week two — server issue. Week three — honestly, I don't remember. Week four — another call, different client, same result.' PUNCHLINE: Cut back to the calendar. The teal block is still there. Pristine. Unbothered. Voiceover, now fully amused: 'The slot is four months old. It has never been used. It is, at this point, decorative.' Beat. 'Our social feed looks exactly how you'd expect.' CTA: Voiceover, warm and direct: 'Give us your website URL — your first content package is free, no Thursday required.'",
+  "emotional_tone": "Warm, self-aware, lightly absurdist — the humor is affectionate, not critical; the audience is laughing at a situation they recognize, not being mocked for it",
+  "audience_insight": "Small marketing teams and founders protect time for content in theory — the calendar block exists, the intention is real — but the slot is perpetually the most expendable item when anything else competes for it. The pain is not laziness; it is that content production has no urgency until the feed has been silent for weeks.",
+  "visual_direction": {
+    "palette": "Clean whites and light grays for the calendar interface; the teal content block is the only saturated color — it stands out every time it appears, which is the joke; warm amber tones in the brief glimpses of the actual workspace chaos",
+    "lighting": "Bright, neutral office daylight — not dramatic, not moody; the brightness makes the organized-looking calendar feel ironic against the chaotic reality being described",
+    "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is a small team environment with the visual suggestion of busyness",
+    "camera_style": "Mix of tight screen-level shots of the calendar UI and quick handheld cuts to the desk environment during the montage; the calendar shots are static and composed; the chaos montage shots are slightly rushed and imperfect — the contrast is intentional",
+    "art_direction": "Clean digital calendar UI fills the frame — crisp, color-coded, looks organized and intentional; the teal 'Content Hour' block is the visual anchor throughout; the montage cuts are fast and slightly comedic in their repetition, like a time-lapse of the same defeat happening in different costumes",
+    "character_style": "No on-screen character; the voiceover carries the persona entirely — the visual world is the calendar and the desk environment; this keeps the focus on the universal situation rather than a specific person"
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You have a 'Content Hour' every Thursday — and it's never been touched. | Week one: client call ran long. | Week two: server issue. | Week three: honestly, who knows. | Week four: another call, different client, same result. | The slot is four months old. | It has never produced a single post. | It is, at this point, purely decorative. | Your social feed looks exactly how you'd expect."
+  },
+  "render_metadata": {
+    "id": "10c1359d-27e4-473a-997c-709b4241ba16",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:26:16.87105+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up of a clean digital calendar interface on a bright monitor — Thursday 2pm shows a cheerful teal block labeled 'Content Hour', surrounded by white and light gray time slots; the interface looks crisp, color-coded, and very official; bright neutral office daylight; no characters visible"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "The same teal 'Content Hour' block on the digital calendar, now partially overlapped by a red meeting event labeled 'Client Call — Running Long'; a Slack notification badge glows on a second monitor in the background; warm amber light on a shared team desk with a coffee cup; slightly rushed handheld framing"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Rapid montage frame — the Thursday calendar view again, teal block still present but now buried under three stacked calendar events in different colors; a sticky note on the monitor edge reads 'fix server'; the desk environment looks busy and slightly chaotic; bright office daylight; no on-screen characters"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Back to the calendar close-up — the teal 'Content Hour' block sits completely alone on Thursday 2pm, pristine and untouched; the surrounding slots are empty; the block looks almost smug in its survival; clean whites and light grays; static composed shot"
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. closing brand frame — fenrik Studio logo displayed as the resolution card after the punchline. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+    "cta": "Comment 'Thursday' if your content slot is more decoration than deadline.",
+    "voiceover_text": "You have a 'Content Hour' every Thursday — and it’s never been touched. You have a 'Content Hour' every Thursday — and it's never been touched. Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result. The slot is four months old. It has never produced a single post. It is, at this point, purely decorative. Your social feed looks exactly how you'd expect.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 6,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A marketing team lead notices that 'Content Hour' has lived on the team calendar every Thursday at 2pm for four months. It has a color. It has a recurring invite. It has never once produced a single …",
+      "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the…",
+      "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL wi…",
+      "visual_world": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is …",
+      "attention_pattern": "The opening draws viewers in with a relatable scenario, creating curiosity about how the situation unfolds and what the…",
+      "narrative_mechanism": "humor: SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Ho…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentcreation",
+    "#marketinglife",
+    "#socialmediamarketing",
+    "#smallbusiness",
+    "#contentmarketing"
+  ],
+  "hook": "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+  "scenario": "A two-person marketing team at a SaaS startup has had 'Content Hour' on the shared calendar every Thursday at 2pm for four months. It has a teal color. It has a recurring invite. Week one it lost to a client call that ran forty minutes over. Week two a production bug pulled both team members into Slack for the afternoon. Week three neither of them can remember what happened. Week four another client call, different client, same result. The block is still there every Thursday. The social feed has not been updated in six weeks.",
+  "video": {
+    "script": "SCENE 1 — STATIC CALENDAR CLOSE-UP: Tight shot of a digital calendar. Thursday 2pm. A cheerful teal block reads 'Content Hour'. The interface looks crisp, organized, official. VO: 'You have a Content Hour every Thursday — and it's never been touched.'\n\nSCENE 2 — MONTAGE (fast cuts, slightly imperfect handheld): Same teal block visible under a cascade of competing calendar events. A client call overlapping it. A Slack notification. A product bug ticket on a second monitor. Each cut: same Thursday, different disaster. VO: 'Week one: client call ran long. Week two: server issue. Week three: honestly, who knows. Week four: another call, different client, same result.'\n\nSCENE 3 — BACK TO CALENDAR: The teal block. Still there. Pristine. Unbothered. VO: 'The slot is four months old. It has never produced a single post. It is, at this point, purely decorative.'\n\nSCENE 4 — DESK ENVIRONMENT: Dual monitors, empty social media dashboard visible on one screen, coffee going cold. VO: 'Your social feed looks exactly how you'd expect.'\n\nSCENE 5 — FENRIK STUDIO LOGO / PRODUCT FRAME: Clean brand frame. VO ends. On-screen text: 'fenrik Studio — content from your website URL, no Thursday required.'",
+    "concept": "A small marketing team's recurring 'Content Hour' calendar block has lived on the Thursday schedule for four months — color-coded, recurring, completely unused. Every week something more urgent wins. The humor escalates through a rapid montage of the same teal block being quietly ignored while chaos unfolds around it, landing on the punchline that the slot is now purely decorative. The CTA removes the dependency on the hour entirely.",
+    "duration_seconds": "28"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "founder",
+        "home_office"
+      ],
+      "closing": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense o",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 5204,
+          "completion_tokens": 1053
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:50.601Z",
+        "duration_ms": 36253,
+        "finished_at": "2026-07-25T10:25:26.854Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 5204,
+        "estimated_cost": 0.031407,
+        "output_summary": "Concept: The Calendar Slot That Has Never Actually Been Used",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 22728,
+        "completion_tokens": 1053,
+        "output_size_bytes": 4527,
+        "prompt_characters": 22550,
+        "provider_request_id": null,
+        "completion_characters": 4489
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4580,
+          "completion_tokens": 150
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:25:26.855Z",
+        "duration_ms": 1865,
+        "finished_at": "2026-07-25T10:25:28.720Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4580,
+        "estimated_cost": 0.0007,
+        "output_summary": "Opening: You have a 'Content Hour' every Thursday — and it’s never been touched.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 22415,
+        "completion_tokens": 150,
+        "output_size_bytes": 725,
+        "prompt_characters": 22269,
+        "provider_request_id": null,
+        "completion_characters": 721
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:25:28.720Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:25:28.720Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean digital calendar UI fills the frame — crisp, color-cod",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1791,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1779
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9561,
+          "completion_tokens": 2451
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:25:28.722Z",
+        "duration_ms": 46581,
+        "finished_at": "2026-07-25T10:26:15.303Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9561,
+        "estimated_cost": 0.065448,
+        "output_summary": "Package: The Calendar Slot That Has Never Actually Been Used",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 39217,
+        "completion_tokens": 2451,
+        "output_size_bytes": 9374,
+        "prompt_characters": 38939,
+        "provider_request_id": null,
+        "completion_characters": 9314
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:15.303Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:26:15.303Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2235,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2217
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:26:15.303Z",
+        "duration_ms": 1752,
+        "finished_at": "2026-07-25T10:26:17.055Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=94f5bd03-cdea-4853-8c54-68fdeb6dd519; items=5",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 318,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 318
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "c1df4479-b593-42e9-a7cc-9c472f8fbdbc",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

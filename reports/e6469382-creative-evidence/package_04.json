@@ -1,0 +1,1711 @@
+{
+  "package_index": 4,
+  "run_item_id": "417eaa4a-0c96-47b7-b5ef-9a9b40cfd96c",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "37f6ce97-538e-4d9b-bf66-db1a8a53d20c",
+  "package_title": "The Freelancer Fix That Became a Second Job",
+  "package_status": "draft",
+  "strategy_item_id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "problem_aware",
+    "priority": 1,
+    "brief": {
+      "angle": "A solo founder describes the moment they realized their freelancer relationship required weekly briefs, revision rounds, and approval cycles — more hours spent managing content than they ever spent creating it themselves.",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "source": "production_run",
+      "pain_point": "Hiring creators or agencies is expensive",
+      "package_index": 4,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Problem Aware",
+      "topic": "Hiring a freelancer to fix your content — and ending up managing another job",
+      "angle": "A solo founder describes the moment they realized their freelancer relationship required weekly briefs, revision rounds, and approval cycles — more hours spent managing content than they ever spent creating it themselves.",
+      "seed": "Problem Aware|Hiring a freelancer to fix your content — and ending up managing another job|A solo founder describes the moment they realized their freelancer relationship required weekly briefs, revision rounds, and approval cycles — more hours spent managing content than they ever spent creating it themselves.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "shock",
+        "name": "Shock",
+        "description": "Opens on a surprising, relevant fact or consequence.",
+        "structure": "Unexpected true fact -> implication (why it matters) -> proof -> CTA.",
+        "avoid": "No shock that is irrelevant to the topic and no payoff the content cannot deliver.",
+        "narrativeBeats": [
+          "unexpected_fact",
+          "implication",
+          "proof",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "myth",
+        "instruction": "Open by stating a popular myth you are about to break.",
+        "exampleForm": "\"More cleaning product means cleaner. It does not.\"",
+        "forbidGeneric": "Do not open with \"Let's talk about a common myth.\""
+      },
+      "persona": {
+        "id": "reporter",
+        "name": "Reporter",
+        "vocabulary": "factual, observational, neutral",
+        "rhythm": "crisp, headline-then-detail",
+        "energy": "matter-of-fact",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Freelancer Fix That Became a Second Job",
+    "core_idea": "A solo founder believed hiring a freelancer would remove content from their plate. The surprising fact: it added a structured weekly job on top of their existing one — briefs, revision rounds, approval cycles, chasing deliverables. The video exposes this hidden cost as the dominant pain, then positions fenrik Studio as the alternative that requires nothing beyond a website URL.",
+    "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing else. No briefs, no revision cycles, no management overhead. The free first package is not forced in; the concept stands on the workflow contrast alone.",
+    "why_it_works": "The shock is genuine and specific — most people frame freelancer cost as a budget question, not a time question. Reframing it as 'you traded content creation hours for content management hours' is accurate, relatable, and lands differently than a generic 'outsourcing is hard' take. The Reporter voice keeps it factual and credible. The pain point (hiring creators or agencies is expensive — in time, not just money) stays dominant throughout. The visual world and scenario are distinct from recent fingerprints.",
+    "narrative_arc": "UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelancer costs less than an agency. True. What nobody mentions is what it costs in hours. Cut to a quick, deadpan inventory: Monday brief. Wednesday first draft. Thursday revision notes. Friday second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. IMPLICATION: The founder did not escape content production. They escaped the typing and inherited the coordination. Every week. Indefinitely. The hours moved from 'creating' to 'managing' — and managing does not feel like progress, it feels like overhead. PROOF: fenrik Studio takes a website URL. No brief. No revision round. No approval cycle. A complete content package — videos, captions, posts, hashtags — delivered ready to publish. The only input is the URL. CTA: Direct, matter-of-fact close.",
+    "emotional_tone": "Dry and observational — the tone of someone reporting a widely shared mistake without judgment. Crisp. No dramatization. The humor is in the accuracy, not the performance.",
+    "audience_insight": "Solo founders and small teams who tried the 'obvious' fix — hire someone — and discovered it created a new recurring task instead of eliminating one. They are not looking for sympathy; they want to recognize the pattern named clearly and hear a cleaner alternative.",
+    "visual_direction": {
+      "palette": "Neutral warm whites and light greys in the environment. Accent color for text overlays: a single muted amber or slate blue — one color only, used consistently.",
+      "lighting": "Flat, even natural daylight from a window to the left. No dramatic shadows. The scene should feel like a normal Tuesday morning, not a cinematic moment.",
+      "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, no inventory, no studio equipment — this is a knowledge-worker space, not a maker space.",
+      "camera_style": "Locked-off medium shot of the founder at their desk for the opening statement. Cut to tight over-shoulder shots of the laptop screen showing the draft email or brief document as the weekly inventory is named. Final shot returns to the medium locked-off frame for the CTA — clean, unhurried.",
+      "art_direction": "Clean, minimal aesthetic. Text overlays carry the weekly calendar inventory — Monday, Wednesday, Thursday, Friday — appearing one line at a time in a plain sans-serif font over the live footage. No decorative graphics. The visual language mirrors the tone: factual, unadorned.",
+      "character_style": "A single on-camera presenter — founder-type, 28–40, dressed plainly (plain t-shirt or simple button-down). No exaggerated expressions. Speaks directly to camera with a calm, slightly wry delivery. No voiceover — all spoken to lens."
+    }
+  },
+  "opening": {
+    "pacing": "Measured and steady, allowing each point to resonate.",
+    "emotion": "Dry and observational, with a hint of wry humor.",
+    "first_image": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing the founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor.",
+    "attention_pattern": "The unexpected contrast between cost and time creates curiosity about the hidden costs of hiring a freelancer.",
+    "first_spoken_sentence": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week."
+  },
+  "visual_identity": {
+    "palette": "Neutral warm whites and light greys in the environment. Accent color for text overlays: a single muted amber or slate blue — one color only, used consistently.",
+    "lighting": "Flat, even natural daylight from a window to the left. No dramatic shadows. The scene should feel like a normal Tuesday morning, not a cinematic moment.",
+    "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, no inventory, no studio equipment — this is a knowledge-worker space, not a maker space.",
+    "camera_style": "Locked-off medium shot of the founder at their desk for the opening statement. Cut to tight over-shoulder shots of the laptop screen showing the draft email or brief document as the weekly inventory is named. Final shot returns to the medium locked-off frame for the CTA — clean, unhurried.",
+    "art_direction": "Clean, minimal aesthetic. Text overlays carry the weekly calendar inventory — Monday, Wednesday, Thursday, Friday — appearing one line at a time in a plain sans-serif font over the live footage. No decorative graphics. The visual language mirrors the tone: factual, unadorned.",
+    "character_style": "A single on-camera presenter — founder-type, 28–40, dressed plainly (plain t-shirt or simple button-down). No exaggerated expressions. Speaks directly to camera with a calm, slightly wry delivery. No voiceover — all spoken to lens.",
+    "opening_emotion": "Dry and observational, with a hint of wry humor.",
+    "opening_first_image": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing the founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor."
+  },
+  "package": {
+    "title": "The Freelancer Fix That Became a Second Job",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+    "scenario": "An agency owner lands a new content client and immediately hires a freelancer to handle their own agency's social accounts so they can focus on delivery. Week one: an hour writing the brief. Week two: two rounds of revisions on a caption that still does not sound right. Week three: the freelancer misses the Thursday deadline and the Friday slot is gone. By week four, the agency owner is spending more time managing the freelancer than they ever spent writing posts themselves — and the feed is still inconsistent.",
+    "video": {
+      "script": "[SCENE 1 — Locked-off medium shot. Founder at desk, plain t-shirt, looking directly to camera. Flat natural daylight from left.]\nSPOKEN: Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.\n\n[SCENE 2 — Text overlay appears line by line in muted slate blue sans-serif over over-shoulder shot of laptop showing a draft email or Google Doc.]\nSPOKEN: Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted.\n\n[SCENE 3 — Cut back to locked-off medium shot. Founder, same frame, slight pause before speaking.]\nSPOKEN: That is not outsourcing. That is a part-time management job with a freelancer attached.\n\n[SCENE 4 — Tight over-shoulder shot of laptop. Screen shows a plain document — no content posted, just an open thread.]\nSPOKEN: You did not escape content production. You just moved the work.\n\n[SCENE 5 — Return to locked-off medium shot. Founder looks directly to camera. Calm close.]\n[No additional spoken line — video ends on the final spoken beat.]",
+      "concept": "A solo founder delivers a calm, deadpan breakdown of what hiring a content freelancer actually looks like week to week. The shock is the reframe: the cost was never just money — it was hours of briefs, revisions, and approval cycles that quietly became a recurring management job. The video exposes the hidden time tax of the 'obvious fix' without dramatization, then resolves with fenrik Studio as the structural alternative that requires only a website URL.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#contentcreation",
+      "#solofounder",
+      "#smallbusiness",
+      "#socialmediamarketing",
+      "#marketingtips",
+      "#contentmarketing",
+      "#productivity"
+    ],
+    "subtitles_planned": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left."
+    }
+  ],
+  "voiceover": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+  "voice_prompts": {
+    "voiceover_text": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Deli",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows.",
+    "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements.",
+    "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration.",
+    "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame.",
+    "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left."
+  ],
+  "cta": {
+    "package_cta": null,
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "You hired a freelancer to fix your content. Now you spend Mondays writing briefs and Thursdays chasing revisions. That is not outsourcing. 👀",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#worksmarter"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "Hiring a freelancer was supposed to take content off your plate — here is what it actually added to your week.",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#socialmedia"
+        ]
+      },
+      "facebook": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Hiring a freelancer for social content sounds like the obvious fix — until you realize you are spending Monday writing the brief, Thursday reviewing drafts, and Friday evening still waiting for the final version. 😅 The work did not disappear. It just changed shape. Sound familiar? Drop a comment if this has happened to you.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Hiring a content freelancer is framed as a budget decision. It is actually a time decision — and most people only realize that after the first month.\n\nMonday brief. Wednesday first draft. Thursday revision notes. Friday second draft. Friday evening: still not published.\n\nThat is not a content solution. That is a recurring coordination task dressed up as one.\n\nThe hours did not disappear. They moved from creating to managing.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#productivity"
+        ]
+      },
+      "instagram": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Hiring a freelancer felt like the smart move.\n\nThen came the weekly briefs. The revision rounds. The approval cycles. The Friday evening where nothing was posted — again.\n\nYou did not escape the content workload. You just changed what part of it was yours.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#workload",
+          "#contentcreation",
+          "#marketingtips"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "2e8cb9e1-baba-494c-afa2-811720f6511c",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Freelancer Fix That Became a Second Job",
+        "body": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+        "caption": "Hiring a freelancer felt like the smart move.\n\nThen came the weekly briefs. The revision rounds. The approval cycles. The Friday evening where nothing was posted — again.\n\nYou did not escape the content workload. You just changed what part of it was yours.",
+        "hashtags": [
+          "#contentmarketing",
+          "#solofounder",
+          "#socialmediatips",
+          "#smallbusinessowner",
+          "#workload",
+          "#contentcreation",
+          "#marketingtips"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "903ea9e1-8ba7-4d16-9ac4-8a5b54e99894",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Freelancer Fix That Became a Second Job",
+        "body": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+        "caption": "You hired a freelancer to fix your content. Now you spend Mondays writing briefs and Thursdays chasing revisions. That is not outsourcing. 👀",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#worksmarter"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "8c95921b-bd8c-470d-aabc-09ed01279f69",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Freelancer Fix That Became a Second Job",
+        "body": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+        "caption": "Hiring a freelancer was supposed to take content off your plate — here is what it actually added to your week.",
+        "hashtags": [
+          "#contentcreation",
+          "#solofounder",
+          "#socialmedia"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "e9f92a10-6276-4d8f-b99d-e6ef4a37fd1a",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Freelancer Fix That Became a Second Job",
+        "body": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+        "caption": "Hiring a freelancer for social content sounds like the obvious fix — until you realize you are spending Monday writing the brief, Thursday reviewing drafts, and Friday evening still waiting for the final version. 😅 The work did not disappear. It just changed shape. Sound familiar? Drop a comment if this has happened to you.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "37f6ce97-538e-4d9b-bf66-db1a8a53d20c",
+    "title": "The Freelancer Fix That Became a Second Job",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+    "package_brief": {
+      "cta": null,
+      "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "video": {
+        "script": "[SCENE 1 — Locked-off medium shot. Founder at desk, plain t-shirt, looking directly to camera. Flat natural daylight from left.]\nSPOKEN: Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.\n\n[SCENE 2 — Text overlay appears line by line in muted slate blue sans-serif over over-shoulder shot of laptop showing a draft email or Google Doc.]\nSPOKEN: Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted.\n\n[SCENE 3 — Cut back to locked-off medium shot. Founder, same frame, slight pause before speaking.]\nSPOKEN: That is not outsourcing. That is a part-time management job with a freelancer attached.\n\n[SCENE 4 — Tight over-shoulder shot of laptop. Screen shows a plain document — no content posted, just an open thread.]\nSPOKEN: You did not escape content production. You just moved the work.\n\n[SCENE 5 — Return to locked-off medium shot. Founder looks directly to camera. Calm close.]\n[No additional spoken line — video ends on the final spoken beat.]",
+        "concept": "A solo founder delivers a calm, deadpan breakdown of what hiring a content freelancer actually looks like week to week. The shock is the reframe: the cost was never just money — it was hours of briefs, revisions, and approval cycles that quietly became a recurring management job. The video exposes the hidden time tax of the 'obvious fix' without dramatization, then resolves with fenrik Studio as the structural alternative that requires only a website URL.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#contentcreation",
+        "#solofounder",
+        "#smallbusiness",
+        "#socialmediamarketing",
+        "#marketingtips",
+        "#contentmarketing",
+        "#productivity"
+      ],
+      "scenario": "An agency owner lands a new content client and immediately hires a freelancer to handle their own agency's social accounts so they can focus on delivery. Week one: an hour writing the brief. Week two: two rounds of revisions on a caption that still does not sound right. Week three: the freelancer misses the Thursday deadline and the Friday slot is gone. By week four, the agency owner is spending more time managing the freelancer than they ever spent writing posts themselves — and the feed is still inconsistent.",
+      "subtitles": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows.",
+        "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements.",
+        "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration.",
+        "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame.",
+        "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left."
+        }
+      ],
+      "voiceover_text": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": null,
+          "format": "reel",
+          "caption": "You hired a freelancer to fix your content. Now you spend Mondays writing briefs and Thursdays chasing revisions. That is not outsourcing. 👀",
+          "hashtags": [
+            "#contentcreation",
+            "#solofounder",
+            "#smallbusiness",
+            "#socialmediamarketing",
+            "#worksmarter"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "short",
+          "caption": "Hiring a freelancer was supposed to take content off your plate — here is what it actually added to your week.",
+          "hashtags": [
+            "#contentcreation",
+            "#solofounder",
+            "#socialmedia"
+          ]
+        },
+        "facebook": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Hiring a freelancer for social content sounds like the obvious fix — until you realize you are spending Monday writing the brief, Thursday reviewing drafts, and Friday evening still waiting for the final version. 😅 The work did not disappear. It just changed shape. Sound familiar? Drop a comment if this has happened to you.",
+          "hashtags": [
+            "#smallbusiness",
+            "#contentmarketing"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Hiring a content freelancer is framed as a budget decision. It is actually a time decision — and most people only realize that after the first month.\n\nMonday brief. Wednesday first draft. Thursday revision notes. Friday second draft. Friday evening: still not published.\n\nThat is not a content solution. That is a recurring coordination task dressed up as one.\n\nThe hours did not disappear. They moved from creating to managing.",
+          "hashtags": [
+            "#contentmarketing",
+            "#solofounder",
+            "#productivity"
+          ]
+        },
+        "instagram": {
+          "cta": null,
+          "format": "reel",
+          "caption": "Hiring a freelancer felt like the smart move.\n\nThen came the weekly briefs. The revision rounds. The approval cycles. The Friday evening where nothing was posted — again.\n\nYou did not escape the content workload. You just changed what part of it was yours.",
+          "hashtags": [
+            "#contentmarketing",
+            "#solofounder",
+            "#socialmediatips",
+            "#smallbusinessowner",
+            "#workload",
+            "#contentcreation",
+            "#marketingtips"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "37f6ce97-538e-4d9b-bf66-db1a8a53d20c",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 48,
+          "secondary": 37
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "shock",
+        "video_concept": {
+          "title": "The Freelancer Fix That Became a Second Job",
+          "core_idea": "A solo founder believed hiring a freelancer would remove content from their plate. The surprising fact: it added a structured weekly job on top of their existing one — briefs, revision rounds, approval cycles, chasing deliverables. The video exposes this hidden cost as the dominant pain, then positions fenrik Studio as the alternative that requires nothing beyond a website URL.",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing else. No briefs, no revision cycles, no management overhead. The free first package is not forced in; the concept stands on the workflow contrast alone.",
+          "why_it_works": "The shock is genuine and specific — most people frame freelancer cost as a budget question, not a time question. Reframing it as 'you traded content creation hours for content management hours' is accurate, relatable, and lands differently than a generic 'outsourcing is hard' take. The Reporter voice keeps it factual and credible. The pain point (hiring creators or agencies is expensive — in time, not just money) stays dominant throughout. The visual world and scenario are distinct from recent fingerprints.",
+          "narrative_arc": "UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelancer costs less than an agency. True. What nobody mentions is what it costs in hours. Cut to a quick, deadpan inventory: Monday brief. Wednesday first draft. Thursday revision notes. Friday second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. IMPLICATION: The founder did not escape content production. They escaped the typing and inherited the coordination. Every week. Indefinitely. The hours moved from 'creating' to 'managing' — and managing does not feel like progress, it feels like overhead. PROOF: fenrik Studio takes a website URL. No brief. No revision round. No approval cycle. A complete content package — videos, captions, posts, hashtags — delivered ready to publish. The only input is the URL. CTA: Direct, matter-of-fact close.",
+          "emotional_tone": "Dry and observational — the tone of someone reporting a widely shared mistake without judgment. Crisp. No dramatization. The humor is in the accuracy, not the performance.",
+          "audience_insight": "Solo founders and small teams who tried the 'obvious' fix — hire someone — and discovered it created a new recurring task instead of eliminating one. They are not looking for sympathy; they want to recognize the pattern named clearly and hear a cleaner alternative.",
+          "visual_direction": {
+            "palette": "Neutral warm whites and light greys in the environment. Accent color for text overlays: a single muted amber or slate blue — one color only, used consistently.",
+            "lighting": "Flat, even natural daylight from a window to the left. No dramatic shadows. The scene should feel like a normal Tuesday morning, not a cinematic moment.",
+            "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, no inventory, no studio equipment — this is a knowledge-worker space, not a maker space.",
+            "camera_style": "Locked-off medium shot of the founder at their desk for the opening statement. Cut to tight over-shoulder shots of the laptop screen showing the draft email or brief document as the weekly inventory is named. Final shot returns to the medium locked-off frame for the CTA — clean, unhurried.",
+            "art_direction": "Clean, minimal aesthetic. Text overlays carry the weekly calendar inventory — Monday, Wednesday, Thursday, Friday — appearing one line at a time in a plain sans-serif font over the live footage. No decorative graphics. The visual language mirrors the tone: factual, unadorned.",
+            "character_style": "A single on-camera presenter — founder-type, 28–40, dressed plainly (plain t-shirt or simple button-down). No exaggerated expressions. Speaks directly to camera with a calm, slightly wry delivery. No voiceover — all spoken to lens."
+          }
+        },
+        "voice_reasons": [
+          "funnel_problem→warmth(+2)",
+          "mode_shock→energy(+3)",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+48)",
+          "fit_secondary(+37)"
+        ],
+        "opening_impact": {
+          "pacing": "Measured and steady, allowing each point to resonate.",
+          "emotion": "Dry and observational, with a hint of wry humor.",
+          "first_image": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing the founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor.",
+          "attention_pattern": "The unexpected contrast between cost and time creates curiosity about the hidden costs of hiring a freelancer.",
+          "first_spoken_sentence": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Neutral warm whites and light greys in the environment. Accent color for text overlays: a single muted amber or slate blue — one color only, used consistently.",
+          "lighting": "Flat, even natural daylight from a window to the left. No dramatic shadows. The scene should feel like a normal Tuesday morning, not a cinematic moment.",
+          "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, no inventory, no studio equipment — this is a knowledge-worker space, not a maker space.",
+          "camera_style": "Locked-off medium shot of the founder at their desk for the opening statement. Cut to tight over-shoulder shots of the laptop screen showing the draft email or brief document as the weekly inventory is named. Final shot returns to the medium locked-off frame for the CTA — clean, unhurried.",
+          "art_direction": "Clean, minimal aesthetic. Text overlays carry the weekly calendar inventory — Monday, Wednesday, Thursday, Friday — appearing one line at a time in a plain sans-serif font over the live footage. No decorative graphics. The visual language mirrors the tone: factual, unadorned.",
+          "character_style": "A single on-camera presenter — founder-type, 28–40, dressed plainly (plain t-shirt or simple button-down). No exaggerated expressions. Speaks directly to camera with a calm, slightly wry delivery. No voiceover — all spoken to lens.",
+          "opening_emotion": "Dry and observational, with a hint of wry humor.",
+          "opening_first_image": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing the founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Deli",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Hiring creators or agencies is expensive",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4982,
+                "completion_tokens": 985
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:23:35.284Z",
+              "duration_ms": 25861,
+              "finished_at": "2026-07-25T10:24:01.145Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 4982,
+              "estimated_cost": 0.029721,
+              "output_summary": "Concept: The Freelancer Fix That Became a Second Job",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 21754,
+              "completion_tokens": 985,
+              "output_size_bytes": 4306,
+              "prompt_characters": 21592,
+              "provider_request_id": null,
+              "completion_characters": 4270
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 4421,
+                "completion_tokens": 142
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:01.146Z",
+              "duration_ms": 2242,
+              "finished_at": "2026-07-25T10:24:03.388Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 4421,
+              "estimated_cost": 0.000672,
+              "output_summary": "Opening: Hiring a freelancer costs less than an agency — but nobody mentions the hours it",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 21658,
+              "completion_tokens": 142,
+              "output_size_bytes": 654,
+              "prompt_characters": 21520,
+              "provider_request_id": null,
+              "completion_characters": 652
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:03.388Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:24:03.388Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Clean, minimal aesthetic. Text overlays carry the weekly cal",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1792,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1776
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 9357,
+                "completion_tokens": 2298
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:03.389Z",
+              "duration_ms": 42551,
+              "finished_at": "2026-07-25T10:24:45.939Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 9357,
+              "estimated_cost": 0.062541,
+              "output_summary": "Package: The Freelancer Fix That Became a Second Job",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 38257,
+              "completion_tokens": 2298,
+              "output_size_bytes": 8892,
+              "prompt_characters": 37985,
+              "provider_request_id": null,
+              "completion_characters": 8840
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:45.940Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:24:45.940Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1964,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1952
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:24:45.940Z",
+              "duration_ms": 1844,
+              "finished_at": "2026-07-25T10:24:47.784Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=37f6ce97-538e-4d9b-bf66-db1a8a53d20c; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A solo founder believed hiring a freelancer would remove content from their plate. The surprising fact: it added a structured weekly job on top of their existing one — briefs, revision rounds, approv…",
+          "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the foc…",
+          "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing el…",
+          "visual_world": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, …",
+          "attention_pattern": "The unexpected contrast between cost and time creates curiosity about the hidden costs of hiring a freelancer.",
+          "narrative_mechanism": "shock: UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelan…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "Saving ideas isn't the same as creating content.",
+            "topic": "The content backlog that grows faster than you can clear it",
+            "motifs": [
+              "laptop",
+              "phone",
+              "desk",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Nine weeks of silence — what does that say about your business?",
+            "topic": "What your business looks like to a stranger who finds your social profile first",
+            "motifs": [
+              "phone",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You think better ideas will fix your content problem? Think again.",
+            "topic": "Why your content ideas never survive contact with your actual schedule",
+            "motifs": [
+              "desk",
+              "whiteboard",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "desk",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+            "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+            "motifs": [
+              "phone",
+              "desk",
+              "office",
+              "founder",
+              "close_up",
+              "overhead",
+              "monitor",
+              "home_office"
+            ],
+            "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+            "topic": "Your website is already full of content — here's how to get your first package free",
+            "motifs": [
+              "laptop",
+              "desk",
+              "office",
+              "sticky_notes",
+              "close_up",
+              "home_office"
+            ],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "object",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+            "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+            "motifs": [],
+            "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": "CLEAN_ILLUSTRATION",
+            "meaning_carrier": "process",
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": null,
+            "product_reveal_strategy": "FRAMED_ASSET",
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:24:46.041944+00:00",
+    "updated_at": "2026-07-25T10:24:47.952417+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 48,
+      "secondary": 37
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_shock→energy(+3)",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+48)",
+      "fit_secondary(+37)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Deli"
+  },
+  "creative_mode": "shock",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Hiring creators or agencies is expensive",
+    "strategy_pain_point": "Hiring creators or agencies is expensive"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing else. No briefs, no revision cycles, no management overhead. The free first package is not forced in; the concept stands on the workflow contrast alone.",
+  "narrative_arc": "UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelancer costs less than an agency. True. What nobody mentions is what it costs in hours. Cut to a quick, deadpan inventory: Monday brief. Wednesday first draft. Thursday revision notes. Friday second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. IMPLICATION: The founder did not escape content production. They escaped the typing and inherited the coordination. Every week. Indefinitely. The hours moved from 'creating' to 'managing' — and managing does not feel like progress, it feels like overhead. PROOF: fenrik Studio takes a website URL. No brief. No revision round. No approval cycle. A complete content package — videos, captions, posts, hashtags — delivered ready to publish. The only input is the URL. CTA: Direct, matter-of-fact close.",
+  "emotional_tone": "Dry and observational — the tone of someone reporting a widely shared mistake without judgment. Crisp. No dramatization. The humor is in the accuracy, not the performance.",
+  "audience_insight": "Solo founders and small teams who tried the 'obvious' fix — hire someone — and discovered it created a new recurring task instead of eliminating one. They are not looking for sympathy; they want to recognize the pattern named clearly and hear a cleaner alternative.",
+  "visual_direction": {
+    "palette": "Neutral warm whites and light greys in the environment. Accent color for text overlays: a single muted amber or slate blue — one color only, used consistently.",
+    "lighting": "Flat, even natural daylight from a window to the left. No dramatic shadows. The scene should feel like a normal Tuesday morning, not a cinematic moment.",
+    "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, no inventory, no studio equipment — this is a knowledge-worker space, not a maker space.",
+    "camera_style": "Locked-off medium shot of the founder at their desk for the opening statement. Cut to tight over-shoulder shots of the laptop screen showing the draft email or brief document as the weekly inventory is named. Final shot returns to the medium locked-off frame for the CTA — clean, unhurried.",
+    "art_direction": "Clean, minimal aesthetic. Text overlays carry the weekly calendar inventory — Monday, Wednesday, Thursday, Friday — appearing one line at a time in a plain sans-serif font over the live footage. No decorative graphics. The visual language mirrors the tone: factual, unadorned.",
+    "character_style": "A single on-camera presenter — founder-type, 28–40, dressed plainly (plain t-shirt or simple button-down). No exaggerated expressions. Speaks directly to camera with a calm, slightly wry delivery. No voiceover — all spoken to lens."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work."
+  },
+  "render_metadata": {
+    "id": "f5501c3d-6325-483c-9241-df473970d593",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:24:47.450384+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A clean, minimal home office with a laptop open to an email thread. A coffee mug sits beside it. The camera is locked off, capturing a founder, dressed in a plain t-shirt, looking directly at the lens with a calm demeanor. Flat even natural daylight from the left. Neutral warm whites and light greys. No dramatic shadows."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Over-shoulder tight shot of a laptop screen showing a plain Google Doc with a sparse content brief draft — a few bullet points, nothing polished. Flat natural daylight. Warm white desk surface. A coffee mug partially visible at the edge of frame. No decorative elements."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Text overlay graphic in muted slate blue plain sans-serif on a light warm-grey background showing four lines appearing sequentially: 'Monday: brief. Wednesday: first draft. Thursday: revisions. Friday: still not posted.' Minimal, unadorned, no icons or decoration."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Locked-off medium shot of a founder at their desk, looking directly to camera with a dry, composed expression. Plain t-shirt. Tidy home office behind them — laptop, coffee mug, nothing else. Flat natural daylight from left. Calm, unhurried frame."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Over-shoulder tight shot of a laptop screen showing an open email thread with no content attached or ready — the sense of waiting, not progress. Warm neutral environment. Flat even light from the left."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+    "cta": null,
+    "voiceover_text": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week. Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted. That is not outsourcing. That is a part-time management job with a freelancer attached. You did not escape content production. You just moved the work.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: alert energy, crisp emphasis on the unexpected fact. Delivery: measured, credible. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A solo founder believed hiring a freelancer would remove content from their plate. The surprising fact: it added a structured weekly job on top of their existing one — briefs, revision rounds, approv…",
+      "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the foc…",
+      "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing el…",
+      "visual_world": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, …",
+      "attention_pattern": "The unexpected contrast between cost and time creates curiosity about the hidden costs of hiring a freelancer.",
+      "narrative_mechanism": "shock: UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelan…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#contentcreation",
+    "#solofounder",
+    "#smallbusiness",
+    "#socialmediamarketing",
+    "#marketingtips",
+    "#contentmarketing",
+    "#productivity"
+  ],
+  "hook": "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+  "scenario": "An agency owner lands a new content client and immediately hires a freelancer to handle their own agency's social accounts so they can focus on delivery. Week one: an hour writing the brief. Week two: two rounds of revisions on a caption that still does not sound right. Week three: the freelancer misses the Thursday deadline and the Friday slot is gone. By week four, the agency owner is spending more time managing the freelancer than they ever spent writing posts themselves — and the feed is still inconsistent.",
+  "video": {
+    "script": "[SCENE 1 — Locked-off medium shot. Founder at desk, plain t-shirt, looking directly to camera. Flat natural daylight from left.]\nSPOKEN: Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.\n\n[SCENE 2 — Text overlay appears line by line in muted slate blue sans-serif over over-shoulder shot of laptop showing a draft email or Google Doc.]\nSPOKEN: Monday: write the brief. Wednesday: review the first draft. Thursday: send revision notes. Friday: wait for the second draft. Friday evening: still not posted.\n\n[SCENE 3 — Cut back to locked-off medium shot. Founder, same frame, slight pause before speaking.]\nSPOKEN: That is not outsourcing. That is a part-time management job with a freelancer attached.\n\n[SCENE 4 — Tight over-shoulder shot of laptop. Screen shows a plain document — no content posted, just an open thread.]\nSPOKEN: You did not escape content production. You just moved the work.\n\n[SCENE 5 — Return to locked-off medium shot. Founder looks directly to camera. Calm close.]\n[No additional spoken line — video ends on the final spoken beat.]",
+    "concept": "A solo founder delivers a calm, deadpan breakdown of what hiring a content freelancer actually looks like week to week. The shock is the reframe: the cost was never just money — it was hours of briefs, revisions, and approval cycles that quietly became a recurring management job. The video exposes the hidden time tax of the 'obvious fix' without dramatization, then resolves with fenrik Studio as the structural alternative that requires only a website URL.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "Saving ideas isn't the same as creating content.",
+      "topic": "The content backlog that grows faster than you can clear it",
+      "motifs": [
+        "laptop",
+        "phone",
+        "desk",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand close — Fenrik Studio logo displayed as a clean, quiet final frame to close th",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Nine weeks of silence — what does that say about your business?",
+      "topic": "What your business looks like to a stranger who finds your social profile first",
+      "motifs": [
+        "phone",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Final frame brand close — Fenrik Studio logo displayed centered on a clean off-white",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You think better ideas will fix your content problem? Think again.",
+      "topic": "Why your content ideas never survive contact with your actual schedule",
+      "motifs": [
+        "desk",
+        "whiteboard",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "Portrait 9:16 vertical composition. closing logo frame — fenrik Studio brand mark fades in at bottom center over the fin",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "desk",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen.",
+      "topic": "The social media task that looks small but quietly consumes your whole Tuesday",
+      "motifs": [
+        "phone",
+        "desk",
+        "office",
+        "founder",
+        "close_up",
+        "overhead",
+        "monitor",
+        "home_office"
+      ],
+      "closing": "Clean off-white background with large centered clean sans-serif text reading 'Exciting news — we've been working on some",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Every week, content creation quietly eats three to five hours you never planned to lose.",
+      "topic": "Your website is already full of content — here's how to get your first package free",
+      "motifs": [
+        "laptop",
+        "desk",
+        "office",
+        "sticky_notes",
+        "close_up",
+        "home_office"
+      ],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A small home office nook, cool clear morning light, urban gray-bl",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "object",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Your first content package is completely free — and most people don't take it. Here's what that silence is actually costing them.",
+      "topic": "What it looks like when your social calendar goes from empty to full without touching a camera",
+      "motifs": [],
+      "closing": "Clean flat illustration, portrait 9:16 vertical frame. A home kitchen environment, soft natural window daylight, muted e",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": "CLEAN_ILLUSTRATION",
+      "meaning_carrier": "process",
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": null,
+      "product_reveal_strategy": "FRAMED_ASSET",
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 4982,
+          "completion_tokens": 985
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:23:35.284Z",
+        "duration_ms": 25861,
+        "finished_at": "2026-07-25T10:24:01.145Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 4982,
+        "estimated_cost": 0.029721,
+        "output_summary": "Concept: The Freelancer Fix That Became a Second Job",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 21754,
+        "completion_tokens": 985,
+        "output_size_bytes": 4306,
+        "prompt_characters": 21592,
+        "provider_request_id": null,
+        "completion_characters": 4270
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 4421,
+          "completion_tokens": 142
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:01.146Z",
+        "duration_ms": 2242,
+        "finished_at": "2026-07-25T10:24:03.388Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 4421,
+        "estimated_cost": 0.000672,
+        "output_summary": "Opening: Hiring a freelancer costs less than an agency — but nobody mentions the hours it",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 21658,
+        "completion_tokens": 142,
+        "output_size_bytes": 654,
+        "prompt_characters": 21520,
+        "provider_request_id": null,
+        "completion_characters": 652
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:03.388Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:24:03.388Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Clean, minimal aesthetic. Text overlays carry the weekly cal",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1792,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1776
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 9357,
+          "completion_tokens": 2298
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:03.389Z",
+        "duration_ms": 42551,
+        "finished_at": "2026-07-25T10:24:45.939Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 9357,
+        "estimated_cost": 0.062541,
+        "output_summary": "Package: The Freelancer Fix That Became a Second Job",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 38257,
+        "completion_tokens": 2298,
+        "output_size_bytes": 8892,
+        "prompt_characters": 37985,
+        "provider_request_id": null,
+        "completion_characters": 8840
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:45.940Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:24:45.940Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1964,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1952
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:24:45.940Z",
+        "duration_ms": 1844,
+        "finished_at": "2026-07-25T10:24:47.784Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=37f6ce97-538e-4d9b-bf66-db1a8a53d20c; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "0c32f174-2c33-4e92-b79c-0bfc0e3d7bd0",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

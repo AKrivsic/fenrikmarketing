@@ -220,6 +220,45 @@ export async function uploadVideoArtifact(
   };
 }
 
+export interface UploadStorageObjectFromFileInput {
+  bucket: string;
+  storagePath: string;
+  localPath: string;
+  contentType: string;
+}
+
+/** Upsert a local file to an explicit Storage path (benchmark combined output). */
+export async function uploadStorageObjectFromFile(
+  input: UploadStorageObjectFromFileInput,
+): Promise<{ bucket: string; storagePath: string }> {
+  const body = await readFile(input.localPath);
+  const supabase = createSupabaseAdminClient();
+  let lastError: unknown = null;
+  for (let attempt = 1; attempt <= UPLOAD_MAX_ATTEMPTS; attempt++) {
+    const { error: uploadError } = await supabase.storage
+      .from(input.bucket)
+      .upload(input.storagePath, body, {
+        contentType: input.contentType,
+        upsert: true,
+      });
+    if (!uploadError) {
+      return { bucket: input.bucket, storagePath: input.storagePath };
+    }
+    lastError = uploadError;
+    if (!isRetryableUploadError(uploadError) || attempt >= UPLOAD_MAX_ATTEMPTS) {
+      break;
+    }
+    const delay =
+      UPLOAD_BACKOFF_BASE_MS * 2 ** (attempt - 1) +
+      Math.floor(Math.random() * UPLOAD_BACKOFF_JITTER_MS);
+    await sleep(delay);
+  }
+  const details = describeUploadError(lastError);
+  throw new Error(
+    `uploadStorageObjectFromFile failed (${input.bucket}/${input.storagePath}): ${details.message}`,
+  );
+}
+
 export interface DownloadStorageObjectInput {
   bucket: string;
   storagePath: string;

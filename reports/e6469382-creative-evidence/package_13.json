@@ -1,0 +1,1715 @@
+{
+  "package_index": 13,
+  "run_item_id": "fdf978f7-791b-4103-ae1c-bcc1a7b6672f",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "1847bed2-2cf8-48b3-8a15-6c1ecf2d3fe9",
+  "package_title": "The Loyalty Test Nobody Saw Coming",
+  "package_status": "draft",
+  "strategy_item_id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "voicePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "creativeDirectives": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false,
+    "runtimeArtifacts": false,
+    "rawModelOutput": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Creative directives, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, Voice prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy_item": {
+    "id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+    "strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "platform": "tiktok",
+    "format": "reel",
+    "funnel_stage": "awareness",
+    "priority": 1,
+    "brief": {
+      "angle": "A local service business owner recounts a conversation with a long-term customer who admitted they almost switched providers because the business's social feed had gone dark for six weeks — they assumed something was wrong.",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "source": "production_run",
+      "pain_point": "Social accounts are inactive or inconsistent",
+      "package_index": 13,
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+    }
+  },
+  "content_strategy": {
+    "id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_brief": {
+      "theme": "Invisible Work, Visible Cost",
+      "source": "production_run",
+      "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42",
+      "funnel_distribution": {
+        "Awareness": 6,
+        "Conversion": 1,
+        "Problem Aware": 10,
+        "Solution Aware": 4
+      },
+      "generation_telemetry": {
+        "steps": [
+          {
+            "model": "claude-sonnet-4-6",
+            "repair": false,
+            "success": true,
+            "provider": "claude",
+            "warnings": [],
+            "raw_usage": {
+              "model": "claude-sonnet-4-6",
+              "cached_tokens": 0,
+              "prompt_tokens": 4491,
+              "completion_tokens": 2876
+            },
+            "step_name": "Content Strategy",
+            "max_tokens": 8192,
+            "started_at": "2026-07-25T10:16:46.502Z",
+            "duration_ms": 54663,
+            "finished_at": "2026-07-25T10:17:41.164Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": 0,
+            "error_message": null,
+            "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+            "prompt_tokens": 4491,
+            "estimated_cost": 0.056613,
+            "output_summary": "Theme + funnel plan\n↓\n21 strategy items (requested 21)",
+            "pricing_source": "list_price_estimate",
+            "pricing_version": "list-price@2026-07-23",
+            "response_format": "json",
+            "input_size_bytes": 19566,
+            "completion_tokens": 2876,
+            "output_size_bytes": 11292,
+            "prompt_characters": 19462,
+            "provider_request_id": null,
+            "completion_characters": 11244
+          },
+          {
+            "model": null,
+            "repair": false,
+            "success": true,
+            "provider": "deterministic",
+            "warnings": [],
+            "raw_usage": null,
+            "step_name": "Strategy Items",
+            "max_tokens": null,
+            "started_at": "2026-07-25T10:17:41.165Z",
+            "duration_ms": 300,
+            "finished_at": "2026-07-25T10:17:41.465Z",
+            "retry_count": 0,
+            "temperature": null,
+            "cached_tokens": null,
+            "error_message": null,
+            "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+            "prompt_tokens": null,
+            "estimated_cost": null,
+            "output_summary": "21 strategy item(s) persisted",
+            "pricing_source": null,
+            "pricing_version": null,
+            "response_format": null,
+            "input_size_bytes": null,
+            "completion_tokens": null,
+            "output_size_bytes": 884,
+            "prompt_characters": null,
+            "provider_request_id": null,
+            "completion_characters": 884
+          }
+        ],
+        "phases": [],
+        "version": "pipeline-telemetry@1",
+        "pricing_version": "list-price@2026-07-23",
+        "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+      }
+    }
+  },
+  "creative_directives": {
+    "source": "DETERMINISTIC_REPLAY",
+    "note": "Creative directives are prompt-only and not persisted. Replayed from stored strategy item funnel/topic/angle via pickCreativeDirectives(buildCreativeSeed(...)).",
+    "seed_inputs": {
+      "funnel_stage": "Awareness",
+      "topic": "The quiet month that made a business look like it stopped caring",
+      "angle": "A local service business owner recounts a conversation with a long-term customer who admitted they almost switched providers because the business's social feed had gone dark for six weeks — they assumed something was wrong.",
+      "seed": "Awareness|The quiet month that made a business look like it stopped caring|A local service business owner recounts a conversation with a long-term customer who admitted they almost switched providers because the business's social feed had gone dark for six weeks — they assumed something was wrong.|"
+    },
+    "directives": {
+      "mode": {
+        "id": "humor",
+        "name": "Humor",
+        "description": "Light, self-aware tone that entertains while informing.",
+        "structure": "Relatable situation -> unexpected turn -> punchline that lands the point -> CTA.",
+        "avoid": "Humor must not mock the customer or devalue the product; the fix stays serious.",
+        "narrativeBeats": [
+          "situation",
+          "unexpected_turn",
+          "punchline",
+          "cta"
+        ],
+        "preferred": true
+      },
+      "hook": {
+        "id": "proof_shock",
+        "instruction": "Open on a striking proof point FROM THE PROOF POOL (never invented).",
+        "exampleForm": "\"<a real metric/result from the proof pool>, and here is why.\"",
+        "forbidGeneric": "Do not invent numbers; if no real proof exists, use a different archetype."
+      },
+      "persona": {
+        "id": "calm_advisor",
+        "name": "Calm Advisor",
+        "vocabulary": "reassuring, simple, supportive",
+        "rhythm": "unhurried, guiding",
+        "energy": "steady and trustworthy",
+        "exaggeration": "none"
+      }
+    }
+  },
+  "concept": {
+    "title": "The Loyalty Test Nobody Saw Coming",
+    "core_idea": "A long-term customer of a local service business casually drops a bombshell mid-conversation: they almost left — not because of the service, but because six weeks of silence on social made them assume the business had quietly shut down. The owner had no idea their feed going dark was being read as a closing sign.",
+    "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no camera, no content team. The first package is free. The point is not to sell a service; it is to remove the only thing standing between a busy business and a consistent social presence.",
+    "why_it_works": "The humor mode works here because the situation is absurdly recognizable — the business was thriving, and a loyal customer almost left because of a silent Instagram account. The joke is on the gap between reality and perception, not on the owner. The customer's delivery is deadpan and kind, which makes the punchline land harder. The POV is the customer's experience, which is fresh relative to recent fingerprints that stayed inside the owner's perspective. The proof point — first package free, website URL only — arrives at the exact moment the viewer is most receptive: right after the punchline makes the cost of inaction concrete and slightly funny.",
+    "narrative_arc": "SITUATION: A local plumbing business owner is having a perfectly normal catch-up chat with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing thing, or maybe a scheduling issue — something fixable. He asks what happened. The customer shrugs and says he just figured they had closed. The owner blinks. Closed? They had their busiest quarter on record. UNEXPECTED TURN: The customer pulls out his phone, opens Instagram, and shows the owner his own profile — the last post is from seven weeks ago. He explains, without any drama, that he googled the business, the website looked fine, but the social feed was dead. No posts, no stories, nothing. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. PUNCHLINE: The owner stares at the phone. His business did not go quiet because anything was wrong. It went quiet because nobody had time to post. And it turns out, to a customer who could not call to check, quiet and closed look exactly the same. CTA: fenrik Studio is introduced as the fix — submit your website URL, get your first content package free, no camera or content team required.",
+    "emotional_tone": "Warm and lightly comedic — the humor comes from the absurdity of the situation, not from mocking anyone. The owner's reaction lands as instantly relatable. The customer is not upset, just honest. The punchline is a gentle gut-punch that makes the viewer laugh and wince at the same time.",
+    "audience_insight": "Local service businesses, small ecommerce brands, and solo operators often treat social media as optional when they are busy — precisely when they should be most visible. They do not realize that customers use social activity as a live signal of whether a business is still operating, healthy, and worth trusting. A quiet feed does not just look boring; to a customer who cannot see behind the scenes, it looks like a closed sign.",
+    "visual_direction": {
+      "palette": "Warm neutrals — cream, soft terracotta, aged wood tones — for the conversation scene. The phone screen introduces a cooler blue-grey to signal the digital world intruding on the real one.",
+      "lighting": "Soft natural daylight, slightly warm — the kind of light outside a shop or on a front porch. No studio lighting, no dramatic contrast. The phone screen moment gets a slight cool shift as the social feed fills the frame.",
+      "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the background, a clipboard or invoice folder tucked under the owner's arm. Nothing staged or sterile.",
+      "camera_style": "Handheld with slight natural drift — feels observational, like someone nearby caught the moment. Close on faces during the conversation. Tight on the phone screen for the pivot. Pull back slightly on the punchline beat to let the owner's expression breathe.",
+      "art_direction": "Warm, naturalistic, slightly overexposed — the visual language of a real conversation, not a produced ad. Split loosely into two environments: the conversation exterior, then the phone screen close-up as the pivot point.",
+      "character_style": "Two real-looking adults — the business owner in a branded polo or work shirt, the customer in everyday casual. No actors who look like actors. The customer is relaxed and slightly bemused; the owner's expression moves from confident to quietly stunned across the punchline beat."
+    }
+  },
+  "opening": {
+    "pacing": "Quick and conversational, building curiosity as the customer reveals his reason for considering a switch.",
+    "emotion": "Warm and relatable, with a hint of surprise as the conversation unfolds.",
+    "first_image": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something.",
+    "attention_pattern": "The unexpected confession creates immediate intrigue, prompting viewers to wonder why a loyal customer would think of leaving, setting up the conflict around the business's social media silence.",
+    "first_spoken_sentence": "You know, I almost called a competitor last month."
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals — cream, soft terracotta, aged wood tones — for the conversation scene. The phone screen introduces a cooler blue-grey to signal the digital world intruding on the real one.",
+    "lighting": "Soft natural daylight, slightly warm — the kind of light outside a shop or on a front porch. No studio lighting, no dramatic contrast. The phone screen moment gets a slight cool shift as the social feed fills the frame.",
+    "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the background, a clipboard or invoice folder tucked under the owner's arm. Nothing staged or sterile.",
+    "camera_style": "Handheld with slight natural drift — feels observational, like someone nearby caught the moment. Close on faces during the conversation. Tight on the phone screen for the pivot. Pull back slightly on the punchline beat to let the owner's expression breathe.",
+    "art_direction": "Warm, naturalistic, slightly overexposed — the visual language of a real conversation, not a produced ad. Split loosely into two environments: the conversation exterior, then the phone screen close-up as the pivot point.",
+    "character_style": "Two real-looking adults — the business owner in a branded polo or work shirt, the customer in everyday casual. No actors who look like actors. The customer is relaxed and slightly bemused; the owner's expression moves from confident to quietly stunned across the punchline beat.",
+    "opening_emotion": "Warm and relatable, with a hint of surprise as the conversation unfolds.",
+    "opening_first_image": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something."
+  },
+  "package": {
+    "title": "The Loyalty Test Nobody Saw Coming",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "hook": "You know, I almost called a competitor last month.",
+    "scenario": "A local service business owner is having a routine catch-up with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing issue or a scheduling conflict — something fixable. He asks what happened. The customer shrugs, pulls out his phone, and shows the owner his own Instagram profile. Last post: seven weeks ago. The customer explains, without any drama, that he googled the business, the website looked fine, but the social feed was completely dead. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. The owner stares at the screen. His business had just had its busiest quarter on record. It went quiet not because anything was wrong, but because nobody had time to post. And to a customer who could not call to check, quiet and closed look exactly the same.",
+    "video": {
+      "script": "SCENE 1 — EXTERIOR, FRONT STEP OF LOCAL BUSINESS, WARM AFTERNOON LIGHT\nCustomer (relaxed, almost as an aside): 'You know, I almost called a competitor last month.'\nOwner (confident, assumes it's routine): 'Oh yeah? What happened — pricing? Scheduling?'\n\nSCENE 2 — CUSTOMER PULLS OUT PHONE\nCustomer (unbothered, matter-of-fact): 'Nah. I just figured you'd closed.'\nOwner: '...Closed?'\n\nSCENE 3 — TIGHT ON PHONE SCREEN, COOL BLUE-GREY SHIFT\nCustomer scrolls the owner's Instagram feed. Last post: seven weeks ago. No stories. Nothing.\nCustomer: 'Website looked fine. But the feed was dead. I thought something was wrong.'\n\nSCENE 4 — WIDE ON OWNER'S EXPRESSION\nOwner stares at the phone. Beat. Then quietly:\nVO: 'They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.'\n\nSCENE 5 — PRODUCT RESOLUTION (FENRIK STUDIO LOGO / ASSET)\nText on screen: Submit your website URL. First content package free.\nVO ends. No camera. No content team. Just a URL.",
+      "concept": "A long-term customer casually tells a local business owner he almost switched providers. The owner assumes it was price or service. The real reason: six weeks of silence on social made the customer genuinely think the business had shut down. The punchline — the business was thriving. Quiet and closed look identical from the outside. fenrik Studio is the quiet resolution: one website URL, first content package free.",
+      "duration_seconds": "38"
+    },
+    "hashtags": [
+      "#smallbusiness",
+      "#socialmediamarketing",
+      "#contenttips",
+      "#localbusiness",
+      "#businessowner"
+    ],
+    "subtitles_planned": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside."
+  },
+  "scenes": [
+    {
+      "source": "ai",
+      "image_prompt": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged."
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+    }
+  ],
+  "voiceover": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+  "voice_prompts": {
+    "voiceover_text": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+    "selected_voice": "shimmer",
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx"
+  },
+  "image_prompts": [
+    "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual.",
+    "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion.",
+    "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it.",
+    "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged.",
+    "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this — your busiest quarter should never look like a closed sign.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "tiktok": {
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "format": "reel",
+        "caption": "He thought we'd closed. We were having our best quarter ever. 😶 A quiet feed and a closed sign look identical to your customers. Save this.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#contenttips",
+          "#businessowner",
+          "#localbusiness"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "He almost switched — not over price or service, but because a silent feed looked like a closed sign. Your busiest quarter can still look like you've shut down.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediatips",
+          "#youtubeshorts"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "format": "reel",
+        "caption": "A long-term customer almost called a competitor last month — not because of anything wrong with the service, but because six weeks of no posts made him genuinely think the business had closed. 😬 Turns out a quiet social feed and a closed sign look identical to someone checking from the outside. Worth thinking about for your own accounts this week.",
+        "hashtags": [
+          "#smallbusiness",
+          "#localbusiness"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A loyal customer of four years almost switched providers last month. Not over price. Not over service quality. He opened the business's Instagram, saw the last post was seven weeks old, and assumed they had quietly shut down. The business was in the middle of its best quarter on record. To a customer who cannot see behind the scenes, silence and closure look the same. A consistent social presence is not a vanity metric — it is a trust signal.",
+        "hashtags": [
+          "#smallbusiness",
+          "#contentmarketing",
+          "#socialmedia"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "format": "reel",
+        "caption": "He almost called a competitor. Not because of the price. Not because of the service.\n\nBecause six weeks of silence on Instagram made him think we'd shut down.\n\nWe were having our busiest quarter ever.\n\nQuiet and closed look exactly the same from the outside.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediatips",
+          "#contentmarketing",
+          "#localbusiness",
+          "#businessgrowth",
+          "#instagramforbusiness",
+          "#socialmedia"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "b8f0dfa0-1d7c-4459-8422-ed4d4863d921",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Loyalty Test Nobody Saw Coming",
+        "body": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+        "caption": "He almost called a competitor. Not because of the price. Not because of the service.\n\nBecause six weeks of silence on Instagram made him think we'd shut down.\n\nWe were having our busiest quarter ever.\n\nQuiet and closed look exactly the same from the outside.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediatips",
+          "#contentmarketing",
+          "#localbusiness",
+          "#businessgrowth",
+          "#instagramforbusiness",
+          "#socialmedia"
+        ],
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "language": null
+      },
+      {
+        "id": "572245c3-3081-4b2e-836b-de64c8fc10de",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Loyalty Test Nobody Saw Coming",
+        "body": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+        "caption": "A long-term customer almost called a competitor last month — not because of anything wrong with the service, but because six weeks of no posts made him genuinely think the business had closed. 😬 Turns out a quiet social feed and a closed sign look identical to someone checking from the outside. Worth thinking about for your own accounts this week.",
+        "hashtags": [
+          "#smallbusiness",
+          "#localbusiness"
+        ],
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "language": null
+      },
+      {
+        "id": "8c5fc72b-f8e9-48b3-8363-3161ec4af0dc",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Loyalty Test Nobody Saw Coming",
+        "body": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+        "caption": "He thought we'd closed. We were having our best quarter ever. 😶 A quiet feed and a closed sign look identical to your customers. Save this.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediamarketing",
+          "#contenttips",
+          "#businessowner",
+          "#localbusiness"
+        ],
+        "cta": "Save this — your busiest quarter should never look like a closed sign.",
+        "language": null
+      },
+      {
+        "id": "bd0da548-88af-4f3c-bcbf-2629460f3503",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Loyalty Test Nobody Saw Coming",
+        "body": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+        "caption": "He almost switched — not over price or service, but because a silent feed looked like a closed sign. Your busiest quarter can still look like you've shut down.",
+        "hashtags": [
+          "#smallbusiness",
+          "#socialmediatips",
+          "#youtubeshorts"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "final_package": {
+    "id": "1847bed2-2cf8-48b3-8a15-6c1ecf2d3fe9",
+    "title": "The Loyalty Test Nobody Saw Coming",
+    "status": "draft",
+    "funnel_stage": "awareness",
+    "weekly_strategy_id": "58097570-0c23-489a-9490-d96b0357f4f3",
+    "strategy_item_id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+    "package_brief": {
+      "cta": {
+        "text": "Save this — your busiest quarter should never look like a closed sign.",
+        "type": "save"
+      },
+      "hook": "You know, I almost called a competitor last month.",
+      "video": {
+        "script": "SCENE 1 — EXTERIOR, FRONT STEP OF LOCAL BUSINESS, WARM AFTERNOON LIGHT\nCustomer (relaxed, almost as an aside): 'You know, I almost called a competitor last month.'\nOwner (confident, assumes it's routine): 'Oh yeah? What happened — pricing? Scheduling?'\n\nSCENE 2 — CUSTOMER PULLS OUT PHONE\nCustomer (unbothered, matter-of-fact): 'Nah. I just figured you'd closed.'\nOwner: '...Closed?'\n\nSCENE 3 — TIGHT ON PHONE SCREEN, COOL BLUE-GREY SHIFT\nCustomer scrolls the owner's Instagram feed. Last post: seven weeks ago. No stories. Nothing.\nCustomer: 'Website looked fine. But the feed was dead. I thought something was wrong.'\n\nSCENE 4 — WIDE ON OWNER'S EXPRESSION\nOwner stares at the phone. Beat. Then quietly:\nVO: 'They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.'\n\nSCENE 5 — PRODUCT RESOLUTION (FENRIK STUDIO LOGO / ASSET)\nText on screen: Submit your website URL. First content package free.\nVO ends. No camera. No content team. Just a URL.",
+        "concept": "A long-term customer casually tells a local business owner he almost switched providers. The owner assumes it was price or service. The real reason: six weeks of silence on social made the customer genuinely think the business had shut down. The punchline — the business was thriving. Quiet and closed look identical from the outside. fenrik Studio is the quiet resolution: one website URL, first content package free.",
+        "duration_seconds": "38"
+      },
+      "hashtags": [
+        "#smallbusiness",
+        "#socialmediamarketing",
+        "#contenttips",
+        "#localbusiness",
+        "#businessowner"
+      ],
+      "scenario": "A local service business owner is having a routine catch-up with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing issue or a scheduling conflict — something fixable. He asks what happened. The customer shrugs, pulls out his phone, and shows the owner his own Instagram profile. Last post: seven weeks ago. The customer explains, without any drama, that he googled the business, the website looked fine, but the social feed was completely dead. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. The owner stares at the screen. His business had just had its busiest quarter on record. It went quiet not because anything was wrong, but because nobody had time to post. And to a customer who could not call to check, quiet and closed look exactly the same.",
+      "subtitles": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+      "asset_usage": [],
+      "image_prompts": [
+        "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual.",
+        "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion.",
+        "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it.",
+        "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged.",
+        "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+      ],
+      "visual_scenes": [
+        {
+          "source": "ai",
+          "image_prompt": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged."
+        },
+        {
+          "source": "ai",
+          "image_prompt": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+        }
+      ],
+      "voiceover_text": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+      "platform_outputs": {
+        "tiktok": {
+          "cta": "Save this — your busiest quarter should never look like a closed sign.",
+          "format": "reel",
+          "caption": "He thought we'd closed. We were having our best quarter ever. 😶 A quiet feed and a closed sign look identical to your customers. Save this.",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmediamarketing",
+            "#contenttips",
+            "#businessowner",
+            "#localbusiness"
+          ]
+        },
+        "youtube": {
+          "cta": null,
+          "format": "short",
+          "caption": "He almost switched — not over price or service, but because a silent feed looked like a closed sign. Your busiest quarter can still look like you've shut down.",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmediatips",
+            "#youtubeshorts"
+          ]
+        },
+        "facebook": {
+          "cta": "Save this — your busiest quarter should never look like a closed sign.",
+          "format": "reel",
+          "caption": "A long-term customer almost called a competitor last month — not because of anything wrong with the service, but because six weeks of no posts made him genuinely think the business had closed. 😬 Turns out a quiet social feed and a closed sign look identical to someone checking from the outside. Worth thinking about for your own accounts this week.",
+          "hashtags": [
+            "#smallbusiness",
+            "#localbusiness"
+          ]
+        },
+        "linkedin": {
+          "cta": null,
+          "format": "reel",
+          "caption": "A loyal customer of four years almost switched providers last month. Not over price. Not over service quality. He opened the business's Instagram, saw the last post was seven weeks old, and assumed they had quietly shut down. The business was in the middle of its best quarter on record. To a customer who cannot see behind the scenes, silence and closure look the same. A consistent social presence is not a vanity metric — it is a trust signal.",
+          "hashtags": [
+            "#smallbusiness",
+            "#contentmarketing",
+            "#socialmedia"
+          ]
+        },
+        "instagram": {
+          "cta": "Save this — your busiest quarter should never look like a closed sign.",
+          "format": "reel",
+          "caption": "He almost called a competitor. Not because of the price. Not because of the service.\n\nBecause six weeks of silence on Instagram made him think we'd shut down.\n\nWe were having our busiest quarter ever.\n\nQuiet and closed look exactly the same from the outside.",
+          "hashtags": [
+            "#smallbusiness",
+            "#socialmediatips",
+            "#contentmarketing",
+            "#localbusiness",
+            "#businessgrowth",
+            "#instagramforbusiness",
+            "#socialmedia"
+          ]
+        }
+      },
+      "presentation_generation": {
+        "mode": "enabled",
+        "pipeline": "content_pipeline",
+        "tts_voice": "shimmer",
+        "package_id": "1847bed2-2cf8-48b3-8a15-6c1ecf2d3fe9",
+        "project_id": "163c1822-ad30-4cee-8826-dfacd9c188b9",
+        "cta_selected": false,
+        "voice_scores": {
+          "primary": 48,
+          "secondary": 37
+        },
+        "voice_source": "package_primary",
+        "creative_mode": "humor",
+        "video_concept": {
+          "title": "The Loyalty Test Nobody Saw Coming",
+          "core_idea": "A long-term customer of a local service business casually drops a bombshell mid-conversation: they almost left — not because of the service, but because six weeks of silence on social made them assume the business had quietly shut down. The owner had no idea their feed going dark was being read as a closing sign.",
+          "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no camera, no content team. The first package is free. The point is not to sell a service; it is to remove the only thing standing between a busy business and a consistent social presence.",
+          "why_it_works": "The humor mode works here because the situation is absurdly recognizable — the business was thriving, and a loyal customer almost left because of a silent Instagram account. The joke is on the gap between reality and perception, not on the owner. The customer's delivery is deadpan and kind, which makes the punchline land harder. The POV is the customer's experience, which is fresh relative to recent fingerprints that stayed inside the owner's perspective. The proof point — first package free, website URL only — arrives at the exact moment the viewer is most receptive: right after the punchline makes the cost of inaction concrete and slightly funny.",
+          "narrative_arc": "SITUATION: A local plumbing business owner is having a perfectly normal catch-up chat with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing thing, or maybe a scheduling issue — something fixable. He asks what happened. The customer shrugs and says he just figured they had closed. The owner blinks. Closed? They had their busiest quarter on record. UNEXPECTED TURN: The customer pulls out his phone, opens Instagram, and shows the owner his own profile — the last post is from seven weeks ago. He explains, without any drama, that he googled the business, the website looked fine, but the social feed was dead. No posts, no stories, nothing. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. PUNCHLINE: The owner stares at the phone. His business did not go quiet because anything was wrong. It went quiet because nobody had time to post. And it turns out, to a customer who could not call to check, quiet and closed look exactly the same. CTA: fenrik Studio is introduced as the fix — submit your website URL, get your first content package free, no camera or content team required.",
+          "emotional_tone": "Warm and lightly comedic — the humor comes from the absurdity of the situation, not from mocking anyone. The owner's reaction lands as instantly relatable. The customer is not upset, just honest. The punchline is a gentle gut-punch that makes the viewer laugh and wince at the same time.",
+          "audience_insight": "Local service businesses, small ecommerce brands, and solo operators often treat social media as optional when they are busy — precisely when they should be most visible. They do not realize that customers use social activity as a live signal of whether a business is still operating, healthy, and worth trusting. A quiet feed does not just look boring; to a customer who cannot see behind the scenes, it looks like a closed sign.",
+          "visual_direction": {
+            "palette": "Warm neutrals — cream, soft terracotta, aged wood tones — for the conversation scene. The phone screen introduces a cooler blue-grey to signal the digital world intruding on the real one.",
+            "lighting": "Soft natural daylight, slightly warm — the kind of light outside a shop or on a front porch. No studio lighting, no dramatic contrast. The phone screen moment gets a slight cool shift as the social feed fills the frame.",
+            "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the background, a clipboard or invoice folder tucked under the owner's arm. Nothing staged or sterile.",
+            "camera_style": "Handheld with slight natural drift — feels observational, like someone nearby caught the moment. Close on faces during the conversation. Tight on the phone screen for the pivot. Pull back slightly on the punchline beat to let the owner's expression breathe.",
+            "art_direction": "Warm, naturalistic, slightly overexposed — the visual language of a real conversation, not a produced ad. Split loosely into two environments: the conversation exterior, then the phone screen close-up as the pivot point.",
+            "character_style": "Two real-looking adults — the business owner in a branded polo or work shirt, the customer in everyday casual. No actors who look like actors. The customer is relaxed and slightly bemused; the owner's expression moves from confident to quietly stunned across the punchline beat."
+          }
+        },
+        "voice_reasons": [
+          "funnel_awareness→warmth/energy(+1)",
+          "mode_humor→energy/warmth",
+          "roles_close/proof→steadiness(+1)",
+          "fit_primary(+48)",
+          "fit_secondary(+37)"
+        ],
+        "opening_impact": {
+          "pacing": "Quick and conversational, building curiosity as the customer reveals his reason for considering a switch.",
+          "emotion": "Warm and relatable, with a hint of surprise as the conversation unfolds.",
+          "first_image": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something.",
+          "attention_pattern": "The unexpected confession creates immediate intrigue, prompting viewers to wonder why a loyal customer would think of leaving, setting up the conflict around the business's social media silence.",
+          "first_spoken_sentence": "You know, I almost called a competitor last month."
+        },
+        "selected_voice": "shimmer",
+        "visual_profile": "NATURAL",
+        "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+        "downgrade_rules": [],
+        "visual_identity": {
+          "palette": "Warm neutrals — cream, soft terracotta, aged wood tones — for the conversation scene. The phone screen introduces a cooler blue-grey to signal the digital world intruding on the real one.",
+          "lighting": "Soft natural daylight, slightly warm — the kind of light outside a shop or on a front porch. No studio lighting, no dramatic contrast. The phone screen moment gets a slight cool shift as the social feed fills the frame.",
+          "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the background, a clipboard or invoice folder tucked under the owner's arm. Nothing staged or sterile.",
+          "camera_style": "Handheld with slight natural drift — feels observational, like someone nearby caught the moment. Close on faces during the conversation. Tight on the phone screen for the pivot. Pull back slightly on the punchline beat to let the owner's expression breathe.",
+          "art_direction": "Warm, naturalistic, slightly overexposed — the visual language of a real conversation, not a produced ad. Split loosely into two environments: the conversation exterior, then the phone screen close-up as the pivot point.",
+          "character_style": "Two real-looking adults — the business owner in a branded polo or work shirt, the customer in everyday casual. No actors who look like actors. The customer is relaxed and slightly bemused; the owner's expression moves from confident to quietly stunned across the punchline beat.",
+          "opening_emotion": "Warm and relatable, with a hint of surprise as the conversation unfolds.",
+          "opening_first_image": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something."
+        },
+        "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise",
+        "history_decisions": [],
+        "visual_beat_count": 5,
+        "accepted_cta_count": 0,
+        "cta_composition_id": null,
+        "cta_decision_reason": "no typed CTA requested in visual plan",
+        "frequency_decisions": [],
+        "requested_cta_count": 0,
+        "selected_pain_point": "Social accounts are inactive or inconsistent",
+        "accepted_phone_count": 0,
+        "accepted_quote_count": 0,
+        "cta_renderer_version": null,
+        "downgraded_cta_count": 0,
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 6707,
+                "completion_tokens": 1151
+              },
+              "step_name": "Video Concept",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:36:44.074Z",
+              "duration_ms": 29970,
+              "finished_at": "2026-07-25T10:37:14.044Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+              "prompt_tokens": 6707,
+              "estimated_cost": 0.037386,
+              "output_summary": "Concept: The Loyalty Test Nobody Saw Coming",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 29118,
+              "completion_tokens": 1151,
+              "output_size_bytes": 5109,
+              "prompt_characters": 28846,
+              "provider_request_id": null,
+              "completion_characters": 5075
+            },
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": false,
+              "success": true,
+              "provider": "openai",
+              "warnings": [],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 1024,
+                "prompt_tokens": 5481,
+                "completion_tokens": 163
+              },
+              "step_name": "Opening Impact",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:37:14.044Z",
+              "duration_ms": 2108,
+              "finished_at": "2026-07-25T10:37:16.152Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 1024,
+              "error_message": null,
+              "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+              "prompt_tokens": 5481,
+              "estimated_cost": 0.000843,
+              "output_summary": "Opening: You know, I almost called a competitor last month.",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 26612,
+              "completion_tokens": 163,
+              "output_size_bytes": 818,
+              "prompt_characters": 26462,
+              "provider_request_id": null,
+              "completion_characters": 818
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Visual Identity",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:37:16.152Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:37:16.152Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Art direction: Warm, naturalistic, slightly overexposed — the visual langua",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 1937,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 1923
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 10560,
+                "completion_tokens": 2468
+              },
+              "step_name": "Content Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:37:16.153Z",
+              "duration_ms": 49696,
+              "finished_at": "2026-07-25T10:38:05.848Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+              "prompt_tokens": 10560,
+              "estimated_cost": 0.0687,
+              "output_summary": "Package: The Loyalty Test Nobody Saw Coming",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 43757,
+              "completion_tokens": 2468,
+              "output_size_bytes": 9544,
+              "prompt_characters": 43475,
+              "provider_request_id": null,
+              "completion_characters": 9496
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Platform Outputs",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:05.849Z",
+              "duration_ms": 0,
+              "finished_at": "2026-07-25T10:38:05.849Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 2268,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 2252
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Persist Package",
+              "max_tokens": null,
+              "started_at": "2026-07-25T10:38:05.849Z",
+              "duration_ms": 1728,
+              "finished_at": "2026-07-25T10:38:07.577Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "packageId=1847bed2-2cf8-48b3-8a15-6c1ecf2d3fe9; items=4",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 279,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 279
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pipeline": "content_pipeline",
+          "pricing_version": "list-price@2026-07-23",
+          "strategy_item_id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+          "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+        },
+        "requested_phone_count": 0,
+        "requested_quote_count": 0,
+        "visual_profile_scores": {
+          "BOLD": 1,
+          "MINIMAL": 3,
+          "NATURAL": 5,
+          "PREMIUM": 0,
+          "EDITORIAL": 2
+        },
+        "visual_profile_source": "auto",
+        "downgraded_phone_count": 0,
+        "downgraded_quote_count": 0,
+        "phone_renderer_version": null,
+        "quote_renderer_version": null,
+        "resolved_primary_voice": "shimmer",
+        "sparse_plan_adjustment": false,
+        "visual_profile_reasons": [
+          "NATURAL:brain_local(+1)",
+          "NATURAL:brain_practical(+1)",
+          "NATURAL:brain_relatable(+1)",
+          "NATURAL:brain_empathetic(+1)",
+          "NATURAL:brain_everyday(+1)",
+          "MINIMAL:brain_saas(+1)",
+          "MINIMAL:brain_platform(+1)",
+          "MINIMAL:brain_minimal(+1)",
+          "BOLD:brain_fast(+1)",
+          "EDITORIAL:brain_content(+1,capped_from_11)",
+          "EDITORIAL:brain_marketing(+1,capped_from_2)"
+        ],
+        "visual_profile_version": "visual-profile@3",
+        "accepted_checklist_count": 0,
+        "accepted_statistic_count": 0,
+        "final_worker_scene_types": [
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE",
+          "IMAGE"
+        ],
+        "resolved_secondary_voice": "onyx",
+        "target_visual_beat_count": 8,
+        "prompt_presentation_types": [
+          "IMAGE",
+          "CHECKLIST",
+          "PHONE",
+          "CTA"
+        ],
+        "requested_checklist_count": 0,
+        "requested_statistic_count": 0,
+        "series_context_considered": true,
+        "checklist_allowlist_status": "allowlisted",
+        "checklist_renderer_version": null,
+        "downgraded_checklist_count": 0,
+        "downgraded_statistic_count": 0,
+        "scene_type_diversity_notes": [],
+        "statistic_renderer_version": null,
+        "content_pipeline_fingerprint": {
+          "version": "content-pipeline-fingerprint@1",
+          "core_idea": "A long-term customer of a local service business casually drops a bombshell mid-conversation: they almost left — not because of the service, but because six weeks of silence on social made them assum…",
+          "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and spe…",
+          "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no came…",
+          "visual_world": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the…",
+          "attention_pattern": "The unexpected confession creates immediate intrigue, prompting viewers to wonder why a loyal customer would think of l…",
+          "narrative_mechanism": "humor: SITUATION: A local plumbing business owner is having a perfectly normal catch-u…"
+        },
+        "recent_creative_fingerprints": [
+          {
+            "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+            "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+            "motifs": [
+              "phone",
+              "desk",
+              "sticky_notes",
+              "close_up",
+              "monitor"
+            ],
+            "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You’re staring at a blank document, and the week is already slipping away.",
+            "topic": "From website to ready-to-post video: what the output actually looks like",
+            "motifs": [
+              "laptop",
+              "desk",
+              "sticky_notes",
+              "close_up"
+            ],
+            "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+            "topic": "The agency retainer that didn't solve the consistency problem",
+            "motifs": [
+              "laptop",
+              "office",
+              "meeting",
+              "dashboard",
+              "close_up"
+            ],
+            "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+            "topic": "Why content always gets treated like a side project — even when it's a priority",
+            "motifs": [
+              "group"
+            ],
+            "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "group",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "You just shipped a major update — but did you tell anyone about it?",
+            "topic": "The product launch that happened without a single post to support it",
+            "motifs": [
+              "phone",
+              "desk",
+              "dashboard",
+              "product_asset",
+              "prototype"
+            ],
+            "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "phone",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          },
+          {
+            "hook": "The more you explain your business, the less you actually need to produce great content.",
+            "topic": "What happens when your content input is just a URL — nothing else",
+            "motifs": [
+              "laptop",
+              "desk",
+              "close_up",
+              "overhead"
+            ],
+            "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+            "typed_cta": false,
+            "scene_types": [
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE",
+              "IMAGE"
+            ],
+            "sfx_category": null,
+            "creative_mode": null,
+            "visual_medium": null,
+            "meaning_carrier": null,
+            "opening_structure": null,
+            "cta_composition_id": null,
+            "attention_mechanism": null,
+            "opening_visual_motif": null,
+            "dominant_subject_motif": "laptop",
+            "product_reveal_strategy": null,
+            "opening_emotional_effect": null
+          }
+        ]
+      }
+    },
+    "created_at": "2026-07-25T10:38:06.020855+00:00",
+    "updated_at": "2026-07-25T10:38:07.750372+00:00"
+  },
+  "visual_profile": {
+    "visual_profile": "NATURAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 1,
+      "MINIMAL": 3,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 2
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_relatable(+1)",
+      "NATURAL:brain_empathetic(+1)",
+      "NATURAL:brain_everyday(+1)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "MINIMAL:brain_minimal(+1)",
+      "BOLD:brain_fast(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_11)",
+      "EDITORIAL:brain_marketing(+1,capped_from_2)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_primary",
+    "voice_scores": {
+      "primary": 48,
+      "secondary": 37
+    },
+    "voice_reasons": [
+      "funnel_awareness→warmth/energy(+1)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+48)",
+      "fit_secondary(+37)"
+    ],
+    "resolved_primary_voice": "shimmer",
+    "resolved_secondary_voice": "onyx",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Conversational and direct; Relatable and empathetic to everyday work frustrations; Concise — short sentences, minimal fluff; Slightly informal with occasional emoji use; Confident without being aggressive; Practical; Results-oriented; Avoids marketing jargon. Read the script exactly; do not add or skip words. Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise"
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "awareness",
+  "pain_point": {
+    "selected_pain_point": "Social accounts are inactive or inconsistent",
+    "strategy_pain_point": "Social accounts are inactive or inconsistent"
+  },
+  "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no camera, no content team. The first package is free. The point is not to sell a service; it is to remove the only thing standing between a busy business and a consistent social presence.",
+  "narrative_arc": "SITUATION: A local plumbing business owner is having a perfectly normal catch-up chat with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing thing, or maybe a scheduling issue — something fixable. He asks what happened. The customer shrugs and says he just figured they had closed. The owner blinks. Closed? They had their busiest quarter on record. UNEXPECTED TURN: The customer pulls out his phone, opens Instagram, and shows the owner his own profile — the last post is from seven weeks ago. He explains, without any drama, that he googled the business, the website looked fine, but the social feed was dead. No posts, no stories, nothing. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. PUNCHLINE: The owner stares at the phone. His business did not go quiet because anything was wrong. It went quiet because nobody had time to post. And it turns out, to a customer who could not call to check, quiet and closed look exactly the same. CTA: fenrik Studio is introduced as the fix — submit your website URL, get your first content package free, no camera or content team required.",
+  "emotional_tone": "Warm and lightly comedic — the humor comes from the absurdity of the situation, not from mocking anyone. The owner's reaction lands as instantly relatable. The customer is not upset, just honest. The punchline is a gentle gut-punch that makes the viewer laugh and wince at the same time.",
+  "audience_insight": "Local service businesses, small ecommerce brands, and solo operators often treat social media as optional when they are busy — precisely when they should be most visible. They do not realize that customers use social activity as a live signal of whether a business is still operating, healthy, and worth trusting. A quiet feed does not just look boring; to a customer who cannot see behind the scenes, it looks like a closed sign.",
+  "visual_direction": {
+    "palette": "Warm neutrals — cream, soft terracotta, aged wood tones — for the conversation scene. The phone screen introduces a cooler blue-grey to signal the digital world intruding on the real one.",
+    "lighting": "Soft natural daylight, slightly warm — the kind of light outside a shop or on a front porch. No studio lighting, no dramatic contrast. The phone screen moment gets a slight cool shift as the social feed fills the frame.",
+    "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the background, a clipboard or invoice folder tucked under the owner's arm. Nothing staged or sterile.",
+    "camera_style": "Handheld with slight natural drift — feels observational, like someone nearby caught the moment. Close on faces during the conversation. Tight on the phone screen for the pivot. Pull back slightly on the punchline beat to let the owner's expression breathe.",
+    "art_direction": "Warm, naturalistic, slightly overexposed — the visual language of a real conversation, not a produced ad. Split loosely into two environments: the conversation exterior, then the phone screen close-up as the pivot point.",
+    "character_style": "Two real-looking adults — the business owner in a branded polo or work shirt, the customer in everyday casual. No actors who look like actors. The customer is relaxed and slightly bemused; the owner's expression moves from confident to quietly stunned across the punchline beat."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside."
+  },
+  "render_metadata": {
+    "id": "29a57889-1b7d-4b72-91f7-63b34c0418ee",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T10:38:07.412515+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "NATURAL",
+    "scenes": [
+      {
+        "id": "scene-1",
+        "type": "IMAGE",
+        "image_prompt": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "A local plumbing business owner stands on the front step of his shop, casually chatting with a long-term customer. The warm afternoon light casts soft shadows, and a branded work van is parked nearby. The customer, relaxed and slightly bemused, pulls out his phone to show something. Warm neutrals — cream, soft terracotta, aged wood tones. Handheld observational camera feel. Owner in branded polo, customer in everyday casual."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-2",
+        "type": "IMAGE",
+        "image_prompt": "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Close-up on the customer's face as he says something unexpected, expression calm and unbothered, slightly bemused. Soft warm natural daylight. The owner's reaction is just visible at the edge of frame — a flicker of confusion."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-3",
+        "type": "IMAGE",
+        "image_prompt": "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Tight shot of a smartphone screen held in the customer's hand, showing a social media profile feed with the last post dated seven weeks ago and no recent activity. A slight cool blue-grey color shift on the screen contrasts with the warm exterior tones around it."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-4",
+        "type": "IMAGE",
+        "image_prompt": "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Wide shot pulling back slightly to show the business owner staring at the phone screen, expression moving from confident to quietly stunned. Branded work van in the background. Warm afternoon light. The owner holds a clipboard under one arm. Feels observational, caught rather than staged."
+          }
+        },
+        "renderer_version": "image@1"
+      },
+      {
+        "id": "scene-5",
+        "type": "IMAGE",
+        "image_prompt": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only.",
+        "duration_seconds": 4,
+        "payload_snapshot": {
+          "media": {
+            "source": "ai",
+            "image_prompt": "Portrait 9:16 vertical composition. Brand resolution frame — fenrik Studio logo displayed as the closing product card over a warm neutral background. Natural lighting, believable setting, generous vertical headroom. No readable text, labels, or logos unless shown as abstract UI blocks only."
+          }
+        },
+        "renderer_version": "image@1"
+      }
+    ],
+    "hook": "You know, I almost called a competitor last month.",
+    "cta": "Save this — your busiest quarter should never look like a closed sign.",
+    "voiceover_text": "You know, I almost called a competitor last month. The owner froze. Pricing? Scheduling? Nope. The customer pulled out his phone and showed the owner his own Instagram. Last post: seven weeks ago. He thought they'd closed. They hadn't. They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "output_empty": true,
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: natural, curious, conversational. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A long-term customer of a local service business casually drops a bombshell mid-conversation: they almost left — not because of the service, but because six weeks of silence on social made them assum…",
+      "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and spe…",
+      "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no came…",
+      "visual_world": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the…",
+      "attention_pattern": "The unexpected confession creates immediate intrigue, prompting viewers to wonder why a loyal customer would think of l…",
+      "narrative_mechanism": "humor: SITUATION: A local plumbing business owner is having a perfectly normal catch-u…"
+    },
+    "history_decisions": [],
+    "frequency_decisions": [],
+    "scene_type_diversity_notes": []
+  },
+  "hashtags": [
+    "#smallbusiness",
+    "#socialmediamarketing",
+    "#contenttips",
+    "#localbusiness",
+    "#businessowner"
+  ],
+  "hook": "You know, I almost called a competitor last month.",
+  "scenario": "A local service business owner is having a routine catch-up with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing issue or a scheduling conflict — something fixable. He asks what happened. The customer shrugs, pulls out his phone, and shows the owner his own Instagram profile. Last post: seven weeks ago. The customer explains, without any drama, that he googled the business, the website looked fine, but the social feed was completely dead. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. The owner stares at the screen. His business had just had its busiest quarter on record. It went quiet not because anything was wrong, but because nobody had time to post. And to a customer who could not call to check, quiet and closed look exactly the same.",
+  "video": {
+    "script": "SCENE 1 — EXTERIOR, FRONT STEP OF LOCAL BUSINESS, WARM AFTERNOON LIGHT\nCustomer (relaxed, almost as an aside): 'You know, I almost called a competitor last month.'\nOwner (confident, assumes it's routine): 'Oh yeah? What happened — pricing? Scheduling?'\n\nSCENE 2 — CUSTOMER PULLS OUT PHONE\nCustomer (unbothered, matter-of-fact): 'Nah. I just figured you'd closed.'\nOwner: '...Closed?'\n\nSCENE 3 — TIGHT ON PHONE SCREEN, COOL BLUE-GREY SHIFT\nCustomer scrolls the owner's Instagram feed. Last post: seven weeks ago. No stories. Nothing.\nCustomer: 'Website looked fine. But the feed was dead. I thought something was wrong.'\n\nSCENE 4 — WIDE ON OWNER'S EXPRESSION\nOwner stares at the phone. Beat. Then quietly:\nVO: 'They'd just had their busiest quarter ever. Quiet and closed look exactly the same from the outside.'\n\nSCENE 5 — PRODUCT RESOLUTION (FENRIK STUDIO LOGO / ASSET)\nText on screen: Submit your website URL. First content package free.\nVO ends. No camera. No content team. Just a URL.",
+    "concept": "A long-term customer casually tells a local business owner he almost switched providers. The owner assumes it was price or service. The real reason: six weeks of silence on social made the customer genuinely think the business had shut down. The punchline — the business was thriving. Quiet and closed look identical from the outside. fenrik Studio is the quiet resolution: one website URL, first content package free.",
+    "duration_seconds": "38"
+  },
+  "asset_usage": [],
+  "recent_creative_fingerprints": [
+    {
+      "hook": "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "topic": "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "motifs": [
+        "phone",
+        "desk",
+        "sticky_notes",
+        "close_up",
+        "monitor"
+      ],
+      "closing": "End card — fenrik Studio logo displayed on a clean muted background as the closing brand frame, signaling resolution and",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You’re staring at a blank document, and the week is already slipping away.",
+      "topic": "From website to ready-to-post video: what the output actually looks like",
+      "motifs": [
+        "laptop",
+        "desk",
+        "sticky_notes",
+        "close_up"
+      ],
+      "closing": "Portrait 9:16 vertical composition. Brand logo shown on final CTA frame against a clean off-white background, paired wit",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Six months of retainer, and this is what 'consistent' looks like?",
+      "topic": "The agency retainer that didn't solve the consistency problem",
+      "motifs": [
+        "laptop",
+        "office",
+        "meeting",
+        "dashboard",
+        "close_up"
+      ],
+      "closing": "Close-up return to the laptop screen, now lingering on the empty white stretches between post clusters. The blank spaces",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "Why does every team say content is a priority, and then not post for six weeks?",
+      "topic": "Why content always gets treated like a side project — even when it's a priority",
+      "motifs": [
+        "group"
+      ],
+      "closing": "Dark near-black screen with a cool mint accent label 'THE FIX' appearing top-center, and below it in large clean white t",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "group",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "You just shipped a major update — but did you tell anyone about it?",
+      "topic": "The product launch that happened without a single post to support it",
+      "motifs": [
+        "phone",
+        "desk",
+        "dashboard",
+        "product_asset",
+        "prototype"
+      ],
+      "closing": "Brand resolution screen — fenrik Studio logo appears at the end as the product enters the narrative, paired with a full ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "phone",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    },
+    {
+      "hook": "The more you explain your business, the less you actually need to produce great content.",
+      "topic": "What happens when your content input is just a URL — nothing else",
+      "motifs": [
+        "laptop",
+        "desk",
+        "close_up",
+        "overhead"
+      ],
+      "closing": "Flat lay of finished social media content cards — short-form video thumbnails, caption text cards, and hashtag sheets — ",
+      "typed_cta": false,
+      "scene_types": [
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE"
+      ],
+      "sfx_category": null,
+      "creative_mode": null,
+      "visual_medium": null,
+      "meaning_carrier": null,
+      "opening_structure": null,
+      "cta_composition_id": null,
+      "attention_mechanism": null,
+      "opening_visual_motif": null,
+      "dominant_subject_motif": "laptop",
+      "product_reveal_strategy": null,
+      "opening_emotional_effect": null
+    }
+  ],
+  "runtime_prompts": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "runtime_responses": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "validated_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "repaired_json": {
+    "status": "NOT_STORED",
+    "note": "Exact runtime prompts / raw model responses / repaired JSON are not persisted by the current pipeline (telemetry stores summaries only)."
+  },
+  "raw_model_output": null,
+  "failure_telemetry": null,
+  "generation_telemetry": {
+    "steps": [
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 6707,
+          "completion_tokens": 1151
+        },
+        "step_name": "Video Concept",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:36:44.074Z",
+        "duration_ms": 29970,
+        "finished_at": "2026-07-25T10:37:14.044Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Video Concept input:\n- Product Brain\n- Knowledge Base\n- Recent Content Memory\n- Content Strategy item",
+        "prompt_tokens": 6707,
+        "estimated_cost": 0.037386,
+        "output_summary": "Concept: The Loyalty Test Nobody Saw Coming",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 29118,
+        "completion_tokens": 1151,
+        "output_size_bytes": 5109,
+        "prompt_characters": 28846,
+        "provider_request_id": null,
+        "completion_characters": 5075
+      },
+      {
+        "model": "gpt-4o-mini-2024-07-18",
+        "repair": false,
+        "success": true,
+        "provider": "openai",
+        "warnings": [],
+        "raw_usage": {
+          "model": "gpt-4o-mini-2024-07-18",
+          "cached_tokens": 1024,
+          "prompt_tokens": 5481,
+          "completion_tokens": 163
+        },
+        "step_name": "Opening Impact",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:37:14.044Z",
+        "duration_ms": 2108,
+        "finished_at": "2026-07-25T10:37:16.152Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 1024,
+        "error_message": null,
+        "input_summary": "Opening Impact input:\n- Video Concept\n- Product Brain\n- Recent Content Memory",
+        "prompt_tokens": 5481,
+        "estimated_cost": 0.000843,
+        "output_summary": "Opening: You know, I almost called a competitor last month.",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 26612,
+        "completion_tokens": 163,
+        "output_size_bytes": 818,
+        "prompt_characters": 26462,
+        "provider_request_id": null,
+        "completion_characters": 818
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Visual Identity",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:37:16.152Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:37:16.152Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Visual Identity input:\n- Video Concept visual_direction\n- Opening Impact",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Art direction: Warm, naturalistic, slightly overexposed — the visual langua",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 1937,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 1923
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "repair": false,
+        "success": true,
+        "provider": "claude",
+        "warnings": [],
+        "raw_usage": {
+          "model": "claude-sonnet-4-6",
+          "cached_tokens": 0,
+          "prompt_tokens": 10560,
+          "completion_tokens": 2468
+        },
+        "step_name": "Content Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:37:16.153Z",
+        "duration_ms": 49696,
+        "finished_at": "2026-07-25T10:38:05.848Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": 0,
+        "error_message": null,
+        "input_summary": "Content Package input:\n- Video Concept\n- Opening Impact\n- Visual Identity\n- Product Brain\n- Strategy Item",
+        "prompt_tokens": 10560,
+        "estimated_cost": 0.0687,
+        "output_summary": "Package: The Loyalty Test Nobody Saw Coming",
+        "pricing_source": "list_price_estimate",
+        "pricing_version": "list-price@2026-07-23",
+        "response_format": "json",
+        "input_size_bytes": 43757,
+        "completion_tokens": 2468,
+        "output_size_bytes": 9544,
+        "prompt_characters": 43475,
+        "provider_request_id": null,
+        "completion_characters": 9496
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Platform Outputs",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:05.849Z",
+        "duration_ms": 0,
+        "finished_at": "2026-07-25T10:38:05.849Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Platform Outputs input:\n- Content Package\n- Target platforms",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "Platforms: tiktok, instagram, youtube, facebook, linkedin",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 2268,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 2252
+      },
+      {
+        "model": null,
+        "repair": false,
+        "success": true,
+        "provider": "deterministic",
+        "warnings": [],
+        "raw_usage": null,
+        "step_name": "Persist Package",
+        "max_tokens": null,
+        "started_at": "2026-07-25T10:38:05.849Z",
+        "duration_ms": 1728,
+        "finished_at": "2026-07-25T10:38:07.577Z",
+        "retry_count": 0,
+        "temperature": null,
+        "cached_tokens": null,
+        "error_message": null,
+        "input_summary": "Persist Package input:\n- Validated package\n- Content items fan-out plan",
+        "prompt_tokens": null,
+        "estimated_cost": null,
+        "output_summary": "packageId=1847bed2-2cf8-48b3-8a15-6c1ecf2d3fe9; items=4",
+        "pricing_source": null,
+        "pricing_version": null,
+        "response_format": null,
+        "input_size_bytes": null,
+        "completion_tokens": null,
+        "output_size_bytes": 279,
+        "prompt_characters": null,
+        "provider_request_id": null,
+        "completion_characters": 279
+      }
+    ],
+    "phases": [],
+    "version": "pipeline-telemetry@1",
+    "pipeline": "content_pipeline",
+    "pricing_version": "list-price@2026-07-23",
+    "strategy_item_id": "e797cd39-f681-4361-802e-c8b8a25d479b",
+    "production_run_id": "e6469382-a897-42b7-88fe-2d650b778d42"
+  }
+}

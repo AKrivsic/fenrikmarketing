@@ -1,0 +1,278 @@
+{
+  "note": "Rebuilt at export time via buildAntiRepetitionMemory (current package history). Per-package stored fingerprints are also exported under each package.",
+  "memory": {
+    "hooks": [
+      "What if the only thing you needed to start was just a URL?",
+      "I'll be honest: I never run out of content ideas on a Sunday — but by Wednesday, my calendar looks like a ghost town.",
+      "I opened our task board this morning and realized something was missing.",
+      "How did a whole week of 'Content Week' only produce three posts?",
+      "Every week, the same four questions eat up hours: what do we post, how many, where, and in what format?",
+      "In-house content is the plan that sounds like a decision but never actually is one.",
+      "You know, I almost called a competitor last month.",
+      "You recorded a video in 40 minutes — and now you're stuck rewriting captions for three hours.",
+      "You’re staring at a blank document, and the week is already slipping away.",
+      "Six months of retainer, and this is what 'consistent' looks like?",
+      "Why does every team say content is a priority, and then not post for six weeks?",
+      "You just shipped a major update — but did you tell anyone about it?",
+      "The more you explain your business, the less you actually need to produce great content.",
+      "It's Sunday at 2pm, and you're ready to tackle this week's social content.",
+      "You have a 'Content Hour' every Thursday — and it’s never been touched.",
+      "Hiring a freelancer costs less than an agency — but nobody mentions the hours it steals from your week.",
+      "Saving ideas isn't the same as creating content.",
+      "Nine weeks of silence — what does that say about your business?",
+      "You think better ideas will fix your content problem? Think again.",
+      "You blocked off your Tuesday for growth — and here you are, still staring at a blank screen."
+    ],
+    "topics": [
+      "You already have a website — that's the only thing fenrik Studio needs from you",
+      "Why content ideas feel abundant on Sunday and impossible by Wednesday",
+      "What 20 ready-to-post videos actually does to a team's weekly workload",
+      "The content sprint that burned out the whole team and produced three posts",
+      "Why a fixed video package removes the part of content that actually stalls most teams",
+      "Why 'we'll do content in-house' is the plan that never actually starts",
+      "The quiet month that made a business look like it stopped caring",
+      "Why reformatting one piece of content for five platforms takes longer than creating it",
+      "From website to ready-to-post video: what the output actually looks like",
+      "The agency retainer that didn't solve the consistency problem",
+      "Why content always gets treated like a side project — even when it's a priority",
+      "The product launch that happened without a single post to support it",
+      "What happens when your content input is just a URL — nothing else",
+      "What it actually costs to stay active on four platforms at once without a team",
+      "The meeting that replaced your content hour — every single week",
+      "Hiring a freelancer to fix your content — and ending up managing another job",
+      "The content backlog that grows faster than you can clear it",
+      "What your business looks like to a stranger who finds your social profile first",
+      "Why your content ideas never survive contact with your actual schedule",
+      "The social media task that looks small but quietly consumes your whole Tuesday"
+    ],
+    "ctas": [
+      "Submit your website URL — your first content package is free, no brief required.",
+      "Save this — next Sunday when the ideas feel real, remember what Wednesday actually looks like.",
+      "Submit your website URL — your first content package is free, nothing left to produce.",
+      "Save this — next time someone proposes a content sprint, you'll know exactly what the math looks like.",
+      "Submit your website URL — your first content package is free, no decisions required.",
+      "Save this — next time someone says 'we'll handle it in-house,' you'll know exactly what that actually means.",
+      "Save this — your busiest quarter should never look like a closed sign.",
+      "Save this — next time you record a video, remember: the recording was never the hard part.",
+      "Submit your website URL — your first content package is free, no calendar-blocking required.",
+      "Save this — next time you're evaluating a retainer, remember: hours don't scale, models do.",
+      "Save this — the fix isn't more discipline, it's a different structure.",
+      "Save this — next launch, the posts go up before the changelog does.",
+      "Submit your website URL — your first content package is free, no brief needed.",
+      "Save this so you remember what Sunday actually costs you.",
+      "Comment 'Thursday' if your content slot is more decoration than deadline.",
+      "Comment 'notes' if your backlog keeps growing and your feed stays empty.",
+      "Comment 'signal' if your feed has gone quiet without you realizing it.",
+      "Comment 'Friday' if your Notion doc is full and your feed is empty.",
+      "Comment 'Tuesday' if this has happened to you.",
+      "Submit your website URL — your first content package is free, no hours required."
+    ],
+    "scenarios": [
+      "A solo SaaS founder opens a new browser tab intending to finally submit their website to a content service. They get as far as the homepage before the familiar hesitation arrives — 'I should write up our tone of voice first. And figure out which platforms to prioritise. And probably get on a call to explain the product properly.' They close the tab. The account stays quiet for another two weeks. The setup they imagined was never required. The URL was always enough.",
+      "A solo consultant clears Sunday afternoon with genuine optimism — opens the notes app, adds four more hooks to the existing thirty-nine, writes half a caption, saves it. Monday arrives with two client calls that run long. Tuesday surfaces a proposal deadline that was not on the radar. Wednesday at 1:58pm, two minutes before the content block on the calendar, a client pings with an urgent question. The block gets dragged to Thursday. Thursday it disappears entirely, no drama, just a quiet delete. By Sunday the notes app has forty-three items. The feed has nothing new. The ideas were never the problem.",
+      "A marketing ops lead at a two-person SaaS team opens the shared task board on a Monday morning standup. She scans the columns out of habit — bugs, customer requests, growth tasks — and stops at the content row. It is empty. Not because someone forgot to add tasks. Because a 20-video batch from fenrik Studio arrived on Friday, fully labeled and platform-ready. For the first time in months, there is nothing to decide, nothing to reformat, nothing to chase. The standup moves on in four minutes. Nobody mentions it. That is exactly the point.",
+      "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated content sprint — no client calls, no standups, just content. Monday feels genuinely productive: the whiteboard is full, the shared doc has twenty-two ideas, and the energy is high. By Thursday afternoon, the energy has quietly shifted. Three pieces are in any state of done. On Friday, they post the three finished pieces and call it a win. Someone does the math out loud: forty hours across the week, three posts live, two platforms covered, TikTok and YouTube untouched. Thirteen hours per post. The whiteboard still says 'Content Week' in the same marker from Monday morning.",
+      "A two-person marketing team wraps a sprint on a Friday afternoon. One of them opens a shared doc and types 'Week 14 Content' at the top. Then comes the familiar pause — 'So what are we doing this week? How many pieces? Do we bother with LinkedIn again?' That conversation alone has consumed a combined three hours across the last four Fridays. Nothing decided, nothing posted. The problem was never the making. It was that the deciding never ended.",
+      "A two-person marketing team at a SaaS startup has had 'post something this week' on the shared task board for the fourth consecutive Monday standup. It is not that they forgot. It is that by Tuesday a production issue surfaced, Wednesday had a customer demo, and Thursday a board update landed. Each time, moving content to next week was the correct, rational call. The feed has not been updated in five weeks. No customer complained. No revenue visibly disappeared. That is exactly the problem.",
+      "A local service business owner is having a routine catch-up with a customer he has known for four years. The customer mentions, almost as an aside, that he nearly called a competitor last month. The owner assumes it was a pricing issue or a scheduling conflict — something fixable. He asks what happened. The customer shrugs, pulls out his phone, and shows the owner his own Instagram profile. Last post: seven weeks ago. The customer explains, without any drama, that he googled the business, the website looked fine, but the social feed was completely dead. In his mind, that meant something was wrong. He almost called someone else out of genuine concern, not disloyalty. The owner stares at the screen. His business had just had its busiest quarter on record. It went quiet not because anything was wrong, but because nobody had time to post. And to a customer who could not call to check, quiet and closed look exactly the same.",
+      "A SaaS marketer wraps a 40-minute product walkthrough recording on a Thursday afternoon feeling ahead of schedule. By 5pm, three hours have disappeared — spent rewriting the same core message four times: a punchy TikTok hook, a professional LinkedIn paragraph, an Instagram caption with relevant hashtags, and a trimmed YouTube Shorts cut. Each platform demanded a different format, a different tone, and a different set of rules. The video was never the problem. The invisible second job that followed it was.",
+      "A small ecommerce brand manager opens a blank Google Doc on Monday morning, types 'Week 12 Content' at the top, and pauses. She knows what comes next: a video script, a TikTok caption, a LinkedIn post reformatted for professional tone, an Instagram caption, a Facebook post — each one a separate task with its own format logic and time cost. She has done this before. It takes most of the week. This time, she submits her website URL to fenrik Studio instead. By the time she finishes her coffee, the package exists — video, captions, hashtags, all labeled and ready to copy. The week she was about to spend building content is already over.",
+      "An agency owner sits across from a client during a six-month retainer review. They open the reporting dashboard with genuine confidence and spin the laptop to show the posting calendar. January has a cluster of posts. Then a five-week blank. March has another cluster. Then another long blank. A small flurry in May. The client leans forward and asks, without any edge in their voice, whether this is what consistent looks like. The agency owner looks at the screen. Then at the client. The agency was not slacking — they were managing thirty-nine other accounts with the same promise and the same finite team. The retainer was real. The bandwidth was not.",
+      "A bootstrapped app founder ships a significant feature update on a Tuesday afternoon. The changelog email goes out to the list within the hour. It feels like an announcement. By Thursday, a reply arrives from someone in the community: 'Wait — did you post about this anywhere? I almost missed it.' The founder opens Instagram. Then LinkedIn. Then TikTok. Nothing. The update shipped two days ago. The 48-hour window is already closing. The launch was real. The social content never existed.",
+      "A solo SaaS founder sits down to try a new content service and immediately opens a blank Google Doc to start writing a brief — product overview, tone of voice, target audience, key messages. Twenty minutes in, they realize they have been doing the content service's job for them before it has started. They close the doc. The brief never gets finished. The account stays quiet. The assumption that a service needs all of that input before it can produce anything is the exact thing that stops them from submitting anything at all.",
+      "A solo SaaS founder clears their Sunday afternoon to produce one week of social content across LinkedIn, Instagram, TikTok, and YouTube Shorts. They open a blank document at 2pm feeling genuinely optimistic. By 5pm they have four half-finished drafts in different tabs, a cold coffee, and zero published posts. The problem was never the idea — it was reformatting the same idea four times from scratch, for four platforms with completely different formats, tones, and technical requirements. The afternoon is gone. The content is not.",
+      "A two-person marketing team at a SaaS startup has had 'Content Hour' on the shared calendar every Thursday at 2pm for four months. It has a teal color. It has a recurring invite. Week one it lost to a client call that ran forty minutes over. Week two a production bug pulled both team members into Slack for the afternoon. Week three neither of them can remember what happened. Week four another client call, different client, same result. The block is still there every Thursday. The social feed has not been updated in six weeks.",
+      "An agency owner lands a new content client and immediately hires a freelancer to handle their own agency's social accounts so they can focus on delivery. Week one: an hour writing the brief. Week two: two rounds of revisions on a caption that still does not sound right. Week three: the freelancer misses the Thursday deadline and the Friday slot is gone. By week four, the agency owner is spending more time managing the freelancer than they ever spent writing posts themselves — and the feed is still inconsistent.",
+      "An ecommerce brand owner opens their notes app on a Tuesday afternoon between handling a supplier call and processing a return. The list has 23 items — a caption draft from last month, a reminder to film the new packaging, a TikTok audio they saved six weeks ago. They scroll to the bottom, add one more idea, lock the phone, and go back to the refund. Nothing gets posted. The list is now 24 items long.",
+      "A solo SaaS founder checks their own Instagram profile while reviewing their website analytics and realizes the last post went up the day before a product launch — nine weeks ago. The website looks professional. The social feed looks abandoned. They had not considered that a potential customer would see both in the same session.",
+      "A product manager at a two-person SaaS team runs Monday's brainstorm, fills a Notion doc with genuinely good content ideas, and feels the hard part is done. By Friday, nothing has been posted — Tuesday had a production bug, Wednesday had a customer demo, Thursday had a board update. The ideas are intact. The week is gone.",
+      "A bootstrapped founder blocks Tuesday morning for growth work, eats lunch at their desk to protect the time, and by 6pm has produced exactly one caption — five words, still not posted — while every other growth task remains untouched.",
+      "A freelance consultant wraps up a client project and sits down to write a LinkedIn post about it, only to spend two hours staring at a blank document and giving up."
+    ],
+    "fingerprints": [],
+    "atmospheres": [],
+    "directions": [],
+    "pipelineFingerprints": [
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "Most people stall before they ever submit anything because they assume a content service requires a creative brief, platform strategy, tone guidelines, and a kickoff call. This video answers the one …",
+        "environment": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designe…",
+        "product_role": "fenrik Studio is the proof that collapses the imagined barrier. It is not described as a tool or a platform — it is described as a service that already has wha…",
+        "visual_world": "No physical environment. The entire visual world is a sequence of typographic cards or a split-screen graphic — designed to feel like a product interface or a …",
+        "attention_pattern": "The contrast between the complex imagined inputs and the simplicity of the URL creates immediate curiosity and a desire…",
+        "narrative_mechanism": "faq: QUESTION (contrast hook): Open on a sharp before-after contrast — one side is t…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "Sunday content energy is a lie your schedule tells you. The ideas feel real, the motivation feels real, and by Wednesday the calendar slot is already gone. This is not a discipline problem — it is a …",
+        "environment": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a…",
+        "product_role": "fenrik Studio is named at the resolution as the thing that closes the gap — not by helping you produce content faster, but by removing the production step from…",
+        "visual_world": "A solo consultant's home office or kitchen-table workspace — a laptop, a closed notebook, a half-drunk mug of coffee, a phone. Lived-in but not cluttered. No s…",
+        "attention_pattern": "The contrast between the hopeful energy of Sunday and the stark reality of Wednesday hooks the viewer, making them curi…",
+        "narrative_mechanism": "opinion: TAKE: Open with a candid confession in the voice of a solo consultant who knows…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A marketing ops lead at a small SaaS team makes a quiet, almost accidental observation on a Monday morning: for the first time in months, the weekly team standup has no content tasks on the board. No…",
+        "environment": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management boar…",
+        "product_role": "fenrik Studio is named as the operational input that removed the content row from the task board. It is not positioned as inspiration or transformation — it is…",
+        "visual_world": "A compact, tidy shared workspace or home office — a desk with a laptop, a second monitor showing a task management board, a coffee cup that has been there a wh…",
+        "attention_pattern": "The absence of tasks creates immediate curiosity about what has changed and why it matters.",
+        "narrative_mechanism": "observation: OBSERVATION: Open on a specific, grounded moment — a marketing ops lead scannin…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A two-person marketing team at a SaaS startup blocks off an entire week as a dedicated 'content sprint' — no client calls, no standups, just content. By Friday they have three posts live across two p…",
+        "environment": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open,…",
+        "product_role": "fenrik Studio is introduced at the resolution as the structural alternative — not a critique of the team, but a different model entirely. One URL in. A batch o…",
+        "visual_world": "A small, real-feeling team workspace — two desks facing each other, a whiteboard on the wall behind them, laptops open, a camera on a small tripod visible in o…",
+        "attention_pattern": "The viewer is drawn in by the initial question, creating curiosity about the outcome of the week while hinting at the i…",
+        "narrative_mechanism": "micro_case: BEFORE: Open on the team at the start of Monday morning with a whiteboard that …"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "Most teams do not stall on content because they lack ideas or time alone — they stall because every content cycle restarts the same open-ended decisions: what to make, how many pieces, which platform…",
+        "environment": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional …",
+        "product_role": "fenrik Studio is the structural fix that eliminates the decision loop entirely. A fixed package means the 'what, how many, and where' questions are answered be…",
+        "visual_world": "No physical room. The world is entirely screen-native — a digital canvas that could live inside any device. Occasional abstract representations of a shared tas…",
+        "attention_pattern": "The stark visual of the empty task board contrasts sharply with the urgency of the spoken words, creating a sense of co…",
+        "narrative_mechanism": "standard: HOOK (unexpected truth): Open on a blunt reframe — the reason content never shi…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A myth-buster delivered in the voice of an annoyed operator: the idea that 'we'll handle content in-house' is a plan is wrong. It is a placeholder. The video exposes the structural reason in-house co…",
+        "environment": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management boa…",
+        "product_role": "fenrik Studio is the structural fix. It does not ask the team to find more time, write a brief, or assign a responsible person. It removes the production gap e…",
+        "visual_world": "No physical desk or room as the primary world. The environment is entirely digital interfaces: a project management board (Notion or Linear aesthetic), a calen…",
+        "attention_pattern": "The stark contrast between intention and reality creates immediate curiosity about the underlying problem.",
+        "narrative_mechanism": "standard: HOOK (myth): Open on a blunt statement delivered straight to camera — 'In-house…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A long-term customer of a local service business casually drops a bombshell mid-conversation: they almost left — not because of the service, but because six weeks of silence on social made them assum…",
+        "environment": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and spe…",
+        "product_role": "fenrik Studio is introduced at the resolution as the reason this conversation never has to happen again. The owner only needs a website URL — no brief, no came…",
+        "visual_world": "Exterior of a small local business — a front step, a low brick wall, or a simple outdoor seating area. Lived-in and specific: a branded work van visible in the…",
+        "attention_pattern": "The unexpected confession creates immediate intrigue, prompting viewers to wonder why a loyal customer would think of l…",
+        "narrative_mechanism": "humor: SITUATION: A local plumbing business owner is having a perfectly normal catch-u…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A SaaS marketer records a product walkthrough video in 40 minutes, feeling productive — then spends the next three hours not creating, but translating: cropping for Reels, rewriting a caption in Link…",
+        "environment": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the backgro…",
+        "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool the marketer uses, but a service that removes the entire reformatting layer by…",
+        "visual_world": "A compact, shared SaaS team workspace or home office — not a studio, not a coffee shop. A second monitor in the background showing a Slack thread. A water bott…",
+        "attention_pattern": "The initial satisfaction of completing the video quickly shifts to tension as the viewer sees the mounting tasks, creat…",
+        "narrative_mechanism": "story: SETUP: Drop mid-scene — a SaaS marketer at their desk, headphones around their …"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A small ecommerce brand manager sits down Monday morning to plan the week's social content. The video walks through every deliverable that would have consumed her week — writing captions, reformattin…",
+        "environment": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small produ…",
+        "product_role": "fenrik Studio is the mechanism that converts the entire week's content production task into a single URL submission. The product is not described abstractly — …",
+        "visual_world": "First half: a compact ecommerce brand manager's desk — a laptop open to a blank Google Doc, a coffee cup, a small product sample visible in the background, a s…",
+        "attention_pattern": "The initial focus on the blank document creates a relatable tension, prompting curiosity about how the situation will r…",
+        "narrative_mechanism": "story: SETUP: A brand manager opens a blank content calendar on Monday morning, coffee…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "An agency owner sits across from a client during a quarterly review and confidently pulls up the posting report — only to discover that 'consistent content' across six months means three weeks of sol…",
+        "environment": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each ot…",
+        "product_role": "fenrik Studio is introduced at the resolution as the structural answer to the bandwidth problem — a fixed-package content service that produces ready-to-post v…",
+        "visual_world": "A small, tidy meeting room or shared office space — a round or rectangular table, two people seated across from each other, a laptop between them. No clutter. …",
+        "attention_pattern": "The viewer is drawn in by the agency owner's confidence, then immediately intrigued by the unexpected twist of the post…",
+        "narrative_mechanism": "humor: SITUATION: An agency owner walks into a client review meeting carrying genuine …"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A myth-buster that names the widespread belief that content keeps getting deprioritized because teams don't care about it or aren't disciplined enough — and corrects it with the structural truth: con…",
+        "environment": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid o…",
+        "product_role": "fenrik Studio is introduced at the resolution as the structural fix — not a tool that requires more of your time, not a platform to manage, but a done-for-you …",
+        "visual_world": "Fully digital — no physical room, no location, no props. The environment is the screen itself. Optional: a faint grid or subtle geometric line texture in the b…",
+        "attention_pattern": "The opening question creates immediate curiosity, prompting viewers to reflect on their own experiences while hinting a…",
+        "narrative_mechanism": "myth_buster: MYTH: Opens with the pointed insider question — 'Why does every team say conten…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A bootstrapped app founder ships a major feature update, sends the changelog email, and then a stranger on the internet asks a question that stops them cold: 'Wait — did you actually post about this …",
+        "environment": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty soc…",
+        "product_role": "fenrik Studio is named at the resolution as the answer to the real question: who produces the social content when the team is heads-down shipping? A website UR…",
+        "visual_world": "No physical room. The entire visual world is digital interfaces: a product changelog screen, a sent email, an empty social profile grid on mobile, and a final …",
+        "attention_pattern": "The contrast between the excitement of the product launch and the stark emptiness of the social feed creates immediate …",
+        "narrative_mechanism": "faq: QUESTION (as the audience would genuinely ask it): 'We just shipped something b…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "Most people assume a content service needs a creative brief, brand guidelines, a call, and a list of talking points before it can produce anything useful. This piece corrects that assumption directly…",
+        "environment": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or…",
+        "product_role": "fenrik Studio is the proof that disproves the myth. It is named at the reality beat as the specific service that takes one URL and returns a complete, multi-pl…",
+        "visual_world": "No desk clutter, no coffee cups, no personal props. The environment is intentionally neutral — a clean table surface or a plain wall. The absence of the usual …",
+        "attention_pattern": "Starts with a counter-intuitive statement that challenges common beliefs, creating curiosity about the process that fol…",
+        "narrative_mechanism": "myth_buster: MYTH: Open on a counter-intuitive statement delivered with quiet confidence — t…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A solo operator sits down on a Sunday afternoon to 'knock out social content for the week' across LinkedIn, Instagram, TikTok, and YouTube Shorts — and a running on-screen tally of actual time spent …",
+        "environment": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark of…",
+        "product_role": "fenrik Studio is named at the resolution as the mechanism that eliminates the reformatting loop entirely — one URL input produces platform-ready assets for all…",
+        "visual_world": "A lived-in kitchen table doubling as a workspace — laptop, a notebook, a coffee mug. Not a polished studio or a dark office. Feels like a real Sunday afternoon…",
+        "attention_pattern": "The timer's presence creates immediate curiosity about how long it will take to produce content, hinting at the hidden …",
+        "narrative_mechanism": "story: SETUP: Drop mid-scene — a solo founder at a kitchen table, laptop open, coffee …"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A marketing team lead notices that 'Content Hour' has lived on the team calendar every Thursday at 2pm for four months. It has a color. It has a recurring invite. It has never once produced a single …",
+        "environment": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the…",
+        "product_role": "fenrik Studio is named at the resolution as the thing that removes the dependency on the Thursday slot entirely — content gets produced from the website URL wi…",
+        "visual_world": "A modern open-plan office or a tidy shared team desk — dual monitors, a coffee cup, a Slack notification visible in the background; not a home office; this is …",
+        "attention_pattern": "The opening draws viewers in with a relatable scenario, creating curiosity about how the situation unfolds and what the…",
+        "narrative_mechanism": "humor: SITUATION: Open on a close-up of a digital calendar. Thursday 2pm — 'Content Ho…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A solo founder believed hiring a freelancer would remove content from their plate. The surprising fact: it added a structured weekly job on top of their existing one — briefs, revision rounds, approv…",
+        "environment": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the foc…",
+        "product_role": "fenrik Studio is introduced at the resolution as the structural contrast to the freelancer model. The proof point is the input requirement: one URL, nothing el…",
+        "visual_world": "A small, tidy home office or co-working desk. A laptop open to an email thread or Google Doc is visible but not the focus. A coffee mug. No product packaging, …",
+        "attention_pattern": "The unexpected contrast between cost and time creates curiosity about the hidden costs of hiring a freelancer.",
+        "narrative_mechanism": "shock: UNEXPECTED FACT: Open on a calm, confident statement — hiring a content freelan…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A Mistake piece that exposes a specific, widespread error: treating a growing notes app backlog of content ideas as a content strategy. The video names the mistake clearly — saving ideas is not the s…",
+        "environment": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone …",
+        "product_role": "fenrik Studio is introduced as the resolution to the structural mistake — not a tool that helps you execute your backlog faster, but a service that bypasses th…",
+        "visual_world": "A compact ecommerce owner's workspace — product inventory visible in the background, a few orders on the desk, a phone propped against a product sample. Not a …",
+        "attention_pattern": "The opening statement challenges a common belief, creating curiosity about the real issue behind the growing backlog.",
+        "narrative_mechanism": "mistake: MISTAKE: Open on a phone screen. Notes app. 23 saved content ideas — product sh…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A micro case told entirely from a stranger's point of view. A potential customer Googles a local SaaS tool, finds their Instagram link in the bio, taps it — and lands on a feed where the last post is…",
+        "environment": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the …",
+        "product_role": "fenrik Studio is introduced at the resolution point as the practical fix — not a creative tool, not a platform, just a service that keeps the feed moving so th…",
+        "visual_world": "No physical room or desk. The entire visual world is the phone screen — a simulated Instagram profile grid filling the frame, with a faint suggestion of a hand…",
+        "attention_pattern": "The stark contrast between the clean website and the inactive social feed creates immediate curiosity about the implica…",
+        "narrative_mechanism": "micro_case: BEFORE: A stranger discovers a brand through a Google search result. Everything…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A myth-buster that names the widespread belief that running out of content ideas is what kills a social strategy — then reveals the real culprit: ideas survive just fine; it's your schedule that murd…",
+        "environment": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background…",
+        "product_role": "fenrik Studio is introduced as the execution layer that exists between 'great idea' and 'actually posted.' It doesn't replace ideation — it makes ideation irre…",
+        "visual_world": "A compact, shared SaaS team workspace — two monitors, a standing desk partially lowered, a whiteboard in the background with sprint notes. Lived-in but not cha…",
+        "attention_pattern": "Starts with a confident assertion that challenges a common belief, immediately creating curiosity about the real issue.",
+        "narrative_mechanism": "myth_buster: MYTH: 'We just need better content ideas.' The video opens on a confident state…"
+      },
+      {
+        "version": "content-pipeline-fingerprint@1",
+        "core_idea": "A founder narrates their Tuesday in reverse, revealing that every hour they protected for growth was quietly consumed by a single unfinished caption — told with light, self-aware humor that exposes h…",
+        "environment": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful writte…",
+        "product_role": "fenrik Studio is the implicit resolution — named only at the CTA. The product does not appear in the story; the story creates the need. The CTA frames fenrik S…",
+        "visual_world": "A small home office or compact studio desk. Lived-in but tidy — a second monitor, a notebook with nothing useful written in it, a cold coffee cup. Ordinary and…",
+        "attention_pattern": "The viewer is drawn in by the relatable struggle of time slipping away, creating curiosity about how the day unfolded.",
+        "narrative_mechanism": "humor: SITUATION: The video opens mid-afternoon. A founder sits at their desk, coffee …"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1001 @@
+{
+  "package_index": 3,
+  "run_item_id": "ebfabb23-fbff-4f9f-844b-7a0da1994757",
+  "run_item_status": "failed",
+  "run_item_error": "Renderování videa selhalo.",
+  "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+  "package_title": "The Consultant Who Prepared for Everything Except the Question",
+  "package_status": "draft",
+  "strategy_item_id": "83dd16d2-ce3b-4ac8-97dc-9be946437d02",
+  "flags": {
+    "strategy": true,
+    "concept": true,
+    "opening": true,
+    "visualIdentity": true,
+    "package": true,
+    "voiceover": true,
+    "storyboard": true,
+    "imagePrompts": true,
+    "cta": true,
+    "platformOutputs": true,
+    "visualProfile": true,
+    "voiceSelection": true,
+    "creativeMode": true,
+    "funnelStage": true,
+    "painPoint": true,
+    "productRole": true,
+    "narrativeArc": true,
+    "emotionalTone": true,
+    "audienceInsight": true,
+    "visualDirection": true,
+    "generatedImages": false,
+    "finalSubtitles": false,
+    "renderMetadata": false
+  },
+  "last_completed_step": "Platform outputs",
+  "evaluable": "Strategy, Concept, Opening, Visual Identity, Package (hook/scenario/video), Voiceover, Storyboard / visual scenes, Image prompts, CTA, Platform outputs, Visual profile, Voice selection, Creative mode, Funnel stage, Pain point, Product role, Narrative arc, Emotional tone, Audience insight, Visual direction",
+  "strategy": {
+    "strategy_item": {
+      "id": "83dd16d2-ce3b-4ac8-97dc-9be946437d02",
+      "strategy_id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "platform": "tiktok",
+      "format": "reel",
+      "funnel_stage": "problem_aware",
+      "priority": 4,
+      "brief": {
+        "angle": "A qualified prospect lands on a consulting firm's site, reads through the services, and wants to know which package fits their situation. The page has no way to answer that. They open a competitor's site next.",
+        "topic": "The consultant whose website attracted the right client — and then said nothing",
+        "source": "production_run",
+        "pain_point": "Visitors leave before contacting you",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+      }
+    },
+    "content_strategy": {
+      "id": "ba0ae1a8-860a-4a01-9c42-da6aa93861a7",
+      "strategy_brief": {
+        "theme": "Your Website Is Losing You Business While You Sleep",
+        "source": "production_run",
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "funnel_distribution": {
+          "Awareness": 2,
+          "Conversion": 2,
+          "Problem Aware": 6,
+          "Solution Aware": 4
+        },
+        "generation_telemetry": {
+          "steps": [
+            {
+              "model": "gpt-4o-mini-2024-07-18",
+              "repair": true,
+              "success": true,
+              "provider": "openai",
+              "warnings": [
+                "$.content_plan[5].priority: expected <= 5",
+                "$.content_plan[6].priority: expected <= 5",
+                "$.content_plan[7].priority: expected <= 5",
+                "$.content_plan[8].priority: expected <= 5",
+                "$.content_plan[9].priority: expected <= 5",
+                "$.content_plan[10].priority: expected <= 5",
+                "$.content_plan[11].priority: expected <= 5",
+                "$.content_plan[12].priority: expected <= 5",
+                "$.content_plan[13].priority: expected <= 5"
+              ],
+              "raw_usage": {
+                "model": "gpt-4o-mini-2024-07-18",
+                "cached_tokens": 0,
+                "prompt_tokens": 2205,
+                "repair_reason": "json_or_schema_repair",
+                "completion_tokens": 1420,
+                "validation_issues": [
+                  {
+                    "path": "$.content_plan[5].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[6].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[7].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[8].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[9].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[10].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[11].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[12].priority",
+                    "message": "expected <= 5"
+                  },
+                  {
+                    "path": "$.content_plan[13].priority",
+                    "message": "expected <= 5"
+                  }
+                ]
+              },
+              "step_name": "JSON Repair",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:34.259Z",
+              "duration_ms": 14344,
+              "finished_at": "2026-07-25T07:19:48.602Z",
+              "retry_count": 0,
+              "temperature": 0,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "JSON Repair input:\n- Broken model output\n- Validation issues",
+              "prompt_tokens": 2205,
+              "estimated_cost": 0.001183,
+              "output_summary": "repaired JSON",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 6932,
+              "completion_tokens": 1420,
+              "output_size_bytes": 6927,
+              "prompt_characters": 6904,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": "claude-sonnet-4-6",
+              "repair": false,
+              "success": true,
+              "provider": "claude",
+              "warnings": [],
+              "raw_usage": {
+                "model": "claude-sonnet-4-6",
+                "cached_tokens": 0,
+                "prompt_tokens": 4193,
+                "completion_tokens": 2025
+              },
+              "step_name": "Content Strategy",
+              "max_tokens": 8192,
+              "started_at": "2026-07-25T07:18:55.469Z",
+              "duration_ms": 53135,
+              "finished_at": "2026-07-25T07:19:48.604Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": 0,
+              "error_message": null,
+              "input_summary": "Content Strategy input:\n- Product Brain\n- Trends\n- Evergreen Topics\n- Anti-repetition Memory",
+              "prompt_tokens": 4193,
+              "estimated_cost": 0.042954,
+              "output_summary": "Theme + funnel plan\n↓\n14 strategy items (requested 14)",
+              "pricing_source": "list_price_estimate",
+              "pricing_version": "list-price@2026-07-23",
+              "response_format": "json",
+              "input_size_bytes": 18656,
+              "completion_tokens": 2025,
+              "output_size_bytes": 6927,
+              "prompt_characters": 18564,
+              "provider_request_id": null,
+              "completion_characters": 6899
+            },
+            {
+              "model": null,
+              "repair": false,
+              "success": true,
+              "provider": "deterministic",
+              "warnings": [],
+              "raw_usage": null,
+              "step_name": "Strategy Items",
+              "max_tokens": null,
+              "started_at": "2026-07-25T07:19:48.604Z",
+              "duration_ms": 298,
+              "finished_at": "2026-07-25T07:19:48.902Z",
+              "retry_count": 0,
+              "temperature": null,
+              "cached_tokens": null,
+              "error_message": null,
+              "input_summary": "Strategy Items input:\n- Content Strategy plan\n- Funnel distribution\n- Tone / diversity balance",
+              "prompt_tokens": null,
+              "estimated_cost": null,
+              "output_summary": "14 strategy item(s) persisted",
+              "pricing_source": null,
+              "pricing_version": null,
+              "response_format": null,
+              "input_size_bytes": null,
+              "completion_tokens": null,
+              "output_size_bytes": 611,
+              "prompt_characters": null,
+              "provider_request_id": null,
+              "completion_characters": 611
+            }
+          ],
+          "phases": [],
+          "version": "pipeline-telemetry@1",
+          "pricing_version": "list-price@2026-07-23",
+          "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da"
+        }
+      }
+    }
+  },
+  "concept": {
+    "title": "The Consultant Who Prepared for Everything Except the Question",
+    "core_idea": "A consultant spends weeks perfecting their website — clear service tiers, polished copy, a professional headshot — then watches a qualified prospect silently tab away because the site couldn't answer one specific question about which package fit their situation. The unexpected turn: the competitor they switched to had a worse-looking website. It just talked back.",
+    "product_role": "Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the presence that answers the one question standing between a qualified visitor and a booked call. It is introduced at the resolution moment: the thing the competitor had that the consultant's site didn't.",
+    "why_it_works": "The angle is fresh because it reframes the pain point as an irony rather than a failure — the consultant did everything right except the one thing that mattered at the moment of decision. The humor comes from the gap between effort and outcome, not from mocking the person. The competitor's uglier-but-responsive website is the unexpected turn that makes the lesson land without a lecture. The visual storytelling is split-screen in spirit — pride versus loss — which suits TikTok's fast cut rhythm and keeps the concept platform-native.",
+    "narrative_arc": "SITUATION: Open on a consultant at their desk, visibly proud — they're doing a final scroll through their newly redesigned website on a laptop. Everything looks sharp. They nod, close the laptop, go to bed. CUT TO: a phone screen in a stranger's hands, late evening. The stranger is on the consultant's site, reading carefully, clearly interested. They hover over the contact form. Then they type a question into a search bar instead and land on a competitor's site — plainer, less polished — but a chat bubble appears immediately and answers their question. The stranger books a call. PUNCHLINE: Back to the consultant the next morning, opening analytics. Good traffic. Zero leads. They tilt their head at the screen like a confused golden retriever. TEXT OVERLAY: 'Your website looked great. It just didn't say anything.' CTA card.",
+    "emotional_tone": "Warm, self-aware humor with a genuine sting of recognition — the kind of laugh that ends with 'okay, that's actually me.' The humor targets the situation, never the person. The fix lands seriously.",
+    "audience_insight": "Consultants and professional service providers invest heavily in how their website looks and reads — they treat it as a credential. What they underestimate is that a qualified visitor doesn't just want to read; they want to ask one specific question before they commit to contact. When the site can't answer it, the visitor doesn't wait — they move to whoever can.",
+    "visual_direction": {
+      "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+      "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+      "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+      "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+      "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+      "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience."
+    }
+  },
+  "opening": {
+    "pacing": "Slow at first to build anticipation, then quickens as the scene shifts to the prospect's phone, creating urgency.",
+    "emotion": "A mix of pride and impending disappointment as the consultant's hard work is about to be undermined.",
+    "first_image": "A close-up of a laptop screen displaying a beautifully designed consulting website, with the cursor hovering over a contact form, while a warm desk lamp casts a soft glow in the background.",
+    "attention_pattern": "Starts with a moment of satisfaction, then shifts to tension as the prospect's need for information is unmet, compelling viewers to stay engaged.",
+    "first_spoken_sentence": "You spent weeks perfecting your website, but what happens when a visitor has a question?"
+  },
+  "visual_identity": {
+    "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+    "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+    "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+    "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+    "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+    "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience.",
+    "opening_emotion": "A mix of pride and impending disappointment as the consultant's hard work is about to be undermined.",
+    "opening_first_image": "A close-up of a laptop screen displaying a beautifully designed consulting website, with the cursor hovering over a contact form, while a warm desk lamp casts a soft glow in the background."
+  },
+  "package": {
+    "title": "The Consultant Who Prepared for Everything Except the Question",
+    "status": "draft",
+    "funnel_stage": "problem_aware",
+    "hook": "You spent weeks perfecting your website, but what happens when a visitor has a question?",
+    "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. That same week, a qualified prospect finds the site late one evening, reads through the services carefully, and wants to ask one specific question before committing to a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. It looks less polished. But a chat bubble appears and answers the question within seconds. The prospect books a call. The next morning, the consultant opens their analytics: good traffic, zero leads. The gap wasn't design. It was the one unanswered question.",
+    "video": {
+      "script": "SCENE 1 — EVENING, CONSULTANT'S HOME OFFICE\n[Warm desk lamp light. Hands scrolling a laptop showing a polished consulting website. Slow, satisfied scroll. Cursor hovers over contact form. Consultant nods slightly, closes laptop.]\nVO: 'You spent weeks perfecting your website, but what happens when a visitor has a question?'\n\nSCENE 2 — LATE NIGHT, PROSPECT'S LIVING ROOM\n[Cool blue phone-screen light. Hands holding a phone. Deliberate scrolling through services page. Finger hovers over contact form. Hesitates.]\nVO: 'They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call.'\n\nSCENE 3 — SAME NIGHT, SAME COUCH\n[Prospect types into a search bar. Lands on a competitor's site — visibly plainer. A chat bubble appears. Prospect types a question. A reply appears instantly. Prospect taps 'Book a call.']\nVO: 'So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book.'\n\nSCENE 4 — NEXT MORNING, CONSULTANT'S DESK\n[Consultant opens laptop. Analytics dashboard. Traffic looks good. Leads column: zero. Consultant tilts head slowly at the screen.]\nTEXT OVERLAY: 'Your website looked great. It just didn't say anything.'\nVO: 'You wake up to good traffic and zero leads.'\n\nSCENE 5 — CTA CARD\n[Clean dark card. Bold white text: 'Create your AI assistant — fenrik.chat']\n[Save prompt appears bottom frame.]",
+      "concept": "A consultant finishes polishing their website, closes the laptop with satisfaction, and goes to bed. That same night, a qualified prospect finds the site, reads carefully, wants to ask one specific question — and can't. No chat, no response, nothing. They open a competitor's site. It looks rougher. But a chat bubble appears and answers the question. They book a call. Morning: the consultant opens analytics. Great traffic. Zero leads. Head tilt. Text overlay drops: 'Your website looked great. It just didn't say anything.' CTA card closes.",
+      "duration_seconds": "42"
+    },
+    "hashtags": [
+      "#consulting",
+      "#smallbusiness",
+      "#websitestrategy",
+      "#leadgeneration",
+      "#businessgrowth"
+    ],
+    "subtitles_planned": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads."
+  },
+  "voiceover": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+  "storyboard": [
+    {
+      "source": "ai",
+      "image_prompt": "Close-up of a laptop screen displaying a beautifully designed consulting website with clean service tiers and polished typography, cursor hovering over a contact form, warm soft desk lamp casting golden light across a tidy home office desk with a notebook and small plant in the background — evening, intimate, aspirational-small-business aesthetic"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Hands holding a smartphone in a dimly lit living room at night, cool blue light from the phone screen illuminating the scene, the screen showing a services page on a consulting website, finger hovering hesitantly over a contact form — candid, unposed, decisive late-night mood"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "Same hands on the same phone now on a plainer-looking competitor website, a small chat bubble visible in the corner of the screen with a reply appearing instantly, the prospect's thumb moving toward a book-a-call button — cool ambient blue light, intimate, the moment of decision"
+    },
+    {
+      "source": "ai",
+      "image_prompt": "A person sitting at a home office desk in soft morning light, laptop open to an analytics dashboard showing solid session numbers and a leads column at zero, head tilted gently to one side in quiet confusion — warm neutral tones, muted greens, gently humorous and relatable"
+    },
+    {
+      "source": "asset",
+      "used_as": "CTA card background showing industries and business types served, reinforcing that the solution applies universally — used as the closing frame insert",
+      "asset_id": "d0577ae7-6599-44f1-84af-c6ee18512312"
+    }
+  ],
+  "image_prompts": [
+    "Close-up of a laptop screen displaying a beautifully designed consulting website with clean service tiers and polished typography, cursor hovering over a contact form, warm soft desk lamp casting golden light across a tidy home office desk with a notebook and small plant in the background — evening, intimate, aspirational-small-business aesthetic",
+    "Hands holding a smartphone in a dimly lit living room at night, cool blue light from the phone screen illuminating the scene, the screen showing a services page on a consulting website, finger hovering hesitantly over a contact form — candid, unposed, decisive late-night mood",
+    "Same hands on the same phone now on a plainer-looking competitor website, a small chat bubble visible in the corner of the screen with a reply appearing instantly, the prospect's thumb moving toward a book-a-call button — cool ambient blue light, intimate, the moment of decision",
+    "A person sitting at a home office desk in soft morning light, laptop open to an analytics dashboard showing solid session numbers and a leads column at zero, head tilted gently to one side in quiet confusion — warm neutral tones, muted greens, gently humorous and relatable"
+  ],
+  "cta": {
+    "package_cta": {
+      "text": "Save this if your website has ever looked great and said absolutely nothing.",
+      "type": "save"
+    },
+    "cta_selected": false,
+    "cta_decision_reason": "no typed CTA requested in visual plan",
+    "cta_composition_id": null
+  },
+  "platform_outputs": {
+    "brief_platform_outputs": {
+      "x": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "title_variants": [
+          "The Consultant Who Prepared for Everything Except the Question",
+          "Good Traffic. Zero Leads. Here's Why.",
+          "Your Website Looked Great. It Just Didn't Say Anything.",
+          "The Competitor's Site Was Uglier — And Still Won the Client",
+          "One Unanswered Question Is All It Takes to Lose a Qualified Lead"
+        ],
+        "caption_variants": [
+          "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+          "The competitor's website was uglier. It just had a chat bubble that answered the question. That was enough.",
+          "Polished design. Clear services. Professional copy. Zero leads. Because the one question that mattered went unanswered.",
+          "Visitors don't leave because your website looks bad. They leave because it can't talk back when they're ready to ask something.",
+          "Good traffic and zero leads isn't a marketing problem. It's a conversation problem. #consulting #leadgeneration"
+        ]
+      },
+      "tiktok": {
+        "cta": null,
+        "format": "reel",
+        "caption": "Your website had a qualified visitor last night. They left because it couldn't answer one question. 😬 The competitor's site was uglier. It just talked back.",
+        "hashtags": [
+          "#consulting",
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration"
+        ]
+      },
+      "youtube": {
+        "cta": null,
+        "format": "short",
+        "caption": "They found your website, read everything, and still left — because one question went unanswered. Here's what happened next.",
+        "hashtags": [
+          "#shorts",
+          "#smallbusiness",
+          "#consulting"
+        ]
+      },
+      "facebook": {
+        "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+        "format": "reel",
+        "caption": "Ever checked your website analytics and seen solid traffic — but zero leads? 😅 Here's a situation that might feel familiar: a qualified prospect lands on a consulting site, reads every service page, and wants to ask one specific question before booking. There's no way to ask it. They move on. The competitor's site was less polished — but it had a chat bubble that answered instantly. That was enough. If your website is working hard to attract visitors but can't hold the conversation, save this one.",
+        "hashtags": [
+          "#smallbusiness",
+          "#consulting"
+        ]
+      },
+      "linkedin": {
+        "cta": null,
+        "format": "reel",
+        "caption": "A consultant spent weeks refining their website — clear service tiers, polished copy, professional design. A qualified prospect found it late one evening, read carefully, and wanted to ask one question before committing to contact. The site had no way to answer it. They opened a competitor's site next. It looked rougher. But a chat bubble appeared and answered the question. They booked a call. The consultant woke up to good traffic and zero leads. The gap wasn't design. It was responsiveness.",
+        "hashtags": [
+          "#consulting",
+          "#businessgrowth",
+          "#leadgeneration"
+        ]
+      },
+      "instagram": {
+        "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+        "format": "reel",
+        "caption": "They were on your services page. Reading carefully. Ready to ask the one question before committing.\n\nYour website had no answer.\n\nSo they opened the next tab — and booked with someone else.\n\nSave this if you've ever woken up to good traffic and zero leads.",
+        "hashtags": [
+          "#consultinglife",
+          "#smallbusiness",
+          "#websitestrategy",
+          "#leadgen",
+          "#businessgrowth"
+        ]
+      }
+    },
+    "content_items": [
+      {
+        "id": "6a304dbb-23c0-44e2-a629-20ee875fc0dc",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Good Traffic. Zero Leads. Here's Why.",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "The competitor's website was uglier. It just had a chat bubble that answered the question. That was enough.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "bc239641-59d9-48f3-8683-6d66654c7fb3",
+        "platform": "tiktok",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Your website had a qualified visitor last night. They left because it couldn't answer one question. 😬 The competitor's site was uglier. It just talked back.",
+        "hashtags": [
+          "#consulting",
+          "#smallbusiness",
+          "#websitetips",
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "8aec5a62-8dd6-4edb-af57-78efdb8c9820",
+        "platform": "instagram",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "They were on your services page. Reading carefully. Ready to ask the one question before committing.\n\nYour website had no answer.\n\nSo they opened the next tab — and booked with someone else.\n\nSave this if you've ever woken up to good traffic and zero leads.",
+        "hashtags": [
+          "#consultinglife",
+          "#smallbusiness",
+          "#websitestrategy",
+          "#leadgen",
+          "#businessgrowth"
+        ],
+        "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+        "language": null
+      },
+      {
+        "id": "0a02cecd-53f3-45de-be6c-4dfe42b904ce",
+        "platform": "youtube",
+        "format": "short",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "They found your website, read everything, and still left — because one question went unanswered. Here's what happened next.",
+        "hashtags": [
+          "#shorts",
+          "#smallbusiness",
+          "#consulting"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "dd558804-e0ba-4be6-a3a5-be4fc8854316",
+        "platform": "facebook",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Ever checked your website analytics and seen solid traffic — but zero leads? 😅 Here's a situation that might feel familiar: a qualified prospect lands on a consulting site, reads every service page, and wants to ask one specific question before booking. There's no way to ask it. They move on. The competitor's site was less polished — but it had a chat bubble that answered instantly. That was enough. If your website is working hard to attract visitors but can't hold the conversation, save this one.",
+        "hashtags": [
+          "#smallbusiness",
+          "#consulting"
+        ],
+        "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+        "language": null
+      },
+      {
+        "id": "4a17fff3-7cb9-4f21-8291-cc7dec335d6b",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "b08c3558-83ad-438e-8a27-9792edf3d636",
+        "platform": "linkedin",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Consultant Who Prepared for Everything Except the Question",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "A consultant spent weeks refining their website — clear service tiers, polished copy, professional design. A qualified prospect found it late one evening, read carefully, and wanted to ask one question before committing to contact. The site had no way to answer it. They opened a competitor's site next. It looked rougher. But a chat bubble appeared and answered the question. They booked a call. The consultant woke up to good traffic and zero leads. The gap wasn't design. It was responsiveness.",
+        "hashtags": [
+          "#consulting",
+          "#businessgrowth",
+          "#leadgeneration"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "8b7029d5-2a09-4483-8ff8-4247fcbdfd2d",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "Your Website Looked Great. It Just Didn't Say Anything.",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Polished design. Clear services. Professional copy. Zero leads. Because the one question that mattered went unanswered. https://fenrik.chat",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "f5596f65-681d-430a-ab88-76cb618521fb",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "The Competitor's Site Was Uglier — And Still Won the Client",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Visitors don't leave because your website looks bad. They leave because it can't talk back when they're ready to ask something.",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      },
+      {
+        "id": "19d9998e-f7dd-4df0-b75b-a10d26854aa2",
+        "platform": "x",
+        "format": "reel",
+        "status": "draft",
+        "title": "One Unanswered Question Is All It Takes to Lose a Qualified Lead",
+        "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+        "caption": "Good traffic and zero leads isn't a marketing problem. It's a conversation problem. #consulting #leadgeneration",
+        "hashtags": [
+          "#smallbusiness"
+        ],
+        "cta": null,
+        "language": null
+      }
+    ]
+  },
+  "visual_profile": {
+    "visual_profile": "MINIMAL",
+    "visual_profile_version": "visual-profile@3",
+    "visual_profile_source": "auto",
+    "visual_profile_scores": {
+      "BOLD": 0,
+      "MINIMAL": 6,
+      "NATURAL": 5,
+      "PREMIUM": 0,
+      "EDITORIAL": 4
+    },
+    "visual_profile_reasons": [
+      "NATURAL:brain_approachable(+1)",
+      "NATURAL:brain_local(+1)",
+      "NATURAL:brain_practical(+1)",
+      "NATURAL:brain_friendly(+1)",
+      "NATURAL:brain_honest(+1)",
+      "MINIMAL:brain_simple(+3)",
+      "MINIMAL:brain_saas(+1)",
+      "MINIMAL:brain_software(+1)",
+      "MINIMAL:brain_platform(+1)",
+      "EDITORIAL:brain_professional(+1)",
+      "EDITORIAL:brain_consulting(+1)",
+      "EDITORIAL:brain_content(+1,capped_from_2)",
+      "EDITORIAL:brain_marketing(+1)"
+    ]
+  },
+  "voice_selection": {
+    "selected_voice": "shimmer",
+    "tts_voice": "shimmer",
+    "voice_source": "package_secondary",
+    "voice_scores": {
+      "primary": 40,
+      "secondary": 48
+    },
+    "voice_reasons": [
+      "funnel_problem→warmth(+2)",
+      "mode_humor→energy/warmth",
+      "roles_close/proof→steadiness(+1)",
+      "fit_primary(+40)",
+      "fit_secondary(+48)"
+    ],
+    "resolved_primary_voice": "cedar",
+    "resolved_secondary_voice": "shimmer",
+    "tts_instructions": "Speak naturally for a short vertical social video. Language: en. Tone: Simple and accessible; Direct and action-oriented; Transparent and honest; Friendly and approachable; Concise and practical. Read the script exactly; do not add or skip words. Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en."
+  },
+  "creative_mode": "humor",
+  "funnel_stage": "problem_aware",
+  "pain_point": {
+    "selected_pain_point": "Visitors leave before contacting you",
+    "strategy_pain_point": "Visitors leave before contacting you"
+  },
+  "product_role": "Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the presence that answers the one question standing between a qualified visitor and a booked call. It is introduced at the resolution moment: the thing the competitor had that the consultant's site didn't.",
+  "narrative_arc": "SITUATION: Open on a consultant at their desk, visibly proud — they're doing a final scroll through their newly redesigned website on a laptop. Everything looks sharp. They nod, close the laptop, go to bed. CUT TO: a phone screen in a stranger's hands, late evening. The stranger is on the consultant's site, reading carefully, clearly interested. They hover over the contact form. Then they type a question into a search bar instead and land on a competitor's site — plainer, less polished — but a chat bubble appears immediately and answers their question. The stranger books a call. PUNCHLINE: Back to the consultant the next morning, opening analytics. Good traffic. Zero leads. They tilt their head at the screen like a confused golden retriever. TEXT OVERLAY: 'Your website looked great. It just didn't say anything.' CTA card.",
+  "emotional_tone": "Warm, self-aware humor with a genuine sting of recognition — the kind of laugh that ends with 'okay, that's actually me.' The humor targets the situation, never the person. The fix lands seriously.",
+  "audience_insight": "Consultants and professional service providers invest heavily in how their website looks and reads — they treat it as a credential. What they underestimate is that a qualified visitor doesn't just want to read; they want to ask one specific question before they commit to contact. When the site can't answer it, the visitor doesn't wait — they move to whoever can.",
+  "visual_direction": {
+    "palette": "Warm neutrals and muted greens for the consultant's world (competence, calm). Cool blue-white for the prospect's phone screen moment. High contrast on text overlays — white on dark.",
+    "lighting": "Consultant scenes: warm, soft desk lamp light suggesting evening pride and morning disappointment. Prospect scene: cool blue ambient light from a phone screen in a dim room — intimate, decisive.",
+    "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room couch or kitchen table at night — anonymous, relatable, any industry.",
+    "camera_style": "Handheld, close and conversational. Quick cuts between the two worlds. Rack focus on the laptop screen during the analytics reveal. The confused head-tilt beat is a static medium shot held just long enough to land the joke.",
+    "art_direction": "Clean, modern split-world aesthetic. The consultant's environment is warm and polished — intentionally 'put-together.' The prospect's phone screen is shown in close-up with natural, unposed hand movements to feel candid and real. Text overlays are minimal, bold, single-line — dropped in at punchline beats only.",
+    "character_style": "Two non-speaking characters shown in partial frame — hands, screens, reactions. No dialogue. Expressions carry the story. Consultant reads as polished-professional; prospect reads as any qualified adult making a late-night decision. No specific industry markers so the scenario feels universal to the target audience."
+  },
+  "generated_images": null,
+  "final_subtitles": {
+    "subtitle_url": null,
+    "local_file": null,
+    "planned": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads."
+  },
+  "render_metadata": {
+    "id": "8295a520-95f5-44b9-9af7-5a906ebe4cc0",
+    "status": "failed",
+    "error_message": "Video job stale: worker lease expired without completion.",
+    "created_at": "2026-07-25T07:26:21.841267+00:00",
+    "completed_at": null,
+    "render_kind": "package",
+    "render_language": null,
+    "selected_voice": "shimmer",
+    "visual_profile": "MINIMAL",
+    "scenes_count": 5,
+    "mp4_url": null,
+    "subtitle_url": null,
+    "thumbnail_url": null,
+    "artifacts_persisted_at": null,
+    "render_spec": null,
+    "image_urls": [],
+    "storage_files": [],
+    "downloaded_images": [],
+    "debug": {
+      "match_ratio": null,
+      "audio_duration": null,
+      "video_duration": null,
+      "speech_duration": null,
+      "subtitle_source": null,
+      "language_detected": null,
+      "render_warning": null,
+      "render_warnings": null,
+      "tts_tail_validation_passed": null,
+      "whisper_word_count": null,
+      "generation_telemetry": null
+    },
+    "debug_keys": [],
+    "output_keys": [],
+    "input_keys": [
+      "cta",
+      "hook",
+      "angle",
+      "topic",
+      "scenes",
+      "script",
+      "concept",
+      "scenario",
+      "subtitles",
+      "tts_voice",
+      "package_id",
+      "asset_images",
+      "voice_scores",
+      "voice_source",
+      "creative_mode",
+      "image_prompts",
+      "visual_medium",
+      "visual_scenes",
+      "voice_reasons",
+      "selected_voice",
+      "visual_profile",
+      "voiceover_text",
+      "delivery_reason",
+      "tts_instructions",
+      "production_run_id",
+      "weekly_strategy_id",
+      "creative_mode_beats",
+      "explicit_scene_plan",
+      "presentation_analyzer",
+      "visual_medium_version",
+      "visual_profile_scores",
+      "visual_profile_source",
+      "resolved_primary_voice",
+      "visual_profile_reasons",
+      "visual_profile_version",
+      "resolved_secondary_voice"
+    ]
+  },
+  "content_items": [
+    {
+      "id": "6a304dbb-23c0-44e2-a629-20ee875fc0dc",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Good Traffic. Zero Leads. Here's Why.",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "The competitor's website was uglier. It just had a chat bubble that answered the question. That was enough.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 1
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "bc239641-59d9-48f3-8683-6d66654c7fb3",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "tiktok",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Your website had a qualified visitor last night. They left because it couldn't answer one question. 😬 The competitor's site was uglier. It just talked back.",
+      "hashtags": [
+        "#consulting",
+        "#smallbusiness",
+        "#websitetips",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "8aec5a62-8dd6-4edb-af57-78efdb8c9820",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "instagram",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "They were on your services page. Reading carefully. Ready to ask the one question before committing.\n\nYour website had no answer.\n\nSo they opened the next tab — and booked with someone else.\n\nSave this if you've ever woken up to good traffic and zero leads.",
+      "hashtags": [
+        "#consultinglife",
+        "#smallbusiness",
+        "#websitestrategy",
+        "#leadgen",
+        "#businessgrowth"
+      ],
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "0a02cecd-53f3-45de-be6c-4dfe42b904ce",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "youtube",
+      "format": "short",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "They found your website, read everything, and still left — because one question went unanswered. Here's what happened next.",
+      "hashtags": [
+        "#shorts",
+        "#smallbusiness",
+        "#consulting"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "dd558804-e0ba-4be6-a3a5-be4fc8854316",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "facebook",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Ever checked your website analytics and seen solid traffic — but zero leads? 😅 Here's a situation that might feel familiar: a qualified prospect lands on a consulting site, reads every service page, and wants to ask one specific question before booking. There's no way to ask it. They move on. The competitor's site was less polished — but it had a chat bubble that answered instantly. That was enough. If your website is working hard to attract visitors but can't hold the conversation, save this one.",
+      "hashtags": [
+        "#smallbusiness",
+        "#consulting"
+      ],
+      "cta": "Save this if your website has ever looked great and said absolutely nothing.",
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "4a17fff3-7cb9-4f21-8291-cc7dec335d6b",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Your website had a qualified visitor last night. One unanswered question later, they booked with your competitor. Good traffic. Zero leads. #smallbusiness",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "b08c3558-83ad-438e-8a27-9792edf3d636",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "linkedin",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Consultant Who Prepared for Everything Except the Question",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "A consultant spent weeks refining their website — clear service tiers, polished copy, professional design. A qualified prospect found it late one evening, read carefully, and wanted to ask one question before committing to contact. The site had no way to answer it. They opened a competitor's site next. It looked rougher. But a chat bubble appeared and answered the question. They booked a call. The consultant woke up to good traffic and zero leads. The gap wasn't design. It was responsiveness.",
+      "hashtags": [
+        "#consulting",
+        "#businessgrowth",
+        "#leadgeneration"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 0
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "8b7029d5-2a09-4483-8ff8-4247fcbdfd2d",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "Your Website Looked Great. It Just Didn't Say Anything.",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Polished design. Clear services. Professional copy. Zero leads. Because the one question that mattered went unanswered. https://fenrik.chat",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 2
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "f5596f65-681d-430a-ab88-76cb618521fb",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "The Competitor's Site Was Uglier — And Still Won the Client",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Visitors don't leave because your website looks bad. They leave because it can't talk back when they're ready to ask something.",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 3
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    },
+    {
+      "id": "19d9998e-f7dd-4df0-b75b-a10d26854aa2",
+      "project_id": "aabab9ff-9db4-4012-a53c-135e3bfea6cd",
+      "package_id": "c4deb821-7ef0-44c7-9f04-abbd00bd6d4e",
+      "platform": "x",
+      "format": "reel",
+      "status": "draft",
+      "title": "One Unanswered Question Is All It Takes to Lose a Qualified Lead",
+      "body": "You spent weeks perfecting your website, but what happens when a visitor has a question? They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call. So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book. You wake up to good traffic and zero leads.",
+      "caption": "Good traffic and zero leads isn't a marketing problem. It's a conversation problem. #consulting #leadgeneration",
+      "hashtags": [
+        "#smallbusiness"
+      ],
+      "cta": null,
+      "generation_metadata": {
+        "source": "content_pipeline",
+        "funnel_stage": "problem_aware",
+        "package_index": 3,
+        "production_run_id": "c6051f49-f957-4799-a646-47cdd0d741da",
+        "platform_variant_index": 4
+      },
+      "created_at": "2026-07-25T07:26:19.900841+00:00",
+      "updated_at": "2026-07-25T07:26:19.900841+00:00",
+      "language": null
+    }
+  ],
+  "presentation_generation_meta": {
+    "mode": "enabled",
+    "pipeline": "content_pipeline",
+    "delivery_reason": "Delivery: direct, empathetic, slightly frustrated. Delivery: lightly playful, never exaggerated. Delivery: confident, concise, not aggressive. Language: en.",
+    "visual_beat_count": 5,
+    "target_visual_beat_count": 8,
+    "final_worker_scene_types": [
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE",
+      "IMAGE"
+    ],
+    "content_pipeline_fingerprint": {
+      "version": "content-pipeline-fingerprint@1",
+      "core_idea": "A consultant spends weeks perfecting their website — clear service tiers, polished copy, a professional headshot — then watches a qualified prospect silently tab away because the site couldn't answer…",
+      "environment": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-s…",
+      "product_role": "Fenrik.chat is the voice the polished website was missing. It reads the existing content automatically — no rewriting, no setup complexity — and becomes the pr…",
+      "visual_world": "Scene one and three: a tidy home office or compact studio desk — laptop, notebook, a plant. Deliberately aspirational-small-business. Scene two: a living room …",
+      "attention_pattern": "Starts with a moment of satisfaction, then shifts to tension as the prospect's need for information is unmet, compellin…",
+      "narrative_mechanism": "humor: SITUATION: Open on a consultant at their desk, visibly proud — they're doing a …"
+    }
+  },
+  "hashtags": [
+    "#consulting",
+    "#smallbusiness",
+    "#websitestrategy",
+    "#leadgeneration",
+    "#businessgrowth"
+  ],
+  "hook": "You spent weeks perfecting your website, but what happens when a visitor has a question?",
+  "scenario": "A boutique consulting firm recently redesigned its website — sharper copy, clear service tiers, a professional look. That same week, a qualified prospect finds the site late one evening, reads through the services carefully, and wants to ask one specific question before committing to a discovery call. The site has no interactive element — only a contact form promising a reply within one business day. The prospect doesn't fill it out. They open a competitor's site instead. It looks less polished. But a chat bubble appears and answers the question within seconds. The prospect books a call. The next morning, the consultant opens their analytics: good traffic, zero leads. The gap wasn't design. It was the one unanswered question.",
+  "video": {
+    "script": "SCENE 1 — EVENING, CONSULTANT'S HOME OFFICE\n[Warm desk lamp light. Hands scrolling a laptop showing a polished consulting website. Slow, satisfied scroll. Cursor hovers over contact form. Consultant nods slightly, closes laptop.]\nVO: 'You spent weeks perfecting your website, but what happens when a visitor has a question?'\n\nSCENE 2 — LATE NIGHT, PROSPECT'S LIVING ROOM\n[Cool blue phone-screen light. Hands holding a phone. Deliberate scrolling through services page. Finger hovers over contact form. Hesitates.]\nVO: 'They read every service. They're clearly interested. Then they hit a wall — no way to ask the one thing standing between them and booking a call.'\n\nSCENE 3 — SAME NIGHT, SAME COUCH\n[Prospect types into a search bar. Lands on a competitor's site — visibly plainer. A chat bubble appears. Prospect types a question. A reply appears instantly. Prospect taps 'Book a call.']\nVO: 'So they open the next tab. The competitor's site looks worse. But a chat bubble appears. It answers. They book.'\n\nSCENE 4 — NEXT MORNING, CONSULTANT'S DESK\n[Consultant opens laptop. Analytics dashboard. Traffic looks good. Leads column: zero. Consultant tilts head slowly at the screen.]\nTEXT OVERLAY: 'Your website looked great. It just didn't say anything.'\nVO: 'You wake up to good traffic and zero leads.'\n\nSCENE 5 — CTA CARD\n[Clean dark card. Bold white text: 'Create your AI assistant — fenrik.chat']\n[Save prompt appears bottom frame.]",
+    "concept": "A consultant finishes polishing their website, closes the laptop with satisfaction, and goes to bed. That same night, a qualified prospect finds the site, reads carefully, wants to ask one specific question — and can't. No chat, no response, nothing. They open a competitor's site. It looks rougher. But a chat bubble appears and answers the question. They book a call. Morning: the consultant opens analytics. Great traffic. Zero leads. Head tilt. Text overlay drops: 'Your website looked great. It just didn't say anything.' CTA card closes.",
+    "duration_seconds": "42"
+  },
+  "asset_usage": [
+    {
+      "used_as": "CTA card background showing industries and business types served, reinforcing that the solution applies universally — used as the closing frame insert",
+      "asset_id": "d0577ae7-6599-44f1-84af-c6ee18512312"
+    }
+  ]
+}
