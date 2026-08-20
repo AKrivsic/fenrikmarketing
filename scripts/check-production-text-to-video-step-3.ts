@@ -102,6 +102,7 @@ function approvedBrief(extra?: Record<string, unknown>): Record<string, unknown>
   });
   return {
     ...brief,
+    language: "cs",
     voiceover_text: VO,
     video_text_to_video_creative_plan: serializeTextToVideoCreativePlan(plan),
     video_creative_integrity: serializeVideoCreativeIntegrity(integrity),
@@ -145,7 +146,7 @@ function voicePhaseInput(
     packageId: opts?.packageId ?? "pkg-1",
     jobInput: opts?.omitJobInput
       ? undefined
-      : ({ tts_voice: jobVoice } as Record<string, unknown>),
+      : ({ tts_voice: jobVoice, language: "cs" } as Record<string, unknown>),
   };
 }
 
@@ -521,6 +522,22 @@ async function main(): Promise<void> {
       voiceMap: { female: "f-id", male: null, default: "d-id" },
     });
     assert.equal(missingMale, null);
+    process.env.ELEVENLABS_VOICE_ID_CS_FEMALE = "cs-f";
+    process.env.ELEVENLABS_VOICE_ID_EN_FEMALE = "en-f";
+    assert.equal(
+      resolveElevenLabsVoiceId({
+        openAiSelectedVoice: "nova",
+        language: "cs",
+      })?.voiceId,
+      "cs-f",
+    );
+    assert.equal(
+      resolveElevenLabsVoiceId({
+        openAiSelectedVoice: "nova",
+        language: "en",
+      })?.voiceId,
+      "en-f",
+    );
   });
 
   await check("14–15 — synthesis fingerprint stable / changes", () => {
@@ -544,6 +561,8 @@ async function main(): Promise<void> {
   process.env.ELEVENLABS_API_KEY = "test-key";
   process.env.ELEVENLABS_VOICE_ID_DEFAULT = "voice-default";
   process.env.ELEVENLABS_VOICE_ID_FEMALE = "voice-female";
+  process.env.ELEVENLABS_VOICE_ID_CS_FEMALE = "voice-cs-female";
+  process.env.ELEVENLABS_VOICE_ID_CS_DEFAULT = "voice-cs-default";
 
   await check("16–17 — one POST then reuse completed synthesis", async () => {
     const supabase = makeFakeSupabase();

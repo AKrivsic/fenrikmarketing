@@ -1,7 +1,10 @@
 import type { OpenAiTtsVoice } from "@/lib/voice/openaiTtsVoices";
 import {
+  elevenLabsVoiceMapHasAny,
   readElevenLabsVoiceMap,
+  readElevenLabsVoiceMapForLanguage,
   type ElevenLabsVoiceMap,
+  type ElevenLabsVoiceMapLanguage,
 } from "@/lib/elevenlabs/config";
 
 export type ElevenLabsVoiceGenderHint = "female" | "male" | "neutral";
@@ -35,34 +38,72 @@ export interface ResolvedElevenLabsVoice {
   voiceId: string;
   diagnostic: string;
   genderHint: ElevenLabsVoiceGenderHint;
+  language?: ElevenLabsVoiceMapLanguage;
+  source: "language_map" | "legacy_global";
 }
 
+function pickBucketId(
+  map: ElevenLabsVoiceMap,
+  hint: ElevenLabsVoiceGenderHint,
+): string | null {
+  if (hint === "female") return map.female;
+  if (hint === "male") return map.male;
+  return map.default;
+}
+
+/**
+ * Resolve ElevenLabs Voice ID from stored OpenAI voice + optional language.
+ * When `language` is set: prefer `ELEVENLABS_VOICE_ID_{LANG}_*`, then legacy
+ * global `ELEVENLABS_VOICE_ID_*` (diagnostic marks legacy). Never cross languages.
+ */
 export function resolveElevenLabsVoiceId(args: {
   openAiSelectedVoice: OpenAiTtsVoice;
+  language?: ElevenLabsVoiceMapLanguage;
   voiceMap?: ElevenLabsVoiceMap;
+  legacyVoiceMap?: ElevenLabsVoiceMap;
 }): ResolvedElevenLabsVoice | null {
-  const map = args.voiceMap ?? readElevenLabsVoiceMap();
   const hint = genderHintFromOpenAiVoice(args.openAiSelectedVoice);
-  if (hint === "female") {
-    if (!map.female) return null;
-    return {
-      voiceId: map.female,
-      genderHint: hint,
-      diagnostic: `female voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
-    };
+
+  if (args.language) {
+    const langMap =
+      args.voiceMap ?? readElevenLabsVoiceMapForLanguage(args.language);
+    const langId = pickBucketId(langMap, hint);
+    if (langId) {
+      const bucket =
+        hint === "neutral" ? "default" : hint;
+      return {
+        voiceId: langId,
+        genderHint: hint,
+        language: args.language,
+        source: "language_map",
+        diagnostic: `${args.language} ${bucket} voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
+      };
+    }
+
+    const legacy = args.legacyVoiceMap ?? readElevenLabsVoiceMap();
+    const legacyId = pickBucketId(legacy, hint);
+    if (legacyId && elevenLabsVoiceMapHasAny(legacy)) {
+      const bucket = hint === "neutral" ? "default" : hint;
+      return {
+        voiceId: legacyId,
+        genderHint: hint,
+        language: args.language,
+        source: "legacy_global",
+        diagnostic: `legacy_global ${bucket} voice for language=${args.language} (OpenAI ${args.openAiSelectedVoice}; language-specific Voice ID missing)`,
+      };
+    }
+    return null;
   }
-  if (hint === "male") {
-    if (!map.male) return null;
-    return {
-      voiceId: map.male,
-      genderHint: hint,
-      diagnostic: `male voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
-    };
-  }
-  if (!map.default) return null;
+
+  // No language: explicit voiceMap or legacy global only (still / tests).
+  const map = args.voiceMap ?? readElevenLabsVoiceMap();
+  const id = pickBucketId(map, hint);
+  if (!id) return null;
+  const bucket = hint === "neutral" ? "default" : hint;
   return {
-    voiceId: map.default,
+    voiceId: id,
     genderHint: hint,
-    diagnostic: `default voice (OpenAI ${args.openAiSelectedVoice})`,
+    source: "legacy_global",
+    diagnostic: `${bucket} voice (mapped from OpenAI ${args.openAiSelectedVoice})`,
   };
 }

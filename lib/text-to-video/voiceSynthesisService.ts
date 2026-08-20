@@ -17,6 +17,9 @@ import { voiceoverRevisionId } from "@/lib/content-package/videoCreativeRevision
 import { resolveElevenLabsVoiceId } from "@/lib/elevenlabs/voiceResolve";
 import {
   resolveAuthoritativeOpenAiVoiceForT2V,
+  resolveAuthoritativeT2vVoiceLanguage,
+  T2V_TTS_LANGUAGE_SNAPSHOT_MISSING,
+  T2V_TTS_LANGUAGE_UNSUPPORTED,
   T2V_TTS_VOICE_SNAPSHOT_MISSING,
 } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 import {
@@ -304,8 +307,24 @@ async function buildSynthesisContext(
       throw new TextToVideoVoiceSynthesisError(T2V_TTS_VOICE_SNAPSHOT_MISSING);
     }
   })();
+  const voiceLanguage = (() => {
+    try {
+      return resolveAuthoritativeT2vVoiceLanguage({
+        jobInput: input.jobInput,
+        brief: input.brief,
+      });
+    } catch (e) {
+      const code =
+        e instanceof Error ? e.message : T2V_TTS_LANGUAGE_SNAPSHOT_MISSING;
+      if (code === T2V_TTS_LANGUAGE_UNSUPPORTED) {
+        throw new TextToVideoVoiceSynthesisError(T2V_TTS_LANGUAGE_UNSUPPORTED);
+      }
+      throw new TextToVideoVoiceSynthesisError(T2V_TTS_LANGUAGE_SNAPSHOT_MISSING);
+    }
+  })();
   const resolvedVoice = resolveElevenLabsVoiceId({
     openAiSelectedVoice: openAiVoice,
+    language: voiceLanguage,
   });
   if (!resolvedVoice) {
     throw new TextToVideoVoiceSynthesisError("elevenlabs_voice_unconfigured");
@@ -322,6 +341,8 @@ async function buildSynthesisContext(
     model_id: ELEVENLABS_MODEL_ELEVEN_V3,
     output_format: ELEVENLABS_DEFAULT_OUTPUT_FORMAT,
     direction_contract_version: synthesis.direction_contract_version,
+    language: voiceLanguage,
+    openai_voice: openAiVoice,
   });
   const estimate = estimateElevenLabsTtsCostUsd(synthesis.synthesis_text.length);
   const synthesisInput = {
@@ -330,6 +351,8 @@ async function buildSynthesisContext(
     model_id: ELEVENLABS_MODEL_ELEVEN_V3,
     output_format: ELEVENLABS_DEFAULT_OUTPUT_FORMAT,
     voice_diagnostic: resolvedVoice.diagnostic,
+    language: voiceLanguage,
+    openai_voice: openAiVoice,
   };
   if (plan.timing_status !== TEXT_TO_VIDEO_TIMING_ESTIMATED) {
     const existing = input.brief[VIDEO_VOICE_SYNTHESIS_CHECKPOINT_KEY];

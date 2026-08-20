@@ -49,7 +49,10 @@ import {
 } from "@/lib/content-package/textToVideoSoundPlan";
 import { invalidateAssemblyOnSoundPlanChange } from "@/lib/content-package/invalidateTextToVideoAssembly";
 import { validateSceneSoundForApproval } from "@/lib/text-to-video/textToVideoSfxAnchoring";
-import { readT2vVoiceCategoryLabelForManualReview } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
+import {
+  readT2vVoiceCategoryLabelForManualReview,
+  readT2vVoiceLanguageLabelForManualReview,
+} from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 import {
   estimateElevenLabsMusicCostUsd,
   estimateElevenLabsSfxCostUsd,
@@ -111,6 +114,8 @@ export interface CreativeReviewVideoCreativeSummary {
   voiceDirection: VoiceDirectionContract | null;
   /** Informative Eleven bucket (ženský / mužský / default) from stamped OpenAI voice. */
   voiceCategoryLabel: string | null;
+  /** Informative voice language (čeština / english) from stamped package/job language. */
+  voiceLanguageLabel: string | null;
   planStatus: string | null;
   repetitionStatus: string | null;
   repetitionReasons: string[];
@@ -292,6 +297,7 @@ function buildVideoCreativeSummary(
     hook,
     voiceDirection: readVoiceDirectionFromBrief(brief),
     voiceCategoryLabel: readT2vVoiceCategoryLabelForManualReview(brief),
+    voiceLanguageLabel: readT2vVoiceLanguageLabelForManualReview(brief),
     planStatus: plan?.status ?? null,
     repetitionStatus: plan?.repetition.status ?? null,
     repetitionReasons: (plan?.repetition.blocked_reasons ?? []).map(

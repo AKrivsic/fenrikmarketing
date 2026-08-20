@@ -153,6 +153,10 @@ export function synthesisInputFingerprint(payload: {
   model_id: string;
   output_format: string;
   direction_contract_version: number;
+  /** Normalized T2V voice language (`en` | `cs`). */
+  language?: string;
+  /** Stored OpenAI voice name used for mapping. */
+  openai_voice?: string;
 }): string {
   const canonical = JSON.stringify(
     canonicalSynthesisFingerprintPayload(payload),
@@ -168,6 +172,8 @@ export function canonicalSynthesisFingerprintPayload(payload: {
   model_id: string;
   output_format: string;
   direction_contract_version: number;
+  language?: string;
+  openai_voice?: string;
 }): Record<string, unknown> {
   return {
     voiceover_revision_id: payload.voiceover_revision_id,
@@ -177,6 +183,8 @@ export function canonicalSynthesisFingerprintPayload(payload: {
     model_id: payload.model_id,
     output_format: payload.output_format,
     direction_contract_version: payload.direction_contract_version,
+    ...(payload.language ? { language: payload.language } : {}),
+    ...(payload.openai_voice ? { openai_voice: payload.openai_voice } : {}),
   };
 }
 
@@ -197,8 +205,11 @@ export function storedSynthesisInputsMatch(
     "voice_id",
     "model_id",
     "output_format",
+    "language",
+    "openai_voice",
   ] as const;
   for (const key of keys) {
+    if (expected[key] === undefined) continue;
     if (s[key] !== expected[key]) return false;
   }
   return true;

@@ -486,8 +486,29 @@ export async function buildVideoJobInput(
 ): Promise<Json> {
   const ttsFields = await loadTtsFieldsForVideoJob(supabase, projectId, pkg, extra);
 
+  // Immutable language stamp for TTS / T2V ElevenLabs maps. Prefer explicit
+  // extra.language (language variants); else project primary language.
+  let languageStamp: string | null = null;
+  if (typeof extra.language === "string" && extra.language.trim()) {
+    languageStamp = extra.language.trim();
+  } else {
+    const { data: projectLangRow, error: projectLangErr } = await supabase
+      .from("projects")
+      .select("language")
+      .eq("id", projectId)
+      .maybeSingle();
+    if (projectLangErr) throw projectLangErr;
+    if (
+      projectLangRow &&
+      typeof projectLangRow.language === "string" &&
+      projectLangRow.language.trim()
+    ) {
+      languageStamp = projectLangRow.language.trim();
+    }
+  }
+
   // Persist Voice v2 audit evidence on the package brief (alongside job input).
-  if (Object.keys(ttsFields).length > 0) {
+  if (Object.keys(ttsFields).length > 0 || languageStamp) {
     const existing =
       pkg.presentation_generation &&
       typeof pkg.presentation_generation === "object" &&
@@ -497,6 +518,7 @@ export async function buildVideoJobInput(
     pkg.presentation_generation = {
       ...existing,
       ...ttsFields,
+      ...(languageStamp ? { language: languageStamp } : {}),
     };
   }
 
@@ -513,6 +535,7 @@ export async function buildVideoJobInput(
     image_prompts: pkg.image_prompts ?? [],
     package_video_mode: packageVideoMode,
     ...ttsFields,
+    ...(languageStamp ? { language: languageStamp } : {}),
     ...extra,
   };
 

@@ -24,16 +24,37 @@ export interface ElevenLabsVoiceMap {
   default: string | null;
 }
 
+export type ElevenLabsVoiceMapLanguage = "en" | "cs";
+
+function pickEnvVoiceId(key: string): string | null {
+  const v = process.env[key]?.trim();
+  return v && v.length > 0 ? v : null;
+}
+
+/** Legacy global map (no language). Prefer language-specific maps in production. */
 export function readElevenLabsVoiceMap(): ElevenLabsVoiceMap {
-  const pick = (key: string): string | null => {
-    const v = process.env[key]?.trim();
-    return v && v.length > 0 ? v : null;
-  };
   return {
-    female: pick("ELEVENLABS_VOICE_ID_FEMALE"),
-    male: pick("ELEVENLABS_VOICE_ID_MALE"),
-    default: pick("ELEVENLABS_VOICE_ID_DEFAULT"),
+    female: pickEnvVoiceId("ELEVENLABS_VOICE_ID_FEMALE"),
+    male: pickEnvVoiceId("ELEVENLABS_VOICE_ID_MALE"),
+    default: pickEnvVoiceId("ELEVENLABS_VOICE_ID_DEFAULT"),
   };
+}
+
+/** Language-scoped ElevenLabs Voice IDs (Fenrik production). */
+export function readElevenLabsVoiceMapForLanguage(
+  language: ElevenLabsVoiceMapLanguage,
+): ElevenLabsVoiceMap {
+  const prefix =
+    language === "en" ? "ELEVENLABS_VOICE_ID_EN" : "ELEVENLABS_VOICE_ID_CS";
+  return {
+    female: pickEnvVoiceId(`${prefix}_FEMALE`),
+    male: pickEnvVoiceId(`${prefix}_MALE`),
+    default: pickEnvVoiceId(`${prefix}_DEFAULT`),
+  };
+}
+
+export function elevenLabsVoiceMapHasAny(map: ElevenLabsVoiceMap): boolean {
+  return Boolean(map.female || map.male || map.default);
 }
 
 /** Conservative estimate (Multilingual v2/v3 list price) — not a billing guarantee. */

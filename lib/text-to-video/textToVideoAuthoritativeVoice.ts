@@ -9,6 +9,15 @@ import {
 import type { ElevenLabsVoiceGenderHint } from "@/lib/elevenlabs/voiceResolve";
 import { genderHintFromOpenAiVoice } from "@/lib/elevenlabs/voiceResolve";
 
+export const TTS_LANGUAGE_JOB_FIELD = "language";
+
+/** Supported T2V ElevenLabs voice map languages. */
+export type T2vVoiceLanguage = "en" | "cs";
+
+export const T2V_TTS_VOICE_SNAPSHOT_MISSING = "tts_voice_snapshot_missing";
+export const T2V_TTS_LANGUAGE_SNAPSHOT_MISSING = "tts_language_snapshot_missing";
+export const T2V_TTS_LANGUAGE_UNSUPPORTED = "tts_language_unsupported";
+
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
@@ -18,6 +27,85 @@ function parseOpenAiVoiceField(raw: unknown): OpenAiTtsVoice | null {
   if (typeof raw !== "string") return null;
   const trimmed = raw.trim().toLowerCase();
   return isOpenAiTtsVoice(trimmed) ? trimmed : null;
+}
+
+/**
+ * Normalize package/job language for ElevenLabs voice maps.
+ * `en` / `en-US` / `en-GB` → `en`; `cs` / `cs-CZ` / `cz` → `cs`.
+ * Returns null when the value is empty or not a supported T2V voice language.
+ */
+export function normalizeT2vVoiceLanguage(
+  raw: unknown,
+): T2vVoiceLanguage | null {
+  if (typeof raw !== "string") return null;
+  const trimmed = raw.trim().toLowerCase();
+  if (!trimmed) return null;
+  const base = trimmed.split(/[-_]/)[0] ?? "";
+  if (base === "en") return "en";
+  if (base === "cs" || base === "cz") return "cs";
+  return null;
+}
+
+/** True when a non-empty language string was provided but is not en/cs. */
+export function isUnsupportedT2vVoiceLanguageRaw(raw: unknown): boolean {
+  if (typeof raw !== "string") return false;
+  const trimmed = raw.trim();
+  if (!trimmed) return false;
+  return normalizeT2vVoiceLanguage(trimmed) === null;
+}
+
+function readLanguageRawFromSource(
+  source: Record<string, unknown> | null | undefined,
+): unknown {
+  if (!source) return undefined;
+  if (source[TTS_LANGUAGE_JOB_FIELD] !== undefined) {
+    return source[TTS_LANGUAGE_JOB_FIELD];
+  }
+  return undefined;
+}
+
+/** Immutable package/job language stamp (same field as variant video jobs). */
+export function readLanguageRawFromBriefSnapshot(
+  brief: Record<string, unknown>,
+): unknown {
+  const top = readLanguageRawFromSource(brief);
+  if (typeof top === "string" && top.trim()) return top;
+  const pg = asRecord(brief.presentation_generation);
+  if (pg) {
+    const fromPg = readLanguageRawFromSource(pg);
+    if (typeof fromPg === "string" && fromPg.trim()) return fromPg;
+  }
+  return undefined;
+}
+
+export function readAuthoritativeLanguageRawForT2V(args: {
+  jobInput?: Record<string, unknown> | null;
+  brief?: Record<string, unknown> | null;
+}): unknown {
+  const job = args.jobInput;
+  if (job) {
+    const fromJob = readLanguageRawFromSource(job);
+    if (typeof fromJob === "string" && fromJob.trim()) return fromJob;
+  }
+  if (args.brief) {
+    return readLanguageRawFromBriefSnapshot(args.brief);
+  }
+  return undefined;
+}
+
+export function resolveAuthoritativeT2vVoiceLanguage(args: {
+  jobInput?: Record<string, unknown> | null;
+  brief?: Record<string, unknown> | null;
+}): T2vVoiceLanguage {
+  const raw = readAuthoritativeLanguageRawForT2V(args);
+  if (raw === undefined || raw === null || String(raw).trim() === "") {
+    throw new Error(T2V_TTS_LANGUAGE_SNAPSHOT_MISSING);
+  }
+  const normalized = normalizeT2vVoiceLanguage(raw);
+  if (!normalized) {
+    throw new Error(T2V_TTS_LANGUAGE_UNSUPPORTED);
+  }
+  return normalized;
 }
 
 /** Immutable package/job voice stamp (same fields as `buildVideoJobInput`). */
@@ -52,8 +140,6 @@ export function readAuthoritativeOpenAiVoiceForT2VOptional(args: {
   return null;
 }
 
-export const T2V_TTS_VOICE_SNAPSHOT_MISSING = "tts_voice_snapshot_missing";
-
 export function resolveAuthoritativeOpenAiVoiceForT2V(args: {
   jobInput?: Record<string, unknown> | null;
   brief?: Record<string, unknown> | null;
@@ -77,10 +163,23 @@ export function t2vVoiceCategoryLabelFromOpenAiVoice(
   return VOICE_CATEGORY_LABELS[genderHintFromOpenAiVoice(voice)];
 }
 
+export function t2vVoiceLanguageLabel(language: T2vVoiceLanguage): string {
+  return language === "cs" ? "čeština" : "english";
+}
+
 export function readT2vVoiceCategoryLabelForManualReview(
   brief: Record<string, unknown>,
 ): string | null {
   const voice = readAuthoritativeOpenAiVoiceForT2VOptional({ brief });
   if (!voice) return null;
   return t2vVoiceCategoryLabelFromOpenAiVoice(voice);
+}
+
+export function readT2vVoiceLanguageLabelForManualReview(
+  brief: Record<string, unknown>,
+): string | null {
+  const raw = readAuthoritativeLanguageRawForT2V({ brief });
+  const normalized = normalizeT2vVoiceLanguage(raw);
+  if (!normalized) return null;
+  return t2vVoiceLanguageLabel(normalized);
 }

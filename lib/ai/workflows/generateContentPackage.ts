@@ -944,6 +944,18 @@ async function persistNewPackage(
     packageBriefRecord[CREATIVE_REVIEW_REASON_KEY] =
       CREATIVE_REVIEW_REASON_MANUAL_MODE;
   }
+  // Immutable voice-language stamp for T2V ElevenLabs maps (project primary).
+  if (typeof sourceLanguage === "string" && sourceLanguage.trim()) {
+    const lang = sourceLanguage.trim();
+    packageBriefRecord.language = lang;
+    const pg =
+      packageBriefRecord.presentation_generation &&
+      typeof packageBriefRecord.presentation_generation === "object" &&
+      !Array.isArray(packageBriefRecord.presentation_generation)
+        ? (packageBriefRecord.presentation_generation as Record<string, unknown>)
+        : {};
+    packageBriefRecord.presentation_generation = { ...pg, language: lang };
+  }
   const packageBrief = packageBriefRecord as unknown as Json;
 
   // Content package is created as draft. weekly_strategy_id and funnel_stage

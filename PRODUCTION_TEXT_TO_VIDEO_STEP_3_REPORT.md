@@ -186,3 +186,24 @@ Opraven drift: migrace **044** byla v historii projektu `syijxdgekowpcboxpeyl`, 
 11. **Jiná produkční data:** **nezměněna** (pouze DDL CREATE + policies/trigger).
 12. **DB blocker pro první placený T2V:** **odstraněn** (tabulka existuje). Zbývá nastavit worker env a flagy.
 13. **`.env.worker` (bez úprav v tomto kroku):** worker načítá `.env.worker` (`docker-compose.content-package-worker.yml`) — pro placený T2V typicky `ELEVENLABS_TTS_ENABLED=true`, `ELEVENLABS_API_KEY`, mapování `ELEVENLABS_VOICE_ID_FEMALE|MALE|DEFAULT`, `TEXT_TO_VIDEO_RUNWAY_ENABLED=true`, `RUNWAYML_API_SECRET`, volitelně SFX; music flagy dle produktu; dokud operátor nezapne, zůstávají false dle `.env.example`.
+
+---
+
+## Language-aware ElevenLabs voice mapping (2026-08-20)
+
+### Shrnutí
+
+ElevenLabs Voice ID se vybírá z **jazyk + gender bucket** uložených na jobu. Production: `ELEVENLABS_VOICE_ID_EN_*` a `ELEVENLABS_VOICE_ID_CS_*`. Fingerprint obsahuje `language`, `openai_voice`, `voice_id`.
+
+### Checklist (10 bodů)
+
+1. **Autoritativní jazyk:** `video_jobs.input.language` → brief / `presentation_generation.language` (razítko z `projects.language` při `buildVideoJobInput`; varianty už mají `language` v inputu).
+2. **Normalizace:** `en|en-US|en-GB` → `en`; `cs|cs-CZ|cz` → `cs`.
+3. **Env:** `ELEVENLABS_VOICE_ID_EN_FEMALE`, `_EN_MALE`, `_EN_DEFAULT`, `_CS_FEMALE`, `_CS_MALE`, `_CS_DEFAULT`; legacy `_FEMALE|_MALE|_DEFAULT`.
+4. **Fallback:** language map first; legacy global only if language bucket missing (diagnostic `legacy_global`); no cross-language swap.
+5. **Nepodporovaný / chybějící:** `tts_language_unsupported` / `tts_language_snapshot_missing`; unconfigured → `elevenlabs_voice_unconfigured` — vše před POSTem.
+6. **Soubory:** viz audit sekce + `.env.example`.
+7. **Testy:** `check-production-text-to-video-voice-parity.ts` 16/16; Step 3 / 5C / 5D ✓; `tsc` ✓.
+8. **Migrace:** ne.
+9. **Provider requesty:** žádné.
+10. **Deployment / `.env.worker`:** doplnit jazykové Voice ID (bez hodnot v repu); legacy globály jen jako nouzový fallback; `ELEVENLABS_TTS_ENABLED` / Runway flagy nechat vypnuté do prvního potvrzeného placeného běhu.

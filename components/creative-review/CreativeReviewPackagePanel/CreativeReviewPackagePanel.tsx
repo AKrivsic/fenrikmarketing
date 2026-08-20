@@ -482,6 +482,11 @@ export function CreativeReviewPackagePanel({
                 {t2v.budgetEstimateLabel ? (
                   <p className={styles.muted}>{t2v.budgetEstimateLabel}</p>
                 ) : null}
+                {t2v.voiceLanguageLabel ? (
+                  <p className={styles.muted}>
+                    Jazyk hlasu: {t2v.voiceLanguageLabel}
+                  </p>
+                ) : null}
                 {t2v.voiceCategoryLabel ? (
                   <p className={styles.muted}>
                     Kategorie hlasu (ElevenLabs): {t2v.voiceCategoryLabel}

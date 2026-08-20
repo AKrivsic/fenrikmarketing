@@ -405,3 +405,24 @@ If product wants minimum Eleven cost/admin: **Variant A + parity fix**, with exp
 11. Jiná produkční data: **nezměněna**.
 12. DB blocker před placeným T2V voice POST: **zmizel** (tabulka existuje); zbývá **env** (`ELEVENLABS_*`, flagy, Runway secret).
 13. `.env.worker` (neupravováno): dle `.env.example` / worker compose — `ELEVENLABS_TTS_ENABLED`, `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID_FEMALE|MALE|DEFAULT`, `TEXT_TO_VIDEO_RUNWAY_ENABLED`, `RUNWAYML_API_SECRET`, volitelně SFX/music flagy; flagy zůstávají vypnuté dokud je ne nastaví operátor.
+
+---
+
+## Language-aware ElevenLabs voice mapping (2026-08-20)
+
+### Shrnutí
+
+T2V Eleven fáze mapuje Voice ID podle **jazyka jobu** + **uloženého OpenAI hlasu** (female/male/default). Fenrik production používá jazykové env proměnné (`EN_*` / `CS_*`). Globální `ELEVENLABS_VOICE_ID_*` zůstávají jen jako **legacy fallback** (viditelný v `voice_diagnostic`).
+
+### Checklist
+
+1. **Autoritativní jazyk:** `video_jobs.input.language` (priorita), jinak brief / `presentation_generation.language`. Razítkováno při `buildVideoJobInput` z `projects.language` (nebo explicitní `extra.language` u variant) a při persistenci balíčku z `sourceLanguage`.
+2. **Normalizace:** `en` / `en-US` / `en-GB` → `en`; `cs` / `cs-CZ` / `cz` → `cs`.
+3. **Env (production):** `ELEVENLABS_VOICE_ID_EN_FEMALE|MALE|DEFAULT`, `ELEVENLABS_VOICE_ID_CS_FEMALE|MALE|DEFAULT`. **Legacy:** `ELEVENLABS_VOICE_ID_FEMALE|MALE|DEFAULT`.
+4. **Fallback:** jazyková mapa → pokud bucket chybí, legacy globál (diagnostic `legacy_global`); nikdy cross-language.
+5. **Chybějící / nepodporovaný jazyk:** `tts_language_snapshot_missing` / `tts_language_unsupported` před POSTem. Chybějící bucket bez legacy → `elevenlabs_voice_unconfigured`.
+6. **Soubory:** `textToVideoAuthoritativeVoice.ts`, `voiceResolve.ts`, `config.ts`, `v3VoiceDirection.ts`, `voiceSynthesisService.ts`, `packageShared.ts`, `generateContentPackage.ts`, creative-review UI/admin, `.env.example`, parity/step-3/5c testy, reporty.
+7. **Testy:** parity+language 16/16; Step 3 ✓; Step 5C ✓; Step 5D ✓; `tsc --noEmit` ✓.
+8. **Migrace:** **ne** (žádná nová).
+9. **Provider requesty:** **žádné**.
+10. **`.env.worker` checklist:** nastavit 4–6 jazykových Voice ID (EN/CS × female/male; default může sdílet ID); legacy globály volitelné; flagy stále vypnuté dokud operátor nespustí placený běh.
