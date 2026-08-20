@@ -19,6 +19,7 @@ import {
 import { creativeReviewNeedsEnglishPreviewUpdate } from "@/lib/creative-review/lifecycle";
 import type { CreativeReview, CreativeReviewScene } from "@/lib/creative-review/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import { textToVideoOperatorApprovalState } from "@/lib/content-package/textToVideoManualReview";
 import styles from "./CreativeReviewPackagePanel.module.css";
 
 interface CreativeReviewPackagePanelProps {
@@ -121,6 +122,30 @@ function isTypedOverlay(scene: CreativeReviewScene): boolean {
   );
 }
 
+function t2vApprovalLabel(state: string): string {
+  if (state === "waiting_for_translation") return "Čeká na překlad";
+  if (state === "ready_to_approve") return "Připraveno ke schválení";
+  if (state === "approved") return "Schváleno";
+  if (state === "stale_after_change") return "Zastaralé po změně";
+  return "Rozpracováno";
+}
+
+function musicOperatorLabel(mode: string | null): string {
+  if (mode === "eleven_generated") return "Hudba: ElevenLabs";
+  if (mode === "existing_asset") return "Hudba: existující asset";
+  return "Bez hudby";
+}
+
+function sceneDurationLabel(
+  seconds: number,
+  timingStatus: string | null,
+): string {
+  const rounded = Math.round(seconds * 10) / 10;
+  const suffix =
+    timingStatus === "measured" ? "změřená délka" : "předběžný odhad";
+  return `${rounded} s · ${suffix}`;
+}
+
 export function CreativeReviewPackagePanel({
   projectId,
   runId,
@@ -203,6 +228,16 @@ export function CreativeReviewPackagePanel({
     ? creativeReviewNeedsEnglishPreviewUpdate(review)
     : true;
   const canRunWorkflow = editable && !dirty && !isPending;
+  const isT2v = pkg.packageVideoMode === "text_to_video";
+  const t2vState =
+    isT2v && t2v && review
+      ? textToVideoOperatorApprovalState({
+          review,
+          planStatus: t2v.planStatus,
+          repetitionStatus: t2v.repetitionStatus,
+        })
+      : null;
+  const t2vSceneCount = t2v?.scenes.length ?? 0;
 
   const duration = useMemo(() => {
     if (!review) return null;
@@ -326,10 +361,26 @@ export function CreativeReviewPackagePanel({
         >
           EN: {englishOutdated ? "Outdated" : englishConfirmed ? "Current" : "Pending"}
         </span>
+        {t2vState ? (
+          <span
+            className={styles.pill}
+            data-tone={
+              t2vState === "approved"
+                ? "ok"
+                : t2vState === "ready_to_approve"
+                  ? "ready"
+                  : "waiting"
+            }
+          >
+            T2V: {t2vApprovalLabel(t2vState)}
+          </span>
+        ) : null}
         <span className={styles.pill} data-tone={pkg.voiceoverStatus}>
           VO: {voiceoverStatusLabel}
         </span>
-        <span className={styles.pill}>Scenes: {pkg.sceneCount}</span>
+        <span className={styles.pill}>
+          Scenes: {isT2v ? t2vSceneCount : pkg.sceneCount}
+        </span>
         <span className={styles.pill}>
           Version {review?.version ?? "—"} · {formatTimestamp(pkg.updatedAt)}
         </span>
@@ -412,7 +463,9 @@ export function CreativeReviewPackagePanel({
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.label}>Localized</span>
+                <span className={styles.label}>
+                  {isT2v ? "Pracovní verze (čeština)" : "Localized"}
+                </span>
                 <textarea
                   className={styles.textarea}
                   value={voiceoverEdit}
@@ -426,10 +479,17 @@ export function CreativeReviewPackagePanel({
               </label>
               <label className={styles.field}>
                 <span className={styles.label}>
-                  English Preview
-                  {review!.voiceover.english_preview_outdated
-                    ? " (outdated)"
-                    : ""}
+                  {isT2v
+                    ? `Finální produkční verze (angličtina)${
+                        review!.voiceover.english_preview_outdated
+                          ? " — zastaralá"
+                          : ""
+                      }`
+                    : `English Preview${
+                        review!.voiceover.english_preview_outdated
+                          ? " (outdated)"
+                          : ""
+                      }`}
                 </span>
                 <textarea
                   className={styles.textarea}
@@ -440,263 +500,312 @@ export function CreativeReviewPackagePanel({
                   placeholder="English preview is created automatically during generation and refreshed on Save."
                 />
               </label>
-              <label className={styles.field}>
-                <span className={styles.label}>Final approved</span>
-                <textarea
-                  className={styles.textarea}
-                  value={review!.voiceover.final_approved}
-                  readOnly
-                  rows={3}
-                  aria-readonly="true"
-                />
-              </label>
-            </section>
-
-            {pkg.packageVideoMode === "text_to_video" && t2v ? (
-              <section
-                className={styles.section}
-                aria-labelledby={`${pkg.packageId}-t2v`}
-              >
-                <h3 id={`${pkg.packageId}-t2v`} className={styles.sectionTitle}>
-                  Generované video — plán
-                </h3>
-                {t2v.t2vRepetitionBlockedBanner ? (
-                  <p className={styles.muted}>{t2v.t2vRepetitionBlockedBanner}</p>
-                ) : null}
-                <p className={styles.muted}>
-                  Hook: {t2v.hook ?? "—"} · Plán: {t2v.planStatus ?? "—"} ·
-                  Opakování: {t2v.repetitionStatus ?? "—"}
-                  {t2v.repetitionReasons.length > 0
-                    ? ` (${t2v.repetitionReasons.join("; ")})`
-                    : ""}
+              {isT2v ? (
+                <p className={styles.muted} role="status">
+                  {englishOutdated
+                    ? "Stav překladu: čeká na překlad — uložte pracovní text."
+                    : englishConfirmed
+                      ? "Stav překladu: aktuální anglická produkční verze."
+                      : "Stav překladu: čeká na překlad."}
                 </p>
-                <p className={styles.muted}>
-                  Hudba: {t2v.musicMode ?? "—"}
-                  {t2v.musicMood ? ` · ${t2v.musicMood}` : ""}
-                </p>
-                <p className={styles.muted}>
-                  Automatická hudba (režim auto) vyžaduje aktivní licencovanou
-                  ElevenLabs Music generaci ve workeru — jinak produkce skončí
-                  chybou před audio POSTem.
-                </p>
-                {t2v.budgetEstimateLabel ? (
-                  <p className={styles.muted}>{t2v.budgetEstimateLabel}</p>
-                ) : null}
-                {t2v.voiceLanguageLabel ? (
-                  <p className={styles.muted}>
-                    Jazyk hlasu: {t2v.voiceLanguageLabel}
-                  </p>
-                ) : null}
-                {t2v.voiceCategoryLabel ? (
-                  <p className={styles.muted}>
-                    Kategorie hlasu (ElevenLabs): {t2v.voiceCategoryLabel}
-                  </p>
-                ) : null}
+              ) : (
                 <label className={styles.field}>
-                  <span className={styles.label}>Hlasová režie</span>
-                  <select
-                    className={styles.textarea}
-                    value={voiceStyle}
-                    disabled={!editable || isPending}
-                    onChange={(e) =>
-                      setVoiceStyle(e.target.value as VoiceDirectionStyle)
-                    }
-                  >
-                    {(Object.keys(VOICE_DIRECTION_STYLE_LABELS) as VoiceDirectionStyle[]).map(
-                      (key) => (
-                        <option key={key} value={key}>
-                          {VOICE_DIRECTION_STYLE_LABELS[key]}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </label>
-                <label className={styles.field}>
-                  <span className={styles.label}>Vlastní instrukce (volitelné)</span>
+                  <span className={styles.label}>Final approved</span>
                   <textarea
                     className={styles.textarea}
-                    rows={2}
-                    value={voiceInstruction}
-                    disabled={!editable || isPending}
-                    onChange={(e) => setVoiceInstruction(e.target.value)}
-                    placeholder="Např. První větu důrazně, vysvětlení klidně a CTA energicky."
+                    value={review!.voiceover.final_approved}
+                    readOnly
+                    rows={3}
+                    aria-readonly="true"
                   />
                 </label>
-                <button
-                  type="button"
-                  className={styles.save}
-                  disabled={!editable || isPending}
-                  onClick={() => {
-                    startTransition(async () => {
-                      const result = await saveCreativeReviewVoiceDirectionAction(
-                        projectId,
-                        runId,
-                        pkg.packageId,
-                        {
-                          style: voiceStyle,
-                          ...(voiceInstruction.trim()
-                            ? { custom_instruction: voiceInstruction.trim() }
-                            : {}),
-                        },
-                      );
-                      handleMutationResult(result);
-                    });
-                  }}
+              )}
+            </section>
+
+            {isT2v && t2v ? (
+              <>
+                <section
+                  className={styles.section}
+                  aria-labelledby={`${pkg.packageId}-voice`}
                 >
-                  Uložit hlasovou režii
-                </button>
-                <ul className={styles.sceneList}>
-                  {t2v.scenes.map((scene) => (
-                    <li key={scene.sceneId} className={styles.sceneCard}>
-                      <strong>Scéna {scene.order + 1}</strong>
-                      <p className={styles.muted}>{scene.humanMeaning}</p>
-                      <label className={styles.field}>
-                        <span className={styles.label}>Vizuální představa</span>
-                        <textarea
-                          className={styles.textarea}
-                          rows={3}
-                          defaultValue={scene.humanVisualEdit}
+                  <h3 id={`${pkg.packageId}-voice`} className={styles.sectionTitle}>
+                    Hlas
+                  </h3>
+                  <p className={styles.muted}>
+                    Jazyk: {t2v.voiceLanguageLabel ?? "—"}
+                  </p>
+                  <p className={styles.muted}>
+                    Kategorie hlasu: {t2v.voiceCategoryLabel ?? "—"}
+                  </p>
+                  <label className={styles.field}>
+                    <span className={styles.label}>Emoce / režie</span>
+                    <select
+                      className={styles.textarea}
+                      value={voiceStyle}
+                      disabled={!editable || isPending}
+                      onChange={(e) =>
+                        setVoiceStyle(e.target.value as VoiceDirectionStyle)
+                      }
+                    >
+                      {(Object.keys(VOICE_DIRECTION_STYLE_LABELS) as VoiceDirectionStyle[]).map(
+                        (key) => (
+                          <option key={key} value={key}>
+                            {VOICE_DIRECTION_STYLE_LABELS[key]}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </label>
+                  <label className={styles.field}>
+                    <span className={styles.label}>Vlastní instrukce (volitelné)</span>
+                    <textarea
+                      className={styles.textarea}
+                      rows={2}
+                      value={voiceInstruction}
+                      disabled={!editable || isPending}
+                      onChange={(e) => setVoiceInstruction(e.target.value)}
+                      placeholder="Např. První větu důrazně, vysvětlení klidně a CTA energicky."
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    className={styles.save}
+                    disabled={!editable || isPending}
+                    onClick={() => {
+                      startTransition(async () => {
+                        const result = await saveCreativeReviewVoiceDirectionAction(
+                          projectId,
+                          runId,
+                          pkg.packageId,
+                          {
+                            style: voiceStyle,
+                            ...(voiceInstruction.trim()
+                              ? { custom_instruction: voiceInstruction.trim() }
+                              : {}),
+                          },
+                        );
+                        handleMutationResult(result);
+                      });
+                    }}
+                  >
+                    Uložit hlasovou režii
+                  </button>
+                </section>
+
+                <section
+                  className={styles.section}
+                  aria-labelledby={`${pkg.packageId}-t2v-scenes`}
+                >
+                  <h3
+                    id={`${pkg.packageId}-t2v-scenes`}
+                    className={styles.sectionTitle}
+                  >
+                    Video scény
+                  </h3>
+                  {t2v.t2vRepetitionBlockedBanner ? (
+                    <p className={styles.muted}>{t2v.t2vRepetitionBlockedBanner}</p>
+                  ) : null}
+                  <ul className={styles.sceneList}>
+                    {t2v.scenes.map((scene) => (
+                      <li key={scene.sceneId} className={styles.sceneCard}>
+                        <strong>Scéna {scene.order + 1}</strong>
+                        <p className={styles.muted}>
+                          Voiceover: {scene.voiceoverExcerpt || "—"}
+                        </p>
+                        <p className={styles.muted}>
+                          {sceneDurationLabel(
+                            scene.approximateDurationSeconds,
+                            t2v.timingStatus,
+                          )}
+                        </p>
+                        <label className={styles.field}>
+                          <span className={styles.label}>Vizuální představa</span>
+                          <textarea
+                            className={styles.textarea}
+                            rows={3}
+                            defaultValue={scene.humanVisualEdit}
+                            disabled={!editable || isPending}
+                            id={`t2v-scene-${scene.sceneId}`}
+                          />
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>Zvuk</span>
+                          <select
+                            className={styles.textarea}
+                            defaultValue={
+                              scene.soundMode === "custom" ? "custom" : "none"
+                            }
+                            disabled={!editable || isPending}
+                            id={`t2v-sound-mode-${scene.sceneId}`}
+                          >
+                            <option value="none">Bez zvukového efektu</option>
+                            <option value="custom">Vlastní efekt</option>
+                          </select>
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>Popis efektu</span>
+                          <textarea
+                            className={styles.textarea}
+                            rows={2}
+                            defaultValue={scene.soundEffectDescription ?? ""}
+                            disabled={!editable || isPending}
+                            id={`t2v-sound-desc-${scene.sceneId}`}
+                            placeholder="Jen pokud je zvolen vlastní efekt"
+                          />
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>
+                            Umístění / vazba na voiceover
+                          </span>
+                          <select
+                            className={styles.textarea}
+                            defaultValue={scene.soundAnchor ?? "scene_beginning"}
+                            disabled={!editable || isPending}
+                            id={`t2v-sound-anchor-${scene.sceneId}`}
+                          >
+                            <option value="scene_start">Začátek scény</option>
+                            <option value="scene_beginning">
+                              Začátek scény (jemně)
+                            </option>
+                            <option value="scene_middle">Střed scény</option>
+                            <option value="scene_end">Konec scény</option>
+                            <option value="voice_phrase">
+                              Při frázi ve voiceoveru
+                            </option>
+                          </select>
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.label}>Fráze ve voiceoveru</span>
+                          <input
+                            className={styles.textarea}
+                            defaultValue={scene.voicePhrase ?? ""}
+                            disabled={!editable || isPending}
+                            id={`t2v-sound-phrase-${scene.sceneId}`}
+                            placeholder="Přesná fráze z produkčního voiceoveru"
+                          />
+                        </label>
+                        <details className={styles.diagnostics}>
+                          <summary>Technický provider prompt</summary>
+                          <pre>{scene.providerPrompt}</pre>
+                        </details>
+                        <button
+                          type="button"
+                          className={styles.save}
                           disabled={!editable || isPending}
-                          id={`t2v-scene-${scene.sceneId}`}
-                        />
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.label}>Zvuk scény</span>
-                        <select
-                          className={styles.textarea}
-                          defaultValue={scene.soundMode}
-                          disabled={!editable || isPending}
-                          id={`t2v-sound-mode-${scene.sceneId}`}
+                          onClick={() => {
+                            const el = document.getElementById(
+                              `t2v-scene-${scene.sceneId}`,
+                            ) as HTMLTextAreaElement | null;
+                            const value = el?.value?.trim() ?? "";
+                            if (!value) return;
+                            startTransition(async () => {
+                              const result =
+                                await saveCreativeReviewTextToVideoSceneAction(
+                                  projectId,
+                                  runId,
+                                  pkg.packageId,
+                                  scene.sceneId,
+                                  value,
+                                );
+                              handleMutationResult(result);
+                            });
+                          }}
                         >
-                          <option value="auto">Automaticky</option>
-                          <option value="none">Bez efektu</option>
-                          <option value="custom">Vlastní popis</option>
-                        </select>
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.label}>Popis efektu (věta)</span>
-                        <textarea
-                          className={styles.textarea}
-                          rows={2}
-                          defaultValue={scene.soundEffectDescription ?? ""}
+                          Uložit scénu
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.save}
                           disabled={!editable || isPending}
-                          id={`t2v-sound-desc-${scene.sceneId}`}
-                          placeholder="Např. Silný zvuk vzplanutí peněz."
-                        />
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.label}>Umístění efektu</span>
-                        <select
-                          className={styles.textarea}
-                          defaultValue={scene.soundAnchor ?? "scene_beginning"}
-                          disabled={!editable || isPending}
-                          id={`t2v-sound-anchor-${scene.sceneId}`}
+                          onClick={() => {
+                            const modeEl = document.getElementById(
+                              `t2v-sound-mode-${scene.sceneId}`,
+                            ) as HTMLSelectElement | null;
+                            const descEl = document.getElementById(
+                              `t2v-sound-desc-${scene.sceneId}`,
+                            ) as HTMLTextAreaElement | null;
+                            const anchorEl = document.getElementById(
+                              `t2v-sound-anchor-${scene.sceneId}`,
+                            ) as HTMLSelectElement | null;
+                            const phraseEl = document.getElementById(
+                              `t2v-sound-phrase-${scene.sceneId}`,
+                            ) as HTMLInputElement | null;
+                            const mode = (modeEl?.value ?? "none") as
+                              | "none"
+                              | "custom";
+                            startTransition(async () => {
+                              const result =
+                                await saveCreativeReviewTextToVideoSoundPlanAction(
+                                  projectId,
+                                  runId,
+                                  pkg.packageId,
+                                  scene.sceneId,
+                                  {
+                                    mode,
+                                    ...(descEl?.value?.trim()
+                                      ? {
+                                          custom_effect_description:
+                                            descEl.value.trim(),
+                                        }
+                                      : {}),
+                                    ...(anchorEl?.value
+                                      ? {
+                                          anchor: anchorEl.value as
+                                            | "scene_start"
+                                            | "scene_beginning"
+                                            | "scene_middle"
+                                            | "scene_end"
+                                            | "voice_phrase",
+                                        }
+                                      : {}),
+                                    ...(phraseEl?.value?.trim()
+                                      ? { voice_phrase: phraseEl.value.trim() }
+                                      : {}),
+                                  },
+                                );
+                              handleMutationResult(result);
+                            });
+                          }}
                         >
-                          <option value="scene_start">Začátek scény</option>
-                          <option value="scene_beginning">Začátek scény (jemně)</option>
-                          <option value="scene_middle">Střed scény</option>
-                          <option value="scene_end">Konec scény</option>
-                          <option value="voice_phrase">Při frázi ve voiceoveru</option>
-                        </select>
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.label}>Fráze ve voiceoveru</span>
-                        <input
-                          className={styles.textarea}
-                          defaultValue={scene.voicePhrase ?? ""}
-                          disabled={!editable || isPending}
-                          id={`t2v-sound-phrase-${scene.sceneId}`}
-                          placeholder="Přesná fráze z approved voiceoveru"
-                        />
-                      </label>
-                      <button
-                        type="button"
-                        className={styles.save}
-                        disabled={!editable || isPending}
-                        onClick={() => {
-                          const el = document.getElementById(
-                            `t2v-scene-${scene.sceneId}`,
-                          ) as HTMLTextAreaElement | null;
-                          const value = el?.value?.trim() ?? "";
-                          if (!value) return;
-                          startTransition(async () => {
-                            const result =
-                              await saveCreativeReviewTextToVideoSceneAction(
-                                projectId,
-                                runId,
-                                pkg.packageId,
-                                scene.sceneId,
-                                value,
-                              );
-                            handleMutationResult(result);
-                          });
-                        }}
-                      >
-                        Uložit scénu
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.save}
-                        disabled={!editable || isPending}
-                        onClick={() => {
-                          const modeEl = document.getElementById(
-                            `t2v-sound-mode-${scene.sceneId}`,
-                          ) as HTMLSelectElement | null;
-                          const descEl = document.getElementById(
-                            `t2v-sound-desc-${scene.sceneId}`,
-                          ) as HTMLTextAreaElement | null;
-                          const anchorEl = document.getElementById(
-                            `t2v-sound-anchor-${scene.sceneId}`,
-                          ) as HTMLSelectElement | null;
-                          const phraseEl = document.getElementById(
-                            `t2v-sound-phrase-${scene.sceneId}`,
-                          ) as HTMLInputElement | null;
-                          const mode = (modeEl?.value ?? "auto") as
-                            | "auto"
-                            | "none"
-                            | "custom";
-                          startTransition(async () => {
-                            const result =
-                              await saveCreativeReviewTextToVideoSoundPlanAction(
-                                projectId,
-                                runId,
-                                pkg.packageId,
-                                scene.sceneId,
-                                {
-                                  mode,
-                                  ...(descEl?.value?.trim()
-                                    ? {
-                                        custom_effect_description:
-                                          descEl.value.trim(),
-                                      }
-                                    : {}),
-                                  ...(anchorEl?.value
-                                    ? {
-                                        anchor: anchorEl.value as
-                                          | "scene_start"
-                                          | "scene_beginning"
-                                          | "scene_middle"
-                                          | "scene_end"
-                                          | "voice_phrase",
-                                      }
-                                    : {}),
-                                  ...(phraseEl?.value?.trim()
-                                    ? { voice_phrase: phraseEl.value.trim() }
-                                    : {}),
-                                },
-                              );
-                            handleMutationResult(result);
-                          });
-                        }}
-                      >
-                        Uložit zvuk scény
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+                          Uložit zvuk scény
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section
+                  className={styles.section}
+                  aria-labelledby={`${pkg.packageId}-t2v-run`}
+                >
+                  <h3 id={`${pkg.packageId}-t2v-run`} className={styles.sectionTitle}>
+                    Kontrola a spuštění
+                  </h3>
+                  <p className={styles.muted}>{musicOperatorLabel(t2v.musicMode)}</p>
+                  {t2v.budgetEstimateLabel ? (
+                    <p className={styles.muted}>{t2v.budgetEstimateLabel}</p>
+                  ) : (
+                    <p className={styles.muted}>Odhad ceny: —</p>
+                  )}
+                  <p className={styles.muted}>
+                    Rozpočet:{" "}
+                    {typeof t2v.maxBudgetUsd === "number"
+                      ? `${t2v.maxBudgetUsd.toFixed(2)} USD`
+                      : "není nastaven"}
+                  </p>
+                  <p className={styles.muted}>
+                    Stav schválení: {t2vState ? t2vApprovalLabel(t2vState) : "—"}
+                    {t2v.hook ? ` · Hook: ${t2v.hook}` : ""}
+                  </p>
+                  <p className={styles.muted}>
+                    Continue Generation je v záhlaví běhu. Použije schválený T2V
+                    plán beze změny a bez nového překladu.
+                  </p>
+                </section>
+              </>
             ) : null}
 
+            {!isT2v ? (
             <section
               className={styles.section}
               aria-labelledby={`${pkg.packageId}-scenes`}
@@ -798,7 +907,9 @@ export function CreativeReviewPackagePanel({
                 </ul>
               )}
             </section>
+            ) : null}
 
+            {!isT2v ? (
             <section
               className={styles.section}
               aria-labelledby={`${pkg.packageId}-history`}
@@ -836,6 +947,7 @@ export function CreativeReviewPackagePanel({
                 </table>
               </div>
             </section>
+            ) : null}
 
             {dirty ? (
               <p className={styles.muted} role="status">

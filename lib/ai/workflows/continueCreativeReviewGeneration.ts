@@ -39,21 +39,14 @@ import {
   readPackageVideoModeFromBrief,
   type PackageVideoProductionMode,
 } from "@/lib/content-package/packageVideoProductionMode";
-import type { TextToVideoCreativePlan } from "@/lib/content-package/textToVideoCreativePlan";
 import { serializeVideoCreativeIntegrity, syncVideoCreativeIntegrityFromSources } from "@/lib/content-package/videoCreativeIntegrity";
-import {
-  attachTextToVideoCreativePlanToBrief,
-} from "@/lib/content-package/attachTextToVideoCreativePlan";
-import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
 import {
   canContinueCreativeReviewRun,
   clearCreativeReviewReasonOnContinue,
 } from "@/lib/content-package/creativeReviewDeferral";
 import {
-  approveTextToVideoCreativePlan,
   deriveHookFromVoiceover,
   readTextToVideoCreativePlan,
-  serializeTextToVideoCreativePlan,
   voiceDirectionFromBriefOrDefault,
 } from "@/lib/content-package/textToVideoCreativePlan";
 import { evaluateVideoPaidPreflight } from "@/lib/content-package/videoPaidPreflight";
@@ -63,6 +56,12 @@ import type {
   CreativeReview,
   CreativeReviewActor,
 } from "@/lib/creative-review/types";
+import {
+  assertTextToVideoPlanLockedForContinue,
+  snapshotTextToVideoPlanForContinueGuard,
+  textToVideoPlanSnapshotEquals,
+  T2V_PLAN_NOT_LOCKED_FOR_CONTINUE,
+} from "@/lib/content-package/textToVideoManualReview";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
 
 const VIDEO_PLATFORMS = new Set([
@@ -242,7 +241,16 @@ export function validatePackagesReadyForContinue(
         message: "english translation must be confirmed before Continue Generation",
       });
     }
-    const gate = validateCreativeReviewApproval(review);
+    const briefRecord =
+      pkg.brief && typeof pkg.brief === "object" && !Array.isArray(pkg.brief)
+        ? (pkg.brief as Record<string, unknown>)
+        : null;
+    const videoMode = briefRecord
+      ? parsePackageVideoProductionMode(briefRecord.package_video_mode)
+      : "still";
+    const gate = validateCreativeReviewApproval(review, {
+      requireSceneIntent: videoMode !== PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+    });
     if (!gate.ok) {
       for (const issue of gate.issues) {
         issues.push({
@@ -251,26 +259,18 @@ export function validatePackagesReadyForContinue(
         });
       }
     }
-    const briefRecord =
-      pkg.brief && typeof pkg.brief === "object" && !Array.isArray(pkg.brief)
-        ? (pkg.brief as Record<string, unknown>)
-        : null;
-    const videoMode = briefRecord
-      ? parsePackageVideoProductionMode(briefRecord.package_video_mode)
-      : "still";
-    if (videoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
-      const plan = briefRecord
-        ? readTextToVideoCreativePlan(briefRecord)
-        : null;
-      if (
-        !plan ||
-        plan.status !== "approved" ||
-        plan.repetition.status !== "passed"
-      ) {
+    if (videoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO && briefRecord) {
+      try {
+        assertTextToVideoPlanLockedForContinue({
+          brief: briefRecord,
+          review,
+        });
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
         issues.push({
           path: `${prefix}.video_text_to_video_creative_plan`,
-          message:
-            "text-to-video plan must be approved with repetition passed before Continue",
+          message,
         });
       }
     }
@@ -410,17 +410,61 @@ async function rebuildAndPersistPackage(args: {
   projectId: string;
   runId: string;
   runPackageVideoMode: PackageVideoProductionMode;
-  generationMode: GenerationMode;
   pkg: PackageRow;
   review: CreativeReview;
   actor: CreativeReviewActor;
   timestamp: string;
 }): Promise<CreativeReview> {
-  const brief = args.pkg.packageBrief as ContentPackageOutput;
-  if (!brief || typeof brief !== "object") {
+  const sourceBrief = asRecord(args.pkg.packageBrief);
+  if (!sourceBrief) {
     throw new Error(`package ${args.pkg.packageId} missing package_brief`);
   }
 
+  if (args.runPackageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+    const locked = assertTextToVideoPlanLockedForContinue({
+      brief: sourceBrief,
+      review: args.review,
+    });
+    const before = snapshotTextToVideoPlanForContinueGuard(locked.plan);
+    const nextBrief = clearCreativeReviewReasonOnContinue({
+      ...sourceBrief,
+      creative_review: args.review,
+      package_video_mode: readPackageVideoModeFromBrief(sourceBrief),
+    });
+    const afterPlan = readTextToVideoCreativePlan(nextBrief);
+    if (
+      !afterPlan ||
+      !textToVideoPlanSnapshotEquals(
+        before,
+        snapshotTextToVideoPlanForContinueGuard(afterPlan),
+      )
+    ) {
+      throw new Error(T2V_PLAN_NOT_LOCKED_FOR_CONTINUE);
+    }
+
+    const { error } = await args.supabase
+      .from("content_packages")
+      .update({ package_brief: nextBrief as unknown as Json })
+      .eq("id", args.pkg.packageId)
+      .eq("project_id", args.projectId);
+    if (error) throw error;
+
+    const spoken = locked.productionVoiceover;
+    if (spoken) {
+      const { error: itemErr } = await args.supabase
+        .from("content_items")
+        .update({ body: spoken })
+        .eq("package_id", args.pkg.packageId)
+        .eq("project_id", args.projectId)
+        .is("language", null);
+      if (itemErr) throw itemErr;
+    }
+
+    args.pkg.packageBrief = nextBrief;
+    return args.review;
+  }
+
+  const brief = args.pkg.packageBrief as ContentPackageOutput;
   const rebuilt = rebuildCreativePackageForVideo({
     package: brief,
     creativeReview: args.review,
@@ -440,74 +484,23 @@ async function rebuildAndPersistPackage(args: {
   let nextBrief: Record<string, unknown> = clearCreativeReviewReasonOnContinue({
     ...(asRecord(rebuilt.value.package) ?? {}),
     creative_review: rebuilt.value.creativeReview,
-    package_video_mode: readPackageVideoModeFromBrief(
-      asRecord(args.pkg.packageBrief) ?? {},
-    ),
+    package_video_mode: readPackageVideoModeFromBrief(sourceBrief),
   });
 
-  if (args.runPackageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
-    const memory = await buildAntiRepetitionMemory(args.supabase, args.projectId, {
-      excludePackageId: args.pkg.packageId,
-    });
-    nextBrief = await attachTextToVideoCreativePlanToBrief({
-      supabase: args.supabase,
-      projectId: args.projectId,
-      packageId: args.pkg.packageId,
-      brief: nextBrief,
-      generationMode: args.generationMode,
-      memory,
-    });
-    const planRaw = nextBrief.video_text_to_video_creative_plan;
-    if (
-      planRaw &&
-      typeof planRaw === "object" &&
-      !Array.isArray(planRaw) &&
-      (planRaw as { repetition?: { status?: string } }).repetition?.status ===
-        "passed" &&
-      (planRaw as { status?: string }).status !== "repetition_blocked"
-    ) {
-      const approved = approveTextToVideoCreativePlan(
-        planRaw as TextToVideoCreativePlan,
-        args.timestamp,
-      );
-      nextBrief = {
-        ...nextBrief,
-        video_text_to_video_creative_plan:
-          serializeTextToVideoCreativePlan(approved),
-      };
-      const vo = rebuilt.value.package.voiceover_text ?? "";
-      const hook =
-        rebuilt.value.package.hook?.trim() || deriveHookFromVoiceover(vo);
-      nextBrief = {
-        ...nextBrief,
-        video_creative_integrity: serializeVideoCreativeIntegrity(
-          syncVideoCreativeIntegrityFromSources({
-            voiceoverText: vo,
-            hookText: hook,
-            voiceDirection: voiceDirectionFromBriefOrDefault(nextBrief),
-            plan: approved,
-            packageVideoMode: PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
-          }),
-        ),
-      };
-    }
-  } else {
-    const vo = rebuilt.value.package.voiceover_text ?? "";
-    const hook =
-      rebuilt.value.package.hook?.trim() || deriveHookFromVoiceover(vo);
-    nextBrief = {
-      ...nextBrief,
-      video_creative_integrity: serializeVideoCreativeIntegrity(
-        syncVideoCreativeIntegrityFromSources({
-          voiceoverText: vo,
-          hookText: hook,
-          voiceDirection: voiceDirectionFromBriefOrDefault(nextBrief),
-          plan: null,
-          packageVideoMode: "still",
-        }),
-      ),
-    };
-  }
+  const vo = rebuilt.value.package.voiceover_text ?? "";
+  const hook = rebuilt.value.package.hook?.trim() || deriveHookFromVoiceover(vo);
+  nextBrief = {
+    ...nextBrief,
+    video_creative_integrity: serializeVideoCreativeIntegrity(
+      syncVideoCreativeIntegrityFromSources({
+        voiceoverText: vo,
+        hookText: hook,
+        voiceDirection: voiceDirectionFromBriefOrDefault(nextBrief),
+        plan: null,
+        packageVideoMode: "still",
+      }),
+    ),
+  };
 
   const { error } = await args.supabase
     .from("content_packages")
@@ -930,7 +923,6 @@ export async function continueCreativeReviewGeneration(args: {
         projectId,
         runId,
         runPackageVideoMode,
-        generationMode,
         pkg,
         review,
         actor,

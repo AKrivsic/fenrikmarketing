@@ -226,6 +226,7 @@ export function commitCreativeReviewApprove(args: {
   expectedVersion: number;
   actor: CreativeReviewActor;
   timestamp: string;
+  requireSceneIntent?: boolean;
 }): CreativeReviewMutationResult {
   const versionMismatch = assertExpectedVersion(
     args.current,
@@ -233,7 +234,9 @@ export function commitCreativeReviewApprove(args: {
   );
   if (versionMismatch) return versionMismatch;
 
-  const gate = validateCreativeReviewApproval(args.current);
+  const gate = validateCreativeReviewApproval(args.current, {
+    requireSceneIntent: args.requireSceneIntent,
+  });
   if (!gate.ok) {
     return validationFailure(
       "Package does not meet approval requirements.",

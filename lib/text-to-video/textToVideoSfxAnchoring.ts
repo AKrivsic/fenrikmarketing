@@ -1,4 +1,3 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
 import { excerptTimeRangeFromAlignment } from "@/lib/elevenlabs/alignmentVoiceover";
 import type { ElevenLabsCharacterAlignment } from "@/lib/elevenlabs/adapter";
 import type {
@@ -85,7 +84,7 @@ export function resolveSfxPlacements(args: {
   const out: ResolvedSfxPlacement[] = [];
   let effectCount = 0;
   for (const scene of args.scenes) {
-    const sound = args.sceneSound[scene.sceneId] ?? { mode: "auto" as const };
+    const sound = args.sceneSound[scene.sceneId] ?? { mode: "none" as const };
     if (sound.mode === "none") continue;
     if (sound.mode === "auto") continue;
     if (effectCount >= 3) break;

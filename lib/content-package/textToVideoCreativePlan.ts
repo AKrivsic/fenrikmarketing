@@ -145,11 +145,16 @@ function defaultEnergyForRole(role: "opening" | "body" | "closing"): string {
   return "Clear, steady marketing energy";
 }
 
+/**
+ * Hook is a short first beat, never the whole voiceover paragraph.
+ * Prefer the first sentence over the first line so a single-line VO cannot
+ * become the entire approved_hook.
+ */
 export function deriveHookFromVoiceover(voiceover: string): string {
-  const line = voiceover.split(/\r?\n/)[0]?.trim() ?? "";
-  if (line.length > 0) return line;
   const first = splitVoiceoverSentences(voiceover)[0]?.trim() ?? "";
-  return first.slice(0, 120);
+  if (first.length > 0) return first.slice(0, 120);
+  const line = voiceover.split(/\r?\n/)[0]?.trim() ?? "";
+  return line.slice(0, 120);
 }
 
 export interface BuildTextToVideoPlanArgs {
@@ -453,6 +458,48 @@ export class TextToVideoRepetitionBlockedError extends Error {
     super(`text_to_video_repetition_blocked:${reasons.join(",")}`);
     this.reasons = reasons;
   }
+}
+
+/**
+ * Rebuild the T2V plan from production-language voiceover while keeping
+ * operator visual edits by scene index. Does not approve the plan.
+ */
+export function rebuildTextToVideoPlanPreservingSceneEdits(args: {
+  packageId: string;
+  productionVoiceover: string;
+  hookText?: string | null;
+  voiceDirection?: VoiceDirectionContract | null;
+  existingPlan?: TextToVideoCreativePlan | null;
+}): TextToVideoCreativePlan {
+  const hook =
+    args.hookText?.trim() ||
+    deriveHookFromVoiceover(args.productionVoiceover);
+  return buildTextToVideoCreativePlan({
+    packageId: args.packageId,
+    voiceoverText: args.productionVoiceover,
+    hookOverride: hook,
+    voiceDirection: args.voiceDirection,
+    existingScenes: args.existingPlan?.scenes.map((scene) => ({
+      human_visual_edit: scene.human_visual_edit,
+      human_meaning: scene.human_meaning,
+    })),
+  });
+}
+
+export function textToVideoPlanLockedForContinue(args: {
+  plan: TextToVideoCreativePlan;
+  productionVoiceover: string;
+  hookText: string;
+  voiceDirectionRevision: number;
+}): boolean {
+  if (args.plan.status !== "approved") return false;
+  if (args.plan.repetition.status !== "passed") return false;
+  return planMatchesApprovedSources({
+    plan: args.plan,
+    voiceoverText: args.productionVoiceover,
+    hookText: args.hookText,
+    voiceDirectionRevision: args.voiceDirectionRevision,
+  });
 }
 
 export function planMatchesApprovedSources(args: {

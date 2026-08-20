@@ -87,7 +87,10 @@ export {
 
 export { canCancelManualReview } from "@/lib/creative-review/cancelGate";
 
-export { normalizeLegacyCreativeReview } from "@/lib/creative-review/legacy";
+export {
+  productionSpokenVoiceoverFromReview,
+  editorWorkingCopyMustNotBeProductionVoiceover,
+} from "@/lib/creative-review/productionSpokenVoiceover";
 
 export {
   translateCreativeReviewEnglishPreviews,

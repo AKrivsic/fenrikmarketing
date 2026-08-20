@@ -11,6 +11,7 @@ import type { ProductionRunStatus } from "@/lib/supabase/types";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
 import {
   parseGenerationMode,
+  defersVideoUntilCreativeReview,
   type GenerationMode,
 } from "@/lib/ai/generationMode";
 import type { CreativeReviewPackageEdits } from "@/lib/creative-review/applyEdits";
@@ -27,7 +28,9 @@ import {
   serializeTextToVideoCreativePlan,
 } from "@/lib/content-package/textToVideoCreativePlan";
 import { loadRecentTextToVideoPlanFingerprints } from "@/lib/content-package/attachTextToVideoCreativePlan";
-import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import {
+  buildAntiRepetitionMemory,
+} from "@/lib/ai/workflows/antiRepetitionMemory";
 import {
   canAccessCreativeReviewRun,
   readCreativeReviewReason,
@@ -53,12 +56,6 @@ import {
   readT2vVoiceCategoryLabelForManualReview,
   readT2vVoiceLanguageLabelForManualReview,
 } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
-import {
-  estimateElevenLabsMusicCostUsd,
-  estimateElevenLabsSfxCostUsd,
-} from "@/lib/elevenlabs/audioProductionConfig";
-import { estimateElevenLabsTtsCostUsd } from "@/lib/elevenlabs/config";
-import { estimateRunwayGen45SceneCostUsd } from "@/lib/text-to-video/runwayProductionConfig";
 import { parsePackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
 import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
 import type {
@@ -79,6 +76,9 @@ import {
 import {
   creativeReviewNeedsEnglishPreviewUpdate,
 } from "@/lib/creative-review/lifecycle";
+import { productionSpokenVoiceoverFromReview } from "@/lib/creative-review/productionSpokenVoiceover";
+import { applyProductionVoiceoverToTextToVideoBrief } from "@/lib/content-package/textToVideoManualReview";
+import { estimateTextToVideoOperatorBudget } from "@/lib/text-to-video/textToVideoOperatorBudget";
 import { translateCreativeReviewEnglishPreviews } from "@/lib/creative-review/translateVoiceover";
 import type { TextProvider } from "@/lib/ai/types";
 import {
@@ -126,6 +126,10 @@ export interface CreativeReviewVideoCreativeSummary {
     order: number;
     humanMeaning: string;
     humanVisualEdit: string;
+    voiceoverExcerpt: string;
+    approximateStartSeconds: number;
+    approximateDurationSeconds: number;
+    providerPrompt: string;
     soundMode: string;
     soundEffectDescription: string | null;
     soundAnchor: string | null;
@@ -134,6 +138,8 @@ export interface CreativeReviewVideoCreativeSummary {
   musicMode: string | null;
   musicMood: string | null;
   budgetEstimateLabel: string | null;
+  timingStatus: string | null;
+  maxBudgetUsd: number | null;
 }
 
 export interface CreativeReviewRunView {
@@ -218,12 +224,21 @@ function patchBriefAfterCreativeReviewEdits(args: {
   const voiceoverChanged =
     args.priorReview.voiceover.localized_edit !==
     args.edits.voiceoverLocalizedEdit;
+  const isT2v =
+    parsePackageVideoProductionMode(args.brief.package_video_mode) ===
+    "text_to_video";
   let next = args.brief;
   if (voiceoverChanged) {
-    next = invalidateVideoDerivativesOnVoiceoverChange(
-      next,
-      args.edits.voiceoverLocalizedEdit,
-    );
+    if (isT2v) {
+      const currentVo =
+        typeof next.voiceover_text === "string" ? next.voiceover_text : "";
+      next = invalidateVideoDerivativesOnVoiceoverChange(next, currentVo);
+    } else {
+      next = invalidateVideoDerivativesOnVoiceoverChange(
+        next,
+        args.edits.voiceoverLocalizedEdit,
+      );
+    }
   } else {
     const scenesChanged = args.priorReview.scenes.some((scene) => {
       const edit = args.edits.scenes.find((s) => s.id === scene.id);
@@ -233,7 +248,7 @@ function patchBriefAfterCreativeReviewEdits(args: {
         edit.directorNotes !== scene.director_notes
       );
     });
-    if (scenesChanged) {
+    if (scenesChanged && !isT2v) {
       next = invalidateVisualPlanOnSceneEdit(next);
     }
   }
@@ -266,6 +281,7 @@ function voiceoverStatusFromReview(
 
 function buildVideoCreativeSummary(
   brief: Record<string, unknown>,
+  review: CreativeReview | null = null,
 ): CreativeReviewVideoCreativeSummary | null {
   const mode = parsePackageVideoProductionMode(brief.package_video_mode);
   if (mode !== "text_to_video") return null;
@@ -275,23 +291,26 @@ function buildVideoCreativeSummary(
       ? brief.hook.trim()
       : plan?.approved_hook ?? null;
   const sound = parseTextToVideoSoundPlan(brief.video_text_to_video_sound_plan);
-  const vo =
-    typeof brief.voiceover_text === "string" ? brief.voiceover_text.trim() : "";
+  const productionVo =
+    (review ? productionSpokenVoiceoverFromReview(review) : null) ??
+    (typeof brief.voiceover_text === "string" ? brief.voiceover_text.trim() : "");
+  const paid = asRecord(brief.video_paid_preflight);
+  const maxBudgetUsd =
+    typeof paid?.max_budget_usd === "number" && Number.isFinite(paid.max_budget_usd)
+      ? paid.max_budget_usd
+      : null;
   let budgetEstimateLabel: string | null = null;
-  if (plan && vo) {
-    const runwayUsd =
-      (plan.scenes.length || 3) *
-      estimateRunwayGen45SceneCostUsd(3).usd;
-    const voiceUsd = estimateElevenLabsTtsCostUsd(vo.length);
-    let sfxUsd = 0;
-    for (const s of Object.values(sound?.scene_sound ?? {})) {
-      if (s.mode === "custom") sfxUsd += estimateElevenLabsSfxCostUsd(2.5);
+  if (plan && productionVo) {
+    try {
+      budgetEstimateLabel = estimateTextToVideoOperatorBudget({
+        productionVoiceover: productionVo,
+        plan,
+        sound,
+        maxBudgetUsd,
+      }).label;
+    } catch {
+      budgetEstimateLabel = "Odhad ceny nelze spočítat z aktuálních délek scén.";
     }
-    const musicUsd =
-      sound?.music.mode === "eleven_generated"
-        ? estimateElevenLabsMusicCostUsd(plan.target_duration_seconds)
-        : 0;
-    budgetEstimateLabel = `Odhad (USD, odhad): hlas ${voiceUsd.toFixed(2)}, video ${runwayUsd.toFixed(2)}, SFX ${sfxUsd.toFixed(2)}, hudba ${musicUsd.toFixed(2)}, celkem ${(voiceUsd + runwayUsd + sfxUsd + musicUsd).toFixed(2)}`;
   }
   return {
     hook,
@@ -309,17 +328,25 @@ function buildVideoCreativeSummary(
       CREATIVE_REVIEW_REASON_TEXT_TO_VIDEO_REPETITION
         ? "Video čeká na úpravu: návrh se příliš podobá dřívějšímu obsahu."
         : null,
-    musicMode: sound?.music.mode ?? null,
+    musicMode: sound?.music.mode ?? "none",
     musicMood: sound?.music.mood ?? null,
     budgetEstimateLabel,
+    timingStatus: plan?.timing_status ?? null,
+    maxBudgetUsd,
     scenes: (plan?.scenes ?? []).map((s) => {
       const ss = sound?.scene_sound[s.scene_id];
+      const modeResolved =
+        ss?.mode === "custom" ? "custom" : ss?.mode === "none" ? "none" : "none";
       return {
         sceneId: s.scene_id,
         order: s.order,
         humanMeaning: s.human_meaning,
         humanVisualEdit: s.human_visual_edit ?? s.visual_intent,
-        soundMode: ss?.mode ?? "auto",
+        voiceoverExcerpt: s.voiceover_excerpt,
+        approximateStartSeconds: s.approximate_start_seconds,
+        approximateDurationSeconds: s.approximate_duration_seconds,
+        providerPrompt: s.provider_prompt,
+        soundMode: modeResolved,
         soundEffectDescription: ss?.custom_effect_description ?? null,
         soundAnchor: ss?.anchor ?? null,
         voicePhrase: ss?.voice_phrase ?? null,
@@ -339,7 +366,13 @@ function packageViewFromRow(args: {
   const packageVideoMode = parsePackageVideoProductionMode(
     briefRecord.package_video_mode,
   );
-  const videoCreativeSummary = buildVideoCreativeSummary(briefRecord);
+  const read = readCreativeReviewFromBrief(args.brief);
+  const reviewForSummary =
+    read.ok && read.value ? (read.value as CreativeReview) : null;
+  const videoCreativeSummary = buildVideoCreativeSummary(
+    briefRecord,
+    reviewForSummary,
+  );
   const base = {
     packageId: args.packageId,
     packageIndex: args.packageIndex,
@@ -348,7 +381,6 @@ function packageViewFromRow(args: {
     packageVideoMode,
     videoCreativeSummary,
   };
-  const read = readCreativeReviewFromBrief(args.brief);
   if (read.ok && read.value === null) {
     return {
       ...base,
@@ -468,6 +500,7 @@ async function loadMutablePackageContext(args: {
   const generationMode = generationModeFromRequestedConfig(run.requested_config);
   const runStatus = run.status as ProductionRunStatus;
   if (
+    !defersVideoUntilCreativeReview(generationMode) &&
     !canAccessCreativeReviewRun({
       generationMode,
       runStatus,
@@ -638,6 +671,7 @@ export async function loadCreativeReviewPage(args: {
   const generationMode = generationModeFromRequestedConfig(run.requested_config);
   const runStatus = run.status as ProductionRunStatus;
   if (
+    !defersVideoUntilCreativeReview(generationMode) &&
     !canAccessCreativeReviewRun({
       generationMode,
       runStatus,
@@ -789,15 +823,51 @@ export async function saveCreativeReviewPackage(args: {
     }
   }
 
+  let brief = patchBriefAfterCreativeReviewEdits({
+    brief: loaded.brief,
+    priorReview: loaded.review,
+    edits: args.edits,
+  });
+  const isT2v =
+    parsePackageVideoProductionMode(loaded.brief.package_video_mode) ===
+    "text_to_video";
+  const voiceoverChanged =
+    loaded.review.voiceover.localized_edit !== args.edits.voiceoverLocalizedEdit;
+  if (isT2v && voiceoverChanged) {
+    const productionVo = productionSpokenVoiceoverFromReview(review);
+    if (!productionVo) {
+      return {
+        ok: false,
+        error:
+          "Production-language voiceover is missing or outdated — save again to refresh translation.",
+        code: "translation_failed",
+      };
+    }
+    const supabase = createSupabaseAdminClient();
+    const memory = await buildAntiRepetitionMemory(supabase, args.projectId, {
+      excludePackageId: args.packageId,
+    });
+    const priorFps = await loadRecentTextToVideoPlanFingerprints(
+      supabase,
+      args.projectId,
+      args.packageId,
+    );
+    brief = applyProductionVoiceoverToTextToVideoBrief({
+      brief,
+      packageId: args.packageId,
+      productionVoiceover: productionVo,
+      memory,
+      priorPlanFingerprints: priorFps,
+      approvePlan: false,
+      timestamp: now().toISOString(),
+    });
+  }
+
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
-    brief: patchBriefAfterCreativeReviewEdits({
-      brief: loaded.brief,
-      priorReview: loaded.review,
-      edits: args.edits,
-    }),
+    brief,
     review,
   });
   return { ok: true, package: view };
@@ -814,21 +884,66 @@ export async function approveCreativeReviewPackage(args: {
   const loaded = await loadMutablePackageContext(args);
   if (!loaded.ok) return loaded.result;
 
+  const isT2v =
+    parsePackageVideoProductionMode(loaded.brief.package_video_mode) ===
+    "text_to_video";
+  const timestamp = (args.now ?? (() => new Date()))().toISOString();
   const mutation = commitCreativeReviewApprove({
     current: loaded.review,
     expectedVersion: args.expectedVersion,
     actor: args.actor,
-    timestamp: (args.now ?? (() => new Date()))().toISOString(),
+    timestamp,
+    requireSceneIntent: !isT2v,
   });
   if (!mutation.ok) {
     return mutationToWriteResult(mutation)!;
+  }
+
+  let brief = loaded.brief;
+  if (isT2v) {
+    const productionVo = productionSpokenVoiceoverFromReview(mutation.review);
+    if (!productionVo) {
+      return {
+        ok: false,
+        error:
+          "Production-language voiceover must be current before Approve Package.",
+        code: "translation_failed",
+      };
+    }
+    const supabase = createSupabaseAdminClient();
+    const memory = await buildAntiRepetitionMemory(supabase, args.projectId, {
+      excludePackageId: args.packageId,
+    });
+    const priorFps = await loadRecentTextToVideoPlanFingerprints(
+      supabase,
+      args.projectId,
+      args.packageId,
+    );
+    brief = applyProductionVoiceoverToTextToVideoBrief({
+      brief,
+      packageId: args.packageId,
+      productionVoiceover: productionVo,
+      memory,
+      priorPlanFingerprints: priorFps,
+      approvePlan: true,
+      timestamp,
+    });
+    const plan = readTextToVideoCreativePlan(brief);
+    if (!plan || plan.status !== "approved" || plan.repetition.status !== "passed") {
+      return {
+        ok: false,
+        error:
+          "Text-to-video plan could not be approved — repetition check did not pass.",
+        code: "validation_failed",
+      };
+    }
   }
 
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
-    brief: loaded.brief,
+    brief,
     review: mutation.review,
   });
   return { ok: true, package: view };
@@ -865,6 +980,22 @@ export async function unapproveCreativeReviewPackage(args: {
   return { ok: true, package: view };
 }
 
+function unapproveReviewIfNeeded(args: {
+  review: CreativeReview;
+  actor: CreativeReviewActor;
+  timestamp: string;
+}): CreativeReview {
+  if (!args.review.approved) return args.review;
+  const mutation = commitCreativeReviewUnapprove({
+    current: args.review,
+    expectedVersion: args.review.version,
+    actor: args.actor,
+    timestamp: args.timestamp,
+  });
+  if (!mutation.ok) return args.review;
+  return mutation.review;
+}
+
 export async function saveCreativeReviewVoiceDirection(args: {
   projectId: string;
   runId: string;
@@ -879,13 +1010,18 @@ export async function saveCreativeReviewVoiceDirection(args: {
     readVoiceDirectionFromBrief(loaded.brief) ?? defaultVoiceDirectionContract();
   const next = bumpVoiceDirectionRevision(current, args.voiceDirection);
   const brief = invalidateAudioTimingOnVoiceDirectionChange(loaded.brief, next);
+  const review = unapproveReviewIfNeeded({
+    review: loaded.review,
+    actor: args.actor,
+    timestamp: new Date().toISOString(),
+  });
 
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
     brief,
-    review: loaded.review,
+    review,
   });
   return { ok: true, package: view };
 }
@@ -942,13 +1078,18 @@ export async function saveCreativeReviewTextToVideoScene(args: {
             : "not_run",
     },
   };
+  const review = unapproveReviewIfNeeded({
+    review: loaded.review,
+    actor: args.actor,
+    timestamp: new Date().toISOString(),
+  });
 
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
     brief,
-    review: loaded.review,
+    review,
   });
   return { ok: true, package: view };
 }
@@ -981,10 +1122,15 @@ export async function saveCreativeReviewTextToVideoSoundPlan(args: {
     };
   }
   const vo =
-    typeof loaded.brief.voiceover_text === "string"
+    productionSpokenVoiceoverFromReview(loaded.review) ??
+    (typeof loaded.brief.voiceover_text === "string"
       ? loaded.brief.voiceover_text.trim()
-      : "";
-  const parsedScene = textToVideoSceneSoundSchema.safeParse(args.sound);
+      : "");
+  const soundInput = {
+    ...args.sound,
+    mode: args.sound.mode === "auto" ? ("none" as const) : args.sound.mode,
+  };
+  const parsedScene = textToVideoSceneSoundSchema.safeParse(soundInput);
   if (!parsedScene.success) {
     return {
       ok: false,
@@ -1023,16 +1169,31 @@ export async function saveCreativeReviewTextToVideoSoundPlan(args: {
     nextSound = { ...nextSound, music: parsedMusic.data };
   }
   let brief = invalidateAssemblyOnSoundPlanChange(loaded.brief);
+  const currentPlan = readTextToVideoCreativePlan(brief);
+  if (currentPlan && currentPlan.status === "approved") {
+    brief = {
+      ...brief,
+      video_text_to_video_creative_plan: serializeTextToVideoCreativePlan({
+        ...currentPlan,
+        status: "draft",
+      }),
+    };
+  }
   brief = {
     ...brief,
     [VIDEO_TEXT_TO_VIDEO_SOUND_PLAN_KEY]: bumpSoundPlanRevision(nextSound),
   };
+  const review = unapproveReviewIfNeeded({
+    review: loaded.review,
+    actor: args.actor,
+    timestamp: new Date().toISOString(),
+  });
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,
     packageIndex: loaded.packageIndex,
     brief,
-    review: loaded.review,
+    review,
   });
   return { ok: true, package: view };
 }

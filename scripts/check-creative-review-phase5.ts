@@ -776,7 +776,7 @@ async function main() {
       join(root, "app/api/n8n/start-video-job/route.ts"),
       "utf8",
     );
-    assert.match(admin, /shouldDeferVideoUntilCreativeReview/);
+    assert.match(admin, /productionRunDefersVideoUntilCreativeReview|shouldDeferVideoUntilCreativeReview/);
     assert.match(start, /shouldDeferVideoUntilCreativeReview/);
   });
 

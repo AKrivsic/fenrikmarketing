@@ -192,7 +192,7 @@ function main(): void {
       join(root, "lib/ai/workflows/continueCreativeReviewGeneration.ts"),
       "utf8",
     );
-    assert.match(cont, /repetition passed before Continue/);
+    assert.match(cont, /assertTextToVideoPlanLockedForContinue/);
     assert.match(cont, /isUniqueViolation/);
   });
 

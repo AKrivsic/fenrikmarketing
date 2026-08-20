@@ -134,8 +134,16 @@ export function computeCreativeReviewStatus(args: {
 /** Approval gate — server only. */
 export function validateCreativeReviewApproval(
   review: CreativeReview,
+  options?: {
+    /**
+     * Still packages require Creative Intent scenes.
+     * Text-to-video packages hide that still layer — skip it.
+     */
+    requireSceneIntent?: boolean;
+  },
 ): ValidationResult<true> {
   const issues: ValidationIssue[] = [];
+  const requireSceneIntent = options?.requireSceneIntent !== false;
   if (!review.voiceover.english_confirmed) {
     issues.push({
       path: "$.voiceover.english_confirmed",
@@ -166,13 +174,13 @@ export function validateCreativeReviewApproval(
       message: "final_approved voiceover is required for approval",
     });
   }
-  if (!scenesHaveCompleteIntent(review.scenes)) {
+  if (requireSceneIntent && !scenesHaveCompleteIntent(review.scenes)) {
     issues.push({
       path: "$.scenes",
       message: "every scene must contain Creative Intent before approval",
     });
   }
-  if (!scenesHaveCurrentEnglishPreview(review.scenes)) {
+  if (requireSceneIntent && !scenesHaveCurrentEnglishPreview(review.scenes)) {
     issues.push({
       path: "$.scenes",
       message:
