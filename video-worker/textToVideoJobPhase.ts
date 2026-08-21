@@ -7,6 +7,7 @@ import {
   workerPreflightInput,
 } from "@/lib/text-to-video/textToVideoWorkerPipeline";
 import { assertAuthoritativeTextToVideoPackageBudget } from "@/lib/text-to-video/textToVideoPackageBudget";
+import { assertTextToVideoPackageReadyForPaidProviders } from "@/lib/text-to-video/assertTextToVideoPackageReadyForPaidProviders";
 import { isTextToVideoRunwayEnabled } from "@/lib/text-to-video/runwayProductionConfig";
 import { isElevenLabsTtsEnabled, readElevenLabsApiKey } from "@/lib/elevenlabs/config";
 import type { TextToVideoRunwayExecutorDeps } from "@/lib/text-to-video/textToVideoRunwayExecutor";
@@ -82,6 +83,12 @@ export async function runTextToVideoJobPhase(args: {
   if (!isTextToVideoRunwayEnabled()) {
     throw new Error("text_to_video_runway_disabled");
   }
+
+  assertTextToVideoPackageReadyForPaidProviders({
+    brief: args.brief,
+    jobInput: args.jobInput,
+    requireWorkerVoiceId: true,
+  });
 
   const renew = async (): Promise<void> => {
     const ok = await renewVideoJobLease(args.supabase, {

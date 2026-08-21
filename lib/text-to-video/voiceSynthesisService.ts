@@ -50,6 +50,11 @@ import {
   subtitleCuesFromElevenAlignment,
 } from "@/lib/elevenlabs/subtitlesFromAlignment";
 import { applyAlignmentMeasuredTimingToPlan } from "@/lib/text-to-video/measuredSceneTiming";
+import { buildTextToVideoRunwayExecutionPlan } from "@/lib/text-to-video/runwayExecutionPlan";
+import {
+  serializeMeasuredExecutionCheckpoint,
+  VIDEO_TEXT_TO_VIDEO_EXECUTION_CHECKPOINT_KEY,
+} from "@/lib/text-to-video/measuredExecutionCheckpoint";
 import { packageBriefDefersVideoJob } from "@/lib/content-package/creativeReviewDeferral";
 import { parsePackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
 import {
@@ -795,6 +800,22 @@ async function finalizeFromAttempt(
     plan: measured,
     packageVideoMode: "text_to_video",
   });
+  let executionCheckpoint: ReturnType<
+    typeof serializeMeasuredExecutionCheckpoint
+  > | null = null;
+  let splitError: string | null = null;
+  try {
+    const executionPlan = buildTextToVideoRunwayExecutionPlan({
+      plan: measured,
+      voiceCheckpoint: checkpoint,
+      alignment: align,
+      approvedVoiceover: vo,
+    });
+    executionCheckpoint = serializeMeasuredExecutionCheckpoint(executionPlan);
+  } catch (error) {
+    splitError =
+      error instanceof Error ? error.message : "t2v_scene_split_invalid";
+  }
   const brief = {
     ...input.brief,
     hook: measured.approved_hook,
@@ -807,6 +828,9 @@ async function finalizeFromAttempt(
     },
     [VIDEO_VOICE_SYNTHESIS_CHECKPOINT_KEY]: checkpoint,
     video_text_to_video_creative_plan: serializeTextToVideoCreativePlan(measured),
+    ...(executionCheckpoint
+      ? { [VIDEO_TEXT_TO_VIDEO_EXECUTION_CHECKPOINT_KEY]: executionCheckpoint }
+      : {}),
     ...(extras?.subtitle_cues
       ? { video_subtitle_cues: extras.subtitle_cues }
       : row.subtitle_cues
@@ -823,6 +847,9 @@ async function finalizeFromAttempt(
   if (error) throw error;
   if (!data?.id) {
     throw new TextToVideoVoiceSynthesisError("package_brief_update_failed");
+  }
+  if (splitError) {
+    throw new TextToVideoVoiceSynthesisError(splitError);
   }
   return { checkpoint, brief };
 }

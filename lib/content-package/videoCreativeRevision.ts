@@ -29,6 +29,7 @@ export function creativePlanContentFingerprint(payload: {
   target_duration_seconds: number;
   origin?: string;
   canonical_plan_fingerprint?: string;
+  prompt_contract_version?: number;
   scenes: Array<{
     scene_id: string;
     order: number;
@@ -46,11 +47,14 @@ export function creativePlanContentFingerprint(payload: {
     ...(payload.canonical_plan_fingerprint
       ? { canonical_plan_fingerprint: payload.canonical_plan_fingerprint }
       : {}),
+    ...(typeof payload.prompt_contract_version === "number"
+      ? { prompt_contract_version: payload.prompt_contract_version }
+      : {}),
     scenes: payload.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
       human_meaning: normalizeMemoryText(s.human_meaning),
-      provider_prompt: normalizeMemoryText(s.provider_prompt),
+      provider_prompt: s.provider_prompt,
     })),
   });
   return createHash("sha256").update(canonical, "utf8").digest("hex").slice(0, 24);

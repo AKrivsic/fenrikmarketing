@@ -17,6 +17,7 @@ import {
 } from "@/lib/content-package/videoCreativeRevision";
 import type { VoiceDirectionContract } from "@/lib/content-package/voiceDirectionContract";
 import { readVoiceDirectionFromBrief } from "@/lib/content-package/voiceDirectionContract";
+import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
 
 export const TEXT_TO_VIDEO_PLAN_SCHEMA_VERSION = 1 as const;
 export const TEXT_TO_VIDEO_TARGET_MIN_SECONDS = 20;
@@ -70,6 +71,11 @@ export const textToVideoPlanSceneSchema = z.object({
   human_visual_edit: z.string().max(600).optional(),
   /** Same as Creative Review / visual_scenes id when projected from the canonical plan. */
   canonical_scene_id: z.string().min(1).optional(),
+  /**
+   * Set when the operator significantly changed the Czech plot and still/motion
+   * have not been rebuilt to match. Approve and paid preflight must fail closed.
+   */
+  visual_rebuild_status: z.enum(["current", "rebuild_required"]).optional(),
 });
 
 export type TextToVideoPlanScene = z.infer<typeof textToVideoPlanSceneSchema>;
@@ -122,6 +128,11 @@ export const textToVideoCreativePlanSchema = z.object({
   timing_measurement_source: z
     .enum(["alignment", "estimated_fallback"])
     .optional(),
+  /**
+   * Prompt composition contract. Missing/0 means a package created before the
+   * current Gen-4.5 prompt rules and must be refreshed before Approve/Continue.
+   */
+  prompt_contract_version: z.number().int().nonnegative().default(0),
   approved_at: z.string().optional(),
 });
 
@@ -263,6 +274,7 @@ export function buildTextToVideoCreativePlan(
     voice_direction_revision: direction.revision ?? 0,
     target_duration_seconds: totalDuration,
     origin: SENTENCE_FALLBACK_ORIGIN,
+    prompt_contract_version: TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
     scenes: scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -286,6 +298,7 @@ export function buildTextToVideoCreativePlan(
     plan_fingerprint: planFp,
     timing_status: TEXT_TO_VIDEO_TIMING_ESTIMATED,
     measured_audio_revision_id: null,
+    prompt_contract_version: TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
     repetition: { status: "not_run", blocked_reasons: [] },
   });
 }
@@ -358,6 +371,7 @@ export function applyHumanVisualEditToScene(
     target_duration_seconds: next.target_duration_seconds,
     origin: next.origin,
     canonical_plan_fingerprint: next.canonical_plan_fingerprint,
+    prompt_contract_version: next.prompt_contract_version,
     scenes: next.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -560,6 +574,7 @@ export function planMatchesApprovedSources(args: {
     target_duration_seconds: args.plan.target_duration_seconds,
     origin: args.plan.origin,
     canonical_plan_fingerprint: args.plan.canonical_plan_fingerprint,
+    prompt_contract_version: args.plan.prompt_contract_version,
     scenes: args.plan.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,

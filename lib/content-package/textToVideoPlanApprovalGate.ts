@@ -15,6 +15,12 @@ import {
   type TextToVideoCreativePlan,
 } from "@/lib/content-package/textToVideoCreativePlan";
 import { isEnglishPreviewCurrent } from "@/lib/creative-review/lifecycle";
+import {
+  providerPromptHasContradictoryTextRules,
+  T2V_GEN45_PROMPT_MAX_UTF16,
+  utf16CodeUnits,
+} from "@/lib/content-package/textToVideoProviderPrompt";
+import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
 
 export const T2V_PLAN_SENTENCE_FALLBACK = "t2v_plan_sentence_fallback" as const;
 export const T2V_SCENE_COUNT_MISMATCH = "t2v_scene_count_mismatch" as const;
@@ -32,6 +38,12 @@ export const T2V_CANONICAL_FINGERPRINT_MISMATCH =
   "t2v_canonical_fingerprint_mismatch" as const;
 export const T2V_PLAN_NOT_CANONICAL = "t2v_plan_not_canonical" as const;
 export const T2V_SCENE_ID_MISMATCH = "t2v_scene_id_mismatch" as const;
+export const T2V_SCENE_VISUAL_STALE = "t2v_scene_visual_stale" as const;
+export const T2V_PROVIDER_PROMPT_TOO_LONG =
+  "t2v_provider_prompt_too_long" as const;
+export const T2V_PROVIDER_PROMPT_TEXT_CONFLICT =
+  "t2v_provider_prompt_text_conflict" as const;
+export const T2V_PROMPT_CONTRACT_STALE = "t2v_prompt_contract_stale" as const;
 
 export type TextToVideoPlanApprovalBlocker =
   | typeof T2V_PLAN_SENTENCE_FALLBACK
@@ -45,7 +57,11 @@ export type TextToVideoPlanApprovalBlocker =
   | typeof T2V_SCENE_VOICEOVER_BINDING_NEEDS_REVIEW
   | typeof T2V_CANONICAL_FINGERPRINT_MISMATCH
   | typeof T2V_PLAN_NOT_CANONICAL
-  | typeof T2V_SCENE_ID_MISMATCH;
+  | typeof T2V_SCENE_ID_MISMATCH
+  | typeof T2V_SCENE_VISUAL_STALE
+  | typeof T2V_PROVIDER_PROMPT_TOO_LONG
+  | typeof T2V_PROVIDER_PROMPT_TEXT_CONFLICT
+  | typeof T2V_PROMPT_CONTRACT_STALE;
 
 export function collectTextToVideoPlanApprovalBlockers(args: {
   plan: TextToVideoCreativePlan | null;
@@ -66,6 +82,12 @@ export function collectTextToVideoPlanApprovalBlockers(args: {
   }
   if (plan.origin !== CANONICAL_VIDEO_PLAN_ORIGIN) {
     blockers.push(T2V_PLAN_NOT_CANONICAL);
+  }
+  if (
+    (plan.prompt_contract_version ?? 0) !==
+    TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION
+  ) {
+    blockers.push(T2V_PROMPT_CONTRACT_STALE);
   }
   if (canonical.length > 0 && plan.scenes.length !== canonical.length) {
     blockers.push(T2V_SCENE_COUNT_MISMATCH);
@@ -93,6 +115,15 @@ export function collectTextToVideoPlanApprovalBlockers(args: {
     }
     if (!renderScene.provider_prompt.trim()) {
       blockers.push(T2V_PROVIDER_PROMPT_MISSING);
+    }
+    if (utf16CodeUnits(renderScene.provider_prompt) > T2V_GEN45_PROMPT_MAX_UTF16) {
+      blockers.push(T2V_PROVIDER_PROMPT_TOO_LONG);
+    }
+    if (providerPromptHasContradictoryTextRules(renderScene.provider_prompt)) {
+      blockers.push(T2V_PROVIDER_PROMPT_TEXT_CONFLICT);
+    }
+    if (renderScene.visual_rebuild_status === "rebuild_required") {
+      blockers.push(T2V_SCENE_VISUAL_STALE);
     }
     if (
       containsCzechDiacritics(renderScene.provider_prompt) ||

@@ -24,6 +24,11 @@ import {
   markTextToVideoClipValidationFailed,
 } from "@/lib/text-to-video/sceneAttemptClipOps";
 import { isTextToVideoRunwayEnabled } from "@/lib/text-to-video/runwayProductionConfig";
+import { validateElevenLabsAlignment } from "@/lib/elevenlabs/adapter";
+import {
+  serializeMeasuredExecutionCheckpoint,
+  VIDEO_TEXT_TO_VIDEO_EXECUTION_CHECKPOINT_KEY,
+} from "@/lib/text-to-video/measuredExecutionCheckpoint";
 
 export class TextToVideoRunwayPhaseError extends Error {
   readonly code: string;
@@ -64,10 +69,47 @@ export async function runTextToVideoRunwayClipsPhase(
     throw new TextToVideoRunwayPhaseError("creative_plan_missing");
   }
 
-  const executionPlan = buildTextToVideoRunwayExecutionPlan({
-    plan,
-    voiceCheckpoint,
-  });
+  const vo =
+    typeof args.brief.voiceover_text === "string"
+      ? args.brief.voiceover_text.trim()
+      : "";
+  const alignRow = await deps.supabase
+    .from("text_to_video_voice_syntheses")
+    .select("alignment")
+    .eq("id", voiceCheckpoint.synthesis_attempt_id)
+    .maybeSingle();
+  const alignment = validateElevenLabsAlignment(alignRow.data?.alignment);
+
+  let executionPlan;
+  try {
+    executionPlan = buildTextToVideoRunwayExecutionPlan({
+      plan,
+      voiceCheckpoint,
+      alignment,
+      approvedVoiceover: vo,
+    });
+  } catch (error) {
+    const code =
+      error instanceof Error ? error.message : "t2v_scene_split_invalid";
+    throw new TextToVideoRunwayPhaseError(code);
+  }
+
+  const executionCheckpoint = serializeMeasuredExecutionCheckpoint(executionPlan);
+  args.brief = {
+    ...args.brief,
+    [VIDEO_TEXT_TO_VIDEO_EXECUTION_CHECKPOINT_KEY]: executionCheckpoint,
+  };
+  const persistExecution = await deps.supabase
+    .from("content_packages")
+    .update({ package_brief: args.brief as unknown as Json })
+    .eq("id", args.packageId)
+    .eq("project_id", args.projectId)
+    .select("id")
+    .maybeSingle();
+  if (persistExecution.error) throw persistExecution.error;
+  if (!persistExecution.data?.id) {
+    throw new TextToVideoRunwayPhaseError("package_brief_update_failed");
+  }
 
   const existingClips = args.brief[VIDEO_SCENE_CLIPS_CHECKPOINT_KEY];
   if (

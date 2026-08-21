@@ -64,6 +64,10 @@ import {
 } from "@/lib/content-package/textToVideoManualReview";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
 import { assertT2vVoiceSelectionReadyForApprove } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
+import {
+  assertTextToVideoCreativeSnapshotReady,
+  assertTextToVideoRunwayRequestsReady,
+} from "@/lib/text-to-video/assertTextToVideoPackageReadyForPaidProviders";
 
 const VIDEO_PLATFORMS = new Set([
   "tiktok",
@@ -267,6 +271,11 @@ export function validatePackagesReadyForContinue(
           review,
         });
         assertT2vVoiceSelectionReadyForApprove({ brief: briefRecord });
+        assertTextToVideoCreativeSnapshotReady({
+          brief: briefRecord,
+          review,
+        });
+        assertTextToVideoRunwayRequestsReady({ brief: briefRecord });
       } catch (error) {
         const message =
           error instanceof Error ? error.message : String(error);

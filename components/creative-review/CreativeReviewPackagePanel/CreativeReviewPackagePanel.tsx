@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import {
   approveCreativeReviewPackageAction,
+  rebuildCreativeReviewTextToVideoSceneFromCzechIntentAction,
   restoreCanonicalVideoPlanAction,
+  refreshTextToVideoVideoPlanAction,
   saveCreativeReviewPackageAction,
   unapproveCreativeReviewPackageAction,
 } from "@/app/projects/[id]/creative-review/actions";
@@ -275,11 +277,15 @@ export function CreativeReviewPackagePanel({
           origin: t2v.origin,
           sceneVoiceoverBinding: t2v.sceneVoiceoverBinding,
           canRestoreCanonicalPlan: t2v.canRestoreCanonicalPlan,
+          sceneVisualRebuildRequired: t2v.scenes.some(
+            (scene) => scene.visualRebuildRequired,
+          ),
         })
       : null;
   const t2vApproveBlocked =
     isT2v &&
     (Boolean(t2v?.canRestoreCanonicalPlan) ||
+      Boolean(t2v?.promptContractStale) ||
       t2v?.origin === "sentence_fallback" ||
       t2v?.sceneVoiceoverBinding === "needs_review" ||
       !t2v?.voiceCategoryLabel ||
@@ -287,7 +293,8 @@ export function CreativeReviewPackagePanel({
       t2vState === "waiting_for_translation" ||
       Boolean(
         review?.scenes.some((scene) => scene.intent.english_preview_outdated),
-      ));
+      ) ||
+      Boolean(t2v?.scenes.some((scene) => scene.visualRebuildRequired)));
   const t2vSceneCount = review?.scenes.length ?? t2v?.scenes.length ?? 0;
 
   const duration = useMemo(() => {
@@ -376,6 +383,22 @@ export function CreativeReviewPackagePanel({
               }
             : {}),
         },
+      );
+      handleMutationResult(result);
+    });
+  }
+
+  function handleRebuildScene(sceneId: string) {
+    if (!editable || !review) return;
+    setError(null);
+    setServerIssues([]);
+    startTransition(async () => {
+      const result = await rebuildCreativeReviewTextToVideoSceneFromCzechIntentAction(
+        projectId,
+        runId,
+        pkg.packageId,
+        sceneId,
+        review.version,
       );
       handleMutationResult(result);
     });
@@ -682,12 +705,49 @@ export function CreativeReviewPackagePanel({
                       </button>
                     </p>
                   ) : null}
+                  {t2v.canRefreshPromptContract ? (
+                    <p className={styles.muted} role="status">
+                      Videoplán používá starý prompt contract. Před schválením
+                      nebo Continue ho aktualizujte bez změny příběhu.{" "}
+                      <button
+                        type="button"
+                        className={styles.save}
+                        disabled={!editable || isPending || !review}
+                        onClick={() => {
+                          if (!review) return;
+                          startTransition(async () => {
+                            const result = await refreshTextToVideoVideoPlanAction(
+                              projectId,
+                              runId,
+                              pkg.packageId,
+                              review.version,
+                            );
+                            handleMutationResult(result);
+                          });
+                        }}
+                      >
+                        Aktualizovat videoplán
+                      </button>
+                    </p>
+                  ) : null}
+                  {t2v.promptContractStale && !t2v.canRefreshPromptContract ? (
+                    <p className={styles.muted} role="status">
+                      Videoplán není na aktuálním prompt contractu. Přestavte
+                      konkrétní scénu podle nového záměru, pak uložte a schvalte.
+                    </p>
+                  ) : null}
                   {t2v.sceneVoiceoverBinding === "needs_review" ? (
                     <p className={styles.muted} role="status">
                       Voiceover se změnil — zkontrolujte, že scény stále sedí,
                       pak uložte. Approve je zakázáno, dokud vazbu nepotvrdíte.
                     </p>
                   ) : null}
+                  <p className={styles.muted}>
+                    Uložení drobné úpravy přeloží češtinu a složí technický
+                    Runway prompt. Pokud jste zásadně změnili děj scény, po
+                    uložení stiskněte „Přestavět scénu podle nového záměru“.
+                    To zavolá Claude (text) a neplatí se ElevenLabs ani Runway.
+                  </p>
                   {t2v.t2vRepetitionBlockedBanner ? (
                     <p className={styles.muted}>{t2v.t2vRepetitionBlockedBanner}</p>
                   ) : null}
@@ -743,6 +803,40 @@ export function CreativeReviewPackagePanel({
                           <p className={styles.muted}>
                             Pohyb / změna: {overlay?.motionPrompt || "—"}
                           </p>
+                          {overlay?.visualRebuildRequired ? (
+                            <p className={styles.error} role="status">
+                              Zásadní změna děje. Still a pohyb jsou staré.
+                              Přestavte scénu z českého zadání, jinak by Runway
+                              dostal nový děj se starým obrazem. Approve je
+                              zakázáno.
+                            </p>
+                          ) : null}
+                          <button
+                            type="button"
+                            className={styles.save}
+                            disabled={
+                              !editable ||
+                              isPending ||
+                              !review ||
+                              Boolean(t2v.canRestoreCanonicalPlan)
+                            }
+                            onClick={() => handleRebuildScene(scene.id)}
+                          >
+                            {isPending
+                              ? "Přestavuji…"
+                              : "Přestavět scénu podle nového záměru"}
+                          </button>
+                          <p className={styles.muted}>
+                            Claude request (text). Média se neplatí.
+                          </p>
+                          <p className={styles.muted}>
+                            Přesný Runway prompt (
+                            {overlay?.providerPromptUtf16Length ??
+                              overlay?.providerPrompt.length ??
+                              0}{" "}
+                            / 1000 UTF-16)
+                          </p>
+                          <pre>{overlay?.providerPrompt ?? ""}</pre>
                           <label className={styles.field}>
                             <span className={styles.label}>Zvuk</span>
                             <select
@@ -777,10 +871,6 @@ export function CreativeReviewPackagePanel({
                               placeholder="Jen pokud je zvolen vlastní efekt"
                             />
                           </label>
-                          <details className={styles.diagnostics}>
-                            <summary>Technický Runway prompt (jen anglicky)</summary>
-                            <pre>{overlay?.providerPrompt ?? ""}</pre>
-                          </details>
                         </li>
                       );
                     })}
@@ -1009,7 +1099,11 @@ export function CreativeReviewPackagePanel({
                   Boolean(isT2v && t2v?.canRestoreCanonicalPlan)
                 }
               >
-                {isPending ? "Saving…" : "Save"}
+                {isPending
+                  ? "Saving…"
+                  : isT2v
+                    ? "Uložit drobnou úpravu"
+                    : "Save"}
               </button>
               <button
                 type="button"

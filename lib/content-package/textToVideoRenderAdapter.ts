@@ -13,11 +13,13 @@ import {
   extractCanonicalVideoScenesFromBrief,
   isVisualIntentVoiceoverCopy,
   readVisualIdentityFromBrief,
+  significantVoiceoverChange,
   type CanonicalVideoScene,
 } from "@/lib/content-package/canonicalVideoPlan";
 import {
   composeTextToVideoProviderPrompt,
   continuityBlockFromVisualIdentity,
+  T2V_GEN45_PROMPT_MAX_UTF16,
 } from "@/lib/content-package/textToVideoProviderPrompt";
 import {
   TEXT_TO_VIDEO_PLAN_SCHEMA_VERSION,
@@ -34,6 +36,7 @@ import {
   hookFingerprint,
   voiceoverRevisionId,
 } from "@/lib/content-package/videoCreativeRevision";
+import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
 
 export const T2V_CANONICAL_STORYBOARD_MISSING =
   "t2v_canonical_storyboard_missing" as const;
@@ -60,6 +63,29 @@ function humanMeaningFromCanonical(canonical: CanonicalVideoScene): string {
   return canonical.voiceover_excerpt.slice(0, 600);
 }
 
+function sceneVisualRebuildRequired(args: {
+  canonical: CanonicalVideoScene;
+  review: CreativeReview | null;
+  priorReview: CreativeReview | null | undefined;
+  priorPlanScene: TextToVideoPlanScene | undefined;
+  clearedVisualRebuildSceneIds?: string[];
+}): boolean {
+  if (args.clearedVisualRebuildSceneIds?.includes(args.canonical.id)) {
+    return false;
+  }
+  if (args.priorPlanScene?.visual_rebuild_status === "rebuild_required") {
+    return true;
+  }
+  const previousCs =
+    args.priorReview?.scenes.find((scene) => scene.id === args.canonical.id)
+      ?.intent.localized_edit ?? "";
+  const nextCs =
+    args.review?.scenes.find((scene) => scene.id === args.canonical.id)?.intent
+      .localized_edit ?? "";
+  if (!args.priorReview || !previousCs || !nextCs) return false;
+  return significantVoiceoverChange(previousCs, nextCs);
+}
+
 /**
  * Build a technical T2V draft from Claude's stored storyboard.
  * Scene count and IDs come from visual_scenes. Voiceover sentence count is ignored.
@@ -68,11 +94,14 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
   packageId: string;
   brief: Record<string, unknown>;
   review?: CreativeReview | null;
+  priorReview?: CreativeReview | null;
   voiceoverText: string;
   hookText?: string;
   voiceDirection: VoiceDirectionContract;
   existingPlan?: TextToVideoCreativePlan | null;
   sceneVoiceoverBinding?: "confirmed" | "needs_review";
+  /** Scene IDs whose still/motion were just rebuilt — treat as current. */
+  clearedVisualRebuildSceneIds?: string[];
 }): TextToVideoCreativePlan {
   const canonical = extractCanonicalVideoScenesFromBrief(args.brief);
   if (canonical.length < 3) {
@@ -108,6 +137,13 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
       throw new Error(T2V_VISUAL_IS_VOICEOVER_COPY);
     }
     const prior = existingById.get(scene.id);
+    const rebuildRequired = sceneVisualRebuildRequired({
+      canonical: scene,
+      review: args.review ?? null,
+      priorReview: args.priorReview,
+      priorPlanScene: prior,
+      clearedVisualRebuildSceneIds: args.clearedVisualRebuildSceneIds,
+    });
     const visualIntent =
       englishVisual ||
       (prior && !isVisualIntentVoiceoverCopy(prior.visual_intent, scene.voiceover_excerpt)
@@ -121,25 +157,32 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
     }
     const providerPrompt = composeTextToVideoProviderPrompt({
       englishVisualIntent: visualIntent,
-      motionPrompt: scene.motion_prompt,
-      energyMotion: prior?.energy_motion,
-      continuity,
-      canonicalScene: scene,
+      motionPrompt: rebuildRequired ? "" : scene.motion_prompt,
+      energyMotion: rebuildRequired ? "" : prior?.energy_motion,
+      continuity: rebuildRequired ? null : continuity,
+      canonicalScene: rebuildRequired ? null : scene,
+      omitStaleVisuals: rebuildRequired,
     });
+    if (providerPrompt.length > T2V_GEN45_PROMPT_MAX_UTF16) {
+      throw new Error("t2v_provider_prompt_too_long");
+    }
     return {
       scene_id: scene.id,
       order: index,
-      human_meaning: humanMeaningFromCanonical(scene),
+      human_meaning: (englishVisual || humanMeaningFromCanonical(scene)).slice(0, 600),
       voiceover_excerpt: scene.voiceover_excerpt.slice(0, 800),
       approximate_start_seconds:
         prior?.approximate_start_seconds ?? Math.round(index * perScene * 10) / 10,
       approximate_duration_seconds:
         prior?.approximate_duration_seconds ?? Math.round(perScene * 10) / 10,
       visual_intent: visualIntent.slice(0, 600),
-      energy_motion: (scene.motion_prompt ?? prior?.energy_motion ?? "").slice(0, 200),
-      provider_prompt: providerPrompt.slice(0, 4000),
+      energy_motion: rebuildRequired
+        ? ""
+        : (scene.motion_prompt ?? prior?.energy_motion ?? "").slice(0, 200),
+      provider_prompt: providerPrompt,
       human_visual_edit: visualIntent.slice(0, 600),
       canonical_scene_id: scene.id,
+      visual_rebuild_status: rebuildRequired ? "rebuild_required" : "current",
     };
   });
 
@@ -152,6 +195,7 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
     target_duration_seconds: totalDuration,
     origin: CANONICAL_VIDEO_PLAN_ORIGIN,
     canonical_plan_fingerprint: canonicalFp,
+    prompt_contract_version: TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
     scenes: scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -182,6 +226,7 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
         ? TEXT_TO_VIDEO_TIMING_ESTIMATED
         : args.existingPlan?.timing_status ?? TEXT_TO_VIDEO_TIMING_ESTIMATED,
     measured_audio_revision_id: null,
+    prompt_contract_version: TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
     repetition: { status: "not_run", blocked_reasons: [] },
   });
 }

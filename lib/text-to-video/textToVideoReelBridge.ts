@@ -22,7 +22,11 @@ export function buildTextToVideoRenderSpecOutput(args: {
         image_bucket: ref.bucket,
         image_path: ref.path,
         duration_seconds: item.requiredTrimSeconds,
-        transition_in: index === 0 ? "none" : "fade",
+        transition_in:
+          index === 0 ||
+          item.canonicalSceneId === args.executionPlan.items[index - 1]?.canonicalSceneId
+            ? "none"
+            : "fade",
         video_clip: {
           bucket: ref.bucket,
           path: ref.path,

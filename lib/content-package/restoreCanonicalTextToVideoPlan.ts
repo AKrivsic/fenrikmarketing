@@ -8,6 +8,7 @@ import {
   extractCanonicalVideoScenesFromBrief,
   readVisualScenesFromBrief,
   stampCanonicalIdsOnVisualScenes,
+  CANONICAL_VIDEO_PLAN_ORIGIN,
 } from "@/lib/content-package/canonicalVideoPlan";
 import {
   applyRepetitionResultToPlan,
@@ -32,6 +33,8 @@ import {
 import { EMPTY_MEMORY } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
 import { computeCreativeReviewStatus } from "@/lib/creative-review/lifecycle";
+import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
+import { syncCanonicalTextToVideoRenderPlanOnSave } from "@/lib/content-package/textToVideoManualReview";
 
 const PENDING_SCENE_INTENT = "Creative intent pending.";
 
@@ -39,6 +42,8 @@ export const T2V_CANONICAL_RESTORE_NOT_NEEDED =
   "t2v_canonical_restore_not_needed" as const;
 export const T2V_CANONICAL_STORYBOARD_MISSING =
   "t2v_canonical_storyboard_missing" as const;
+export const T2V_PROMPT_CONTRACT_REFRESH_NOT_AVAILABLE =
+  "t2v_prompt_contract_refresh_not_available" as const;
 
 export function canRestoreCanonicalTextToVideoPlan(
   brief: Record<string, unknown>,
@@ -47,6 +52,59 @@ export function canRestoreCanonicalTextToVideoPlan(
   if (canonical.length < 3) return false;
   const plan = readTextToVideoCreativePlan(brief);
   return isLegacySentenceFallbackPlan(plan, canonical.length);
+}
+
+export function canRefreshTextToVideoPromptContract(
+  brief: Record<string, unknown>,
+): boolean {
+  const canonical = extractCanonicalVideoScenesFromBrief(brief);
+  if (canonical.length < 3) return false;
+  const plan = readTextToVideoCreativePlan(brief);
+  if (!plan) return false;
+  if (isLegacySentenceFallbackPlan(plan, canonical.length)) return false;
+  if (plan.origin !== CANONICAL_VIDEO_PLAN_ORIGIN) return false;
+  if (plan.scenes.some((scene) => scene.visual_rebuild_status === "rebuild_required")) {
+    return false;
+  }
+  return (
+    (plan.prompt_contract_version ?? 0) !==
+    TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION
+  );
+}
+
+export function refreshTextToVideoPromptContract(args: {
+  packageId: string;
+  brief: Record<string, unknown>;
+  review: CreativeReview;
+  timestamp?: string;
+}): Record<string, unknown> {
+  if (
+    args.review.scenes.some((scene) => {
+      const plan = readTextToVideoCreativePlan(args.brief);
+      return plan?.scenes.find((item) => item.scene_id === scene.id)
+        ?.visual_rebuild_status === "rebuild_required";
+    })
+  ) {
+    throw new Error("t2v_scene_visual_stale");
+  }
+  if (!canRefreshTextToVideoPromptContract(args.brief)) {
+    throw new Error(T2V_PROMPT_CONTRACT_REFRESH_NOT_AVAILABLE);
+  }
+  const vo =
+    typeof args.brief.voiceover_text === "string"
+      ? args.brief.voiceover_text.trim()
+      : "";
+  return syncCanonicalTextToVideoRenderPlanOnSave({
+    brief: args.brief,
+    packageId: args.packageId,
+    productionVoiceover: vo,
+    review: args.review,
+    memory: EMPTY_MEMORY,
+    timestamp: args.timestamp,
+    previousProductionVoiceover: vo,
+    confirmSceneVoiceoverBinding: true,
+    priorReview: args.review,
+  });
 }
 
 export function restoreCanonicalTextToVideoDraft(args: {

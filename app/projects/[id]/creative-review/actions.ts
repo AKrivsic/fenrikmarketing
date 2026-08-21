@@ -6,10 +6,12 @@ import {
   approveCreativeReviewPackage,
   loadCreativeReviewPage,
   restoreCanonicalVideoPlan,
+  refreshTextToVideoVideoPlan,
   saveCreativeReviewPackage,
   saveCreativeReviewTextToVideoScene,
   saveCreativeReviewTextToVideoSoundPlan,
   saveCreativeReviewVoiceDirection,
+  rebuildCreativeReviewTextToVideoSceneFromCzechIntent,
   unapproveCreativeReviewPackage,
   type CreativeReviewPageData,
   type CreativeReviewPackageView,
@@ -278,6 +280,94 @@ export async function restoreCanonicalVideoPlanAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Failed to restore canonical video plan.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function refreshTextToVideoVideoPlanAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  expectedVersion: number,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId) {
+    return {
+      ok: false,
+      error: "Missing project, run, or package id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await refreshTextToVideoVideoPlan({
+      projectId,
+      runId,
+      packageId,
+      expectedVersion,
+      actor,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error,
+        code: result.code,
+        issues: result.issues,
+        currentVersion: result.currentVersion,
+      };
+    }
+    revalidateCreativeReview(projectId, runId);
+    return { ok: true, package: result.package };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to refresh video plan.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function rebuildCreativeReviewTextToVideoSceneFromCzechIntentAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  sceneId: string,
+  expectedVersion: number,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId || !sceneId) {
+    return {
+      ok: false,
+      error: "Missing project, run, package, or scene id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await rebuildCreativeReviewTextToVideoSceneFromCzechIntent({
+      projectId,
+      runId,
+      packageId,
+      sceneId,
+      expectedVersion,
+      actor,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error,
+        code: result.code,
+        issues: result.issues,
+        currentVersion: result.currentVersion,
+      };
+    }
+    revalidateCreativeReview(projectId, runId);
+    return { ok: true, package: result.package };
+  } catch (err) {
+    const message =
+      err instanceof Error
+        ? err.message
+        : "Failed to rebuild the scene from the Czech intent.";
     return { ok: false, error: message };
   }
 }

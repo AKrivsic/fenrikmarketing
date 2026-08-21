@@ -87,11 +87,21 @@ import {
   lockApprovedCanonicalTextToVideoPlan,
 } from "@/lib/content-package/textToVideoManualReview";
 import {
+  applyRebuiltCanonicalSceneVisualsToBrief,
+  rebuildCanonicalSceneVisualsFromCzechIntent,
+} from "@/lib/content-package/rebuildCanonicalSceneFromCzechIntent";
+import {
+  canRefreshTextToVideoPromptContract,
   canRestoreCanonicalTextToVideoPlan,
   hydrateCreativeReviewScenesFromCanonical,
+  refreshTextToVideoPromptContract,
   restoreCanonicalTextToVideoDraft,
 } from "@/lib/content-package/restoreCanonicalTextToVideoPlan";
-import { estimateTextToVideoOperatorBudget } from "@/lib/text-to-video/textToVideoOperatorBudget";
+import {
+  estimateTextToVideoOperatorBudget,
+  readExecutionCheckpointFromBrief,
+} from "@/lib/text-to-video/textToVideoOperatorBudget";
+import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
 import { fetchProjectTtsOptions } from "@/lib/voice/videoJobTtsInput";
 import { translateCreativeReviewEnglishPreviews } from "@/lib/creative-review/translateVoiceover";
 import type { TextProvider } from "@/lib/ai/types";
@@ -143,6 +153,9 @@ export interface CreativeReviewVideoCreativeSummary {
   origin: string | null;
   sceneVoiceoverBinding: string | null;
   canRestoreCanonicalPlan: boolean;
+  canRefreshPromptContract: boolean;
+  promptContractStale: boolean;
+  technicalClipCount: number | null;
   scenes: Array<{
     sceneId: string;
     order: number;
@@ -153,6 +166,8 @@ export interface CreativeReviewVideoCreativeSummary {
     approximateStartSeconds: number;
     approximateDurationSeconds: number;
     providerPrompt: string;
+    providerPromptUtf16Length: number;
+    visualRebuildRequired: boolean;
     soundMode: string;
     soundEffectDescription: string | null;
     soundAnchor: string | null;
@@ -318,14 +333,18 @@ function buildVideoCreativeSummary(
       ? paid.max_budget_usd
       : null;
   let budgetEstimateLabel: string | null = null;
+  let technicalClipCount: number | null = null;
   if (plan && productionVo) {
     try {
-      budgetEstimateLabel = estimateTextToVideoOperatorBudget({
+      const estimate = estimateTextToVideoOperatorBudget({
         productionVoiceover: productionVo,
         plan,
         sound,
         maxBudgetUsd,
-      }).label;
+        executionCheckpoint: readExecutionCheckpointFromBrief(brief),
+      });
+      budgetEstimateLabel = estimate.label;
+      technicalClipCount = estimate.technicalClipCount;
     } catch {
       budgetEstimateLabel = "Odhad ceny nelze spočítat z aktuálních délek scén.";
     }
@@ -354,6 +373,12 @@ function buildVideoCreativeSummary(
     origin: plan?.origin ?? null,
     sceneVoiceoverBinding: plan?.scene_voiceover_binding ?? null,
     canRestoreCanonicalPlan: canRestoreCanonicalTextToVideoPlan(brief),
+    canRefreshPromptContract: canRefreshTextToVideoPromptContract(brief),
+    promptContractStale:
+      Boolean(plan) &&
+      (plan?.prompt_contract_version ?? 0) !==
+        TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
+    technicalClipCount,
     scenes: (plan?.scenes ?? []).map((s) => {
       const ss = sound?.scene_sound[s.scene_id];
       const modeResolved =
@@ -368,6 +393,8 @@ function buildVideoCreativeSummary(
         approximateStartSeconds: s.approximate_start_seconds,
         approximateDurationSeconds: s.approximate_duration_seconds,
         providerPrompt: s.provider_prompt,
+        providerPromptUtf16Length: s.provider_prompt.length,
+        visualRebuildRequired: s.visual_rebuild_status === "rebuild_required",
         soundMode: modeResolved,
         soundEffectDescription: ss?.custom_effect_description ?? null,
         soundAnchor: ss?.anchor ?? null,
@@ -959,6 +986,7 @@ export async function saveCreativeReviewPackage(args: {
         approvePlan: false,
         timestamp: now().toISOString(),
         confirmSceneVoiceoverBinding: args.edits.confirmSceneVoiceoverBinding,
+        priorReview: loaded.review,
       });
       brief = await stampProjectVoiceOnT2vBrief({
         brief,
@@ -1158,6 +1186,82 @@ export async function restoreCanonicalVideoPlan(args: {
   return { ok: true, package: view };
 }
 
+export async function refreshTextToVideoVideoPlan(args: {
+  projectId: string;
+  runId: string;
+  packageId: string;
+  expectedVersion: number;
+  actor: CreativeReviewActor;
+  now?: () => Date;
+}): Promise<SaveCreativeReviewResult> {
+  const loaded = await loadMutablePackageContext(args);
+  if (!loaded.ok) return loaded.result;
+  if (loaded.review.version !== args.expectedVersion) {
+    return {
+      ok: false,
+      error:
+        "This package was modified by another editor. Refresh the page and try again.",
+      code: "version_conflict",
+      currentVersion: loaded.review.version,
+    };
+  }
+  if (
+    parsePackageVideoProductionMode(loaded.brief.package_video_mode) !==
+    "text_to_video"
+  ) {
+    return {
+      ok: false,
+      error: "Prompt contract refresh is only available for text-to-video packages.",
+      code: "validation_failed",
+    };
+  }
+  if (!canRefreshTextToVideoPromptContract(loaded.brief)) {
+    const plan = readTextToVideoCreativePlan(loaded.brief);
+    if (plan?.scenes.some((scene) => scene.visual_rebuild_status === "rebuild_required")) {
+      return {
+        ok: false,
+        error:
+          "Scéna má zastaralý vizuál. Nejdřív ji přestavte podle nového záměru.",
+        code: "validation_failed",
+      };
+    }
+    return {
+      ok: false,
+      error: "Tento videoplán už používá aktuální prompt contract.",
+      code: "validation_failed",
+    };
+  }
+  let brief: Record<string, unknown>;
+  try {
+    brief = refreshTextToVideoPromptContract({
+      packageId: args.packageId,
+      brief: loaded.brief,
+      review: loaded.review,
+      timestamp: (args.now ?? (() => new Date()))().toISOString(),
+    });
+    brief = await stampProjectVoiceOnT2vBrief({
+      brief,
+      projectId: args.projectId,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Refresh failed.";
+    return { ok: false, error: message, code: "validation_failed" };
+  }
+  const review = unapproveReviewIfNeeded({
+    review: loaded.review,
+    actor: args.actor,
+    timestamp: (args.now ?? (() => new Date()))().toISOString(),
+  });
+  const view = await persistCreativeReview({
+    projectId: args.projectId,
+    packageId: args.packageId,
+    packageIndex: loaded.packageIndex,
+    brief,
+    review,
+  });
+  return { ok: true, package: view };
+}
+
 function unapproveReviewIfNeeded(args: {
   review: CreativeReview;
   actor: CreativeReviewActor;
@@ -1194,6 +1298,112 @@ export async function saveCreativeReviewVoiceDirection(args: {
     timestamp: new Date().toISOString(),
   });
 
+  const view = await persistCreativeReview({
+    projectId: args.projectId,
+    packageId: args.packageId,
+    packageIndex: loaded.packageIndex,
+    brief,
+    review,
+  });
+  return { ok: true, package: view };
+}
+
+export async function rebuildCreativeReviewTextToVideoSceneFromCzechIntent(args: {
+  projectId: string;
+  runId: string;
+  packageId: string;
+  sceneId: string;
+  expectedVersion: number;
+  actor: CreativeReviewActor;
+  textProvider?: TextProvider;
+  now?: () => Date;
+}): Promise<SaveCreativeReviewResult> {
+  const loaded = await loadMutablePackageContext(args);
+  if (!loaded.ok) return loaded.result;
+  if (loaded.review.version !== args.expectedVersion) {
+    return {
+      ok: false,
+      error:
+        "This package was modified by another editor. Refresh the page and try again.",
+      code: "version_conflict",
+      currentVersion: loaded.review.version,
+    };
+  }
+  if (
+    parsePackageVideoProductionMode(loaded.brief.package_video_mode) !==
+    "text_to_video"
+  ) {
+    return {
+      ok: false,
+      error: "Scene rebuild is only available for text-to-video packages.",
+      code: "validation_failed",
+    };
+  }
+
+  const rebuilt = await rebuildCanonicalSceneVisualsFromCzechIntent({
+    brief: loaded.brief,
+    review: loaded.review,
+    sceneId: args.sceneId,
+    textProvider: args.textProvider,
+  });
+  if (!rebuilt.ok) {
+    return {
+      ok: false,
+      error: rebuilt.error,
+      code: "translation_failed",
+    };
+  }
+
+  let brief = applyRebuiltCanonicalSceneVisualsToBrief({
+    brief: loaded.brief,
+    sceneId: rebuilt.sceneId,
+    image_prompt: rebuilt.image_prompt,
+    motion_prompt: rebuilt.motion_prompt,
+  });
+  const productionVo =
+    productionSpokenVoiceoverFromReview(loaded.review) ??
+    (typeof brief.voiceover_text === "string" ? brief.voiceover_text.trim() : "");
+  if (!productionVo) {
+    return {
+      ok: false,
+      error: "Production-language voiceover is missing.",
+      code: "translation_failed",
+    };
+  }
+  const supabase = createSupabaseAdminClient();
+  const memory = await buildAntiRepetitionMemory(supabase, args.projectId, {
+    excludePackageId: args.packageId,
+  });
+  const priorFps = await loadRecentTextToVideoPlanFingerprints(
+    supabase,
+    args.projectId,
+    args.packageId,
+  );
+  try {
+    brief = applyProductionVoiceoverToTextToVideoBrief({
+      brief,
+      packageId: args.packageId,
+      productionVoiceover: productionVo,
+      review: loaded.review,
+      memory,
+      priorPlanFingerprints: priorFps,
+      approvePlan: false,
+      timestamp: (args.now ?? (() => new Date()))().toISOString(),
+      priorReview: loaded.review,
+      clearedVisualRebuildSceneIds: [rebuilt.sceneId],
+    });
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "T2V scene rebuild failed.",
+      code: "validation_failed",
+    };
+  }
+  const review = unapproveReviewIfNeeded({
+    review: loaded.review,
+    actor: args.actor,
+    timestamp: (args.now ?? (() => new Date()))().toISOString(),
+  });
   const view = await persistCreativeReview({
     projectId: args.projectId,
     packageId: args.packageId,

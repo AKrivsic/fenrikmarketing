@@ -132,9 +132,21 @@ export async function runTextToVideoAssemblyPhase(args: {
   const clipsCheckpoint = clipsRaw as TextToVideoSceneClipsCheckpoint;
   const plan = readTextToVideoCreativePlan(args.brief);
   if (!plan) throw new TextToVideoAssemblyError("creative_plan_missing");
+  const vo =
+    typeof args.brief.voiceover_text === "string"
+      ? args.brief.voiceover_text.trim()
+      : "";
+  const alignRow = await args.supabase
+    .from("text_to_video_voice_syntheses")
+    .select("alignment")
+    .eq("id", voice.synthesis_attempt_id)
+    .maybeSingle();
+  const alignment = validateElevenLabsAlignment(alignRow.data?.alignment);
   const executionPlan = buildTextToVideoRunwayExecutionPlan({
     plan,
     voiceCheckpoint: voice,
+    alignment,
+    approvedVoiceover: vo,
   });
   if (
     !validateSceneClipsCheckpointStructure(
@@ -174,16 +186,6 @@ export async function runTextToVideoAssemblyPhase(args: {
 
   const packageBudgetUsd = assertAssemblyPhasePackageBudget(args.packageBudgetUsd);
   const voiceSynthesisTextLength = args.voiceSynthesisTextLength;
-  const vo =
-    typeof args.brief.voiceover_text === "string"
-      ? args.brief.voiceover_text.trim()
-      : "";
-  const alignRow = await args.supabase
-    .from("text_to_video_voice_syntheses")
-    .select("alignment")
-    .eq("id", voice.synthesis_attempt_id)
-    .maybeSingle();
-  const alignment = validateElevenLabsAlignment(alignRow.data?.alignment);
 
   const sfxPlacements = resolveSfxPlacements({
     scenes: executionPlan.items,

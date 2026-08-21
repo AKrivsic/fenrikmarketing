@@ -3,6 +3,7 @@ import { isElevenLabsTtsEnabled, readElevenLabsApiKey } from "@/lib/elevenlabs/c
 import { runTextToVideoElevenLabsVoicePhase } from "@/lib/text-to-video/voiceSynthesisService";
 import { runTextToVideoRunwayClipsPhase } from "@/lib/text-to-video/runTextToVideoRunwayClipsPhase";
 import { isTextToVideoRunwayEnabled } from "@/lib/text-to-video/runwayProductionConfig";
+import { assertTextToVideoPackageReadyForPaidProviders } from "@/lib/text-to-video/assertTextToVideoPackageReadyForPaidProviders";
 import type { TextToVideoRunwayExecutorDeps } from "@/lib/text-to-video/textToVideoRunwayExecutor";
 import type { VideoPaidPreflightInput } from "@/lib/content-package/videoPaidPreflight";
 
@@ -65,6 +66,12 @@ export async function runTextToVideoWorkerPipeline(
   if (!isTextToVideoRunwayEnabled()) {
     throw new Error("text_to_video_runway_disabled");
   }
+
+  assertTextToVideoPackageReadyForPaidProviders({
+    brief: args.brief,
+    jobInput: args.jobInput,
+    requireWorkerVoiceId: true,
+  });
 
   const preflight = workerPreflightInput(args.brief);
   const vo =

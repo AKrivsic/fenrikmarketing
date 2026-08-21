@@ -88,6 +88,7 @@ export function textToVideoOperatorApprovalState(args: {
   origin?: string | null;
   sceneVoiceoverBinding?: string | null;
   canRestoreCanonicalPlan?: boolean;
+  sceneVisualRebuildRequired?: boolean;
 }): TextToVideoOperatorApprovalState {
   const production = productionSpokenVoiceoverFromReview(args.review);
   if (!production) return "waiting_for_translation";
@@ -95,6 +96,7 @@ export function textToVideoOperatorApprovalState(args: {
     return "in_progress";
   }
   if (args.sceneVoiceoverBinding === "needs_review") return "in_progress";
+  if (args.sceneVisualRebuildRequired) return "stale_after_change";
   if (args.review.approved && args.planStatus === "approved") return "approved";
   if (args.review.approved && args.planStatus !== "approved") {
     return "stale_after_change";
@@ -172,6 +174,8 @@ export function syncCanonicalTextToVideoRenderPlanOnSave(args: {
   timestamp?: string;
   previousProductionVoiceover?: string;
   confirmSceneVoiceoverBinding?: boolean;
+  priorReview?: CreativeReview | null;
+  clearedVisualRebuildSceneIds?: string[];
 }): Record<string, unknown> {
   const productionVo = args.productionVoiceover.trim();
   if (!productionVo) {
@@ -205,11 +209,13 @@ export function syncCanonicalTextToVideoRenderPlanOnSave(args: {
     packageId: args.packageId,
     brief: args.brief,
     review: args.review,
+    priorReview: args.priorReview,
     voiceoverText: productionVo,
     hookText: hook,
     voiceDirection: direction,
     existingPlan: existing,
     sceneVoiceoverBinding: binding,
+    clearedVisualRebuildSceneIds: args.clearedVisualRebuildSceneIds,
   });
   const timestamp = args.timestamp ?? new Date().toISOString();
   const repetition = checkTextToVideoRepetition({
@@ -244,6 +250,8 @@ export function applyProductionVoiceoverToTextToVideoBrief(args: {
   timestamp?: string;
   previousProductionVoiceover?: string;
   confirmSceneVoiceoverBinding?: boolean;
+  priorReview?: CreativeReview | null;
+  clearedVisualRebuildSceneIds?: string[];
 }): Record<string, unknown> {
   if (args.approvePlan) {
     throw new Error("t2v_approve_must_not_rebuild_plan");
@@ -261,6 +269,8 @@ export function applyProductionVoiceoverToTextToVideoBrief(args: {
     timestamp: args.timestamp,
     previousProductionVoiceover: args.previousProductionVoiceover,
     confirmSceneVoiceoverBinding: args.confirmSceneVoiceoverBinding,
+    priorReview: args.priorReview,
+    clearedVisualRebuildSceneIds: args.clearedVisualRebuildSceneIds,
   });
 }
 

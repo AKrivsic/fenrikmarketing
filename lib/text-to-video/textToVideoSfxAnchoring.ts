@@ -84,14 +84,31 @@ export function resolveSfxPlacements(args: {
   const out: ResolvedSfxPlacement[] = [];
   let effectCount = 0;
   for (const scene of args.scenes) {
-    const sound = args.sceneSound[scene.sceneId] ?? { mode: "none" as const };
+    if (scene.partIndex > 0) continue;
+    const soundKey = scene.canonicalSceneId ?? scene.sceneId;
+    const sound = args.sceneSound[soundKey] ?? args.sceneSound[scene.sceneId] ?? {
+      mode: "none" as const,
+    };
     if (sound.mode === "none") continue;
     if (sound.mode === "auto") continue;
     if (effectCount >= 3) break;
+    const canonicalParts = args.scenes.filter(
+      (item) => item.canonicalSceneId === scene.canonicalSceneId,
+    );
+    const canonicalStart = canonicalParts[0]?.measuredStartSeconds ?? scene.measuredStartSeconds;
+    const canonicalEnd =
+      canonicalParts[canonicalParts.length - 1]?.measuredEndSeconds ??
+      scene.measuredEndSeconds;
+    const canonicalScene: TextToVideoRunwayScenePlanItem = {
+      ...scene,
+      measuredStartSeconds: canonicalStart,
+      measuredEndSeconds: canonicalEnd,
+      requiredTrimSeconds: Math.max(0.25, canonicalEnd - canonicalStart),
+    };
     const anchor = sound.anchor ?? "scene_beginning";
     const start = resolveSfxAnchorSeconds({
       anchor,
-      scene,
+      scene: canonicalScene,
       alignment: args.alignment,
       approvedVoiceover: args.approvedVoiceover,
       voicePhrase: sound.voice_phrase,

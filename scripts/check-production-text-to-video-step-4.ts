@@ -342,12 +342,12 @@ await check(`${++n} submission unknown counts toward budget`, () => {
     voiceSynthesisTextLength: 10,
     existingBySceneId: new Map([
       [
-        "s1",
+        item.sceneId,
         {
           id: "1",
           projectId: "p",
           videoJobId: "j",
-          sceneId: "s1",
+          sceneId: item.sceneId,
           clientRequestId: "c",
           parentAttemptId: null,
           sourceImageBucket: "",
