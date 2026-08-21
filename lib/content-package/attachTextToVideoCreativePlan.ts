@@ -3,10 +3,16 @@ import type { GenerationMode } from "@/lib/ai/generationMode";
 import { defersVideoUntilCreativeReview } from "@/lib/ai/generationMode";
 import type { AntiRepetitionMemory } from "@/lib/ai/types";
 import type { PackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
+import { buildTextToVideoRenderPlanFromCanonical } from "@/lib/content-package/textToVideoRenderAdapter";
+import { readCreativeReviewFromBrief } from "@/lib/creative-review/read";
+import {
+  stampT2vAuthoritativeVoiceOnBrief,
+  normalizeT2vVoiceLanguage,
+} from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
+import { fetchProjectTtsOptions } from "@/lib/voice/videoJobTtsInput";
 import {
   applyRepetitionResultToPlan,
   approveTextToVideoCreativePlan,
-  buildTextToVideoCreativePlan,
   checkTextToVideoRepetition,
   deriveHookFromVoiceover,
   readTextToVideoCreativePlan,
@@ -72,17 +78,23 @@ export async function attachTextToVideoCreativePlanToBrief(args: {
     typeof args.brief.hook === "string" && args.brief.hook.trim()
       ? args.brief.hook.trim()
       : deriveHookFromVoiceover(vo);
+  const reviewRead = readCreativeReviewFromBrief(args.brief);
+  const review = reviewRead.ok ? reviewRead.value : null;
   const priorFps = await loadRecentPlanFingerprints(
     args.supabase,
     args.projectId,
     args.packageId,
   );
 
-  let plan = buildTextToVideoCreativePlan({
+  let plan = buildTextToVideoRenderPlanFromCanonical({
     packageId: args.packageId,
+    brief: args.brief,
+    review,
     voiceoverText: vo,
-    hookOverride: hook,
+    hookText: hook,
     voiceDirection: direction,
+    existingPlan: null,
+    sceneVoiceoverBinding: "confirmed",
   });
 
   const repetition = checkTextToVideoRepetition({
@@ -112,7 +124,7 @@ export async function attachTextToVideoCreativePlanToBrief(args: {
     packageVideoMode: "text_to_video",
   });
 
-  return {
+  let next: Record<string, unknown> = {
     ...args.brief,
     hook,
     [VIDEO_TEXT_TO_VIDEO_CREATIVE_PLAN_KEY]: serializeTextToVideoCreativePlan(plan),
@@ -128,6 +140,23 @@ export async function attachTextToVideoCreativePlanToBrief(args: {
       confirm_paid_run: false,
     },
   };
+
+  const projectTts = await fetchProjectTtsOptions(args.supabase, args.projectId);
+  const { data: projectRow } = await args.supabase
+    .from("projects")
+    .select("language")
+    .eq("id", args.projectId)
+    .maybeSingle();
+  const language =
+    normalizeT2vVoiceLanguage(projectRow?.language) ??
+    normalizeT2vVoiceLanguage(next.language) ??
+    "en";
+  next = stampT2vAuthoritativeVoiceOnBrief(next, {
+    ttsVoice: projectTts.voice,
+    language,
+    selectedVoice: projectTts.selected_voice ?? projectTts.voice,
+  });
+  return next;
 }
 
 export function syncStillPackageIntegrity(

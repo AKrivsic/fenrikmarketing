@@ -27,6 +27,8 @@ export function creativePlanContentFingerprint(payload: {
   hook_fingerprint: string;
   voice_direction_revision: number;
   target_duration_seconds: number;
+  origin?: string;
+  canonical_plan_fingerprint?: string;
   scenes: Array<{
     scene_id: string;
     order: number;
@@ -40,6 +42,10 @@ export function creativePlanContentFingerprint(payload: {
     hook_fingerprint: payload.hook_fingerprint,
     voice_direction_revision: payload.voice_direction_revision,
     target_duration_seconds: payload.target_duration_seconds,
+    ...(payload.origin ? { origin: payload.origin } : {}),
+    ...(payload.canonical_plan_fingerprint
+      ? { canonical_plan_fingerprint: payload.canonical_plan_fingerprint }
+      : {}),
     scenes: payload.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,

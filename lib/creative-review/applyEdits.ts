@@ -32,6 +32,19 @@ export interface CreativeReviewSceneEdit {
 export interface CreativeReviewPackageEdits {
   voiceoverLocalizedEdit: string;
   scenes: CreativeReviewSceneEdit[];
+  /** T2V only — applied on the package brief, not on creative_review JSON. */
+  voiceDirectionStyle?: string;
+  voiceDirectionInstruction?: string;
+  confirmSceneVoiceoverBinding?: boolean;
+  sceneSounds?: Record<
+    string,
+    {
+      mode: "none" | "custom";
+      custom_effect_description?: string;
+      anchor?: string;
+      voice_phrase?: string;
+    }
+  >;
 }
 
 /**

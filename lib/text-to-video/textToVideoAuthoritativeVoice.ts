@@ -6,8 +6,10 @@ import {
   hasExplicitTtsVoice,
   TTS_VOICE_JOB_FIELD,
 } from "@/lib/voice/videoJobTtsInput";
-import type { ElevenLabsVoiceGenderHint } from "@/lib/elevenlabs/voiceResolve";
-import { genderHintFromOpenAiVoice } from "@/lib/elevenlabs/voiceResolve";
+import {
+  genderHintFromOpenAiVoice,
+  type ElevenLabsVoiceGenderHint,
+} from "@/lib/elevenlabs/voiceResolve";
 
 export const TTS_LANGUAGE_JOB_FIELD = "language";
 
@@ -17,6 +19,7 @@ export type T2vVoiceLanguage = "en" | "cs";
 export const T2V_TTS_VOICE_SNAPSHOT_MISSING = "tts_voice_snapshot_missing";
 export const T2V_TTS_LANGUAGE_SNAPSHOT_MISSING = "tts_language_snapshot_missing";
 export const T2V_TTS_LANGUAGE_UNSUPPORTED = "tts_language_unsupported";
+export const T2V_VOICE_CATEGORY_UNDECIDED = "t2v_voice_category_undecided";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
@@ -182,4 +185,86 @@ export function readT2vVoiceLanguageLabelForManualReview(
   const normalized = normalizeT2vVoiceLanguage(raw);
   if (!normalized) return null;
   return t2vVoiceLanguageLabel(normalized);
+}
+
+export function stampT2vAuthoritativeVoiceOnBrief(
+  brief: Record<string, unknown>,
+  args: {
+    ttsVoice: OpenAiTtsVoice;
+    language: T2vVoiceLanguage;
+    selectedVoice?: OpenAiTtsVoice;
+  },
+): Record<string, unknown> {
+  const pg = asRecord(brief.presentation_generation) ?? {};
+  return {
+    ...brief,
+    [TTS_VOICE_JOB_FIELD]: args.ttsVoice,
+    language: args.language,
+    presentation_generation: {
+      ...pg,
+      [TTS_VOICE_JOB_FIELD]: args.ttsVoice,
+      selected_voice: args.selectedVoice ?? args.ttsVoice,
+      language: args.language,
+    },
+  };
+}
+
+export function assertT2vVoiceCategoryDecided(
+  category: ElevenLabsVoiceGenderHint | null | undefined,
+): ElevenLabsVoiceGenderHint {
+  if (
+    category === "female" ||
+    category === "male" ||
+    category === "neutral"
+  ) {
+    return category;
+  }
+  throw new Error(T2V_VOICE_CATEGORY_UNDECIDED);
+}
+
+/**
+ * Control-plane voice gate for Vercel Approve / Continue.
+ * Reads only the stored OpenAI voice + language snapshot.
+ * Must not read ELEVENLABS_VOICE_ID_* / ELEVENLABS_API_KEY or call a provider.
+ */
+export function assertT2vVoiceSelectionReadyForApprove(args: {
+  brief: Record<string, unknown>;
+}): {
+  voice: OpenAiTtsVoice;
+  language: T2vVoiceLanguage;
+  category: ElevenLabsVoiceGenderHint;
+} {
+  const voice = readAuthoritativeOpenAiVoiceForT2VOptional({
+    brief: args.brief,
+  });
+  if (!voice) {
+    throw new Error(T2V_TTS_VOICE_SNAPSHOT_MISSING);
+  }
+  const languageRaw = readAuthoritativeLanguageRawForT2V({ brief: args.brief });
+  if (
+    languageRaw === undefined ||
+    languageRaw === null ||
+    String(languageRaw).trim() === ""
+  ) {
+    throw new Error(T2V_TTS_LANGUAGE_SNAPSHOT_MISSING);
+  }
+  const language = normalizeT2vVoiceLanguage(languageRaw);
+  if (!language) {
+    throw new Error(T2V_TTS_LANGUAGE_UNSUPPORTED);
+  }
+  const category = assertT2vVoiceCategoryDecided(
+    genderHintFromOpenAiVoice(voice),
+  );
+  return { voice, language, category };
+}
+
+/** @deprecated Use assertT2vVoiceSelectionReadyForApprove. Does not resolve Voice ID. */
+export function assertT2vVoiceReadyForApprove(args: {
+  brief: Record<string, unknown>;
+}): {
+  voice: OpenAiTtsVoice;
+  language: T2vVoiceLanguage;
+  category: ElevenLabsVoiceGenderHint;
+} {
+  return assertT2vVoiceSelectionReadyForApprove(args);
 }

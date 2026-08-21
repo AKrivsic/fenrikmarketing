@@ -3,10 +3,8 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import {
   approveCreativeReviewPackageAction,
+  restoreCanonicalVideoPlanAction,
   saveCreativeReviewPackageAction,
-  saveCreativeReviewTextToVideoSceneAction,
-  saveCreativeReviewTextToVideoSoundPlanAction,
-  saveCreativeReviewVoiceDirectionAction,
   unapproveCreativeReviewPackageAction,
 } from "@/app/projects/[id]/creative-review/actions";
 import { VOICE_DIRECTION_STYLE_LABELS } from "@/lib/content-package/voiceDirectionContract";
@@ -38,6 +36,28 @@ interface SceneDraft {
   id: string;
   intentLocalizedEdit: string;
   directorNotes: string;
+  soundMode: "none" | "custom";
+  soundEffectDescription: string;
+  soundAnchor: string;
+  voicePhrase: string;
+}
+
+function buildSceneDrafts(
+  review: CreativeReview,
+  t2v?: CreativeReviewPackageView["videoCreativeSummary"],
+): SceneDraft[] {
+  return review.scenes.map((scene) => {
+    const overlay = t2v?.scenes.find((item) => item.sceneId === scene.id);
+    return {
+      id: scene.id,
+      intentLocalizedEdit: scene.intent.localized_edit,
+      directorNotes: scene.director_notes,
+      soundMode: overlay?.soundMode === "custom" ? "custom" : "none",
+      soundEffectDescription: overlay?.soundEffectDescription ?? "",
+      soundAnchor: overlay?.soundAnchor ?? "scene_beginning",
+      voicePhrase: overlay?.voicePhrase ?? "",
+    };
+  });
 }
 
 function formatTimestamp(value: string): string {
@@ -86,14 +106,6 @@ function visualSourceLabel(source: string): string {
   if (source === "asset") return "Asset";
   if (source === "typed_overlay") return "Typed overlay";
   return source;
-}
-
-function buildSceneDrafts(review: CreativeReview): SceneDraft[] {
-  return review.scenes.map((scene) => ({
-    id: scene.id,
-    intentLocalizedEdit: scene.intent.localized_edit,
-    directorNotes: scene.director_notes,
-  }));
 }
 
 function draftsEqual(
@@ -164,7 +176,7 @@ export function CreativeReviewPackagePanel({
     review?.voiceover.localized_edit ?? "",
   );
   const [sceneDrafts, setSceneDrafts] = useState<SceneDraft[]>(() =>
-    review ? buildSceneDrafts(review) : [],
+    review ? buildSceneDrafts(review, pkg.videoCreativeSummary) : [],
   );
   const [serverIssues, setServerIssues] = useState<ValidationIssue[]>(
     pkg.validationIssues,
@@ -180,12 +192,11 @@ export function CreativeReviewPackagePanel({
     t2v?.voiceDirection?.custom_instruction ?? "",
   );
 
+  /* eslint-disable react-hooks/set-state-in-effect -- hydrate controlled drafts from the persisted package after Save/Restore */
   useEffect(() => {
-    setVoiceStyle(t2v?.voiceDirection?.style ?? "auto");
-    setVoiceInstruction(t2v?.voiceDirection?.custom_instruction ?? "");
-  }, [t2v?.voiceDirection?.style, t2v?.voiceDirection?.custom_instruction]);
-
-  useEffect(() => {
+    const summary = pkg.videoCreativeSummary;
+    setVoiceStyle(summary?.voiceDirection?.style ?? "auto");
+    setVoiceInstruction(summary?.voiceDirection?.custom_instruction ?? "");
     if (!pkg.creativeReview) {
       setVoiceoverEdit("");
       setSceneDrafts([]);
@@ -193,14 +204,41 @@ export function CreativeReviewPackagePanel({
       return;
     }
     setVoiceoverEdit(pkg.creativeReview.voiceover.localized_edit);
-    setSceneDrafts(buildSceneDrafts(pkg.creativeReview));
+    setSceneDrafts(buildSceneDrafts(pkg.creativeReview, summary));
     setServerIssues(pkg.validationIssues);
   }, [pkg]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  const isT2v = pkg.packageVideoMode === "text_to_video";
 
   const dirty = useMemo(() => {
     if (!review || readOnly) return false;
-    return !draftsEqual(voiceoverEdit, sceneDrafts, review);
-  }, [review, voiceoverEdit, sceneDrafts, readOnly]);
+    const contentDirty = !draftsEqual(voiceoverEdit, sceneDrafts, review);
+    if (!isT2v) return contentDirty;
+    const voiceDirty =
+      voiceStyle !== (t2v?.voiceDirection?.style ?? "auto") ||
+      voiceInstruction !== (t2v?.voiceDirection?.custom_instruction ?? "");
+    const soundDirty = sceneDrafts.some((draft) => {
+      const overlay = t2v?.scenes.find((item) => item.sceneId === draft.id);
+      const expectedMode = overlay?.soundMode === "custom" ? "custom" : "none";
+      return (
+        draft.soundMode !== expectedMode ||
+        (draft.soundEffectDescription ?? "") !==
+          (overlay?.soundEffectDescription ?? "") ||
+        (draft.voicePhrase ?? "") !== (overlay?.voicePhrase ?? "")
+      );
+    });
+    return contentDirty || voiceDirty || soundDirty;
+  }, [
+    review,
+    voiceoverEdit,
+    sceneDrafts,
+    readOnly,
+    isT2v,
+    voiceStyle,
+    voiceInstruction,
+    t2v,
+  ]);
 
   useEffect(() => {
     onDirtyChange(pkg.packageId, dirty);
@@ -228,16 +266,29 @@ export function CreativeReviewPackagePanel({
     ? creativeReviewNeedsEnglishPreviewUpdate(review)
     : true;
   const canRunWorkflow = editable && !dirty && !isPending;
-  const isT2v = pkg.packageVideoMode === "text_to_video";
   const t2vState =
     isT2v && t2v && review
       ? textToVideoOperatorApprovalState({
           review,
           planStatus: t2v.planStatus,
           repetitionStatus: t2v.repetitionStatus,
+          origin: t2v.origin,
+          sceneVoiceoverBinding: t2v.sceneVoiceoverBinding,
+          canRestoreCanonicalPlan: t2v.canRestoreCanonicalPlan,
         })
       : null;
-  const t2vSceneCount = t2v?.scenes.length ?? 0;
+  const t2vApproveBlocked =
+    isT2v &&
+    (Boolean(t2v?.canRestoreCanonicalPlan) ||
+      t2v?.origin === "sentence_fallback" ||
+      t2v?.sceneVoiceoverBinding === "needs_review" ||
+      !t2v?.voiceCategoryLabel ||
+      t2vState === "in_progress" ||
+      t2vState === "waiting_for_translation" ||
+      Boolean(
+        review?.scenes.some((scene) => scene.intent.english_preview_outdated),
+      ));
+  const t2vSceneCount = review?.scenes.length ?? t2v?.scenes.length ?? 0;
 
   const duration = useMemo(() => {
     if (!review) return null;
@@ -249,7 +300,7 @@ export function CreativeReviewPackagePanel({
 
   function updateScene(
     sceneId: string,
-    patch: Partial<Pick<SceneDraft, "intentLocalizedEdit" | "directorNotes">>,
+    patch: Partial<SceneDraft>,
   ) {
     setSceneDrafts((prev) =>
       prev.map((scene) =>
@@ -297,6 +348,33 @@ export function CreativeReviewPackagePanel({
             intentLocalizedEdit: scene.intentLocalizedEdit,
             directorNotes: scene.directorNotes,
           })),
+          ...(isT2v
+            ? {
+                voiceDirectionStyle: voiceStyle,
+                voiceDirectionInstruction: voiceInstruction,
+                confirmSceneVoiceoverBinding: true,
+                sceneSounds: Object.fromEntries(
+                  sceneDrafts.map((scene) => [
+                    scene.id,
+                    {
+                      mode: scene.soundMode,
+                      ...(scene.soundEffectDescription.trim()
+                        ? {
+                            custom_effect_description:
+                              scene.soundEffectDescription.trim(),
+                          }
+                        : {}),
+                      ...(scene.soundAnchor
+                        ? { anchor: scene.soundAnchor }
+                        : {}),
+                      ...(scene.voicePhrase.trim()
+                        ? { voice_phrase: scene.voicePhrase.trim() }
+                        : {}),
+                    },
+                  ]),
+                ),
+              }
+            : {}),
         },
       );
       handleMutationResult(result);
@@ -336,7 +414,7 @@ export function CreativeReviewPackagePanel({
   function handleReset() {
     if (!review) return;
     setVoiceoverEdit(review.voiceover.localized_edit);
-    setSceneDrafts(buildSceneDrafts(review));
+    setSceneDrafts(buildSceneDrafts(review, t2v));
     setError(null);
     setServerIssues(pkg.validationIssues);
     setSavedFlash(false);
@@ -567,29 +645,6 @@ export function CreativeReviewPackagePanel({
                       placeholder="Např. První větu důrazně, vysvětlení klidně a CTA energicky."
                     />
                   </label>
-                  <button
-                    type="button"
-                    className={styles.save}
-                    disabled={!editable || isPending}
-                    onClick={() => {
-                      startTransition(async () => {
-                        const result = await saveCreativeReviewVoiceDirectionAction(
-                          projectId,
-                          runId,
-                          pkg.packageId,
-                          {
-                            style: voiceStyle,
-                            ...(voiceInstruction.trim()
-                              ? { custom_instruction: voiceInstruction.trim() }
-                              : {}),
-                          },
-                        );
-                        handleMutationResult(result);
-                      });
-                    }}
-                  >
-                    Uložit hlasovou režii
-                  </button>
                 </section>
 
                 <section
@@ -602,175 +657,133 @@ export function CreativeReviewPackagePanel({
                   >
                     Video scény
                   </h3>
+                  {t2v.canRestoreCanonicalPlan ? (
+                    <p className={styles.muted} role="status">
+                      Tento draft vznikl rozdělením voiceoveru. Obnovte videoplán
+                      z původního Claude storyboardu, pak uložte a schvalte.{" "}
+                      <button
+                        type="button"
+                        className={styles.save}
+                        disabled={!editable || isPending || !review}
+                        onClick={() => {
+                          if (!review) return;
+                          startTransition(async () => {
+                            const result = await restoreCanonicalVideoPlanAction(
+                              projectId,
+                              runId,
+                              pkg.packageId,
+                              review.version,
+                            );
+                            handleMutationResult(result);
+                          });
+                        }}
+                      >
+                        Obnovit videoplán z původního storyboardu
+                      </button>
+                    </p>
+                  ) : null}
+                  {t2v.sceneVoiceoverBinding === "needs_review" ? (
+                    <p className={styles.muted} role="status">
+                      Voiceover se změnil — zkontrolujte, že scény stále sedí,
+                      pak uložte. Approve je zakázáno, dokud vazbu nepotvrdíte.
+                    </p>
+                  ) : null}
                   {t2v.t2vRepetitionBlockedBanner ? (
                     <p className={styles.muted}>{t2v.t2vRepetitionBlockedBanner}</p>
                   ) : null}
                   <ul className={styles.sceneList}>
-                    {t2v.scenes.map((scene) => (
-                      <li key={scene.sceneId} className={styles.sceneCard}>
-                        <strong>Scéna {scene.order + 1}</strong>
-                        <p className={styles.muted}>
-                          Voiceover: {scene.voiceoverExcerpt || "—"}
-                        </p>
-                        <p className={styles.muted}>
-                          {sceneDurationLabel(
-                            scene.approximateDurationSeconds,
-                            t2v.timingStatus,
-                          )}
-                        </p>
-                        <label className={styles.field}>
-                          <span className={styles.label}>Vizuální představa</span>
-                          <textarea
-                            className={styles.textarea}
-                            rows={3}
-                            defaultValue={scene.humanVisualEdit}
-                            disabled={!editable || isPending}
-                            id={`t2v-scene-${scene.sceneId}`}
-                          />
-                        </label>
-                        <label className={styles.field}>
-                          <span className={styles.label}>Zvuk</span>
-                          <select
-                            className={styles.textarea}
-                            defaultValue={
-                              scene.soundMode === "custom" ? "custom" : "none"
-                            }
-                            disabled={!editable || isPending}
-                            id={`t2v-sound-mode-${scene.sceneId}`}
-                          >
-                            <option value="none">Bez zvukového efektu</option>
-                            <option value="custom">Vlastní efekt</option>
-                          </select>
-                        </label>
-                        <label className={styles.field}>
-                          <span className={styles.label}>Popis efektu</span>
-                          <textarea
-                            className={styles.textarea}
-                            rows={2}
-                            defaultValue={scene.soundEffectDescription ?? ""}
-                            disabled={!editable || isPending}
-                            id={`t2v-sound-desc-${scene.sceneId}`}
-                            placeholder="Jen pokud je zvolen vlastní efekt"
-                          />
-                        </label>
-                        <label className={styles.field}>
-                          <span className={styles.label}>
-                            Umístění / vazba na voiceover
-                          </span>
-                          <select
-                            className={styles.textarea}
-                            defaultValue={scene.soundAnchor ?? "scene_beginning"}
-                            disabled={!editable || isPending}
-                            id={`t2v-sound-anchor-${scene.sceneId}`}
-                          >
-                            <option value="scene_start">Začátek scény</option>
-                            <option value="scene_beginning">
-                              Začátek scény (jemně)
-                            </option>
-                            <option value="scene_middle">Střed scény</option>
-                            <option value="scene_end">Konec scény</option>
-                            <option value="voice_phrase">
-                              Při frázi ve voiceoveru
-                            </option>
-                          </select>
-                        </label>
-                        <label className={styles.field}>
-                          <span className={styles.label}>Fráze ve voiceoveru</span>
-                          <input
-                            className={styles.textarea}
-                            defaultValue={scene.voicePhrase ?? ""}
-                            disabled={!editable || isPending}
-                            id={`t2v-sound-phrase-${scene.sceneId}`}
-                            placeholder="Přesná fráze z produkčního voiceoveru"
-                          />
-                        </label>
-                        <details className={styles.diagnostics}>
-                          <summary>Technický provider prompt</summary>
-                          <pre>{scene.providerPrompt}</pre>
-                        </details>
-                        <button
-                          type="button"
-                          className={styles.save}
-                          disabled={!editable || isPending}
-                          onClick={() => {
-                            const el = document.getElementById(
-                              `t2v-scene-${scene.sceneId}`,
-                            ) as HTMLTextAreaElement | null;
-                            const value = el?.value?.trim() ?? "";
-                            if (!value) return;
-                            startTransition(async () => {
-                              const result =
-                                await saveCreativeReviewTextToVideoSceneAction(
-                                  projectId,
-                                  runId,
-                                  pkg.packageId,
-                                  scene.sceneId,
-                                  value,
-                                );
-                              handleMutationResult(result);
-                            });
-                          }}
-                        >
-                          Uložit scénu
-                        </button>
-                        <button
-                          type="button"
-                          className={styles.save}
-                          disabled={!editable || isPending}
-                          onClick={() => {
-                            const modeEl = document.getElementById(
-                              `t2v-sound-mode-${scene.sceneId}`,
-                            ) as HTMLSelectElement | null;
-                            const descEl = document.getElementById(
-                              `t2v-sound-desc-${scene.sceneId}`,
-                            ) as HTMLTextAreaElement | null;
-                            const anchorEl = document.getElementById(
-                              `t2v-sound-anchor-${scene.sceneId}`,
-                            ) as HTMLSelectElement | null;
-                            const phraseEl = document.getElementById(
-                              `t2v-sound-phrase-${scene.sceneId}`,
-                            ) as HTMLInputElement | null;
-                            const mode = (modeEl?.value ?? "none") as
-                              | "none"
-                              | "custom";
-                            startTransition(async () => {
-                              const result =
-                                await saveCreativeReviewTextToVideoSoundPlanAction(
-                                  projectId,
-                                  runId,
-                                  pkg.packageId,
-                                  scene.sceneId,
-                                  {
-                                    mode,
-                                    ...(descEl?.value?.trim()
-                                      ? {
-                                          custom_effect_description:
-                                            descEl.value.trim(),
-                                        }
-                                      : {}),
-                                    ...(anchorEl?.value
-                                      ? {
-                                          anchor: anchorEl.value as
-                                            | "scene_start"
-                                            | "scene_beginning"
-                                            | "scene_middle"
-                                            | "scene_end"
-                                            | "voice_phrase",
-                                        }
-                                      : {}),
-                                    ...(phraseEl?.value?.trim()
-                                      ? { voice_phrase: phraseEl.value.trim() }
-                                      : {}),
-                                  },
-                                );
-                              handleMutationResult(result);
-                            });
-                          }}
-                        >
-                          Uložit zvuk scény
-                        </button>
-                      </li>
-                    ))}
+                    {review!.scenes.map((scene, index) => {
+                      const draft = sceneDrafts.find((item) => item.id === scene.id);
+                      const overlay = t2v.scenes.find(
+                        (item) => item.sceneId === scene.id,
+                      );
+                      if (!draft) return null;
+                      return (
+                        <li key={scene.id} className={styles.sceneCard}>
+                          <strong>Scéna {index + 1}</strong>
+                          <p className={styles.muted}>
+                            Část voiceoveru: {overlay?.voiceoverExcerpt || "—"}
+                          </p>
+                          <p className={styles.muted}>
+                            {overlay
+                              ? sceneDurationLabel(
+                                  overlay.approximateDurationSeconds,
+                                  t2v.timingStatus,
+                                )
+                              : "Délka: —"}
+                          </p>
+                          <label className={styles.field}>
+                            <span className={styles.label}>
+                              Co se ve scéně děje (čeština)
+                            </span>
+                            <textarea
+                              className={styles.textarea}
+                              rows={3}
+                              value={draft.intentLocalizedEdit}
+                              disabled={!editable || isPending}
+                              onChange={(e) =>
+                                updateScene(scene.id, {
+                                  intentLocalizedEdit: e.target.value,
+                                })
+                              }
+                            />
+                          </label>
+                          <label className={styles.field}>
+                            <span className={styles.label}>
+                              Anglická produkční verze
+                            </span>
+                            <textarea
+                              className={styles.textarea}
+                              rows={2}
+                              value={scene.intent.english_preview ?? ""}
+                              readOnly
+                              aria-readonly="true"
+                            />
+                          </label>
+                          <p className={styles.muted}>
+                            Pohyb / změna: {overlay?.motionPrompt || "—"}
+                          </p>
+                          <label className={styles.field}>
+                            <span className={styles.label}>Zvuk</span>
+                            <select
+                              className={styles.textarea}
+                              value={draft.soundMode}
+                              disabled={!editable || isPending}
+                              onChange={(e) =>
+                                updateScene(scene.id, {
+                                  soundMode:
+                                    e.target.value === "custom"
+                                      ? "custom"
+                                      : "none",
+                                })
+                              }
+                            >
+                              <option value="none">Bez zvukového efektu</option>
+                              <option value="custom">Vlastní efekt</option>
+                            </select>
+                          </label>
+                          <label className={styles.field}>
+                            <span className={styles.label}>Popis efektu</span>
+                            <textarea
+                              className={styles.textarea}
+                              rows={2}
+                              value={draft.soundEffectDescription}
+                              disabled={!editable || isPending}
+                              onChange={(e) =>
+                                updateScene(scene.id, {
+                                  soundEffectDescription: e.target.value,
+                                })
+                              }
+                              placeholder="Jen pokud je zvolen vlastní efekt"
+                            />
+                          </label>
+                          <details className={styles.diagnostics}>
+                            <summary>Technický Runway prompt (jen anglicky)</summary>
+                            <pre>{overlay?.providerPrompt ?? ""}</pre>
+                          </details>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </section>
 
@@ -988,7 +1001,13 @@ export function CreativeReviewPackagePanel({
                 type="button"
                 className={styles.save}
                 onClick={handleSave}
-                disabled={isPending || !dirty || review!.approved || readOnly}
+                disabled={
+                  isPending ||
+                  !dirty ||
+                  review!.approved ||
+                  readOnly ||
+                  Boolean(isT2v && t2v?.canRestoreCanonicalPlan)
+                }
               >
                 {isPending ? "Saving…" : "Save"}
               </button>
@@ -1005,7 +1024,7 @@ export function CreativeReviewPackagePanel({
                   type="button"
                   className={styles.approve}
                   onClick={handleApprove}
-                  disabled={!canRunWorkflow || englishOutdated}
+                  disabled={!canRunWorkflow || englishOutdated || t2vApproveBlocked}
                 >
                   Approve Package
                 </button>

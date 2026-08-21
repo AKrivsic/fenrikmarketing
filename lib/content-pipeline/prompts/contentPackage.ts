@@ -37,6 +37,8 @@ import {
   buildContentPackageVoiceoverContractBlock,
   ctaRequirementForFunnelStage,
 } from "@/lib/content-pipeline/prompts/contentPackageContract";
+import type { PackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
+import { DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE } from "@/lib/content-package/packageVideoProductionMode";
 import {
   buildContentPackageSocialImageBlock,
   packageNeedsSocialImage,
@@ -82,6 +84,7 @@ export interface ContentPackagePromptInput {
   regeneration?: RegenerationContext | null;
   directives?: CreativeDirectives | null;
   painPoint?: string | null;
+  packageVideoMode?: PackageVideoProductionMode;
 }
 
 function assetsBlock(assets: AssetRef[]): string {
@@ -257,7 +260,11 @@ export function buildContentPackagePrompt(
     "- youtube caption: Shorts-native — hard maximum 55 words (guardrails reject longer).",
     "- x caption: hard maximum 280 characters (guardrails reject longer).",
     "",
-    buildContentPackageVisualScenesBlock({ requireVideo: input.requireVideo }),
+    buildContentPackageVisualScenesBlock({
+      requireVideo: input.requireVideo,
+      packageVideoMode:
+        input.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+    }),
     requireSocialImage ? buildContentPackageSocialImageBlock() : "",
     "",
     "Return a single JSON object matching the content package schema:",

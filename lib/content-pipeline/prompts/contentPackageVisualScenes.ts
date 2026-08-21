@@ -16,16 +16,36 @@ import {
 /** Prompt block documenting legal visual_scenes shapes for Content Package. */
 export function buildContentPackageVisualScenesBlock(args: {
   requireVideo: boolean;
+  packageVideoMode?: "still" | "text_to_video";
 }): string {
   const minScenes = args.requireVideo ? 3 : 1;
   const maxScenes = MAX_VIDEO_SCENE_STILLS;
-  return [
+  const t2v = args.packageVideoMode === "text_to_video";
+  const lines = [
     "VISUAL_SCENES CONTRACT (strict — validator rejects unrecognized shapes):",
     args.requireVideo
       ? `- For video packages, visual_scenes is REQUIRED with ${minScenes}–${maxScenes} entries.`
       : `- When present, visual_scenes must have ${minScenes}–${maxScenes} entries.`,
+    "- Prefer 4–5 scenes for a complete short video.",
     "- Prefer flat legacy IMAGE scenes for ordinary video beats:",
-    '  { "source": "ai", "image_prompt": "A concrete visual description for one scene", "motion_prompt": "optional but recommended: what moves, subject action, ambient motion, camera move, what stays stable" }',
+    t2v
+      ? '  { "source": "ai", "id": "scene-1", "image_prompt": "A concrete visual description for one scene", "motion_prompt": "what moves or changes during this short clip", "voiceover_excerpt": "the exact spoken words covered by this scene" }'
+      : '  { "source": "ai", "image_prompt": "A concrete visual description for one scene", "motion_prompt": "optional but recommended: what moves, subject action, ambient motion, camera move, what stays stable" }',
+  ];
+  if (t2v) {
+    lines.push(
+      "",
+      "TEXT-TO-VIDEO SCENE EVENTS (same story and voiceover as still — describe real clip action):",
+      "- Each visual_scene is a short video event, not a still caption of the voiceover.",
+      "- For every scene state: what we see, who/what is in frame, what moves or changes during the clip, what emotion lands, and how it continues from the previous scene.",
+      "- Keep one shared story and one shared voiceover. Do not invent a second plot.",
+      "- voiceover_excerpt must be a contiguous slice of voiceover_text for that scene (do not paraphrase a new narration).",
+      "- image_prompt describes the visible world; motion_prompt describes the action/change. Neither may copy voiceover_excerpt.",
+      "- Do not split the video by voiceover sentence count. Scene count is the storyboard you write here (prefer 4–5).",
+    );
+  }
+  return [
+    ...lines,
     '  { "source": "asset", "asset_id": "existing-asset-uuid", "used_as": "background, product reference, screen content, or other clear usage", "motion_prompt": "optional motion for this still" }',
     "- Do NOT invent field names like description, prompt, visual, scene_prompt, scene, or content.",
     "- Do NOT mix legacy and typed formats in one object.",

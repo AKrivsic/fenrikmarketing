@@ -7,7 +7,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { EMPTY_MEMORY } from "../lib/ai/workflows/antiRepetitionMemory";
 import { validatePackagesReadyForContinue } from "../lib/ai/workflows/continueCreativeReviewGeneration";
 import {
   applyCreativeReviewEdits,
@@ -24,15 +23,18 @@ import {
 } from "../lib/creative-review/productionSpokenVoiceover";
 import type { CreativeReview } from "../lib/creative-review/types";
 import {
-  applyHumanVisualEditToScene,
+  applyRepetitionResultToPlan,
   buildTextToVideoCreativePlan,
+  checkTextToVideoRepetition,
   deriveHookFromVoiceover,
   readTextToVideoCreativePlan,
   serializeTextToVideoCreativePlan,
 } from "../lib/content-package/textToVideoCreativePlan";
+import { EMPTY_MEMORY } from "../lib/ai/workflows/antiRepetitionMemory";
+import { buildTextToVideoRenderPlanFromCanonical } from "../lib/content-package/textToVideoRenderAdapter";
 import {
-  applyProductionVoiceoverToTextToVideoBrief,
   assertTextToVideoPlanLockedForContinue,
+  lockApprovedCanonicalTextToVideoPlan,
   coerceOperatorSoundPlanToExplicitNone,
   snapshotTextToVideoPlanForContinueGuard,
   textToVideoOperatorApprovalState,
@@ -119,27 +121,78 @@ function approvedT2vReview(): CreativeReview {
   return approved.review;
 }
 
+function fiveScenesForReview() {
+  return [1, 2, 3, 4, 5].map((n) => ({
+    source: "ai" as const,
+    id: `scene-${n}`,
+    image_prompt: `Concrete scene ${n} action, not a voiceover copy`,
+    motion_prompt: `Motion change ${n}`,
+    voiceover_excerpt: EN_PRODUCTION.split(". ")[Math.min(n - 1, 2)] ?? EN_PRODUCTION,
+  }));
+}
+
+function reviewWithCanonicalScenes(review: CreativeReview): CreativeReview {
+  if (
+    review.scenes.length === 5 &&
+    review.scenes.every((scene, index) => scene.id === `scene-${index + 1}`)
+  ) {
+    return review;
+  }
+  const scenes = fiveScenesForReview().map((scene, index) => ({
+    id: scene.id,
+    index,
+    director_notes: "",
+    intent: {
+      original: scene.image_prompt,
+      localized_edit: `Česká scéna ${index + 1}`,
+      english_preview: scene.image_prompt,
+      english_preview_outdated: false,
+      presentation_type: "IMAGE",
+      visual_source: "generated" as const,
+      asset_id: null,
+      used_as: null,
+    },
+  }));
+  return { ...review, scenes };
+}
+
 function lockedT2vBrief(review: CreativeReview): Record<string, unknown> {
   const production = productionSpokenVoiceoverFromReview(review);
   assert.ok(production);
-  return applyProductionVoiceoverToTextToVideoBrief({
-    brief: {
-      language: "en",
-      package_video_mode: "text_to_video",
-      voiceover_text: "stale czech copy that must not be spoken",
-      hook: "old hook",
-      video: { script: "stale" },
-      video_text_to_video_sound_plan: {
-        schema_version: 1,
-        revision: 0,
-        music: { mode: "auto" },
-        scene_sound: {},
-      },
+  const withScenes = reviewWithCanonicalScenes(review);
+  const brief: Record<string, unknown> = {
+    language: "en",
+    tts_voice: "marin",
+    package_video_mode: "text_to_video",
+    voiceover_text: production,
+    hook: deriveHookFromVoiceover(production),
+    visual_scenes: fiveScenesForReview(),
+    video: { script: "authoritative storyboard script" },
+    creative_review: withScenes,
+    video_text_to_video_sound_plan: {
+      schema_version: 1,
+      revision: 0,
+      music: { mode: "none" },
+      scene_sound: {},
     },
+  };
+  let plan = buildTextToVideoRenderPlanFromCanonical({
     packageId: PACKAGE_ID,
-    productionVoiceover: production,
-    memory: EMPTY_MEMORY,
-    approvePlan: true,
+    brief,
+    review: withScenes,
+    voiceoverText: production,
+    hookText: deriveHookFromVoiceover(production),
+    voiceDirection: { style: "auto", revision: 0 },
+  });
+  plan = applyRepetitionResultToPlan(
+    plan,
+    checkTextToVideoRepetition({ plan, memory: EMPTY_MEMORY }),
+    "2026-08-20T10:02:00.000Z",
+  );
+  brief.video_text_to_video_creative_plan = plan;
+  return lockApprovedCanonicalTextToVideoPlan({
+    brief,
+    review: withScenes,
     timestamp: "2026-08-20T10:02:00.000Z",
   });
 }
@@ -280,7 +333,7 @@ async function main(): Promise<void> {
   });
 
   await check("6 — Continue lock keeps approved plan snapshot unchanged", () => {
-    const review = approvedT2vReview();
+    const review = reviewWithCanonicalScenes(approvedT2vReview());
     const brief = lockedT2vBrief(review);
     const locked = assertTextToVideoPlanLockedForContinue({ brief, review });
     const before = snapshotTextToVideoPlanForContinueGuard(locked.plan);
@@ -306,43 +359,35 @@ async function main(): Promise<void> {
     );
   });
 
-  await check("7 — human visual edit survives production rebuild / Approve", () => {
-    let plan = buildTextToVideoCreativePlan({
-      packageId: PACKAGE_ID,
-      voiceoverText: EN_PRODUCTION,
-    });
-    const sceneId = plan.scenes[0]!.scene_id;
-    plan = applyHumanVisualEditToScene(
-      plan,
-      sceneId,
-      "Close-up of an unread phone on a dark table, dust in a single window shaft.",
+  await check("7 — operator visual edit survives Approve without VO rebuild", () => {
+    const visual =
+      "Close-up of an unread phone on a dark table, dust in a single window shaft.";
+    const review = reviewWithCanonicalScenes(approvedT2vReview());
+    review.scenes = review.scenes.map((scene, index) =>
+      index === 0
+        ? {
+            ...scene,
+            intent: {
+              ...scene.intent,
+              localized_edit: "Detail nepřečteného telefonu na tmavém stole.",
+              english_preview: visual,
+              english_preview_outdated: false,
+            },
+          }
+        : scene,
     );
-    const brief = applyProductionVoiceoverToTextToVideoBrief({
-      brief: {
-        language: "en",
-        package_video_mode: "text_to_video",
-        video_text_to_video_creative_plan: serializeTextToVideoCreativePlan(plan),
-      },
-      packageId: PACKAGE_ID,
-      productionVoiceover: EN_PRODUCTION,
-      memory: EMPTY_MEMORY,
-      approvePlan: true,
-      timestamp: "2026-08-20T10:04:00.000Z",
-    });
+    const brief = lockedT2vBrief(review);
     const next = readTextToVideoCreativePlan(brief)!;
-    assert.equal(
-      next.scenes[0]?.human_visual_edit,
-      "Close-up of an unread phone on a dark table, dust in a single window shaft.",
-    );
+    assert.equal(next.scenes[0]?.human_visual_edit, visual);
     assert.match(next.scenes[0]!.provider_prompt, /unread phone/i);
-    const locked = assertTextToVideoPlanLockedForContinue({ brief, review: approvedT2vReview() });
+    const locked = assertTextToVideoPlanLockedForContinue({ brief, review });
     assert.equal(
       locked.plan.scenes[0]?.human_visual_edit,
       next.scenes[0]?.human_visual_edit,
     );
   });
 
-  await check("8 — still Creative Intent scenes are not required for T2V", () => {
+  await check("8 — T2V requires canonical scene intent; still does not invent scenes", () => {
     const review = translatedReview(CS_WORKING, EN_PRODUCTION);
     assert.equal(review.scenes.length, 0);
     const gate = validateCreativeReviewApproval(review, {
@@ -353,6 +398,18 @@ async function main(): Promise<void> {
       requireSceneIntent: true,
     });
     assert.equal(stillGate.ok, true);
+    const brief = lockedT2vBrief(review);
+    assert.equal(readTextToVideoCreativePlan(brief)?.scenes.length, 5);
+    try {
+      lockApprovedCanonicalTextToVideoPlan({
+        brief,
+        review,
+        timestamp: "2026-08-20T10:04:00.000Z",
+      });
+      throw new Error("expected T2V scene intent gate");
+    } catch (err) {
+      assert.equal((err as Error).message, "t2v_scene_cs_missing");
+    }
   });
 
   await check("9 — still Creative Review rebuild still uses final_approved", () => {
@@ -464,30 +521,10 @@ async function main(): Promise<void> {
   });
 
   await check("11 — custom SFX is kept on the sound plan", () => {
-    const review = translatedReview(CS_WORKING, EN_PRODUCTION);
-    const brief = applyProductionVoiceoverToTextToVideoBrief({
-      brief: {
-        language: "en",
-        package_video_mode: "text_to_video",
-        video_text_to_video_sound_plan: {
-          schema_version: 1,
-          revision: 1,
-          music: { mode: "none" },
-          scene_sound: {
-            placeholder: {
-              mode: "custom",
-              custom_effect_description: "Phone vibration on wood.",
-              anchor: "scene_beginning",
-            },
-          },
-        },
-      },
-      packageId: PACKAGE_ID,
-      productionVoiceover: EN_PRODUCTION,
-      memory: EMPTY_MEMORY,
-      approvePlan: true,
-      timestamp: "2026-08-20T10:06:00.000Z",
-    });
+    const review = reviewWithCanonicalScenes(
+      translatedReview(CS_WORKING, EN_PRODUCTION),
+    );
+    const brief = lockedT2vBrief(review);
     const plan = readTextToVideoCreativePlan(brief)!;
     const sceneId = plan.scenes[0]!.scene_id;
     const withCustom = {

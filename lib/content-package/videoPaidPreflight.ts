@@ -8,10 +8,13 @@ import {
 } from "@/lib/content-package/packageVideoProductionMode";
 import {
   readTextToVideoCreativePlan,
-  TEXT_TO_VIDEO_TIMING_ESTIMATED,
+  isLegacySentenceFallbackPlan,
   TEXT_TO_VIDEO_TIMING_MEASURED,
-  serializeTextToVideoCreativePlan,
 } from "@/lib/content-package/textToVideoCreativePlan";
+import { extractCanonicalVideoScenesFromBrief } from "@/lib/content-package/canonicalVideoPlan";
+import {
+  readAuthoritativeOpenAiVoiceForT2VOptional,
+} from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 import { VIDEO_VOICE_SYNTHESIS_CHECKPOINT_KEY } from "@/lib/text-to-video/voiceSynthesisCheckpoint";
 import {
   readVideoCreativeIntegrity,
@@ -38,7 +41,11 @@ export type VideoPaidPreflightBlockReason =
   | "budget_limit_required"
   | "timing_not_measured"
   | "measured_audio_revision_mismatch"
-  | "timing_measurement_not_alignment";
+  | "timing_measurement_not_alignment"
+  | "sentence_fallback_plan"
+  | "canonical_plan_required"
+  | "voice_snapshot_missing"
+  | "voice_category_undecided";
 
 export type VideoPaidPreflightPhase = "elevenlabs" | "runway";
 
@@ -147,6 +154,20 @@ function textToVideoPlanBlockers(
   }
   if (enforcePaid && plan.repetition.status !== "passed") {
     blockers.push("similarity_check_pending");
+  }
+  if (enforcePaid) {
+    const canonicalCount = extractCanonicalVideoScenesFromBrief(brief).length;
+    if (canonicalCount >= 3) {
+      if (isLegacySentenceFallbackPlan(plan, canonicalCount)) {
+        blockers.push("sentence_fallback_plan");
+      }
+      if (plan.origin !== "canonical_storyboard") {
+        blockers.push("canonical_plan_required");
+      }
+      if (!readAuthoritativeOpenAiVoiceForT2VOptional({ brief })) {
+        blockers.push("voice_snapshot_missing");
+      }
+    }
   }
   const integrity = readVideoCreativeIntegrity(brief);
   if (

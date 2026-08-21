@@ -5,6 +5,7 @@ import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   approveCreativeReviewPackage,
   loadCreativeReviewPage,
+  restoreCanonicalVideoPlan,
   saveCreativeReviewPackage,
   saveCreativeReviewTextToVideoScene,
   saveCreativeReviewTextToVideoSoundPlan,
@@ -235,6 +236,48 @@ export async function approveCreativeReviewPackageAction(
       err instanceof Error
         ? err.message
         : "Failed to approve Creative Review package.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function restoreCanonicalVideoPlanAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  expectedVersion: number,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId) {
+    return {
+      ok: false,
+      error: "Missing project, run, or package id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await restoreCanonicalVideoPlan({
+      projectId,
+      runId,
+      packageId,
+      expectedVersion,
+      actor,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error,
+        code: result.code,
+        issues: result.issues,
+        currentVersion: result.currentVersion,
+      };
+    }
+    revalidateCreativeReview(projectId, runId);
+    return { ok: true, package: result.package };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to restore canonical video plan.";
     return { ok: false, error: message };
   }
 }

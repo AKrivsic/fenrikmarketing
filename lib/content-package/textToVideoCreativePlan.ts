@@ -3,6 +3,12 @@ import type { AntiRepetitionMemory } from "@/lib/ai/types";
 import { normalizeMemoryText } from "@/lib/ai/workflows/antiRepetitionMemory";
 import { composeTextToVideoProviderPrompt } from "@/lib/content-package/textToVideoProviderPrompt";
 import {
+  CANONICAL_VIDEO_PLAN_ORIGIN,
+  SENTENCE_FALLBACK_ORIGIN,
+  hasCzechVisualPrefix,
+  isVisualIntentVoiceoverCopy,
+} from "@/lib/content-package/canonicalVideoPlan";
+import {
   creativePlanContentFingerprint,
   fingerprintText,
   hookFingerprint,
@@ -62,13 +68,40 @@ export const textToVideoPlanSceneSchema = z.object({
   provider_prompt: z.string().min(1).max(4000),
   /** Editor-facing visual idea; provider_prompt is derived. */
   human_visual_edit: z.string().max(600).optional(),
+  /** Same as Creative Review / visual_scenes id when projected from the canonical plan. */
+  canonical_scene_id: z.string().min(1).optional(),
 });
 
 export type TextToVideoPlanScene = z.infer<typeof textToVideoPlanSceneSchema>;
 
+export const textToVideoPlanOriginSchema = z.enum([
+  CANONICAL_VIDEO_PLAN_ORIGIN,
+  SENTENCE_FALLBACK_ORIGIN,
+]);
+
+export type TextToVideoPlanOrigin = z.infer<typeof textToVideoPlanOriginSchema>;
+
+export const textToVideoSceneVoiceoverBindingSchema = z.enum([
+  "confirmed",
+  "needs_review",
+]);
+
+export type TextToVideoSceneVoiceoverBinding = z.infer<
+  typeof textToVideoSceneVoiceoverBindingSchema
+>;
+
 export const textToVideoCreativePlanSchema = z.object({
   schema_version: z.literal(TEXT_TO_VIDEO_PLAN_SCHEMA_VERSION),
   status: textToVideoPlanStatusSchema,
+  /**
+   * Technical projection origin. Stored plans without this field parse as
+   * sentence_fallback and cannot be approved.
+   */
+  origin: textToVideoPlanOriginSchema.default(SENTENCE_FALLBACK_ORIGIN),
+  canonical_plan_fingerprint: z.string().min(1).optional(),
+  scene_voiceover_binding: textToVideoSceneVoiceoverBindingSchema.default(
+    "confirmed",
+  ),
   voiceover_revision_id: z.string().min(1),
   voiceover_fingerprint: z.string().min(1),
   approved_hook: z.string().min(1).max(500),
@@ -97,7 +130,7 @@ export type TextToVideoCreativePlan = z.infer<typeof textToVideoCreativePlanSche
 export const VIDEO_TEXT_TO_VIDEO_CREATIVE_PLAN_KEY =
   "video_text_to_video_creative_plan" as const;
 
-function splitVoiceoverSentences(voiceover: string): string[] {
+export function splitVoiceoverSentences(voiceover: string): string[] {
   const trimmed = voiceover.trim();
   if (!trimmed) return [];
   const parts = trimmed
@@ -108,7 +141,7 @@ function splitVoiceoverSentences(voiceover: string): string[] {
   return [trimmed];
 }
 
-function targetSceneCount(sentenceCount: number): number {
+export function targetSceneCount(sentenceCount: number): number {
   if (sentenceCount <= 3) return Math.max(3, sentenceCount);
   if (sentenceCount <= 5) return sentenceCount;
   if (sentenceCount <= 7) return sentenceCount;
@@ -229,6 +262,7 @@ export function buildTextToVideoCreativePlan(
     hook_fingerprint: hookFp,
     voice_direction_revision: direction.revision ?? 0,
     target_duration_seconds: totalDuration,
+    origin: SENTENCE_FALLBACK_ORIGIN,
     scenes: scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -240,6 +274,8 @@ export function buildTextToVideoCreativePlan(
   return textToVideoCreativePlanSchema.parse({
     schema_version: TEXT_TO_VIDEO_PLAN_SCHEMA_VERSION,
     status: "draft",
+    origin: SENTENCE_FALLBACK_ORIGIN,
+    scene_voiceover_binding: "confirmed",
     voiceover_revision_id: voRevision,
     voiceover_fingerprint: voFingerprint,
     approved_hook: hook,
@@ -320,6 +356,8 @@ export function applyHumanVisualEditToScene(
     hook_fingerprint: next.hook_fingerprint,
     voice_direction_revision: next.voice_direction_revision,
     target_duration_seconds: next.target_duration_seconds,
+    origin: next.origin,
+    canonical_plan_fingerprint: next.canonical_plan_fingerprint,
     scenes: next.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -520,6 +558,8 @@ export function planMatchesApprovedSources(args: {
     hook_fingerprint: args.plan.hook_fingerprint,
     voice_direction_revision: args.plan.voice_direction_revision,
     target_duration_seconds: args.plan.target_duration_seconds,
+    origin: args.plan.origin,
+    canonical_plan_fingerprint: args.plan.canonical_plan_fingerprint,
     scenes: args.plan.scenes.map((s) => ({
       scene_id: s.scene_id,
       order: s.order,
@@ -528,4 +568,33 @@ export function planMatchesApprovedSources(args: {
     })),
   });
   return recomputed === args.plan.plan_fingerprint;
+}
+
+export function isLegacySentenceFallbackPlan(
+  plan: TextToVideoCreativePlan | null | undefined,
+  canonicalSceneCount?: number,
+): boolean {
+  if (!plan) return false;
+  if (plan.origin === SENTENCE_FALLBACK_ORIGIN) return true;
+  if (plan.origin !== CANONICAL_VIDEO_PLAN_ORIGIN) return true;
+  const hashIds = plan.scenes.every((scene) => /^[a-f0-9]{12}$/i.test(scene.scene_id));
+  if (hashIds) return true;
+  const voCopies = plan.scenes.filter((scene) =>
+    isVisualIntentVoiceoverCopy(
+      scene.human_visual_edit ?? scene.visual_intent,
+      scene.voiceover_excerpt,
+    ),
+  ).length;
+  if (voCopies >= Math.ceil(plan.scenes.length / 2)) return true;
+  if (plan.scenes.some((scene) => hasCzechVisualPrefix(scene.visual_intent))) {
+    return true;
+  }
+  if (
+    typeof canonicalSceneCount === "number" &&
+    canonicalSceneCount > 0 &&
+    plan.scenes.length !== canonicalSceneCount
+  ) {
+    return true;
+  }
+  return false;
 }

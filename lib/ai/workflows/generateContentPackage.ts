@@ -495,6 +495,8 @@ async function runGenerateContentPackageAfterClaim(
     assetCoverage,
     preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
     directives,
+    packageVideoMode:
+      runInfo?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
   });
   if (!creative.ok) {
     return creative;

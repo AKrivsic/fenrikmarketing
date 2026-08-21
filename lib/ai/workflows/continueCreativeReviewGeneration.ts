@@ -63,6 +63,7 @@ import {
   T2V_PLAN_NOT_LOCKED_FOR_CONTINUE,
 } from "@/lib/content-package/textToVideoManualReview";
 import type { VideoWorkerJobPayload } from "@/lib/video-worker/client";
+import { assertT2vVoiceSelectionReadyForApprove } from "@/lib/text-to-video/textToVideoAuthoritativeVoice";
 
 const VIDEO_PLATFORMS = new Set([
   "tiktok",
@@ -265,6 +266,7 @@ export function validatePackagesReadyForContinue(
           brief: briefRecord,
           review,
         });
+        assertT2vVoiceSelectionReadyForApprove({ brief: briefRecord });
       } catch (error) {
         const message =
           error instanceof Error ? error.message : String(error);
@@ -425,6 +427,7 @@ async function rebuildAndPersistPackage(args: {
       brief: sourceBrief,
       review: args.review,
     });
+    assertT2vVoiceSelectionReadyForApprove({ brief: sourceBrief });
     const before = snapshotTextToVideoPlanForContinueGuard(locked.plan);
     const nextBrief = clearCreativeReviewReasonOnContinue({
       ...sourceBrief,

@@ -11,14 +11,20 @@ import {
   approveTextToVideoCreativePlan,
   checkTextToVideoRepetition,
   deriveHookFromVoiceover,
+  isLegacySentenceFallbackPlan,
   readTextToVideoCreativePlan,
-  rebuildTextToVideoPlanPreservingSceneEdits,
   serializeTextToVideoCreativePlan,
   textToVideoPlanLockedForContinue,
   VIDEO_TEXT_TO_VIDEO_CREATIVE_PLAN_KEY,
   voiceDirectionFromBriefOrDefault,
   type TextToVideoCreativePlan,
 } from "@/lib/content-package/textToVideoCreativePlan";
+import { buildTextToVideoRenderPlanFromCanonical } from "@/lib/content-package/textToVideoRenderAdapter";
+import {
+  extractCanonicalVideoScenesFromBrief,
+  significantVoiceoverChange,
+} from "@/lib/content-package/canonicalVideoPlan";
+import { assertTextToVideoPlanApprovable } from "@/lib/content-package/textToVideoPlanApprovalGate";
 import {
   parseTextToVideoSoundPlan,
   VIDEO_TEXT_TO_VIDEO_SOUND_PLAN_KEY,
@@ -79,9 +85,16 @@ export function textToVideoOperatorApprovalState(args: {
   review: CreativeReview;
   planStatus: string | null;
   repetitionStatus: string | null;
+  origin?: string | null;
+  sceneVoiceoverBinding?: string | null;
+  canRestoreCanonicalPlan?: boolean;
 }): TextToVideoOperatorApprovalState {
   const production = productionSpokenVoiceoverFromReview(args.review);
   if (!production) return "waiting_for_translation";
+  if (args.canRestoreCanonicalPlan || args.origin === "sentence_fallback") {
+    return "in_progress";
+  }
+  if (args.sceneVoiceoverBinding === "needs_review") return "in_progress";
   if (args.review.approved && args.planStatus === "approved") return "approved";
   if (args.review.approved && args.planStatus !== "approved") {
     return "stale_after_change";
@@ -105,45 +118,98 @@ export function syncSpokenFieldsFromProductionVoiceover(
 ): Record<string, unknown> {
   const vo = productionVoiceover.trim();
   const hookText = hook.trim();
-  const video = asRecord(brief.video);
   return {
     ...brief,
     voiceover_text: vo,
     subtitles: vo,
     hook: hookText,
-    ...(video
-      ? {
-          video: {
-            ...video,
-            script: vo,
-          },
-        }
-      : {}),
   };
 }
 
-export function applyProductionVoiceoverToTextToVideoBrief(args: {
+function persistCanonicalPlanOnBrief(args: {
+  brief: Record<string, unknown>;
+  plan: TextToVideoCreativePlan;
+  productionVoiceover: string;
+  hook: string;
+  direction: ReturnType<typeof voiceDirectionFromBriefOrDefault>;
+}): Record<string, unknown> {
+  return {
+    ...args.brief,
+    [VIDEO_TEXT_TO_VIDEO_CREATIVE_PLAN_KEY]:
+      serializeTextToVideoCreativePlan(args.plan),
+    [VIDEO_CREATIVE_INTEGRITY_KEY]: serializeVideoCreativeIntegrity(
+      syncVideoCreativeIntegrityFromSources({
+        voiceoverText: args.productionVoiceover,
+        hookText: args.hook,
+        voiceDirection: args.direction,
+        plan: args.plan,
+        packageVideoMode: PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+      }),
+    ),
+    video_paid_preflight: {
+      ...(asRecord(args.brief.video_paid_preflight) ?? {}),
+      similarity_check_status:
+        args.plan.repetition.status === "passed"
+          ? "passed"
+          : args.plan.repetition.status === "blocked"
+            ? "failed"
+            : "not_run",
+    },
+  };
+}
+
+/**
+ * Save-time mechanical projection: rebuild Runway prompts from canonical scenes.
+ * Does not split voiceover. Does not overwrite video.script.
+ */
+export function syncCanonicalTextToVideoRenderPlanOnSave(args: {
   brief: Record<string, unknown>;
   packageId: string;
   productionVoiceover: string;
+  review: CreativeReview;
   memory: AntiRepetitionMemory;
   priorPlanFingerprints?: string[];
-  approvePlan?: boolean;
   timestamp?: string;
+  previousProductionVoiceover?: string;
+  confirmSceneVoiceoverBinding?: boolean;
 }): Record<string, unknown> {
   const productionVo = args.productionVoiceover.trim();
   if (!productionVo) {
     throw new Error(T2V_PRODUCTION_TRANSLATION_MISSING);
   }
-  const direction = voiceDirectionFromBriefOrDefault(args.brief);
+  const canonical = extractCanonicalVideoScenesFromBrief(args.brief);
+  if (canonical.length < 3) {
+    throw new Error("t2v_canonical_storyboard_missing");
+  }
   const existing = readTextToVideoCreativePlan(args.brief);
-  const hook = deriveHookFromVoiceover(productionVo);
-  let plan = rebuildTextToVideoPlanPreservingSceneEdits({
+  if (existing && isLegacySentenceFallbackPlan(existing, canonical.length)) {
+    throw new Error("t2v_plan_sentence_fallback");
+  }
+  const previousVo =
+    args.previousProductionVoiceover ??
+    (typeof args.brief.voiceover_text === "string"
+      ? args.brief.voiceover_text
+      : "");
+  const voChanged = significantVoiceoverChange(previousVo, productionVo);
+  const binding = args.confirmSceneVoiceoverBinding
+    ? "confirmed"
+    : voChanged
+      ? "needs_review"
+      : existing?.scene_voiceover_binding ?? "confirmed";
+  const direction = voiceDirectionFromBriefOrDefault(args.brief);
+  const hook =
+    typeof args.brief.hook === "string" && args.brief.hook.trim() && !voChanged
+      ? args.brief.hook.trim()
+      : deriveHookFromVoiceover(productionVo);
+  let plan = buildTextToVideoRenderPlanFromCanonical({
     packageId: args.packageId,
-    productionVoiceover: productionVo,
+    brief: args.brief,
+    review: args.review,
+    voiceoverText: productionVo,
     hookText: hook,
     voiceDirection: direction,
     existingPlan: existing,
+    sceneVoiceoverBinding: binding,
   });
   const timestamp = args.timestamp ?? new Date().toISOString();
   const repetition = checkTextToVideoRepetition({
@@ -152,39 +218,82 @@ export function applyProductionVoiceoverToTextToVideoBrief(args: {
     priorPlanFingerprints: args.priorPlanFingerprints,
   });
   plan = applyRepetitionResultToPlan(plan, repetition, timestamp);
-  if (
-    args.approvePlan &&
-    plan.repetition.status === "passed" &&
-    plan.status !== "repetition_blocked"
-  ) {
-    plan = approveTextToVideoCreativePlan(plan, timestamp);
-  }
   let next = syncSpokenFieldsFromProductionVoiceover(args.brief, productionVo, hook);
   next = coerceOperatorSoundPlanToExplicitNone(next);
-  next = {
-    ...next,
-    [VIDEO_TEXT_TO_VIDEO_CREATIVE_PLAN_KEY]:
-      serializeTextToVideoCreativePlan(plan),
-    [VIDEO_CREATIVE_INTEGRITY_KEY]: serializeVideoCreativeIntegrity(
-      syncVideoCreativeIntegrityFromSources({
-        voiceoverText: productionVo,
-        hookText: hook,
-        voiceDirection: direction,
-        plan,
-        packageVideoMode: PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
-      }),
-    ),
-    video_paid_preflight: {
-      ...(asRecord(next.video_paid_preflight) ?? {}),
-      similarity_check_status:
-        plan.repetition.status === "passed"
-          ? "passed"
-          : plan.repetition.status === "blocked"
-            ? "failed"
-            : "not_run",
-    },
-  };
-  return next;
+  return persistCanonicalPlanOnBrief({
+    brief: next,
+    plan,
+    productionVoiceover: productionVo,
+    hook,
+    direction,
+  });
+}
+
+/**
+ * @deprecated Name kept for call-site compatibility. Save uses canonical
+ * projection; Approve must not rebuild the storyboard.
+ */
+export function applyProductionVoiceoverToTextToVideoBrief(args: {
+  brief: Record<string, unknown>;
+  packageId: string;
+  productionVoiceover: string;
+  memory: AntiRepetitionMemory;
+  review?: CreativeReview | null;
+  priorPlanFingerprints?: string[];
+  approvePlan?: boolean;
+  timestamp?: string;
+  previousProductionVoiceover?: string;
+  confirmSceneVoiceoverBinding?: boolean;
+}): Record<string, unknown> {
+  if (args.approvePlan) {
+    throw new Error("t2v_approve_must_not_rebuild_plan");
+  }
+  if (!args.review) {
+    throw new Error("t2v_canonical_storyboard_missing");
+  }
+  return syncCanonicalTextToVideoRenderPlanOnSave({
+    brief: args.brief,
+    packageId: args.packageId,
+    productionVoiceover: args.productionVoiceover,
+    review: args.review,
+    memory: args.memory,
+    priorPlanFingerprints: args.priorPlanFingerprints,
+    timestamp: args.timestamp,
+    previousProductionVoiceover: args.previousProductionVoiceover,
+    confirmSceneVoiceoverBinding: args.confirmSceneVoiceoverBinding,
+  });
+}
+
+/** Approve locks the current canonical plan. Does not rebuild scenes. */
+export function lockApprovedCanonicalTextToVideoPlan(args: {
+  brief: Record<string, unknown>;
+  review: CreativeReview;
+  timestamp?: string;
+}): Record<string, unknown> {
+  const plan = readTextToVideoCreativePlan(args.brief);
+  assertTextToVideoPlanApprovable({
+    plan,
+    brief: args.brief,
+    review: args.review,
+  });
+  if (!plan) {
+    throw new Error("t2v_plan_not_canonical");
+  }
+  const timestamp = args.timestamp ?? new Date().toISOString();
+  const approved = approveTextToVideoCreativePlan(plan, timestamp);
+  const direction = voiceDirectionFromBriefOrDefault(args.brief);
+  const vo =
+    typeof args.brief.voiceover_text === "string"
+      ? args.brief.voiceover_text.trim()
+      : "";
+  const next = coerceOperatorSoundPlanToExplicitNone(args.brief);
+  return persistCanonicalPlanOnBrief({
+    brief: next,
+    plan: approved,
+    productionVoiceover: vo,
+    hook: approved.approved_hook,
+    direction,
+  });
 }
 
 export function assertTextToVideoPlanLockedForContinue(args: {
@@ -239,6 +348,17 @@ export function assertTextToVideoPlanLockedForContinue(args: {
   if (plan.approved_hook.trim() !== hook.trim()) {
     throw new Error(T2V_PLAN_NOT_LOCKED_FOR_CONTINUE);
   }
+  if (isLegacySentenceFallbackPlan(plan)) {
+    throw new Error("t2v_plan_sentence_fallback");
+  }
+  if (plan.origin !== "canonical_storyboard") {
+    throw new Error("t2v_plan_not_canonical");
+  }
+  assertTextToVideoPlanApprovable({
+    plan,
+    brief: args.brief,
+    review: args.review,
+  });
   const sound = parseTextToVideoSoundPlan(
     args.brief[VIDEO_TEXT_TO_VIDEO_SOUND_PLAN_KEY],
   );

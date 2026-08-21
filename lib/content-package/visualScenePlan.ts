@@ -54,6 +54,10 @@ export interface VisualSceneAi {
   motion_prompt?: string;
   /** Optional incoming xfade for clip-reel assembly. */
   transition_in?: "fade" | "slide" | "push" | "none";
+  /** Stable canonical scene id (e.g. scene-1). */
+  id?: string;
+  /** Spoken coverage bound to this scene — not a second storyboard. */
+  voiceover_excerpt?: string;
 }
 
 export interface VisualSceneAsset {
@@ -64,6 +68,8 @@ export interface VisualSceneAsset {
   modify?: string;
   motion_prompt?: string;
   transition_in?: "fade" | "slide" | "push" | "none";
+  id?: string;
+  voiceover_excerpt?: string;
 }
 
 export type VisualScenePlanItem = VisualSceneAi | VisualSceneAsset;
@@ -112,6 +118,8 @@ const visualSceneAiValidator: Validator<VisualSceneAi> = vObject({
   image_prompt: vNonEmptyString(),
   motion_prompt: optionalMotionPromptValidator,
   transition_in: optionalTransitionInValidator,
+  id: vOptional(vString()),
+  voiceover_excerpt: vOptional(vString()),
 }) as Validator<VisualSceneAi>;
 
 const visualSceneAssetValidator: Validator<VisualSceneAsset> = vObject({
@@ -122,6 +130,8 @@ const visualSceneAssetValidator: Validator<VisualSceneAsset> = vObject({
   modify: vOptional(vString()),
   motion_prompt: optionalMotionPromptValidator,
   transition_in: optionalTransitionInValidator,
+  id: vOptional(vString()),
+  voiceover_excerpt: vOptional(vString()),
 }) as Validator<VisualSceneAsset>;
 
 export const visualScenePlanItemValidator: Validator<VisualScenePlanItem> = (
@@ -323,6 +333,19 @@ export function normalizeVisualScenePlan(
           ? { motion_prompt: motion }
           : {}),
         ...(transition ? { transition_in: transition } : {}),
+        ...(typeof (legacy as { id?: unknown }).id === "string" &&
+        (legacy as { id: string }).id.trim()
+          ? { id: (legacy as { id: string }).id.trim() }
+          : {}),
+        ...(typeof (legacy as { voiceover_excerpt?: unknown }).voiceover_excerpt ===
+          "string" &&
+        (legacy as { voiceover_excerpt: string }).voiceover_excerpt.trim()
+          ? {
+              voiceover_excerpt: (
+                legacy as { voiceover_excerpt: string }
+              ).voiceover_excerpt.trim(),
+            }
+          : {}),
       });
       continue;
     }

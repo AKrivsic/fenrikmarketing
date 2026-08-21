@@ -47,6 +47,7 @@ export interface CreativePipelineContext {
   packageIndex: number | null;
   packageCount: number | null;
   generationMode: GenerationMode;
+  packageVideoMode?: import("@/lib/content-package/packageVideoProductionMode").PackageVideoProductionMode;
   assetCoverage: AssetCoverageDecision | null;
   preferredVideoUsageById?: ReadonlyMap<string, VideoUsageRenderMode>;
   directives: CreativeDirectives;
@@ -171,6 +172,7 @@ export async function runCreativePipeline(
       regeneration,
       directives,
       painPoint,
+      packageVideoMode: input.packageVideoMode,
     },
     guardrails: makePackageGuardrails({
       project,
