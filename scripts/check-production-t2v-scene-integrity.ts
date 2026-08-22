@@ -83,6 +83,11 @@ function fiveVisualScenes() {
       motion_prompt: "Cursor moves toward the profile; tab loads",
       voiceover_excerpt:
         "What does a potential client see before they ever speak to you.",
+      environment: "split editorial graphic space",
+      camera: "static split then a short lateral drift",
+      screen_policy: "no_screen",
+      emotion: "unease",
+      continuity_hints: "same company colors",
     },
     {
       source: "ai" as const,
@@ -159,6 +164,22 @@ function canonicalBrief(review: CreativeReview): Record<string, unknown> {
       voiceover_text: VO,
       subtitles: VO,
       visual_scenes: fiveVisualScenes(),
+      t2v_canonical_creative: {
+        contract_version: 1,
+        core_idea: "A first impression is already happening before the call.",
+        primary_emotion: "unease then resolve",
+        conflict: "The profile does not match the promise.",
+        surprise: "The feed is empty.",
+        beginning_to_end_change: "Doubt becomes a booked call after proof appears.",
+        payoff: "Show the work so the next search converts.",
+        visual_direction: {
+          art_direction: "clean editorial documentary",
+          lighting: "cool window light",
+          palette: "navy, white, steel",
+          environment: "modern office desk",
+          character_style: "professional adult",
+        },
+      },
       video: {
         concept: "LinkedIn first impression",
         script: fiveVisualScenes()

@@ -20,7 +20,9 @@ import {
   computeCreativeReviewStatus,
 } from "@/lib/creative-review/lifecycle";
 import { generateSceneCreativeIntents } from "@/lib/creative-review/sceneIntent/generateSceneIntents";
-import { seedSceneIntentsFromPackage } from "@/lib/creative-review/sceneIntent/seedFromPackageScenes";
+import { seedSceneIntentsFromPackage, seedT2vCanonicalSceneIntents } from "@/lib/creative-review/sceneIntent/seedFromPackageScenes";
+import type { PackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
+import { PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO } from "@/lib/content-package/packageVideoProductionMode";
 import { translateCreativeReviewForEditor } from "@/lib/creative-review/translateVoiceover";
 import {
   CREATIVE_REVIEW_SYSTEM_ACTOR,
@@ -128,6 +130,7 @@ export interface BuildManualReviewCreativeReviewDeps {
   editorLanguage?: EditorLanguageCode;
   /** Project / package source language (ISO-639-1). */
   sourceLanguage?: string | null;
+  packageVideoMode?: PackageVideoProductionMode;
 }
 
 /**
@@ -161,9 +164,13 @@ export async function buildManualReviewCreativeReview(
     DEFAULT_EDITOR_LANGUAGE,
   );
 
-  const intents = await generateSceneCreativeIntents(pkg, {
-    textProvider: deps.textProvider,
-  });
+  const isT2v = deps.packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO;
+
+  const intents = isT2v
+    ? { ok: true as const, data: { scenes: seedT2vCanonicalSceneIntents(pkg) } }
+    : await generateSceneCreativeIntents(pkg, {
+        textProvider: deps.textProvider,
+      });
   if (!intents.ok) {
     throw new Error("Scene Creative Intent generation failed");
   }
@@ -177,6 +184,7 @@ export async function buildManualReviewCreativeReview(
     textProvider: deps.textProvider,
     editorLanguage,
     sourceLanguage: deps.sourceLanguage,
+    meaningSafeFromOriginal: isT2v,
   });
   if (!translated.ok) {
     throw new Error(

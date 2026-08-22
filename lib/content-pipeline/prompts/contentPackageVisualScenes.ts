@@ -74,9 +74,15 @@ export function buildContentPackageVisualScenesBlock(args: {
     "",
     "EXAMPLE — valid IMAGE-only visual_scenes:",
     '  "visual_scenes": [',
-    '    { "source": "ai", "image_prompt": "Owner at desk answering emails in warm office light", "motion_prompt": "Owner types briefly then reaches for a sticky note; papers shift slightly; camera slow push-in; keep face and desk product unchanged; no text overlays or lip-sync." },',
-    '    { "source": "ai", "image_prompt": "Support agent on a phone call with a sticky-note checklist beside them", "motion_prompt": "Agent nods once while holding the phone; checklist page flutters; soft lateral drift; identity and branding stable; no captions." },',
-    '    { "source": "asset", "asset_id": "<uuid from AVAILABLE ASSETS>", "used_as": "product UI shown as framed insert", "motion_prompt": "UI card stays sharp while hand gently adjusts angle; subtle parallax; product UI unchanged; no new logos." }',
+    t2v
+      ? '    { "source": "ai", "id": "scene-1", "image_prompt": "A baker slams a metal tray onto a stainless counter; flour bursts upward, no screens", "motion_prompt": "Tray hits; flour cloud expands; baker turns toward a waiting customer", "voiceover_excerpt": "Your first impression is already happening.", "environment": "small bakery workshop", "characters_action": "baker drops a tray then turns", "camera": "handheld medium shot following the tray then tilting up", "emotion": "startled urgency", "sound_intent": "metal clang", "screen_policy": "no_screen", "continuity_hints": "same bakery, same baker" }'
+      : '    { "source": "ai", "image_prompt": "Owner at desk answering emails in warm office light", "motion_prompt": "Owner types briefly then reaches for a sticky note; papers shift slightly; camera slow push-in; keep face and desk product unchanged; no text overlays or lip-sync." },',
+    t2v
+      ? ""
+      : '    { "source": "ai", "image_prompt": "Support agent on a phone call with a sticky-note checklist beside them", "motion_prompt": "Agent nods once while holding the phone; checklist page flutters; soft lateral drift; identity and branding stable; no captions." },',
+    t2v
+      ? ""
+      : '    { "source": "asset", "asset_id": "<uuid from AVAILABLE ASSETS>", "used_as": "product UI shown as framed insert", "motion_prompt": "UI card stays sharp while hand gently adjusts angle; subtle parallax; product UI unchanged; no new logos." }',
     "  ]",
   ].join("\n");
 }

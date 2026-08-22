@@ -12,6 +12,8 @@ import {
   type ScoredTrend,
 } from "@/lib/ai/prompts/weeklyStrategy";
 import type { AntiRepetitionMemory } from "@/lib/ai/types";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
+import { creativeMemoryPromptBlock } from "@/lib/content-memory/projectCreativeMemory";
 import { projectContentControls } from "@/lib/projects/contentControls";
 import { serviceMixBlock } from "@/lib/projects/serviceMix";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
@@ -35,6 +37,7 @@ export interface ProductionStrategyPromptInput {
   eligibleTrends: ScoredTrend[];
   evergreenTopics: EvergreenRef[];
   memory?: AntiRepetitionMemory;
+  creativeMemory?: ProjectCreativeMemory;
   // Primary persistable platform label for the JSON shape hint (one shared video per package).
   primaryPlatform: string;
 }
@@ -178,6 +181,9 @@ export function buildProductionStrategyPrompt(
   const scenarios = scenarioBlock(project);
   const serviceMix = serviceMixBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
+  const creativeMem = input.creativeMemory
+    ? creativeMemoryPromptBlock(input.creativeMemory)
+    : "";
 
   const productBrainOnly =
     eligibleTrends.length === 0 && evergreenTopics.length === 0;
@@ -194,6 +200,7 @@ export function buildProductionStrategyPrompt(
     ...(scenarios ? ["", scenarios] : []),
     ...(serviceMix ? ["", serviceMix] : []),
     ...(memory ? ["", memory] : []),
+    ...(creativeMem ? ["", creativeMem] : []),
     "",
     productionFunnelMixBlock(project),
     "",
@@ -211,9 +218,14 @@ export function buildProductionStrategyPrompt(
     "- Each item still follows Product Brain, audience, funnel balance, and the run objective,",
     "  but must NOT inherit one common plot, setting, or point of view from siblings.",
     "- Across items, deliberately vary: point of view, concrete situation/setting, narrative",
-    "  mechanism (how the idea is told), and opening situation. Reusing the same pain_point",
-    "  is fine when the situation and angle are still different.",
-    "- Bad: one night-visitor / silent-website / Monday-analytics story rewritten N times.",
+    "  mechanism (how the idea is told), and opening situation.",
+    "- packageCount=1 still requires a NEW situation versus prior production runs. Intra-run",
+    "  diversity being a no-op does NOT allow repeating last run's pain, scenario family, or visual motif.",
+    "- Do not reuse the last pain point when unused pain points exist.",
+    "- A different character in the same situation is NOT a new story.",
+    "- A paraphrase of the same topic or hook is NOT a new topic.",
+    "- Changing only the hook or POV is not enough — change the world, conflict, payoff, and dominant prop.",
+    "- Bad: outsider checks a silent company profile (candidate / new hire / client / tab) rewritten N times.",
     "- Good: N distinct situations where the product creates value for this audience.",
     "",
     "ELIGIBLE TRENDS (optional bonus; relevance_score >= 60; only use these trend_id values when relevant):",

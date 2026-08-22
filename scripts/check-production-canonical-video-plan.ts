@@ -29,6 +29,7 @@ import {
   syncSpokenFieldsFromProductionVoiceover,
   textToVideoPlanSnapshotEquals,
 } from "../lib/content-package/textToVideoManualReview";
+import { fixtureT2vCanonicalCreative } from "../lib/content-package/t2vCanonicalCreative";
 import { composeTextToVideoProviderPrompt } from "../lib/content-package/textToVideoProviderPrompt";
 import {
   assertT2vVoiceSelectionReadyForApprove,
@@ -174,6 +175,7 @@ function canonicalBrief(review: CreativeReview): Record<string, unknown> {
     voiceover_text: FOURTEEN_SENTENCE_VO,
     subtitles: FOURTEEN_SENTENCE_VO,
     visual_scenes: fiveVisualScenes(),
+    t2v_canonical_creative: fixtureT2vCanonicalCreative(),
     video: {
       concept: "LinkedIn first impression",
       script: videoScript,

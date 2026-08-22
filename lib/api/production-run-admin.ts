@@ -561,6 +561,24 @@ export async function reconcileProductionRun(
   let promotedVideoJobs = 0;
   let failedStaleJobs = 0;
 
+  // Creative Core v2: recover stuck derive jobs (after() is not durable).
+  try {
+    const { recoverPendingCreativeCoreV2DeriveJobs } = await import(
+      "@/lib/content-creative-core-v2/recoverDerive"
+    );
+    await recoverPendingCreativeCoreV2DeriveJobs({
+      supabase,
+      projectId: run.project_id,
+      limit: 10,
+    });
+  } catch (err) {
+    console.error(
+      "[reconcile] creative-core-v2 derive recovery failed",
+      runId,
+      err,
+    );
+  }
+
   // Terminal trigger failures are returned as-is. Cancelled runs still reconcile
   // counters as in-flight videos finish, but never return to "running".
   let progress: RealProgress | null = null;

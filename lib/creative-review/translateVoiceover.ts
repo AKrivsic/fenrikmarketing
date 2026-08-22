@@ -24,6 +24,10 @@ import {
   editorLanguagePromptName,
   type EditorLanguageCode,
 } from "@/lib/admin/editorLanguage";
+import {
+  czechWorkingCopyChanged,
+  resolveMeaningSafeEnglish,
+} from "@/lib/creative-review/meaningSafeEnglish";
 import type {
   CreativeReview,
   CreativeReviewScene,
@@ -58,6 +62,11 @@ Rules:
 
 export interface TranslateCreativeReviewTextDeps {
   textProvider?: TextProvider;
+  /**
+   * T2V English production: original_ai is authority. CS→EN only when the
+   * operator actually edited Czech. No extra evaluator request.
+   */
+  meaningSafeFromOriginal?: boolean;
 }
 
 async function translateTextToLanguage(args: {
@@ -139,6 +148,58 @@ async function localizeOrCopy(args: {
   });
 }
 
+async function translateOperatorCsChangeToEnglish(args: {
+  originalEn: string;
+  originalCs: string;
+  editedCs: string;
+  textProvider: TextProvider;
+}): Promise<WorkflowResult<{ text: string }>> {
+  const generated = await generateValidatedJson({
+    textProvider: args.textProvider,
+    system: `You update English advertising voiceover to reflect ONLY the operator's Czech edit.
+
+Rules:
+- original_en is the production English.
+- original_cs is the working Czech before the edit.
+- edited_cs is what the operator changed.
+- Transfer only the real operator change into English.
+- Keep meaning-stable terms identical. If original_en says "still hiring", the result MUST say "still hiring" — never "still open".
+- Do not add claims. Do not wrap in quotes.
+- Output JSON only: { "text": "..." }`,
+    prompt: [
+      "ORIGINAL_EN:",
+      args.originalEn,
+      "",
+      "ORIGINAL_CS:",
+      args.originalCs,
+      "",
+      "EDITED_CS:",
+      args.editedCs,
+      "",
+      'Return JSON: { "text": "<updated English>" }',
+    ].join("\n"),
+    validator: translateTextSchema,
+    telemetry: {
+      stepName: "Creative Review Meaning-Safe English",
+      inputSummary: "Transfer operator CS edit onto original_en",
+    },
+  });
+  if (!generated.ok) {
+    return {
+      ok: false,
+      error: "generation_failed",
+      validationErrors: generated.validationErrors,
+      attempts: generated.attempts,
+    };
+  }
+  return { ok: true, data: { text: generated.value.text.trim() } };
+}
+
+function originalCzechVoiceover(review: CreativeReview): string {
+  const seed = review.history.find((entry) => entry.event === "seed");
+  return seed?.voiceover.localized_edit?.trim() || review.voiceover.localized_edit;
+}
+
 export interface ApplyEnglishPreviewsResult {
   voiceover: CreativeReviewVoiceover;
   scenes: CreativeReviewScene[];
@@ -154,6 +215,7 @@ export async function translateCreativeReviewEnglishPreviews(
 ): Promise<WorkflowResult<ApplyEnglishPreviewsResult>> {
   const textProvider = deps.textProvider ?? getCopywritingProvider();
   const forceAll = deps.forceAll === true;
+  const meaningSafe = deps.meaningSafeFromOriginal === true;
 
   const voiceoverNeedsUpdate =
     forceAll ||
@@ -165,20 +227,56 @@ export async function translateCreativeReviewEnglishPreviews(
   };
 
   if (voiceoverNeedsUpdate) {
-    const translated = await translateTextToLanguage({
-      source: review.voiceover.localized_edit,
-      targetLanguage: "en",
-      system: voiceoverSystem("English"),
-      stepName: "Creative Review Voiceover Translation",
-      inputSummary: "Translate localized_edit → english_preview",
-      textProvider,
-    });
-    if (!translated.ok) return translated;
-    nextVoiceover = {
-      ...nextVoiceover,
-      english_preview: translated.data.text,
-      english_preview_outdated: false,
-    };
+    if (meaningSafe) {
+      const originalCs = originalCzechVoiceover(review);
+      const czechChanged = czechWorkingCopyChanged({
+        originalCs,
+        currentCs: review.voiceover.localized_edit,
+      });
+      let translatedEn: string | null = null;
+      if (czechChanged) {
+        const translated = await translateOperatorCsChangeToEnglish({
+          originalEn: review.voiceover.original_ai,
+          originalCs,
+          editedCs: review.voiceover.localized_edit,
+          textProvider,
+        });
+        if (!translated.ok) return translated;
+        translatedEn = translated.data.text;
+      }
+      const resolved = resolveMeaningSafeEnglish({
+        originalEn: review.voiceover.original_ai,
+        originalCs,
+        currentCs: review.voiceover.localized_edit,
+        translatedEn,
+      });
+      nextVoiceover = {
+        ...nextVoiceover,
+        english_preview: resolved.production_en,
+        english_preview_outdated: false,
+        meaning_review_required: resolved.meaning_review_required,
+        meaning_warnings: resolved.warnings,
+        source_en_fingerprint: resolved.fingerprints.source_en_fingerprint,
+        source_cs_fingerprint: resolved.fingerprints.source_cs_fingerprint,
+        current_cs_fingerprint: resolved.fingerprints.current_cs_fingerprint,
+        production_en_fingerprint: resolved.fingerprints.production_en_fingerprint,
+      };
+    } else {
+      const translated = await translateTextToLanguage({
+        source: review.voiceover.localized_edit,
+        targetLanguage: "en",
+        system: voiceoverSystem("English"),
+        stepName: "Creative Review Voiceover Translation",
+        inputSummary: "Translate localized_edit → english_preview",
+        textProvider,
+      });
+      if (!translated.ok) return translated;
+      nextVoiceover = {
+        ...nextVoiceover,
+        english_preview: translated.data.text,
+        english_preview_outdated: false,
+      };
+    }
   }
 
   const nextScenes: CreativeReviewScene[] = [];
@@ -189,6 +287,17 @@ export async function translateCreativeReviewEnglishPreviews(
       !(scene.intent.english_preview?.trim());
     if (!needsUpdate) {
       nextScenes.push(scene);
+      continue;
+    }
+    if (meaningSafe) {
+      nextScenes.push({
+        ...scene,
+        intent: {
+          ...scene.intent,
+          english_preview: scene.intent.original,
+          english_preview_outdated: false,
+        },
+      });
       continue;
     }
     const translated = await translateTextToLanguage({
@@ -249,8 +358,10 @@ export async function translateCreativeReviewForEditor(
   if (!voLocalized.ok) return voLocalized;
 
   let englishPreview: string;
-  if (editorLanguage === "en") {
-    englishPreview = voLocalized.data.text;
+  if (deps.meaningSafeFromOriginal || editorLanguage === "en") {
+    englishPreview = deps.meaningSafeFromOriginal
+      ? review.voiceover.original_ai
+      : voLocalized.data.text;
   } else {
     const voEnglish = await translateTextToLanguage({
       source: voLocalized.data.text,
@@ -264,11 +375,30 @@ export async function translateCreativeReviewForEditor(
     englishPreview = voEnglish.data.text;
   }
 
+  const meaning = deps.meaningSafeFromOriginal
+    ? resolveMeaningSafeEnglish({
+        originalEn: review.voiceover.original_ai,
+        originalCs: voLocalized.data.text,
+        currentCs: voLocalized.data.text,
+        translatedEn: null,
+      })
+    : null;
+
   const nextVoiceover: CreativeReviewVoiceover = {
     ...review.voiceover,
     localized_edit: voLocalized.data.text,
     english_preview: englishPreview,
     english_preview_outdated: false,
+    ...(meaning
+      ? {
+          meaning_review_required: false,
+          meaning_warnings: [],
+          source_en_fingerprint: meaning.fingerprints.source_en_fingerprint,
+          source_cs_fingerprint: meaning.fingerprints.source_cs_fingerprint,
+          current_cs_fingerprint: meaning.fingerprints.current_cs_fingerprint,
+          production_en_fingerprint: meaning.fingerprints.production_en_fingerprint,
+        }
+      : {}),
   };
 
   const nextScenes: CreativeReviewScene[] = [];
@@ -285,7 +415,9 @@ export async function translateCreativeReviewForEditor(
     if (!localized.ok) return localized;
 
     let sceneEnglish: string;
-    if (editorLanguage === "en") {
+    if (deps.meaningSafeFromOriginal) {
+      sceneEnglish = scene.intent.original;
+    } else if (editorLanguage === "en") {
       sceneEnglish = localized.data.text;
     } else {
       const translated = await translateTextToLanguage({

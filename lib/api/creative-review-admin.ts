@@ -29,6 +29,10 @@ import {
 } from "@/lib/content-package/textToVideoCreativePlan";
 import { loadRecentTextToVideoPlanFingerprints } from "@/lib/content-package/attachTextToVideoCreativePlan";
 import {
+  regenerateTextToVideoCreativeConcept,
+  rejectTextToVideoCreative,
+} from "@/lib/content-package/t2vConceptRegenerate";
+import {
   buildAntiRepetitionMemory,
 } from "@/lib/ai/workflows/antiRepetitionMemory";
 import {
@@ -102,7 +106,27 @@ import {
   readExecutionCheckpointFromBrief,
 } from "@/lib/text-to-video/textToVideoOperatorBudget";
 import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
+import { readT2vCanonicalCreative } from "@/lib/content-package/t2vCanonicalCreative";
+import { loadProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
 import { fetchProjectTtsOptions } from "@/lib/voice/videoJobTtsInput";
+import { fingerprintText } from "@/lib/content-package/videoCreativeRevision";
+import {
+  applyCreativeCoreSceneEdit,
+  applyCreativeCoreVoiceoverEdit,
+  briefUsesCreativeCoreV2,
+  buildApprovedCreativeCoreSnapshot,
+  CREATIVE_CORE_V2_APPROVED_SNAPSHOT_KEY,
+  CREATIVE_CORE_V2_BRIEF_KEY,
+  enqueueDerivedOutputsPending,
+  invalidateDerivedOutputsForPlatformDependencyChange,
+  projectCreativeCoreToLegacyPackage,
+  readApprovedCreativeCoreSnapshot,
+  readCreativeCoreV2FromBrief,
+  regenerateCreativeCoreV2Concept,
+  resolveDerivedOperatorPhase,
+  statusLabelForOperatorPhase,
+} from "@/lib/content-creative-core-v2";
+import { resolvePackagePlatforms } from "@/lib/projects/contentControls";
 import { translateCreativeReviewEnglishPreviews } from "@/lib/creative-review/translateVoiceover";
 import type { TextProvider } from "@/lib/ai/types";
 import {
@@ -131,6 +155,30 @@ export interface CreativeReviewPackageView {
   packageVideoMode: "still" | "text_to_video";
   /** Derived hook + T2V plan summary for Manual Review (text_to_video). */
   videoCreativeSummary: CreativeReviewVideoCreativeSummary | null;
+  /** Step 2: Creative Core v2 operator surface (hides technical T2V fields). */
+  creativeCoreV2Active: boolean;
+  creativeCoreOperatorView: CreativeCoreOperatorView | null;
+  /** Step 3: simple operator status for derived outputs. */
+  derivedOperatorStatusLabel: string | null;
+  /** Step 4: show "Zopakovat" only when auto recovery failed. */
+  derivedNeedsOperatorRetry: boolean;
+}
+
+export interface CreativeCoreOperatorView {
+  coreIdea: string;
+  hook: string;
+  voiceover: string;
+  mainEmotion: string;
+  approvedLocked: boolean;
+  scenes: Array<{
+    sceneId: string;
+    order: number;
+    voiceoverExcerpt: string;
+    visualEvent: string;
+    motionOrChange: string;
+    emotion: string;
+    soundIntent: string;
+  }>;
 }
 
 export interface CreativeReviewVideoCreativeSummary {
@@ -156,6 +204,11 @@ export interface CreativeReviewVideoCreativeSummary {
   canRefreshPromptContract: boolean;
   promptContractStale: boolean;
   technicalClipCount: number | null;
+  coreIdea: string | null;
+  primaryEmotion: string | null;
+  meaningWarnings: string[];
+  conceptRejected: boolean;
+  conceptRegenerateUsed: boolean;
   scenes: Array<{
     sceneId: string;
     order: number;
@@ -379,6 +432,13 @@ function buildVideoCreativeSummary(
       (plan?.prompt_contract_version ?? 0) !==
         TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION,
     technicalClipCount,
+    coreIdea: readT2vCanonicalCreative(brief)?.core_idea ?? null,
+    primaryEmotion: readT2vCanonicalCreative(brief)?.primary_emotion ?? null,
+    meaningWarnings: Array.isArray(review?.voiceover.meaning_warnings)
+      ? review.voiceover.meaning_warnings
+      : [],
+    conceptRejected: brief.t2v_creative_rejected === true,
+    conceptRegenerateUsed: brief.t2v_concept_regenerate_used === true,
     scenes: (plan?.scenes ?? []).map((s) => {
       const ss = sound?.scene_sound[s.scene_id];
       const modeResolved =
@@ -422,13 +482,47 @@ function packageViewFromRow(args: {
     briefRecord,
     reviewForSummary,
   );
+  const core = readCreativeCoreV2FromBrief(briefRecord);
+  const creativeCoreV2Active = core != null;
+  const approvedSnap = readApprovedCreativeCoreSnapshot(briefRecord);
+  const creativeCoreOperatorView = core
+    ? {
+        coreIdea: core.core_idea,
+        hook: core.hook,
+        voiceover: core.voiceover,
+        mainEmotion: core.main_emotion,
+        approvedLocked: approvedSnap != null,
+        scenes: [...core.scenes]
+          .sort((a, b) => a.order - b.order)
+          .map((s) => ({
+            sceneId: s.scene_id,
+            order: s.order,
+            voiceoverExcerpt: s.voiceover_excerpt,
+            visualEvent: s.visual_event,
+            motionOrChange: s.motion_or_change,
+            emotion: s.emotion,
+            soundIntent: s.sound_intent,
+          })),
+      }
+    : null;
+  const derivedPhase = creativeCoreV2Active
+    ? resolveDerivedOperatorPhase(briefRecord)
+    : null;
+  const derivedOperatorStatusLabel = derivedPhase
+    ? statusLabelForOperatorPhase(derivedPhase)
+    : null;
+  const derivedNeedsOperatorRetry = derivedPhase === "error_retry";
   const base = {
     packageId: args.packageId,
     packageIndex: args.packageIndex,
     title: args.title,
     updatedAt: args.updatedAt,
     packageVideoMode,
-    videoCreativeSummary,
+    videoCreativeSummary: creativeCoreV2Active ? null : videoCreativeSummary,
+    creativeCoreV2Active,
+    creativeCoreOperatorView,
+    derivedOperatorStatusLabel,
+    derivedNeedsOperatorRetry,
   };
   if (read.ok && read.value === null) {
     return {
@@ -864,6 +958,10 @@ export async function saveCreativeReviewPackage(args: {
   }
 
   let review = mutation.review;
+  const isT2v =
+    parsePackageVideoProductionMode(loaded.brief.package_video_mode) ===
+    "text_to_video";
+  const coreActive = briefUsesCreativeCoreV2(loaded.brief);
 
   // Automatic translation after Localized changes — no manual translate step.
   if (creativeReviewNeedsEnglishPreviewUpdate(review)) {
@@ -871,6 +969,7 @@ export async function saveCreativeReviewPackage(args: {
       const translated = await translateCreativeReviewEnglishPreviews(review, {
         textProvider: args.textProvider,
         forceAll: true,
+        meaningSafeFromOriginal: isT2v || coreActive,
       });
       if (!translated.ok) {
         return {
@@ -910,10 +1009,104 @@ export async function saveCreativeReviewPackage(args: {
     priorReview: loaded.review,
     edits: args.edits,
   });
-  const isT2v =
-    parsePackageVideoProductionMode(loaded.brief.package_video_mode) ===
-    "text_to_video";
-  if (isT2v) {
+
+  // Creative Core v2: VO/scene edits update Core mechanically (no Claude rewrite).
+  if (coreActive) {
+    let core = readCreativeCoreV2FromBrief(brief);
+    if (!core) {
+      return {
+        ok: false,
+        error: "Creative Core v2 missing from package brief.",
+        code: "validation_failed",
+      };
+    }
+    const voChanged =
+      typeof args.edits.voiceoverLocalizedEdit === "string" &&
+      args.edits.voiceoverLocalizedEdit.trim() !==
+        loaded.review.voiceover.localized_edit.trim();
+    if (voChanged) {
+      const productionVo =
+        productionSpokenVoiceoverFromReview(review) ||
+        review.voiceover.original_ai;
+      const applied = applyCreativeCoreVoiceoverEdit({
+        core,
+        newVoiceover: productionVo,
+      });
+      if (!applied.ok) {
+        return {
+          ok: false,
+          error: `Voiceover redistribute failed: ${applied.error}`,
+          code: "validation_failed",
+        };
+      }
+      core = applied.core;
+      brief = {
+        ...brief,
+        media_projections_stale: true,
+        preliminary_scene_durations_seconds:
+          applied.preliminary_durations_seconds,
+      };
+      brief = invalidateDerivedOutputsForPlatformDependencyChange(brief);
+    }
+    if (args.edits.scenes?.length) {
+      for (const sceneEdit of args.edits.scenes) {
+        if (!sceneEdit.intentLocalizedEdit?.trim()) continue;
+        const prior = loaded.review.scenes.find((s) => s.id === sceneEdit.id);
+        if (
+          prior &&
+          prior.intent.localized_edit.trim() ===
+            sceneEdit.intentLocalizedEdit.trim()
+        ) {
+          continue;
+        }
+        const appliedScene = applyCreativeCoreSceneEdit({
+          core,
+          sceneId: sceneEdit.id,
+          patch: {
+            visual_event: sceneEdit.intentLocalizedEdit.trim(),
+            action: sceneEdit.intentLocalizedEdit.trim(),
+            ...(sceneEdit.directorNotes != null
+              ? { sound_intent: sceneEdit.directorNotes }
+              : {}),
+          },
+        });
+        if (!appliedScene.ok) {
+          return {
+            ok: false,
+            error: `Scene edit failed: ${appliedScene.error}`,
+            code: "validation_failed",
+          };
+        }
+        core = appliedScene.core;
+        brief = { ...brief, media_projections_stale: true };
+      }
+    }
+    const projected = projectCreativeCoreToLegacyPackage({
+      core,
+      packageKind: core.scenes.length > 0 ? "video" : "text_only",
+      funnelStage:
+        typeof brief.funnel_stage === "string" ? brief.funnel_stage : "awareness",
+      targetPlatforms: [],
+    });
+    if (!projected.ok) {
+      return {
+        ok: false,
+        error: `Legacy projection failed: ${projected.detail}`,
+        code: "validation_failed",
+      };
+    }
+    brief = {
+      ...brief,
+      [CREATIVE_CORE_V2_BRIEF_KEY]: core,
+      hook: core.hook,
+      voiceover_text: core.voiceover,
+      visual_scenes: projected.package.visual_scenes,
+      presentation_generation: projected.package.presentation_generation,
+      t2v_canonical_creative: (
+        projected.package as unknown as Record<string, unknown>
+      ).t2v_canonical_creative,
+    };
+  } else if (isT2v) {
     const productionVo = productionSpokenVoiceoverFromReview(review);
     if (!productionVo) {
       return {
@@ -1026,20 +1219,90 @@ export async function approveCreativeReviewPackage(args: {
   const isT2v =
     parsePackageVideoProductionMode(loaded.brief.package_video_mode) ===
     "text_to_video";
+  const coreActive = briefUsesCreativeCoreV2(loaded.brief);
   const timestamp = (args.now ?? (() => new Date()))().toISOString();
   const mutation = commitCreativeReviewApprove({
     current: loaded.review,
     expectedVersion: args.expectedVersion,
     actor: args.actor,
     timestamp,
-    requireSceneIntent: true,
+    requireSceneIntent: !coreActive || (readCreativeCoreV2FromBrief(loaded.brief)?.scenes.length ?? 0) > 0,
   });
   if (!mutation.ok) {
     return mutationToWriteResult(mutation)!;
   }
 
   let brief = loaded.brief;
-  if (isT2v) {
+  if (coreActive) {
+    const core = readCreativeCoreV2FromBrief(brief);
+    if (!core) {
+      return {
+        ok: false,
+        error: "Creative Core v2 missing — cannot Approve.",
+        code: "validation_failed",
+      };
+    }
+    const productionVo = productionSpokenVoiceoverFromReview(mutation.review);
+    if (!productionVo) {
+      return {
+        ok: false,
+        error:
+          "Production-language voiceover must be current before Approve Package.",
+        code: "translation_failed",
+      };
+    }
+    if (mutation.review.voiceover.meaning_review_required) {
+      return {
+        ok: false,
+        error: "Meaning review required before Approve.",
+        code: "validation_failed",
+      };
+    }
+    const sceneEnFingerprints: Record<string, string> = {};
+    for (const scene of mutation.review.scenes) {
+      if (scene.intent.english_preview) {
+        sceneEnFingerprints[scene.id] = fingerprintText(
+          scene.intent.english_preview,
+        );
+      }
+    }
+    const snapshot = buildApprovedCreativeCoreSnapshot({
+      core,
+      productionVoiceoverEn: productionVo,
+      voiceDirection: readVoiceDirectionFromBrief(brief),
+      lockedAt: timestamp,
+      voiceoverEnFingerprint: fingerprintText(productionVo),
+      sceneEnFingerprints,
+    });
+    brief = {
+      ...brief,
+      [CREATIVE_CORE_V2_APPROVED_SNAPSHOT_KEY]: snapshot,
+      [CREATIVE_CORE_V2_BRIEF_KEY]: core,
+      // Approve must not regenerate — only lock.
+    };
+    // Enqueue Step 3 derivation (async background processor).
+    const platforms = resolvePackagePlatforms(
+      Array.isArray(brief.target_platforms)
+        ? (brief.target_platforms as import("@/lib/supabase/types").PlatformType[])
+        : [],
+    );
+    const language =
+      typeof brief.language === "string" ? brief.language : "en";
+    brief = enqueueDerivedOutputsPending({
+      brief,
+      platforms:
+        platforms.length > 0
+          ? platforms
+          : ["tiktok", "instagram", "youtube", "facebook", "linkedin", "x"],
+      language,
+      packageId: args.packageId,
+    });
+    brief = {
+      ...brief,
+      content_creative_core_v2_awaiting_derive: false,
+      content_creative_core_v2_derive_requested_at: timestamp,
+    };
+  } else if (isT2v) {
     const productionVo = productionSpokenVoiceoverFromReview(mutation.review);
     if (!productionVo) {
       return {
@@ -1051,10 +1314,16 @@ export async function approveCreativeReviewPackage(args: {
     }
     try {
       assertT2vVoiceSelectionReadyForApprove({ brief });
+      const creativeMemory = await loadProjectCreativeMemory(
+        createSupabaseAdminClient(),
+        args.projectId,
+        { excludePackageId: args.packageId },
+      );
       brief = lockApprovedCanonicalTextToVideoPlan({
         brief,
         review: mutation.review,
         timestamp,
+        creativeMemory,
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Approve blocked.";
@@ -1587,3 +1856,129 @@ export async function saveCreativeReviewTextToVideoSoundPlan(args: {
 }
 
 export { VOICE_DIRECTION_STYLE_LABELS };
+
+export async function regenerateCreativeReviewT2vConcept(args: {
+  projectId: string;
+  runId: string;
+  packageId: string;
+  expectedVersion: number;
+  actor: CreativeReviewActor;
+}): Promise<SaveCreativeReviewResult> {
+  const loaded = await loadMutablePackageContext(args);
+  if (!loaded.ok) return loaded.result;
+
+  if (briefUsesCreativeCoreV2(loaded.brief)) {
+    const result = await regenerateCreativeCoreV2Concept({
+      projectId: args.projectId,
+      packageId: args.packageId,
+      expectedVersion: args.expectedVersion,
+      actor: args.actor,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error,
+        code:
+          result.code === "version_conflict"
+            ? "version_conflict"
+            : result.code === "not_found"
+              ? "not_found"
+              : "validation_failed",
+      };
+    }
+    const supabase = createSupabaseAdminClient();
+    const { data: row, error: reloadErr } = await supabase
+      .from("content_packages")
+      .select("title, package_brief, updated_at")
+      .eq("id", args.packageId)
+      .eq("project_id", args.projectId)
+      .maybeSingle();
+    if (reloadErr) throw reloadErr;
+    return {
+      ok: true,
+      package: packageViewFromRow({
+        packageId: args.packageId,
+        packageIndex: loaded.packageIndex,
+        title: (row?.title as string) || loaded.title,
+        updatedAt:
+          (row?.updated_at as string) || new Date().toISOString(),
+        brief: row?.package_brief,
+      }),
+    };
+  }
+
+  const result = await regenerateTextToVideoCreativeConcept({
+    projectId: args.projectId,
+    packageId: args.packageId,
+    expectedVersion: args.expectedVersion,
+    actor: args.actor,
+  });
+  if (!result.ok) {
+    return {
+      ok: false,
+      error: result.error,
+      code:
+        result.code === "version_conflict"
+          ? "version_conflict"
+          : result.code === "not_found"
+            ? "not_found"
+            : "validation_failed",
+    };
+  }
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_packages")
+    .select("id, title, package_brief, updated_at")
+    .eq("id", args.packageId)
+    .eq("project_id", args.projectId)
+    .single();
+  if (error || !data) {
+    return { ok: false, error: "Reload after regenerate failed.", code: "not_found" };
+  }
+  return {
+    ok: true,
+    package: packageViewFromRow({
+      packageId: data.id as string,
+      packageIndex: loaded.packageIndex,
+      title: data.title as string,
+      updatedAt: data.updated_at as string,
+      brief: data.package_brief,
+    }),
+  };
+}
+
+export async function rejectCreativeReviewT2vConcept(args: {
+  projectId: string;
+  runId: string;
+  packageId: string;
+}): Promise<SaveCreativeReviewResult> {
+  const loaded = await loadMutablePackageContext(args);
+  if (!loaded.ok) return loaded.result;
+  const result = await rejectTextToVideoCreative({
+    projectId: args.projectId,
+    packageId: args.packageId,
+  });
+  if (!result.ok) {
+    return { ok: false, error: result.error, code: "validation_failed" };
+  }
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("content_packages")
+    .select("id, title, package_brief, updated_at")
+    .eq("id", args.packageId)
+    .eq("project_id", args.projectId)
+    .single();
+  if (error || !data) {
+    return { ok: false, error: "Reload after reject failed.", code: "not_found" };
+  }
+  return {
+    ok: true,
+    package: packageViewFromRow({
+      packageId: data.id as string,
+      packageIndex: loaded.packageIndex,
+      title: data.title as string,
+      updatedAt: data.updated_at as string,
+      brief: data.package_brief,
+    }),
+  };
+}

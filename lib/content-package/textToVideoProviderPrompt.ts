@@ -4,6 +4,12 @@ import {
   type CanonicalVideoScene,
 } from "@/lib/content-package/canonicalVideoPlan";
 import type { VisualIdentity } from "@/lib/content-pipeline/types";
+import {
+  parseT2vScreenPolicy,
+  promptRequestsLegibleScreen,
+  screenPolicyConstraintLine,
+  type T2vScreenPolicy,
+} from "@/lib/content-package/t2vScreenPolicy";
 
 export const T2V_PROVIDER_PROMPT_NOT_ENGLISH =
   "t2v_provider_prompt_not_english" as const;
@@ -74,6 +80,12 @@ export function stripNonessentialReadableTextRequests(value: string): string {
     /\breadable\s+(?:text|ui|letters|numbers)\s+on\s+(?:the\s+)?(?:phone|screen|monitor|display|laptop)\b/gi,
     "",
   );
+  next = next.replace(
+    /\b(?:phone\s+)?(?:screen|feed|display|monitor)\s+remains\s+legible\b/gi,
+    "screen stays in frame",
+  );
+  next = next.replace(/\bremains\s+legible\b/gi, "stays in frame");
+  next = next.replace(/\bclean,\s*legible(?:,\s*not dramatised)?\b/gi, "unreadable UI");
   return collapseSpaces(next.replace(/[;,:]{2,}/g, " ").replace(/\s+([.,;:])/g, "$1"));
 }
 
@@ -129,14 +141,11 @@ export function providerPromptHasContradictoryTextRules(prompt: string): boolean
   const lower = prompt.toLowerCase();
   const forbidsReadable =
     /no readable on-screen text/.test(lower) ||
-    /no generated subtitles, captions, or logos/.test(lower);
-  const requiresReadable =
-    /(?:show|display|include|with)\s+(?:the\s+)?(?:clearly\s+)?(?:readable|legible)\s+(?:text|type|letters|numbers)/.test(
-      lower,
-    ) ||
-    /readable\s+(?:text|ui|letters|numbers)\s+on\s+(?:the\s+)?(?:phone|screen|monitor|display)/.test(
-      lower,
-    );
+    /or readable on-screen text/.test(lower) ||
+    /no generated subtitles, captions, or logos/.test(lower) ||
+    /generic unreadable ui chrome only/.test(lower) ||
+    /no legible or readable text/.test(lower);
+  const requiresReadable = promptRequestsLegibleScreen(prompt);
   return forbidsReadable && requiresReadable;
 }
 
@@ -152,42 +161,84 @@ export function composeTextToVideoProviderPrompt(args: {
   energyMotion?: string;
   sceneRole?: "opening" | "body" | "closing";
   continuity?: TextToVideoContinuityBlock | null;
-  canonicalScene?: Pick<CanonicalVideoScene, "image_prompt"> | null;
+  canonicalScene?: Pick<
+    CanonicalVideoScene,
+    "image_prompt" | "environment" | "camera" | "continuity_hints" | "screen_policy"
+  > | null;
+  /** Concrete visual event — preferred Action source (not Scene Intent). */
+  visualEvent?: string;
+  setting?: string;
+  sceneCamera?: string;
+  screenPolicy?: T2vScreenPolicy | null;
+  continuityHints?: string;
   /** When the operator changed the plot, do not mix in the previous still/motion. */
   omitStaleVisuals?: boolean;
   /** Later technical clips of the same canonical scene — not a new storyboard. */
   technicalContinuation?: { partIndex: number; partCount: number } | null;
 }): string {
   const max = T2V_GEN45_PROMPT_MAX_UTF16;
-  const intent = stripNonessentialReadableTextRequests(
+  const visualEvent = stripNonessentialReadableTextRequests(
+    (args.visualEvent ?? args.canonicalScene?.image_prompt ?? "").trim(),
+  );
+  const intentFallback = stripNonessentialReadableTextRequests(
     (args.englishVisualIntent ?? args.humanVisualIntent ?? "").trim(),
+  );
+  const actionSource = visualEvent || intentFallback;
+  const settingRaw = stripNonessentialReadableTextRequests(
+    (args.setting ?? args.canonicalScene?.environment ?? "").trim(),
   );
   const stillRaw = stripNonessentialReadableTextRequests(
     args.canonicalScene?.image_prompt?.trim() ?? "",
   );
-  const motion = stripNonessentialReadableTextRequests(
+  let motion = stripNonessentialReadableTextRequests(
     (args.motionPrompt ?? "").trim() || (args.energyMotion ?? "").trim(),
   );
+  motion = motion.replace(/\bfade to black\b/gi, "").trim();
+  motion = motion.replace(/\bcuts are deliberate[^.]*\.?/gi, "").trim();
   const omitStale = args.omitStaleVisuals === true;
-  const includeStill =
-    Boolean(stillRaw) && !omitStale && !similarEnough(intent, stillRaw);
+  const sceneCamera = stripNonessentialReadableTextRequests(
+    (args.sceneCamera ?? args.canonicalScene?.camera ?? "").trim(),
+  );
+  const useGlobalCamera = !sceneCamera;
   const includeMotion =
     Boolean(motion) &&
     !omitStale &&
-    !similarEnough(intent, motion) &&
-    !similarEnough(stillRaw, motion);
-
+    !similarEnough(actionSource, motion);
+  const setting =
+    !omitStale && settingRaw
+      ? settingRaw
+      : !omitStale && stillRaw && !similarEnough(actionSource, stillRaw)
+        ? stillRaw
+        : "";
+  const screenPolicy =
+    args.screenPolicy ??
+    parseT2vScreenPolicy(args.canonicalScene?.screen_policy) ??
+    null;
   const header = "Photoreal vertical 9:16 clip.";
-  const action = intent ? `Action: ${intent}` : "";
+  const action = actionSource ? `Action: ${actionSource}` : "";
   const motionLine = includeMotion ? `Motion: ${motion}.`.replace("..", ".") : "";
-  const camera = args.continuity?.camera_style?.trim()
-    ? `Camera: ${args.continuity.camera_style.trim()}.`
-    : "";
-  const stillLine = includeStill ? `Setting: ${stillRaw}` : "";
+  const camera = omitStale
+    ? ""
+    : sceneCamera
+      ? `Camera: ${sceneCamera}. Single continuous shot; no cuts.`
+      : useGlobalCamera && args.continuity?.camera_style?.trim()
+        ? `Camera: ${args.continuity.camera_style.trim()}.`
+        : "Camera: Single continuous shot; no cuts.";
+  const settingLine = setting ? `Setting: ${setting}` : "";
+  const hints = stripNonessentialReadableTextRequests(
+    (args.continuityHints ?? args.canonicalScene?.continuity_hints ?? "").trim(),
+  );
   const continuity = omitStale
     ? ""
-    : shortContinuityWithoutCamera(args.continuity ?? null);
-  const constraint = T2V_PROVIDER_PROMPT_CONSTRAINTS;
+    : hints
+      ? `Continuity: ${hints}.`
+      : sceneCamera
+        ? ""
+        : shortContinuityWithoutCamera(args.continuity ?? null);
+  const policyLine = screenPolicy ? screenPolicyConstraintLine(screenPolicy) : "";
+  const constraint = policyLine
+    ? `${policyLine} No dialogue, lip-sync, subtitles, captions, or logos.`
+    : T2V_PROVIDER_PROMPT_CONSTRAINTS;
   const continuation =
     args.technicalContinuation && args.technicalContinuation.partIndex > 0
       ? T2V_TECHNICAL_CONTINUATION_LINE
@@ -199,7 +250,7 @@ export function composeTextToVideoProviderPrompt(args: {
   const actionFitted = action
     ? utf16CodeUnits(action) <= actionBudget
       ? action
-      : `Action: ${trimToUtf16WordBoundary(intent, actionBudget - 8)}`
+      : `Action: ${trimToUtf16WordBoundary(actionSource, actionBudget - 8)}`
     : "";
 
   const suffixBudget = max - utf16CodeUnits(constraint) - 1;
@@ -212,10 +263,10 @@ export function composeTextToVideoProviderPrompt(args: {
     }
     body = withContinuation;
   }
+  body = joinIfFits(body, settingLine, suffixBudget);
   body = joinIfFits(body, motionLine, suffixBudget);
   body = joinIfFits(body, camera, suffixBudget);
   body = joinIfFits(body, continuity, suffixBudget);
-  body = joinIfFits(body, stillLine, suffixBudget);
 
   let prompt = `${body} ${constraint}`.trim();
   if (utf16CodeUnits(prompt) > max) {

@@ -31,6 +31,7 @@ import {
   serializeTextToVideoCreativePlan,
 } from "../lib/content-package/textToVideoCreativePlan";
 import { EMPTY_MEMORY } from "../lib/ai/workflows/antiRepetitionMemory";
+import { fixtureT2vCanonicalCreative } from "../lib/content-package/t2vCanonicalCreative";
 import { buildTextToVideoRenderPlanFromCanonical } from "../lib/content-package/textToVideoRenderAdapter";
 import {
   assertTextToVideoPlanLockedForContinue,
@@ -167,6 +168,7 @@ function lockedT2vBrief(review: CreativeReview): Record<string, unknown> {
     voiceover_text: production,
     hook: deriveHookFromVoiceover(production),
     visual_scenes: fiveScenesForReview(),
+    t2v_canonical_creative: fixtureT2vCanonicalCreative(),
     video: { script: "authoritative storyboard script" },
     creative_review: withScenes,
     video_text_to_video_sound_plan: {
@@ -378,8 +380,9 @@ async function main(): Promise<void> {
     );
     const brief = lockedT2vBrief(review);
     const next = readTextToVideoCreativePlan(brief)!;
-    assert.equal(next.scenes[0]?.human_visual_edit, visual);
-    assert.match(next.scenes[0]!.provider_prompt, /unread phone/i);
+    assert.equal(review.scenes[0]?.intent.english_preview, visual);
+    assert.match(next.scenes[0]!.provider_prompt, /Concrete scene 1 action/);
+    assert.doesNotMatch(next.scenes[0]!.provider_prompt, /unread phone/i);
     const locked = assertTextToVideoPlanLockedForContinue({ brief, review });
     assert.equal(
       locked.plan.scenes[0]?.human_visual_edit,

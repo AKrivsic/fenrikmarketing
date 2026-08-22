@@ -5,6 +5,10 @@ import {
   type StrategyItemContext,
 } from "@/lib/ai/workflows/packageShared";
 import { outputsForPackageIndex } from "@/lib/projects/productionRun";
+import {
+  isPendingStep3Placeholder,
+  platformOutputsContainPlaceholders,
+} from "@/lib/content-creative-core-v2/placeholderGuard";
 
 export interface PackageFanOutExpectation {
   multipliers: Record<string, number>;
@@ -79,5 +83,18 @@ export function rehydrateContentPackageFromBrief(
 export function briefHasPersistableContentPayload(
   brief: Record<string, unknown>,
 ): boolean {
-  return rehydrateContentPackageFromBrief(brief) !== null;
+  if (platformOutputsContainPlaceholders(brief.platform_outputs)) {
+    return false;
+  }
+  const rehydrated = rehydrateContentPackageFromBrief(brief);
+  if (!rehydrated) return false;
+  // Reject empty captions (pre-derivation Creative Core v2 state).
+  const outputs = rehydrated.platform_outputs ?? {};
+  const captions = Object.values(outputs).map((o) =>
+    typeof o?.caption === "string" ? o.caption.trim() : "",
+  );
+  if (captions.length === 0) return false;
+  if (captions.some((c) => !c || isPendingStep3Placeholder(c))) return false;
+  return true;
 }
+

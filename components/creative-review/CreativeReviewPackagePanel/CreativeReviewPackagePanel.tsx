@@ -6,8 +6,11 @@ import {
   rebuildCreativeReviewTextToVideoSceneFromCzechIntentAction,
   restoreCanonicalVideoPlanAction,
   refreshTextToVideoVideoPlanAction,
+  regenerateCreativeReviewT2vConceptAction,
+  rejectCreativeReviewT2vConceptAction,
   saveCreativeReviewPackageAction,
   unapproveCreativeReviewPackageAction,
+  retryCreativeCoreV2DeriveAction,
 } from "@/app/projects/[id]/creative-review/actions";
 import { VOICE_DIRECTION_STYLE_LABELS } from "@/lib/content-package/voiceDirectionContract";
 import type { VoiceDirectionStyle } from "@/lib/content-package/voiceDirectionContract";
@@ -212,6 +215,8 @@ export function CreativeReviewPackagePanel({
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const isT2v = pkg.packageVideoMode === "text_to_video";
+  const isCoreV2 = pkg.creativeCoreV2Active;
+  const coreView = pkg.creativeCoreOperatorView;
 
   const dirty = useMemo(() => {
     if (!review || readOnly) return false;
@@ -294,7 +299,9 @@ export function CreativeReviewPackagePanel({
       Boolean(
         review?.scenes.some((scene) => scene.intent.english_preview_outdated),
       ) ||
-      Boolean(t2v?.scenes.some((scene) => scene.visualRebuildRequired)));
+      Boolean(t2v?.scenes.some((scene) => scene.visualRebuildRequired)) ||
+      Boolean(review?.voiceover.meaning_review_required) ||
+      Boolean(t2v?.conceptRejected));
   const t2vSceneCount = review?.scenes.length ?? t2v?.scenes.length ?? 0;
 
   const duration = useMemo(() => {
@@ -434,6 +441,35 @@ export function CreativeReviewPackagePanel({
     });
   }
 
+  function handleRegenerateConcept() {
+    if (!review || !editable || isPending) return;
+    setError(null);
+    setServerIssues([]);
+    startTransition(async () => {
+      const result = await regenerateCreativeReviewT2vConceptAction(
+        projectId,
+        runId,
+        pkg.packageId,
+        review.version,
+      );
+      handleMutationResult(result);
+    });
+  }
+
+  function handleRejectConcept() {
+    if (!editable || isPending) return;
+    setError(null);
+    setServerIssues([]);
+    startTransition(async () => {
+      const result = await rejectCreativeReviewT2vConceptAction(
+        projectId,
+        runId,
+        pkg.packageId,
+      );
+      handleMutationResult(result);
+    });
+  }
+
   function handleReset() {
     if (!review) return;
     setVoiceoverEdit(review.voiceover.localized_edit);
@@ -535,9 +571,79 @@ export function CreativeReviewPackagePanel({
               </p>
             </section>
 
+            {isCoreV2 && coreView ? (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>1. Hlavní myšlenka</h3>
+                <p className={styles.wrapText}>{coreView.coreIdea}</p>
+              </section>
+            ) : null}
+
+            {isCoreV2 && pkg.derivedOperatorStatusLabel ? (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>Stav obsahu</h3>
+                <p className={styles.wrapText}>{pkg.derivedOperatorStatusLabel}</p>
+                {pkg.derivedNeedsOperatorRetry && !readOnly ? (
+                  <button
+                    type="button"
+                    className={styles.secondary}
+                    disabled={isPending}
+                    onClick={() => {
+                      startTransition(async () => {
+                        const result = await retryCreativeCoreV2DeriveAction(
+                          projectId,
+                          runId,
+                          pkg.packageId,
+                        );
+                        if (result.ok) {
+                          onSaved(result.package);
+                          setError(null);
+                        } else {
+                          setError(result.error);
+                        }
+                      });
+                    }}
+                  >
+                    Zopakovat
+                  </button>
+                ) : null}
+              </section>
+            ) : null}
+
+            {isCoreV2 && coreView ? (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>2. Hook</h3>
+                <p className={styles.wrapText}>{coreView.hook}</p>
+              </section>
+            ) : isT2v ? (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>Návrh</h3>
+                <p className={styles.wrapText}>
+                  <strong>Myšlenka: </strong>
+                  {t2v?.coreIdea || "—"}
+                </p>
+                <p className={styles.wrapText}>
+                  <strong>Hook: </strong>
+                  {t2v?.hook || review?.voiceover.original_ai.split(/[.!?]/)[0] || "—"}
+                </p>
+                <p className={styles.wrapText}>
+                  <strong>Emoce: </strong>
+                  {t2v?.primaryEmotion || "—"}
+                </p>
+                {t2v?.budgetEstimateLabel ? (
+                  <p className={styles.muted}>{t2v.budgetEstimateLabel}</p>
+                ) : null}
+                {review?.voiceover.meaning_review_required ? (
+                  <p className={styles.error} role="alert">
+                    Angličtina se významově posunula. Approve je zablokovaný.
+                    {(t2v?.meaningWarnings ?? []).join(" ")}
+                  </p>
+                ) : null}
+              </section>
+            ) : null}
+
             <section className={styles.section} aria-labelledby={`${pkg.packageId}-vo`}>
               <h3 id={`${pkg.packageId}-vo`} className={styles.sectionTitle}>
-                Voiceover
+                {isCoreV2 ? "3. Voiceover" : "Voiceover"}
               </h3>
               {duration ? (
                 <p className={styles.muted} role="note">
@@ -800,7 +906,7 @@ export function CreativeReviewPackagePanel({
                               aria-readonly="true"
                             />
                           </label>
-                          <p className={styles.muted}>
+                          <p className={`${styles.muted} ${styles.wrapText}`}>
                             Pohyb / změna: {overlay?.motionPrompt || "—"}
                           </p>
                           {overlay?.visualRebuildRequired ? (
@@ -811,9 +917,11 @@ export function CreativeReviewPackagePanel({
                               zakázáno.
                             </p>
                           ) : null}
+                          {overlay?.visualRebuildRequired ? (
+                            <>
                           <button
                             type="button"
-                            className={styles.save}
+                            className={styles.secondary}
                             disabled={
                               !editable ||
                               isPending ||
@@ -829,6 +937,11 @@ export function CreativeReviewPackagePanel({
                           <p className={styles.muted}>
                             Claude request (text). Média se neplatí.
                           </p>
+                            </>
+                          ) : null}
+                          {!isCoreV2 ? (
+                          <details className={styles.diagnostics}>
+                            <summary>Technické detaily</summary>
                           <p className={styles.muted}>
                             Přesný Runway prompt (
                             {overlay?.providerPromptUtf16Length ??
@@ -836,7 +949,9 @@ export function CreativeReviewPackagePanel({
                               0}{" "}
                             / 1000 UTF-16)
                           </p>
-                          <pre>{overlay?.providerPrompt ?? ""}</pre>
+                          <pre className={styles.promptPre}>{overlay?.providerPrompt ?? ""}</pre>
+                          </details>
+                          ) : null}
                           <label className={styles.field}>
                             <span className={styles.label}>Zvuk</span>
                             <select
@@ -877,6 +992,7 @@ export function CreativeReviewPackagePanel({
                   </ul>
                 </section>
 
+                {!isCoreV2 ? (
                 <section
                   className={styles.section}
                   aria-labelledby={`${pkg.packageId}-t2v-run`}
@@ -905,6 +1021,7 @@ export function CreativeReviewPackagePanel({
                     plán beze změny a bez nového překladu.
                   </p>
                 </section>
+                ) : null}
               </>
             ) : null}
 
@@ -1120,7 +1237,7 @@ export function CreativeReviewPackagePanel({
                   onClick={handleApprove}
                   disabled={!canRunWorkflow || englishOutdated || t2vApproveBlocked}
                 >
-                  Approve Package
+                  Approve
                 </button>
               ) : (
                 <button
@@ -1132,6 +1249,52 @@ export function CreativeReviewPackagePanel({
                   Unapprove Package
                 </button>
               )}
+              {isT2v && !review!.approved ? (
+                <>
+                  <button
+                    type="button"
+                    className={styles.secondary}
+                    onClick={handleRegenerateConcept}
+                    disabled={!editable || isPending || Boolean(t2v?.conceptRegenerateUsed)}
+                  >
+                    Vytvořit úplně jiný návrh
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.reset}
+                    onClick={handleRejectConcept}
+                    disabled={!editable || isPending}
+                  >
+                    Reject
+                  </button>
+                  <p className={styles.muted}>
+                    Jiný návrh zaplatí jen textové AI, nikoliv ElevenLabs ani Runway.
+                  </p>
+                </>
+              ) : isCoreV2 && !review!.approved ? (
+                <>
+                  <button
+                    type="button"
+                    className={styles.secondary}
+                    onClick={handleRegenerateConcept}
+                    disabled={!editable || isPending}
+                  >
+                    Vytvořit úplně jiný návrh
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.reset}
+                    onClick={handleRejectConcept}
+                    disabled={!editable || isPending}
+                  >
+                    Reject
+                  </button>
+                  <p className={styles.muted}>
+                    Jiný návrh nahradí celý Creative Core textovým AI. Média se
+                    neplatí.
+                  </p>
+                </>
+              ) : null}
             </div>
           </>
         )}

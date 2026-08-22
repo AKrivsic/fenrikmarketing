@@ -21,6 +21,13 @@ import {
   utf16CodeUnits,
 } from "@/lib/content-package/textToVideoProviderPrompt";
 import { TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION } from "@/lib/text-to-video/runwayProductionConfig";
+import { hasT2vCanonicalCreativeContract } from "@/lib/content-package/t2vCanonicalCreative";
+import {
+  parseT2vScreenPolicy,
+  screenPolicyConflictsWithPrompt,
+} from "@/lib/content-package/t2vScreenPolicy";
+import { evaluatePackageBriefOriginality } from "@/lib/content-memory/strategyOriginality";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
 
 export const T2V_PLAN_SENTENCE_FALLBACK = "t2v_plan_sentence_fallback" as const;
 export const T2V_SCENE_COUNT_MISMATCH = "t2v_scene_count_mismatch" as const;
@@ -44,6 +51,13 @@ export const T2V_PROVIDER_PROMPT_TOO_LONG =
 export const T2V_PROVIDER_PROMPT_TEXT_CONFLICT =
   "t2v_provider_prompt_text_conflict" as const;
 export const T2V_PROMPT_CONTRACT_STALE = "t2v_prompt_contract_stale" as const;
+export const T2V_MEANING_REVIEW_REQUIRED =
+  "t2v_meaning_review_required" as const;
+export const T2V_CANONICAL_CREATIVE_MISSING =
+  "t2v_canonical_creative_missing" as const;
+export const T2V_SCREEN_POLICY_CONFLICT = "t2v_screen_policy_conflict" as const;
+export const T2V_SCENE_COUNT_INVALID = "t2v_scene_count_invalid" as const;
+export const T2V_CREATIVE_MEMORY_REPEAT = "t2v_creative_memory_repeat" as const;
 
 export type TextToVideoPlanApprovalBlocker =
   | typeof T2V_PLAN_SENTENCE_FALLBACK
@@ -61,12 +75,18 @@ export type TextToVideoPlanApprovalBlocker =
   | typeof T2V_SCENE_VISUAL_STALE
   | typeof T2V_PROVIDER_PROMPT_TOO_LONG
   | typeof T2V_PROVIDER_PROMPT_TEXT_CONFLICT
-  | typeof T2V_PROMPT_CONTRACT_STALE;
+  | typeof T2V_PROMPT_CONTRACT_STALE
+  | typeof T2V_MEANING_REVIEW_REQUIRED
+  | typeof T2V_CANONICAL_CREATIVE_MISSING
+  | typeof T2V_SCREEN_POLICY_CONFLICT
+  | typeof T2V_SCENE_COUNT_INVALID
+  | typeof T2V_CREATIVE_MEMORY_REPEAT;
 
 export function collectTextToVideoPlanApprovalBlockers(args: {
   plan: TextToVideoCreativePlan | null;
   brief: Record<string, unknown>;
   review: CreativeReview | null;
+  creativeMemory?: ProjectCreativeMemory | null;
 }): TextToVideoPlanApprovalBlocker[] {
   const blockers: TextToVideoPlanApprovalBlocker[] = [];
   const canonical = extractCanonicalVideoScenesFromBrief(args.brief);
@@ -75,6 +95,24 @@ export function collectTextToVideoPlanApprovalBlockers(args: {
   if (!plan) {
     blockers.push(T2V_PLAN_NOT_CANONICAL);
     return blockers;
+  }
+
+  if (!hasT2vCanonicalCreativeContract(args.brief)) {
+    blockers.push(T2V_CANONICAL_CREATIVE_MISSING);
+  } else if (canonical.length < 4 || canonical.length > 5) {
+    blockers.push(T2V_SCENE_COUNT_INVALID);
+  }
+  if (args.review?.voiceover.meaning_review_required) {
+    blockers.push(T2V_MEANING_REVIEW_REQUIRED);
+  }
+  if (args.creativeMemory) {
+    const originality = evaluatePackageBriefOriginality({
+      brief: args.brief,
+      memory: args.creativeMemory,
+    });
+    if (originality.length > 0) {
+      blockers.push(T2V_CREATIVE_MEMORY_REPEAT);
+    }
   }
 
   if (isLegacySentenceFallbackPlan(plan, canonical.length)) {
@@ -122,6 +160,16 @@ export function collectTextToVideoPlanApprovalBlockers(args: {
     if (providerPromptHasContradictoryTextRules(renderScene.provider_prompt)) {
       blockers.push(T2V_PROVIDER_PROMPT_TEXT_CONFLICT);
     }
+    const policy = parseT2vScreenPolicy(canonicalScene?.screen_policy);
+    if (
+      policy &&
+      screenPolicyConflictsWithPrompt({
+        policy,
+        prompt: renderScene.provider_prompt,
+      })
+    ) {
+      blockers.push(T2V_SCREEN_POLICY_CONFLICT);
+    }
     if (renderScene.visual_rebuild_status === "rebuild_required") {
       blockers.push(T2V_SCENE_VISUAL_STALE);
     }
@@ -155,6 +203,7 @@ export function assertTextToVideoPlanApprovable(args: {
   plan: TextToVideoCreativePlan | null;
   brief: Record<string, unknown>;
   review: CreativeReview | null;
+  creativeMemory?: ProjectCreativeMemory | null;
 }): void {
   const blockers = collectTextToVideoPlanApprovalBlockers(args);
   if (blockers.length > 0) {

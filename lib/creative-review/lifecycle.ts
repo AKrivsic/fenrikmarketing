@@ -17,16 +17,7 @@ import type { ValidationIssue, ValidationResult } from "@/lib/ai/validateAiOutpu
 export function cloneVoiceover(
   voiceover: CreativeReviewVoiceover,
 ): CreativeReviewVoiceover {
-  return {
-    original_ai: voiceover.original_ai,
-    localized_edit: voiceover.localized_edit,
-    english_preview: voiceover.english_preview,
-    english_preview_outdated: voiceover.english_preview_outdated,
-    english_confirmed: voiceover.english_confirmed,
-    translation_confirmed_at: voiceover.translation_confirmed_at,
-    translation_confirmed_by: voiceover.translation_confirmed_by,
-    final_approved: voiceover.final_approved,
-  };
+  return { ...voiceover };
 }
 
 export function cloneSceneIntent(intent: SceneCreativeIntent): SceneCreativeIntent {
@@ -86,7 +77,9 @@ export function scenesHaveCompleteIntent(
 export function isEnglishPreviewCurrent(args: {
   english_preview: string | null;
   english_preview_outdated: boolean;
+  meaning_review_required?: boolean;
 }): boolean {
+  if (args.meaning_review_required) return false;
   const preview = args.english_preview?.trim() ?? "";
   return preview.length > 0 && !args.english_preview_outdated;
 }
@@ -120,6 +113,7 @@ export function computeCreativeReviewStatus(args: {
     isEnglishPreviewCurrent({
       english_preview: vo.english_preview,
       english_preview_outdated: vo.english_preview_outdated,
+      meaning_review_required: vo.meaning_review_required,
     }) &&
     vo.localized_edit.trim().length > 0 &&
     vo.final_approved.trim().length > 0 &&
@@ -144,6 +138,12 @@ export function validateCreativeReviewApproval(
 ): ValidationResult<true> {
   const issues: ValidationIssue[] = [];
   const requireSceneIntent = options?.requireSceneIntent !== false;
+  if (review.voiceover.meaning_review_required) {
+    issues.push({
+      path: "$.voiceover.meaning_review_required",
+      message: "English meaning must be reviewed before approval",
+    });
+  }
   if (!review.voiceover.english_confirmed) {
     issues.push({
       path: "$.voiceover.english_confirmed",
@@ -154,6 +154,7 @@ export function validateCreativeReviewApproval(
     !isEnglishPreviewCurrent({
       english_preview: review.voiceover.english_preview,
       english_preview_outdated: review.voiceover.english_preview_outdated,
+      meaning_review_required: review.voiceover.meaning_review_required,
     })
   ) {
     issues.push({

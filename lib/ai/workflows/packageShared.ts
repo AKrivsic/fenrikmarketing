@@ -429,6 +429,12 @@ export function buildPackageBrief(
     // Creative + (after raster) storage refs for the shared FB/LI 1:1 image.
     // Optional: historical packages omit this key.
     social_image: pkg.social_image ?? null,
+    t2v_canonical_creative:
+      (pkg as ContentPackageOutput & { t2v_canonical_creative?: unknown })
+        .t2v_canonical_creative ??
+      (pkg.presentation_generation as Record<string, unknown> | undefined)
+        ?.t2v_canonical_creative ??
+      null,
   };
   if (options?.creativeReview) {
     brief.creative_review = options.creativeReview;

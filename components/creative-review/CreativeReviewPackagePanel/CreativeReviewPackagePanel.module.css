@@ -2,6 +2,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-bg);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .summary {
@@ -91,7 +93,30 @@
   color: var(--color-text-muted);
 }
 
+.promptPre {
+  margin: 0.4rem 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.wrapText {
+  margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
 .textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--color-border);
@@ -125,6 +150,8 @@
   padding: 0.7rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .sceneHead {

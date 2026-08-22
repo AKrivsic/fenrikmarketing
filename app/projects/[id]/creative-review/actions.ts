@@ -1,12 +1,16 @@
 "use server";
 
+import { after } from "next/server";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getProjectForAdmin } from "@/lib/api/projects-admin";
 import {
   approveCreativeReviewPackage,
   loadCreativeReviewPage,
   restoreCanonicalVideoPlan,
   refreshTextToVideoVideoPlan,
+  regenerateCreativeReviewT2vConcept,
+  rejectCreativeReviewT2vConcept,
   saveCreativeReviewPackage,
   saveCreativeReviewTextToVideoScene,
   saveCreativeReviewTextToVideoSoundPlan,
@@ -29,7 +33,7 @@ import {
   cancelManualReview,
   type CancelManualReviewResult,
 } from "@/lib/ai/workflows/cancelManualReview";
-import { headers } from "next/headers";
+import { triggerCreativeCoreV2DeriveProcessor } from "@/lib/content-creative-core-v2/triggerDeriveProcessor";
 
 export type LoadCreativeReviewActionResult =
   | { ok: true; data: CreativeReviewPageData }
@@ -232,12 +236,190 @@ export async function approveCreativeReviewPackageAction(
       };
     }
     revalidateCreativeReview(projectId, runId);
+    if (result.package.creativeCoreV2Active) {
+      const requestHeaders = await headers();
+      const host =
+        requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+      const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
+      const origin = host ? `${proto}://${host}` : undefined;
+      if (origin) {
+        after(() =>
+          triggerCreativeCoreV2DeriveProcessor(origin, {
+            projectId,
+            packageId,
+          }),
+        );
+      }
+    }
     return { ok: true, package: result.package };
   } catch (err) {
     const message =
       err instanceof Error
         ? err.message
         : "Failed to approve Creative Review package.";
+    return { ok: false, error: message };
+  }
+}
+
+/**
+ * Operator "Zopakovat" — only when auto derive recovery failed (error_retry).
+ * Reuses the same durable claim/idempotency path as Approve kick.
+ */
+export async function retryCreativeCoreV2DeriveAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId) {
+    return {
+      ok: false,
+      error: "Missing project, run, or package id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const { createSupabaseAdminClient } = await import("@/lib/supabase/admin");
+    const { recoverCreativeCoreV2DeriveForPackage } = await import(
+      "@/lib/content-creative-core-v2/recoverDerive"
+    );
+    const { startVideoFromApprovedCreativeCore } = await import(
+      "@/lib/content-creative-core-v2/startVideoFromApprovedCore"
+    );
+    const { loadCreativeReviewPage } = await import(
+      "@/lib/api/creative-review-admin"
+    );
+    const supabase = createSupabaseAdminClient();
+    const recovered = await recoverCreativeCoreV2DeriveForPackage({
+      supabase,
+      projectId,
+      packageId,
+    });
+    if (!recovered.ok) {
+      return {
+        ok: false,
+        error: recovered.error ?? "Obnova derivace selhala.",
+        code: "validation_failed",
+      };
+    }
+    await startVideoFromApprovedCreativeCore({
+      supabase,
+      projectId,
+      packageId,
+    });
+    const requestHeaders = await headers();
+    const host =
+      requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+    const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
+    const origin = host ? `${proto}://${host}` : undefined;
+    if (origin) {
+      after(() =>
+        triggerCreativeCoreV2DeriveProcessor(origin, {
+          projectId,
+          packageId,
+        }),
+      );
+    }
+    revalidateCreativeReview(projectId, runId);
+    const project = await getProjectForAdmin(projectId);
+    const runView = await loadCreativeReviewPage({
+      projectId,
+      runId,
+      projectName: project?.name ?? "Project",
+    });
+    if (!runView.ok) {
+      return {
+        ok: false,
+        error: runView.error,
+        code:
+          runView.code === "invalid_review"
+            ? "validation_failed"
+            : runView.code,
+      };
+    }
+    const pkg = runView.data.packages.find((p) => p.packageId === packageId);
+    if (!pkg) {
+      return { ok: false, error: "Package not found.", code: "not_found" };
+    }
+    return { ok: true, package: pkg };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to retry derivation.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function regenerateCreativeReviewT2vConceptAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+  expectedVersion: number,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId) {
+    return {
+      ok: false,
+      error: "Missing project, run, or package id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const actor = await resolveCreativeReviewEditorActor();
+    const result = await regenerateCreativeReviewT2vConcept({
+      projectId,
+      runId,
+      packageId,
+      expectedVersion,
+      actor,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error,
+        code: result.code,
+        issues: result.issues,
+        currentVersion: result.currentVersion,
+      };
+    }
+    revalidateCreativeReview(projectId, runId);
+    return { ok: true, package: result.package };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to regenerate concept.";
+    return { ok: false, error: message };
+  }
+}
+
+export async function rejectCreativeReviewT2vConceptAction(
+  projectId: string,
+  runId: string,
+  packageId: string,
+): Promise<MutateCreativeReviewActionResult> {
+  if (!projectId || !runId || !packageId) {
+    return {
+      ok: false,
+      error: "Missing project, run, or package id.",
+      code: "invalid_input",
+    };
+  }
+  const access = await requireProjectEditor(projectId);
+  if (!access.ok) return access.result;
+  try {
+    const result = await rejectCreativeReviewT2vConcept({
+      projectId,
+      runId,
+      packageId,
+    });
+    if (!result.ok) {
+      return { ok: false, error: result.error, code: result.code };
+    }
+    revalidateCreativeReview(projectId, runId);
+    return { ok: true, package: result.package };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to reject concept.";
     return { ok: false, error: message };
   }
 }

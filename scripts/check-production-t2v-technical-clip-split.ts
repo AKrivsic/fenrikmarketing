@@ -10,6 +10,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { CreativeReview } from "../lib/creative-review/types";
+import { fixtureT2vCanonicalCreative } from "../lib/content-package/t2vCanonicalCreative";
 import { buildTextToVideoRenderPlanFromCanonical } from "../lib/content-package/textToVideoRenderAdapter";
 import {
   collectTextToVideoPlanApprovalBlockers,
@@ -169,6 +170,7 @@ function canonicalBrief(review: CreativeReview): Record<string, unknown> {
     hook: "What does a potential client see",
     language: "en",
     visual_scenes: fiveVisualScenes(),
+    t2v_canonical_creative: fixtureT2vCanonicalCreative(),
     creative_review: review,
     video_paid_preflight: {
       confirm_paid_run: true,

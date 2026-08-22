@@ -18,6 +18,7 @@ export function productionSpokenVoiceoverFromReview(
     !isEnglishPreviewCurrent({
       english_preview: review.voiceover.english_preview,
       english_preview_outdated: review.voiceover.english_preview_outdated,
+      meaning_review_required: review.voiceover.meaning_review_required,
     })
   ) {
     return null;

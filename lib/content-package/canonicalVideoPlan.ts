@@ -33,6 +33,13 @@ export interface CanonicalVideoScene {
   motion_prompt: string | null;
   voiceover_excerpt: string;
   presentation_type: string | null;
+  environment?: string | null;
+  camera?: string | null;
+  emotion?: string | null;
+  sound_intent?: string | null;
+  screen_policy?: string | null;
+  continuity_hints?: string | null;
+  characters_action?: string | null;
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -166,16 +173,25 @@ export function extractCanonicalVideoScenes(args: {
   videoScript?: string;
 }): CanonicalVideoScene[] {
   const excerpts = resolveCanonicalVoiceoverExcerpts(args);
-  return args.visualScenes.map((entry, index) => ({
-    id: readVisualSceneId(entry, index),
-    index,
-    image_prompt: readVisualSceneImagePrompt(entry),
-    motion_prompt: readVisualSceneMotionPrompt(entry),
-    voiceover_excerpt: (excerpts[index] ?? "").slice(0, 800),
-    presentation_type:
-      nonEmpty(asRecord(entry)?.type) ??
-      (asRecord(entry)?.source ? "IMAGE" : null),
-  }));
+  return args.visualScenes.map((entry, index) => {
+    const record = asRecord(entry);
+    return {
+      id: readVisualSceneId(entry, index),
+      index,
+      image_prompt: readVisualSceneImagePrompt(entry),
+      motion_prompt: readVisualSceneMotionPrompt(entry),
+      voiceover_excerpt: (excerpts[index] ?? "").slice(0, 800),
+      presentation_type:
+        nonEmpty(record?.type) ?? (record?.source ? "IMAGE" : null),
+      environment: nonEmpty(record?.environment),
+      camera: nonEmpty(record?.camera),
+      emotion: nonEmpty(record?.emotion),
+      sound_intent: nonEmpty(record?.sound_intent),
+      screen_policy: nonEmpty(record?.screen_policy),
+      continuity_hints: nonEmpty(record?.continuity_hints),
+      characters_action: nonEmpty(record?.characters_action),
+    };
+  });
 }
 
 export function extractCanonicalVideoScenesFromBrief(

@@ -37,8 +37,13 @@ import {
   buildContentPackageVoiceoverContractBlock,
   ctaRequirementForFunnelStage,
 } from "@/lib/content-pipeline/prompts/contentPackageContract";
-import type { PackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
-import { DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE } from "@/lib/content-package/packageVideoProductionMode";
+import { buildTextToVideoAuthoritativeCreativeBlock } from "@/lib/content-pipeline/prompts/textToVideoAuthoritativePackage";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
+import {
+  DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+  PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
 import {
   buildContentPackageSocialImageBlock,
   packageNeedsSocialImage,
@@ -47,6 +52,7 @@ import {
 export function buildContentPackageSystem(
   requireVideo: boolean,
   requireSocialImage = false,
+  authoritativeT2v = false,
 ): string {
   return (
     "You are the Content Package generator for the production content pipeline. " +
@@ -58,10 +64,12 @@ export function buildContentPackageSystem(
       ? "This package REQUIRES a full video block, voiceover, and visual scenes/image prompts. "
       : "This package is text-oriented; include video fields only if natural. ") +
     (requireSocialImage
-      ? "This package REQUIRES a social_image creative for the shared Facebook/LinkedIn 1:1 feed asset. "
+      ? "This package REQUIRES a social_image creative for the shared Facebook/LinkedIn 1:1 feed asset. " +
+        ""
       : "") +
-    "Honor Opening Impact exactly for the hook and opening spoken line. " +
-    "Honor Visual Identity for all image prompts. Return ONLY JSON."
+    (authoritativeT2v
+      ? "For text-to-video you are the ONLY creative authority for hook, voiceover, and canonical scenes. Do not wait for Opening Impact. Return ONLY JSON."
+      : "Honor Opening Impact exactly for the hook and opening spoken line. Honor Visual Identity for all image prompts. Return ONLY JSON.")
   );
 }
 
@@ -85,6 +93,8 @@ export interface ContentPackagePromptInput {
   directives?: CreativeDirectives | null;
   painPoint?: string | null;
   packageVideoMode?: PackageVideoProductionMode;
+  creativeMemory?: ProjectCreativeMemory | null;
+  t2vBannedNote?: string | null;
 }
 
 function assetsBlock(assets: AssetRef[]): string {
@@ -167,6 +177,7 @@ export function buildContentPackagePrompt(
     ctaRequired,
   });
   const requireSocialImage = packageNeedsSocialImage(platforms);
+  const t2v = input.packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO;
 
   return [
     task,
@@ -196,20 +207,27 @@ export function buildContentPackagePrompt(
     "",
     regenBlock,
     "",
-    "VIDEO CONCEPT (authoritative story idea):",
-    JSON.stringify(input.concept, null, 2),
-    "",
-    "OPENING IMPACT (authoritative cold open — MUST use):",
-    `- first_image → scene 1 / first image_prompt`,
-    `- first_spoken_sentence → hook AND first spoken line of voiceover_text`,
-    `- emotion: ${input.openingImpact.emotion}`,
-    `- pacing: ${input.openingImpact.pacing}`,
-    `- attention_pattern: ${input.openingImpact.attention_pattern}`,
-    `- first_spoken_sentence: ${input.openingImpact.first_spoken_sentence}`,
-    `- first_image: ${input.openingImpact.first_image}`,
-    "",
-    "VISUAL IDENTITY (authoritative look — apply to ALL image prompts):",
-    JSON.stringify(input.visualIdentity, null, 2),
+    t2v
+      ? buildTextToVideoAuthoritativeCreativeBlock({
+          memory: input.creativeMemory,
+          bannedNote: input.t2vBannedNote,
+        })
+      : [
+          "VIDEO CONCEPT (authoritative story idea):",
+          JSON.stringify(input.concept, null, 2),
+          "",
+          "OPENING IMPACT (authoritative cold open — MUST use):",
+          `- first_image → scene 1 / first image_prompt`,
+          `- first_spoken_sentence → hook AND first spoken line of voiceover_text`,
+          `- emotion: ${input.openingImpact.emotion}`,
+          `- pacing: ${input.openingImpact.pacing}`,
+          `- attention_pattern: ${input.openingImpact.attention_pattern}`,
+          `- first_spoken_sentence: ${input.openingImpact.first_spoken_sentence}`,
+          `- first_image: ${input.openingImpact.first_image}`,
+          "",
+          "VISUAL IDENTITY (authoritative look — apply to ALL image prompts):",
+          JSON.stringify(input.visualIdentity, null, 2),
+        ].join("\n"),
     "",
     assetsBlock(input.availableAssets),
     "",
@@ -222,8 +240,12 @@ export function buildContentPackagePrompt(
     "",
     "HARD RULES:",
     `- funnel_stage must be exactly "${funnel}" (or the canonical label matching the strategy item).`,
-    "- hook MUST equal Opening Impact first_spoken_sentence (same language).",
-    "- voiceover_text MUST begin with that same first spoken sentence.",
+    t2v
+      ? "- You own hook and voiceover. Do not copy any Opening Impact sentence. Do not wait for a later Scene Intent rewrite."
+      : "- hook MUST equal Opening Impact first_spoken_sentence (same language).",
+    t2v
+      ? "- voiceover_text is the complete spoken script. Scene voiceover_excerpt values must be contiguous slices of it."
+      : "- voiceover_text MUST begin with that same first spoken sentence.",
     "- Keep the SELECTED PAIN POINT as the dominant problem throughout the script when provided.",
     "- CREATIVE MODE is the THINKING MODEL for voiceover, video.script, and scene construction — not a tone filter.",
     "  Follow MODE BEATS as the natural order of thought for voiceover / scenes; invent freely inside that logic.",
@@ -284,6 +306,9 @@ export function buildContentPackagePrompt(
     '  "visual_scenes": [ { "source": "ai", "image_prompt": "string" }, ... ],',
     '  "asset_usage": [ { "asset_id": "string", "used_as": "string" } ],',
     '  "scenario": optional string',
+    t2v
+      ? '  "t2v_canonical_creative": { "contract_version": 1, "core_idea": string, "primary_emotion": string, "conflict": string, "surprise": string, "beginning_to_end_change": string, "payoff": string, "visual_direction": { ... } }'
+      : "",
     requireSocialImage
       ? '  "social_image": { "image_prompt": "string", "text_overlay": string|null }'
       : "",

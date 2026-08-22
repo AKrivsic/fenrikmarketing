@@ -100,6 +100,15 @@ import { resolvePackageAssetCoverage } from "@/lib/assets/assetCoveragePolicy";
 import { resolvePreferredVideoUsageFromRef } from "@/lib/assets/preferredVideoUsage";
 import { collectAssetUsageFromPackage } from "@/lib/content-package/visualScenePlan";
 import { runCreativePipeline } from "@/lib/content-pipeline/runCreativePipeline";
+import {
+  autoAcceptCreativeCoreV2,
+  buildManualReviewCreativeReviewFromCore,
+  readCreativeCoreV2FromBrief,
+  runCreativeCoreV2Pipeline,
+  shouldGenerateWithCreativeCoreV2,
+} from "@/lib/content-creative-core-v2";
+import { CREATIVE_CORE_V2_BRIEF_KEY } from "@/lib/content-creative-core-v2/config";
+import { CREATIVE_CORE_V2_PROVENANCE_KEY } from "@/lib/content-creative-core-v2/legacyProjection";
 
 export interface GenerateContentPackageInput {
   projectId: string;
@@ -480,29 +489,45 @@ async function runGenerateContentPackageAfterClaim(
   });
 
   heartbeat.assertOwned("creative_pipeline");
-  const creative = await runCreativePipeline(supabase, {
-    project,
-    context,
-    assets,
-    memory,
-    targetPlatforms,
-    videoPlatforms,
-    requireVideo,
-    variantCounts,
-    packageIndex: context.packageIndex,
-    packageCount: runInfo?.packageCount ?? null,
-    generationMode,
-    assetCoverage,
-    preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
-    directives,
-    packageVideoMode:
-      runInfo?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
-  });
+  const useCreativeCoreV2 = shouldGenerateWithCreativeCoreV2();
+  const creative = useCreativeCoreV2
+    ? await runCreativeCoreV2Pipeline(supabase, {
+        project,
+        context,
+        targetPlatforms,
+        requireVideo,
+        generationMode,
+        packageVideoMode:
+          runInfo?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+        directives,
+      })
+    : await runCreativePipeline(supabase, {
+        project,
+        context,
+        assets,
+        memory,
+        targetPlatforms,
+        videoPlatforms,
+        requireVideo,
+        variantCounts,
+        packageIndex: context.packageIndex,
+        packageCount: runInfo?.packageCount ?? null,
+        generationMode,
+        assetCoverage,
+        preferredVideoUsageById: requireVideo ? preferredVideoUsageById : undefined,
+        directives,
+        packageVideoMode:
+          runInfo?.packageVideoMode ?? DEFAULT_PACKAGE_VIDEO_PRODUCTION_MODE,
+      });
   if (!creative.ok) {
     return creative;
   }
 
   const pkg = creative.data.package;
+  const deferSocialImage =
+    useCreativeCoreV2 &&
+    "deferSocialImage" in creative.data &&
+    creative.data.deferSocialImage === true;
   const pg =
     pkg.presentation_generation &&
     typeof pkg.presentation_generation === "object" &&
@@ -569,13 +594,16 @@ async function runGenerateContentPackageAfterClaim(
   );
 
   // Shared FB/LI 1:1 social image — soft-fail; never blocks package/video/copy.
-  await generateAndPersistPackageSocialImage({
-    supabase,
-    projectId: input.projectId,
-    packageId: data.packageId,
-    pkg,
-    targetPlatforms,
-  });
+  // Creative Core v2 Step 2 defers social image to Step 3.
+  if (!deferSocialImage) {
+    await generateAndPersistPackageSocialImage({
+      supabase,
+      projectId: input.projectId,
+      packageId: data.packageId,
+      pkg,
+      targetPlatforms,
+    });
+  }
 
   if (
     data.deferredVideoUntilCreativeReview &&
@@ -931,17 +959,40 @@ async function persistNewPackage(
 
   // Manual Review: seed Creative Review with AI Scene Intent + automatic
   // Editor Language localization + English Preview, then persist.
-  // Production / sample omit.
-  const creativeReview = defersVideoUntilCreativeReview(generationMode)
-    ? await buildManualReviewCreativeReview(pkg, {
-        editorLanguage: editorLanguage ?? undefined,
-        sourceLanguage,
-      })
-    : undefined;
+  // Creative Core v2: seed from Core without Scene Intent LLM.
+  // Production / sample omit (unless v2 auto-accept path stamps review later).
+  const coreFromPkg = readCreativeCoreV2FromBrief(
+    pkg as unknown as Record<string, unknown>,
+  );
+  const creativeReview =
+    defersVideoUntilCreativeReview(generationMode) && coreFromPkg
+      ? await buildManualReviewCreativeReviewFromCore({
+          pkg,
+          core: coreFromPkg,
+          editorLanguage: editorLanguage ?? undefined,
+          sourceLanguage,
+        })
+      : defersVideoUntilCreativeReview(generationMode)
+        ? await buildManualReviewCreativeReview(pkg, {
+            editorLanguage: editorLanguage ?? undefined,
+            sourceLanguage,
+            packageVideoMode,
+          })
+        : undefined;
   const packageBriefRecord = buildPackageBrief(pkg, {
     ...(creativeReview ? { creativeReview } : {}),
     packageVideoMode,
   }) as unknown as Record<string, unknown>;
+  if (coreFromPkg) {
+    packageBriefRecord[CREATIVE_CORE_V2_BRIEF_KEY] = coreFromPkg;
+    const pkgRec = pkg as unknown as Record<string, unknown>;
+    if (pkgRec[CREATIVE_CORE_V2_PROVENANCE_KEY]) {
+      packageBriefRecord[CREATIVE_CORE_V2_PROVENANCE_KEY] =
+        pkgRec[CREATIVE_CORE_V2_PROVENANCE_KEY];
+    }
+  }
+  // Step 2: never start paid media on the v2 path (auto-accept is snapshot-only).
+  const deferPaidMediaForCreativeCoreV2 = Boolean(coreFromPkg);
   if (creativeReview) {
     packageBriefRecord[CREATIVE_REVIEW_REASON_KEY] =
       CREATIVE_REVIEW_REASON_MANUAL_MODE;
@@ -997,7 +1048,14 @@ async function persistNewPackage(
   const packageId = packageRow.id as string;
 
   let briefForStorage = packageBrief as unknown as Record<string, unknown>;
-  if (packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
+  if (coreFromPkg) {
+    // Creative Core v2 is authority — do not let T2V planner invent storyboard.
+    briefForStorage = {
+      ...briefForStorage,
+      [CREATIVE_CORE_V2_BRIEF_KEY]: coreFromPkg,
+      media_projections_stale: true,
+    };
+  } else if (packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
     briefForStorage = await attachTextToVideoCreativePlanToBrief({
       supabase,
       projectId,
@@ -1032,6 +1090,7 @@ async function persistNewPackage(
     const reviewForRepetition = await buildManualReviewCreativeReview(pkg, {
       editorLanguage: editorLanguage ?? undefined,
       sourceLanguage,
+      packageVideoMode,
     });
     briefForStorage = {
       ...briefForStorage,
@@ -1135,14 +1194,22 @@ async function persistNewPackage(
     },
   );
 
-  const { data: insertedItems, error: itemErr } = await supabase
-    .from("content_items")
-    .insert(itemRows)
-    .select("id, platform");
-  if (itemErr) throw itemErr;
-  const inserted = (insertedItems ?? []) as { id: string; platform: string }[];
-  const contentItemIds = inserted.map((r) => r.id);
-  const primaryItemId = contentItemIds[0] ?? null;
+  let inserted: { id: string; platform: string }[] = [];
+  let contentItemIds: string[] = [];
+  let primaryItemId: string | null = null;
+
+  // Creative Core v2: never persist empty/placeholder captions as content_items.
+  // Items are created in Step 3 after Approve (or auto-derive).
+  if (!coreFromPkg) {
+    const { data: insertedItems, error: itemErr } = await supabase
+      .from("content_items")
+      .insert(itemRows)
+      .select("id, platform");
+    if (itemErr) throw itemErr;
+    inserted = (insertedItems ?? []) as { id: string; platform: string }[];
+    contentItemIds = inserted.map((r) => r.id);
+    primaryItemId = contentItemIds[0] ?? null;
+  }
 
   // Video job is created ONLY when at least one selected platform requires
   // video. It is a single shared package video linked to the primary VIDEO
@@ -1154,7 +1221,8 @@ async function persistNewPackage(
   const requireVideo =
     videoPlatformSet.size > 0 &&
     !defersVideoUntilCreativeReview(generationMode) &&
-    !deferVideoJob;
+    !deferVideoJob &&
+    !deferPaidMediaForCreativeCoreV2;
   let videoJobId = "";
   if (requireVideo) {
     try {
@@ -1223,11 +1291,67 @@ async function persistNewPackage(
   // primary item exists whether or not the package has video).
   // Sprint 5.3.1 — failure must not leave package/job without consistent usage;
   // roll back the whole persist unit and surface operational_failure.
-  try {
-    await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
-  } catch (err) {
-    await rollbackPersistedPackage(supabase, projectId, packageId);
-    throw err;
+  // Creative Core v2 defers content_items until derived outputs exist.
+  if (primaryItemId) {
+    try {
+      await recordAssetUsage(supabase, projectId, primaryItemId, pkg);
+    } catch (err) {
+      await rollbackPersistedPackage(supabase, projectId, packageId);
+      throw err;
+    }
+  }
+
+  // Creative Core v2 auto / text-only path: lock Core then derive platform outputs
+  // (texts + FB/LI image). Manual Review waits for Approve before derivation.
+  if (
+    coreFromPkg &&
+    !defersVideoUntilCreativeReview(generationMode)
+  ) {
+    const acceptedBrief = autoAcceptCreativeCoreV2({
+      brief: briefForStorage,
+      core: coreFromPkg,
+    });
+    briefForStorage = acceptedBrief;
+    const { error: autoBriefErr } = await supabase
+      .from("content_packages")
+      .update({ package_brief: briefForStorage as unknown as Json })
+      .eq("id", packageId)
+      .eq("project_id", projectId);
+    if (autoBriefErr) throw autoBriefErr;
+
+    // Already on content-package-worker (long timeout) — derive synchronously.
+    // No ElevenLabs / Runway / FFmpeg.
+    const { runDerivePlatformOutputsForPackage } = await import(
+      "@/lib/content-creative-core-v2/runDeriveOutputs"
+    );
+    await runDerivePlatformOutputsForPackage({
+      supabase,
+      projectId,
+      packageId,
+    });
+    // Step 4: after derive, start video only when paid gates pass (still/T2V).
+    const { startVideoFromApprovedCreativeCore } = await import(
+      "@/lib/content-creative-core-v2/startVideoFromApprovedCore"
+    );
+    await startVideoFromApprovedCreativeCore({
+      supabase,
+      projectId,
+      packageId,
+      productionRunId: context.productionRunId ?? null,
+      generationMode,
+    });
+  } else if (coreFromPkg && defersVideoUntilCreativeReview(generationMode)) {
+    // Manual Review: mark awaiting derivation after Approve (no texts yet).
+    briefForStorage = {
+      ...briefForStorage,
+      content_creative_core_v2_awaiting_derive: true,
+    };
+    const { error: awaitErr } = await supabase
+      .from("content_packages")
+      .update({ package_brief: briefForStorage as unknown as Json })
+      .eq("id", packageId)
+      .eq("project_id", projectId);
+    if (awaitErr) throw awaitErr;
   }
 
   return {
@@ -1239,7 +1363,7 @@ async function persistNewPackage(
     contentItemIds,
     videoJobId,
     package: pkg,
-    contentPersistComplete: true,
+    contentPersistComplete: !coreFromPkg,
     deferredVideoUntilCreativeReview:
       defersVideoUntilCreativeReview(generationMode) || deferVideoJob,
     ...(creativeReviewReason ? { creativeReviewReason } : {}),

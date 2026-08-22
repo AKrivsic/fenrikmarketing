@@ -36,6 +36,7 @@ import {
 } from "@/lib/content-package/videoCreativeIntegrity";
 import { PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO } from "@/lib/content-package/packageVideoProductionMode";
 import { validateSceneSoundForApproval } from "@/lib/text-to-video/textToVideoSfxAnchoring";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
 
 export const T2V_PRODUCTION_TRANSLATION_MISSING =
   "t2v_production_translation_missing" as const;
@@ -279,12 +280,14 @@ export function lockApprovedCanonicalTextToVideoPlan(args: {
   brief: Record<string, unknown>;
   review: CreativeReview;
   timestamp?: string;
+  creativeMemory?: ProjectCreativeMemory | null;
 }): Record<string, unknown> {
   const plan = readTextToVideoCreativePlan(args.brief);
   assertTextToVideoPlanApprovable({
     plan,
     brief: args.brief,
     review: args.review,
+    creativeMemory: args.creativeMemory,
   });
   if (!plan) {
     throw new Error("t2v_plan_not_canonical");

@@ -3,6 +3,7 @@ import {
   vEnum,
   vFunnelStage,
   vNonEmptyString,
+  vNumber,
   vObject,
   vOptional,
   vString,
@@ -145,6 +146,24 @@ export const contentPackageSchema = vObject({
   // historical / non-FB-LI packages; required at runtime when platforms include
   // facebook or linkedin — see buildContentPackageSchema requireSocialImage).
   social_image: vOptional(socialImageCreativeSchema),
+  t2v_canonical_creative: vOptional(
+    vObject({
+      contract_version: vNumber({ min: 1, max: 1 }),
+      core_idea: vNonEmptyString(),
+      primary_emotion: vNonEmptyString(),
+      conflict: vNonEmptyString(),
+      surprise: vNonEmptyString(),
+      beginning_to_end_change: vNonEmptyString(),
+      payoff: vNonEmptyString(),
+      visual_direction: vObject({
+        art_direction: vNonEmptyString(),
+        lighting: vNonEmptyString(),
+        palette: vNonEmptyString(),
+        environment: vNonEmptyString(),
+        character_style: vNonEmptyString(),
+      }),
+    }),
+  ),
 });
 
 export interface BuildContentPackageSchemaOptions {
@@ -200,6 +219,24 @@ export function buildContentPackageSchema(
     social_image: requireSocialImage
       ? socialImageCreativeSchema
       : vOptional(socialImageCreativeSchema),
+    t2v_canonical_creative: vOptional(
+      vObject({
+        contract_version: vNumber({ min: 1, max: 1 }),
+        core_idea: vNonEmptyString(),
+        primary_emotion: vNonEmptyString(),
+        conflict: vNonEmptyString(),
+        surprise: vNonEmptyString(),
+        beginning_to_end_change: vNonEmptyString(),
+        payoff: vNonEmptyString(),
+        visual_direction: vObject({
+          art_direction: vNonEmptyString(),
+          lighting: vNonEmptyString(),
+          palette: vNonEmptyString(),
+          environment: vNonEmptyString(),
+          character_style: vNonEmptyString(),
+        }),
+      }),
+    ),
   }) as unknown as Validator<ContentPackageOutput>;
 }
 

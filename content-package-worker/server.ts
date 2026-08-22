@@ -13,6 +13,13 @@ import {
   type ServerResponse,
 } from "node:http";
 import { handleGenerateContentPackageRequest } from "@/lib/n8n/handleGenerateContentPackageRequest";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
+  recoverCreativeCoreV2DeriveForPackage,
+  recoverPendingCreativeCoreV2DeriveJobs,
+} from "@/lib/content-creative-core-v2/recoverDerive";
+import { startVideoFromApprovedCreativeCore } from "@/lib/content-creative-core-v2/startVideoFromApprovedCore";
+import { N8N_SECRET_HEADER } from "@/lib/n8n/callback";
 
 const PORT = Number(process.env.CONTENT_PACKAGE_WORKER_PORT ?? 8081);
 
@@ -89,6 +96,57 @@ async function handleGenerate(
   }
 }
 
+async function handleRecoverDerive(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  try {
+    const expected = process.env.N8N_CALLBACK_SECRET ?? "";
+    const provided = req.headers[N8N_SECRET_HEADER];
+    const providedStr = Array.isArray(provided) ? provided[0] : provided;
+    if (!expected || !providedStr || providedStr !== expected) {
+      sendJson(res, 401, { ok: false, error: "unauthorized" });
+      return;
+    }
+    const raw = await readBody(req);
+    let body: { projectId?: string; packageId?: string } = {};
+    if (raw.length > 0) {
+      try {
+        body = JSON.parse(raw.toString("utf8")) as typeof body;
+      } catch {
+        body = {};
+      }
+    }
+    const supabase = createSupabaseAdminClient();
+    if (body.projectId && body.packageId) {
+      const recovered = await recoverCreativeCoreV2DeriveForPackage({
+        supabase,
+        projectId: body.projectId,
+        packageId: body.packageId,
+      });
+      let video: unknown = null;
+      if (recovered.ok) {
+        video = await startVideoFromApprovedCreativeCore({
+          supabase,
+          projectId: body.projectId,
+          packageId: body.packageId,
+        });
+      }
+      sendJson(res, 200, { ok: true, recovered, video });
+      return;
+    }
+    const drained = await recoverPendingCreativeCoreV2DeriveJobs({ supabase });
+    sendJson(res, 200, { ok: true, drained });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(
+      "[content-package-worker] recover-creative-core-v2-derive failed",
+      JSON.stringify({ error: message }),
+    );
+    sendJson(res, 500, { ok: false, error: "server_error", message });
+  }
+}
+
 const server = createServer((req, res) => {
   void route(req, res);
 });
@@ -108,6 +166,15 @@ async function route(
       return;
     }
     await handleGenerate(req, res);
+    return;
+  }
+
+  if (req.url === "/recover-creative-core-v2-derive") {
+    if (req.method !== "POST") {
+      sendJson(res, 405, { ok: false, error: "method_not_allowed" });
+      return;
+    }
+    await handleRecoverDerive(req, res);
     return;
   }
 

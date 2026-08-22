@@ -52,7 +52,7 @@ function buildPackage(): ContentPackageOutput {
     hook: "Struggling with X?",
     voiceover_text: "Here is how we help.",
     subtitles: "Here is how we help.",
-    cta: { type: "learn_more", text: "Learn more" },
+    cta: { type: "follow", text: "Follow for more" },
     video: { concept: "Explainer", script: "Scene 1..." },
     image_prompts: ["bright kitchen", "sponge close-up", "happy customer"],
     platform_outputs: {
@@ -145,11 +145,13 @@ check("funnel_stage DB value (problem_aware) matches", () => {
   assert.equal(paths(issuesFor(pkg)).includes("$.funnel_stage"), false);
 });
 
-check("goal_type lead_generation accepts CTA type 'lead'", () => {
+check("goal_type lead_generation accepts CTA type 'lead' on conversion", () => {
   const pkg = buildPackage();
+  pkg.funnel_stage = "conversion";
   pkg.cta = { type: "lead", text: "Get a quote" };
   const ctx = baseCtx();
   ctx.project.goal_type = "lead_generation";
+  ctx.strategyItemFunnelStage = "conversion";
   assert.equal(paths(issuesFor(pkg, ctx)).includes("$.cta.type"), false);
 });
 

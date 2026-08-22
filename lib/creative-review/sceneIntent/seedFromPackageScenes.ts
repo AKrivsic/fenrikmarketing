@@ -319,3 +319,27 @@ export function collectSceneIntentConversionSourcesFromPackage(
     imagePrompts: pkg.image_prompts,
   });
 }
+
+export function seedT2vCanonicalSceneIntents(
+  pkg: Pick<ContentPackageOutput, "visual_scenes" | "image_prompts">,
+): CreativeReviewScene[] {
+  const sources = collectSceneIntentConversionSourcesFromPackage(pkg);
+  return sources.map((source) => {
+    const visual = source.technical_source.trim() || "Visual event pending.";
+    return {
+      id: source.id,
+      index: source.index,
+      intent: makeIntent({
+        original: visual,
+        localized_edit: visual,
+        english_preview: visual,
+        english_preview_outdated: false,
+        presentation_type: source.presentation_type,
+        visual_source: source.visual_source,
+        asset_id: source.asset_id,
+        used_as: source.used_as,
+      }),
+      director_notes: "",
+    };
+  });
+}

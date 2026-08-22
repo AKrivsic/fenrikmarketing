@@ -12,7 +12,7 @@ export const TEXT_TO_VIDEO_PRE_VOICE_SPLIT_THRESHOLD_SECONDS = 8 as const;
 export const TEXT_TO_VIDEO_DURATION_MEASUREMENT_SLACK = 1.25 as const;
 export const TEXT_TO_VIDEO_TECHNICAL_SPLIT_CONTRACT_VERSION = 1 as const;
 export const TEXT_TO_VIDEO_RUNWAY_CREDITS_PER_SECOND = 12 as const;
-export const TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION = 2 as const;
+export const TEXT_TO_VIDEO_PROVIDER_PROMPT_CONTRACT_VERSION = 3 as const;
 export const TEXT_TO_VIDEO_RUNWAY_API_VERSION = "2024-11-06" as const;
 
 /** Runway / trimmed scene clip validation (provider-native). */

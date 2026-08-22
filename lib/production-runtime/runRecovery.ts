@@ -1,5 +1,9 @@
 /**
  * Phase 6G — scheduled production-run recovery (no paid AI / render).
+ *
+ * Also recovers stuck Creative Core v2 derive jobs (pending / expired claim).
+ * Vercel after() is not durable; this cron (n8n every ~2 min) is the automatic
+ * recovery transport for lost derive kicks.
  */
 
 import { randomUUID } from "node:crypto";
@@ -9,6 +13,10 @@ import {
   PRODUCTION_RUN_RECOVERY_MAX_MS,
 } from "@/lib/production-runtime/constants";
 import { runtimeLog } from "@/lib/production-runtime/runtimeLog";
+import {
+  markStuckDeriveOutputsForOperatorRetry,
+  recoverPendingCreativeCoreV2DeriveJobs,
+} from "@/lib/content-creative-core-v2/recoverDerive";
 
 export interface RunRecoverySummary {
   scannedRuns: number;
@@ -19,6 +27,10 @@ export interface RunRecoverySummary {
   skippedBusy: boolean;
   errors: Array<{ runId: string; message: string }>;
   durationMs: number;
+  /** Creative Core v2 derive recovery (may be 0 when no pending). */
+  creativeCoreV2DeriveScanned?: number;
+  creativeCoreV2DeriveRecovered?: number;
+  creativeCoreV2DeriveFailed?: number;
 }
 
 export async function claimProductionRecoveryLease(
@@ -133,6 +145,27 @@ export async function runScheduledProductionRecovery(args: {
           message: err instanceof Error ? err.message : String(err),
         });
       }
+    }
+
+    // Creative Core v2: recover derive jobs even when the run is still
+    // waiting_for_creative_review (cron only scans queued/running above).
+    try {
+      await markStuckDeriveOutputsForOperatorRetry({
+        supabase: args.supabase,
+        limit: batchSize,
+      });
+      const derive = await recoverPendingCreativeCoreV2DeriveJobs({
+        supabase: args.supabase,
+        limit: batchSize,
+      });
+      summary.creativeCoreV2DeriveScanned = derive.scanned;
+      summary.creativeCoreV2DeriveRecovered = derive.recovered;
+      summary.creativeCoreV2DeriveFailed = derive.failed;
+    } catch (err) {
+      summary.errors.push({
+        runId: "creative_core_v2_derive",
+        message: err instanceof Error ? err.message : String(err),
+      });
     }
   } finally {
     await releaseProductionRecoveryLease(args.supabase, ownerToken).catch(

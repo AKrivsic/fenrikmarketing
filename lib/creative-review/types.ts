@@ -63,6 +63,13 @@ export interface CreativeReviewVoiceover {
    * Cleared (empty) when Localized changes — never keep a stale final_approved.
    */
   final_approved: string;
+  /** T2V meaning-safe English — optional on legacy drafts. */
+  meaning_review_required?: boolean;
+  meaning_warnings?: string[];
+  source_en_fingerprint?: string;
+  source_cs_fingerprint?: string;
+  current_cs_fingerprint?: string;
+  production_en_fingerprint?: string;
 }
 
 /**

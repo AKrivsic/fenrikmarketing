@@ -31,6 +31,21 @@ import type { VideoUsageRenderMode } from "@/lib/assets/preferredVideoUsage";
 import type { AssetCoverageDecision } from "@/lib/assets/assetCoveragePolicy";
 import type { GenerationMode } from "@/lib/ai/generationMode";
 import { packageNeedsSocialImage } from "@/lib/content-package/socialImage";
+import {
+  PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
+  type PackageVideoProductionMode,
+} from "@/lib/content-package/packageVideoProductionMode";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
+import { loadProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
+import {
+  deriveOpeningImpactFromT2vPackage,
+  deriveVideoConceptFromT2vCanonical,
+  deriveVisualIdentityFromT2vCanonical,
+  firstSceneImagePrompt,
+  readT2vCanonicalCreativeFromPackage,
+  stampT2vCanonicalCreativeOnPackage,
+  T2V_CANONICAL_CREATIVE_CONTRACT_VERSION,
+} from "@/lib/content-package/t2vCanonicalCreative";
 
 export interface CreativePipelineContext {
   project: Project;
@@ -47,7 +62,9 @@ export interface CreativePipelineContext {
   packageIndex: number | null;
   packageCount: number | null;
   generationMode: GenerationMode;
-  packageVideoMode?: import("@/lib/content-package/packageVideoProductionMode").PackageVideoProductionMode;
+  packageVideoMode?: PackageVideoProductionMode;
+  creativeMemory?: ProjectCreativeMemory | null;
+  t2vBannedNote?: string | null;
   assetCoverage: AssetCoverageDecision | null;
   preferredVideoUsageById?: ReadonlyMap<string, VideoUsageRenderMode>;
   directives: CreativeDirectives;
@@ -96,6 +113,54 @@ export async function runCreativePipeline(
     topic: context.topic,
   });
 
+  const t2v = input.packageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO;
+  let creativeMemory = input.creativeMemory ?? null;
+  if (t2v && !creativeMemory) {
+    creativeMemory = await loadProjectCreativeMemory(_supabase, project.id, {
+      excludePackageId: regeneration?.packageId ?? null,
+    });
+  }
+
+  let concept: VideoConcept;
+  let openingImpact: OpeningImpact;
+  let visualIdentity: VisualIdentity;
+
+  if (t2v) {
+    concept = {
+      title: context.topic,
+      core_idea: context.topic,
+      narrative_arc: context.angle ?? context.topic,
+      emotional_tone: "to be authored in the package",
+      audience_insight: context.topic,
+      product_role: "",
+      why_it_works: "",
+      visual_direction: {
+        art_direction: "",
+        lighting: "",
+        palette: "",
+        environment: "",
+        camera_style: "Scene-specific. Do not copy a global camera into every clip.",
+        character_style: "",
+      },
+    };
+    openingImpact = {
+      first_image: "",
+      first_spoken_sentence: "",
+      emotion: "",
+      pacing: "",
+      attention_pattern: "",
+    };
+    visualIdentity = {
+      art_direction: "",
+      lighting: "",
+      palette: "",
+      environment: "",
+      camera_style: "Scene-specific. Do not copy a global camera into every clip.",
+      character_style: "",
+      opening_emotion: "",
+      opening_first_image: "",
+    };
+  } else {
   const conceptResult = await runVideoConcept({
     project,
     funnelStage: context.funnelStage as FunnelStage,
@@ -118,7 +183,7 @@ export async function runCreativePipeline(
       attempts: conceptResult.attempts,
     };
   }
-  const concept: VideoConcept = conceptResult.data;
+  concept = conceptResult.data;
 
   const openingResult = await runOpeningImpact({
     project,
@@ -138,9 +203,9 @@ export async function runCreativePipeline(
       attempts: openingResult.attempts,
     };
   }
-  const openingImpact: OpeningImpact = openingResult.data;
+  openingImpact = openingResult.data;
 
-  const visualIdentity: VisualIdentity = withTelemetrySync(
+  visualIdentity = withTelemetrySync(
     {
       stepName: "Visual Identity",
       provider: "deterministic",
@@ -151,6 +216,7 @@ export async function runCreativePipeline(
     },
     () => buildVisualIdentity({ concept, openingImpact }),
   );
+  }
 
   const packageResult = await runContentPackageGeneration({
     promptInput: {
@@ -173,6 +239,8 @@ export async function runCreativePipeline(
       directives,
       painPoint,
       packageVideoMode: input.packageVideoMode,
+      creativeMemory,
+      t2vBannedNote: input.t2vBannedNote,
     },
     guardrails: makePackageGuardrails({
       project,
@@ -213,6 +281,37 @@ export async function runCreativePipeline(
     });
     syncLegacyFieldsFromVisualScenes(pkg);
     normalizeImagePrompts(pkg, normalizeCtx);
+  }
+
+  if (t2v) {
+    const canonical = readT2vCanonicalCreativeFromPackage(pkg);
+    if (!canonical) {
+      return {
+        ok: false,
+        error: "generation_failed",
+        validationErrors: [
+          {
+            path: "$.t2v_canonical_creative",
+            message: `required t2v_canonical_creative contract_version ${T2V_CANONICAL_CREATIVE_CONTRACT_VERSION}`,
+          },
+        ],
+        attempts: 1,
+      };
+    }
+    stampT2vCanonicalCreativeOnPackage(pkg, canonical);
+    concept = deriveVideoConceptFromT2vCanonical({
+      title: pkg.title,
+      creative: canonical,
+    });
+    openingImpact = deriveOpeningImpactFromT2vPackage({
+      hook: pkg.hook,
+      firstImage: firstSceneImagePrompt(pkg),
+      emotion: canonical.primary_emotion,
+    });
+    visualIdentity = deriveVisualIdentityFromT2vCanonical({
+      creative: canonical,
+      opening: openingImpact,
+    });
   }
 
   const fingerprint = buildContentPipelineFingerprint({

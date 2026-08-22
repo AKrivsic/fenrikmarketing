@@ -11,7 +11,8 @@ import { runScheduledProductionRecovery } from "@/lib/production-runtime";
  * Phase 6G — dedicated production-run recovery entry point.
  * Auth: same x-n8n-secret as other internal automation routes.
  * Does not start AI, render videos, or retry failed jobs blindly —
- * only reconciles active runs (promote artifacts, fail stale, settle).
+ * reconciles active runs (promote artifacts, fail stale, settle) and
+ * recovers stuck Creative Core v2 derive jobs (pending / expired claim).
  */
 export async function POST(request: NextRequest): Promise<Response> {
   if (!verifyN8nSecret(request)) {

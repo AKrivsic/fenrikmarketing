@@ -45,6 +45,7 @@ export async function runContentPackageGeneration(args: {
     system: buildContentPackageSystem(
       promptInput.requireVideo,
       requireSocialImage,
+      promptInput.packageVideoMode === "text_to_video",
     ),
     prompt: buildContentPackagePrompt(promptInput),
     validator: buildContentPackageSchema(promptInput.targetPlatforms, {
@@ -88,16 +89,16 @@ export async function runContentPackageGeneration(args: {
     };
   }
 
-  // Deterministic align: Opening Impact owns hook + first spoken line.
-  // Prefix compare uses apostrophe/whitespace normalization so U+2019 vs U+0027
-  // near-matches do not double-prepend (AlignRight production incident).
-  const aligned = alignOpeningVoiceover({
-    opening: promptInput.openingImpact.first_spoken_sentence,
-    voiceover: generated.value.voiceover_text,
-  });
-  if (aligned.hook) {
-    generated.value.hook = aligned.hook;
-    generated.value.voiceover_text = aligned.voiceover_text;
+  // Still path: Opening Impact owns hook. T2V: Claude package owns hook — do not rewrite.
+  if (promptInput.packageVideoMode !== "text_to_video") {
+    const aligned = alignOpeningVoiceover({
+      opening: promptInput.openingImpact.first_spoken_sentence,
+      voiceover: generated.value.voiceover_text,
+    });
+    if (aligned.hook) {
+      generated.value.hook = aligned.hook;
+      generated.value.voiceover_text = aligned.voiceover_text;
+    }
   }
 
   return { ok: true, data: generated.value };

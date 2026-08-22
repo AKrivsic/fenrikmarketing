@@ -7,6 +7,8 @@ import {
 } from "@/lib/ai/prompts/weeklyStrategy";
 import { MIN_TREND_RELEVANCE } from "@/lib/ai/schemas/trendRelevanceScore";
 import { buildAntiRepetitionMemory } from "@/lib/ai/workflows/antiRepetitionMemory";
+import { loadProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
+import type { ProjectCreativeMemory } from "@/lib/content-memory/projectCreativeMemory";
 import { loadProjectOrThrow } from "@/lib/ai/workflows/shared";
 
 export interface StrategyPlanningContext {
@@ -17,6 +19,7 @@ export interface StrategyPlanningContext {
   evergreenIds: Set<string>;
   trendScores: Record<string, number | null | undefined>;
   memory: AntiRepetitionMemory;
+  creativeMemory: ProjectCreativeMemory;
   allowProductBrainTopics: boolean;
 }
 
@@ -68,6 +71,7 @@ export async function loadStrategyPlanningContext(
   const evergreenIds = new Set(evergreenTopics.map((t) => t.id));
 
   const memory = await buildAntiRepetitionMemory(supabase, projectId);
+  const creativeMemory = await loadProjectCreativeMemory(supabase, projectId);
 
   const allowProductBrainTopics =
     eligibleTrends.length === 0 && evergreenTopics.length === 0;
@@ -80,6 +84,7 @@ export async function loadStrategyPlanningContext(
     evergreenIds,
     trendScores,
     memory,
+    creativeMemory,
     allowProductBrainTopics,
   };
 }

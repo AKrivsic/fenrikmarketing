@@ -9,6 +9,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CreativeReview } from "../lib/creative-review/types";
 import { validatePackagesReadyForContinue } from "../lib/ai/workflows/continueCreativeReviewGeneration";
+import { fixtureT2vCanonicalCreative } from "../lib/content-package/t2vCanonicalCreative";
 import { buildTextToVideoRenderPlanFromCanonical } from "../lib/content-package/textToVideoRenderAdapter";
 import {
   applyRepetitionResultToPlan,
@@ -100,6 +101,13 @@ function threeVisualScenes() {
       motion_prompt: "Hand lowers the phone",
       voiceover_excerpt: "Then they decide whether to call.",
     },
+    {
+      source: "ai" as const,
+      id: "scene-4",
+      image_prompt: "Closed notebook on a kitchen table at dawn",
+      motion_prompt: "Hand closes the notebook",
+      voiceover_excerpt: "Then they decide whether to call.",
+    },
   ];
 }
 
@@ -166,6 +174,7 @@ function stampedBrief(review: CreativeReview): Record<string, unknown> {
       voiceover_text: VO,
       hook: "They open a tab.",
       visual_scenes: threeVisualScenes(),
+      t2v_canonical_creative: fixtureT2vCanonicalCreative(),
       video: { script: "authoritative storyboard" },
       creative_review: review,
     },

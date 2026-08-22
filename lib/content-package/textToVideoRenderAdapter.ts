@@ -12,15 +12,14 @@ import {
   canonicalVideoPlanFingerprint,
   extractCanonicalVideoScenesFromBrief,
   isVisualIntentVoiceoverCopy,
-  readVisualIdentityFromBrief,
   significantVoiceoverChange,
   type CanonicalVideoScene,
 } from "@/lib/content-package/canonicalVideoPlan";
 import {
   composeTextToVideoProviderPrompt,
-  continuityBlockFromVisualIdentity,
   T2V_GEN45_PROMPT_MAX_UTF16,
 } from "@/lib/content-package/textToVideoProviderPrompt";
+import { parseT2vScreenPolicy } from "@/lib/content-package/t2vScreenPolicy";
 import {
   TEXT_TO_VIDEO_PLAN_SCHEMA_VERSION,
   TEXT_TO_VIDEO_TARGET_MID_SECONDS,
@@ -47,11 +46,11 @@ function englishProductionVisual(args: {
   review: CreativeReview | null;
   canonical: CanonicalVideoScene;
 }): string {
+  const fromImage = args.canonical.image_prompt?.trim() ?? "";
+  if (fromImage) return fromImage.slice(0, 600);
   const scene = args.review?.scenes.find((s) => s.id === args.canonical.id);
   const fromReview = scene?.intent.english_preview?.trim() ?? "";
   if (fromReview) return fromReview.slice(0, 600);
-  const fromImage = args.canonical.image_prompt?.trim() ?? "";
-  if (fromImage) return fromImage.slice(0, 600);
   return "";
 }
 
@@ -119,23 +118,11 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
   const hookFp = hookFingerprint(hook);
   const totalDuration = TEXT_TO_VIDEO_TARGET_MID_SECONDS;
   const perScene = totalDuration / canonical.length;
-  const identity = readVisualIdentityFromBrief(args.brief);
-  const continuity = continuityBlockFromVisualIdentity(identity);
   const existingById = new Map(
     (args.existingPlan?.scenes ?? []).map((scene) => [scene.scene_id, scene]),
   );
 
   const scenes: TextToVideoPlanScene[] = canonical.map((scene, index) => {
-    const englishVisual = englishProductionVisual({
-      review: args.review ?? null,
-      canonical: scene,
-    });
-    if (
-      englishVisual &&
-      isVisualIntentVoiceoverCopy(englishVisual, scene.voiceover_excerpt)
-    ) {
-      throw new Error(T2V_VISUAL_IS_VOICEOVER_COPY);
-    }
     const prior = existingById.get(scene.id);
     const rebuildRequired = sceneVisualRebuildRequired({
       canonical: scene,
@@ -144,6 +131,22 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
       priorPlanScene: prior,
       clearedVisualRebuildSceneIds: args.clearedVisualRebuildSceneIds,
     });
+    const reviewPreview =
+      args.review?.scenes
+        .find((item) => item.id === scene.id)
+        ?.intent.english_preview?.trim() ?? "";
+    const englishVisual = rebuildRequired
+      ? reviewPreview
+      : englishProductionVisual({
+          review: args.review ?? null,
+          canonical: scene,
+        });
+    if (
+      englishVisual &&
+      isVisualIntentVoiceoverCopy(englishVisual, scene.voiceover_excerpt)
+    ) {
+      throw new Error(T2V_VISUAL_IS_VOICEOVER_COPY);
+    }
     const visualIntent =
       englishVisual ||
       (prior && !isVisualIntentVoiceoverCopy(prior.visual_intent, scene.voiceover_excerpt)
@@ -155,11 +158,22 @@ export function buildTextToVideoRenderPlanFromCanonical(args: {
     if (isVisualIntentVoiceoverCopy(visualIntent, scene.voiceover_excerpt)) {
       throw new Error(T2V_VISUAL_IS_VOICEOVER_COPY);
     }
+    const extras = {
+      environment: scene.environment ?? null,
+      camera: scene.camera ?? null,
+      screen_policy: scene.screen_policy ?? null,
+      continuity_hints: scene.continuity_hints ?? null,
+    };
+    const visualEvent = rebuildRequired ? "" : (scene.image_prompt ?? "").trim();
     const providerPrompt = composeTextToVideoProviderPrompt({
-      englishVisualIntent: visualIntent,
+      visualEvent,
+      englishVisualIntent: rebuildRequired ? visualIntent : visualEvent || visualIntent,
       motionPrompt: rebuildRequired ? "" : scene.motion_prompt,
       energyMotion: rebuildRequired ? "" : prior?.energy_motion,
-      continuity: rebuildRequired ? null : continuity,
+      setting: extras.environment ?? undefined,
+      sceneCamera: extras.camera ?? undefined,
+      screenPolicy: parseT2vScreenPolicy(extras.screen_policy),
+      continuityHints: extras.continuity_hints ?? undefined,
       canonicalScene: rebuildRequired ? null : scene,
       omitStaleVisuals: rebuildRequired,
     });

@@ -32,6 +32,12 @@ import {
 } from "@/lib/creative-review/lifecycle";
 import { rebuildCreativePackageForVideo } from "@/lib/creative-review/rebuildCreativePackage";
 import {
+  applyApprovedCoreToPackageBriefForVideo,
+  briefUsesApprovedCreativeCoreV2,
+} from "@/lib/content-creative-core-v2/projectApprovedCoreForVideo";
+import { assertCreativeCoreV2ReadyForVideoJob } from "@/lib/content-creative-core-v2/videoGates";
+import { startVideoFromApprovedCreativeCore } from "@/lib/content-creative-core-v2/startVideoFromApprovedCore";
+import {
   PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO,
   packageVideoModeFromRunConfig,
   parsePackageVideoProductionMode,
@@ -431,6 +437,40 @@ async function rebuildAndPersistPackage(args: {
     throw new Error(`package ${args.pkg.packageId} missing package_brief`);
   }
 
+  // Creative Core v2: video fields come from approved snapshot only (no storyboard).
+  if (briefUsesApprovedCreativeCoreV2(sourceBrief)) {
+    const projected = applyApprovedCoreToPackageBriefForVideo({
+      brief: sourceBrief,
+    });
+    if (!projected.ok) {
+      throw new Error(`creative_core_v2_projection_failed:${projected.error}`);
+    }
+    const nextBrief = clearCreativeReviewReasonOnContinue({
+      ...projected.brief,
+      creative_review: args.review,
+      package_video_mode: readPackageVideoModeFromBrief(sourceBrief),
+    });
+    const { error } = await args.supabase
+      .from("content_packages")
+      .update({ package_brief: nextBrief as unknown as Json })
+      .eq("id", args.pkg.packageId)
+      .eq("project_id", args.projectId);
+    if (error) throw error;
+    const spoken =
+      typeof nextBrief.voiceover_text === "string" ? nextBrief.voiceover_text : "";
+    if (spoken) {
+      const { error: itemErr } = await args.supabase
+        .from("content_items")
+        .update({ body: spoken })
+        .eq("package_id", args.pkg.packageId)
+        .eq("project_id", args.projectId)
+        .is("language", null);
+      if (itemErr) throw itemErr;
+    }
+    args.pkg.packageBrief = nextBrief;
+    return args.review;
+  }
+
   if (args.runPackageVideoMode === PACKAGE_VIDEO_MODE_TEXT_TO_VIDEO) {
     const locked = assertTextToVideoPlanLockedForContinue({
       brief: sourceBrief,
@@ -577,7 +617,29 @@ async function ensureVideoJobForPackage(args: {
     );
   }
 
-  const preflightBrief = asRecord(args.pkg.packageBrief) ?? {};
+  let preflightBrief = asRecord(args.pkg.packageBrief) ?? {};
+  // Snapshot presence (not env flag) — rollback-safe Core authority.
+  if (briefUsesApprovedCreativeCoreV2(preflightBrief)) {
+    const gate = assertCreativeCoreV2ReadyForVideoJob({
+      brief: preflightBrief,
+      platforms: [],
+      contentItemCount: args.pkg.contentItemIds.length,
+      requireVideo: true,
+      packageStatus: null,
+    });
+    if (!gate.ok) {
+      throw new Error(`creative_core_v2_video_gate:${gate.code}:${gate.detail}`);
+    }
+    const projected = applyApprovedCoreToPackageBriefForVideo({
+      brief: preflightBrief,
+    });
+    if (!projected.ok) {
+      throw new Error(`creative_core_v2_projection_failed:${projected.error}`);
+    }
+    preflightBrief = projected.brief;
+    args.pkg.packageBrief = preflightBrief;
+  }
+
   const reviewRead = readCreativeReviewFromBrief(preflightBrief);
   const creativeReview =
     reviewRead.ok && reviewRead.value ? reviewRead.value : null;
@@ -596,7 +658,7 @@ async function ensureVideoJobForPackage(args: {
     );
   }
 
-  const brief = args.pkg.packageBrief as ContentPackageOutput;
+  const brief = preflightBrief as unknown as ContentPackageOutput;
   if (!brief || typeof brief !== "object") {
     throw new Error(`package ${args.pkg.packageId} missing package_brief`);
   }
@@ -619,6 +681,9 @@ async function ensureVideoJobForPackage(args: {
       package_id: args.pkg.packageId,
       production_run_id: args.runId,
       package_video_mode: args.runPackageVideoMode,
+      ...(briefUsesApprovedCreativeCoreV2(preflightBrief)
+        ? { content_creative_core_v2: true }
+        : {}),
     },
   );
 
@@ -952,6 +1017,59 @@ export async function continueCreativeReviewGeneration(args: {
       });
 
       for (const pkg of packages) {
+        const briefRec = asRecord(pkg.packageBrief) ?? {};
+        if (briefUsesApprovedCreativeCoreV2(briefRec)) {
+          const started = await startVideoFromApprovedCreativeCore({
+            supabase,
+            projectId,
+            packageId: pkg.packageId,
+            productionRunId: runId,
+            generationMode,
+          });
+          if (!started.ok) {
+            throw new Error(
+              `creative_core_v2_start_video:${started.code}:${started.error}`,
+            );
+          }
+          if (started.awaitingPaidConfirmation) {
+            warnings.push(
+              `Package ${pkg.packageIndex + 1}: čeká na potvrzení placeného videa.`,
+            );
+            packageResults.push({
+              packageId: pkg.packageId,
+              packageIndex: pkg.packageIndex,
+              videoJobId: null,
+              jobCreated: false,
+              dispatched: false,
+              warning: "awaiting_paid_video_confirmation",
+            });
+            continue;
+          }
+          if (
+            started.reason === "text_only" ||
+            started.reason === "derive_incomplete"
+          ) {
+            packageResults.push({
+              packageId: pkg.packageId,
+              packageIndex: pkg.packageIndex,
+              videoJobId: null,
+              jobCreated: false,
+              dispatched: false,
+            });
+            continue;
+          }
+          if (started.started && started.videoJobId) {
+            newlyCreatedJobIds.push(started.videoJobId);
+          }
+          packageResults.push({
+            packageId: pkg.packageId,
+            packageIndex: pkg.packageIndex,
+            videoJobId: started.videoJobId,
+            jobCreated: started.started,
+            dispatched: false,
+          });
+          continue;
+        }
         const ensured = await ensureVideoJobForPackage({
           supabase,
           projectId,
