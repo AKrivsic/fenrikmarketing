@@ -125,7 +125,19 @@ export async function runCreativeCoreV2Pipeline(
           prompt,
           json: true,
         });
-        return { text: result.text };
+        const requestId =
+          result &&
+          typeof result === "object" &&
+          "requestId" in result &&
+          typeof (result as { requestId?: unknown }).requestId === "string"
+            ? (result as { requestId: string }).requestId
+            : result &&
+                typeof result === "object" &&
+                "id" in result &&
+                typeof (result as { id?: unknown }).id === "string"
+              ? (result as { id: string }).id
+              : null;
+        return { text: result.text, requestId };
       },
     },
   });
@@ -141,6 +153,7 @@ export async function runCreativeCoreV2Pipeline(
         message: i.message,
       })),
       attempts: 1,
+      ...(created.lastRaw ? { lastRaw: created.lastRaw } : {}),
     };
   }
 

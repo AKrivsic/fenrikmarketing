@@ -59,10 +59,21 @@ export {
   createCreativeCore,
   ensureStrategyFingerprint,
   parseCreativeCoreResponse,
+  applyDeterministicCreativeFingerprint,
+  applySoftVoiceoverClamp,
+  buildCreativeCoreFailureDiagnostics,
+  buildCreativeCoreFailureLastRaw,
+  fingerprintInputFieldsFromCore,
   type CreativeCoreMessages,
   type CreativeCoreRequestContext,
+  type CreativeCoreFailureDiagnostics,
   type TextProviderLike,
 } from "@/lib/content-creative-core-v2/createCreativeCore";
+
+export {
+  softClampVoiceoverWordCount,
+  countVoiceoverWords,
+} from "@/lib/content-creative-core-v2/softClampVoiceover";
 
 export { validateCreativeCore } from "@/lib/content-creative-core-v2/validate";
 

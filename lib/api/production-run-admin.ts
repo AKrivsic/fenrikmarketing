@@ -361,15 +361,18 @@ export async function markProductionRunItemGenerationFailed(args: {
   }
 
   // Idempotent: already-failed / queued / running items settle to failed.
-  const firstIssue = args.diagnostics.validation_errors?.[0];
+  const issues = args.diagnostics.validation_errors ?? [];
   const detail =
-    firstIssue?.message ||
-    args.diagnostics.error ||
-    "generation_failed";
+    issues.length > 0
+      ? issues
+          .map((i) => i.message)
+          .filter((m): m is string => typeof m === "string" && m.trim().length > 0)
+          .join("; ")
+      : args.diagnostics.error || "generation_failed";
   const errorMessage = JSON.stringify({
     error: args.diagnostics.error || "generation_failed",
-    message: detail,
-    validation_errors: args.diagnostics.validation_errors ?? [],
+    message: detail.slice(0, 1500),
+    validation_errors: issues,
     attempts: args.diagnostics.attempts ?? null,
   }).slice(0, 4000);
 
