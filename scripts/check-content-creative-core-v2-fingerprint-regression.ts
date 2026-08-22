@@ -25,6 +25,7 @@ import {
   type ContentCreativeCoreV2,
   type CreativeFingerprintV2,
 } from "../lib/content-creative-core-v2";
+import { failurePayloadContainsMarker } from "../lib/content-creative-core-v2/creativeCoreFailureRedaction";
 import { buildBoundedFailureOutputSnapshot } from "../lib/production-runtime/boundedFailureSnapshot";
 
 let passed = 0;
@@ -422,6 +423,9 @@ await check("10. failure stores bounded diagnostic snapshot with non-null candid
   assert.ok(diagnostics.computed_fingerprint);
   assert.equal(diagnostics.provider_request_id, "req_anon_test");
   const lastRaw = buildCreativeCoreFailureLastRaw({ core, diagnostics });
+  assert.ok(!lastRaw.includes(core.voiceover.slice(0, 32)));
+  assert.ok(!lastRaw.includes(core.hook));
+  assert.ok(lastRaw.includes("voiceover_sha256"));
   const snap = buildBoundedFailureOutputSnapshot({
     raw: lastRaw,
     validationErrors: diagnostics.validation_errors,
@@ -429,6 +433,25 @@ await check("10. failure stores bounded diagnostic snapshot with non-null candid
   assert.equal(snap.parsed_ok, true);
   assert.ok(typeof snap.candidate === "string" && snap.candidate.length > 0);
   assert.doesNotMatch(String(snap.candidate), /PRODUCT BRAIN|system prompt/i);
+});
+
+await check("10b. failure lastRaw omits unique voiceover marker", () => {
+  const MARKER = "UNIQUE_SENSITIVE_MARKER_XYZ_882e50d8";
+  const partial = basePartial();
+  const vo = `${MARKER} ${partial.voiceover}`;
+  const core = applyDeterministicCreativeFingerprint(
+    withFp({ ...partial, voiceover: vo }, wrongFingerprint()),
+    "pain",
+  );
+  const diagnostics = buildCreativeCoreFailureDiagnostics({
+    core,
+    llmFingerprint: wrongFingerprint(),
+    painPoint: "pain",
+    voiceoverSoftClamp: { applied: false, trimmed_words: 0 },
+    validationErrors: [{ path: "$.voiceover", message: "test" }],
+  });
+  const lastRaw = buildCreativeCoreFailureLastRaw({ core, diagnostics });
+  assert.equal(failurePayloadContainsMarker(lastRaw, MARKER), false);
 });
 
 await check("fixture: anonymized 153cbfff path dry-run persists package shape", async () => {

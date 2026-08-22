@@ -24,6 +24,32 @@ import type {
 } from "@/lib/content-creative-core-v2/types";
 import { STRATEGY_ORIGINALITY_EXHAUSTED_V2 } from "@/lib/content-creative-core-v2/types";
 
+const SOFT_ORIGINALITY_REASONS = new Set<StrategyOriginalityIssueV2["reason"]>([
+  "pain_not_rotated",
+]);
+
+function withWeightedScore(
+  issue: StrategyOriginalityIssueV2,
+): StrategyOriginalityIssueV2 {
+  if (
+    issue.weighted_score != null ||
+    issue.match_score == null ||
+    issue.protection_weight == null
+  ) {
+    return issue;
+  }
+  return {
+    ...issue,
+    weighted_score: issue.match_score * issue.protection_weight,
+  };
+}
+
+export function isHardOriginalityIssue(
+  issue: StrategyOriginalityIssueV2,
+): boolean {
+  return !SOFT_ORIGINALITY_REASONS.has(issue.reason);
+}
+
 /**
  * Same pain is allowed when execution differs on enough creative dimensions.
  * Block pain reuse only when the new candidate is still essentially the same piece.
@@ -189,7 +215,9 @@ function scoreAgainstRecord(
   if (
     fp.scenario_key &&
     fp.scenario_key === record.fingerprint.scenario_key &&
-    fp.scenario_key.length > 0
+    fp.scenario_key.length > 0 &&
+    fp.scenario_key !== "other" &&
+    (paraphrase || tokenOverlapRatio(candSit, recSit) >= 0.42)
   ) {
     score = Math.max(score, 0.88);
     if (!issues.some((i) => i.reason === "same_situation_paraphrase")) {
@@ -212,7 +240,12 @@ export function evaluateStrategyCandidateOriginality(args: {
   projectPains: readonly string[];
   /** packageCount is accepted for API stability; gate always applies (incl. 1). */
   packageCount: number;
-}): { ok: boolean; issues: StrategyOriginalityIssueV2[] } {
+}): {
+  ok: boolean;
+  issues: StrategyOriginalityIssueV2[];
+  hardIssues: StrategyOriginalityIssueV2[];
+  softWarnings: StrategyOriginalityIssueV2[];
+} {
   const cfg = CREATIVE_CORE_V2_MEMORY_CONFIG;
   const fp = fingerprintFromStrategyCandidate(args.candidate);
   const issues: StrategyOriginalityIssueV2[] = [];
@@ -270,21 +303,69 @@ export function evaluateStrategyCandidateOriginality(args: {
     const key = `${issue.reason}:${issue.against_package_id ?? ""}`;
     if (!unique.has(key)) unique.set(key, issue);
   }
-  const deduped = [...unique.values()];
-  return { ok: deduped.length === 0, issues: deduped };
+  const deduped = [...unique.values()].map(withWeightedScore);
+  const hardIssues = deduped.filter(isHardOriginalityIssue);
+  const softWarnings = deduped.filter((i) => !isHardOriginalityIssue(i));
+  return {
+    ok: hardIssues.length === 0,
+    issues: deduped,
+    hardIssues,
+    softWarnings,
+  };
 }
 
 export function formatStrategyOriginalityRetryAppend(
   issues: StrategyOriginalityIssueV2[],
+  context?: {
+    memory?: CreativeMemoryV2;
+    threshold?: number;
+  },
 ): string {
+  const cfg = CREATIVE_CORE_V2_MEMORY_CONFIG;
+  const threshold = context?.threshold ?? cfg.hardBlockThreshold;
+  const hard = issues.filter(isHardOriginalityIssue);
+  const soft = issues.filter((i) => !isHardOriginalityIssue(i));
+  const focus = hard.length > 0 ? hard : issues;
+
+  const conflictLines = focus.map((i) => {
+    const pkg = i.against_package_id;
+    const record = pkg
+      ? context?.memory?.records.find((r) => r.package_id === pkg)
+      : undefined;
+    const summary = record
+      ? `topic="${record.central_topic.slice(0, 100)}"; conflict="${(record.conflict || "").slice(0, 80)}"`
+      : null;
+    const score =
+      i.match_score != null && i.protection_weight != null
+        ? ` weighted=${(i.match_score * i.protection_weight).toFixed(2)} (score=${i.match_score.toFixed(2)} × weight=${i.protection_weight.toFixed(2)}, threshold=${threshold})`
+        : "";
+    return [
+      `- ${i.reason}: ${i.detail}${score}`,
+      summary ? `  Conflicting history: pkg ${pkg?.slice(0, 8)} — ${summary}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  });
+
+  const softLines =
+    soft.length > 0
+      ? [
+          "",
+          "Soft guidance (not sufficient alone for rejection):",
+          ...soft.map((i) => `- ${i.reason}: ${i.detail}`),
+        ]
+      : [];
+
   return [
     "",
     "RETRY — previous strategy candidate repeated protected creative memory.",
-    "This is the ONLY repair attempt. Invent a genuinely new situation.",
+    "This is the ONLY repair attempt. Invent a genuinely new situation and angle.",
     "Rejected because:",
-    ...issues.map((i) => `- ${i.reason}: ${i.detail}`),
-    "A different character, hook, or wording of the same plot is NOT new.",
-    "Change pain (when unused pains exist), scenario, setting, props, conflict, and payoff.",
+    ...conflictLines,
+    ...softLines,
+    "Change the concrete situation, conflict mechanism, and payoff — not only wording or POV.",
+    "A different character in the same plot is NOT new.",
+    "When unused pain points exist, prefer rotating pain only after situation is clearly distinct.",
   ].join("\n");
 }
 
@@ -343,9 +424,11 @@ export async function createStrategyCandidateWithOriginality(args: {
         },
       };
     }
-    lastIssues = result.issues;
+    lastIssues = result.hardIssues.length > 0 ? result.hardIssues : result.issues;
     if (attempt >= max) break;
-    repairAppend = formatStrategyOriginalityRetryAppend(result.issues);
+    repairAppend = formatStrategyOriginalityRetryAppend(result.hardIssues, {
+      memory: args.memory,
+    });
   }
 
   return {

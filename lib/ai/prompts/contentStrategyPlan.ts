@@ -38,6 +38,8 @@ export interface ProductionStrategyPromptInput {
   evergreenTopics: EvergreenRef[];
   memory?: AntiRepetitionMemory;
   creativeMemory?: ProjectCreativeMemory;
+  /** Creative Core v2 rolling originality window (replaces legacy creative memory block). */
+  strategyOriginalityHistoryBlock?: string;
   // Primary persistable platform label for the JSON shape hint (one shared video per package).
   primaryPlatform: string;
 }
@@ -181,9 +183,12 @@ export function buildProductionStrategyPrompt(
   const scenarios = scenarioBlock(project);
   const serviceMix = serviceMixBlock(project);
   const memory = input.memory ? antiRepetitionBlock(input.memory) : "";
-  const creativeMem = input.creativeMemory
-    ? creativeMemoryPromptBlock(input.creativeMemory)
-    : "";
+  const creativeMem =
+    input.strategyOriginalityHistoryBlock?.trim()
+      ? input.strategyOriginalityHistoryBlock.trim()
+      : input.creativeMemory
+        ? creativeMemoryPromptBlock(input.creativeMemory)
+        : "";
 
   const productBrainOnly =
     eligibleTrends.length === 0 && evergreenTopics.length === 0;

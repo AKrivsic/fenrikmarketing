@@ -18,6 +18,7 @@ import {
   softClampVoiceoverWordCount,
 } from "@/lib/content-creative-core-v2/softClampVoiceover";
 import { validateCreativeCore } from "@/lib/content-creative-core-v2/validate";
+import { buildCreativeCoreFailureLastRawRedacted } from "@/lib/content-creative-core-v2/creativeCoreFailureRedaction";
 import type {
   ContentCreativeCoreV2,
   CreativeCorePackageKind,
@@ -349,9 +350,16 @@ export function applySoftVoiceoverClamp(args: {
       voiceover: next.voiceover,
       scenes: next.scenes,
     });
-    if (redistributed.ok) {
-      next = { ...next, scenes: redistributed.scenes };
+    if (!redistributed.ok) {
+      return {
+        core: args.core,
+        clamp: {
+          failed: true,
+          reason: `voiceover_excerpt_redistribute_failed:${redistributed.error}`,
+        },
+      };
     }
+    next = { ...next, scenes: redistributed.scenes };
   }
 
   // Recompute fingerprint after VO/scene change (hook/scenes may affect opening).
@@ -418,54 +426,7 @@ export function buildCreativeCoreFailureLastRaw(args: {
   core: ContentCreativeCoreV2 | null;
   diagnostics: CreativeCoreFailureDiagnostics;
 }): string {
-  const payload = {
-    content_creative_core_v2: args.core
-      ? {
-          contract_version: args.core.contract_version,
-          strategy_item_id: args.core.strategy_item_id,
-          creative_fingerprint: args.core.creative_fingerprint,
-          core_idea: args.core.core_idea,
-          hook: args.core.hook,
-          voiceover: args.core.voiceover,
-          main_emotion: args.core.main_emotion,
-          conflict: args.core.conflict,
-          reveal_or_surprise: args.core.reveal_or_surprise,
-          visible_change: args.core.visible_change,
-          payoff: args.core.payoff,
-          cta_intent: args.core.cta_intent,
-          scenes: args.core.scenes.map((s) => ({
-            scene_id: s.scene_id,
-            order: s.order,
-            voiceover_excerpt: s.voiceover_excerpt,
-            visual_event: s.visual_event,
-            environment: s.environment,
-            subjects: s.subjects,
-          })),
-        }
-      : null,
-    diagnostics: args.diagnostics,
-  };
-  const encoded = JSON.stringify(payload);
-  const maxBytes = 20_000;
-  if (Buffer.byteLength(encoded, "utf8") <= maxBytes) return encoded;
-  // Drop scene bodies first.
-  const slim = {
-    ...payload,
-    content_creative_core_v2: payload.content_creative_core_v2
-      ? {
-          ...payload.content_creative_core_v2,
-          scenes: payload.content_creative_core_v2.scenes.map((s) => ({
-            scene_id: s.scene_id,
-            order: s.order,
-          })),
-          voiceover: String(payload.content_creative_core_v2.voiceover).slice(
-            0,
-            800,
-          ),
-        }
-      : null,
-  };
-  return JSON.stringify(slim).slice(0, maxBytes);
+  return buildCreativeCoreFailureLastRawRedacted(args);
 }
 
 /**
@@ -535,7 +496,16 @@ export type TextProviderLike = {
 };
 
 export type CreateCreativeCoreResult =
-  | { ok: true; core: ContentCreativeCoreV2; messages: CreativeCoreMessages }
+  | {
+      ok: true;
+      core: ContentCreativeCoreV2;
+      messages: CreativeCoreMessages;
+      voiceoverClampProvenance: {
+        applied: boolean;
+        words_before: number;
+        words_after: number;
+      };
+    }
   | {
       ok: false;
       error: typeof CREATIVE_CORE_VALIDATION_FAILED_V2 | string;
@@ -591,15 +561,49 @@ export async function createCreativeCore(args: {
     return { ok: false, error: parsed.error, messages };
   }
 
+  const wordsBefore = countVoiceoverWords(parsed.core.voiceover);
   const clamped = applySoftVoiceoverClamp({
     core: parsed.core,
     packageKind: args.context.packageKind,
   });
+  if (clamped.clamp && "failed" in clamped.clamp && clamped.clamp.failed) {
+    const diagnostics = buildCreativeCoreFailureDiagnostics({
+      core: parsed.core,
+      llmFingerprint: parsed.llmFingerprint,
+      painPoint: args.context.strategy.pain_point,
+      voiceoverSoftClamp: clamped.clamp,
+      validationErrors: [
+        {
+          path: "$.voiceover",
+          message: clamped.clamp.reason,
+        },
+      ],
+      providerRequestId,
+    });
+    return {
+      ok: false,
+      error: CREATIVE_CORE_VALIDATION_FAILED_V2,
+      issues: [{ path: "$.voiceover", message: clamped.clamp.reason }],
+      messages,
+      diagnostics,
+      lastRaw: buildCreativeCoreFailureLastRaw({ core: parsed.core, diagnostics }),
+    };
+  }
   // Re-apply fingerprint with pain after clamp (clamp may have wiped pain).
   const core = applyDeterministicCreativeFingerprint(
     clamped.core,
     args.context.strategy.pain_point,
   );
+  const wordsAfter = countVoiceoverWords(core.voiceover);
+  const voiceoverClampProvenance = {
+    applied: Boolean(
+      clamped.clamp &&
+        "applied" in clamped.clamp &&
+        clamped.clamp.applied === true,
+    ),
+    words_before: wordsBefore,
+    words_after: wordsAfter,
+  };
 
   const validation = validateCreativeCore({
     core,
@@ -627,7 +631,7 @@ export async function createCreativeCore(args: {
       lastRaw: buildCreativeCoreFailureLastRaw({ core, diagnostics }),
     };
   }
-  return { ok: true, core, messages };
+  return { ok: true, core, messages, voiceoverClampProvenance };
 }
 
 function listifyToArray(

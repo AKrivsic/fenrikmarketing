@@ -1236,12 +1236,14 @@ function buildView(
         i.failure_telemetry && typeof i.failure_telemetry === "object"
           ? (i.failure_telemetry as Record<string, unknown>)
           : null;
+      const adminDetail =
+        typeof telem?.admin_detail === "string" ? telem.admin_detail : null;
       return {
         id: i.id,
         packageIndex: i.package_index,
         strategyItemId: i.strategy_item_id,
         errorMessage: i.error_message,
-        errorHeadline: parsed.headline,
+        errorHeadline: adminDetail ?? parsed.headline,
         errorPhase:
           parsed.phase ??
           (typeof telem?.phase === "string" ? telem.phase : null),

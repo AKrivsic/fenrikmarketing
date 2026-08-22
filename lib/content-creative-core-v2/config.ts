@@ -62,6 +62,15 @@ export const CREATIVE_CORE_V2_MEMORY_CONFIG = {
   maxStrategyAttempts: 2,
 
   /**
+   * Rolling originality history: same limit for prompt, validator, repair, and diagnostics.
+   * Must match {@link STRATEGY_ORIGINALITY_HISTORY_LIMIT}.
+   */
+  strategyOriginalityHistoryLimit: 50,
+
+  /** Max characters for the strategy originality prompt block (deterministic summary trim). */
+  strategyOriginalityPromptMaxChars: 14_000,
+
+  /**
    * Creative Core: exactly one Claude creative request per attempt.
    * No creative repair loop (validation fail = stable error).
    */
@@ -78,3 +87,7 @@ export const CREATIVE_CORE_V2_MEMORY_CONFIG = {
 
 export type CreativeCoreV2MemoryConfig =
   typeof CREATIVE_CORE_V2_MEMORY_CONFIG;
+
+/** Single rolling window for Strategy Originality v2 (prompt + gate + repair). */
+export const STRATEGY_ORIGINALITY_HISTORY_LIMIT =
+  CREATIVE_CORE_V2_MEMORY_CONFIG.strategyOriginalityHistoryLimit;

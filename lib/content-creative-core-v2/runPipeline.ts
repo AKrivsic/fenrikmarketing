@@ -225,6 +225,9 @@ export async function runCreativeCoreV2Pipeline(
     packageKind,
     funnelStage: input.context.funnelStage,
     targetPlatforms: input.targetPlatforms,
+    provenanceExtras: {
+      voiceover_soft_clamp: created.voiceoverClampProvenance,
+    },
   });
   if (!projected.ok) {
     return {

@@ -25,6 +25,11 @@ export interface CreativeCoreV2Provenance {
   projected_at: string;
   /** Fields in this snapshot were derived, not authored. */
   derived_only: true;
+  voiceover_soft_clamp?: {
+    applied: boolean;
+    words_before: number;
+    words_after: number;
+  };
 }
 
 export const CREATIVE_CORE_V2_LEGACY_PROJECTION_FAILED =
@@ -52,13 +57,19 @@ export function projectCreativeCoreToLegacyPackage(args: {
   funnelStage: string;
   targetPlatforms: readonly string[];
   projectedAt?: string;
+  provenanceExtras?: Partial<
+    Pick<CreativeCoreV2Provenance, "voiceover_soft_clamp">
+  >;
 }):
   | { ok: true; package: ContentPackageOutput; provenance: CreativeCoreV2Provenance }
   | { ok: false; error: typeof CREATIVE_CORE_V2_LEGACY_PROJECTION_FAILED; detail: string } {
   const { core, packageKind, funnelStage } = args;
   void args.targetPlatforms;
   const projectedAt = args.projectedAt ?? new Date().toISOString();
-  const provenance = stampCreativeCoreV2Provenance(projectedAt);
+  const provenance: CreativeCoreV2Provenance = {
+    ...stampCreativeCoreV2Provenance(projectedAt),
+    ...args.provenanceExtras,
+  };
 
   if (!core.hook.trim() || !core.voiceover.trim() || !core.core_idea.trim()) {
     return {

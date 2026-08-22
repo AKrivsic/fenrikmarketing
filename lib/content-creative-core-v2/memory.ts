@@ -108,6 +108,8 @@ export function isCreativeRejection(args: {
 
 export interface BuildMemoryRecordInput {
   packageId: string;
+  /** When set, buildStrategyOriginalityHistoryFromInputs can filter to one project. */
+  projectId?: string;
   createdAt?: string | null;
   packageStatus?: string | null;
   runStatus?: string | null;
@@ -129,6 +131,8 @@ export interface BuildMemoryRecordInput {
   cta?: string | null;
   narrative?: string | null;
   povHint?: string | null;
+  /** Source brief for lifecycle eligibility (valid Core v2 detection). */
+  sourceBrief?: Record<string, unknown> | null;
 }
 
 export function buildMemoryRecord(
@@ -176,8 +180,8 @@ export function buildMemoryRecord(
     created_at: input.createdAt?.trim() || null,
     source_status,
     // Only explicit creative rejection gets rejected=true (hard-block boost).
-    // Technical cancelled stays rejected=false with source_status=cancelled.
-    rejected: creativelyRejected || source_status === "rejected",
+    // Technical cancelled / failed runs stay rejected=false.
+    rejected: creativelyRejected,
     rejection_reason: input.rejectionReason?.trim() || null,
     pain_point: input.painPoint?.trim() || null,
     central_topic: (input.centralTopic ?? "").trim(),
@@ -198,23 +202,25 @@ export function buildMemoryRecord(
       createdAt: input.createdAt ?? null,
       nowIso: args.nowIso,
       indexFromNewest: args.indexFromNewest,
-      rejected: creativelyRejected || source_status === "rejected",
+      rejected: creativelyRejected,
     }),
   };
 }
 
 export function assembleCreativeMemory(
   inputs: BuildMemoryRecordInput[],
-  options: { nowIso?: string } = {},
+  options: { nowIso?: string; recordLimit?: number } = {},
 ): CreativeMemoryV2 {
   const nowIso = options.nowIso ?? new Date().toISOString();
+  const limit =
+    options.recordLimit ?? CREATIVE_CORE_V2_MEMORY_CONFIG.packageScanLimit;
   const sorted = [...inputs].sort((a, b) => {
     const da = Date.parse(a.createdAt ?? "") || 0;
     const db = Date.parse(b.createdAt ?? "") || 0;
     return db - da;
   });
   const records = sorted
-    .slice(0, CREATIVE_CORE_V2_MEMORY_CONFIG.packageScanLimit)
+    .slice(0, limit)
     .map((input, index) =>
       buildMemoryRecord(input, { nowIso, indexFromNewest: index }),
     );
@@ -317,6 +323,7 @@ export function memoryInputFromPackageBrief(args: {
     narrative:
       readString(coreV2?.visible_change) ||
       readString(t2v?.beginning_to_end_change),
+    sourceBrief: brief,
   };
 }
 

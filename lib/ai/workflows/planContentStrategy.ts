@@ -26,16 +26,23 @@ import {
   STRATEGY_ORIGINALITY_EXHAUSTED,
 } from "@/lib/content-memory/strategyOriginality";
 import {
-  buildCreativeMemory,
-  computeCreativeFingerprint,
+  buildStrategyOriginalityAttemptRecord,
+  buildStrategyOriginalityFailureBundle,
+  resolveStrategyProviderRequestIdFromTelemetry,
   evaluateStrategyCandidateOriginality,
+  formatStrategyOriginalityAdminDetail,
+  formatStrategyOriginalityRetryAppend,
+  loadStrategyOriginalityHistory,
   shouldGenerateWithCreativeCoreV2,
+  computeCreativeFingerprint,
   STRATEGY_ORIGINALITY_EXHAUSTED_V2,
+  type StrategyOriginalityFailureBundleV2,
+  type StrategyOriginalityHistorySnapshot,
+  type StrategyOriginalityIssueV2,
 } from "@/lib/content-creative-core-v2";
 import {
   coerceFormat,
   WorkflowError,
-  type WorkflowResult,
 } from "@/lib/ai/workflows/shared";
 import type { ContentFormat, PlatformType } from "@/lib/supabase/types";
 import {
@@ -65,9 +72,20 @@ export interface PlanContentStrategyData {
   itemIds: string[];
 }
 
+export type PlanContentStrategyResult =
+  | { ok: true; data: PlanContentStrategyData }
+  | {
+      ok: false;
+      error: "generation_failed";
+      validationErrors: Array<{ path?: string; message: string }>;
+      attempts: number;
+      lastRaw?: string;
+      strategyOriginalityFailure?: StrategyOriginalityFailureBundleV2;
+    };
+
 export async function planContentStrategy(
   input: PlanContentStrategyInput,
-): Promise<WorkflowResult<PlanContentStrategyData>> {
+): Promise<PlanContentStrategyResult> {
   if (input.mode !== "production_run") {
     throw new WorkflowError("invalid_input", "only production_run mode is supported");
   }
@@ -104,7 +122,7 @@ async function planContentStrategyUnchecked(args: {
   format: ContentFormat;
   goalType: string;
   client?: PlanContentStrategyInput["client"];
-}): Promise<WorkflowResult<PlanContentStrategyData>> {
+}): Promise<PlanContentStrategyResult> {
   const {
     projectId,
     productionRunId,
@@ -120,13 +138,20 @@ async function planContentStrategyUnchecked(args: {
 
   const ctx = await loadStrategyPlanningContext(supabase, projectId);
 
+  const useV2 = shouldGenerateWithCreativeCoreV2();
+  let v2History: StrategyOriginalityHistorySnapshot | null = null;
+  if (useV2) {
+    v2History = await loadStrategyOriginalityHistory(supabase, projectId);
+  }
+
   const prompt = buildProductionStrategyPrompt({
     project: ctx.project,
     packageCount,
     eligibleTrends: ctx.eligibleTrends,
     evergreenTopics: ctx.evergreenTopics,
     memory: ctx.memory,
-    creativeMemory: ctx.creativeMemory,
+    creativeMemory: useV2 ? undefined : ctx.creativeMemory,
+    strategyOriginalityHistoryBlock: v2History?.promptBlock,
     primaryPlatform: platform,
   });
 
@@ -198,30 +223,10 @@ async function planContentStrategyUnchecked(args: {
     rejected_reasons: ReturnType<typeof evaluateStrategyPlanOriginality>["issues"];
   } = { repair_used: false, rejected_reasons: [] };
 
-  const useV2 = shouldGenerateWithCreativeCoreV2();
-  let v2Memory: ReturnType<typeof buildCreativeMemory> | null = null;
-  if (useV2) {
-    const { data: pkgRows } = await supabase
-      .from("content_packages")
-      .select("id, status, package_brief, title, created_at")
-      .eq("project_id", projectId)
-      .order("created_at", { ascending: false })
-      .limit(60);
-    v2Memory = buildCreativeMemory(
-      (pkgRows ?? []).map((row) => ({
-        packageId: row.id as string,
-        brief:
-          row.package_brief &&
-          typeof row.package_brief === "object" &&
-          !Array.isArray(row.package_brief)
-            ? (row.package_brief as Record<string, unknown>)
-            : {},
-        title: typeof row.title === "string" ? row.title : null,
-        createdAt: typeof row.created_at === "string" ? row.created_at : null,
-        packageStatus: typeof row.status === "string" ? row.status : null,
-      })),
-    );
-  }
+  const originalityAttempts: ReturnType<
+    typeof buildStrategyOriginalityAttemptRecord
+  >[] = [];
+  let firstRepairAppend: string | null = null;
 
   function checkPlanOriginality(
     items: Array<{
@@ -229,15 +234,19 @@ async function planContentStrategyUnchecked(args: {
       angle?: string;
       pain_point?: string;
     }>,
-  ): { ok: boolean; issues: Array<{ path: string; message: string }>; raw: unknown[] } {
-    if (useV2 && v2Memory) {
+  ): {
+    ok: boolean;
+    issues: Array<{ path: string; message: string }>;
+    raw: StrategyOriginalityIssueV2[];
+  } {
+    if (useV2 && v2History) {
       const projectPains = Array.isArray(ctx.project.pain_points)
         ? ctx.project.pain_points.map(String)
         : typeof ctx.project.pain_points === "string"
           ? [ctx.project.pain_points]
           : [];
       const issues: Array<{ path: string; message: string }> = [];
-      const raw: unknown[] = [];
+      const raw: StrategyOriginalityIssueV2[] = [];
       items.forEach((item, index) => {
         const candidate = {
           topic: item.topic,
@@ -251,13 +260,13 @@ async function planContentStrategyUnchecked(args: {
         };
         const result = evaluateStrategyCandidateOriginality({
           candidate,
-          memory: v2Memory!,
+          memory: v2History.memory,
           projectPains,
           packageCount,
         });
         if (!result.ok) {
-          raw.push(...result.issues);
-          for (const issue of result.issues) {
+          raw.push(...result.hardIssues, ...result.softWarnings);
+          for (const issue of result.hardIssues) {
             issues.push({
               path: `$.content_plan[${index}].topic`,
               message: `${issue.reason}: ${issue.detail}`,
@@ -276,35 +285,83 @@ async function planContentStrategyUnchecked(args: {
     return {
       ok: legacy.ok,
       issues: originalityIssuesToValidation(legacy.issues),
-      raw: legacy.issues,
+      raw: [],
     };
   }
 
   if (generated.ok) {
     const firstCheck = checkPlanOriginality(generated.value.content_plan);
     if (!firstCheck.ok) {
+      if (useV2 && v2History) {
+        originalityAttempts.push(
+          buildStrategyOriginalityAttemptRecord({
+            attempt: 1,
+            items: generated.value.content_plan,
+            issues: firstCheck.raw,
+            history: v2History,
+          }),
+        );
+        firstRepairAppend = formatStrategyOriginalityRetryAppend(
+          firstCheck.raw.filter((i) => i.reason !== "pain_not_rotated"),
+          { memory: v2History.memory },
+        );
+      }
       originalityAudit = {
         repair_used: true,
         rejected_reasons: firstCheck.raw as ReturnType<
           typeof evaluateStrategyPlanOriginality
         >["issues"],
       };
-      const retryAppend = useV2
-        ? [
-            "",
-            "RETRY — previous strategy repeated protected creative memory (v2).",
-            "This is the ONLY repair attempt.",
-            ...firstCheck.issues.map((i) => `- ${i.message}`),
-          ].join("\n")
-        : formatOriginalityRetryAppend(
-            firstCheck.raw as ReturnType<
-              typeof evaluateStrategyPlanOriginality
-            >["issues"],
-          );
+      const retryAppend =
+        useV2 && v2History && firstRepairAppend
+          ? firstRepairAppend
+          : formatOriginalityRetryAppend(
+              firstCheck.raw as ReturnType<
+                typeof evaluateStrategyPlanOriginality
+              >["issues"],
+            );
       generated = await generatePlan(`${prompt}\n${retryAppend}`);
       if (generated.ok) {
         const secondCheck = checkPlanOriginality(generated.value.content_plan);
         if (!secondCheck.ok) {
+          if (useV2 && v2History) {
+            originalityAttempts.push(
+              buildStrategyOriginalityAttemptRecord({
+                attempt: 2,
+                items: generated.value.content_plan,
+                issues: secondCheck.raw,
+                repairFeedback: firstRepairAppend,
+                history: v2History,
+              }),
+            );
+            const failureBundle = buildStrategyOriginalityFailureBundle({
+              attempts: [...originalityAttempts].sort(
+                (a, b) => a.attempt - b.attempt,
+              ),
+              history: v2History,
+              providerRequestId: resolveStrategyProviderRequestIdFromTelemetry(
+                getTelemetryCollector()?.snapshot() ?? [],
+              ),
+            });
+            const adminDetail = formatStrategyOriginalityAdminDetail(failureBundle);
+            return {
+              ok: false,
+              error: "generation_failed",
+              validationErrors: [
+                {
+                  path: "$.content_plan",
+                  message: adminDetail,
+                },
+                ...secondCheck.issues,
+                ...firstCheck.issues.map((i) => ({
+                  path: "$.content_plan.attempt_1",
+                  message: i.message,
+                })),
+              ],
+              attempts: generated.attempts,
+              strategyOriginalityFailure: failureBundle,
+            };
+          }
           return {
             ok: false,
             error: "generation_failed",

@@ -28,6 +28,11 @@ import {
 } from "@/lib/api/production-run-admin";
 import { planContentStrategy } from "@/lib/ai/workflows/planContentStrategy";
 import {
+  formatStrategyOriginalityOperatorMessage,
+} from "@/lib/content-creative-core-v2";
+import { persistStrategyOriginalityFailureOnRun } from "@/lib/production-runtime/failureTelemetry";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
   isPersistableProductionPlatform,
   primaryPlatformForPlan,
   type ProductionPlan,
@@ -79,9 +84,27 @@ function plannerErrorMessage(err: unknown): string {
 
 function strategyPlannerFailureMessage(result: {
   error?: string;
-  validationErrors?: { path: string; message: string }[];
+  validationErrors?: { path?: string; message: string }[];
+  strategyOriginalityFailure?: import("@/lib/content-creative-core-v2/types").StrategyOriginalityFailureBundleV2;
 }): string {
-  const detail = result.validationErrors?.[0]?.message;
+  if (result.strategyOriginalityFailure) {
+    return formatStrategyOriginalityOperatorMessage(
+      result.strategyOriginalityFailure,
+    );
+  }
+  const errors = result.validationErrors ?? [];
+  const detail =
+    errors.find(
+      (e) =>
+        e.path !== "$.content_plan" &&
+        e.message.includes(":"),
+    )?.message ?? errors[0]?.message;
+  if (detail && !detail.startsWith("strategy_originality_exhausted")) {
+    return `AI plán obsahu neprošel validací: ${detail}`;
+  }
+  if (errors.length > 1 && errors[1]?.message) {
+    return `AI plán obsahu neprošel validací: ${errors[1].message}`;
+  }
   if (detail) {
     return `AI plán obsahu neprošel validací: ${detail}`;
   }
@@ -127,6 +150,24 @@ async function prepareProductionStrategyInputs(args: {
   });
 
   if (!result.ok) {
+    if (result.strategyOriginalityFailure) {
+      try {
+        const supabase = createSupabaseAdminClient();
+        await persistStrategyOriginalityFailureOnRun(supabase, {
+          productionRunId: runId,
+          projectId,
+          bundle: result.strategyOriginalityFailure,
+          operatorMessage: formatStrategyOriginalityOperatorMessage(
+            result.strategyOriginalityFailure,
+          ),
+          adminDetail:
+            result.validationErrors?.[0]?.message ??
+            "strategy_originality_exhausted_v2",
+        });
+      } catch {
+        // non-critical
+      }
+    }
     throw new Error(strategyPlannerFailureMessage(result));
   }
   if (result.data.itemIds.length !== plan.packageCount) {

@@ -142,6 +142,8 @@ export interface StrategyOriginalityIssueV2 {
   against_package_id?: string;
   match_score?: number;
   protection_weight?: number;
+  /** match_score × protection_weight when both are present. */
+  weighted_score?: number;
 }
 
 export interface StrategyOriginalityDiagnosticsV2 {
@@ -149,6 +151,40 @@ export interface StrategyOriginalityDiagnosticsV2 {
   max_attempts: number;
   issues: StrategyOriginalityIssueV2[];
   exhausted: boolean;
+}
+
+export interface StrategyOriginalityCandidateSummaryV2 {
+  topic: string;
+  angle: string;
+  pain_point: string;
+  topic_key?: string;
+  angle_key?: string;
+  pain_key?: string;
+  situation_key?: string;
+}
+
+export interface StrategyOriginalityAttemptRecordV2 {
+  attempt: number;
+  candidate_summaries: StrategyOriginalityCandidateSummaryV2[];
+  issues: StrategyOriginalityIssueV2[];
+  repair_feedback?: string | null;
+  history_record_count: number;
+  history_package_ids: string[];
+  hard_block_threshold: number;
+}
+
+export interface StrategyOriginalityFailureBundleV2 {
+  version: "strategy-originality-failure@2";
+  exhausted: true;
+  attempts: StrategyOriginalityAttemptRecordV2[];
+  history_telemetry: {
+    history_record_count: number;
+    originality_block_chars: number;
+    estimated_prompt_tokens: number;
+    package_ids: string[];
+  };
+  /** From pipeline telemetry when the strategy provider returns a request id. */
+  provider_request_id?: string | null;
 }
 
 export const STRATEGY_ORIGINALITY_EXHAUSTED_V2 =

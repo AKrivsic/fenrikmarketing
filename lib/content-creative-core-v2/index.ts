@@ -51,8 +51,32 @@ export {
   evaluateStrategyCandidateOriginality,
   executionIsMeaningfullyDifferent,
   formatStrategyOriginalityRetryAppend,
+  isHardOriginalityIssue,
   originalityDiagnosticsForBrief,
 } from "@/lib/content-creative-core-v2/strategyOriginality";
+
+export {
+  STRATEGY_ORIGINALITY_HISTORY_LIMIT,
+} from "@/lib/content-creative-core-v2/config";
+
+export {
+  buildStrategyOriginalityHistoryFromInputs,
+  buildStrategyOriginalityHistoryPromptBlock,
+  isPackageEligibleForOriginalityHistory,
+  loadStrategyOriginalityHistory,
+  type StrategyOriginalityCompactSummary,
+  type StrategyOriginalityHistorySnapshot,
+  type StrategyOriginalityHistoryTelemetry,
+} from "@/lib/content-creative-core-v2/strategyOriginalityHistory";
+
+export {
+  buildStrategyOriginalityAttemptRecord,
+  buildStrategyOriginalityFailureBundle,
+  formatStrategyOriginalityAdminDetail,
+  formatStrategyOriginalityOperatorMessage,
+  resolveStrategyProviderRequestIdFromTelemetry,
+  summarizeStrategyPlanItems,
+} from "@/lib/content-creative-core-v2/strategyOriginalityFailure";
 
 export {
   buildCreativeCoreMessages,
@@ -211,6 +235,7 @@ export type {
   CreativeMemoryV2,
   StrategyCandidateV2,
   StrategyOriginalityDiagnosticsV2,
+  StrategyOriginalityFailureBundleV2,
   StrategyOriginalityIssueV2,
   StrategyOriginalityReasonV2,
 } from "@/lib/content-creative-core-v2/types";

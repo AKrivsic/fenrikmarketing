@@ -11,6 +11,7 @@ import { getTelemetryCollector } from "@/lib/ai/telemetry/collector";
 import type { PipelineTelemetryStep } from "@/lib/ai/telemetry/types";
 import { PRICING_VERSION } from "@/lib/ai/telemetry/cost";
 import type { ValidationIssue } from "@/lib/ai/validateAiOutput";
+import type { StrategyOriginalityFailureBundleV2 } from "@/lib/content-creative-core-v2/types";
 import {
   buildBoundedFailureOutputSnapshot,
   hashOutputRaw,
@@ -253,4 +254,50 @@ export async function lookupProductionRunItemId(
     return null;
   }
   return typeof data?.id === "string" ? data.id : null;
+}
+
+/**
+ * Best-effort bounded originality failure on all run items (strategy planning path).
+ */
+export async function persistStrategyOriginalityFailureOnRun(
+  supabase: SupabaseClient,
+  args: {
+    productionRunId: string;
+    projectId: string;
+    bundle: StrategyOriginalityFailureBundleV2;
+    operatorMessage: string;
+    adminDetail: string;
+  },
+): Promise<void> {
+  try {
+    const bounded = {
+      phase: "strategy_originality_v2",
+      terminal_classification: "strategy_originality_exhausted_v2",
+      error_truncated: truncate(args.operatorMessage, 500),
+      admin_detail: truncate(args.adminDetail, 500),
+      strategy_originality_failure: args.bundle,
+      captured_at: new Date().toISOString(),
+    };
+    const { error } = await supabase
+      .from("production_run_items")
+      .update({ failure_telemetry: bounded })
+      .eq("production_run_id", args.productionRunId)
+      .eq("project_id", args.projectId);
+    if (error) {
+      console.warn(
+        "[failure-telemetry] strategy originality run patch failed",
+        error.message,
+      );
+    }
+    await persistActiveCollectorFailureTelemetry(supabase, {
+      projectId: args.projectId,
+      productionRunId: args.productionRunId,
+      phase: "strategy_originality_v2",
+      terminalClassification: "strategy_originality_exhausted_v2",
+      errorTruncated: args.operatorMessage,
+      attemptCount: args.bundle.attempts.length,
+    });
+  } catch (err) {
+    console.warn("[failure-telemetry] strategy originality persist failed", err);
+  }
 }

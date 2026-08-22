@@ -9,6 +9,7 @@ import {
   computeProtectionWeight,
   createStrategyCandidateWithOriginality,
   evaluateStrategyCandidateOriginality,
+  isHardOriginalityIssue,
   CREATIVE_CORE_V2_MEMORY_CONFIG,
   STRATEGY_ORIGINALITY_EXHAUSTED_V2,
   computeCreativeFingerprint,
@@ -452,6 +453,13 @@ async function run(): Promise<void> {
       );
     },
   );
+
+  await checkAsync("pain_not_rotated alone does not hard-fail gate", async () => {
+    assert.equal(
+      isHardOriginalityIssue({ reason: "pain_not_rotated", detail: "test" }),
+      false,
+    );
+  });
 
   await checkAsync("protection weight decreases with age", async () => {
     const recent = computeProtectionWeight({
