@@ -52,6 +52,32 @@ export interface PipelineTelemetryStep {
   raw_usage?: Record<string, unknown> | null;
   /** Provider request / response id when the API returns one. */
   provider_request_id?: string | null;
+  /**
+   * Per-call HTTP client timeout budget (ms). Additive — older steps omit.
+   * Never invent when unknown.
+   */
+  timeout_ms?: number | null;
+  /**
+   * 1-based transport attempt that produced this step outcome.
+   * Distinct from workflow/creative `attempts`.
+   */
+  transport_attempt?: number | null;
+  /** Max transport attempts configured for this call. */
+  max_transport_attempts?: number | null;
+  /**
+   * Transport/provider outcome classification for forensics.
+   * Distinct from step `success` boolean.
+   */
+  outcome?:
+    | "success"
+    | "timeout"
+    | "http_error"
+    | "transport_error"
+    | null;
+  /** HTTP status when outcome is http_error; otherwise null. */
+  http_status?: number | null;
+  /** Error class / name when failed (e.g. HttpTimeoutError); never a stack. */
+  error_type?: string | null;
   temperature: number | null;
   max_tokens: number | null;
   response_format: string | null;
@@ -97,6 +123,21 @@ export interface WithTelemetryOptions<T = unknown> {
   rawUsageFromResult?: (result: T) => Record<string, unknown> | null | undefined;
   /** Optional provider request id from the result or raw response. */
   providerRequestIdFromResult?: (result: T) => string | null | undefined;
+  /** Optional HTTP client timeout budget recorded on the step. */
+  timeoutMs?: number | null;
+  /** 1-based transport attempt for this call (defaults to 1 when omitted). */
+  transportAttempt?: number | null;
+  /** Max transport attempts configured for this call. */
+  maxTransportAttempts?: number | null;
+  /** Classify success outcome (defaults to "success" when step succeeds). */
+  outcomeFromResult?: (result: T) => PipelineTelemetryStep["outcome"];
+  /** Classify failure outcome from a thrown error. */
+  outcomeFromError?: (err: unknown) => {
+    outcome?: PipelineTelemetryStep["outcome"];
+    httpStatus?: number | null;
+    errorType?: string | null;
+    providerRequestId?: string | null;
+  } | null | undefined;
   /** Override pricing table id when estimatedCostFromResult is used. */
   pricingVersion?: string | null;
   /**

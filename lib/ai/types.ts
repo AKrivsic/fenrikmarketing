@@ -119,6 +119,11 @@ export interface TextCompletionResult {
   model: string;
   provider: string;
   raw?: unknown;
+  /**
+   * Provider request id from response headers when available (telemetry only).
+   * Null/omitted when the provider did not return one — never invent.
+   */
+  requestId?: string | null;
   /** Optional token usage when the provider response includes it (telemetry only). */
   usage?: {
     prompt_tokens: number | null;

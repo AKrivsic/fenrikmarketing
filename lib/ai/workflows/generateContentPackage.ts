@@ -382,6 +382,35 @@ async function runGenerateContentPackageUnchecked(
         attempts: 0,
       };
     }
+    // Persist collector steps for thrown operational failures (e.g. Claude timeout)
+    // so Creative Core telemetry survives even when the soft-fail path is skipped.
+    try {
+      const context = await loadStrategyItemContext(
+        supabase,
+        input.projectId,
+        input.strategyItemId,
+      ).catch(() => null);
+      const productionRunId = context?.productionRunId ?? null;
+      const productionRunItemId = productionRunId
+        ? await lookupProductionRunItemId(supabase, {
+            productionRunId,
+            strategyItemId: input.strategyItemId,
+          })
+        : null;
+      await persistActiveCollectorFailureTelemetry(supabase, {
+        projectId: input.projectId,
+        strategyItemId: input.strategyItemId,
+        productionRunId,
+        productionRunItemId,
+        ownerToken: generationOwnerToken,
+        phase: "package_generation_thrown",
+        terminalClassification: "operational_failure",
+        errorTruncated: err instanceof Error ? err.message : String(err),
+        attemptCount: 1,
+      });
+    } catch {
+      // Telemetry must never fail the generation path.
+    }
     throw err;
   } finally {
     heartbeat.stop();

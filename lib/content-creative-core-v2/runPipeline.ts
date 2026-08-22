@@ -13,6 +13,8 @@ import type { GenerationMode } from "@/lib/ai/generationMode";
 import type { PackageVideoProductionMode } from "@/lib/content-package/packageVideoProductionMode";
 import type { ContentPackageOutput } from "@/lib/ai/schemas/contentPackage";
 import type { CreativeDirectives } from "@/lib/ai/prompts/creativeDirectives";
+import type { TextCompletionResult } from "@/lib/ai/types";
+import { withTelemetry } from "@/lib/ai/telemetry/withTelemetry";
 import {
   buildCreativeMemory,
   CREATIVE_CORE_VALIDATION_FAILED_V2,
@@ -26,6 +28,13 @@ import {
 import { projectCreativeCoreToLegacyPackage } from "@/lib/content-creative-core-v2/legacyProjection";
 import { CREATIVE_CORE_V2_BRIEF_KEY } from "@/lib/content-creative-core-v2/config";
 import type { ContentPipelineArtifacts } from "@/lib/content-pipeline/types";
+import {
+  CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+  CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+} from "@/lib/content-pipeline/runContentPackage";
+
+/** Matches ClaudeProvider default when complete() omits maxTokens — telemetry only. */
+const CREATIVE_CORE_CLAUDE_DEFAULT_MAX_TOKENS = 4096;
 
 export interface CreativeCoreV2PipelineInput {
   project: Project;
@@ -120,23 +129,58 @@ export async function runCreativeCoreV2Pipeline(
     textProvider: {
       complete: async ({ system, prompt }) => {
         const provider = getCopywritingProvider();
-        const result = await provider.complete({
+        // Approximate Anthropic Messages body size for telemetry (never stored).
+        const requestBodyForSize = {
+          model: process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-4-6",
+          max_tokens: CREATIVE_CORE_CLAUDE_DEFAULT_MAX_TOKENS,
+          temperature: 0.7,
           system,
-          prompt,
-          json: true,
-        });
+          messages: [{ role: "user", content: prompt }],
+        };
+
+        const result = await withTelemetry(
+          {
+            stepName: "Creative Core v2",
+            provider: "claude",
+            model: process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-4-6",
+            maxTokens: CREATIVE_CORE_CLAUDE_DEFAULT_MAX_TOKENS,
+            responseFormat: "json",
+            timeoutMs: CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+            transportAttempt: 1,
+            maxTransportAttempts: CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+            // Compact — never Product Brain / full prompt text.
+            inputSummary:
+              "Creative Core v2 Claude call:\n- Product Brain (size only)\n- Strategy candidate\n- Creative memory",
+            outputSummary: (r: TextCompletionResult) =>
+              r.text ? `json_chars=${r.text.length}` : "empty",
+            measureInput: requestBodyForSize,
+            measureOutput: (r: TextCompletionResult) => r.text,
+            retryCount: 0,
+            usageFromResult: (r: TextCompletionResult) =>
+              r.usage
+                ? {
+                    prompt_tokens: r.usage.prompt_tokens,
+                    completion_tokens: r.usage.completion_tokens,
+                    cached_tokens: r.usage.cached_tokens,
+                    model: r.model,
+                  }
+                : { prompt_tokens: null, completion_tokens: null, cached_tokens: null, model: r.model },
+            providerRequestIdFromResult: (r: TextCompletionResult) =>
+              typeof r.requestId === "string" ? r.requestId : null,
+          },
+          async () =>
+            provider.complete({
+              system,
+              prompt,
+              json: true,
+              timeoutMs: CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+              maxTransportAttempts:
+                CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
+            }),
+        );
+
         const requestId =
-          result &&
-          typeof result === "object" &&
-          "requestId" in result &&
-          typeof (result as { requestId?: unknown }).requestId === "string"
-            ? (result as { requestId: string }).requestId
-            : result &&
-                typeof result === "object" &&
-                "id" in result &&
-                typeof (result as { id?: unknown }).id === "string"
-              ? (result as { id: string }).id
-              : null;
+          typeof result.requestId === "string" ? result.requestId : null;
         return { text: result.text, requestId };
       },
     },

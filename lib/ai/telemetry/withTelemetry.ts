@@ -9,6 +9,7 @@ import type {
   WithTelemetryOptions,
 } from "@/lib/ai/telemetry/types";
 import { characterLength, utf8ByteLength } from "@/lib/ai/telemetry/usage";
+import { HttpTimeoutError } from "@/lib/http/fetchWithRetry";
 
 function resolveSummary(
   value: string | (() => string | null | undefined) | null | undefined,
@@ -22,6 +23,68 @@ function resolveSummary(
     }
   }
   return value;
+}
+
+function safePush(
+  collector: { push: (step: PipelineTelemetryStep) => void },
+  step: PipelineTelemetryStep,
+): void {
+  try {
+    collector.push(step);
+  } catch (err) {
+    console.warn(
+      "[telemetry] failed to record step (ignored):",
+      err instanceof Error ? err.message : String(err),
+    );
+  }
+}
+
+/**
+ * Classify a thrown provider/transport error for telemetry.
+ * Does not invent HTTP status or request ids.
+ */
+export function classifyProviderTransportError(err: unknown): {
+  outcome: NonNullable<PipelineTelemetryStep["outcome"]>;
+  httpStatus: number | null;
+  errorType: string;
+} {
+  if (err instanceof HttpTimeoutError) {
+    return {
+      outcome: "timeout",
+      httpStatus: null,
+      errorType: "HttpTimeoutError",
+    };
+  }
+  if (err instanceof Error && err.name === "AbortError") {
+    return {
+      outcome: "timeout",
+      httpStatus: null,
+      errorType: "AbortError",
+    };
+  }
+  const message = err instanceof Error ? err.message : String(err);
+  const httpMatch = /(?:Claude|OpenAI|request) failed \((\d{3})\)/i.exec(
+    message,
+  );
+  if (httpMatch) {
+    return {
+      outcome: "http_error",
+      httpStatus: Number(httpMatch[1]),
+      errorType: err instanceof Error ? err.name || "Error" : "Error",
+    };
+  }
+  if (err instanceof TypeError) {
+    return {
+      outcome: "transport_error",
+      httpStatus: null,
+      errorType: "TypeError",
+    };
+  }
+  return {
+    outcome: "transport_error",
+    httpStatus: null,
+    errorType: err instanceof Error ? err.name || "Error" : "Error",
+  };
 }
 
 function buildStepFields(args: {
@@ -50,6 +113,9 @@ function buildStepFields(args: {
   completionCharacters: number | null;
   outputSummary: string | null;
   finishedAt: Date;
+  outcome: PipelineTelemetryStep["outcome"];
+  httpStatus: number | null;
+  errorType: string | null;
 }): PipelineTelemetryStep {
   return {
     step_name: args.options.stepName,
@@ -73,6 +139,12 @@ function buildStepFields(args: {
     pricing_source: args.pricingSource,
     raw_usage: args.rawUsage,
     provider_request_id: args.providerRequestId,
+    timeout_ms: args.options.timeoutMs ?? null,
+    transport_attempt: args.options.transportAttempt ?? null,
+    max_transport_attempts: args.options.maxTransportAttempts ?? null,
+    outcome: args.outcome,
+    http_status: args.httpStatus,
+    error_type: args.errorType,
     temperature: args.options.temperature ?? null,
     max_tokens: args.options.maxTokens ?? null,
     response_format: args.options.responseFormat ?? null,
@@ -86,7 +158,7 @@ function buildStepFields(args: {
 /**
  * Wrap any pipeline step (AI or deterministic). When no collector is active,
  * runs `fn` unchanged (passthrough). Never swallows errors — records failure
- * then rethrows so behavior is identical.
+ * then rethrows so behavior is identical. Telemetry recording never fails `fn`.
  */
 export async function withTelemetry<T>(
   options: WithTelemetryOptions<T>,
@@ -99,108 +171,146 @@ export async function withTelemetry<T>(
 
   const startedAt = new Date();
   const startMs = Date.now();
-  const inputSummary = resolveSummary(options.inputSummary);
-  const inputSize = utf8ByteLength(options.measureInput);
-  const promptCharacters =
-    options.measureInput !== undefined
-      ? characterLength(options.measureInput)
-      : null;
+  let inputSummary: string | null = null;
+  let inputSize: number | null = null;
+  let promptCharacters: number | null = null;
+  try {
+    inputSummary = resolveSummary(options.inputSummary);
+    inputSize = utf8ByteLength(options.measureInput);
+    promptCharacters =
+      options.measureInput !== undefined
+        ? characterLength(options.measureInput)
+        : null;
+  } catch {
+    // Measurement must never block the call.
+  }
 
   try {
     const result = await fn();
     const finishedAt = new Date();
-    const usage = options.usageFromResult?.(result) ?? null;
-    const retryCount =
-      typeof options.retryCount === "function"
-        ? options.retryCount(result)
-        : (options.retryCount ?? 0);
-    const warnings =
-      typeof options.warnings === "function"
-        ? options.warnings(result)
-        : (options.warnings ?? []);
-    const outputMeasured = options.measureOutput
-      ? options.measureOutput(result)
-      : undefined;
-    const customCost = options.estimatedCostFromResult?.(result);
-    const estimatedCost =
-      customCost !== undefined
-        ? (customCost ?? null)
-        : estimateTokenCostUsd({
-            provider: options.provider,
-            model: usage?.model ?? options.model,
-            promptTokens: usage?.prompt_tokens ?? null,
-            completionTokens: usage?.completion_tokens ?? null,
-            cachedTokens: usage?.cached_tokens ?? null,
-          });
-    const success = options.successFromResult
-      ? options.successFromResult(result)
-      : true;
-    const softError = options.errorMessageFromResult?.(result) ?? null;
-    const rawUsage = options.rawUsageFromResult?.(result) ?? null;
-    const providerRequestId =
-      options.providerRequestIdFromResult?.(result) ?? null;
-    const pricingVersion =
-      estimatedCost != null
-        ? (options.pricingVersion ?? PRICING_VERSION)
-        : (options.pricingVersion ?? null);
-    const pricingSource =
-      estimatedCost != null ? PRICING_SOURCE : null;
+    try {
+      const usage = options.usageFromResult?.(result) ?? null;
+      const retryCount =
+        typeof options.retryCount === "function"
+          ? options.retryCount(result)
+          : (options.retryCount ?? 0);
+      const warnings =
+        typeof options.warnings === "function"
+          ? options.warnings(result)
+          : (options.warnings ?? []);
+      const outputMeasured = options.measureOutput
+        ? options.measureOutput(result)
+        : undefined;
+      const customCost = options.estimatedCostFromResult?.(result);
+      const estimatedCost =
+        customCost !== undefined
+          ? (customCost ?? null)
+          : estimateTokenCostUsd({
+              provider: options.provider,
+              model: usage?.model ?? options.model,
+              promptTokens: usage?.prompt_tokens ?? null,
+              completionTokens: usage?.completion_tokens ?? null,
+              cachedTokens: usage?.cached_tokens ?? null,
+            });
+      const success = options.successFromResult
+        ? options.successFromResult(result)
+        : true;
+      const softError = options.errorMessageFromResult?.(result) ?? null;
+      const rawUsage = options.rawUsageFromResult?.(result) ?? null;
+      const providerRequestId =
+        options.providerRequestIdFromResult?.(result) ?? null;
+      const pricingVersion =
+        estimatedCost != null
+          ? (options.pricingVersion ?? PRICING_VERSION)
+          : (options.pricingVersion ?? null);
+      const pricingSource =
+        estimatedCost != null ? PRICING_SOURCE : null;
+      const outcome =
+        options.outcomeFromResult?.(result) ??
+        (success ? "success" : "transport_error");
 
-    collector.push(
-      buildStepFields({
-        options: options as WithTelemetryOptions<unknown>,
-        startedAt,
-        startMs,
-        inputSummary,
-        inputSize,
-        promptCharacters,
-        success,
-        retryCount,
-        warnings,
-        errorMessage: softError,
-        usage,
-        estimatedCost,
-        pricingVersion,
-        pricingSource,
-        rawUsage,
-        providerRequestId,
-        outputSizeBytes:
-          outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
-        completionCharacters:
-          outputMeasured !== undefined ? characterLength(outputMeasured) : null,
-        outputSummary: options.outputSummary?.(result) ?? null,
-        finishedAt,
-      }),
-    );
+      safePush(
+        collector,
+        buildStepFields({
+          options: options as WithTelemetryOptions<unknown>,
+          startedAt,
+          startMs,
+          inputSummary,
+          inputSize,
+          promptCharacters,
+          success,
+          retryCount,
+          warnings,
+          errorMessage: softError,
+          usage,
+          estimatedCost,
+          pricingVersion,
+          pricingSource,
+          rawUsage,
+          providerRequestId,
+          outputSizeBytes:
+            outputMeasured !== undefined
+              ? utf8ByteLength(outputMeasured)
+              : null,
+          completionCharacters:
+            outputMeasured !== undefined
+              ? characterLength(outputMeasured)
+              : null,
+          outputSummary: options.outputSummary?.(result) ?? null,
+          finishedAt,
+          outcome: outcome ?? null,
+          httpStatus: null,
+          errorType: null,
+        }),
+      );
+    } catch (recordErr) {
+      console.warn(
+        "[telemetry] failed to build success step (ignored):",
+        recordErr instanceof Error ? recordErr.message : String(recordErr),
+      );
+    }
     return result;
   } catch (err) {
     const finishedAt = new Date();
-    const message = err instanceof Error ? err.message : String(err);
-    collector.push(
-      buildStepFields({
-        options: options as WithTelemetryOptions<unknown>,
-        startedAt,
-        startMs,
-        inputSummary,
-        inputSize,
-        promptCharacters,
-        success: false,
-        retryCount:
-          typeof options.retryCount === "number" ? options.retryCount : 0,
-        warnings: [],
-        errorMessage: message.slice(0, 2000),
-        usage: null,
-        estimatedCost: null,
-        pricingVersion: null,
-        pricingSource: null,
-        rawUsage: null,
-        providerRequestId: null,
-        outputSizeBytes: null,
-        completionCharacters: null,
-        outputSummary: null,
-        finishedAt,
-      }),
-    );
+    try {
+      const message = err instanceof Error ? err.message : String(err);
+      const classified = options.outcomeFromError?.(err) ?? null;
+      const fallback = classifyProviderTransportError(err);
+      safePush(
+        collector,
+        buildStepFields({
+          options: options as WithTelemetryOptions<unknown>,
+          startedAt,
+          startMs,
+          inputSummary,
+          inputSize,
+          promptCharacters,
+          success: false,
+          retryCount:
+            typeof options.retryCount === "number" ? options.retryCount : 0,
+          warnings: [],
+          errorMessage: message.slice(0, 2000),
+          usage: null,
+          estimatedCost: null,
+          pricingVersion: null,
+          pricingSource: null,
+          rawUsage: null,
+          providerRequestId: classified?.providerRequestId ?? null,
+          outputSizeBytes: null,
+          completionCharacters: null,
+          outputSummary: null,
+          finishedAt,
+          outcome: classified?.outcome ?? fallback.outcome,
+          httpStatus: classified?.httpStatus ?? fallback.httpStatus,
+          errorType: classified?.errorType ?? fallback.errorType,
+        }),
+      );
+    } catch (recordErr) {
+      console.warn(
+        "[telemetry] failed to build failure step (ignored):",
+        recordErr instanceof Error ? recordErr.message : String(recordErr),
+      );
+    }
     throw err;
   }
 }
@@ -217,78 +327,112 @@ export function withTelemetrySync<T>(
 
   const startedAt = new Date();
   const startMs = Date.now();
-  const inputSummary = resolveSummary(options.inputSummary);
-  const inputSize = utf8ByteLength(options.measureInput);
-  const promptCharacters =
-    options.measureInput !== undefined
-      ? characterLength(options.measureInput)
-      : null;
+  let inputSummary: string | null = null;
+  let inputSize: number | null = null;
+  let promptCharacters: number | null = null;
+  try {
+    inputSummary = resolveSummary(options.inputSummary);
+    inputSize = utf8ByteLength(options.measureInput);
+    promptCharacters =
+      options.measureInput !== undefined
+        ? characterLength(options.measureInput)
+        : null;
+  } catch {
+    // Measurement must never block the call.
+  }
 
   try {
     const result = fn();
     const finishedAt = new Date();
-    const warnings =
-      typeof options.warnings === "function"
-        ? options.warnings(result)
-        : (options.warnings ?? []);
-    const outputMeasured = options.measureOutput
-      ? options.measureOutput(result)
-      : undefined;
+    try {
+      const warnings =
+        typeof options.warnings === "function"
+          ? options.warnings(result)
+          : (options.warnings ?? []);
+      const outputMeasured = options.measureOutput
+        ? options.measureOutput(result)
+        : undefined;
 
-    collector.push(
-      buildStepFields({
-        options: options as WithTelemetryOptions<unknown>,
-        startedAt,
-        startMs,
-        inputSummary,
-        inputSize,
-        promptCharacters,
-        success: true,
-        retryCount: 0,
-        warnings,
-        errorMessage: null,
-        usage: null,
-        estimatedCost: null,
-        pricingVersion: null,
-        pricingSource: null,
-        rawUsage: null,
-        providerRequestId: null,
-        outputSizeBytes:
-          outputMeasured !== undefined ? utf8ByteLength(outputMeasured) : null,
-        completionCharacters:
-          outputMeasured !== undefined ? characterLength(outputMeasured) : null,
-        outputSummary: options.outputSummary?.(result) ?? null,
-        finishedAt,
-      }),
-    );
+      safePush(
+        collector,
+        buildStepFields({
+          options: options as WithTelemetryOptions<unknown>,
+          startedAt,
+          startMs,
+          inputSummary,
+          inputSize,
+          promptCharacters,
+          success: true,
+          retryCount: 0,
+          warnings,
+          errorMessage: null,
+          usage: null,
+          estimatedCost: null,
+          pricingVersion: null,
+          pricingSource: null,
+          rawUsage: null,
+          providerRequestId: null,
+          outputSizeBytes:
+            outputMeasured !== undefined
+              ? utf8ByteLength(outputMeasured)
+              : null,
+          completionCharacters:
+            outputMeasured !== undefined
+              ? characterLength(outputMeasured)
+              : null,
+          outputSummary: options.outputSummary?.(result) ?? null,
+          finishedAt,
+          outcome: "success",
+          httpStatus: null,
+          errorType: null,
+        }),
+      );
+    } catch (recordErr) {
+      console.warn(
+        "[telemetry] failed to build sync success step (ignored):",
+        recordErr instanceof Error ? recordErr.message : String(recordErr),
+      );
+    }
     return result;
   } catch (err) {
     const finishedAt = new Date();
-    const message = err instanceof Error ? err.message : String(err);
-    collector.push(
-      buildStepFields({
-        options: options as WithTelemetryOptions<unknown>,
-        startedAt,
-        startMs,
-        inputSummary,
-        inputSize,
-        promptCharacters,
-        success: false,
-        retryCount: 0,
-        warnings: [],
-        errorMessage: message.slice(0, 2000),
-        usage: null,
-        estimatedCost: null,
-        pricingVersion: null,
-        pricingSource: null,
-        rawUsage: null,
-        providerRequestId: null,
-        outputSizeBytes: null,
-        completionCharacters: null,
-        outputSummary: null,
-        finishedAt,
-      }),
-    );
+    try {
+      const message = err instanceof Error ? err.message : String(err);
+      const fallback = classifyProviderTransportError(err);
+      safePush(
+        collector,
+        buildStepFields({
+          options: options as WithTelemetryOptions<unknown>,
+          startedAt,
+          startMs,
+          inputSummary,
+          inputSize,
+          promptCharacters,
+          success: false,
+          retryCount: 0,
+          warnings: [],
+          errorMessage: message.slice(0, 2000),
+          usage: null,
+          estimatedCost: null,
+          pricingVersion: null,
+          pricingSource: null,
+          rawUsage: null,
+          providerRequestId: null,
+          outputSizeBytes: null,
+          completionCharacters: null,
+          outputSummary: null,
+          finishedAt,
+          outcome: fallback.outcome,
+          httpStatus: fallback.httpStatus,
+          errorType: fallback.errorType,
+        }),
+      );
+    } catch (recordErr) {
+      console.warn(
+        "[telemetry] failed to build sync failure step (ignored):",
+        recordErr instanceof Error ? recordErr.message : String(recordErr),
+      );
+    }
     throw err;
   }
 }

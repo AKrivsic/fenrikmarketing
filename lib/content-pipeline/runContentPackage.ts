@@ -19,7 +19,12 @@ import {
 import { alignOpeningVoiceover } from "@/lib/content-pipeline/alignOpeningVoiceover";
 import { packageNeedsSocialImage } from "@/lib/content-package/socialImage";
 
-const TIMEOUT_MS = 180_000;
+/**
+ * Shared Claude transport budget for long generative content-package work.
+ * Creative Core v2 reuses these so it does not fall back to HTTP_TIMEOUT_MS.ai (60s × 3).
+ */
+export const CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS = 180_000;
+export const CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS = 1;
 
 /** Explicit primary Claude attempts after prompt+repair hardening (was implicit 3). */
 export const CONTENT_PACKAGE_MAX_ATTEMPTS = 2;
@@ -65,8 +70,8 @@ export async function runContentPackageGeneration(args: {
     // before a Claude regenerate — still capped by CONTENT_PACKAGE_MAX_ATTEMPTS.
     repairGuardrailFailures: true,
     guardrails,
-    timeoutMs: TIMEOUT_MS,
-    maxTransportAttempts: 1,
+    timeoutMs: CONTENT_PACKAGE_CLAUDE_TIMEOUT_MS,
+    maxTransportAttempts: CONTENT_PACKAGE_CLAUDE_MAX_TRANSPORT_ATTEMPTS,
     maxAttempts: CONTENT_PACKAGE_MAX_ATTEMPTS,
     telemetry: {
       stepName: "Content Package",

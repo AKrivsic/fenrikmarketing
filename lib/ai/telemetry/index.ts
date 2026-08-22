@@ -12,7 +12,7 @@ export {
   recordTelemetryStep,
   runWithTelemetrySession,
 } from "@/lib/ai/telemetry/collector";
-export { withTelemetry, withTelemetrySync } from "@/lib/ai/telemetry/withTelemetry";
+export { withTelemetry, withTelemetrySync, classifyProviderTransportError } from "@/lib/ai/telemetry/withTelemetry";
 export {
   extractProviderUsage,
   utf8ByteLength,

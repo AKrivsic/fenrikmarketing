@@ -83,12 +83,17 @@ export class ClaudeProvider implements TextProvider {
       .map((b) => b.text as string)
       .join("");
     const usage = extractProviderUsage(data);
+    const requestId =
+      res.headers.get("request-id") ??
+      res.headers.get("anthropic-request-id") ??
+      null;
 
     return {
       text,
       model: data.model ?? model,
       provider: this.name,
       raw: data,
+      requestId,
       usage: {
         prompt_tokens: usage.prompt_tokens,
         completion_tokens: usage.completion_tokens,
